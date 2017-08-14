@@ -2,12 +2,12 @@
 
 import React, { Component } from 'react';
 //import Detail from './components/Detail';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider } from 'semantic-ui-react';
+import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchCVs, saveCV } from '../actions';
 
 
-class List extends Component {
+class Cats extends Component {
   
   state = {
     name: this.props.name ?  this.props.name : null,  
@@ -44,9 +44,16 @@ class List extends Component {
   render() {
     return (
       <div id="list" className="">
-        <Header as="h1">This is List</Header>
+        <Header as="h1">This is Detail</Header>
+        <p>Should use this page for editing CV</p>
+        <p>Use List to add CV and come to this page</p>
         <div className="App-intro">
-          
+          <Form onSubmit={this.onSubmit}>
+            <Form.Group widths='equal'>
+              <input placeholder='First Name' onChange={this.onChange} />
+              <Button type='submit'>Submit</Button>
+            </Form.Group>
+          </Form>
         </div>
       </div>
     );
@@ -60,4 +67,4 @@ function mapStateToProps (state, ownProps) {
 }
 
 
-export default connect(mapStateToProps, { saveCV, fetchCVs })(List);
+export default connect(mapStateToProps, { saveCV, fetchCVs })(Cats);

@@ -4,12 +4,16 @@ import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { Sidebar, Button, Header, Segment, Menu } from 'semantic-ui-react';
 
+import Nav from './Nav';
+
 import 'semantic-ui-css/semantic.min.css';
 
 class Layout extends Component {
   
+  
+  
   state = {
-    visible: true,
+    navVisible: true,
   }
 
   
@@ -17,35 +21,45 @@ class Layout extends Component {
     
   }
   
-  toggleVisibility = () => this.setState({ visible:!this.state.visible });
+  navVisibility = () => {
+    this.setState({ navVisible: !this.state.navVisible })
+  }
+  
   
   render() {
+   
+   var transformPadding = this.state.navVisible ? '240px' : '40px';
+   
+    var style = {
+      transform: this.state.navVisible ? 'translate3d(200px, 0, 0)' : 'translate3d(0, 0, 0)',
+      position: 'absolute',
+      top: '0',
+      left:'0',
+      minHeight: '100%',
+      width:'100%',
+      zIndex: '1',
+      Webkittransition: 'transform 0.5s ease', /* Safari */
+      transition: 'transform 0.5s ease',
+      background:'#fff',
+      padding: '20px ' + transformPadding + ' 20px 40px',
+      maxWidth:'100%',
+    }
+    
+    var dimmer = {
+      background: 'rgb(204,204,204, 0.5)',
+    }
+    
     return (
       <div className="layout">
-      <Header as="h1">This is List</Header>
-        <Button onClick={this.toggleVisibility}>Toggle Visibility</Button>
-        <Sidebar.Pushable as={Segment}>
-          <Sidebar as={Menu} animation='push' width='thin' visible={this.state.visible} icon='labeled' vertical inverted>
-            <Menu.Item name='home'>
-              Home
-            </Menu.Item>
-            <Menu.Item name='gamepad'>
-              CV
-            </Menu.Item>
-            <Menu.Item name='camera'>
-              Channels
-            </Menu.Item>
-          </Sidebar>
-          <Sidebar.Pusher>
-            <Segment basic>
-              {/* Content starts here */}
-              
-              {this.props.children}
-              
-            </Segment>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
+        <Nav />
+        {/*This is Layout*/}
         
+        <div className={'pusher ' + (this.state.navVisible ? 'navVisible' : '')} style={style}>
+        <div className="dimmer" />
+        
+          <i className={'icon toggle large ' + (this.state.navVisible ? 'on inverted green' : 'off')} onClick={this.navVisibility} />
+          {this.props.children}
+        </div>
       </div>
     );
   }
