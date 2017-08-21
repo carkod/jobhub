@@ -39,7 +39,6 @@ promise.then((db) => {
     //start CRUD
     CVs(app, db);
     
-    
     /*app.get('/db/girls', (req,res) => {
         db.collection('girls').find({}).toArray((err,girls) => {
            res.json({girls});

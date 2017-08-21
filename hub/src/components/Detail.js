@@ -2,11 +2,14 @@
 
 import React, { Component } from 'react';
 //import Detail from './components/Detail';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
+
 import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+
 import { fetchCVs, saveCV } from '../actions';
 
-//import Preview from './Preview';
+import PersDetails from './forms/Personaldetails';
+import WorkRepeater from './forms/WorkRepeater';
 
 class Detail extends Component {
   
@@ -17,8 +20,7 @@ class Detail extends Component {
 
   
   componentDidMount = () => {
-    this.props.fetchCVs();
-    
+    //this.props.fetchCVs();
   }
   
   componentWillReceiveProps = (nextProps) => {
@@ -27,94 +29,43 @@ class Detail extends Component {
      });
     }
   
-  onChange = (e) => {
-      this.setState({ 
-        name: e.target.value
-        
-      });
+  onChange = props => {
+      /*.setState({ 
+        [e.target.name]: e.target.value
+      });*/
+      console.log(props)
     }
     
   onSubmit = (e) => {
-    const name = this.state.name;
+    const { name } = this.state;
     
     this.props.saveCV({ name })
+    //console.log(this.props)
     
   }
   
   repeater = () => {
     const newField = 'workRepeat-' + this.state.workRepeat.length;
     this.setState({ workRepeat: this.state.workRepeat.concat([newField]) })
-    console.log(this.state.workRepeat)
   }
   
-  closeField = (field) => {
-    this.setState({ workRepeat: this.state.workRepeat.splice( i, field) });
-    console.log(field)
-  }
+  /*closeField = (field) => {
+    if (this.state.workRepeat.length > 0) {
+      this.setState({ workRepeat: this.state.workRepeat.splice(field) });  
+    }
+    console.log(this.state.workRepeat)
+  }*/
 
   render() {
     return (
-      <div id="detail" className="">
-        <Header as="h1">This is Detail</Header>
-        <p>Should use this page for editing CV</p>
-        <p>Use List to add CV and come to this page</p>
+      <div id="detail">
+        <h1>This is Detail</h1>
+        
         <div className="App-intro">
-          <Form onSubmit={this.onSubmit}>
-          <h4 className="ui header">Personal details</h4>
-          <Divider />
-            <Form.Group widths='equal'>
-              <Form.Field id='form-input-control-first-name' control={Input} placeholder='Name' onChange={this.onChange} />
-              <Form.Field id='form-input-control-surname' control={Input} placeholder='Surname' onChange={this.onChange} />
-              <Form.Field id='form-input-control-dob' control={Input} placeholder='Date of Birth' onChange={this.onChange} />
-              <Form.Field id='form-input-control-pob' control={Input} placeholder='Place of Birth' onChange={this.onChange} />
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field id='form-input-control-nationality' control={Input} placeholder='Nationality' onChange={this.onChange} />
-              <Form.Field id='form-input-control-address' control={Input} placeholder='Address' onChange={this.onChange} />
-              <Form.Field id='form-input-control-postcode' control={Input} placeholder='Post Code' onChange={this.onChange} />
-              <Form.Field id='form-input-control-phoneno' control={Input} placeholder='Phone number' onChange={this.onChange} />
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field id='form-input-control-dni' control={Input} placeholder='DNI' />
-              <Form.Field id='form-input-control-passport' control={Input} placeholder='Passport' />
-              <Form.Field id='form-input-control-email' control={Input} placeholder='E-mail' />
-            </Form.Group>
-            <Form.Field id='form-textarea-control-opinion' control={TextArea} placeholder='Summary and professional goals' />
-            <Button type='submit'>Save</Button>
-            
-            <h4 className="ui header">Working Experience <Button onClick={this.repeater} icon inverted><Icon className="green" name="plus square"></Icon></Button></h4>
-          <Divider />
-            
-            
-            {this.state.workRepeat.map(field => {
-            
-            return (
-                <div className="repeater" key={field} id={field}>
-                  <Button onClick={this.closeField.bind(null, field)} icon inverted><Icon className="red" name="window close"></Icon></Button>
-                  <Form.Group widths='equal'>
-                    <Form.Field id='form-input-control-first-name' control={Input} placeholder='Date' />
-                    <Form.Field id='form-input-control-surname' control={Input} placeholder='Company' />
-                  </Form.Group>
-                  <Grid columns={2}>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Form.Field id='form-input-control-nationality' control={Input} placeholder='Position'/>
-                        <Form.Field id='form-input-control-phoneno' control={Input} placeholder='Related Projects' />
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Form.Field id='form-input-control-phoneno' control={TextArea} placeholder='Description'  />
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-                </div>
-              )
-            })}
-            
-            {this.props.workRepeat}
-            
-            <Button type='submit'>Save</Button>
-            
-          </Form>
+          <form onSubmit={this.onSubmit} >
+            <PersDetails onChange={this.onChange} />
+            <WorkRepeater onChange={this.onChange} />
+          </form>
         </div>
       </div>
     );
@@ -129,3 +80,5 @@ function mapStateToProps (state, ownProps) {
 
 
 export default connect(mapStateToProps, { saveCV, fetchCVs })(Detail);
+
+
