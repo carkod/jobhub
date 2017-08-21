@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 //import Detail from './components/Detail';
 
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Icon, Button} from 'semantic-ui-react';
+
 
 import { fetchCVs, saveCV } from '../actions';
 
-import PersDetails from './forms/Personaldetails';
-import WorkRepeater from './forms/WorkRepeater';
+import { WorkRepeater } from './Repeaters'; 
 
 class Detail extends Component {
   
@@ -43,10 +43,23 @@ class Detail extends Component {
     //console.log(this.props)
     
   }
+
   
-  repeater = () => {
+  pushWork = (e) => {
+    e.preventDefault();
+    console.log('Add work pushed')
     const newField = 'workRepeat-' + this.state.workRepeat.length;
     this.setState({ workRepeat: this.state.workRepeat.concat([newField]) })
+  }
+  
+  removeWork = (e, work) => {
+    e.preventDefault();
+    const arrToRemove = work.indexOf(work);
+    if( (arrToRemove != -1) && (work != 'workRepeat-0') ) {
+    	this.setState({
+    	  workRepeat: this.state.workRepeat.splice(arrToRemove, 1),
+    	})
+    }
   }
   
   /*closeField = (field) => {
@@ -63,8 +76,18 @@ class Detail extends Component {
         
         <div className="App-intro">
           <form onSubmit={this.onSubmit} >
-            <PersDetails onChange={this.onChange} />
-            <WorkRepeater onChange={this.onChange} />
+          
+          <div className="personal">
+          {/* Personal details */}
+            <label>Name</label>
+            <input name="name" type="text" />  
+          </div>
+        
+          <div className="work">
+          <Button className="icon large" onClick={this.pushWork}><Icon className="green" name="add square"></Icon></Button>
+          
+            <WorkRepeater fields={this.state.workRepeat} onChange={this.onChange} removeWork={this.removeWork} />
+          </div>
           </form>
         </div>
       </div>
