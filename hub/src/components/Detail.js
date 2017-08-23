@@ -5,17 +5,21 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { Icon, Button} from 'semantic-ui-react';
-
-
 import { fetchCVs, saveCV } from '../actions';
-
 import { WorkRepeater } from './Repeaters'; 
 
 class Detail extends Component {
   
   state = {
     name: this.props.name ?  this.props.name : null,  
-    workRepeat: ['workRepeat-0'],
+    workExp: [
+      {
+        id: 'workExp-0',
+        date:'',
+        position:'',
+      }
+    
+    ],
   }
 
   
@@ -29,45 +33,59 @@ class Detail extends Component {
      });
     }
   
-  onChange = props => {
-      /*.setState({ 
-        [e.target.name]: e.target.value
-      });*/
-      console.log(props)
+  onChange = (e) => {
+      this.setState({ 
+        name: this.state.name,
+        workExp: [
+          {
+            id: this.state.workExp,
+            date: this.state.workExp.date,
+            position: this.state.workExp.position,
+          }
+        ]
+      });
+      
+      //console.log(this.state)
     }
     
   onSubmit = (e) => {
-    const { name } = this.state;
-    
-    this.props.saveCV({ name })
-    //console.log(this.props)
+    e.preventDefault();
+    this.props.saveCV(this.state)
     
   }
 
   
   pushWork = (e) => {
     e.preventDefault();
-    console.log('Add work pushed')
-    const newField = 'workRepeat-' + this.state.workRepeat.length;
-    this.setState({ workRepeat: this.state.workRepeat.concat([newField]) })
+    
+    const workID = 'workExp-' + this.state.workExp.length;
+    this.state.workExp.push({ id: workID });
+    let newWork = Object.assign({}, this.state.workExp, {
+      id: this.state.workExp.id,
+      date: this.state.workExp.date,
+      position: this.state.workExp.position,
+    });
+    this.setState({ newWork });
+    
   }
   
   removeWork = (e, work) => {
     e.preventDefault();
-    const arrToRemove = work.indexOf(work);
-    if( (arrToRemove != -1) && (work != 'workRepeat-0') ) {
-    	this.setState({
-    	  workRepeat: this.state.workRepeat.splice(arrToRemove, 1),
-    	})
+    
+    if( work != 'workExp-0' ) {
+    const indx = this.state.workExp.findIndex((el) => el === work)
+    this.state.workExp.splice(indx, 1);
+    let removedWork = Object.assign({}, this.state.workExp, {
+      id: this.state.workExp.id,
+      date: this.state.workExp.date,
+      position: this.state.workExp.position,
+    });
+    this.setState({ removedWork })
+    	
     }
+    
   }
   
-  /*closeField = (field) => {
-    if (this.state.workRepeat.length > 0) {
-      this.setState({ workRepeat: this.state.workRepeat.splice(field) });  
-    }
-    console.log(this.state.workRepeat)
-  }*/
 
   render() {
     return (
@@ -78,16 +96,18 @@ class Detail extends Component {
           <form onSubmit={this.onSubmit} >
           
           <div className="personal">
-          {/* Personal details */}
             <label>Name</label>
-            <input name="name" type="text" />  
+            <input name="name" type="text" onChange={this.onChange} />  
           </div>
         
           <div className="work">
           <Button className="icon large" onClick={this.pushWork}><Icon className="green" name="add square"></Icon></Button>
           
-            <WorkRepeater fields={this.state.workRepeat} onChange={this.onChange} removeWork={this.removeWork} />
+            <WorkRepeater fields={this.state.workExp} onChange={this.onChange} removeWork={this.removeWork} />
           </div>
+          
+          <Button type="submit" value="Save">Save</Button>
+          
           </form>
         </div>
       </div>

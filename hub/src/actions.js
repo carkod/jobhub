@@ -68,6 +68,7 @@ export function copyCV(data) {
 }
 
 export function saveCV(data) {
+    console.log(data)
     return dispatch => {
         return fetch(`${API_URL}/cvs`, {
            method: 'post',

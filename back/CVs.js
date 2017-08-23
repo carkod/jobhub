@@ -8,6 +8,13 @@ const Schema = mongoose.Schema;
 var CVSchema = new Schema({
     _id: {type: Schema.Types.ObjectId, unique: true},
     name: {type: String, required: [true, 'Name is empty' ]},
+    workRepeat: [
+        {
+            id: {type: String },
+            date: {type: String },
+            position: {type: String },    
+        }
+    ],
     
     
 });
@@ -28,11 +35,12 @@ export default function CVs (app, db) {
 
     app.post('/api/cvs', (req, res) => {
 
-       
         var cv = new CVModel({
             _id: mongoose.Types.ObjectId(),
             name: req.body.name,
-            slug: req.body.name.replace(/\s+/g, '-').toLowerCase(),
+            date: req.body.date,
+            position: req.body.position,
+            workRepeat: req.body.workRepeat
         });
         
         

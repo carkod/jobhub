@@ -6,17 +6,19 @@ import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, 
 
 const WorkRepeater = (props) => {
   
+  //console.log(props)
+  
   return(
     <div className="workRepeater">
       {props.fields.map((work, i) =>
-        <div id={work} className="item" key={i} id={'work' + (i + 1)}>
-            <Button onClick={(e) => props.removeWork(e, work)} icon inverted><Icon className="red" name="window close" data-id={work} ></Icon></Button>
+        <div id={work.id} className="item" key={i} >
+            { i > 0 ? <Button onClick={(e) => props.removeWork(e, work)} icon inverted><Icon className="red" name="window close" ></Icon></Button> : ''}
             
             <label>Date</label>
-            <input type="text" name="date" /> 
+            <input type="text" name="date" onChange={(e) => props.onChange(e)} /> 
             
             <label>Position</label>
-            <input type="text" name="position" /> 
+            <input type="text" name="position" onChange={(e) => props.onChange(e)} /> 
             
         </div>  
       )}
