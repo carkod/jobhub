@@ -33,19 +33,13 @@ class Detail extends Component {
      });
     }
   
-  onChange = (e) => {
-      this.setState({ 
-        name: this.state.name,
-        workExp: [
-          {
-            id: this.state.workExp,
-            date: this.state.workExp.date,
-            position: this.state.workExp.position,
-          }
-        ]
-      });
-      
-      //console.log(this.state)
+  onChange = (e, work) => {
+    let changedWork = Object.assign({}, this.state.workExp, {
+      id: work.id,
+      [e.target.name]: e.target.value,
+    });
+    this.setState({ changedWork });
+    
     }
     
   onSubmit = (e) => {
