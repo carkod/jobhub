@@ -14,7 +14,8 @@
     "redux-form": "^7.0.3",
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.12",
-    "semantic-ui-react": "^0.71.4"
+    "semantic-ui-react": "^0.71.4",
+    "shortid": "^2.2.8"
   },
   "proxy": "http://cv-generator-carkod.c9users.io:8081",
   "devDependencies": {},

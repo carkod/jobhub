@@ -16,12 +16,20 @@ import List from './components/List';
 import Detail from './components/Detail';
 import Cats from './components/Cats';
 
+import { loadState, saveState } from './localStorage';
+
+const persistedStore = loadState();
 const store = createStore(
     Reducer,
+    persistedStore,
     composeWithDevTools(
       applyMiddleware(thunk)
     )
 );
+
+store.subscribe(() => {
+  saveState(store.getState())
+})
 
 
 ReactDOM.render(

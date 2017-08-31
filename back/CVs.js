@@ -6,18 +6,16 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 var CVSchema = new Schema({
-    _id: {type: Schema.Types.ObjectId, unique: true},
-    name: {type: String, required: [true, 'Name is empty' ]},
-    workRepeat: [
-        {
-            id: {type: String },
-            date: {type: String },
-            position: {type: String },    
-        }
-    ],
+    _id: {type: String, unique: true},
+    persdetails: { 
+        name: { type: String },
+        lastname: { type: String },
+    },
     
+    workRepeat: [{}],
+    educRepeat: [{}],
     
-});
+}, {strict: false});
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
@@ -26,21 +24,23 @@ export default function CVs (app, db) {
 
     app.get('/api/cvs', (req, res) => {
        
-       CVModel.find({}, function(err, content) {
+       var cvmodel = CVModel.find({}, function(err, content) {
            if (err) throw err;
            res.json(content)
        });
-       
     });
 
     app.post('/api/cvs', (req, res) => {
-
+        console.log(req.body)
+        var r = req.body;
         var cv = new CVModel({
-            _id: mongoose.Types.ObjectId(),
-            name: req.body.name,
-            date: req.body.date,
-            position: req.body.position,
-            workRepeat: req.body.workRepeat
+            _id: req.body._id,
+                persdetails: {
+                    name: req.body.persdetails.name,    
+                    lastname: req.body.persdetails.lastname,    
+                },
+                workExp: r.workExp
+            
         });
         
         

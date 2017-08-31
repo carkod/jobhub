@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 //import Detail from './components/Detail';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
 
+
 const WorkRepeater = (props) => {
   
-  console.log(props)
   
   return(
     <div className="workRepeater">
