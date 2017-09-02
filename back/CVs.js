@@ -6,16 +6,36 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 var CVSchema = new Schema({
-    _id: {type: String, unique: true},
+    _id: Schema.Types.ObjectId,
+    name: { type: String },
+    slug: { type: String, lowercase: true, trim: true },
+    updatedDate: { type: Date },
+    createdDate: { type: Date },
+    cats: {
+        position: [],
+        cvLang: [],
+        cvCountry: [],
+    },
     persdetails: { 
         name: { type: String },
         lastname: { type: String },
     },
     
-    workRepeat: [{}],
-    educRepeat: [{}],
+    workRepeat: { type: Schema.Types.Mixed },
+    educRepeat: { type: Schema.Types.Mixed },
+    skills: { type: Schema.Types.Mixed },
+    projects: { type: Schema.Types.Mixed },
     
-}, {strict: false});
+}, {strict: false}, { timestamps: true });
+
+CVSchema.pre('save', function(next){
+  const now = new Date();
+  this.updatedDate = now;
+  if ( !this.createdDate ) {
+    this.createdDate = now;
+  }
+  next();
+});
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
@@ -31,15 +51,15 @@ export default function CVs (app, db) {
     });
 
     app.post('/api/cvs', (req, res) => {
-        console.log(req.body)
         var r = req.body;
         var cv = new CVModel({
-            _id: req.body._id,
-                persdetails: {
-                    name: req.body.persdetails.name,    
-                    lastname: req.body.persdetails.lastname,    
-                },
-                workExp: r.workExp
+            _id: ObjectId(),
+            name: req.body.name || ObjectId(),
+            persdetails: {
+                name: req.body.persdetails.name,    
+                lastname: req.body.persdetails.lastname,    
+            },
+            workExp: r.workExp
             
         });
         
@@ -60,8 +80,6 @@ var obj = {
             _id : ObjectId(),
             slug:'front-end-developer-cv',
             lang: 'en',
-            lastModified: new Date(Date.now()).toISOString(),
-            name: 'CV front-end developer',
             position: [
                 {
                     title: 'front-end',
