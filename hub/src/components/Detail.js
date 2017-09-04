@@ -22,12 +22,6 @@ class Detail extends Component {
     ]
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (nextProps) => {
-     
-  }
   
   formUpdate = ( e ) => {
     
@@ -62,8 +56,6 @@ class Detail extends Component {
           
           <PersonalDetails update={this.formUpdate} />
           <WorkRepeater update={this.repeatFormUpdate} fields={this.state.workExp} removeWork={this.removeWork} />
-          
-          
           
           <Button type="submit" value="Save">Save</Button>
           

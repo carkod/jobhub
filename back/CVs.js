@@ -1,41 +1,7 @@
-var ObjectId = require('mongodb').ObjectID;
-var assert = require('assert');
-
+import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 
-
-const Schema = mongoose.Schema;
-var CVSchema = new Schema({
-    _id: Schema.Types.ObjectId,
-    name: { type: String },
-    slug: { type: String, lowercase: true, trim: true },
-    updatedDate: { type: Date },
-    createdDate: { type: Date },
-    cats: {
-        position: [],
-        cvLang: [],
-        cvCountry: [],
-    },
-    persdetails: { 
-        name: { type: String },
-        lastname: { type: String },
-    },
-    
-    workRepeat: { type: Schema.Types.Mixed },
-    educRepeat: { type: Schema.Types.Mixed },
-    skills: { type: Schema.Types.Mixed },
-    projects: { type: Schema.Types.Mixed },
-    
-}, {strict: false}, { timestamps: true });
-
-CVSchema.pre('save', function(next){
-  const now = new Date();
-  this.updatedDate = now;
-  if ( !this.createdDate ) {
-    this.createdDate = now;
-  }
-  next();
-});
+import { CVSchema } from './Schemas';
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
@@ -44,25 +10,34 @@ export default function CVs (app, db) {
 
     app.get('/api/cvs', (req, res) => {
        
-       var cvmodel = CVModel.find({}, function(err, content) {
+       CVModel.find({}, function(err, content) {
            if (err) throw err;
            res.json(content)
        });
     });
-
-    app.post('/api/cvs', (req, res) => {
-        var r = req.body;
-        var cv = new CVModel({
-            _id: ObjectId(),
-            name: req.body.name || ObjectId(),
-            persdetails: {
-                name: req.body.persdetails.name,    
-                lastname: req.body.persdetails.lastname,    
-            },
-            workExp: r.workExp
-            
-        });
         
+    app.post('/api/cvs', (req, res) => {
+        var r = req.body,
+            cv;
+            
+        console.log(r.name)
+        if (r.length == 1 && r.name) {
+            cv = new CVModel({
+                _id: ObjectId(),
+                name: r.name,
+            });    
+        } else {
+            cv = new CVModel({
+                _id: ObjectId(),
+                name: r.name || ObjectId(),
+                persdetails: {
+                    name: r.persdetails ? r.persdetails.name : '',    
+                    lastname: r.persdetails ? r.persdetails.lastname : '',    
+                },
+                workExp: r.workExp
+            
+            });    
+        }
         
         cv.save((err) => {
           if (err) {
