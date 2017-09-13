@@ -57,7 +57,9 @@ class Detail extends Component {
           <PersonalDetails update={this.formUpdate} />
           <WorkRepeater update={this.repeatFormUpdate} fields={this.state.workExp} removeWork={this.removeWork} />
           
-          <Button type="submit" value="Save">Save</Button>
+          <Button type="submit" value="Save">
+            <Icon name="save" />Save
+          </Button>
           
           </form>
         </div>

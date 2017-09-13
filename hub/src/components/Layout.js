@@ -31,7 +31,7 @@ class Layout extends Component {
    var transformPadding = this.state.navVisible ? '240px' : '40px';
    
     var style = {
-      transform: this.state.navVisible ? 'translate3d(200px, 0, 0)' : 'translate3d(0, 0, 0)',
+      transform: this.state.navVisible ? 'translate3d(15rem, 0, 0)' : 'translate3d(0, 0, 0)',
       position: 'absolute',
       top: '0',
       left:'0',

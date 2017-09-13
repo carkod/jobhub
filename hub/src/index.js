@@ -21,15 +21,15 @@ import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();
 const store = createStore(
     Reducer,
-    persistedStore,
+    //persistedStore,
     composeWithDevTools(
       applyMiddleware(thunk)
     )
 );
 
-store.subscribe(() => {
+/*store.subscribe(() => {
   saveState(store.getState())
-})
+})*/
 
 
 ReactDOM.render(

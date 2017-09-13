@@ -6,10 +6,10 @@ export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_CV = 'RETRIEVED_CV';
 //export const CV_UPDATED = 'CV_UPDATED';
-//export const CV_DELETED = 'CV_DELETED';
+export const CV_DELETED = 'CV_DELETED';
 //export const UPDATE_LIST = 'UPDATE_LIST';
 
-const API_URL = 'http://cv-generator-carkod.c9users.io/api';
+const API_URL = 'http://cv-generator-carkod.c9users.io:8081/api';
 
 function handleResponse(response) {
     if (response.ok) {
@@ -47,7 +47,14 @@ export function cvFetched(cv) {
 export function addCV(data) {
     return {
         type: ADD_CV,
-        cvs
+        data
+    }
+}
+
+export function deletedCV(id) {
+    return {
+        type: CV_DELETED,
+        id
     }
 }
 
@@ -58,23 +65,23 @@ export function retrievedCV(data) {
     }
 }
 
-/*export function deleteCV(id) {
+export function syncPersdetails(fields) {
+    return {
+        type: SYNC_PERSDETAILS,
+        fields
+    }
+}
+
+export function deleteCV(id) {
     return dispatch => {
-        return fetch(`/db/CVs/${id}`, {
+        return fetch(`${API_URL}/cvs/${id}`, {
            method: 'delete',
            headers: {
                "Content-Type" : "application/json"
            }
         }) 
         .then(handleResponse)
-        .then(data => dispatch(CVDeleted(id)));   
-    }
-}*/
-
-export function syncPersdetails(fields) {
-    return {
-        type: SYNC_PERSDETAILS,
-        fields
+        .then(data => dispatch(deletedCV(id)));   
     }
 }
 
@@ -86,7 +93,9 @@ export function copyCV(data) {
            headers: {
                "Content-Type" : "application/json"
            }
-        }).then(handleResponse).then(data => dispatch(CVPasted(data.CV)));
+        })
+        .then(handleResponse)
+        .then(data => dispatch(CVPasted(data.CV)));
     }
     
 }
@@ -99,7 +108,7 @@ export function saveCV(data) {
            headers: {
                "Content-Type" : "application/json"
            }
-        }).then(handleResponse).then(data => dispatch(addCV(data)));   
+        }).then(handleResponse).then(data => dispatch(addCV(data))).then(data);   
     }
 }
 

@@ -7,11 +7,12 @@ import { CVSchema } from './Schemas';
 let CVModel = mongoose.model('CVModel', CVSchema );
 
 export default function CVs (app, db) {
-
+    
     app.get('/api/cvs', (req, res) => {
        
-       CVModel.find({}, function(err, content) {
+       CVModel.find({}, null, {sort: {updatedDate: -1}} ,function(err, content) {
            if (err) throw err;
+           
            res.json(content)
        });
     });
@@ -20,7 +21,6 @@ export default function CVs (app, db) {
         var r = req.body,
             cv;
             
-        console.log(r.name)
         if (r.length == 1 && r.name) {
             cv = new CVModel({
                 _id: ObjectId(),
@@ -39,15 +39,42 @@ export default function CVs (app, db) {
             });    
         }
         
-        cv.save((err) => {
+        cv.save((err, cv) => {
           if (err) {
-              return console.log('there was an error saving CVModel' +  err);
+              console.log('there was an error saving CVModel' +  err);
+              
           } else {
-              console.log('saved: ' + cv);
+              const savedID = cv._id;
+              res.json({ _id: savedID })
           }
         });
 
     });
+    
+    app.delete('/api/cvs/:_id', (req, res) => {
+       console.log(req.params)
+       if (req.params._id) {
+            CVModel.findByIdAndRemove(req.params._id, (err, cv) => {  
+                if(!err) {
+                    const deletedID = req.params._id;
+                    res.json({ _id: deletedID })
+                } else {
+                    
+                    res.json({ message: err })
+                }
+            });
+        } else {
+            
+            let response = {
+                message: "Todo could not be deleted deleted",
+            };
+            
+            res.send(response)
+            
+        }
+        
+    });
+    
     
 }
 

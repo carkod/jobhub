@@ -10,20 +10,16 @@ class Nav extends Component {
   state = {
   }
 
-  
-  componentDidMount = () => {
-  }
-  
-  
+
   render() {
      
-     const style = {
-         width:'200px',
-         background: '#1b1c1d',
-         position:'absolute',
-         top:'0',
-         left: '0',
-         minHeight: '100%',
+    const style = {
+        background: '#1b1c1d',
+        position:'fixed',
+        top:'0',
+        left: '0',
+        minHeight: '100%',
+        overflowY: 'scroll',
     }
       
         return (
