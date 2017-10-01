@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { fetchCVs, saveCV, deleteCV } from '../actions';
@@ -16,7 +17,7 @@ class Listing extends Component {
 
   
   componentDidMount = () => {
-    this.props.fetchCVs();
+    this.props.fetchCVs()
   }
   
   handleDelete = () => {
@@ -25,26 +26,27 @@ class Listing extends Component {
           getName = getItem.name;
           
     this.props.deleteCV(getID).then(cv => {
-      this.setState({ deletedID: cv.id, deletedName: getName })
+      this.setState({ deletedID: cv.id, deletedName: getName });
+      this.props.fetchCVs(); 
+      this.setState({ openAccordion: false  }); 
     })
     
   }
-  
-  componentWillUpdate = (nextProps, nextState) => {
-    this.props.fetchCVs();
-  }
+    
   
   handleEdit = () => {
-    console.log(this.props)
+    
   }
   
   render() {
   const status = this.state;
+  //const cvID = cv[this.state.activeIndex]._id;
   let renderList;
   if (this.props.cvs.length > 0) {
     const arrayList =
     this.props.cvs.map((cv, i) => ({
       key: cv._id,
+      //active: this.state.openAccordion,
       title: (
         <span color={this.state.savedID === cv._id ? 'red' : 'inherit' }>{cv.name}</span>
       ),
@@ -62,7 +64,7 @@ class Listing extends Component {
             </List>
           </div>
           <div className="buttons">
-            <Button onClick={this.handleEdit} primary>Edit/View</Button>
+            <Button primary><Link style={{color: '#fff', display:'block'}} to={`/cv/id=${cv._id}`}>Edit/View</Link></Button>
             <Button onClick={this.handleCopy} secondary>Copy</Button>
             <Button onClick={this.handleDelete} negative>Delete</Button>
           </div>
@@ -70,7 +72,7 @@ class Listing extends Component {
       ),
     }));
     
-    renderList = <Accordion onTitleClick={(e, index) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index  })} panels={arrayList} styled fluid />
+    renderList = <Accordion onTitleClick={(e, index) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={arrayList} styled fluid />
           
     } else {
       renderList = <p>No CVs found</p>
@@ -79,11 +81,10 @@ class Listing extends Component {
     
     return (
       <div id="list" className="">
-        <h1>Section - CV <AddNew sysmessage={({savedID, savedName}) => this.setState({ savedID: savedID, savedName: savedName})} /></h1>
+        <h1>Section - CV <AddNew sysmessage={({savedID, savedName}) => {this.setState({ savedID: savedID, savedName: savedName}); this.props.fetchCVs()}} /></h1>
         <SysMessage messages={this.state} />
         <div className="listItem">
           {renderList}
-          {/* this.props.cvs ? RenderAccordion  : renderEmpty */ }
         </div>
       </div>
     );

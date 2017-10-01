@@ -6,22 +6,77 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import { Icon, Button} from 'semantic-ui-react';
-import { fetchCVs, saveCV, retrieveOne } from '../actions';
+import { saveCV, fetchCVs } from '../actions';
 
 import PersonalDetails from './PersonalDetails'; 
 import WorkRepeater from './WorkRepeater'; 
 
+const data = (cv) => {
+    return {
+    _id: cv._id || '',
+    name: cv.name || '',
+    createdDate: cv.createdDate || '',
+    updatedDate: cv.updatedDate || '',
+    persdetails: {
+      name: cv.persdetails.name || '',
+      lastname: cv.persdetails.lastname || '',
+    },
+    workExp: cv.workExp || [{id: 'workExp-0',  date:'', position:''}],
+  }
+};
+
 class Detail extends Component {
-  
-  state = {
-    _id: shortid.generate(),
-    workExp: [
-      {
-        id: 'workExp-0'
-      }
-    ]
+
+  constructor(props) {
+    super(props);
+    const cv = this.props.cv;
+    if (cv) {
+      this.state = {
+        _id: cv._id || '',
+        name: cv.name || '',
+        createdDate: cv.createdDate || '',
+        updatedDate: cv.updatedDate || '',
+        persdetails: cv.persdetails || '',
+        workExp: cv.workExp || [{id: 'workExp-0', date:'', position:''}],
+      }  
+    } else {
+      this.state = {
+        _id: '',
+        name: '',
+        createdDate: '',
+        updatedDate: '',
+        persdetails: {
+          name: '',
+          lastname: ''
+        },
+        workExp: [{id: 'workExp-0', date:'', position:''}],
+      }  
+    }
+    
+    
   }
 
+  componentDidMount = () => {
+    this.props.fetchCVs();
+  }
+  
+  componentWillReceiveProps = (nextProps) => {
+    const cv = nextProps.cv;
+    this.setState({
+      _id: cv._id || '',
+      name: cv.name || '',
+      createdDate: cv.createdDate || '',
+      updatedDate: cv.updatedDate || '',
+      persdetails: cv.persdetails || '',
+      workExp: cv.workExp || [{id: 'workExp-0', date:'', position:''}],
+    })
+    
+  }
+  
+  setData = () => {
+    const { _id, name, createdDate, updatedDate, persdetails, workExp } = this.props.cv;
+      this.setState(data({ _id, name, createdDate, updatedDate, persdetails, workExp }))    
+  }
   
   formUpdate = ( e ) => {
     
@@ -32,10 +87,12 @@ class Detail extends Component {
     
   }
   
-   repeatFormUpdate = ({ workExp }) => {
-    
-    console.log(workExp)
-    this.setState({ workExp })
+   repeatFormUpdate = (i,e) => {
+
+     const workExp = Object.assign(this.state.workExp[i], {
+       [e.target.name]: e.target.value
+     });
+    this.setState( workExp )
   }
     
   onSubmit = (e) => {
@@ -43,19 +100,47 @@ class Detail extends Component {
     this.props.saveCV(this.state)
     
   }
-
+ 
+  pushWork = (e) => {
+    e.preventDefault();
+    const workID = 'workExp-' + shortid.generate();
+    
+    this.state.workExp.push({ id: workID })
+    this.setState({ workExp: this.state.workExp });
+  }
+  
+  removeWork = (i,e) => {
+    e.preventDefault();
+    const findIndex = this.state.workExp[i];
+    
+    this.state.workExp.splice(i,1)
+    this.setState({ workExp: this.state.workExp });	
+  }
+  
+  
+  workChange = (index) => (e) => {
+    
+    this.props.update(index, e)
+    console.log(e.target.value)
+    //this.state.workExp[index][e.target.name] = e.target.value
+    //this.setState({ workExp: this.state.workExp })
+    
+  }
   
   render() {
     console.log(this.state)
     return (
       <div id="detail">
-        <h1>This is Detail</h1>
+        <h1>{this.state.name}</h1>
+        <p>ID: {this.state._id}</p>
+        <p>Created: {this.state.createdDate}</p>
+        <p>Updated: {this.state.updatedDate}</p>
         
         <div className="container">
           <form onSubmit={this.onSubmit} >
           
-          <PersonalDetails update={this.formUpdate} />
-          <WorkRepeater update={this.repeatFormUpdate} fields={this.state.workExp} removeWork={this.removeWork} />
+          <PersonalDetails update={this.formUpdate} persdetails={this.state.persdetails} />
+          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} />
           
           <Button type="submit" value="Save">
             <Icon name="save" />Save
@@ -69,9 +154,15 @@ class Detail extends Component {
 }
 
 function mapStateToProps (state, ownProps) {
-  return {
-    cvs: state.cvs
+  if (state.cvs.length > 0) {
+    return {
+      cv: state.cvs.find(item => item._id === ownProps.match.params.id)
+    }
+    
+  } else {
+    return { cv: null }    
   }
+  
 }
 
 

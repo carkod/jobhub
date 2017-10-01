@@ -19,15 +19,19 @@ const SysMessage = props => {
         break;
       
       default:
-        status = null
+        status = null;
+        break;
     }
     
     return (
-    <Message info hidden={status ? false : true}>
+    <Message icon info hidden={status ? false : true}>
+      <Icon name="info circle" />
       {/*console.log(message)*/}
-      <Message.Header>Item has been {status}</Message.Header>
-      <p><strong>Name:</strong> {message.deletedName || message.savedName || message.copiedName }</p>
-      <p><strong>ID:</strong> {message.deletedID || message.savedID || message.copiedID }</p>
+      <Message.Content>
+        <Message.Header>Item has been {status}</Message.Header>
+        <p><strong>Name:</strong> {message.deletedName || message.savedName || message.copiedName }<br />
+        <strong>ID:</strong> {message.deletedID || message.savedID || message.copiedID }</p>
+      </Message.Content>
     </Message>    
     )
 }

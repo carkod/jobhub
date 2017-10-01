@@ -4,60 +4,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
+import { fetchCVs } from '../actions';
 
 class WorkRepeater extends Component {
   
   state = {
-    workExp: [
-      {
-        id: 'workExp-0'
-      }
-    ]
-    
+    //workExp: this.props.workExp || [{id: 'workExp-0', date:'', position:''}],
   }
   
-  onChange = (index) => (e) => {
-    
-    this.props.update(index, e)
-    this.state.workExp[index][e.target.name] = e.target.value
-    this.setState({ workExp: this.state.workExp })
-    
-  }
-  
-  pushWork = (e) => {
-    e.preventDefault();
-    const workID = 'workExp-' + shortid.generate();
-    
-    this.state.workExp.push({ id: workID })
-    this.setState({ workExp: this.state.workExp });
-  }
   
   removeWork = (index) => (e) => {
-    e.preventDefault();
-    const findIndex = this.state.workExp[index];
     
-    this.state.workExp.splice(index,1)
-    this.setState({ workExp: this.state.workExp });	
   }
   
-  componentDidUpdate = () => {
-    const workExp = this.state.workExp
-    this.props.update({ workExp })
-  }
-  
+
   render() {
+    const workExpArray = this.props.workExp;
       return(
         <div className="workRepeater">
-            <Button className="icon large" onClick={this.pushWork}><Icon className="green" name="add square"></Icon></Button>
-            {this.state.workExp.map((work, i) => 
+            <Button className="icon large" onClick={e => this.props.pushWork(e)}><Icon className="green" name="add square"></Icon></Button>
+            {workExpArray.map((work, i) => 
                 <div className="item" key={work.id}>
-                { i > 0 ? <Button onClick={this.removeWork(i)} icon inverted><Icon className="red" name="window close" ></Icon></Button> : ''}
+                { i > 0 ? <Button onClick={e => this.props.removeWork(i, e)} icon inverted><Icon className="red" name="window close" ></Icon></Button> : ''}
                     
                     <label>Date</label>
-                    <input type="text" name="date" onChange={this.onChange(i)} value={this.state.workExp[i].date || ''} /> 
+                    <input type="text" name="date" onChange={(e) => this.props.update(i, e) } value={work.date}/> 
                     
                     <label>Position</label>
-                    <input type="text" name="position" onChange={this.onChange(i)} value={this.state.workExp[i].position || ''} /> 
+                    <input type="text" name="position" onChange={(e) => this.props.update(i, e)} value={work.position}/> 
                     
                 </div>
             )}
@@ -66,8 +40,4 @@ class WorkRepeater extends Component {
   }
 }
 
-let mapStateToProps = () => {
-  
-}
-
-export default connect()(WorkRepeater);
+export default WorkRepeater;

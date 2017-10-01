@@ -41,7 +41,6 @@ ReactDOM.render(
           <Route exact path="/cv" component={List} />
           <Route exact path="/cv/positions" component={Cats} />
           <Route exact path="/cv/languages" component={Cats} />
-          <Route exact strict path="/cv/new" component={Detail} />  
           <Route path="/cv/id=:id" component={Detail} />  
         </Layout>
       </Switch>

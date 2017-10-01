@@ -44,6 +44,7 @@ export function cvFetched(cv) {
   }
 }
 
+
 export function addCV(data) {
     return {
         type: ADD_CV,
@@ -115,6 +116,14 @@ export function saveCV(data) {
 export function fetchCVs() {
     return dispatch => {
         fetch(`${API_URL}/cvs`)
+        .then(res => res.json())
+        .then(data => dispatch(setCVs(data)))
+    }
+}
+
+export function fetchCV(id) {
+    return dispatch => {
+        fetch(`${API_URL}/cvs/${id}`)
         .then(res => res.json())
         .then(data => dispatch(setCVs(data)))
     }

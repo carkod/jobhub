@@ -5,6 +5,7 @@ TODO:
 - List.js search: use React semantic ui input datalist https://react.semantic-ui.com/elements/input#input-example-ref-focus
 - List.js fetchCVs by DESC (lastest created) by default
 - Change fetch to Axios, fetch API not supported by IE (support available in Edge)
+- list.js close accordion after action deleted
 
 INSTALL MONGOD
 

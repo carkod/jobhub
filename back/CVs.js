@@ -51,6 +51,31 @@ export default function CVs (app, db) {
 
     });
     
+    app.get('/api/cvs/:_id', (req, res) => {
+       console.log(req.params)
+       if (req.params._id) {
+            CVModel.findById(req.params._id, (err, cv) => {  
+                if(!err) {
+                    console.log(cv)
+                    
+                    res.json({ cv })
+                } else {
+                    
+                    res.json({ message: err })
+                }
+            });
+        } else {
+            
+            let response = {
+                message: "Todo could not be deleted deleted",
+            };
+            
+            res.send(response)
+            
+        }
+        
+    });
+    
     app.delete('/api/cvs/:_id', (req, res) => {
        console.log(req.params)
        if (req.params._id) {
