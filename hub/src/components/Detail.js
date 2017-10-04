@@ -21,7 +21,7 @@ const data = (cv) => {
       name: cv.persdetails.name || '',
       lastname: cv.persdetails.lastname || '',
     },
-    workExp: cv.workExp || [{id: 'workExp-0',  date:'', position:''}],
+    workExp: cv.workExp || [{id: 'workExp-0',  date:'', position:'', desc}],
   }
 };
 
@@ -87,13 +87,22 @@ class Detail extends Component {
     
   }
   
-   repeatFormUpdate = (i,e) => {
-
+   repeatFormUpdate = ( i, e ) => {
+    
      const workExp = Object.assign(this.state.workExp[i], {
        [e.target.name]: e.target.value
      });
     this.setState( workExp )
   }
+  
+  repeatFormDesc = (content, i) => {
+    const workExp = Object.assign(this.state.workExp[i], {
+       desc: content
+     });
+     
+     this.setState( workExp )
+  }
+  
     
   onSubmit = (e) => {
     e.preventDefault();
@@ -140,7 +149,7 @@ class Detail extends Component {
           <form onSubmit={this.onSubmit} >
           
           <PersonalDetails update={this.formUpdate} persdetails={this.state.persdetails} />
-          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} />
+          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} descUpdate={this.repeatFormDesc} />
           
           <Button type="submit" value="Save">
             <Icon name="save" />Save

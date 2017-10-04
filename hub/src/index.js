@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import Reducer from './Reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
+import 'draft-js/dist/Draft.css';
 import './App.css';
 import { Link, Route, IndexRoute, Router, Switch, BrowserRouter } from 'react-router-dom';
 
