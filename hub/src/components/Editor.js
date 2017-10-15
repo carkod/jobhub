@@ -10,30 +10,41 @@ class Description extends Component {
     constructor(props){
         super(props);
         this.state = {
-            value: RichTextEditor.createEmptyValue()        
+            value: this.props.value ? RichTextEditor.createValueFromString(this.props.value, 'html') : RichTextEditor.createEmptyValue()
         }
         this.triggerChange = this.triggerChange.bind(this)
+        this.onChange = this.onChange.bind(this)
     }
     
     
+  componentWillReceiveProps = (nextProps) => {
+    const value = RichTextEditor.createValueFromString(nextProps.value, 'html');
+    this.setState({
+      value: value,
+    })
+  }  
+  
   triggerChange = () => {
       this.props.onChange(this.state.value.toString('html'))
   }
   
   onChange = (value) => {
     
-    clearTimeout(this.timeout);
+    const currentVal = this.state.value.getEditorState().getCurrentContent();
+    const newVal = value.getEditorState().getCurrentContent();
+    
     this.setState({value});
-    //setTimeout(this.props.onChange(this.state.value.toString('html')), 1000);
-    this.timeout = setTimeout(this.triggerChange, 1000);
+      
+    if (currentVal !== newVal) {
+      this.triggerChange
+    } 
+    
   };
   
   render () {
+    console.log(this.state)
     return (
-      <RichTextEditor
-        value={this.state.value}
-        onChange={this.onChange}
-      />
+      <RichTextEditor value={this.state.value} onChange={this.onChange} />
     );
   }
 }

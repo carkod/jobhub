@@ -89,24 +89,29 @@ class Detail extends Component {
   
    repeatFormUpdate = ( i, e ) => {
     
-     const workExp = Object.assign(this.state.workExp[i], {
+     const workExp = Object.assign({}, this.state.workExp, {
        [e.target.name]: e.target.value
      });
-    this.setState( workExp )
+     
+     
+     this.setState({
+       workExp
+     })
   }
   
   repeatFormDesc = (content, i) => {
-    const workExp = Object.assign(this.state.workExp[i], {
+    const workExpDesc = Object.assign(this.state.workExp[i], {
        desc: content
      });
      
-     this.setState( workExp )
+     this.setState({
+       workExpDesc
+     })
   }
-  
     
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.saveCV(this.state)
+    this.props.saveCV(this.state);
     
   }
  
@@ -130,7 +135,7 @@ class Detail extends Component {
   workChange = (index) => (e) => {
     
     this.props.update(index, e)
-    console.log(e.target.value)
+    //console.log(e.target.value)
     //this.state.workExp[index][e.target.name] = e.target.value
     //this.setState({ workExp: this.state.workExp })
     
@@ -141,9 +146,12 @@ class Detail extends Component {
     return (
       <div id="detail">
         <h1>{this.state.name}</h1>
-        <p>ID: {this.state._id}</p>
-        <p>Created: {this.state.createdDate}</p>
-        <p>Updated: {this.state.updatedDate}</p>
+        <div className="metainfo">
+          <h2>Meta information:</h2>
+          <p>ID: {this.state._id}</p>
+          <p>Created: {this.state.createdDate}</p>
+          <p>Updated: {this.state.updatedDate}</p>
+        </div>
         
         <div className="container">
           <form onSubmit={this.onSubmit} >

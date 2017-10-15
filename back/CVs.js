@@ -28,7 +28,6 @@ export default function CVs (app, db) {
             });    
         } else {
             cv = new CVModel({
-                _id: ObjectId(),
                 name: r.name || ObjectId(),
                 persdetails: {
                     name: r.persdetails ? r.persdetails.name : '',    
@@ -38,8 +37,9 @@ export default function CVs (app, db) {
             
             });    
         }
-        
-        cv.save((err, cv) => {
+        const id = r._id;
+        delete r._id;
+        CVModel.update({_id: id}, cv, {upsert: true, setDefaultsOnInsert: true}, (err, cv) => {
           if (err) {
               console.log('there was an error saving CVModel' +  err);
               

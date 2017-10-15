@@ -27,6 +27,7 @@ class WorkRepeater extends Component {
                     </Form.Field>
                     
                     <label>Description</label>
+                    
                     <Description name="desc" onChange={desc => this.props.descUpdate(desc, i)} value={work.desc}/>
 
                     
