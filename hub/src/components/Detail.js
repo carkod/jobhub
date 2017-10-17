@@ -7,53 +7,42 @@ import { connect } from 'react-redux';
 import shortid from 'shortid';
 import { Icon, Button} from 'semantic-ui-react';
 import { saveCV, fetchCVs } from '../actions';
+import RichTextEditor from 'react-rte';
 
 import PersonalDetails from './PersonalDetails'; 
 import WorkRepeater from './WorkRepeater'; 
 
-const data = (cv) => {
-    return {
-    _id: cv._id || '',
-    name: cv.name || '',
-    createdDate: cv.createdDate || '',
-    updatedDate: cv.updatedDate || '',
-    persdetails: {
-      name: cv.persdetails.name || '',
-      lastname: cv.persdetails.lastname || '',
-    },
-    workExp: cv.workExp || [{id: 'workExp-0',  date:'', position:'', desc}],
+const cvModel = (cv) => {
+  
+  if (cv && !cv.workExp.desc) {
+    cv.workExp.map((i) => {
+      i.desc = RichTextEditor.createEmptyValue();  
+    })
+  } 
+  
+  return {
+      _id: cv._id || '',
+      name: cv.name || '',
+      createdDate: cv.createdDate || '',
+      updatedDate: cv.updatedDate || '',
+      persdetails: cv.persdetails || '',
+      workExp: cv.workExp || [{
+          id: 'workExp-0', 
+          date:'', 
+          position:'', 
+          desc: RichTextEditor.createEmptyValue() || RichTextEditor.createValueFromString(cv.workExp.desc, 'html'),
+      }],  
   }
-};
+}
 
 class Detail extends Component {
 
   constructor(props) {
     super(props);
-    const cv = this.props.cv;
-    if (cv) {
-      this.state = {
-        _id: cv._id || '',
-        name: cv.name || '',
-        createdDate: cv.createdDate || '',
-        updatedDate: cv.updatedDate || '',
-        persdetails: cv.persdetails || '',
-        workExp: cv.workExp || [{id: 'workExp-0', date:'', position:''}],
-      }  
-    } else {
-      this.state = {
-        _id: '',
-        name: '',
-        createdDate: '',
-        updatedDate: '',
-        persdetails: {
-          name: '',
-          lastname: ''
-        },
-        workExp: [{id: 'workExp-0', date:'', position:''}],
-      }  
-    }
-    
-    
+    const cv = this.props.cv || '';
+    this.state = cvModel(cv);
+    this.triggerDescChange = this.triggerDescChange.bind(this);
+   
   }
 
   componentDidMount = () => {
@@ -62,21 +51,10 @@ class Detail extends Component {
   
   componentWillReceiveProps = (nextProps) => {
     const cv = nextProps.cv;
-    this.setState({
-      _id: cv._id || '',
-      name: cv.name || '',
-      createdDate: cv.createdDate || '',
-      updatedDate: cv.updatedDate || '',
-      persdetails: cv.persdetails || '',
-      workExp: cv.workExp || [{id: 'workExp-0', date:'', position:''}],
-    })
+    this.setState(cvModel(cv))
     
   }
   
-  setData = () => {
-    const { _id, name, createdDate, updatedDate, persdetails, workExp } = this.props.cv;
-      this.setState(data({ _id, name, createdDate, updatedDate, persdetails, workExp }))    
-  }
   
   formUpdate = ( e ) => {
     
@@ -89,24 +67,11 @@ class Detail extends Component {
   
    repeatFormUpdate = ( i, e ) => {
     
-     const workExp = Object.assign({}, this.state.workExp, {
+     const workExp = Object.assign(this.state.workExp[i], {
        [e.target.name]: e.target.value
      });
-     
-     
-     this.setState({
-       workExp
-     })
-  }
-  
-  repeatFormDesc = (content, i) => {
-    const workExpDesc = Object.assign(this.state.workExp[i], {
-       desc: content
-     });
-     
-     this.setState({
-       workExpDesc
-     })
+
+     this.setState(workExp)
   }
     
   onSubmit = (e) => {
@@ -119,7 +84,7 @@ class Detail extends Component {
     e.preventDefault();
     const workID = 'workExp-' + shortid.generate();
     
-    this.state.workExp.push({ id: workID })
+    this.state.workExp.push({ id: workID, desc: RichTextEditor.createEmptyValue() })
     this.setState({ workExp: this.state.workExp });
   }
   
@@ -141,6 +106,26 @@ class Detail extends Component {
     
   }
   
+  triggerDescChange = (i) => {
+      this.props.onChange(this.state.workExp[i].desc.toString('html'))
+  }
+  
+  handleDesc = (value, i) => {
+    
+    const currentVal = this.state.workExp[i].desc.getEditorState().getCurrentContent();
+    const newVal = value.getEditorState().getCurrentContent();
+    const description = Object.assign(this.state.workExp[i], {
+       desc: value
+     });
+     
+    
+      
+    if (currentVal !== newVal) {
+      this.setState(description);
+    } 
+    
+  };
+  
   render() {
     console.log(this.state)
     return (
@@ -157,7 +142,7 @@ class Detail extends Component {
           <form onSubmit={this.onSubmit} >
           
           <PersonalDetails update={this.formUpdate} persdetails={this.state.persdetails} />
-          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} descUpdate={this.repeatFormDesc} />
+          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} descUpdate={this.handleDesc} />
           
           <Button type="submit" value="Save">
             <Icon name="save" />Save

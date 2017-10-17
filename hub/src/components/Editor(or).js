@@ -9,19 +9,26 @@ class Description extends Component {
 
     constructor(props){
         super(props);
-        /*this.state = {
+        this.state = {
             value: this.props.value ? RichTextEditor.createValueFromString(this.props.value, 'html') : RichTextEditor.createEmptyValue()
         }
         this.triggerChange = this.triggerChange.bind(this)
-        this.onChange = this.onChange.bind(this)*/
+        this.onChange = this.onChange.bind(this)
     }
     
+    
+  componentWillReceiveProps = (nextProps) => {
+    const value = RichTextEditor.createValueFromString(nextProps.value, 'html');
+    this.setState({
+      value: value,
+    })
+  }  
   
-  /*triggerChange = () => {
+  triggerChange = () => {
       this.props.onChange(this.state.value.toString('html'))
-  }*/
+  }
   
-  /*onChange = (value) => {
+  onChange = (value) => {
     
     const currentVal = this.state.value.getEditorState().getCurrentContent();
     const newVal = value.getEditorState().getCurrentContent();
@@ -32,17 +39,12 @@ class Description extends Component {
       this.triggerChange
     } 
     
-  };*/
-  
-  descUpdate = (value) => {
-    const desc = { [this.props.name]: this.props.value }
-    this.props.onChange({desc})
-  }
+  };
   
   render () {
-    console.log(this.props)
+    console.log(this.state)
     return (
-      <RichTextEditor value={this.props.value} onChange={this.descUpdate} />
+      <RichTextEditor value={this.state.value} onChange={this.onChange} />
     );
   }
 }
