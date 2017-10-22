@@ -9,40 +9,58 @@ class Description extends Component {
 
     constructor(props){
         super(props);
-        /*this.state = {
-            value: this.props.value ? RichTextEditor.createValueFromString(this.props.value, 'html') : RichTextEditor.createEmptyValue()
+        this.state = {
+            value: RichTextEditor.createEmptyValue()
         }
-        this.triggerChange = this.triggerChange.bind(this)
-        this.onChange = this.onChange.bind(this)*/
+        this.triggerChange = this.triggerChange.bind(this);
+        this.updateState = this.updateState.bind(this);
+        //this.getValue = this.getValue.bind(this);
     }
     
-  
-  /*triggerChange = () => {
-      this.props.onChange(this.state.value.toString('html'))
-  }*/
-  
-  /*onChange = (value) => {
+  componentDidMount = () => {
+    this.updateState(this.props)
+  }
     
-    const currentVal = this.state.value.getEditorState().getCurrentContent();
-    const newVal = value.getEditorState().getCurrentContent();
-    
-    this.setState({value});
-      
-    if (currentVal !== newVal) {
-      this.triggerChange
-    } 
-    
-  };*/
+  componentWillReceiveProps = (nextProps) => {
+    this.updateState(nextProps.value)
+  } 
   
-  descUpdate = (value) => {
-    const desc = { [this.props.name]: this.props.value }
-    this.props.onChange({desc})
+  
+  triggerChange = (value) => {
+    const desc = value.toString('html')
+    //console.log(desc)
+    this.props.onChange(desc)
   }
   
+  
+  updateState = (editorValue) => {
+    this.setState({ editorValue })
+  }
+  
+  onChange = (value) => {
+    
+    this.setState({value});
+    const currentVal = this.state.value.toString('html');
+    const newVal = value.toString('html');
+    if (currentVal !== newVal) {
+      this.triggerChange(value)
+    } 
+  };
+  
+  
+  getValue = () => {
+    //let val = this.state.value.toString('html');
+    let val = this.state.value;
+    if (!val) {
+      val = RichTextEditor.createEmptyValue();
+    }
+    return val;
+  }
+
   render () {
-    console.log(this.props)
+    //console.log(this.state.value)
     return (
-      <RichTextEditor value={this.props.value} onChange={this.descUpdate} />
+      <RichTextEditor value={this.getValue()} onChange={this.onChange} />
     );
   }
 }

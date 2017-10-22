@@ -4,10 +4,11 @@ import React, { Component } from 'react';
 import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
 import { fetchCVs } from '../actions';
-//import Description from './Editor';
+import Description from './Editor';
 import RichTextEditor from 'react-rte';
 class WorkRepeater extends Component {
   
+ 
   render() {
     const workExpArray = this.props.workExp;
       return(
@@ -27,10 +28,8 @@ class WorkRepeater extends Component {
                     </Form.Field>
                     
                     <label>Description</label>
-                    {console.log(work.desc)}
-                    <RichTextEditor name="desc" value={work.desc} onChange={desc  => this.props.descUpdate(desc, i)} />
-                    
-                    {/*<Description name="desc" onChange={desc => this.props.descUpdate(desc, i)} value={work.desc}/>*/}
+                    {/*<RichTextEditor name="desc" value={work.desc} onChange={ desc  => { this.props.descUpdate(desc, i); } } />*/}
+                    <Description name="desc" value={work.desc} onChange={ desc  => this.props.descUpdate(desc, i) } />
 
                     
                 </div>

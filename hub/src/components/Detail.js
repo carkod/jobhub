@@ -14,9 +14,10 @@ import WorkRepeater from './WorkRepeater';
 
 const cvModel = (cv) => {
   
-  if (cv && !cv.workExp.desc) {
+  if (cv && cv.workExp) {
     cv.workExp.map((i) => {
-      i.desc = RichTextEditor.createEmptyValue();  
+      if (i.desc.length < 0)
+      i.desc = RichTextEditor.createEmptyValue();
     })
   } 
   
@@ -30,7 +31,7 @@ const cvModel = (cv) => {
           id: 'workExp-0', 
           date:'', 
           position:'', 
-          desc: RichTextEditor.createEmptyValue() || RichTextEditor.createValueFromString(cv.workExp.desc, 'html'),
+          desc: RichTextEditor.createEmptyValue(),
       }],  
   }
 }
@@ -39,7 +40,7 @@ class Detail extends Component {
 
   constructor(props) {
     super(props);
-    const cv = this.props.cv || '';
+    let cv = this.props.cv || '';
     this.state = cvModel(cv);
     this.triggerDescChange = this.triggerDescChange.bind(this);
    
@@ -51,6 +52,7 @@ class Detail extends Component {
   
   componentWillReceiveProps = (nextProps) => {
     const cv = nextProps.cv;
+    //console.log(cvModel(cv))
     this.setState(cvModel(cv))
     
   }
@@ -99,7 +101,7 @@ class Detail extends Component {
   
   workChange = (index) => (e) => {
     
-    this.props.update(index, e)
+    //this.props.update(index, e)
     //console.log(e.target.value)
     //this.state.workExp[index][e.target.name] = e.target.value
     //this.setState({ workExp: this.state.workExp })
@@ -107,23 +109,14 @@ class Detail extends Component {
   }
   
   triggerDescChange = (i) => {
-      this.props.onChange(this.state.workExp[i].desc.toString('html'))
+      //this.props.onChange(this.state.workExp[i].desc.toString('html'))
   }
   
   handleDesc = (value, i) => {
-    
-    const currentVal = this.state.workExp[i].desc.getEditorState().getCurrentContent();
-    const newVal = value.getEditorState().getCurrentContent();
-    const description = Object.assign(this.state.workExp[i], {
-       desc: value
-     });
-     
-    
-      
-    if (currentVal !== newVal) {
-      this.setState(description);
-    } 
-    
+    Object.assign(this.state.workExp[i], {
+      desc: value
+    });
+    this.forceUpdate();
   };
   
   render() {
