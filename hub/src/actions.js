@@ -11,6 +11,8 @@ export const CV_DELETED = 'CV_DELETED';
 
 const API_URL = 'http://cv-generator-carkod.c9users.io:8081/api';
 
+//const API_URL = 'http://carloswu.xyz:8081/api'; 
+
 function handleResponse(response) {
     if (response.ok) {
         return response.json();

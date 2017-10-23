@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 // CV
 const CVSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    _id: mongoose.Schema.ObjectId,
     name: { type: String },
     slug: { type: String, lowercase: true, trim: true },
     updatedDate: { type: Date },

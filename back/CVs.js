@@ -20,15 +20,17 @@ export default function CVs (app, db) {
     app.post('/api/cvs', (req, res) => {
         var r = req.body,
             cv;
-            
-        if (r.length == 1 && r.name) {
+        if (r.name) {
+            console.log('r.length passed')
             cv = new CVModel({
-                _id: ObjectId(),
+                _id: mongoose.Types.ObjectId(),
                 name: r.name,
             });    
         } else {
+            console.log('else')
             cv = new CVModel({
-                name: r.name || ObjectId(),
+                _id: mongoose.Types.ObjectId(),
+                name: r.name,
                 persdetails: {
                     name: r.persdetails ? r.persdetails.name : '',    
                     lastname: r.persdetails ? r.persdetails.lastname : '',    
@@ -38,10 +40,10 @@ export default function CVs (app, db) {
             });    
         }
         const id = r._id;
-        delete r._id;
+        //delete r._id;
         CVModel.update({_id: id}, cv, {upsert: true, setDefaultsOnInsert: true}, (err, cv) => {
           if (err) {
-              console.log('there was an error saving CVModel' +  err);
+              console.log(err);
               
           } else {
               const savedID = cv._id;

@@ -11,9 +11,15 @@ const app = express();
 const Schema = mongoose.Schema;
 
 const dbName = 'cv_generator';
-const dbUrl = 'mongodb://localhost:27017/' + dbName;
-
 const PORT = 8081;
+let dbUrl;
+/*if (process.env.NODE_ENV !== 'production') {
+    dbUrl = 'mongodb://carloswu.xyz:27017/' + dbName;
+} else {
+    dbUrl = 'mongodb://localhost:27017/' + dbName;        
+}*/
+
+dbUrl = 'mongodb://carloswu.xyz:27017/' + dbName;
 
 
 import CVs from './CVs.js';
