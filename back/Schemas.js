@@ -34,7 +34,6 @@ CVSchema.pre('update', function(next){
   if ( !this.createdDate ) {
     this.createdDate = now;
   }
-  console.log(this.updatedDate)
   next();
 });
 

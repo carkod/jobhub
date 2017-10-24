@@ -10,9 +10,9 @@ export default function CVs (app, db) {
     
     app.get('/api/cvs', (req, res) => {
        
-       CVModel.find({}, null, {sort: {updatedDate: -1}} ,function(err, content) {
+       CVModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
            if (err) throw err;
-           
+           console.log(content)
            res.json(content)
        });
     });
@@ -40,20 +40,27 @@ export default function CVs (app, db) {
                 },
                 workExp: r.workExp
             
-            });   
+            });
             
         }
+        
         const id = r._id || cv._id;
         delete r._id;
-        console.log(cv)
-        CVModel.update({_id: id}, cv, {upsert: true, setDefaultsOnInsert: true }, (err, msg) => {
+        CVModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {
             
           if (err) {
               console.log(err);
               
           } else {
-              const savedID = cv._id;
-              res.json({ _id: savedID })
+              
+              if (msg.ok) {
+                const savedID = id;   
+                res.json({ _id: savedID, status: !!msg.ok });
+                console.log('changes saved!')  
+              } else {
+                  res.json({ status: !!msg.ok });
+                  console.log('No changes')  
+              }
           }
         });
 

@@ -38,6 +38,13 @@ export function setCVs(cvs) {
     }
 }
 
+export function cvDeleted(cvs) {
+    return {
+        type: CV_DELETED,
+        cvs
+    }
+}
+
 
 export function cvFetched(cv) {
   return {
@@ -84,7 +91,7 @@ export function deleteCV(id) {
            }
         }) 
         .then(handleResponse)
-        .then(data => dispatch(deletedCV(id)));   
+        .then(data => dispatch(cvDeleted(id)));   
     }
 }
 

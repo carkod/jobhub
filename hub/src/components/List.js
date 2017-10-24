@@ -20,6 +20,11 @@ class Listing extends Component {
     this.props.fetchCVs()
   }
   
+  componentWillReceiveProps = () => {
+    console.log(this.props)
+  }
+  
+  
   handleDelete = () => {
     const getItem = this.props.cvs[this.state.activeIndex],
           getID = getItem._id,
@@ -27,8 +32,8 @@ class Listing extends Component {
           
     this.props.deleteCV(getID).then(cv => {
       this.setState({ deletedID: cv.id, deletedName: getName });
-      this.props.fetchCVs(); 
       this.setState({ openAccordion: false  }); 
+      this.props.fetchCVs();
     })
     
   }
@@ -39,6 +44,7 @@ class Listing extends Component {
   }
   
   render() {
+    console.log(this.props)
   const status = this.state;
   //const cvID = cv[this.state.activeIndex]._id;
   let renderList;
@@ -91,7 +97,9 @@ class Listing extends Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
+function mapStateToProps (state, props) {
+  console.log(state)
+  console.log(props)
   return {
     cvs: state.cvs
   }
