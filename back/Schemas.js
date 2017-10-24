@@ -27,12 +27,14 @@ const CVSchema = new Schema({
     
 }, {strict: false}, { timestamps: true });
 
-CVSchema.pre('save', function(next){
+CVSchema.pre('update', function(next){
+    
   const now = new Date();
   this.updatedDate = now;
   if ( !this.createdDate ) {
     this.createdDate = now;
   }
+  console.log(this.updatedDate)
   next();
 });
 

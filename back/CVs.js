@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+//import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 
 import { CVSchema } from './Schemas';
@@ -20,16 +20,19 @@ export default function CVs (app, db) {
     app.post('/api/cvs', (req, res) => {
         var r = req.body,
             cv;
-        if (r.name) {
-            console.log('r.length passed')
+            
+        if (!r._id) {
+            // Create New
+            console.log('new')    
             cv = new CVModel({
                 _id: mongoose.Types.ObjectId(),
-                name: r.name,
+                name: r.name || 'Enter name',
             });    
         } else {
-            console.log('else')
+            // Update
+            console.log('update')
+            
             cv = new CVModel({
-                _id: mongoose.Types.ObjectId(),
                 name: r.name,
                 persdetails: {
                     name: r.persdetails ? r.persdetails.name : '',    
@@ -37,11 +40,14 @@ export default function CVs (app, db) {
                 },
                 workExp: r.workExp
             
-            });    
+            });   
+            
         }
-        const id = r._id;
-        //delete r._id;
-        CVModel.update({_id: id}, cv, {upsert: true, setDefaultsOnInsert: true}, (err, cv) => {
+        const id = r._id || cv._id;
+        delete r._id;
+        console.log(cv)
+        CVModel.update({_id: id}, cv, {upsert: true, setDefaultsOnInsert: true }, (err, msg) => {
+            
           if (err) {
               console.log(err);
               
@@ -104,9 +110,9 @@ export default function CVs (app, db) {
     
     
 }
-
+/*
 var obj = {
-            _id : ObjectId(),
+            _id : '',
             slug:'front-end-developer-cv',
             lang: 'en',
             position: [
@@ -175,4 +181,4 @@ var obj = {
                         },
                     ],
             }
-        };
+        };*/
