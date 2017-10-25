@@ -9,9 +9,7 @@ class Description extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            value: RichTextEditor.createEmptyValue()
-        }
+        this.state = {}
         this.triggerChange = this.triggerChange.bind(this);
         this.updateState = this.updateState.bind(this);
         //this.getValue = this.getValue.bind(this);
@@ -22,7 +20,7 @@ class Description extends Component {
   }
     
   componentWillReceiveProps = (nextProps) => {
-    this.updateState(nextProps.value)
+    this.updateState(nextProps)
   } 
   
   
@@ -34,12 +32,18 @@ class Description extends Component {
   
   
   updateState = (editorValue) => {
-    this.setState({ editorValue })
+    //console.log(editorValue)
+    const arrState = new Array().slice();
+    arrState.concat([editorValue])
+    //this.state.push({editorValue})
+    this.setState({ arr: arrState })
   }
   
   onChange = (value) => {
     
-    this.setState({value});
+    this.setState({
+      value
+    });
     const currentVal = this.state.value.toString('html');
     const newVal = value.toString('html');
     if (currentVal !== newVal) {
@@ -50,7 +54,7 @@ class Description extends Component {
   
   getValue = () => {
     //let val = this.state.value.toString('html');
-    let val = this.state.value;
+    let val = this.props.value;
     if (!val) {
       val = RichTextEditor.createEmptyValue();
     }
@@ -58,9 +62,11 @@ class Description extends Component {
   }
 
   render () {
-    //console.log(this.state.value)
+    console.log(this.props)
     return (
-      <RichTextEditor value={this.getValue()} onChange={this.onChange} />
+      <div>
+        <RichTextEditor value={this.getValue()} onChange={this.onChange()} />
+      </div>
     );
   }
 }

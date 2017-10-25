@@ -120,7 +120,7 @@ class Detail extends Component {
   };
   
   render() {
-    console.log(this.state)
+    //console.log(this.state)
     return (
       <div id="detail">
         <h1>{this.state.name}</h1>
