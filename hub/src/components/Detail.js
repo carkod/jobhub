@@ -112,15 +112,20 @@ class Detail extends Component {
       //this.props.onChange(this.state.workExp[i].desc.toString('html'))
   }
   
-  handleDesc = (value, i) => {
-    Object.assign(this.state.workExp[i], {
-      desc: value
-    });
-    this.forceUpdate();
+  handleDesc = (i, e) => {
+    //const value = e._editorState.getCurrentContent();
+    //console.log(e)
+    console.log(e.toString('html'))
+    const value = e === undefined ? RichTextEditor.createEmptyValue() : e;
+    
+    const workExp = this.state.workExp;
+    workExp[i].desc = value;
+    this.setState({ workExp })
+        
   };
   
   render() {
-    //console.log(this.state)
+    console.log(this.state)
     return (
       <div id="detail">
         <h1>{this.state.name}</h1>

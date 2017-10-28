@@ -5,33 +5,54 @@ import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
 import { fetchCVs } from '../actions';
 import Description from './Editor';
-import { EditorState, Editor, convertToRaw, convertFromRaw } from 'draft-js';
 import RichTextEditor from 'react-rte';
 class WorkRepeater extends Component {
   
   constructor(props) {
     super(props);
+    this.state = {};
     this.getValue = this.getValue.bind(this);
   }
-  
-  onChange = (e) => {
-    console.log(e._editorState.getCurrentContent())
+
+  componentDidMount = () => {
+    this.setState({ workExp: this.props.workExp })
   }
   
-  getValue = (work) => {
-    const {desc} = work;
+  componentWillReceiveProps = (props) => {
+    this.setState({ workExp: props.workExp })
+  }
+
+
+  getValue = (work, i) => {
+    const workExp = this.state.workExp;
+    if (this.state.workExp) {
+      console.log(workExp)  
+    } 
     
-    //const editorValue = RichTextEditor.createValueFromString(desc.json(), 'html')
+    //this.setState({ desc: this.props.workExp.desc })
+    //const editorValue = this.state.workExp.desc;
     //const editorValue = RichTextEditor.createEmptyValue();
-    const editorValue = desc !== 'undefined' ? RichTextEditor.createValueFromString(desc.toString('html'), 'html') : RichTextEditor.createEmptyValue() ;
-    //const editorValue = desc !== 'undefined' ?
-    //const editorValue = EditorState.createWithContent(convertFromRaw(desc));
+    const editorValue = work === undefined ? RichTextEditor.createEmptyValue() : RichTextEditor.createValueFromString(work.toString('html'), 'html');
+    //console.log(editorValue)    
     return editorValue;
+  }
+  
+  onChange = (e, i) => {
+    //console.log(value)
+    const currValue = this.state.workExp[i].desc;
+    const newValue = RichTextEditor.createValueFromString(currValue, 'html');
+    const newObj = Object.assign(this.state.workExp[i], {
+      
+    })
+    
+    //this.setState({ value })
+    console.log(newValue);
+    //this.getValue(e);
   }
  
   render() {
     const workExpArray = this.props.workExp;
-    console.log(workExpArray)
+    console.log(this.state)
       return(
         <div className="workRepeater">
             <Button className="icon large" onClick={e => this.props.pushWork(e)}><Icon className="green" name="add square"></Icon></Button>
@@ -49,9 +70,9 @@ class WorkRepeater extends Component {
                     </Form.Field>
                     
                     <label>Description</label>
-                    <RichTextEditor name="desc" value={this.getValue(work)} onChange={this.onChange} />
+                    <RichTextEditor name="desc" value={this.getValue(work.desc, i)} /*onChange={e => this.props.descUpdate(i, e)}*/ onChange={e => this.onChange(e, i)} />
                     
-                    {/*<Description key={work.id} editorId={work.id} value={work.desc} onChange={ desc  => this.props.descUpdate(desc, i) } />*/}
+                    {/*<Description editorId={work.id} value={work.desc} onChange={ e  => this.props.descUpdate(i, e) } />*/}
 
                     
                 </div>

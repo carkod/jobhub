@@ -9,7 +9,7 @@ class Description extends Component {
 
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = { desc: [] }
         this.triggerChange = this.triggerChange.bind(this);
         this.updateState = this.updateState.bind(this);
         //this.getValue = this.getValue.bind(this);
@@ -32,37 +32,31 @@ class Description extends Component {
   
   
   updateState = (editorValue) => {
-    //console.log(editorValue)
-    const arrState = new Array().slice();
-    arrState.concat([editorValue])
-    //this.state.push({editorValue})
-    this.setState({ arr: arrState })
+    console.log(editorValue)
+    this.setState({ desc: editorValue })
   }
   
   onChange = (value) => {
     
-    this.setState({
+    /*this.setState({
       value
     });
     const currentVal = this.state.value.toString('html');
     const newVal = value.toString('html');
     if (currentVal !== newVal) {
       this.triggerChange(value)
-    } 
+    } */
   };
   
   
   getValue = () => {
-    //let val = this.state.value.toString('html');
-    let val = this.props.value;
-    if (!val) {
-      val = RichTextEditor.createEmptyValue();
-    }
+    let val = RichTextEditor.createEmptyValue();
     return val;
+    
   }
 
   render () {
-    console.log(this.props)
+    console.log(this.state)
     return (
       <div>
         <RichTextEditor value={this.getValue()} onChange={this.onChange()} />
