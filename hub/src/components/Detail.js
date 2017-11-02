@@ -108,7 +108,12 @@ class Detail extends Component {
     
   }
   
-  triggerDescChange = (i) => {
+  triggerDescChange = (i, e) => {
+    const {workExp} = this.state;
+    workExp[i].desc = e.toString('html');
+    this.setState({workExp})
+    console.log(e)
+    
       //this.props.onChange(this.state.workExp[i].desc.toString('html'))
   }
   
@@ -140,7 +145,7 @@ class Detail extends Component {
           <form onSubmit={this.onSubmit} >
           
           <PersonalDetails update={this.formUpdate} persdetails={this.state.persdetails} />
-          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} descUpdate={this.handleDesc} />
+          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} descUpdate={this.handleDesc} triggerDescChange={this.triggerDescChange}/>
           
           <Button type="submit" value="Save">
             <Icon name="save" />Save
