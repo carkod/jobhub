@@ -9,7 +9,8 @@ import { Icon, Button} from 'semantic-ui-react';
 import { saveCV, fetchCVs } from '../actions';
 import RichTextEditor from 'react-rte';
 
-import PersonalDetails from './PersonalDetails'; 
+//import PersonalDetails from './PersonalDetails'; 
+import PD from './PD'; 
 import WorkRepeater from './WorkRepeater'; 
 
 const cvModel = (cv) => {
@@ -26,7 +27,7 @@ const cvModel = (cv) => {
       name: cv.name || '',
       createdDate: cv.createdDate || '',
       updatedDate: cv.updatedDate || '',
-      persdetails: cv.persdetails || '',
+      persdetails: cv.persdetails || { name: '', lastname: ''},
       workExp: cv.workExp || [{
           id: 'workExp-0', 
           date:'', 
@@ -43,31 +44,27 @@ class Detail extends Component {
     let cv = this.props.cv || '';
     this.state = cvModel(cv);
     this.triggerDescChange = this.triggerDescChange.bind(this);
-   
+   this.pdChange = this.pdChange.bind(this);
   }
 
   componentDidMount = () => {
     this.props.fetchCVs();
   }
   
-  componentWillReceiveProps = (nextProps) => {
-    const cv = nextProps.cv;
-    //console.log(cvModel(cv))
+  componentWillReceiveProps = (props) => {
+    const {cv} = props;
+    console.log(cv)
     this.setState(cvModel(cv))
-    
   }
   
-  
-  formUpdate = ( e ) => {
-    
+  pdChange = (e) => {
     const persdetails = Object.assign({}, this.state.persdetails, {
-        [e.target.name]: e.target.value        
-    })
+       [e.target.name]: e.target.value
+     });
     this.setState({ persdetails })
-    
   }
   
-   repeatFormUpdate = ( i, e ) => {
+   repeatFormUpdate =  (i, e) => {
     
      const workExp = Object.assign(this.state.workExp[i], {
        [e.target.name]: e.target.value
@@ -76,12 +73,6 @@ class Detail extends Component {
      this.setState(workExp)
   }
     
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.props.saveCV(this.state);
-    
-  }
- 
   pushWork = (e) => {
     e.preventDefault();
     const workID = 'workExp-' + shortid.generate();
@@ -98,36 +89,17 @@ class Detail extends Component {
     this.setState({ workExp: this.state.workExp });	
   }
   
-  
-  workChange = (index) => (e) => {
-    
-    //this.props.update(index, e)
-    //console.log(e.target.value)
-    //this.state.workExp[index][e.target.name] = e.target.value
-    //this.setState({ workExp: this.state.workExp })
-    
-  }
-  
   triggerDescChange = (i, e) => {
     const {workExp} = this.state;
     workExp[i].desc = e.toString('html');
     this.setState({workExp})
-    console.log(e)
-    
-      //this.props.onChange(this.state.workExp[i].desc.toString('html'))
   }
   
-  handleDesc = (i, e) => {
-    //const value = e._editorState.getCurrentContent();
-    //console.log(e)
-    console.log(e.toString('html'))
-    const value = e === undefined ? RichTextEditor.createEmptyValue() : e;
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.saveCV(this.state);
     
-    const workExp = this.state.workExp;
-    workExp[i].desc = value;
-    this.setState({ workExp })
-        
-  };
+  }
   
   render() {
     console.log(this.state)
@@ -136,7 +108,7 @@ class Detail extends Component {
         <h1>{this.state.name}</h1>
         <div className="metainfo">
           <h2>Meta information:</h2>
-          <p>ID: {this.state._id}</p>
+          <p>ID: {this.props._id}</p>
           <p>Created: {this.state.createdDate}</p>
           <p>Updated: {this.state.updatedDate}</p>
         </div>
@@ -144,8 +116,9 @@ class Detail extends Component {
         <div className="container">
           <form onSubmit={this.onSubmit} >
           
-          <PersonalDetails update={this.formUpdate} persdetails={this.state.persdetails} />
-          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} descUpdate={this.handleDesc} triggerDescChange={this.triggerDescChange}/>
+          {/*<PersonalDetails update={this.persdetails} persdetails={this.state.persdetails} />*/}
+          <PD persdetails={this.state.persdetails} onChange={this.pdChange} />
+          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} triggerDescChange={this.triggerDescChange}/>
           
           <Button type="submit" value="Save">
             <Icon name="save" />Save
