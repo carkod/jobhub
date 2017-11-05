@@ -8,8 +8,6 @@ const CVSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
     slug: { type: String, lowercase: true, trim: true },
-    updatedDate: { type: Date },
-    createdDate: { type: Date },
     cats: {
         position: { type: String },
         cvLang: { type: String },
@@ -25,8 +23,8 @@ const CVSchema = new Schema({
     skills: { type: Schema.Types.Mixed },
     projects: { type: Schema.Types.Mixed },
     
-}, {strict: false}, { timestamps: true });
-
+},{timestamps: true}, {strict: false} );
+/*
 CVSchema.pre('update', function(next){
     
   const now = new Date();
@@ -35,6 +33,7 @@ CVSchema.pre('update', function(next){
     this.createdDate = now;
   }
   next();
-});
+  console.log(CVSchema.tree)
+}); */
 
 export { CVSchema };

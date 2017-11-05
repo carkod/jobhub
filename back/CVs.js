@@ -20,30 +20,28 @@ export default function CVs (app, db) {
     app.post('/api/cvs', (req, res) => {
         var r = req.body,
             cv;
-            
+        
         if (!r._id) {
             // Create New
-            console.log('new')    
             cv = new CVModel({
                 _id: mongoose.Types.ObjectId(),
                 name: r.name || 'Enter name',
             });    
         } else {
             // Update
-            console.log('update')
-            
             cv = new CVModel({
                 name: r.name,
                 persdetails: {
                     name: r.persdetails ? r.persdetails.name : '',    
                     lastname: r.persdetails ? r.persdetails.lastname : '',    
                 },
-                workExp: r.workExp
+                workExp: r.workExp,
+                
             
             });
             
         }
-        
+        console.log(cv)    
         const id = r._id || cv._id;
         delete r._id;
         CVModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {

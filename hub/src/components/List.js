@@ -19,12 +19,7 @@ class Listing extends Component {
   componentDidMount = () => {
     this.props.fetchCVs()
   }
-  
-  componentWillReceiveProps = () => {
-    console.log(this.props)
-  }
-  
-  
+
   handleDelete = () => {
     const getItem = this.props.cvs[this.state.activeIndex],
           getID = getItem._id,
@@ -37,16 +32,10 @@ class Listing extends Component {
     })
     
   }
-    
-  
-  handleEdit = () => {
-    
-  }
+   
   
   render() {
-    console.log(this.props)
   const status = this.state;
-  //const cvID = cv[this.state.activeIndex]._id;
   let renderList;
   if (this.props.cvs.length > 0) {
     const arrayList =
@@ -98,8 +87,6 @@ class Listing extends Component {
 }
 
 function mapStateToProps (state, props) {
-  console.log(state)
-  console.log(props)
   return {
     cvs: state.cvs
   }

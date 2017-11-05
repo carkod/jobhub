@@ -8,6 +8,7 @@ const SysMessage = props => {
     let status;
     
     switch (true) {
+      
       case !!message.deletedID:
         status = 'deleted'
         break;
@@ -19,7 +20,7 @@ const SysMessage = props => {
         break;
       
       default:
-        status = null;
+        status = undefined;
         break;
     }
     

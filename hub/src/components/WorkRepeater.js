@@ -30,26 +30,29 @@ class WorkRepeater extends Component {
     if (!!workExpArray) {
       return(
         <div className="workRepeater">
-            <Button className="icon large" onClick={e => this.props.pushWork(e)}><Icon className="green" name="add square"></Icon></Button>
+            <Button className="icon large" onClick={e => this.props.pushWork(e)}><Icon className="green" name="add square"></Icon> Add Work Experience</Button>
             {workExpArray.map((work, i) => 
-                <div className="item" key={work.id}>
-                { i > 0 ? <Button onClick={e => this.props.removeWork(i, e)} icon inverted><Icon className="red" name="window close" ></Icon></Button> : ''}
-                    
+                <div className="item module" key={work.id}>
+                { i > 0 ? <Button className="block" onClick={e => this.props.removeWork(i, e)} icon inverted><Icon className="red" name="window close" ></Icon></Button> : ''}
+                    <div className="">
                     <Form.Field>
-                    <label>Date</label>
-                    <input type="text" name="date" onChange={(e) => this.props.update(i, e) } value={work.date}/> 
+                      <label>Date </label>
+                      <input type="text" name="date" onChange={(e) => this.props.update(i, e) } value={work.date}/> 
+                      
+                      <label>Position </label>
+                      <input type="text" name="position" onChange={(e) => this.props.update(i, e)} value={work.position}/> 
                     
-                    <label>Position</label>
-                    <input type="text" name="position" onChange={(e) => this.props.update(i, e)} value={work.position}/> 
-                    
+                      <label>Company </label>
+                      <input type="text" name="company" onChange={(e) => this.props.update(i, e)} value={work.company}/> 
+                      
                     </Form.Field>
                     
-                    <label>Description</label>
-                    <Editor value={work.desc} update={(e) => this.props.triggerDescChange(i, e)} />
-                    
-                    {/*<Description editorId={work.id} value={work.desc} onChange={ e  => this.props.descUpdate(i, e) } />*/}
-
-                    
+                    <div className="block">
+                      <label>Description </label>
+                      <br />
+                      <Editor value={work.desc} update={(e) => this.props.triggerDescChange(i, e)} />
+                    </div>
+                    </div>
                 </div>
             )}
         </div>

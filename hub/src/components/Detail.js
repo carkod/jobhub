@@ -5,13 +5,15 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import shortid from 'shortid';
-import { Icon, Button} from 'semantic-ui-react';
+import moment from 'moment';
+import { Icon, Button, Header } from 'semantic-ui-react';
 import { saveCV, fetchCVs } from '../actions';
 import RichTextEditor from 'react-rte';
 
-//import PersonalDetails from './PersonalDetails'; 
+import Metainfo from './Metainfo'; 
 import PD from './PD'; 
 import WorkRepeater from './WorkRepeater'; 
+import SysMessage from './SysMessage';
 
 const cvModel = (cv) => {
   
@@ -23,17 +25,22 @@ const cvModel = (cv) => {
   } 
   
   return {
+    cv: {
       _id: cv._id || '',
       name: cv.name || '',
-      createdDate: cv.createdDate || '',
-      updatedDate: cv.updatedDate || '',
+      createdAt: cv.createdAt || '',
+      updatedAt: cv.updatedAt || '',
       persdetails: cv.persdetails || { name: '', lastname: ''},
       workExp: cv.workExp || [{
           id: 'workExp-0', 
           date:'', 
           position:'', 
+          company:'',
           desc: RichTextEditor.createEmptyValue(),
       }],  
+    },
+    sysMessage: false
+      
   }
 }
 
@@ -45,6 +52,8 @@ class Detail extends Component {
     this.state = cvModel(cv);
     this.triggerDescChange = this.triggerDescChange.bind(this);
    this.pdChange = this.pdChange.bind(this);
+   this.metaChange = this.metaChange.bind(this);
+   this.repeatFormUpdate = this.repeatFormUpdate.bind(this);
   }
 
   componentDidMount = () => {
@@ -53,20 +62,26 @@ class Detail extends Component {
   
   componentWillReceiveProps = (props) => {
     const {cv} = props;
-    console.log(cv)
     this.setState(cvModel(cv))
   }
   
+  metaChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  
   pdChange = (e) => {
-    const persdetails = Object.assign({}, this.state.persdetails, {
+    const {persdetails} = this.state.cv;
+    /*const persdetails = Object.assign({}, this.state.cv.persdetails, {
        [e.target.name]: e.target.value
-     });
+     });*/
+     persdetails[e.target.name] = e.target.value;
+     
     this.setState({ persdetails })
   }
   
    repeatFormUpdate =  (i, e) => {
     
-     const workExp = Object.assign(this.state.workExp[i], {
+     const workExp = Object.assign(this.state.cv.workExp[i], {
        [e.target.name]: e.target.value
      });
 
@@ -76,56 +91,55 @@ class Detail extends Component {
   pushWork = (e) => {
     e.preventDefault();
     const workID = 'workExp-' + shortid.generate();
-    
-    this.state.workExp.push({ id: workID, desc: RichTextEditor.createEmptyValue() })
-    this.setState({ workExp: this.state.workExp });
+    const {workExp} = this.state.cv;
+    const newWork = {
+      id: workID, 
+      position: '', 
+      company:'',
+      desc: RichTextEditor.createEmptyValue()
+    }
+    workExp.push(newWork)
+    this.setState({ workExp: workExp });
   }
   
   removeWork = (i,e) => {
     e.preventDefault();
-    const findIndex = this.state.workExp[i];
+    const findIndex = this.state.cv.workExp[i];
     
     this.state.workExp.splice(i,1)
     this.setState({ workExp: this.state.workExp });	
   }
   
   triggerDescChange = (i, e) => {
-    const {workExp} = this.state;
+    const {workExp} = this.state.cv;
     workExp[i].desc = e.toString('html');
     this.setState({workExp})
   }
   
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.saveCV(this.state);
+    this.props.saveCV(this.state.cv).then(data => console.log(data));
     
   }
   
   render() {
-    console.log(this.state)
+    const {cv} = this.state;
+    console.log(cv)
     return (
       <div id="detail">
-        <h1>{this.state.name}</h1>
-        <div className="metainfo">
-          <h2>Meta information:</h2>
-          <p>ID: {this.props._id}</p>
-          <p>Created: {this.state.createdDate}</p>
-          <p>Updated: {this.state.updatedDate}</p>
-        </div>
-        
+      <form onSubmit={this.onSubmit} >
+        <Metainfo meta={cv} onChange={this.metaChange} />
         <div className="container">
-          <form onSubmit={this.onSubmit} >
           
-          {/*<PersonalDetails update={this.persdetails} persdetails={this.state.persdetails} />*/}
-          <PD persdetails={this.state.persdetails} onChange={this.pdChange} />
-          <WorkRepeater update={this.repeatFormUpdate} workExp={this.state.workExp} removeWork={this.removeWork} pushWork={this.pushWork} triggerDescChange={this.triggerDescChange}/>
-          
+          <PD persdetails={cv.persdetails} onChange={this.pdChange} />
+          <WorkRepeater update={this.repeatFormUpdate} workExp={cv.workExp} removeWork={this.removeWork} pushWork={this.pushWork} triggerDescChange={this.triggerDescChange}/>
+
           <Button type="submit" value="Save">
             <Icon name="save" />Save
           </Button>
-          
-          </form>
-        </div>
+          {/*<SysMessage message={this.state.sysMessage} />*/}
+          </div>
+        </form>
       </div>
     );
   }
