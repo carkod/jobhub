@@ -19,7 +19,7 @@ data/
 mongod
 .*
 !/.gitignore
-*.css
+web/*.css
 
 
 # Coverage directory used by tools like istanbul
