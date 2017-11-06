@@ -37,7 +37,10 @@ const cvModel = (cv) => {
           position:'', 
           company:'',
           desc: RichTextEditor.createEmptyValue(),
-      }],  
+      }], 
+      position: '',
+      language: '',
+      
     },
     sysMessage: false
       
@@ -65,8 +68,14 @@ class Detail extends Component {
     this.setState(cvModel(cv))
   }
   
-  metaChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  metaChange = (e, value) => {
+    const {cv} = this.state;
+    if (e.target.name) {
+      cv[e.target.name] = e.target.value;
+    } else {
+      cv[value.name] = value.value;
+    }
+    this.setState({ cv })
   }
   
   pdChange = (e) => {
@@ -99,7 +108,7 @@ class Detail extends Component {
       desc: RichTextEditor.createEmptyValue()
     }
     workExp.push(newWork)
-    this.setState({ workExp: workExp });
+    this.setState({ workExp });
   }
   
   removeWork = (i,e) => {
@@ -133,7 +142,7 @@ class Detail extends Component {
           
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
           <WorkRepeater update={this.repeatFormUpdate} workExp={cv.workExp} removeWork={this.removeWork} pushWork={this.pushWork} triggerDescChange={this.triggerDescChange}/>
-
+          
           <Button type="submit" value="Save">
             <Icon name="save" />Save
           </Button>

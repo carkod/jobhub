@@ -1,13 +1,13 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-
+import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
 import { fetchCVs } from '../actions';
 import Editor from './Editor';
 import RichTextEditor from 'react-rte';
 
-class WorkRepeater extends Component {
+class Skills extends Component {
   
   constructor(props) {
     super(props);
@@ -27,7 +27,7 @@ class WorkRepeater extends Component {
   
   render() {
     const workExpArray = this.props.workExp;
-    if (!!workExpArray) {
+  /*  if (!!workExpArray) {
       return(
         <div className="workRepeater section">
             <Header sub>
@@ -72,8 +72,10 @@ class WorkRepeater extends Component {
     } else {
       <div className="workRepeater">Loading...</div>
     }
-      
+  */    
   }
+  
 }
 
-export default WorkRepeater;
+
+export default Skills;

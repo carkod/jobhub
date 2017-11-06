@@ -8,18 +8,20 @@ const PD = (props) => {
     //console.log(props)
   return (
     <div className="personal section">
-        <Header sub>
-            <span>PERSONAL DETAILS</span>
-        </Header>
-        <div className="block">
-            <label>Name </label>
-            <input name="name" type="text" onChange={props.onChange} value={persdetails.name} />  
-            
-            <label>Surname </label>
-            <input name="lastname" type="text" onChange={props.onChange} value={persdetails.lastname} /> 
-            
-            
-        </div>
+        <Header sub>PERSONAL DETAILS</Header>
+        
+        <Grid>
+            <Grid.Row>
+                <Grid.Column width={8}>
+                    <label>Name </label>
+                    <input name="name" type="text" onChange={props.onChange} value={persdetails.name} />  
+                </Grid.Column>
+                <Grid.Column width={8}>
+                    <label>Surname </label>
+                    <input name="lastname" type="text" onChange={props.onChange} value={persdetails.lastname} /> 
+                </Grid.Column>
+            </Grid.Row>
+        </Grid>
     </div>
     )  
 };

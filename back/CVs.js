@@ -20,7 +20,7 @@ export default function CVs (app, db) {
     app.post('/api/cvs', (req, res) => {
         var r = req.body,
             cv;
-        
+            
         if (!r._id) {
             // Create New
             cv = new CVModel({
@@ -36,7 +36,7 @@ export default function CVs (app, db) {
                     lastname: r.persdetails ? r.persdetails.lastname : '',    
                 },
                 workExp: r.workExp,
-                
+                educ: r.educ,
             
             });
             

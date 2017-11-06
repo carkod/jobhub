@@ -5,19 +5,18 @@ body {
 }
 
 .section {
-  margin: 3em 0;
   
-}
-
-.module {
-  margin: 1.5em 0;
   padding: 1.5em 0;
   border-bottom:1px solid #eeeeee;
 }
 
-.block {
-  padding: 1em 0;
+.btn {
+  border:none;
+  background:none;
+  outline:none;
+  cursor:pointer;
 }
+
 
 #detail input {
   border:none;
@@ -25,15 +24,41 @@ body {
   border-bottom:1px solid #00bfff;
 }
 
+#detail .sub.header {
+  font-size: 1rem;
+}
+
+#detail .single label {
+  margin: 0 0.5em;
+}
+
 #detail .block input {
   margin: 0 0.5em;
   padding: 0 0.5em;
 }
 
-#detail .block label {
-  margin-left: 1em;
+#detail .single {
+  background-color: #eee;
+  padding: 3em;
+  margin: 1.5em 0;
+  position: relative;
 }
 
+#detail .single .btn-close-repeat {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0;
+    display: table;
+}
+
+#detail .workExp-space {
+  padding:1.5em 0;
+}
+
+#detail .personal .sub.header {
+  margin-bottom: 1.5em;
+}
 #metainfo.section {
   margin-top: 1.5em;
 }

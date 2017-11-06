@@ -18,8 +18,8 @@ const CVSchema = new Schema({
         lastname: { type: String },
     },
     
-    workRepeat: { type: Schema.Types.Mixed },
-    educRepeat: { type: Schema.Types.Mixed },
+    workExp: { type: Schema.Types.Mixed },
+    educ: { type: Schema.Types.Mixed },
     skills: { type: Schema.Types.Mixed },
     projects: { type: Schema.Types.Mixed },
     
