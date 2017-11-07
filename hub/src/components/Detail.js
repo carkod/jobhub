@@ -15,7 +15,7 @@ import PD from './PD';
 import WorkRepeater from './WorkRepeater'; 
 import SysMessage from './SysMessage';
 
-const cvModel = (cv) => {
+/*const cvModel = (cv) => {
   
   if (cv && cv.workExp) {
     cv.workExp.map((i) => {
@@ -45,18 +45,22 @@ const cvModel = (cv) => {
     sysMessage: false
       
   }
-}
+}*/
 
 class Detail extends Component {
 
   constructor(props) {
     super(props);
-    let cv = this.props.cv || '';
-    this.state = cvModel(cv);
+    let {cv, detail} = this.props;
+    this.state = {
+      cv: cv,
+      detail: detail
+    };
     this.triggerDescChange = this.triggerDescChange.bind(this);
    this.pdChange = this.pdChange.bind(this);
    this.metaChange = this.metaChange.bind(this);
    this.repeatFormUpdate = this.repeatFormUpdate.bind(this);
+   //console.log(this.state)
   }
 
   componentDidMount = () => {
@@ -65,7 +69,7 @@ class Detail extends Component {
   
   componentWillReceiveProps = (props) => {
     const {cv} = props;
-    this.setState(cvModel(cv))
+    this.setState(props)
   }
   
   metaChange = (e, value) => {
@@ -133,7 +137,7 @@ class Detail extends Component {
   
   render() {
     const {cv} = this.state;
-    console.log(cv)
+    //console.log(this.state)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
@@ -154,14 +158,18 @@ class Detail extends Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
-  if (state.cvs.length > 0) {
+const mapStateToProps = (state, props) => {
+  if (state.cvs[0]._id) {
     return {
-      cv: state.cvs.find(item => item._id === ownProps.match.params.id)
+      cv: state.cvs.find(item => item._id === props.match.params.id),
+      detail: state.cvs
     }
     
   } else {
-    return { cv: null }    
+    return { 
+      cv: state.cvs[0],
+      detail: null
+    }    
   }
   
 }

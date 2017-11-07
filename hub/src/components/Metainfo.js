@@ -18,7 +18,6 @@ const languages = [
 
 const Metainfo = props => {
     const {meta} = props;
-    console.log(props)
     return (
         <div id="metainfo">
             <Header as='h1'>

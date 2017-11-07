@@ -1,40 +1,34 @@
 import { combineReducers } from 'redux';
 
 import { SET_CV, SYNC_PERSDETAILS, CV_DELETED } from './actions';
+import RichTextEditor from 'react-rte';
 
-const INITIAL = {/*
-    cv: {
-      _id: cv._id || '',
-      name: cv.name || '',
-      createdAt: cv.createdAt || '',
-      updatedAt: cv.updatedAt || '',
-      cats: {
+const cvInitial = 
+    [
+        {
+          _id: '',
+          name: '',
+          createdAt: '',
+          updatedAt: '',
+          persdetails: { name: '', lastname: ''},
+          workExp: [{
+              id: 'workExp-0', 
+              date:'', 
+              position:'', 
+              company:'',
+              desc: RichTextEditor.createEmptyValue(),
+          }], 
           position: '',
-      }
-      persdetails: cv.persdetails || { name: '', lastname: ''},
-      workExp: cv.workExp || [{
-          id: 'workExp-0', 
-          date:'', 
-          position:'', 
-          company:'',
-          desc: RichTextEditor.createEmptyValue(),
-      }], 
-      
-      skills: {
-        webdev: cv.skills ? cv.skills.webdev : [{
-          id: 'webdev-0', 
-          name:'', 
-          level:'', 
-          desc:'',
-      }]
-      }
-    },
-    sysMessage: false
-    */
-      
-  }
+          language: '',
+        }
+    ]
 
-function cvs (state = INITIAL, action = {} ){
+
+const detailInit = {
+    sysMessage: false
+}
+
+function cvs (state = cvInitial, action = {} ){
     switch(action.type) {
         case SET_CV:
             return action.cvs;
@@ -53,7 +47,7 @@ function cvs (state = INITIAL, action = {} ){
     }
 }
 
-function single (state = {}, action = {}) {
+function detail (state = detailInit, action = {}) {
     switch (action.type) {
         
         default:
@@ -61,4 +55,4 @@ function single (state = {}, action = {}) {
     }
 }
 
-export default combineReducers({ cvs, single });
+export default combineReducers({ cvs, detail });
