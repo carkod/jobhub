@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'semantic-ui-react';
 
 const SysMessage = props => {
-    const message = props.messages
+    const message = props.messages;
+    console.log(props)
     let status;
     
     switch (true) {
@@ -20,7 +21,7 @@ const SysMessage = props => {
         break;
       
       default:
-        status = undefined;
+        status = false;
         break;
     }
     

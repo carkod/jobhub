@@ -15,38 +15,6 @@ import PD from './PD';
 import WorkRepeater from './WorkRepeater'; 
 import SysMessage from './SysMessage';
 
-/*const cvModel = (cv) => {
-  
-  if (cv && cv.workExp) {
-    cv.workExp.map((i) => {
-      if (i.desc.length < 0)
-      i.desc = RichTextEditor.createEmptyValue();
-    })
-  } 
-  
-  return {
-    cv: {
-      _id: cv._id || '',
-      name: cv.name || '',
-      createdAt: cv.createdAt || '',
-      updatedAt: cv.updatedAt || '',
-      persdetails: cv.persdetails || { name: '', lastname: ''},
-      workExp: cv.workExp || [{
-          id: 'workExp-0', 
-          date:'', 
-          position:'', 
-          company:'',
-          desc: RichTextEditor.createEmptyValue(),
-      }], 
-      position: '',
-      language: '',
-      
-    },
-    sysMessage: false
-      
-  }
-}*/
-
 class Detail extends Component {
 
   constructor(props) {
@@ -60,7 +28,6 @@ class Detail extends Component {
    this.pdChange = this.pdChange.bind(this);
    this.metaChange = this.metaChange.bind(this);
    this.repeatFormUpdate = this.repeatFormUpdate.bind(this);
-   //console.log(this.state)
   }
 
   componentDidMount = () => {
@@ -131,13 +98,18 @@ class Detail extends Component {
   
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.saveCV(this.state.cv).then(data => console.log(data));
+    const {messages} = this.state.detail;
+    this.props.saveCV(this.state.cv).then(status => {
+      
+      this.state.detail.messages.savedID = status.data._id;
+      this.setState({ messages })
+    });
     
   }
   
   render() {
     const {cv} = this.state;
-    //console.log(this.state)
+    console.log(this.state)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
@@ -150,7 +122,7 @@ class Detail extends Component {
           <Button type="submit" value="Save">
             <Icon name="save" />Save
           </Button>
-          {/*<SysMessage message={this.state.sysMessage} />*/}
+          <SysMessage messages={this.state.detail.messages} />
           </div>
         </form>
       </div>
@@ -162,13 +134,13 @@ const mapStateToProps = (state, props) => {
   if (state.cvs[0]._id) {
     return {
       cv: state.cvs.find(item => item._id === props.match.params.id),
-      detail: state.cvs
+      detail: state.detail
     }
     
   } else {
     return { 
       cv: state.cvs[0],
-      detail: null
+      detail: state.detail
     }    
   }
   

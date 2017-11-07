@@ -25,7 +25,10 @@ const cvInitial =
 
 
 const detailInit = {
-    sysMessage: false
+    messages: {
+        savedID: '',
+        savedName: '',
+    }
 }
 
 function cvs (state = cvInitial, action = {} ){
@@ -48,6 +51,8 @@ function cvs (state = cvInitial, action = {} ){
 }
 
 function detail (state = detailInit, action = {}) {
+    //console.log(state)
+    //console.log(action)
     switch (action.type) {
         
         default:

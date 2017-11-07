@@ -1,13 +1,13 @@
 TO-DO
 ======
 
-- Reengineer Initial state with redux
+
 
 ### Detail.js
 
 
 - Detail.js: Editable
-- Detail.js: dynamic notification after save
+
 
 ### SERVER
 
@@ -26,11 +26,13 @@ TO-DO
 ### Others
 
 - Add initial focus to AddNew.js 
+- Refactor SysMessage component. Use Redux actions {type: actionName, data: ...} to pass notification messages, reducer format (switch and return)
 
 ***
 
 LOG
 ======
-
+- Detail.js: dynamic notification after save
+- Reengineer Initial state with redux
 - Details.js fill input fields with cv content (Edit page)
 - List.js fetchCVs by DESC (lastest created) by default
