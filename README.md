@@ -4,15 +4,14 @@ TO-DO
 
 
 ### Detail.js
-
-
-- Detail.js: Editable
-
+- refactor WorkExp to make it resusable for Educ
+- Add skills object: languages, 
 
 ### SERVER
 
 - Live Mongodb configure authorization
 - Production Build back
+- API authentication (require credentials for CORS connection)
 
 ### List.js
 
@@ -32,6 +31,7 @@ TO-DO
 
 LOG
 ======
+- Detail.js: Editable
 - Detail.js: dynamic notification after save
 - Reengineer Initial state with redux
 - Details.js fill input fields with cv content (Edit page)
