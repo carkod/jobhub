@@ -10,6 +10,8 @@ const cvInitial =
           name: '',
           createdAt: '',
           updatedAt: '',
+          position: '',
+          language: '',
           persdetails: { name: '', lastname: ''},
           workExp: [{
               id: 'workExp-0', 
@@ -18,8 +20,24 @@ const cvInitial =
               company:'',
               desc: RichTextEditor.createEmptyValue(),
           }], 
-          position: '',
-          language: '',
+          langSkills: [{
+              id: 'langSkills-0', 
+              name:'', 
+              desc:'', 
+              level:'',
+          }],
+          webdevSkills: [{
+              id: 'webdevSkills-0', 
+              name:'', 
+              desc:'', 
+              level:'',
+          }],
+          itSkills: [{
+              id: 'itSkills-0', 
+              name:'', 
+              desc:'', 
+              level:'',
+          }],
         }
     ]
 
@@ -34,7 +52,13 @@ const detailInit = {
 function cvs (state = cvInitial, action = {} ){
     switch(action.type) {
         case SET_CV:
-            return action.cvs;
+            let combined = [];
+            for (let i of action.cvs) {
+                const merge = Object.assign({}, cvInitial[0], i);
+                combined.push(merge)
+            }
+            //Find immutable way of doing this
+            return combined;
         case CV_DELETED:
             const deleted = state.filter((item) => item._id !== action.cvs);
             return deleted;

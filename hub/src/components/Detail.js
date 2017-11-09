@@ -12,7 +12,10 @@ import RichTextEditor from 'react-rte';
 
 import Metainfo from './Metainfo'; 
 import PD from './PD'; 
-import WorkRepeater from './WorkRepeater'; 
+import WorkRepeater from './WorkRepeater';
+import LangSkills from './LangSkills';
+import WebdevSkills from './WebdevSkills';
+import ItSkills from './ItSkills';
 import SysMessage from './SysMessage';
 
 class Detail extends Component {
@@ -25,9 +28,10 @@ class Detail extends Component {
       detail: detail
     };
     this.triggerDescChange = this.triggerDescChange.bind(this);
-   this.pdChange = this.pdChange.bind(this);
-   this.metaChange = this.metaChange.bind(this);
-   this.repeatFormUpdate = this.repeatFormUpdate.bind(this);
+    this.pdChange = this.pdChange.bind(this);
+    this.metaChange = this.metaChange.bind(this);
+    this.repeatFormUpdate = this.repeatFormUpdate.bind(this);
+    this.skillsChange = this.skillsChange.bind(this);
   }
 
   componentDidMount = () => {
@@ -35,6 +39,7 @@ class Detail extends Component {
   }
   
   componentWillReceiveProps = (props) => {
+    //merge fetched props with reducer initial state
     const {cv} = props;
     this.setState(props)
   }
@@ -96,6 +101,30 @@ class Detail extends Component {
     this.setState({workExp})
   }
   
+  langSkillsChange = (i, e) => {
+    /*const {langSkills} = this.state.cv;
+    langSkills[e.target.name] = e.target.value;
+    this.setState({ langSkills })
+    */
+  }
+  
+  skillsChange = ({langSkills, webdevSkills, itSkills}) => {
+    this.setState({langSkills, webdevSkills, itSkills})
+  }
+  
+  
+  
+  removeSkill = (i,e) => {
+    e.preventDefault();
+    
+    /*
+    const findIndex = this.state.cv.workExp[i];
+    
+    this.state.workExp.splice(i,1)
+    this.setState({ workExp: this.state.workExp });	*/
+  }
+  
+  
   onSubmit = (e) => {
     e.preventDefault();
     const {messages} = this.state.detail;
@@ -119,6 +148,10 @@ class Detail extends Component {
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
           <WorkRepeater update={this.repeatFormUpdate} workExp={cv.workExp} removeWork={this.removeWork} pushWork={this.pushWork} triggerDescChange={this.triggerDescChange}/>
           
+          <LangSkills langSkills={cv.langSkills} update={this.skillsChange}  />
+          <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
+          <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
+          
           <Button type="submit" value="Save">
             <Icon name="save" />Save
           </Button>
@@ -132,11 +165,11 @@ class Detail extends Component {
 
 const mapStateToProps = (state, props) => {
   if (state.cvs[0]._id) {
+    const cv = state.cvs.find(item => item._id === props.match.params.id);
     return {
-      cv: state.cvs.find(item => item._id === props.match.params.id),
+      cv: cv,
       detail: state.detail
     }
-    
   } else {
     return { 
       cv: state.cvs[0],

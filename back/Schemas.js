@@ -20,10 +20,34 @@ const CVSchema = new Schema({
     
     workExp: { type: Schema.Types.Mixed },
     educ: { type: Schema.Types.Mixed },
-    skills: { type: Schema.Types.Mixed },
-    projects: { type: Schema.Types.Mixed },
+    langSkills: { type: Schema.Types.Mixed },
+    webdevSkills: { type: Schema.Types.Mixed },  
+    itSkills: { type: Schema.Types.Mixed },
+    other: { type: Schema.Types.Mixed },
     
 },{timestamps: true}, {strict: false} );
+
+
+// Projects
+const ProjectsSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    name: { type: String },
+    slug: { type: String, lowercase: true, trim: true },
+    cats: {
+        position: { type: String },
+        cvLang: { type: String },
+        cvCountry: { type: String },
+    },
+    details: { 
+        description: { type: String },
+        files: { type: String },
+    },
+    
+   
+    other: { type: Schema.Types.Mixed },
+    
+},{timestamps: true}, {strict: false} );
+
 /*
 CVSchema.pre('update', function(next){
     

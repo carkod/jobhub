@@ -37,7 +37,10 @@ export default function CVs (app, db) {
                 },
                 workExp: r.workExp,
                 educ: r.educ,
-            
+                langSkills: r.langSkills,
+                webdevSkills: r.webdevSkills,  
+                itSkills: r.itSkills,
+                other: r.other,
             });
             
         }

@@ -5,7 +5,6 @@ import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'sem
 
 const SysMessage = props => {
     const message = props.messages;
-    console.log(props)
     let status;
     
     switch (true) {
