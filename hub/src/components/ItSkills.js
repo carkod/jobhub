@@ -62,7 +62,7 @@ class ItSkills extends Component {
 
         {itSkills.map((it, i) => 
             <div className="single" key={it.id}>
-            { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeSkill}><Icon className="red large" name="window close" ></Icon></button> : ''}
+            { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeSkill(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
             <Grid columns={12}>
                 <Grid.Row columns={2}>
                   <Grid.Column>

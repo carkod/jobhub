@@ -4,8 +4,8 @@ TO-DO
 
 
 ### Detail.js
-- refactor WorkExp to make it resusable for Educ
-- Add skills object: languages, 
+- refactor WorkExp to make it resusable for Educ - use Skills repeater
+
 
 ### SERVER
 
@@ -32,6 +32,7 @@ TO-DO
 
 LOG
 ======
+
 - Detail.js: Editable
 - Detail.js: dynamic notification after save
 - Reengineer Initial state with redux

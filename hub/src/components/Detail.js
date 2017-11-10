@@ -164,10 +164,12 @@ class Detail extends Component {
           <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
           <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
           
+          <SysMessage messages={this.state.detail.messages} />
+          
           <Button type="submit" value="Save">
             <Icon name="save" />Save
           </Button>
-          <SysMessage messages={this.state.detail.messages} />
+          
           </div>
         </form>
       </div>
