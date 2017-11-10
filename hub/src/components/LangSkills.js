@@ -11,7 +11,7 @@ class LangSkills extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   componentDidMount = () => {
@@ -26,7 +26,6 @@ class LangSkills extends Component {
     e.preventDefault();
     const {langSkills} = this.state;
     const id = 'langSkill-' + shortid.generate();
-    
     const newLang = {
       id: id, 
       name: '', 
@@ -34,27 +33,26 @@ class LangSkills extends Component {
       desc: '',
     }
     langSkills.push(newLang)
-    this.setState({ langSkills }, () => {
-      
-      
-    });
+    this.setState({ langSkills });
+  }
+  
+  removeSkill = (i) => (e) => {
+    e.preventDefault();
+    const {langSkills} = this.state;
+    langSkills.splice(i,1)
+    this.setState({ langSkills })
   }
 
 
   handleChange = (i) => (e) => {
-    const {langSkills} = this.props;
+    const {langSkills} = this.state;
     langSkills[i][e.target.name] = e.target.value;
-    this.setState({ langSkills }, () => {
-      
-      const {langSkills} = this.props;
-      this.props.update({langSkills})
-      
-    })
+    this.setState({ langSkills })
+    this.timeout = setTimeout(() => this.props.update({langSkills}), 1000)    
   }
   
   render() {
-    const {langSkills} = this.props;
-    
+    const {langSkills} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
       <div className="langSkills section">
         <Header sub>
@@ -64,7 +62,7 @@ class LangSkills extends Component {
 
         {langSkills.map((lang, i) => 
             <div className="single" key={lang.id}>
-            { i > 0 ? <button className="btn btn-close-repeat" onClick={e => this.props.removeSkill(i, e)}><Icon className="red large" name="window close" ></Icon></button> : ''}
+            { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeSkill(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
             <Grid columns={12}>
                 <Grid.Row columns={2}>
                   <Grid.Column>

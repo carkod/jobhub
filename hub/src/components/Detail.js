@@ -112,14 +112,24 @@ class Detail extends Component {
     this.setState({langSkills, webdevSkills, itSkills})
   }
   
-  
+  pushSkill = (e) => {
+    e.preventDefault();
+    /*
+    const skillID = 'workExp-' + shortid.generate();
+    const {workExp} = this.state.cv;
+    const newWork = {
+      id: workID, 
+      position: '', 
+      company:'',
+      desc: RichTextEditor.createEmptyValue()
+    }
+    workExp.push(newWork)
+    this.setState({ workExp });*/
+  }
   
   removeSkill = (i,e) => {
     e.preventDefault();
-    
     /*
-    const findIndex = this.state.cv.workExp[i];
-    
     this.state.workExp.splice(i,1)
     this.setState({ workExp: this.state.workExp });	*/
   }
@@ -127,6 +137,8 @@ class Detail extends Component {
   
   onSubmit = (e) => {
     e.preventDefault();
+    console.log(this)
+    clearTimeout();
     const {messages} = this.state.detail;
     this.props.saveCV(this.state.cv).then(status => {
       
@@ -148,7 +160,7 @@ class Detail extends Component {
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
           <WorkRepeater update={this.repeatFormUpdate} workExp={cv.workExp} removeWork={this.removeWork} pushWork={this.pushWork} triggerDescChange={this.triggerDescChange}/>
           
-          <LangSkills langSkills={cv.langSkills} update={this.skillsChange}  />
+          <LangSkills langSkills={cv.langSkills} update={this.skillsChange} />
           <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
           <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
           

@@ -12,7 +12,6 @@ class ItSkills extends Component {
   constructor(props) {
     super(props);
     this.state = {}
-    //console.log(props)
   }
 
   componentDidMount = () => {
@@ -23,48 +22,67 @@ class ItSkills extends Component {
     this.setState({ itSkills: props.itSkills })
   }
 
+  pushSkill = (e) => {
+    e.preventDefault();
+    const {itSkills} = this.state;
+    const id = 'itSkill-' + shortid.generate();
+    const newLang = {
+      id: id, 
+      name: '', 
+      level:'',
+      desc: '',
+    }
+    itSkills.push(newLang)
+    this.setState({ itSkills });
+  }
+  
+  removeSkill = (i) => (e) => {
+    e.preventDefault();
+    const {itSkills} = this.state;
+    itSkills.splice(i,1)
+    this.setState({ itSkills })
+  }
+
+
   handleChange = (i) => (e) => {
-    const {itSkills} = this.props;
+    const {itSkills} = this.state;
     itSkills[i][e.target.name] = e.target.value;
-    this.setState({ itSkills }, () => {
-      const {itSkills} = this.props;
-      this.props.update({itSkills})
-      
-    })
+    this.setState({ itSkills })
+    this.timeout = setTimeout(() => this.props.update({itSkills}), 1000)    
   }
   
   render() {
-    const {itSkills} = this.props;
+    const {itSkills} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
       <div className="itSkills section">
         <Header sub>
           <span>IT skills</span>
-          <button className="btn" onClick={e => this.props.pushlang(e)}><Icon className="green" name="add square"></Icon></button>
+          <button className="btn" onClick={this.pushSkill}><Icon className="green" name="add square"></Icon></button>
         </Header>
 
-        {itSkills.map((lang, i) => 
-            <div className="single" key={lang.id}>
-            { i > 0 ? <button className="btn btn-close-repeat" onClick={e => this.props.removeSkill(i, e)}><Icon className="red large" name="window close" ></Icon></button> : ''}
+        {itSkills.map((it, i) => 
+            <div className="single" key={it.id}>
+            { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeSkill}><Icon className="red large" name="window close" ></Icon></button> : ''}
             <Grid columns={12}>
                 <Grid.Row columns={2}>
                   <Grid.Column>
                     <Grid.Row>
                       <Grid.Column >
                         <label>Name </label>
-                        <input type="text" name="name" onChange={this.handleChange(i)} value={lang.name}/> 
+                        <input type="text" name="name" onChange={this.handleChange(i)} value={it.name}/> 
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                       <Grid.Column className="pos-bottom">
                         <label>Level </label>
-                        <input type="text" name="level" onChange={(e) => this.props.update(i, e)} value={lang.level}/> 
+                        <input type="text" name="level" onChange={this.handleChange(i)} value={it.level}/> 
                       </Grid.Column>
                     </Grid.Row>
                   </Grid.Column>
                   
                   <Grid.Column>
                   <label>Brief description </label>
-                    <textarea style={{width:'100%'}} rows="5" type="text" name="desc" onChange={(e) => this.props.update(i, e)} value={lang.company} />
+                    <textarea style={{width:'100%'}} rows="5" type="text" name="desc" onChange={this.handleChange(i)} value={it.desc} />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
