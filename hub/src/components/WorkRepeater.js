@@ -46,15 +46,10 @@ class WorkRepeater extends Component {
   }
   
   descChange = (i) => (e) => {
-    console.log(e.toString('html'))
-    console.log('editor update triggered')
     const {workExp} = this.state;
-    workExp[i].desc = e;
+    workExp[i].desc = e.toString('html');
     this.setState({workExp});
-    /*setTimeout(() => {
-      this.props.update({workExp});
-    }
-    , 2000);  */
+    this.props.update({workExp});
   }
 
 
@@ -67,7 +62,7 @@ class WorkRepeater extends Component {
   
   render() {
     const {workExp} = !!Object.keys(this.state).length ? this.state : this.props;
-    //console.log(this.state)
+    console.log(workExp)
       return(
         <div className="workRepeater section">
             <Header sub>
@@ -98,7 +93,7 @@ class WorkRepeater extends Component {
                         <div className="block">
                           <label>Description </label>
                           <br />
-                          <Editor value={work.desc} update={this.descChange(i)} />
+                          <Editor value={work.desc} onChange={this.descChange(i)} />
                         </div>
                       </Grid.Column>
                     </Grid.Row>
