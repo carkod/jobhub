@@ -20,6 +20,13 @@ const cvInitial =
               company:'',
               desc: RichTextEditor.createEmptyValue(),
           }], 
+          educ: [{
+              id: 'educ-0', 
+              date:'', 
+              diploma:'', 
+              institution:'',
+              desc: RichTextEditor.createEmptyValue(),
+          }], 
           langSkills: [{
               id: 'langSkills-0', 
               name:'', 

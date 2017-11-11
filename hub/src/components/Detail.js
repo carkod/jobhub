@@ -13,6 +13,7 @@ import RichTextEditor from 'react-rte';
 import Metainfo from './Metainfo'; 
 import PD from './PD'; 
 import WorkRepeater from './WorkRepeater';
+import Education from './Education';
 import LangSkills from './LangSkills';
 import WebdevSkills from './WebdevSkills';
 import ItSkills from './ItSkills';
@@ -107,7 +108,6 @@ class Detail extends Component {
   
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this)
     clearTimeout();
     const {messages} = this.state.detail;
     this.props.saveCV(this.state.cv).then(status => {
@@ -130,6 +130,7 @@ class Detail extends Component {
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
           
           <WorkRepeater workExp={cv.workExp} update={this.skillsChange} />
+          <Education educ={cv.educ} update={this.skillsChange} />
           
           <LangSkills langSkills={cv.langSkills} update={this.skillsChange} />
           <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />

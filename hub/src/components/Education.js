@@ -7,7 +7,7 @@ import { fetchCVs } from '../actions';
 import Editor from './Editor';
 import RichTextEditor from 'react-rte';
 
-class WorkRepeater extends Component {
+class Education extends Component {
   
   constructor(props) {
     super(props);
@@ -16,76 +16,76 @@ class WorkRepeater extends Component {
   }
 
   componentDidMount = () => {
-    this.setState({ workExp: this.props.workExp })
+    this.setState({ educ: this.props.educ })
   }
   
   componentWillReceiveProps = (props) => {
-    this.setState({ workExp: props.workExp })
+    this.setState({ educ: props.educ })
   }
   
 
   pushExp = (e) => {
     e.preventDefault();
-    const {workExp} = this.state;
+    const {educ} = this.state;
     const id = 'langSkill-' + shortid.generate();
     const newExp = {
       id: id, 
       date: '', 
-      position:'',
-      company:'',
+      diploma:'',
+      institution:'',
       desc: '',
     }
-    workExp.push(newExp)
-    this.setState({ workExp });
+    educ.push(newExp)
+    this.setState({ educ });
   }
   
   removeExp = (i) => (e) => {
     e.preventDefault();
-    const {workExp} = this.state;
-    workExp.splice(i,1)
-    this.setState({ workExp })
+    const {educ} = this.state;
+    educ.splice(i,1)
+    this.setState({ educ })
   }
   
   descChange = (i) => (e) => {
-    const {workExp} = this.state;
-    workExp[i].desc = e.toString('html');
-    this.setState({workExp});
-    this.props.update({workExp});
+    const {educ} = this.state;
+    educ[i].desc = e.toString('html');
+    this.setState({educ});
+    this.props.update({educ});
   }
 
 
   handleChange = (i) => (e) => {
-    const {workExp} = this.state;
-    workExp[i][e.target.name] = e.target.value;
-    this.setState({ workExp })
-    this.timeout = setTimeout(() => this.props.update({workExp}), 1000)    
+    const {educ} = this.state;
+    educ[i][e.target.name] = e.target.value;
+    this.setState({ educ })
+    this.timeout = setTimeout(() => this.props.update({educ}), 1000)    
   }
   
   render() {
-    const {workExp} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {educ} = !!Object.keys(this.state).length ? this.state : this.props;
       return(
-        <div className="workRepeater section">
+        <div className="courseRepeater section">
             <Header sub>
-              <span>WORK EXPERIENCE</span>
+              <span>EDUCATION</span>
               <button className="btn" onClick={this.pushExp}><Icon className="green" name="add square"></Icon></button>
             </Header>
 
-            {workExp.map((work, i) => 
-                <div className="single" key={work.id}>
+            {educ.map((course, i) => 
+                <div className="single" key={course.id}>
                 { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeExp(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
                 <Grid columns={12}>
                     <Grid.Row columns={3}>
                       <Grid.Column >
                         <label>Date </label>
-                        <input type="text" name="date" onChange={this.handleChange(i)} value={work.date}/> 
+                        <input type="text" name="date" onChange={this.handleChange(i)} value={course.date}/> 
                       </Grid.Column>
                       <Grid.Column >
-                        <label>Position </label>
-                        <input type="text" name="position" onChange={this.handleChange(i)} value={work.position}/> 
+                        <label>Certificate/Degree </label>
+                        <input type="text" name="diploma" onChange={this.handleChange(i)} value={course.diploma}/> 
                       </Grid.Column>
                       <Grid.Column >
-                        <label>Company </label>
-                        <input type="text" name="company" onChange={this.handleChange(i)} value={work.company}/> 
+                        <label>Institution </label>
+                        <input type="text" name="institution" onChange={this.handleChange(i)} value={course.institution}/> 
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -93,7 +93,7 @@ class WorkRepeater extends Component {
                         <div className="block">
                           <label>Description </label>
                           <br />
-                          <Editor value={work.desc} onChange={this.descChange(i)} />
+                          <Editor value={course.desc} onChange={this.descChange(i)} />
                         </div>
                       </Grid.Column>
                     </Grid.Row>
@@ -108,4 +108,4 @@ class WorkRepeater extends Component {
   }
 }
 
-export default WorkRepeater;
+export default Education;
