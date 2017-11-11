@@ -6,13 +6,14 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: RichTextEditor.createEmptyValue()
+      value: RichTextEditor.createEmptyValue(),
+      focus: false,
     };
   }
 
     componentDidMount = () => {
       const value = RichTextEditor.createValueFromString(this.props.value.toString('html'), 'html');
-      //console.log(value)
+      console.log(this.props)
       this.setState({ value: value })      
   }
   
@@ -28,14 +29,16 @@ class Editor extends Component {
       
       const currentVal = value.getEditorState().getCurrentContent();
       const newVal = e.getEditorState().getCurrentContent();
-      if (currentVal !== newVal) {
+      
+      /*if (currentVal !== newVal && !this.state.focus) {
         this.props.update(e)
-      } 
+      }*/ 
   }
  
   render() {
+    
     return (
-        <RichTextEditor value={this.state.value} onChange={this.onChange} />
+        <RichTextEditor value={this.state.value} onChange={this.onChange} onBlur={() => this.setState({focus:false})}/>
     );  
     }
 }

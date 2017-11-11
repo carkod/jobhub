@@ -40,13 +40,21 @@ class Nav extends Component {
                     </div>
                 </div>
                 <div className="item">
-                    <NavLink to="/projects" activeClassName="current" >Projects</NavLink>    
+                    <NavLink to="/portfolio" activeClassName="current" >Portfolio</NavLink>    
                 </div>
                 <div className="item">
                     <NavLink to="/others" activeClassName="current" >Others</NavLink>
                 </div>
                 <div className="item">
                     <NavLink to="/jobs" activeClassName="current" >Job Board</NavLink>    
+                    <div className="level-2 menu">
+                        <div className="item">
+                            <NavLink to="/jobs/linkedin" activeClassName="current" >LinkedIn</NavLink>
+                        </div>
+                        <div className="item">
+                            <NavLink to="/jobs/jobbio" activeClassName="current" >Jobbio</NavLink>
+                        </div>
+                    </div>
                 </div>
             </div>
           </nav>

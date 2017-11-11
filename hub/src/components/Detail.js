@@ -100,40 +100,10 @@ class Detail extends Component {
     workExp[i].desc = e.toString('html');
     this.setState({workExp})
   }
-  
-  langSkillsChange = (i, e) => {
-    /*const {langSkills} = this.state.cv;
-    langSkills[e.target.name] = e.target.value;
-    this.setState({ langSkills })
-    */
+
+  skillsChange = ({langSkills, webdevSkills, itSkills, workExp}) => {
+    this.setState({langSkills, webdevSkills, itSkills, workExp})
   }
-  
-  skillsChange = ({langSkills, webdevSkills, itSkills}) => {
-    this.setState({langSkills, webdevSkills, itSkills})
-  }
-  
-  pushSkill = (e) => {
-    e.preventDefault();
-    /*
-    const skillID = 'workExp-' + shortid.generate();
-    const {workExp} = this.state.cv;
-    const newWork = {
-      id: workID, 
-      position: '', 
-      company:'',
-      desc: RichTextEditor.createEmptyValue()
-    }
-    workExp.push(newWork)
-    this.setState({ workExp });*/
-  }
-  
-  removeSkill = (i,e) => {
-    e.preventDefault();
-    /*
-    this.state.workExp.splice(i,1)
-    this.setState({ workExp: this.state.workExp });	*/
-  }
-  
   
   onSubmit = (e) => {
     e.preventDefault();
@@ -150,7 +120,7 @@ class Detail extends Component {
   
   render() {
     const {cv} = this.state;
-    console.log(this.state)
+    //console.log(this.state)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
@@ -158,7 +128,8 @@ class Detail extends Component {
         <div className="container">
           
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
-          <WorkRepeater update={this.repeatFormUpdate} workExp={cv.workExp} removeWork={this.removeWork} pushWork={this.pushWork} triggerDescChange={this.triggerDescChange}/>
+          
+          <WorkRepeater workExp={cv.workExp} update={this.skillsChange} />
           
           <LangSkills langSkills={cv.langSkills} update={this.skillsChange} />
           <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />

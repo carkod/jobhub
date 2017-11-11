@@ -49,6 +49,24 @@ const detailInit = {
     }
 }
 
+const pfInit = [
+   {
+    _id: '' ,
+    name: '',
+    slug: '',
+    cats: {
+        position: '',
+        cvLang: '',
+        cvCountry:'',
+    },
+    details: { 
+        description: '',
+        files: '',
+    },
+    //other: { type: Schema.Types.Mixed },
+   } 
+]
+
 function cvs (state = cvInitial, action = {} ){
     switch(action.type) {
         case SET_CV:
@@ -84,4 +102,12 @@ function detail (state = detailInit, action = {}) {
     }
 }
 
-export default combineReducers({ cvs, detail });
+const portfolio = (state = pfInit, action = {}) =>  {
+    switch (action.type) {
+        
+        default:
+            return state
+    }
+}
+
+export default combineReducers({ cvs, detail, portfolio });
