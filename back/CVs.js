@@ -31,6 +31,7 @@ export default function CVs (app, db) {
             // Update
             cv = new CVModel({
                 name: r.name,
+                summary: r.summary,
                 persdetails: {
                     name: r.persdetails ? r.persdetails.name : '',    
                     lastname: r.persdetails ? r.persdetails.lastname : '',    

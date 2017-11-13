@@ -10,6 +10,7 @@ import { Icon, Button, Header } from 'semantic-ui-react';
 import { saveCV, fetchCVs } from '../actions';
 import RichTextEditor from 'react-rte';
 
+import Summary from './Summary'; 
 import Metainfo from './Metainfo'; 
 import PD from './PD'; 
 import WorkRepeater from './WorkRepeater';
@@ -28,10 +29,8 @@ class Detail extends Component {
       cv: cv,
       detail: detail
     };
-    this.triggerDescChange = this.triggerDescChange.bind(this);
     this.pdChange = this.pdChange.bind(this);
     this.metaChange = this.metaChange.bind(this);
-    this.repeatFormUpdate = this.repeatFormUpdate.bind(this);
     this.skillsChange = this.skillsChange.bind(this);
   }
 
@@ -39,10 +38,11 @@ class Detail extends Component {
     this.props.fetchCVs();
   }
   
-  componentWillReceiveProps = (props) => {
-    //merge fetched props with reducer initial state
-    const {cv} = props;
-    this.setState(props)
+ 
+  summaryChange = (e) => {
+    const {summary} = this.state.cv;
+    this.state.cv.summary = e;
+    this.setState({ summary })
   }
   
   metaChange = (e, value) => {
@@ -65,43 +65,6 @@ class Detail extends Component {
     this.setState({ persdetails })
   }
   
-   repeatFormUpdate =  (i, e) => {
-    
-     const workExp = Object.assign(this.state.cv.workExp[i], {
-       [e.target.name]: e.target.value
-     });
-
-     this.setState(workExp)
-  }
-    
-  pushWork = (e) => {
-    e.preventDefault();
-    const workID = 'workExp-' + shortid.generate();
-    const {workExp} = this.state.cv;
-    const newWork = {
-      id: workID, 
-      position: '', 
-      company:'',
-      desc: RichTextEditor.createEmptyValue()
-    }
-    workExp.push(newWork)
-    this.setState({ workExp });
-  }
-  
-  removeWork = (i,e) => {
-    e.preventDefault();
-    const findIndex = this.state.cv.workExp[i];
-    
-    this.state.workExp.splice(i,1)
-    this.setState({ workExp: this.state.workExp });	
-  }
-  
-  triggerDescChange = (i, e) => {
-    const {workExp} = this.state.cv;
-    workExp[i].desc = e.toString('html');
-    this.setState({workExp})
-  }
-
   skillsChange = ({langSkills, webdevSkills, itSkills, workExp}) => {
     this.setState({langSkills, webdevSkills, itSkills, workExp})
   }
@@ -120,13 +83,13 @@ class Detail extends Component {
   
   render() {
     const {cv} = this.state;
-    //console.log(this.state)
+    console.log(cv)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
         <Metainfo meta={cv} onChange={this.metaChange} />
         <div className="container">
-          
+          <Summary summary={cv.summary} onChange={this.summaryChange} />
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
           
           <WorkRepeater workExp={cv.workExp} update={this.skillsChange} />

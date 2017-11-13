@@ -5,7 +5,6 @@ import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
 import { fetchCVs } from '../actions';
 import Editor from './Editor';
-import RichTextEditor from 'react-rte';
 
 class WorkRepeater extends Component {
   

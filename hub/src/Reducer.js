@@ -12,6 +12,7 @@ const cvInitial =
           updatedAt: '',
           position: '',
           language: '',
+          summary: RichTextEditor.createEmptyValue(),
           persdetails: { name: '', lastname: ''},
           workExp: [{
               id: 'workExp-0', 
