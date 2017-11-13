@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import shortid from 'shortid';
 import moment from 'moment';
 import { Icon, Button, Header } from 'semantic-ui-react';
-import { saveCV, fetchCVs } from '../actions';
+import { saveCV, fetchCVs } from '../actions/cv';
 import RichTextEditor from 'react-rte';
 
 import Summary from './Summary'; 
@@ -62,11 +62,7 @@ class Detail extends Component {
   
   pdChange = (e) => {
     const {persdetails} = this.state.cv;
-    /*const persdetails = Object.assign({}, this.state.cv.persdetails, {
-       [e.target.name]: e.target.value
-     });*/
-     persdetails[e.target.name] = e.target.value;
-     
+    persdetails[e.target.name] = e.target.value;
     this.setState({ persdetails })
   }
   
@@ -79,7 +75,6 @@ class Detail extends Component {
     clearTimeout();
     const {messages} = this.state.detail;
     this.props.saveCV(this.state.cv).then(status => {
-      
       this.state.detail.messages.savedID = status.data._id;
       this.setState({ messages })
     });
@@ -88,7 +83,6 @@ class Detail extends Component {
   
   render() {
     const {cv} = this.state;
-    console.log(this.props)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >

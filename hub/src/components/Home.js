@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header } from 'semantic-ui-react';
-import { fetchCVs, saveCV } from '../actions';
 
 import 'semantic-ui-css/semantic.min.css';
 

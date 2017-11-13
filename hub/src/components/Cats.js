@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 //import Detail from './components/Detail';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { fetchCVs, saveCV } from '../actions';
+import { fetchCVs, saveCV } from '../actions/cv';
 
 
 class Cats extends Component {

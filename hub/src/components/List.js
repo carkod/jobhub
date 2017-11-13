@@ -5,7 +5,7 @@ import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'sem
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { fetchCVs, saveCV, deleteCV } from '../actions';
+import { fetchCVs, saveCV, deleteCV } from '../actions/cv';
 import Detail from './Detail';
 import AddNew from './AddNew';
 import SysMessage from './SysMessage';

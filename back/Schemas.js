@@ -29,7 +29,7 @@ const CVSchema = new Schema({
 
 
 // Projects
-const ProjectsSchema = new Schema({
+const ProjectSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
     slug: { type: String, lowercase: true, trim: true },
@@ -60,4 +60,4 @@ CVSchema.pre('update', function(next){
   console.log(CVSchema.tree)
 }); */
 
-export { CVSchema };
+export { CVSchema, ProjectSchema };

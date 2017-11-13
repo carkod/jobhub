@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Modal, Header, Button, Icon, Transition, Form, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { saveCV } from '../actions/cv';
+import { saveProject } from '../actions/project';
 
 const buttonDefaultStyles = {
         backgroundColor: '#fff',
@@ -12,7 +12,7 @@ const buttonDefaultStyles = {
         outline: 'none',
       }
 
-class AddNew extends Component {
+class NewProject extends Component {
   
   state = {
     savedID: null,
@@ -24,10 +24,10 @@ class AddNew extends Component {
   
   handleSubmit = () => {
     //console.log(this.state)
-    this.props.saveCV({ _id:'', name: this.state.name })
-    .then(cv => { 
-      this.setState({ savedID: cv.data._id, modalOpen: false });
-      this.props.sysmessage({ savedID: cv.data._id, savedName: this.state.name })
+    this.props.saveProject({ _id:'', name: this.state.name })
+    .then(project => { 
+      this.setState({ savedID: project.data._id, modalOpen: false });
+      this.props.sysmessage({ savedID: project.data._id, savedName: this.state.name })
     })
     
   }
@@ -42,19 +42,19 @@ class AddNew extends Component {
     return (
       <Transition duration={500}>
         <Modal trigger={addNewButton} size={'tiny'} open={this.state.modalOpen} onClose={() => this.setState({ modalOpen: false })} closeIcon basic>
-            <Header icon='file text outline' content='New CV' />
+            <Header icon='file text outline' content='New Project' />
             <Modal.Content>
-            <Form id="newcv" onSubmit={this.handleSubmit}>
+            <Form id="newproject" onSubmit={this.handleSubmit}>
               <Form.Field>
-                <Input autoFocus type="text" name="name" placeholder="Name or title of the new CV" onChange={this.handleChange} />
+                <Input autoFocus type="text" name="name" placeholder="Name or title of the new Project" onChange={this.handleChange} />
               </Form.Field>
             </Form>
             </Modal.Content>
-            <Modal.Actions>
-              <Button form="newcv" type="submit" color='green'>
+            <Modal.actions>
+              <Button form="newproject" type="submit" color='green'>
                 <Icon name='save' /> Save
               </Button>
-            </Modal.Actions>
+            </Modal.actions>
         </Modal>
       </Transition>
     )
@@ -63,8 +63,8 @@ class AddNew extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    cvs: state.cvs
+    portfolio: state.portfolio
   }
 }
 
-export default connect(mapStateToProps, { saveCV })(AddNew);
+export default connect(mapStateToProps, { saveProject })(NewProject);
