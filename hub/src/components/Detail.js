@@ -38,6 +38,11 @@ class Detail extends Component {
     this.props.fetchCVs();
   }
   
+  componentWillReceiveProps = (props) => {
+    const {cv} = props;
+    this.setState({ cv })
+  }
+  
  
   summaryChange = (e) => {
     const {summary} = this.state.cv;
@@ -83,7 +88,7 @@ class Detail extends Component {
   
   render() {
     const {cv} = this.state;
-    console.log(cv)
+    console.log(this.props)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >

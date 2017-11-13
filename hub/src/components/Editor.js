@@ -10,6 +10,10 @@ class Editor extends Component {
       focus: false,
     };
   }
+  
+  componentDidMount = () => {
+    this.setState({ value: this.props.value })   
+  }
 
   
   componentWillReceiveProps = (props) => {
