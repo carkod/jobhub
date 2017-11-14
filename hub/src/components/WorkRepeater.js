@@ -5,6 +5,7 @@ import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
 import { fetchCVs } from '../actions/cv';
 import Editor from './Editor';
+import RichTextEditor from 'react-rte';
 
 class WorkRepeater extends Component {
   
@@ -32,7 +33,7 @@ class WorkRepeater extends Component {
       date: '', 
       position:'',
       company:'',
-      desc: '',
+      desc: RichTextEditor.createEmptyValue(),
     }
     workExp.push(newExp)
     this.setState({ workExp });

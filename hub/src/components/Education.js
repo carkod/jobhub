@@ -33,7 +33,7 @@ class Education extends Component {
       date: '', 
       diploma:'',
       institution:'',
-      desc: '',
+      desc: RichTextEditor.createEmptyValue(),
     }
     educ.push(newExp)
     this.setState({ educ });
