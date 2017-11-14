@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { SET_CV, SYNC_PERSDETAILS, CV_DELETED } from './actions';
+import { SET_CV, CV_DELETED, SYNC_PERSDETAILS } from './actions/cv';
+import { SET_PROJECTS, PROJECT_DELETED } from './actions/project';
 import RichTextEditor from 'react-rte';
 
 const cvInitial = 
@@ -112,7 +113,16 @@ function detail (state = detailInit, action = {}) {
 
 const portfolio = (state = pfInit, action = {}) =>  {
     switch (action.type) {
-        
+        case SET_PROJECTS:
+            let portfolio= [];
+            for (let i of action.projects) {
+                const merge = Object.assign({}, pfInit[0], i);
+                portfolio.push(merge)
+            }
+            return portfolio;
+        case PROJECT_DELETED:
+            const deleted = state.filter((item) => item._id !== action.cvs);
+            return deleted;
         default:
             return state
     }

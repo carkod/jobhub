@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const SET_PROJECT  = 'SET_PROJECT';
+export const SET_PROJECTS  = 'SET_PROJECTS';
 export const ADD_PROJECT  = 'ADD_PROJECT';
 export const PROJECT_FETCHED = 'PROJECT_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
@@ -8,6 +8,63 @@ export const RETRIEVED_PROJECT = 'RETRIEVED_PROJECT';
 //export const PROJECT_UPDATED = 'PROJECT_UPDATED';
 export const PROJECT_DELETED = 'PROJECT_DELETED';
 //export const UPDATE_LIST = 'UPDATE_LIST';
+const API_URL = 'http://cv-generator-carkod.c9users.io:8081/api';
+
+
+function handleResponse(response) {
+    if (response.ok) {
+        return response.json();
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+    }
+}
+
+
+export function setProjects(projects) {
+    return {
+        type: SET_PROJECTS,
+        projects
+    }
+}
+
+export function projectDeleted(project) {
+    return {
+        type: PROJECT_DELETED,
+        project
+    }
+}
+
+
+export function projectFetched(project) {
+  return {
+    type: PROJECT_FETCHED,
+    project
+  }
+}
+
+
+export function addProject(data) {
+    return {
+        type: ADD_PROJECT,
+        data
+    }
+}
+
+export function deletedProject(id) {
+    return {
+        type: PROJECT_DELETED,
+        id
+    }
+}
+
+export function retrievedProject(data) {
+    return {
+        type: RETRIEVED_PROJECT,
+        data
+    }
+}
 
 
 export function deleteProject(id) {

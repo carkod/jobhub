@@ -16,7 +16,8 @@ import Home from './components/Home';
 import List from './components/List';
 import Detail from './components/Detail';
 import Cats from './components/Cats';
-import Portfolio from './components/Portfolio';
+import Portfolio from './components/portfolio/Portfolio';
+import Project from './components/portfolio/Project';
 
 import { loadState, saveState } from './localStorage';
 
@@ -46,6 +47,7 @@ ReactDOM.render(
           <Route path="/cv/id=:id" component={Detail} />  
           
           <Route exact path="/portfolio" component={Portfolio} />
+          <Route exact path="/portfolio/project" component={Project} />
         </Layout>
       </Switch>
     </BrowserRouter>
