@@ -68,9 +68,11 @@ const pfInit = [
         cvLang: '',
         cvCountry:'',
     },
-    details: { 
-        description: '',
-        files: '',
+    image: '',
+    description: RichTextEditor.createEmptyValue(),
+    documents: {
+        name:'',
+        file:'',
     },
     //other: { type: Schema.Types.Mixed },
    } 

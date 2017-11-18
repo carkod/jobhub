@@ -5,9 +5,9 @@ import cors from 'cors';
 import mongodb from 'mongodb';
 import mongoose from 'mongoose';
 
+
 const app = express();
 const Schema = mongoose.Schema;
-
 const dbName = 'cv_generator';
 //const dbLive = 'jobhub';
 const PORT = 8081;

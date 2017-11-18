@@ -1,10 +1,25 @@
 //import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
+import multer from 'multer';
 
 import { ProjectSchema } from './Schemas';
 
 // Compile model from schema
 let ProjectModel = mongoose.model('ProjectModel', ProjectSchema );
+
+var storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename(req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+
+var upload = multer({ storage: storage })
+
+const pfAssets = upload.array([ {name: 'files'} ])  
+
 
 export default function Portfolio (app, db) {
     
@@ -17,11 +32,13 @@ export default function Portfolio (app, db) {
        });
     });
         
-    app.post('/api/portfolio', (req, res) => {
+    app.post('/api/portfolio', pfAssets, (req, res) => {
         var r = req.body,
+            f = req.files,
             project;
+            console.log(f)
             
-        if (!r._id) {
+        /*if (!r._id) {
             // Create New
             project = new ProjectModel({
                 _id: mongoose.Types.ObjectId(),
@@ -63,7 +80,7 @@ export default function Portfolio (app, db) {
                   console.log('No changes')  
               }
           }
-        });
+        });*/
 
     });
     

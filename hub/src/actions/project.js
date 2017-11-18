@@ -7,6 +7,8 @@ export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_PROJECT = 'RETRIEVED_PROJECT';
 //export const PROJECT_UPDATED = 'PROJECT_UPDATED';
 export const PROJECT_DELETED = 'PROJECT_DELETED';
+export const UPLOAD_FAIL = 'UPLOAD_FAIL';
+export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 //export const UPDATE_LIST = 'UPDATE_LIST';
 const API_URL = 'http://cv-generator-carkod.c9users.io:8081/api';
 
@@ -66,6 +68,32 @@ export function retrievedProject(data) {
     }
 }
 
+export function uploadFail(file) {
+    return {
+        type: UPLOAD_FAIL,
+        file
+    }
+}
+
+export function uploadSuccess(file) {
+    return {
+        type: UPLOAD_SUCCESS,
+        file
+    }
+}
+
+export function uploadFile(file, projID) {
+    console.log(file)
+    return dispatch => {
+        return fetch(`${API_URL}/portfolio/`, {
+           method: 'post',
+           body: file
+        }) 
+        .then(handleResponse)
+        .then(data => dispatch(uploadSuccess(file.name)))
+        .catch(data => dispatch(uploadFail(file.name)));   
+    }
+}
 
 export function deleteProject(id) {
     return dispatch => {

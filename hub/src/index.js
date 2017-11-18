@@ -47,7 +47,7 @@ ReactDOM.render(
           <Route path="/cv/id=:id" component={Detail} />  
           
           <Route exact path="/portfolio" component={Portfolio} />
-          <Route exact path="/portfolio/project" component={Project} />
+          <Route exact path="/portfolio/project/id=:id" component={Project} />
         </Layout>
       </Switch>
     </BrowserRouter>
