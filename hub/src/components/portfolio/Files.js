@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon, Label } from 'semantic-ui-react';
-import { fetchCVs } from '../../actions/cv';
+import { uploadFile } from '../../actions/project';
 import Editor from './Editor';
 import RichTextEditor from 'react-rte';
 
@@ -25,16 +25,20 @@ class Files extends Component {
   }
 
 
-  handleFiles = (e) => {
-    const {documents} = this.state;
-    this.setState({ [e.target.name]: e.target.name })
-    //this.props.onChange(doc)
+  handleChange = (e) => {
+    let data = new FormData();    
+    data.append('fieldname', e.target.files[0])
     
+    fetch(`http://cv-generator-carkod.c9users.io:8081/api/portfolio`, {
+           method: 'post',
+           body: data
+        }) 
+        .then(() => console.log('successful upload'))
   }
-  
+
   handleSubmit = () => {
-    const {documents} = this.state;
-    console.log(documents)
+    
+    console.log(this.handleFiles.files)    
     //this.props.onChange(documents);
   }
   
@@ -49,13 +53,14 @@ class Files extends Component {
         </Header>
           <Form.Field>
             <Label htmlFor="filaname">Enter name/description for the file</Label>
-            <Input name="filename" type="text" id="filename" onChange={this.handleFiles} />
+            <Input name="filename" type="text" id="filename" />
           </Form.Field>
           <Form.Field>
             <Label htmlFor="documents">Upload file</Label>
-            <Input name="file" type="file" id="input" onChange={this.handleFiles} onClick={this.value = null} />
+            <Input name="fieldname" type="file" id="input" onChange={this.handleChange}
+            ref={fieldname => {this.handleFiles = fieldname}} />
           </Form.Field>
-        <Button name="append" type="submit" onClick={this.handleSubmit}>Append</Button>
+        <Button name="append" type="submit" onClick={this.handleSubmit} >Append</Button>
       </div>
     );
 

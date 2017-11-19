@@ -82,16 +82,14 @@ export function uploadSuccess(file) {
     }
 }
 
-export function uploadFile(file, projID) {
-    console.log(file)
+export function uploadFile(file) {
+    console.log('executed')
     return dispatch => {
         return fetch(`${API_URL}/portfolio/`, {
            method: 'post',
            body: file
         }) 
-        .then(handleResponse)
-        .then(data => dispatch(uploadSuccess(file.name)))
-        .catch(data => dispatch(uploadFail(file.name)));   
+        .then(() => console.log('successful upload'))
     }
 }
 

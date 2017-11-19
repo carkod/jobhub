@@ -7,18 +7,18 @@ import { ProjectSchema } from './Schemas';
 // Compile model from schema
 let ProjectModel = mongoose.model('ProjectModel', ProjectSchema );
 
-var storage = multer.diskStorage({
+/*var storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, 'uploads/')
   },
   filename(req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now())
   }
-})
+})*/
 
-var upload = multer({ storage: storage })
+var upload = multer({ dest: 'uploads/' })
 
-const pfAssets = upload.array([ {name: 'files'} ])  
+const pfAssets = upload.single('fieldname')  
 
 
 export default function Portfolio (app, db) {
@@ -36,7 +36,7 @@ export default function Portfolio (app, db) {
         var r = req.body,
             f = req.files,
             project;
-            console.log(f)
+            console.log(req.file)
             
         /*if (!r._id) {
             // Create New

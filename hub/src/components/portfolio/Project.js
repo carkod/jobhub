@@ -48,9 +48,7 @@ class Project extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const {project} = this.state;
-    let doc = new FormData();
-    doc.append('files', files);
-    console.log(doc)
+    
     //console.log(project)
     //this.props.uploadFile(this.state.project.files, project._id)
     /*const {messages} = this.state.projUI;
