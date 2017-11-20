@@ -83,14 +83,11 @@ export function uploadSuccess(file) {
 }
 
 export function uploadFile(file) {
-    console.log('executed')
-    return dispatch => {
-        return fetch(`${API_URL}/portfolio/`, {
-           method: 'post',
-           body: file
-        }) 
-        .then(() => console.log('successful upload'))
-    }
+    return fetch(`${API_URL}/portfolio/`, {
+       method: 'post',
+       body: file
+    })
+    .then(res => res.json());    
 }
 
 export function deleteProject(id) {

@@ -26,27 +26,27 @@ class Files extends Component {
 
 
   handleChange = (e) => {
-    let data = new FormData();    
-    data.append('fieldname', e.target.files[0])
+    console.log(this.state)
+    const {documents} = this.state;
+    let data = new FormData(),
+        fileMeta;
+    data.append('fieldname', e.target.files[0]);
+    uploadFile(data).then(file => {
+      console.log(file)
+      documents.file.name = file.fieldname;
+      documents.file.size = file.size;
+      documents.file.url = file.url;
+      this.setState({ documents })  
+    });
     
-    fetch(`http://cv-generator-carkod.c9users.io:8081/api/portfolio`, {
-           method: 'post',
-           body: data
-        }) 
-        .then(() => console.log('successful upload'))
   }
 
-  handleSubmit = () => {
-    
-    console.log(this.handleFiles.files)    
-    //this.props.onChange(documents);
-  }
   
   render() {
     console.log(this.state)
     const {documents} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
-      <div className="documents section">
+      <div className="fileUpload section">
         <Header sub>
           <span>IT skills</span>
           <button className="btn" onClick={this.pushSkill}><Icon className="green" name="add square"></Icon></button>

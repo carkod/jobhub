@@ -1,3 +1,5 @@
+back/uploads/*
+
 # Logs
 logs
 *.log

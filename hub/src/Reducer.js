@@ -72,7 +72,11 @@ const pfInit = [
     description: RichTextEditor.createEmptyValue(),
     documents: {
         name:'',
-        file:'',
+        file:{
+            name:'',
+            url:'',
+            size:''
+        },
     },
     //other: { type: Schema.Types.Mixed },
    } 

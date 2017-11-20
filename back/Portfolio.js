@@ -6,19 +6,20 @@ import { ProjectSchema } from './Schemas';
 
 // Compile model from schema
 let ProjectModel = mongoose.model('ProjectModel', ProjectSchema );
-
-/*var storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination(req, file, cb) {
+    
     cb(null, 'uploads/')
   },
   filename(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    cb(null, file.originalname)
   }
-})*/
+})
 
-var upload = multer({ dest: 'uploads/' })
 
-const pfAssets = upload.single('fieldname')  
+const upload = multer({ storage: storage })
+
+const fileUpload = upload.single('fieldname')  
 
 
 export default function Portfolio (app, db) {
@@ -32,11 +33,22 @@ export default function Portfolio (app, db) {
        });
     });
         
-    app.post('/api/portfolio', pfAssets, (req, res) => {
-        var r = req.body,
-            f = req.files,
+    app.post('/api/portfolio', (req, res) => {
+        let r = req.body,
+            f = req.file,
             project;
-            console.log(req.file)
+            
+            // file upload
+            fileUpload(req, res, (err) => {
+                if (err) throw err;
+                const {path} = req.file;
+                req.file.url = req.protocol + '://' + req.get('host') + '/' + path;
+                res.json(req.file)
+            })
+        project = new ProjectModel({
+            _id: mongoose.Types.ObjectId(),
+            name: r.name || 'Enter name',
+        });  
             
         /*if (!r._id) {
             // Create New
