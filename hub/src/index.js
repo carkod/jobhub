@@ -18,6 +18,7 @@ import Detail from './components/Detail';
 import Cats from './components/Cats';
 import Portfolio from './components/portfolio/Portfolio';
 import Project from './components/portfolio/Project';
+import LinkedIn from './components/LinkedIn';
 
 import { loadState, saveState } from './localStorage';
 
@@ -48,6 +49,8 @@ ReactDOM.render(
           
           <Route exact path="/portfolio" component={Portfolio} />
           <Route exact path="/portfolio/project/id=:id" component={Project} />
+          
+          <Route exact path="/jobs/linkedin/" component={LinkedIn} />
         </Layout>
       </Switch>
     </BrowserRouter>

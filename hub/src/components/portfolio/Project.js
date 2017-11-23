@@ -21,7 +21,6 @@ class Project extends Component {
     let {project, detail} = this.props;
     this.state = {
       project: props.project,
-      projectUI: props.projectUI
     };
     //this.onChange = this.onChange.bind(this);
   }
@@ -32,6 +31,7 @@ class Project extends Component {
   
   componentWillReceiveProps = (props) => {
     const {project} = props;
+    project.documents.name = project.name;
     this.setState({ project })
   }
   
@@ -39,35 +39,39 @@ class Project extends Component {
     this.setState({langSkills, webdevSkills, itSkills, workExp})
   }*/
   
-  onChange = (e) => {
+  /*onChange = (e) => {
     const {files} = this.state.project;
     this.state.project.files = e
     this.setState({ files })
+  }*/
+  
+  handleFiles = (docs) => {
+    const {project} = this.state;
+    this.setState({ [project]: docs })
   }
   
   onSubmit = (e) => {
     e.preventDefault();
     const {project} = this.state;
+    //const {messages} = this.state.projUI;
     
-    //console.log(project)
-    //this.props.uploadFile(this.state.project.files, project._id)
-    /*const {messages} = this.state.projUI;
-    this.props.saveCV(this.state.project).then(status => {
-      this.state.detail.messages.savedID = status.data._id;
-      this.setState({ messages })
-    });*/
+    this.props.saveProject(project).then(status => {
+      //this.state.detail.messages.savedID = status.data._id;
+      //this.setState({ messages })
+    });
     
   }
   
   render() {
     const {project} = this.state;
+    console.log(this.state)
     return (
       <div id="project">
-      <form encType="multipart/form-data" onSubmit={this.onSubmit} name="project" >
+      <form onSubmit={this.onSubmit} name="project" >
         {/*<Metainfo meta={project} onChange={this.metaChange} />*/}
         <div className="container">
           {/*<Editor />*/}
-          <Files documents={project.documents} onChange={this.onChange}/>
+          <Files documents={project.documents} onUpload={this.handleFiles}/>
           {/*<SysMessage messages={this.state.projUI.messages} />*/}
           
           <Button type="submit" value="Save">

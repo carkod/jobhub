@@ -38,12 +38,9 @@ const ProjectSchema = new Schema({
         cvLang: { type: String },
         cvCountry: { type: String },
     },
-    details: { 
-        description: { type: String },
-        files: { type: String },
-    },
-    
-   
+    image: { type: String },
+    description: { type: Schema.Types.Mixed },
+    documents: [],
     other: { type: Schema.Types.Mixed },
     
 },{timestamps: true}, {strict: false} );

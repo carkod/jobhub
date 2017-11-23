@@ -23,6 +23,10 @@ body {
   left: 15px;
 }
 
+.borderTopDashed {
+  border-top:1px dashed #ccc;
+}
+
 #detail input, #detail textarea {
   border:none;
   outline:none;
@@ -80,4 +84,33 @@ body {
 
 #metainfo .ui.header input {
   padding:0;
+}
+
+/*
+ --- Portfolio page
+*/
+
+
+.fileUpload .btn-upload {
+  border-radius:0.3em;
+  border: 1px solid #2185d0;
+  background-color: #2185d0;
+  padding: 0.3em;
+} 
+
+.fileUpload .btn-upload .icon {
+  color:#fff;
+  margin-right: 0;
+}
+
+.fileUpload #input {
+  border:none;
+}
+
+.fileUpload #fileName {
+  border:none;
+}
+
+.fileUpload .headerRow {
+  background-color: rgba(181,204,24,0.3);
 }

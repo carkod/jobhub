@@ -70,14 +70,15 @@ const pfInit = [
     },
     image: '',
     description: RichTextEditor.createEmptyValue(),
-    documents: {
-        name:'',
+    /*documents: {
+        project:'',
         file:{
             name:'',
             url:'',
             size:''
         },
-    },
+    },*/
+    documents: []
     //other: { type: Schema.Types.Mixed },
    } 
 ]

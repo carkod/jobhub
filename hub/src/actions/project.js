@@ -123,9 +123,7 @@ export function saveProject(data) {
         return fetch(`${API_URL}/portfolio`, {
            method: 'post',
            body: JSON.stringify(data),
-           headers: {
-               "Content-Type" : "application/json"
-           }
+           
         }).then(handleResponse).then(data => dispatch(addProject(data))).then(data);   
     }
 }

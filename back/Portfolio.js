@@ -28,7 +28,7 @@ export default function Portfolio (app, db) {
        
        ProjectModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
            if (err) throw err;
-           console.log(content)
+           //console.log(content)
            res.json(content)
        });
     });
@@ -41,16 +41,15 @@ export default function Portfolio (app, db) {
             // file upload
             fileUpload(req, res, (err) => {
                 if (err) throw err;
-                const {path} = req.file;
-                req.file.url = req.protocol + '://' + req.get('host') + '/' + path;
-                res.json(req.file)
+                
+                if (req.file) {
+                    const {path} = req.file;
+                    req.file.url = req.protocol + '://' + req.get('host') + '/' + path;
+                    res.json(req.file)                    
+                }
             })
-        project = new ProjectModel({
-            _id: mongoose.Types.ObjectId(),
-            name: r.name || 'Enter name',
-        });  
             
-        /*if (!r._id) {
+        if (!r._id) {
             // Create New
             project = new ProjectModel({
                 _id: mongoose.Types.ObjectId(),
@@ -59,21 +58,22 @@ export default function Portfolio (app, db) {
         } else {
             // Update
             project = new ProjectModel({
-                name: r.name,
-                summary: r.summary,
-                persdetails: {
-                    name: r.persdetails ? r.persdetails.name : '',    
-                    lastname: r.persdetails ? r.persdetails.lastname : '',    
+                
+                _id: '',
+                name: '',
+                slug: '',
+                cats: {
+                    position: '',
+                    cvLang: '',
+                    cvCountry:'',
                 },
-                workExp: r.workExp,
-                educ: r.educ,
-                langSkills: r.langSkills,
-                webdevSkills: r.webdevSkills,  
-                itSkills: r.itSkills,
-                other: r.other,
+                image: '',
+                description: '',
+                documents: []
             });
             
         }
+        console.log(project)
         const id = r._id || project._id;
         delete r._id;
         ProjectModel.update({_id: id}, project, {upsert: true }, (err, msg) => {
@@ -92,7 +92,7 @@ export default function Portfolio (app, db) {
                   console.log('No changes')  
               }
           }
-        });*/
+        });
 
     });
     
