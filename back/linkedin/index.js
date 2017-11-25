@@ -1,19 +1,25 @@
 import axios from 'axios';
 import querystring from 'querystring';
 
+const frontendURL = 'http://cv-generator-carkod.c9users.io:8080/cv/';
+const backendURL = 'http://cv-generator-carkod.c9users.io:8081/api/linkedin';
+
+let id, code, state, error, error_description;
+
 const IN = (app) => {
     
     app.get('/api/linkedin', (req, res) => {
-        const {error} = req.query;
-        const {error_description} = req.query;
-        const {code} = req.query;
-        const {state} = req.query;
-        
-        if (error) {
+        if (req.query.id) {
+            id = req.query.id;
+        } else if (!req.query.id && req.query.code) {
+            code = req.query.code;
+            state = req.query.state;
+            handshake(req.query.code, res, state);
+        } else if (req.query.error) {
+            error = req.query.error
+            error_description = req.query.error_description;
             new Error(error);
         }
-        
-        handshake(req.query.code, res, state);
         
     });
     
@@ -42,10 +48,10 @@ const handshake = (code, ores, state) => {
     axios(config).then(resp => {
         const {access_token} = resp;
         const {expires_in} = resp;
-        console.log(resp);
+        //console.log(resp);
     }).catch(error => {
         console.log('error in axios request');
-    }).then(() => ores.redirect('http://cv-generator-carkod.c9users.io:8080/jobs/linkedin'));
+    }).then(() => ores.redirect(frontendURL + 'id=' + id));
     
 }
 

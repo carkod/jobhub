@@ -12,13 +12,11 @@ class Editor extends Component {
   }
   
   componentDidMount = () => {
-    console.log(this.props)
     this.setState({ value: this.props.value })   
   }
 
   
   componentWillReceiveProps = (props) => {
-    console.log(props)
       const value = RichTextEditor.createValueFromString(props.value.toString('html'), 'html');
       this.setState({ value: value })   
   }

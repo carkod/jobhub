@@ -6,9 +6,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import moment from 'moment';
-import { Icon, Button, Header } from 'semantic-ui-react';
-import { saveCV, fetchCVs } from '../actions/cv';
+import { Icon, Button, Header, Input, Checkbox } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
+import { saveCV, fetchCVs } from '../actions/cv';
+import { authorization } from '../actions/linkedin';
+
 
 import Summary from './Summary'; 
 import Metainfo from './Metainfo'; 
@@ -27,7 +29,7 @@ class Detail extends Component {
     let {cv, detail} = this.props;
     this.state = {
       cv: cv,
-      detail: detail
+      detail: detail,
     };
     this.pdChange = this.pdChange.bind(this);
     this.metaChange = this.metaChange.bind(this);
@@ -74,10 +76,23 @@ class Detail extends Component {
     e.preventDefault();
     clearTimeout();
     const {messages} = this.state.detail;
-    this.props.saveCV(this.state.cv).then(status => {
+    const {_id} = this.state.cv;
+    
+    if (this.state.linkedin) {
+        this.props.saveCV(this.state.cv).then(status => {
+        this.state.detail.messages.savedID = status.data._id;
+        this.setState({ messages });
+        authorization(_id)
+      })
+      .then(() => window.location = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78n5odk9nuiotg&redirect_uri=http%3A%2F%2Fcv-generator-carkod.c9users.io%3A8081%2Fapi%2Flinkedin&state=48295620` );  
+    } else {
+      this.props.saveCV(this.state.cv).then(status => {
       this.state.detail.messages.savedID = status.data._id;
       this.setState({ messages })
     });
+    }
+    
+    
     
   }
   
@@ -98,7 +113,15 @@ class Detail extends Component {
           <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
           <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
           
+          <div className="section">
+          <Checkbox type="checkbox" label={<label><i className="blue linkedin square large icon"/></label>} toggle checked={this.state.linkedin} onChange={() => this.setState({ linkedin: !this.state.linkedin})} />
+          
+          <Checkbox type="checkbox" label='Push to Jobbio' toggle checked={this.state.jobbio} onChange={() => this.setState({ jobbio: !this.state.jobbio})} />
+          </div>
+          
           <SysMessage messages={this.state.detail.messages} />
+          
+          <br />          
           
           <Button type="submit" value="Save">
             <Icon name="save" />Save

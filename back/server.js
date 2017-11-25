@@ -23,7 +23,7 @@ dbUrl = 'mongodb://carloswu.xyz:27017/' + dbName;
 
 import CVs from './CVs.js';
 import Portfolio from './Portfolio.js';
-import {IN} from './Linkedin';
+import {IN} from './linkedin';
 
 let promise = mongoose.connect(dbUrl, { useMongoClient: true });
 

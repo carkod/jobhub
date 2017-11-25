@@ -15,7 +15,6 @@ class Summary extends Component {
     }
     
     componentDidMount = () => {
-        console.log(this.props)
         /*const value = RichTextEditor.createValueFromString(this.props.summary.toString('html'), 'html');
         this.setState({ value: value })*/
     }

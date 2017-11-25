@@ -12,7 +12,7 @@ export default function CVs (app, db) {
        
        CVModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
            if (err) throw err;
-           console.log(content)
+           //console.log(content)
            res.json(content)
        });
     });
@@ -45,23 +45,22 @@ export default function CVs (app, db) {
             });
             
         }
-        console.log(cv)    
         const id = r._id || cv._id;
         delete r._id;
         CVModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {
             
           if (err) {
-              console.log(err);
+              throw err;
               
           } else {
               
               if (msg.ok) {
                 const savedID = id;   
                 res.json({ _id: savedID, status: !!msg.ok });
-                console.log('changes saved!')  
+                //console.log('changes saved!')  
               } else {
                   res.json({ status: !!msg.ok });
-                  console.log('No changes')  
+                  //console.log('No changes')  
               }
           }
         });
@@ -69,15 +68,11 @@ export default function CVs (app, db) {
     });
     
     app.get('/api/cvs/:_id', (req, res) => {
-       console.log(req.params)
        if (req.params._id) {
             CVModel.findById(req.params._id, (err, cv) => {  
                 if(!err) {
-                    console.log(cv)
-                    
                     res.json({ cv })
                 } else {
-                    
                     res.json({ message: err })
                 }
             });
@@ -94,7 +89,6 @@ export default function CVs (app, db) {
     });
     
     app.delete('/api/cvs/:_id', (req, res) => {
-       console.log(req.params)
        if (req.params._id) {
             CVModel.findByIdAndRemove(req.params._id, (err, cv) => {  
                 if(!err) {
