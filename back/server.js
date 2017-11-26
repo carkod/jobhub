@@ -39,11 +39,17 @@ promise.then((db) => {
     app.use(bodyParser.json());
     app.use(expressValidator());
     app.use(cors());
+    
+    //Download static files in uploads folder
+    app.use(express.static(__dirname + '/uploads'));
+    app.get('/uploads/:filename', (req, res) => {
+        res.download(__dirname + req.url);
+    });
 
     //3rd party APIs
     IN(app);
     
-    //start CRUD
+    //CRUD
     CVs(app, db);
     Portfolio(app, db);
     

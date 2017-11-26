@@ -3,9 +3,9 @@ TO-DO
 
 ### SERVER
 
+- Download files /uploads with spaces in filename
 - Live Mongodb configure authorization
 - Production Build back
-- API authentication (require credentials for CORS connection)
 
 ### List.js
 
@@ -14,7 +14,7 @@ TO-DO
 
 ### Others
 
-- Add initial focus to AddNew.js 
+
 - Refactor SysMessage component. Use Redux actions {type: actionName, data: ...} to pass notification messages, reducer format (switch and return) - single component for all sysmessages
 
 
@@ -32,6 +32,8 @@ NEXT VERSION:
 
 LOG
 ======
+- Add initial focus to AddNew.js 
+- API authentication (require credentials for CORS connection)
 - Detail.js: refactor WorkExp to make it resusable for Educ - use Skills repeater
 - Detail.js: Editable
 - Detail.js: dynamic notification after save

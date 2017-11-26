@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon, Label, Table } from 'semantic-ui-react';
-import { uploadFile } from '../../actions/project';
+import { uploadFile, removeFile } from '../../actions/project';
 import Editor from './Editor';
 import RichTextEditor from 'react-rte';
 import moment from 'moment';
@@ -56,26 +56,23 @@ class Files extends Component {
         fileURL : file.url,
       }
       documents.push(newFile);
-      
       let i = i++;
-      const docs = Object.assign({}, documents[i], {
+      /*const docs = Object.assign(documents, {
         fileName : file.fieldname,
         fileSize : file.size,
         fileDate : Date.now(),
         fileURL : file.url,
-      });
+      });*/
       
       this.setState({ documents, uploading:false });
-      this.props.onUpload(documents)
+      this.props.onUpload({documents});
     });
     
   }
-
   
   render() {
     console.log(this.state)
     const {documents} = !!Object.keys(this.state).length ? this.state : this.props;
-    
     return (
       <div className="fileUpload section">
         <Header sub>
@@ -96,11 +93,10 @@ class Files extends Component {
                 Number of files
               </Grid.Column>
             </Grid.Row>
-   
             {documents.map((doc, i) => 
               <Grid.Row columns={4} key={doc.fileId}>
                 <Grid.Column textAlign="center" width={4}>
-                  <Icon name="delete" className="red large" onClick={this.removeFile}/>
+                  <button onClick={(e) => { removeFile(doc.fileURL) }}><Icon name="delete" className="red large"/></button>
                 </Grid.Column>
                 <Grid.Column width={4}>
                   <input id="fileName" value={doc.fileName} onChange={this.fileNameChange(i)}/>
@@ -112,7 +108,7 @@ class Files extends Component {
                   {doc.fileSize}
                 </Grid.Column>
                 <Grid.Column width={16} className="borderTopDashed">
-                  {doc.fileURL}
+                  <a href={doc.fileURL} title="download">{doc.fileURL}</a>
                 </Grid.Column>
               </Grid.Row>
             )}

@@ -82,8 +82,28 @@ export function uploadSuccess(file) {
     }
 }
 
+export function fileRemoved(file) {
+    return {
+        type: UPLOAD_SUCCESS,
+        file
+    }
+}
+
+export function removeFile(fileURL) {
+    
+        console.log(fileURL)
+        return fetch(`${API_URL}/portfolio/deupload`, {
+           method: 'post',
+           body: JSON.stringify(fileURL),
+           headers: {
+               "Content-Type" : "application/json"
+           }
+        })
+        .then(res => {console.log(res); res.json()});    
+}
+
 export function uploadFile(file) {
-    return fetch(`${API_URL}/portfolio/`, {
+    return fetch(`${API_URL}/portfolio/upload`, {
        method: 'post',
        body: file
     })
@@ -92,7 +112,7 @@ export function uploadFile(file) {
 
 export function deleteProject(id) {
     return dispatch => {
-        return fetch(`${API_URL}/portfolio/${id}`, {
+        return fetch(`${API_URL}/project/${id}`, {
            method: 'delete',
            headers: {
                "Content-Type" : "application/json"
@@ -123,7 +143,9 @@ export function saveProject(data) {
         return fetch(`${API_URL}/portfolio`, {
            method: 'post',
            body: JSON.stringify(data),
-           
+           headers: {
+               "Content-Type" : "application/json"
+           }
         }).then(handleResponse).then(data => dispatch(addProject(data))).then(data);   
     }
 }
@@ -138,7 +160,7 @@ export function fetchPortfolio() {
 
 export function fetchProject(id) {
     return dispatch => {
-        fetch(`${API_URL}/portfolio/${id}`)
+        fetch(`${API_URL}/project/${id}`)
         .then(res => res.json())
         .then(data => dispatch(setProjects(data)))
     }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import querystring from 'querystring';
-
+//import UpdateProfile from './UpdateProfile';
 const frontendURL = 'http://cv-generator-carkod.c9users.io:8080/cv/';
 const backendURL = 'http://cv-generator-carkod.c9users.io:8081/api/linkedin';
 
@@ -48,11 +48,13 @@ const handshake = (code, ores, state) => {
     axios(config).then(resp => {
         const {access_token} = resp;
         const {expires_in} = resp;
-        //console.log(resp);
+        //UpdateProfile(resp);
     }).catch(error => {
         console.log('error in axios request');
     }).then(() => ores.redirect(frontendURL + 'id=' + id));
     
 }
+
+
 
 export { IN };

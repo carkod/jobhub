@@ -28,27 +28,33 @@ export default function Portfolio (app, db) {
        
        ProjectModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
            if (err) throw err;
-           //console.log(content)
            res.json(content)
        });
     });
-        
-    app.post('/api/portfolio', (req, res) => {
+    
+    app.post('/api/portfolio/upload', (req, res) => {
+        let f = req.file;
+        // file upload
+        fileUpload(req, res, (err) => {
+            if (err) throw err;
+            
+            if (req.file) {
+                const {path} = req.file;
+                req.file.url = req.protocol + '://' + req.get('host') + '/' + path;
+                res.json(req.file)                    
+            }
+        })    
+    });
+    
+    app.get('/api/portfolio/deupload', (req, res) => {
+        let fileURL = req.body;
+        console.log(fileURL)
+    });
+    
+    
+    app.post('/api/portfolio/project', (req, res) => {
         let r = req.body,
-            f = req.file,
             project;
-            
-            // file upload
-            fileUpload(req, res, (err) => {
-                if (err) throw err;
-                
-                if (req.file) {
-                    const {path} = req.file;
-                    req.file.url = req.protocol + '://' + req.get('host') + '/' + path;
-                    res.json(req.file)                    
-                }
-            })
-            
         if (!r._id) {
             // Create New
             project = new ProjectModel({
@@ -59,17 +65,17 @@ export default function Portfolio (app, db) {
             // Update
             project = new ProjectModel({
                 
-                _id: '',
-                name: '',
-                slug: '',
+                _id: r._id,
+                name: r.name,
+                slug: r.slug,
                 cats: {
-                    position: '',
-                    cvLang: '',
-                    cvCountry:'',
+                    position: r.cats.position,
+                    cvLang: r.cats.cvLang,
+                    cvCountry: r.cats.cvCountry,
                 },
-                image: '',
-                description: '',
-                documents: []
+                image: r.image,
+                description: r.description,
+                documents: r.documents
             });
             
         }
@@ -79,40 +85,36 @@ export default function Portfolio (app, db) {
         ProjectModel.update({_id: id}, project, {upsert: true }, (err, msg) => {
             
           if (err) {
-              console.log(err);
+              throw err;
               
           } else {
               
               if (msg.ok) {
                 const savedID = id;   
                 res.json({ _id: savedID, status: !!msg.ok });
-                console.log('changes saved!')  
+                //console.log('changes saved!')  
               } else {
                   res.json({ status: !!msg.ok });
-                  console.log('No changes')  
+                  //console.log('No changes')  
               }
           }
         });
 
     });
     
-    app.get('/api/portfolio/:_id', (req, res) => {
-       console.log(req.params)
+    app.get('/api/project/:_id', (req, res) => {
        if (req.params._id) {
             ProjectModel.findById(req.params._id, (err, project) => {  
                 if(!err) {
-                    console.log(project)
-                    
-                    res.json({ project })
+                    throw err;
                 } else {
-                    
                     res.json({ message: err })
                 }
             });
         } else {
             
             let response = {
-                message: "Item could not be deleted deleted",
+                message: "Item could not be found",
             };
             
             res.send(response)
@@ -121,8 +123,8 @@ export default function Portfolio (app, db) {
         
     });
     
-    app.delete('/api/portfolio/:_id', (req, res) => {
-       console.log(req.params)
+    app.delete('/api/project/:_id', (req, res) => {
+       //console.log(req.params)
        if (req.params._id) {
             ProjectModel.findByIdAndRemove(req.params._id, (err, project) => {  
                 if(!err) {
@@ -147,75 +149,3 @@ export default function Portfolio (app, db) {
     
     
 }
-/*
-var obj = {
-            _id : '',
-            slug:'front-end-developer-project',
-            lang: 'en',
-            position: [
-                {
-                    title: 'front-end',
-                    lang:'en'
-                },
-                {
-                    title: 'business',
-                    lang:'en'
-                }
-            ],
-            content: {
-                summary: ['123456', '456789'],
-                details: {
-                    name: 'Carlos',
-                    surname: 'Wu Fei',
-                    phone: '07926734842',
-                    photo: 'foto-project.jpg',
-                    nationality: 'Spanish',
-                    Address: '40 Millrise',
-                },
-                work_exp: [
-                        {
-                        date: '08/2016 – now',
-                        company: 'Eventure Internet Ltd.',
-                        jobtitle: 'Front-end developer. Web designer. Project support.',
-                        description: 'Design team, front-end developer and web designer (C# MVC, Javascript, HTML5, CSS3). Offshore team management. Project support (issue tracking, quality assurance, stakeholder&#39;s management). Agile development.',
-                        },
-                        {
-                          date: '05/2015 – 12/2015',
-                          company: 'Fourcats Media S.L.',
-                          jobtitle: 'Front-end developer / Web designer at Fourcats Media.',
-                          description: 'Successfully implemented graphic design mockups into HTML5 and CSS in www.todopapas.com and www.canastilladelembarazo.com both responsive as of now. jQuery was used for improved interactions with user, Bootstrap for responsive design, on a cakePHP back-end architecture. Newsletters were sent to clients through OpenX and PHP list.',
-                        },
-                    ],
-                education : [ 
-                        {
-                        date: '08/2016 – now',
-                        institution: 'BCSM',
-                        diploma: 'Master’s degree in Business Management Consulting',
-                        description: 'Design team, front-end developer and web designer (C# MVC, Javascript, HTML5, CSS3). Offshore team management. Project support (issue tracking, quality assurance, stakeholder&#39;s management). Agile development.',
-                        },
-                        {
-                          date: '05/2015 – 12/2015',
-                          institution: 'University Carlos III of Madrid',
-                          diploma: 'Bachelor\'s degree in Business Management (English)',
-                          description: 'Successfully implemented graphic design mockups into HTML5 and CSS in www.todopapas.com and www.canastilladelembarazo.com both responsive as of now. jQuery was used for improved interactions with user, Bootstrap for responsive design, on a cakePHP back-end architecture. Newsletters were sent to clients through OpenX and PHP list.',
-                        },
-                    ],
-                webdev: [
-                        {
-                            name: 'HTML',
-                            description: 'HTML5',
-                            level: '95%',
-                        },
-                        {
-                        name: 'CSS',
-                            description: 'CSS3',
-                            level: '95%'
-                        },
-                        {
-                            name: 'Javascript',
-                            description: 'DOM Manipulation, ES6',
-                            level: '85%'
-                        },
-                    ],
-            }
-        };*/

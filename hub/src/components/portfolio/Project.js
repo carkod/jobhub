@@ -31,8 +31,23 @@ class Project extends Component {
   
   componentWillReceiveProps = (props) => {
     const {project} = props;
-    project.documents.name = project.name;
     this.setState({ project })
+  }
+  
+  metaChange = (e, value) => {
+    const {project} = this.state;
+    if (e.target.name) {
+      project[e.target.name] = e.target.value;
+    } else {
+      project[value.name] = value.value;
+    }
+    this.setState({ project })
+  }
+  
+  descChange = (e) => {
+    const {value} = e.target.value;
+    console.log(value)
+    this.setState({ desc: value })
   }
   
   /*onChange = ({langSkills, webdevSkills, itSkills, workExp}) => {
@@ -47,7 +62,9 @@ class Project extends Component {
   
   handleFiles = (docs) => {
     const {project} = this.state;
-    this.setState({ [project]: docs })
+    this.state.project.documents = docs.documents;
+    console.log(docs)
+    this.setState({ project })
   }
   
   onSubmit = (e) => {
@@ -68,9 +85,9 @@ class Project extends Component {
     return (
       <div id="project">
       <form onSubmit={this.onSubmit} name="project" >
-        {/*<Metainfo meta={project} onChange={this.metaChange} />*/}
+        <Metainfo meta={project} onChange={this.metaChange} />
         <div className="container">
-          {/*<Editor />*/}
+          {/*<Editor value={project.desc} onChange={this.descChange} />*/}
           <Files documents={project.documents} onUpload={this.handleFiles}/>
           {/*<SysMessage messages={this.state.projUI.messages} />*/}
           

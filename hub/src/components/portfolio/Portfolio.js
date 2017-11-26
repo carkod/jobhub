@@ -34,14 +34,14 @@ class Portfolio extends Component {
   }
  
   handleDelete = () => {
-    const getItem = this.props.cvs[this.state.activeIndex],
+    const getItem = this.props.portfolio[this.state.activeIndex],
           getID = getItem._id,
           getName = getItem.name;
           
-    this.props.deleteCV(getID).then(cv => {
+    this.props.deleteProject(getID).then(cv => {
       this.setState({ deletedID: cv.id, deletedName: getName });
       this.setState({ openAccordion: false  }); 
-      this.props.fetchCVs();
+      this.props.fetchPortfolio();
     })
     
   }
