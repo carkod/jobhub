@@ -45,33 +45,44 @@ class Files extends Component {
     const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2) + ' KB';
     
     //Pushing new file to array
-    this.setState({ uploading:true }); /* When there is no file and clicked upload? */
+    this.setState({ uploading:true }); 
+    
     uploadFile(data).then(file => {
-      
       const newFile = {
         fileId: shortid.generate(),
         fileName : file.fieldname,
         fileSize : parseSize(file.size),
         fileDate : Date.now(),
         fileURL : file.url,
+        fileRawName : file.originalname,
+        fileDir: file.destination
       }
       documents.push(newFile);
-      let i = i++;
-      /*const docs = Object.assign(documents, {
-        fileName : file.fieldname,
-        fileSize : file.size,
-        fileDate : Date.now(),
-        fileURL : file.url,
-      });*/
       
-      this.setState({ documents, uploading:false });
-      this.props.onUpload({documents});
+      this.setState({ documents, uploading:false }, () => {
+        this.props.onUpload({documents});
+      });
+      
     });
     
   }
   
+  deleteDoc = (doc) => (e) => {
+    
+    e.preventDefault();
+    const {documents} = this.state;
+    removeFile(doc)
+    .then(file => {
+    console.log('deleted file, now removing from state')    
+    const i = documents.findIndex(x => x.fileId === doc.fileId)
+    documents.splice(i,1);
+    this.setState({ documents });
+    this.props.onDeupload({documents});
+    })
+    
+  }
+  
   render() {
-    console.log(this.state)
     const {documents} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
       <div className="fileUpload section">
@@ -96,7 +107,7 @@ class Files extends Component {
             {documents.map((doc, i) => 
               <Grid.Row columns={4} key={doc.fileId}>
                 <Grid.Column textAlign="center" width={4}>
-                  <button onClick={(e) => { removeFile(doc.fileURL) }}><Icon name="delete" className="red large"/></button>
+                  <button onClick={this.deleteDoc(doc)}><Icon name="delete" className="red large"/></button>
                 </Grid.Column>
                 <Grid.Column width={4}>
                   <input id="fileName" value={doc.fileName} onChange={this.fileNameChange(i)}/>

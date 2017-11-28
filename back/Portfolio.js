@@ -1,26 +1,23 @@
 //import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 import multer from 'multer';
-
+import fs from 'fs';
 import { ProjectSchema } from './Schemas';
 
 // Compile model from schema
 let ProjectModel = mongoose.model('ProjectModel', ProjectSchema );
+
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    
-    cb(null, 'uploads/')
+    cb(null, 'uploads/');
   },
   filename(req, file, cb) {
-    cb(null, file.originalname)
+    cb(null, file.originalname);
   }
-})
+});
 
-
-const upload = multer({ storage: storage })
-
-const fileUpload = upload.single('fieldname')  
-
+const upload = multer({ storage: storage });
+const fileUpload = upload.single('fieldname');
 
 export default function Portfolio (app, db) {
     
@@ -46,9 +43,17 @@ export default function Portfolio (app, db) {
         })    
     });
     
-    app.get('/api/portfolio/deupload', (req, res) => {
-        let fileURL = req.body;
-        console.log(fileURL)
+    app.post('/api/portfolio/deupload', (req, res) => {
+        let doc = req.body;
+        const fileDir = __dirname + '/' + doc.fileDir + doc.fileRawName;
+        fs.unlink(fileDir, (err) => {
+            if (err) {
+                res.json(err)    
+            } else {
+                res.json(doc)
+            }
+            
+        });
     });
     
     
@@ -64,7 +69,6 @@ export default function Portfolio (app, db) {
         } else {
             // Update
             project = new ProjectModel({
-                
                 _id: r._id,
                 name: r.name,
                 slug: r.slug,
@@ -79,7 +83,6 @@ export default function Portfolio (app, db) {
             });
             
         }
-        console.log(project)
         const id = r._id || project._id;
         delete r._id;
         ProjectModel.update({_id: id}, project, {upsert: true }, (err, msg) => {

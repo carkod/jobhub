@@ -18,8 +18,8 @@ let dbUrl;
     dbUrl = 'mongodb://localhost:27017/' + dbName;        
 }*/
 
-dbUrl = 'mongodb://carloswu.xyz:27017/' + dbName;
-
+//Live Digital ocean MongoDB only allows to connect from c9.io IP (dev environment)
+dbUrl = 'mongodb://carkod:48295620-j@www.carloswu.xyz:27017/' + dbName;
 
 import CVs from './CVs.js';
 import Portfolio from './Portfolio.js';

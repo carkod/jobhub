@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { SET_CV, CV_DELETED, SYNC_PERSDETAILS } from './actions/cv';
-import { SET_PROJECTS, PROJECT_DELETED } from './actions/project';
+import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED } from './actions/project';
 import RichTextEditor from 'react-rte';
 
 const cvInitial = 
@@ -120,6 +120,11 @@ function detail (state = detailInit, action = {}) {
 
 const portfolio = (state = pfInit, action = {}) =>  {
     switch (action.type) {
+        case FILE_REMOVED:
+            console.log(state);
+            console.log(action);
+            const file = action.data
+            return file
         case SET_PROJECTS:
             let portfolio= [];
             for (let i of action.projects) {

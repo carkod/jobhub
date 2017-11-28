@@ -9,6 +9,7 @@ export const RETRIEVED_PROJECT = 'RETRIEVED_PROJECT';
 export const PROJECT_DELETED = 'PROJECT_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+export const FILE_REMOVED = 'FILE_REMOVED';
 //export const UPDATE_LIST = 'UPDATE_LIST';
 const API_URL = 'http://cv-generator-carkod.c9users.io:8081/api';
 
@@ -84,22 +85,19 @@ export function uploadSuccess(file) {
 
 export function fileRemoved(file) {
     return {
-        type: UPLOAD_SUCCESS,
+        type: FILE_REMOVED,
         file
     }
 }
 
-export function removeFile(fileURL) {
-    
-        console.log(fileURL)
-        return fetch(`${API_URL}/portfolio/deupload`, {
-           method: 'post',
-           body: JSON.stringify(fileURL),
-           headers: {
-               "Content-Type" : "application/json"
-           }
-        })
-        .then(res => {console.log(res); res.json()});    
+export function removeFile(file) {
+    return fetch(`${API_URL}/portfolio/deupload`, {
+       method: 'post',
+       headers: {
+           "Content-Type" : "application/json"
+       },
+       body: JSON.stringify(file),
+    }).then(res => res.json())
 }
 
 export function uploadFile(file) {
@@ -140,7 +138,7 @@ export function copyProject(data) {
 
 export function saveProject(data) {
     return dispatch => {
-        return fetch(`${API_URL}/portfolio`, {
+        return fetch(`${API_URL}/portfolio/project`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: {

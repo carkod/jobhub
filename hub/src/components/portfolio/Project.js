@@ -88,7 +88,7 @@ class Project extends Component {
         <Metainfo meta={project} onChange={this.metaChange} />
         <div className="container">
           {/*<Editor value={project.desc} onChange={this.descChange} />*/}
-          <Files documents={project.documents} onUpload={this.handleFiles}/>
+          <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
           {/*<SysMessage messages={this.state.projUI.messages} />*/}
           
           <Button type="submit" value="Save">
