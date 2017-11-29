@@ -68,16 +68,15 @@ class Files extends Component {
   }
   
   deleteDoc = (doc) => (e) => {
-    
     e.preventDefault();
     const {documents} = this.state;
+    
     removeFile(doc)
-    .then(file => {
-    console.log('deleted file, now removing from state')    
-    const i = documents.findIndex(x => x.fileId === doc.fileId)
-    documents.splice(i,1);
-    this.setState({ documents });
-    this.props.onDeupload({documents});
+      .then(file => {
+        const i = documents.findIndex(x => x.fileId === doc.fileId)
+        documents.splice(i,1);
+        this.setState({ documents });
+        this.props.onDeupload({documents});
     })
     
   }
@@ -107,7 +106,7 @@ class Files extends Component {
             {documents.map((doc, i) => 
               <Grid.Row columns={4} key={doc.fileId}>
                 <Grid.Column textAlign="center" width={4}>
-                  <button onClick={this.deleteDoc(doc)}><Icon name="delete" className="red large"/></button>
+                  <button className="btn" onClick={this.deleteDoc(doc)}><Icon name="delete" className="red large"/></button>
                 </Grid.Column>
                 <Grid.Column width={4}>
                   <input id="fileName" value={doc.fileName} onChange={this.fileNameChange(i)}/>

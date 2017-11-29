@@ -39,7 +39,7 @@ const ProjectSchema = new Schema({
         cvCountry: { type: String },
     },
     image: { type: String },
-    description: { type: Schema.Types.Mixed },
+    desc: { type: Schema.Types.Mixed },
     documents: [],
     other: { type: Schema.Types.Mixed },
     

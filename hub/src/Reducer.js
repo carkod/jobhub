@@ -69,7 +69,7 @@ const pfInit = [
         cvCountry:'',
     },
     image: '',
-    description: RichTextEditor.createEmptyValue(),
+    desc: RichTextEditor.createEmptyValue(),
     /*documents: {
         project:'',
         file:{

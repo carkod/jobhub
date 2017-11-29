@@ -78,7 +78,7 @@ export default function Portfolio (app, db) {
                     cvCountry: r.cats.cvCountry,
                 },
                 image: r.image,
-                description: r.description,
+                desc: r.desc,
                 documents: r.documents
             });
             

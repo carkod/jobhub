@@ -22,7 +22,10 @@ class Project extends Component {
     this.state = {
       project: props.project,
     };
-    //this.onChange = this.onChange.bind(this);
+    this.metaChange = this.metaChange.bind(this);
+    this.descChange = this.descChange.bind(this);
+    this.handleFiles = this.handleFiles.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount = () => {
@@ -44,10 +47,10 @@ class Project extends Component {
     this.setState({ project })
   }
   
-  descChange = (e) => {
-    const {value} = e.target.value;
-    console.log(value)
-    this.setState({ desc: value })
+  descChange = (v) => {
+    const {desc} = this.state.project;
+    this.state.project.desc = v;
+    this.setState({ value })
   }
   
   /*onChange = ({langSkills, webdevSkills, itSkills, workExp}) => {
@@ -63,7 +66,6 @@ class Project extends Component {
   handleFiles = (docs) => {
     const {project} = this.state;
     this.state.project.documents = docs.documents;
-    console.log(docs)
     this.setState({ project })
   }
   
@@ -80,14 +82,14 @@ class Project extends Component {
   }
   
   render() {
-    const {project} = this.state;
+    const {project} = !!Object.keys(this.state).length ? this.state : this.props;
     console.log(this.state)
     return (
       <div id="project">
       <form onSubmit={this.onSubmit} name="project" >
         <Metainfo meta={project} onChange={this.metaChange} />
         <div className="container">
-          {/*<Editor value={project.desc} onChange={this.descChange} />*/}
+          <Editor value={project.desc} onChange={v => this.descChange(v)} />
           <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
           {/*<SysMessage messages={this.state.projUI.messages} />*/}
           
