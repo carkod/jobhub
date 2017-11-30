@@ -1,6 +1,7 @@
 /* eslint-disable*/
 import React, { Component } from 'react';
 import RichTextEditor from 'react-rte';
+import { Icon, Button, Header, Input } from 'semantic-ui-react';
 
 class Editor extends Component {
   constructor(props) {
@@ -30,7 +31,12 @@ class Editor extends Component {
   render() {
     //console.log(this.state)
     return (
+      <div className="section">
+        <Header sub>
+          <span>Description</span>
+        </Header>
         <RichTextEditor value={this.state.value} onChange={this.handleChange} onBlur={() => this.props.onChange(this.state.value.toString('html'))}/>
+      </div>
     );  
     }
 }

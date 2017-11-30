@@ -87,11 +87,9 @@ class Files extends Component {
       <div className="fileUpload section">
         <Header sub>
           <span>Documents</span>
-          
         </Header>
           
           <Grid padded celled>
-          
             <Grid.Row columns={2} className="headerRow">
               <Grid.Column>
                 <input name='files' type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.handleFiles = fieldname}} />

@@ -12,6 +12,7 @@ import { saveProject, fetchPortfolio, uploadFile } from '../../actions/project';
 import Metainfo from './Metainfo'; 
 import Files from './Files'; 
 import Editor from './Editor'; 
+import Links from './Links'; 
 import SysMessage from './SysMessage';
 
 class Project extends Component {
@@ -89,8 +90,10 @@ class Project extends Component {
       <form onSubmit={this.onSubmit} name="project" >
         <Metainfo meta={project} onChange={this.metaChange} />
         <div className="container">
+          
           <Editor value={project.desc} onChange={v => this.descChange(v)} />
           <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
+          <Links />
           {/*<SysMessage messages={this.state.projUI.messages} />*/}
           
           <Button type="submit" value="Save">
