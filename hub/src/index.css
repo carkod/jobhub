@@ -114,3 +114,10 @@ body {
 .fileUpload .headerRow {
   background-color: rgba(181,204,24,0.5);
 }
+
+#project input, #project textarea {
+  border:none;
+  outline:none;
+  border-bottom:1px solid #00bfff;
+  padding: 0.5em;
+}

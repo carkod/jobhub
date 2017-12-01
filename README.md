@@ -1,6 +1,9 @@
 TO-DO
 ======
 
+### project.js
+- fix select boxes for meta cats
+
 ### SERVER
 
 - Download files /uploads with spaces in filename
@@ -14,8 +17,9 @@ TO-DO
 
 ### Others
 
-
+- Full testing of CVs and Projects
 - Refactor SysMessage component. Use Redux actions {type: actionName, data: ...} to pass notification messages, reducer format (switch and return) - single component for all sysmessages
+- message/disable button when no file has been uploaded  (this.filename === undefined)
 
 
 ***
