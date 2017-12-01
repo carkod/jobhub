@@ -43,8 +43,12 @@ class Files extends Component {
     const {documents} = this.state;
     const data = this.data;
     const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2) + ' KB';
-    
-    //Pushing new file to array
+
+    if (this.fieldname === undefined) {
+      //handle error no file uploaded
+      return false;
+    } else {
+      //Pushing new file to array
     this.setState({ uploading:true }); 
     
     uploadFile(data).then(file => {
@@ -64,6 +68,7 @@ class Files extends Component {
       });
       
     });
+    }
     
   }
   
