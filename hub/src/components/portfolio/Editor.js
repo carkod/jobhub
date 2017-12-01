@@ -14,22 +14,14 @@ class Editor extends Component {
   
   componentWillReceiveProps = (props) => {
       const value = RichTextEditor.createValueFromString(props.value.toString('html'), 'html');
-      console.log(value)
       this.setState({ value: value })   
   }
 
   handleChange = (e) => {
-      this.setState({ value: e });
-      
-      /*const currentVal = value.getEditorState().getCurrentContent();
-      const newVal = e.getEditorState().getCurrentContent();*/
-      /*if (currentVal !== newVal && !this.state.focus) {
-        this.props.update(e)
-      }*/ 
+    this.setState({ value: e });
   }
  
   render() {
-    //console.log(this.state)
     return (
       <div className="section">
         <Header sub>

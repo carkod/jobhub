@@ -71,8 +71,7 @@ const pfInit = [
     image: '',
     desc: RichTextEditor.createEmptyValue(),
     documents: [],
-    demo: [],
-    //other: { type: Schema.Types.Mixed },
+    links: [],
    } 
 ]
 
@@ -102,8 +101,6 @@ function cvs (state = cvInitial, action = {} ){
 }
 
 function detail (state = detailInit, action = {}) {
-    //console.log(state)
-    //console.log(action)
     switch (action.type) {
         
         default:

@@ -41,6 +41,7 @@ const ProjectSchema = new Schema({
     image: { type: String },
     desc: { type: Schema.Types.Mixed },
     documents: [],
+    links: [],
     other: { type: Schema.Types.Mixed },
     
 },{timestamps: true}, {strict: false} );

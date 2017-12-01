@@ -79,7 +79,8 @@ export default function Portfolio (app, db) {
                 },
                 image: r.image,
                 desc: r.desc,
-                documents: r.documents
+                documents: r.documents,
+                links: r.links,
             });
             
         }

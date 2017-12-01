@@ -31,6 +31,7 @@ class Project extends Component {
 
   componentDidMount = () => {
     this.props.fetchPortfolio();
+    document.addEventListener('keydown', this.keySave, false);
   }
   
   componentWillReceiveProps = (props) => {
@@ -51,23 +52,32 @@ class Project extends Component {
   descChange = (v) => {
     const {desc} = this.state.project;
     this.state.project.desc = v;
-    this.setState({ value })
+    this.setState({ desc })
   }
   
-  /*onChange = ({langSkills, webdevSkills, itSkills, workExp}) => {
-    this.setState({langSkills, webdevSkills, itSkills, workExp})
-  }*/
-  
-  /*onChange = (e) => {
-    const {files} = this.state.project;
-    this.state.project.files = e
-    this.setState({ files })
-  }*/
-  
+  handleChange = ({links}) => {
+    console.log(links)
+    this.setState({links: links})
+  }
+ 
   handleFiles = (docs) => {
     const {project} = this.state;
     this.state.project.documents = docs.documents;
     this.setState({ project })
+  }
+  
+  keySave = e => {
+    const {project} = this.state;
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 's') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.saveProject(project).then(status => {
+          //this.state.detail.messages.savedID = status.data._id;
+          //this.setState({ messages })
+        });
+      }
+    }
   }
   
   onSubmit = (e) => {
@@ -84,16 +94,14 @@ class Project extends Component {
   
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(this.state)
     return (
       <div id="project">
       <form onSubmit={this.onSubmit} name="project" >
         <Metainfo meta={project} onChange={this.metaChange} />
         <div className="container">
-          
           <Editor value={project.desc} onChange={v => this.descChange(v)} />
           <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
-          <Links />
+          <Links links={project.links} onChange={l => this.handleChange(l)} />
           {/*<SysMessage messages={this.state.projUI.messages} />*/}
           
           <Button type="submit" value="Save">
