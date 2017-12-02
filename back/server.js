@@ -22,6 +22,7 @@ let dbUrl;
 dbUrl = 'mongodb://carkod:48295620-j@www.carloswu.xyz:27017/' + dbName;
 
 import CVs from './CVs.js';
+import CoverLetters from './CoverLetters.js';
 import Portfolio from './Portfolio.js';
 import {IN} from './linkedin';
 
@@ -51,6 +52,7 @@ promise.then((db) => {
     
     //CRUD
     CVs(app, db);
+    CoverLetters(app, db);
     Portfolio(app, db);
     
    app.listen(PORT, () => console.log('Server is running on localhost:' + PORT)); 

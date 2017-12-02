@@ -7,9 +7,13 @@ import moment from 'moment';
 import { Icon, Button, Header, Input } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 
-import {} from '../../actions/coverLetters';
+import { saveProject, fetchPortfolio, uploadFile } from '../../actions/project';
 
-class CoverLetters extends Component {
+import Metainfo from './Metainfo'; 
+import Editor from './Editor'; 
+import SysMessage from './SysMessage';
+
+class Detail extends Component {
 
   constructor(props) {
     super(props);
@@ -17,11 +21,15 @@ class CoverLetters extends Component {
     this.state = {
       project: props.project,
     };
+    this.metaChange = this.metaChange.bind(this);
+    this.descChange = this.descChange.bind(this);
+    this.handleFiles = this.handleFiles.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount = () => {
     this.props.fetchPortfolio();
-    
+    document.addEventListener('keydown', this.keySave, false);
   }
   
   componentWillReceiveProps = (props) => {
@@ -31,10 +39,14 @@ class CoverLetters extends Component {
   
   metaChange = (e, value) => {
     const {project} = this.state;
+    console.log(e.target.name)
+    console.log(value)
     if (e.target.name) {
       project[e.target.name] = e.target.value;
     } else {
-      project[value.name] = value.value;
+      console.log('select box')
+      console.log(value.value)
+      project.cats[value.name] = value.value;
     }
     this.setState({ project })
   }
@@ -46,7 +58,6 @@ class CoverLetters extends Component {
   }
   
   handleChange = ({links}) => {
-    console.log(links)
     this.setState({links: links})
   }
  
@@ -84,6 +95,7 @@ class CoverLetters extends Component {
   
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
+    console.log(project)
     return (
       <div id="project">
       <form onSubmit={this.onSubmit} name="project" >
@@ -122,5 +134,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { saveProject, fetchPortfolio, uploadFile })(CoverLetters);
+export default connect(mapStateToProps, { saveCL, fetchCLs })(Detail);
 

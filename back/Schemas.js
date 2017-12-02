@@ -27,6 +27,21 @@ const CVSchema = new Schema({
     
 },{timestamps: true}, {strict: false} );
 
+// Cover Letters
+const CLSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    name: { type: String },
+    slug: { type: String, lowercase: true, trim: true },
+    cats: {
+        position: { type: String },
+        locale: { type: String },
+        cvCountry: { type: String },
+    },
+    image: { type: String },
+    desc: { type: Schema.Types.Mixed },
+    other: { type: Schema.Types.Mixed },
+    
+},{timestamps: true}, {strict: false} );
 
 // Projects
 const ProjectSchema = new Schema({
@@ -58,4 +73,4 @@ CVSchema.pre('update', function(next){
   console.log(CVSchema.tree)
 }); */
 
-export { CVSchema, ProjectSchema };
+export { CVSchema, CLSchema, ProjectSchema };

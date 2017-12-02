@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { SET_CV, CV_DELETED, SYNC_PERSDETAILS } from './actions/cv';
+import { SET_CLS, CL_DELETED } from './actions/cl';
 import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED } from './actions/project';
 import RichTextEditor from 'react-rte';
 
@@ -147,20 +148,15 @@ const portfolio = (state = pfInit, action = {}) =>  {
 
 const coverLetters = (state = clInit, action = {}) =>  {
     switch (action.type) {
-        case FILE_REMOVED:
-            console.log(state);
-            console.log(action);
-            const file = action.data
-            return file
-        case SET_PROJECTS:
+        case SET_CLS:
             let portfolio= [];
             for (let i of action.projects) {
                 const merge = Object.assign({}, pfInit[0], i);
                 portfolio.push(merge)
             }
             return portfolio;
-        case PROJECT_DELETED:
-            const deleted = state.filter((item) => item._id !== action.cvs);
+        case CL_DELETED:
+            const deleted = state.filter((item) => item._id !== action.cls);
             return deleted;
         default:
             return state
