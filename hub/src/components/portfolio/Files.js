@@ -97,10 +97,10 @@ class Files extends Component {
           <Grid padded celled>
             <Grid.Row columns={2} className="headerRow">
               <Grid.Column>
-                <input name='files' type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.handleFiles = fieldname}} />
                 <button className="btn btn-upload" name="append" type="submit" onClick={this.handleUpload} disabled={this.state.uploading}>
                   {this.state.uploading ? <Icon loading name="file archive outline" className="white" /> : <Icon name="upload" className="white" />}
                 </button>
+                <input name='files' type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.handleFiles = fieldname}} />
               </Grid.Column>
               <Grid.Column>
                 Number of files

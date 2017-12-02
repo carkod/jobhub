@@ -55,14 +55,14 @@ class Links extends Component {
     const {links} = !!Object.keys(this.state).length ? this.state : this.props;
     const renderList = links.map((link, i) => 
           <Grid.Row columns={4} key={link.id}>
-            <Grid.Column textAlign="center" width={4}>
+            <Grid.Column textAlign="center" width={2}>
               { i > -1 ? <button className="btn btn-close-repeat" onClick={this.removeLink(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
             </Grid.Column>
-            <Grid.Column width={6}>
+            <Grid.Column width={7}>
               <label htmlFor="title">Title </label>
               <input id="linkTitle" name="title" value={link.title} onChange={this.handleChange(i)}/>
             </Grid.Column>
-            <Grid.Column width={6}>
+            <Grid.Column width={7}>
               <label htmlFor="url">URL </label>
               <input id="linkUrl" name="url" value={link.url} onChange={this.handleChange(i)}/>
             </Grid.Column>

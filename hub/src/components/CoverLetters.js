@@ -41,14 +41,10 @@ class Project extends Component {
   
   metaChange = (e, value) => {
     const {project} = this.state;
-    console.log(e.target.name)
-    console.log(value)
     if (e.target.name) {
       project[e.target.name] = e.target.value;
     } else {
-      console.log('select box')
-      console.log(value.value)
-      project.cats[value.name] = value.value;
+      project[value.name] = value.value;
     }
     this.setState({ project })
   }
@@ -60,6 +56,7 @@ class Project extends Component {
   }
   
   handleChange = ({links}) => {
+    console.log(links)
     this.setState({links: links})
   }
  
@@ -97,7 +94,6 @@ class Project extends Component {
   
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(project)
     return (
       <div id="project">
       <form onSubmit={this.onSubmit} name="project" >

@@ -35,7 +35,7 @@ const ProjectSchema = new Schema({
     slug: { type: String, lowercase: true, trim: true },
     cats: {
         position: { type: String },
-        cvLang: { type: String },
+        locale: { type: String },
         cvCountry: { type: String },
     },
     image: { type: String },

@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+.ButtonWrap__root___1EO_R {
+  z-index: 1;
+}
+
 .section {
   
   padding: 1.5em 0;
@@ -92,6 +96,7 @@ body {
 
 
 .fileUpload .btn-upload {
+  display: inline;
   border-radius:0.3em;
   border: 1px solid #2185d0;
   background-color: #2185d0;

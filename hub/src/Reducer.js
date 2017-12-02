@@ -65,7 +65,7 @@ const pfInit = [
     slug: '',
     cats: {
         position: '',
-        cvLang: '',
+        locale: '',
         cvCountry:'',
     },
     image: '',

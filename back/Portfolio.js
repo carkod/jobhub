@@ -74,7 +74,7 @@ export default function Portfolio (app, db) {
                 slug: r.slug,
                 cats: {
                     position: r.cats.position,
-                    cvLang: r.cats.cvLang,
+                    locale: r.cats.locale,
                     cvCountry: r.cats.cvCountry,
                 },
                 image: r.image,
