@@ -7,15 +7,9 @@ import moment from 'moment';
 import { Icon, Button, Header, Input } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 
-import { saveProject, fetchPortfolio, uploadFile } from '../../actions/project';
+import {} from '../../actions/coverLetters';
 
-import Metainfo from './Metainfo'; 
-import Files from './Files'; 
-import Editor from './Editor'; 
-import Links from './Links'; 
-import SysMessage from './SysMessage';
-
-class Project extends Component {
+class CoverLetters extends Component {
 
   constructor(props) {
     super(props);
@@ -23,15 +17,11 @@ class Project extends Component {
     this.state = {
       project: props.project,
     };
-    this.metaChange = this.metaChange.bind(this);
-    this.descChange = this.descChange.bind(this);
-    this.handleFiles = this.handleFiles.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount = () => {
     this.props.fetchPortfolio();
-    document.addEventListener('keydown', this.keySave, false);
+    
   }
   
   componentWillReceiveProps = (props) => {
@@ -132,5 +122,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { saveProject, fetchPortfolio, uploadFile })(Project);
+export default connect(mapStateToProps, { saveProject, fetchPortfolio, uploadFile })(CoverLetters);
 

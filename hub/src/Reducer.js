@@ -75,6 +75,21 @@ const pfInit = [
    } 
 ]
 
+const clInit = [
+   {
+    _id: '' ,
+    name: '',
+    slug: '',
+    cats: {
+        position: '',
+        locale: '',
+        cvCountry:'',
+    },
+    image: '',
+    desc: RichTextEditor.createEmptyValue(),
+   } 
+]
+
 function cvs (state = cvInitial, action = {} ){
     switch(action.type) {
         case SET_CV:
@@ -130,4 +145,27 @@ const portfolio = (state = pfInit, action = {}) =>  {
     }
 }
 
-export default combineReducers({ cvs, detail, portfolio });
+const coverLetters = (state = clInit, action = {}) =>  {
+    switch (action.type) {
+        case FILE_REMOVED:
+            console.log(state);
+            console.log(action);
+            const file = action.data
+            return file
+        case SET_PROJECTS:
+            let portfolio= [];
+            for (let i of action.projects) {
+                const merge = Object.assign({}, pfInit[0], i);
+                portfolio.push(merge)
+            }
+            return portfolio;
+        case PROJECT_DELETED:
+            const deleted = state.filter((item) => item._id !== action.cvs);
+            return deleted;
+        default:
+            return state
+    }
+}
+
+export default combineReducers({ cvs, detail, portfolio, coverLetters });
+
