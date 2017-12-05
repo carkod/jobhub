@@ -149,10 +149,9 @@ const portfolio = (state = pfInit, action = {}) =>  {
 const coverLetters = (state = clInit, action = {}) =>  {
     switch (action.type) {
         case SET_CLS:
-            console.log(action)
             let combined = [];
             for (let i of action.CLs) {
-                const merge = Object.assign({}, cvInitial[0], i);
+                const merge = Object.assign({}, clInit[0], i);
                 combined.push(merge)
             }
             //Find immutable way of doing this

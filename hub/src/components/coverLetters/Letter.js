@@ -17,9 +17,10 @@ class Letter extends Component {
 
   constructor(props) {
     super(props);
-    let {project, detail} = this.props;
+    let {cl, detail} = this.props;
+    console.log(props)
     this.state = {
-      project: props.project,
+      cl: props.cl,
     };
     this.metaChange = this.metaChange.bind(this);
     this.descChange = this.descChange.bind(this);
@@ -29,30 +30,29 @@ class Letter extends Component {
 
   componentDidMount = () => {
     this.props.fetchCLs();
+    document.addEventListener('keydown', this.keySave, false);
   }
   
   componentWillReceiveProps = (props) => {
-    const {project} = props;
-    this.setState({ project })
+    const {cl} = props;
+    this.setState({ cl })
   }
   
   metaChange = (e, value) => {
-    const {project} = this.state;
-    console.log(e.target.name)
-    console.log(value)
+    const {cl} = this.state;
     if (e.target.name) {
-      project[e.target.name] = e.target.value;
+      cl[e.target.name] = e.target.value;
     } else {
       console.log('select box')
       console.log(value.value)
-      project.cats[value.name] = value.value;
+      cl.cats[value.name] = value.value;
     }
-    this.setState({ project })
+    this.setState({ cl })
   }
   
   descChange = (v) => {
-    const {desc} = this.state.project;
-    this.state.project.desc = v;
+    const {desc} = this.state.cl;
+    this.state.cl.desc = v;
     this.setState({ desc })
   }
   
@@ -61,18 +61,18 @@ class Letter extends Component {
   }
  
   handleFiles = (docs) => {
-    const {project} = this.state;
-    this.state.project.documents = docs.documents;
-    this.setState({ project })
+    const {cl} = this.state;
+    this.state.cl.documents = docs.documents;
+    this.setState({ cl })
   }
   
   keySave = e => {
-    const {project} = this.state;
+    const {cl} = this.state;
     if (e.ctrlKey || e.metaKey) {
       if (e.key === 's') {
         e.preventDefault();
         e.stopPropagation();
-        this.props.saveProject(project).then(status => {
+        this.props.savecl(cl).then(status => {
           //this.state.detail.messages.savedID = status.data._id;
           //this.setState({ messages })
         });
@@ -82,10 +82,11 @@ class Letter extends Component {
   
   onSubmit = (e) => {
     e.preventDefault();
-    const {project} = this.state;
+    const {cl} = this.state;
+    console.log(cl)
     //const {messages} = this.state.projUI;
     
-    this.props.saveProject(project).then(status => {
+    this.props.saveCL(cl).then(status => {
       //this.state.detail.messages.savedID = status.data._id;
       //this.setState({ messages })
     });
@@ -93,16 +94,14 @@ class Letter extends Component {
   }
   
   render() {
-    const {project} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(project)
+    const {cl} = !!Object.keys(this.state).length ? this.state : this.props;
+    console.log(cl)
     return (
-      <div id="project">
-      <form onSubmit={this.onSubmit} name="project" >
-        <Metainfo meta={project} onChange={this.metaChange} />
+      <div id="cl">
+      <form onSubmit={this.onSubmit} name="cl" >
+        <Metainfo meta={cl} onChange={this.metaChange} />
         <div className="container">
-          <Editor value={project.desc} onChange={v => this.descChange(v)} />
-          <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
-          <Links links={project.links} onChange={l => this.handleChange(l)} />
+          <Editor value={cl.desc} onChange={v => this.descChange(v)} />
           {/*<SysMessage messages={this.state.projUI.messages} />*/}
           
           <Button type="submit" value="Save">
@@ -117,14 +116,14 @@ class Letter extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  if (state.portfolio[0]._id) {
-    const project = state.portfolio.find(item => item._id === props.match.params.id);
+  if (state.coverLetters[0]._id) {
+    const cl = state.coverLetters.find(item => item._id === props.match.params.id);
     return {
-      project: project,
+      cl: cl,
     }
   } else {
     return { 
-      project: state.portfolio[0],
+      cl: state.coverLetters[0],
     }    
   }
   

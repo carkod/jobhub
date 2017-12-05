@@ -53,7 +53,7 @@ ReactDOM.render(
           <Route exact path="/portfolio/project/id=:id" component={Project} />
           
           <Route exact path="/coverletters" component={CoverLetters} />
-          <Route exact path="/coverletters/" component={Letter} />
+          <Route exact path="/coverletters/id=:id" component={Letter} />
           
           <Route exact path="/jobs/linkedin/" component={LinkedIn} />
         </Layout>

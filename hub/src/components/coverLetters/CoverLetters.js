@@ -47,6 +47,7 @@ class CoverLetters extends Component {
   }
   
   render() {
+    console.log(this.state)
     const {cls} = this.state;
     const list =
     cls.map((letter, i) => ({
@@ -69,7 +70,7 @@ class CoverLetters extends Component {
             </List>
           </div>
           <div className="buttons">
-            <Button primary><Link style={{color: '#fff', display:'block'}} to={`/cls/id=${letter._id}`}>Edit/View</Link></Button>
+            <Button primary><Link style={{color: '#fff', display:'block'}} to={`/coverletters/id=${letter._id}`}>Edit/View</Link></Button>
             <Button onClick={this.handleCopy} secondary>Copy</Button>
             <Button onClick={this.handleDelete} negative>Delete</Button>
           </div>

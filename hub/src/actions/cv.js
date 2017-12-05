@@ -1,4 +1,5 @@
 /* eslint-disable */
+import API_URL from './dev';
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
 export const CV_FETCHED = 'CV_FETCHED';
@@ -9,9 +10,6 @@ export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
 //export const UPDATE_LIST = 'UPDATE_LIST';
 
-const API_URL = 'http://cv-generator-carkod.c9users.io:8081/api';
-
-//const API_URL = 'http://carloswu.xyz:8081/api'; 
 
 function handleResponse(response) {
     if (response.ok) {

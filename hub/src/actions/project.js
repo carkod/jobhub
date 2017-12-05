@@ -1,4 +1,5 @@
 /* eslint-disable */
+import API_URL from './dev';
 export const SET_PROJECTS  = 'SET_PROJECTS';
 export const ADD_PROJECT  = 'ADD_PROJECT';
 export const PROJECT_FETCHED = 'PROJECT_FETCHED';
@@ -11,8 +12,6 @@ export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
 //export const UPDATE_LIST = 'UPDATE_LIST';
-const API_URL = 'http://cv-generator-carkod.c9users.io:8081/api';
-
 
 function handleResponse(response) {
     if (response.ok) {
