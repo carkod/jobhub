@@ -10,7 +10,6 @@ export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
 //export const UPDATE_LIST = 'UPDATE_LIST';
 
-
 function handleResponse(response) {
     if (response.ok) {
         return response.json();

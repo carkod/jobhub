@@ -1,6 +1,5 @@
 /* eslint-disable */
 import API_URL from './dev';
-export const SET_PROJECTS  = 'SET_PROJECTS';
 export const ADD_PROJECT  = 'ADD_PROJECT';
 export const PROJECT_FETCHED = 'PROJECT_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
