@@ -98,7 +98,11 @@ export function saveCL(data) {
            headers: {
                "Content-Type" : "application/json"
            }
+<<<<<<< HEAD
         }).then(handleResponse).then(data => dispatch(addCL(data))).then(data);   
+=======
+        }).then(handleResponse).then(data => dispatch(addProject(data))).then(data);   
+>>>>>>> 13dc922440d0b1303498c522307615456bfd9ae6
     }
 }
 

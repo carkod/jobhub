@@ -5,7 +5,6 @@ import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'sem
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import shortid from 'shortid';
 import { fetchCLs, saveCL, deleteCL } from '../../actions/cl';
 import NewCL from './NewCL';
 import Metainfo from './Metainfo';
@@ -49,36 +48,35 @@ class CoverLetters extends Component {
   
   render() {
     const {cls} = !!Object.keys(this.state).length ? this.state : this.props;
+    console.log(cls)
     const list =
     cls.map((letter, i) => ({
-      title: {
-        content: <span color={this.state.savedID === letter._id ? 'red' : 'inherit' }>{letter.name}</span>,
-        key: shortid.generate(),
-      },
-      content: {
-        content: (
-          <div className="metadata" >
-            <div className="meta-content">
-              <List horizontal relaxed>
-                <List.Item><Icon fitted name='id card' /> {letter._id || 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='checked calendar' /> {moment(letter.updateDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='clock' /> {moment(letter.createdDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
-
-                <List.Item><Icon fitted name='briefcase' /> {letter.cats ? letter.cats.position : 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='talk' /> {letter.cats ? letter.cats.locale : 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='globe' /> {letter.cats ? letter.cats.cvCountry : 'N/A'}</List.Item>  
-              </List>
-            </div>
-            <div className="buttons">
-              <Button primary><Link style={{color: '#fff', display:'block'}} to={`/coverletters/id=${letter._id}`}>Edit/View</Link></Button>
-              <Button onClick={this.handleCopy} secondary>Copy</Button>
-              <Button onClick={this.handleDelete} negative>Delete</Button>
-            </div>
+      key: letter._id,
+      //active: this.state.openAccordion,
+      title: (
+        <span color={this.state.savedID === letter._id ? 'red' : 'inherit' }>{letter.name}</span>
+      ),
+      content: (
+        <div className="metadata" >
+          <div className="meta-content">
+            <List horizontal relaxed>
+              <List.Item><Icon fitted name='id card' /> {letter._id || 'N/A'}</List.Item>
+              <List.Item><Icon fitted name='checked calendar' /> {moment(letter.updateDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
+              <List.Item><Icon fitted name='clock' /> {moment(letter.createdDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
+              
+              <List.Item><Icon fitted name='briefcase' /> {letter.cats ? letter.cats.position : 'N/A'}</List.Item>
+              <List.Item><Icon fitted name='talk' /> {letter.cats ? letter.cats.locale : 'N/A'}</List.Item>
+              <List.Item><Icon fitted name='globe' /> {letter.cats ? letter.cats.cvCountry : 'N/A'}</List.Item>  
+            </List>
           </div>
-        ),
-        key: shortid.generate(),
-  },
-}));
+          <div className="buttons">
+            <Button primary><Link style={{color: '#fff', display:'block'}} to={`/coverletters/id=${letter._id}`}>Edit/View</Link></Button>
+            <Button onClick={this.handleCopy} secondary>Copy</Button>
+            <Button onClick={this.handleDelete} negative>Delete</Button>
+          </div>
+        </div>
+      ),
+    }));
     
     let renderList = <Accordion onTitleClick={(e, index) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={list} styled fluid />
     

@@ -78,7 +78,7 @@ const pfInit = [
 
 const clInit = [
    {
-    _id: 'cl-0' ,
+    _id: '' ,
     name: '',
     slug: '',
     cats: {
@@ -156,6 +156,12 @@ const coverLetters = (state = clInit, action = {}) =>  {
             }
             //Find immutable way of doing this
             return combined;
+            let portfolio= [];
+            for (let i of action.projects) {
+                const merge = Object.assign({}, pfInit[0], i);
+                portfolio.push(merge)
+            }
+            return portfolio;
         case CL_DELETED:
             const deleted = state.filter((item) => item._id !== action.cls);
             return deleted;
