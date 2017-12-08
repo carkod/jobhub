@@ -78,7 +78,7 @@ const pfInit = [
 
 const clInit = [
    {
-    _id: 'cl-0' ,
+    _id: '' ,
     name: '',
     slug: '',
     cats: {
