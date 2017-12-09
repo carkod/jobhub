@@ -18,7 +18,7 @@ export default function CVs (app, db) {
     });
         
     app.post('/api/cvs', (req, res) => {
-        var r = req.body,
+        let r = req.body,
             cv;
             
         if (!r._id) {
@@ -32,10 +32,9 @@ export default function CVs (app, db) {
             cv = new CVModel({
                 name: r.name,
                 summary: r.summary,
-                persdetails: {
-                    name: r.persdetails ? r.persdetails.name : '',    
-                    lastname: r.persdetails ? r.persdetails.lastname : '',    
-                },
+                locale: r.locale,
+                position: r.position,
+                persdetails: r.persdetails,
                 workExp: r.workExp,
                 educ: r.educ,
                 langSkills: r.langSkills,
@@ -43,8 +42,8 @@ export default function CVs (app, db) {
                 itSkills: r.itSkills,
                 other: r.other,
             });
-            
         }
+        
         const id = r._id || cv._id;
         delete r._id;
         CVModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {

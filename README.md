@@ -1,6 +1,6 @@
 TO-DO
 ======
-- add all fields for personal details
+
 - Add Ctrl + S for CVs and portfolio
 - Ranking field for each element in CV
 
@@ -10,6 +10,7 @@ TO-DO
 ### SERVER
 
 - Download files /uploads with spaces in filename
+- Create slug for CVModel
 - Live Mongodb configure authorization
 - Production Build back
 
@@ -39,6 +40,7 @@ NEXT VERSION:
 
 LOG
 ======
+- add all fields for personal details
 - Add initial focus to AddNew.js 
 - API authentication (require credentials for CORS connection)
 - Detail.js: refactor WorkExp to make it resusable for Educ - use Skills repeater

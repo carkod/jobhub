@@ -7,17 +7,14 @@ const Schema = mongoose.Schema;
 const CVSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
+    summary: { type: String },
     slug: { type: String, lowercase: true, trim: true },
     cats: {
         position: { type: String },
-        cvLang: { type: String },
+        locale: { type: String },
         cvCountry: { type: String },
     },
-    persdetails: { 
-        name: { type: String },
-        lastname: { type: String },
-    },
-    
+    persdetails: { type: Schema.Types.Mixed },
     workExp: { type: Schema.Types.Mixed },
     educ: { type: Schema.Types.Mixed },
     langSkills: { type: Schema.Types.Mixed },
