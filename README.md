@@ -1,5 +1,8 @@
 TO-DO
 ======
+- add all fields for personal details
+- Add Ctrl + S for CVs and portfolio
+- Ranking field for each element in CV
 
 ### project.js
 - fix select boxes for meta cats

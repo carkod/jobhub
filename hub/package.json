@@ -17,6 +17,7 @@
     "semantic-ui-react": "^0.77.0",
     "shortid": "^2.2.8"
   },
+  "proxy" : "http://cv-generator-carkod.c9users.io:8081",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
