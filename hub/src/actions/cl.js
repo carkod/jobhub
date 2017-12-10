@@ -62,6 +62,13 @@ export function retrievedCL(data) {
     }
 }
 
+export function CLPasted(data) {
+    return {
+        type: RETRIEVED_CL,
+        data
+    }
+}
+
 export function deleteCL(id) {
     return dispatch => {
         return fetch(`${API_URL}/cls/${id}`, {
@@ -77,7 +84,7 @@ export function deleteCL(id) {
 
 export function copyCL(data) {
     return dispatch => {
-        return fetch(`${API_URL}/cls`, {
+        return fetch(`${API_URL}/cls/${data._id}`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: {
@@ -85,7 +92,7 @@ export function copyCL(data) {
            }
         })
         .then(handleResponse)
-        .then(data => dispatch(ProjectPasted(data.Project)));
+        .then(data => dispatch(CLPasted(data.CL)));
     }
     
 }

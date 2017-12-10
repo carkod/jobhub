@@ -42,8 +42,8 @@ export default function CLs (app, db) {
                 desc: r.desc,
             });
             
-            
         }
+        console.log(r)
         const id = r._id || cv._id;
         delete r._id;
         CLModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {
@@ -80,9 +80,57 @@ export default function CLs (app, db) {
             let response = {
                 message: "Todo could not be deleted deleted",
             };
+            res.send(response)
+        }
+        
+    });
+    
+    // Copy action
+    app.post('/api/cls/:_id', (req, res) => {
+        let r = req.body,
+            cl;
+            
+        if (req.params._id) {
+        
+            cl = new CLModel({
+                _id: mongoose.Types.ObjectId(),
+                name: r.name,
+                slug: r.slug,
+                cats: {
+                    position: r.cats.position,
+                    locale: r.cats.locale,
+                    cvCountry: r.cats.cvCountry,
+                },
+                image: r.image,
+                desc: r.desc,
+            });    
+        
+        const id = r._id || cl._id;
+        delete r._id;
+        CLModel.update({_id: id}, cl, {upsert: true }, (err, msg) => {
+            
+          if (err) {
+              throw err;
+              
+          } else {
+              
+              if (msg.ok) {
+                const savedID = id;   
+                res.json({ _id: savedID, status: !!msg.ok });
+                //console.log('changes saved!')  
+              } else {
+                  res.json({ status: !!msg.ok });
+                  //console.log('No changes')  
+              }
+          }
+        });
+        
+        } else {
+            let response = {
+                message: "Todo could not be copied",
+            };
             
             res.send(response)
-            
         }
         
     });

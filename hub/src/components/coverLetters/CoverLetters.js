@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import shortid from 'shortid';
-import { fetchCLs, saveCL, deleteCL } from '../../actions/cl';
+import { fetchCLs, saveCL, deleteCL, copyCL } from '../../actions/cl';
 import NewCL from './NewCL';
 import Metainfo from './Metainfo';
 import SysMessage from './SysMessage';
@@ -30,21 +30,32 @@ class CoverLetters extends Component {
     this.setState({cls: props.cls})    
   }
  
-  handleCopy = () => {
-    
+  handleCopy = i => e => {
+    e.preventDefault();
+    const {cls} = this.state;
+    let newCL= cls[i];
+    delete newCL._id;
+    if (cls) {
+      this.props.copyCL(newCL).then(status => {
+          this.props.fetchCLs();
+          //this.state.detail.messages.savedID = status.data._id;
+          //this.setState({ messages })
+        });
+    }
   }
  
   handleDelete = () => {
-    const getItem = this.props.cvs[this.state.activeIndex],
+    const getItem = this.props.cls[this.state.activeIndex],
           getID = getItem._id,
           getName = getItem.name;
-    this.props.deleteCV(getID).then(cv => {
+    this.props.deleteCL(getID).then(cv => {
       this.setState({ deletedID: cv.id, deletedName: getName });
       this.setState({ openAccordion: false  }); 
-      this.props.fetchCVs();
+      this.props.fetchCLs();
     })
     
   }
+  
   
   render() {
     const {cls} = !!Object.keys(this.state).length ? this.state : this.props;
@@ -70,7 +81,7 @@ class CoverLetters extends Component {
             </div>
             <div className="buttons">
               <Button primary><Link style={{color: '#fff', display:'block'}} to={`/coverletters/id=${letter._id}`}>Edit/View</Link></Button>
-              <Button onClick={this.handleCopy} secondary>Copy</Button>
+              <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
               <Button onClick={this.handleDelete} negative>Delete</Button>
             </div>
           </div>
@@ -79,7 +90,7 @@ class CoverLetters extends Component {
   },
 }));
     
-    let renderList = <Accordion onTitleClick={(e, index) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={list} styled fluid />
+    let renderList = <Accordion onTitleClick={(e, {index}) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={list} styled fluid />
     
     return (
       <div id="cls" className="">
@@ -99,7 +110,7 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-export default connect(mapStateToProps, { saveCL, fetchCLs, deleteCL })(CoverLetters);
+export default connect(mapStateToProps, { saveCL, fetchCLs, deleteCL, copyCL })(CoverLetters);
 
 
 

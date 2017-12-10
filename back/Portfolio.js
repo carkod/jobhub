@@ -127,6 +127,53 @@ export default function Portfolio (app, db) {
         
     });
     
+    // Copy action
+    app.post('/api/portfolio/:_id', (req, res) => {
+        let r = req.body,
+            id = req.params._id,
+            project;
+            
+        if (id) {
+            project = new ProjectModel({
+                _id: mongoose.Types.ObjectId(),
+                name: r.name,
+                slug: r.slug,
+                cats: {
+                    position: r.cats.position,
+                    locale: r.cats.locale,
+                    cvCountry: r.cats.cvCountry,
+                },
+                image: r.image,
+                desc: r.desc,
+                documents: r.documents,
+                links: r.links,
+            });    
+        ProjectModel.create(project, (err, msg) => {
+            
+          if (err) {
+              throw err;
+              
+          } else {
+              
+              if (msg.ok) {
+                const savedID = id;   
+                res.json({ _id: savedID, status: !!msg.ok });
+              } else {
+                  res.json({ status: !!msg.ok });
+              }
+          }
+        });
+        
+        } else {
+            let response = {
+                message: "Are you sure you are passing a project with _id?",
+            };
+            
+            res.send(response)
+        }
+        
+    });
+    
     app.delete('/api/project/:_id', (req, res) => {
        //console.log(req.params)
        if (req.params._id) {

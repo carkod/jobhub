@@ -61,6 +61,13 @@ export function deletedProject(id) {
     }
 }
 
+export function pastedProject(id) {
+    return {
+        type: PROJECT_DELETED,
+        id
+    }
+}
+
 export function retrievedProject(data) {
     return {
         type: RETRIEVED_PROJECT,
@@ -121,8 +128,9 @@ export function deleteProject(id) {
 }
 
 export function copyProject(data) {
+    console.log(data)
     return dispatch => {
-        return fetch(`${API_URL}/portfolio`, {
+        return fetch(`${API_URL}/portfolio/${data._id}`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: {
@@ -130,7 +138,7 @@ export function copyProject(data) {
            }
         })
         .then(handleResponse)
-        .then(data => dispatch(ProjectPasted(data.Project)));
+        .then(data => dispatch(pastedProject(data.Project)));
     }
     
 }

@@ -5,7 +5,8 @@ import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'sem
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { fetchPortfolio, saveProject, deleteProject } from '../../actions/project';
+import shortid from 'shortid';
+import { fetchPortfolio, saveProject, deleteProject, copyProject } from '../../actions/project';
 import NewProject from './NewProject';
 import Metainfo from './Metainfo';
 import SysMessage from './SysMessage';
@@ -29,8 +30,17 @@ class Portfolio extends Component {
     this.setState({portfolio: props.portfolio})    
   }
  
-  handleCopy = () => {
-    
+  handleCopy = i => e => {
+    e.preventDefault();
+    const {portfolio} = this.state;
+    let newCV = portfolio[i];
+    if (portfolio) {
+      this.props.copyProject(newCV).then(status => {
+          this.props.fetchPortfolio();
+          //this.state.detail.messages.savedID = status.data._id;
+          //this.setState({ messages })
+        });
+    }
   }
  
   handleDelete = () => {
@@ -50,34 +60,39 @@ class Portfolio extends Component {
     const {portfolio} = this.state;
     const list =
     portfolio.map((proj, i) => ({
-      key: proj._id,
-      //active: this.state.openAccordion,
-      title: (
-        <span color={this.state.savedID === proj._id ? 'red' : 'inherit' }>{proj.name}</span>
-      ),
-      content: (
-        <div className="metadata">
-          <div className="meta-content">
-            <List horizontal relaxed>
-              <List.Item><Icon fitted name='id card' /> {proj._id || 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='checked calendar' /> {moment(proj.updateDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='clock' /> {moment(proj.createdDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
-              
-              <List.Item><Icon fitted name='briefcase' /> {proj.cats ? proj.cats.position : 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='talk' /> {proj.cats ? proj.cats.cvLang : 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='globe' /> {proj.cats ? proj.cats.cvCountry : 'N/A'}</List.Item>  
-            </List>
+      title: {
+        key: shortid.generate(),
+        content: (
+          <span color={this.state.savedID === proj._id ? 'red' : 'inherit' }>{proj.name}</span>
+        ),  
+      },
+      content: {
+        key: shortid.generate(),
+        content: (
+          <div className="metadata">
+            <div className="meta-content">
+              <List horizontal relaxed>
+                <List.Item><Icon fitted name='id card' /> {proj._id || 'N/A'}</List.Item>
+                <List.Item><Icon fitted name='checked calendar' /> {moment(proj.updateDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
+                <List.Item><Icon fitted name='clock' /> {moment(proj.createdDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
+                
+                <List.Item><Icon fitted name='briefcase' /> {proj.cats ? proj.cats.position : 'N/A'}</List.Item>
+                <List.Item><Icon fitted name='talk' /> {proj.cats ? proj.cats.cvLang : 'N/A'}</List.Item>
+                <List.Item><Icon fitted name='globe' /> {proj.cats ? proj.cats.cvCountry : 'N/A'}</List.Item>  
+              </List>
+            </div>
+            <div className="buttons">
+              <Button primary><Link style={{color: '#fff', display:'block'}} to={`/portfolio/project/id=${proj._id}`}>Edit/View</Link></Button>
+              <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
+              <Button onClick={this.handleDelete} negative>Delete</Button>
+            </div>
           </div>
-          <div className="buttons">
-            <Button primary><Link style={{color: '#fff', display:'block'}} to={`/portfolio/project/id=${proj._id}`}>Edit/View</Link></Button>
-            <Button onClick={this.handleCopy} secondary>Copy</Button>
-            <Button onClick={this.handleDelete} negative>Delete</Button>
-          </div>
-        </div>
-      ),
+        ),
+      }
+      
     }));
     
-    let renderList = <Accordion onTitleClick={(e, index) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={list} styled fluid />
+    let renderList = <Accordion onTitleClick={(e, {index}) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={list} styled fluid />
     
     return (
       <div id="portfolio" className="">
@@ -97,7 +112,7 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-export default connect(mapStateToProps, { saveProject, fetchPortfolio, deleteProject })(Portfolio);
+export default connect(mapStateToProps, { saveProject, fetchPortfolio, deleteProject, copyProject })(Portfolio);
 
 
 

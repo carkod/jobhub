@@ -58,7 +58,6 @@ class Listing extends Component {
    
   
   render() {
-  console.log(this.state.cvs)
   const status = this.state;
   let renderList;
   if (this.props.cvs.length > 0) {

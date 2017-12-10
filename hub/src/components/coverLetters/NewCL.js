@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Modal, Header, Button, Icon, Transition, Form, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { saveProject, fetchPortfolio } from '../../actions/project';
+import { saveCL } from '../../actions/cl';
 
 const buttonDefaultStyles = {
         backgroundColor: '#fff',
@@ -12,7 +12,7 @@ const buttonDefaultStyles = {
         outline: 'none',
       }
 
-class NewProject extends Component {
+class NewCL extends Component {
   
   state = {
     savedID: null,
@@ -24,10 +24,10 @@ class NewProject extends Component {
   
   handleSubmit = () => {
     //console.log(this.state)
-    this.props.saveProject({ _id:'', name: this.state.name })
-    .then(project => { 
-      this.setState({ savedID: project.data._id, modalOpen: false });
-      this.props.sysmessage({ savedID: project.data._id, savedName: this.state.name })
+    this.props.saveCL({ _id:'', name: this.state.name })
+    .then(cl => { 
+      this.setState({ savedID: cl.data._id, modalOpen: false });
+      this.props.sysmessage({ savedID: cl.data._id, savedName: this.state.name })
     })
     
   }
@@ -42,16 +42,16 @@ class NewProject extends Component {
     return (
       <Transition duration={500}>
         <Modal trigger={addNewButton} size={'tiny'} open={this.state.modalOpen} onClose={() => this.setState({ modalOpen: false })} closeIcon basic>
-            <Header icon='file text outline' content='New Project' />
+            <Header icon='file text outline' content='New CL' />
             <Modal.Content>
-            <Form id="newproject" onSubmit={this.handleSubmit}>
+            <Form id="newcl" onSubmit={this.handleSubmit}>
               <Form.Field>
-                <Input autoFocus type="text" name="name" placeholder="Name or title of the new Project" onChange={this.handleChange} />
+                <Input autoFocus type="text" name="name" placeholder="Name or title of the new Letter" onChange={this.handleChange} />
               </Form.Field>
             </Form>
             </Modal.Content>
             <Modal.Actions>
-              <Button form="newproject" type="submit" color='green'>
+              <Button form="newcl" type="submit" color='green'>
                 <Icon name='save' /> Save
               </Button>
             </Modal.Actions>
@@ -67,4 +67,4 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, { saveProject, fetchPortfolio })(NewProject);
+export default connect(mapStateToProps, { saveCL })(NewCL);

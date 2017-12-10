@@ -69,7 +69,7 @@ class Letter extends Component {
       if (e.key === 's') {
         e.preventDefault();
         e.stopPropagation();
-        this.props.savecl(cl).then(status => {
+        this.props.saveCL(cl).then(status => {
           //this.state.detail.messages.savedID = status.data._id;
           //this.setState({ messages })
         });
@@ -88,6 +88,7 @@ class Letter extends Component {
     });
     
   }
+  
   
   render() {
     const {cl} = !!Object.keys(this.state).length ? this.state : this.props;
