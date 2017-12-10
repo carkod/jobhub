@@ -1,14 +1,14 @@
 /* eslint-disable */
 import API_URL from './dev';
+
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
 export const CV_FETCHED = 'CV_FETCHED';
+export const CV_PASTED = 'CV_PASTED';
 export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_CV = 'RETRIEVED_CV';
-//export const CV_UPDATED = 'CV_UPDATED';
 export const CV_DELETED = 'CV_DELETED';
-//export const UPDATE_LIST = 'UPDATE_LIST';
 
 function handleResponse(response) {
     if (response.ok) {
@@ -79,6 +79,13 @@ export function syncPersdetails(fields) {
     }
 }
 
+export function cvPasted(cv) {
+  return {
+    type: CV_FETCHED,
+    cv
+  }
+}
+
 export function deleteCV(id) {
     return dispatch => {
         return fetch(`${API_URL}/cvs/${id}`, {
@@ -94,7 +101,7 @@ export function deleteCV(id) {
 
 export function copyCV(data) {
     return dispatch => {
-        return fetch(`${API_URL}/cvs`, {
+        return fetch(`${API_URL}/cvs/${data._id}`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: {
@@ -102,7 +109,7 @@ export function copyCV(data) {
            }
         })
         .then(handleResponse)
-        .then(data => dispatch(CVPasted(data.CV)));
+        .then(data => dispatch(cvPasted(data.CV)));
     }
     
 }

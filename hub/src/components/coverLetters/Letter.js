@@ -18,7 +18,6 @@ class Letter extends Component {
   constructor(props) {
     super(props);
     let {cl, detail} = this.props;
-    console.log(props)
     this.state = {
       cl: props.cl,
     };
@@ -43,8 +42,6 @@ class Letter extends Component {
     if (e.target.name) {
       cl[e.target.name] = e.target.value;
     } else {
-      console.log('select box')
-      console.log(value.value)
       cl.cats[value.name] = value.value;
     }
     this.setState({ cl })
@@ -83,7 +80,6 @@ class Letter extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const {cl} = this.state;
-    console.log(cl)
     //const {messages} = this.state.projUI;
     
     this.props.saveCL(cl).then(status => {
@@ -95,7 +91,6 @@ class Letter extends Component {
   
   render() {
     const {cl} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(this.props)
     return (
       <div id="cl">
       <form onSubmit={this.onSubmit} name="cl" >
@@ -119,7 +114,6 @@ const mapStateToProps = (state, props) => {
   
   if (state.coverLetters[0]._id) {
     const cl = state.coverLetters.find(item => item._id === props.match.params.id);
-    console.log(cl)
     return {
       cl: cl,
     }

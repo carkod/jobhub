@@ -1,11 +1,9 @@
 TO-DO
 ======
 
-- Add Ctrl + S for CVs and portfolio
 - Ranking field for each element in CV
 
 ### project.js
-- fix select boxes for meta cats
 
 ### SERVER
 
@@ -40,6 +38,8 @@ NEXT VERSION:
 
 LOG
 ======
+- fix select boxes for meta cats
+- Add Ctrl + S for CVs and portfolio
 - add all fields for personal details
 - Add initial focus to AddNew.js 
 - API authentication (require credentials for CORS connection)

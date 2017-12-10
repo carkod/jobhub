@@ -35,14 +35,13 @@ class CoverLetters extends Component {
   }
  
   handleDelete = () => {
-    const getItem = this.props.cls[this.state.activeIndex],
+    const getItem = this.props.cvs[this.state.activeIndex],
           getID = getItem._id,
           getName = getItem.name;
-          
-    this.props.deleteCL(getID).then(cv => {
+    this.props.deleteCV(getID).then(cv => {
       this.setState({ deletedID: cv.id, deletedName: getName });
       this.setState({ openAccordion: false  }); 
-      this.props.fetchCLs();
+      this.props.fetchCVs();
     })
     
   }
