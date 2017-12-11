@@ -97,6 +97,7 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
+    console.log(file)
     return fetch(`${API_URL}/portfolio/deupload`, {
        method: 'post',
        headers: {
@@ -111,7 +112,7 @@ export function uploadFile(file) {
        method: 'post',
        body: file
     })
-    .then(res => res.json());    
+    .then(res => res.json());
 }
 
 export function deleteProject(id) {

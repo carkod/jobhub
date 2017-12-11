@@ -41,13 +41,9 @@ class Project extends Component {
   
   metaChange = (e, value) => {
     const {project} = this.state;
-    console.log(e.target.name)
-    console.log(value)
     if (e.target.name) {
       project[e.target.name] = e.target.value;
     } else {
-      console.log('select box')
-      console.log(value.value)
       project.cats[value.name] = value.value;
     }
     this.setState({ project })
@@ -66,7 +62,8 @@ class Project extends Component {
   handleFiles = (docs) => {
     const {project} = this.state;
     this.state.project.documents = docs.documents;
-    this.setState({ project })
+    this.setState({ project });
+    this.props.saveProject();
   }
   
   keySave = e => {
@@ -97,7 +94,6 @@ class Project extends Component {
   
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(project)
     return (
       <div id="project">
       <form onSubmit={this.onSubmit} name="project" >

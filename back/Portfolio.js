@@ -7,9 +7,12 @@ import { ProjectSchema } from './Schemas';
 // Compile model from schema
 let ProjectModel = mongoose.model('ProjectModel', ProjectSchema );
 
+
+const fileDir = 'uploads/'
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'uploads/');
+      console.log(req.body)
+    cb(null, fileDir);
   },
   filename(req, file, cb) {
     cb(null, file.originalname);
@@ -34,18 +37,18 @@ export default function Portfolio (app, db) {
         // file upload
         fileUpload(req, res, (err) => {
             if (err) throw err;
-            
             if (req.file) {
+                
                 const {path} = req.file;
                 req.file.url = req.protocol + '://' + req.get('host') + '/' + path;
                 res.json(req.file)                    
             }
-        })    
+        }) 
     });
     
     app.post('/api/portfolio/deupload', (req, res) => {
         let doc = req.body;
-        const fileDir = __dirname + '/' + doc.fileDir + doc.fileRawName;
+        const fileDir = __dirname + '/' + fileDir + doc.fileRawName;
         fs.unlink(fileDir, (err) => {
             if (err) {
                 res.json(err)    

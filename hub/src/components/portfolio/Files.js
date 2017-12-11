@@ -34,24 +34,24 @@ class Files extends Component {
 
   handleChange = (e) => {
     let data = new FormData();
-    data.append('fieldname', e.target.files[0] );
+    data.append('fieldname', e.target.files[0]);
     this.data = data;
-    
   }
   
-  handleUpload = () => {
+  handleUpload = e => {
     const {documents} = this.state;
     const data = this.data;
     const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2) + ' KB';
-
+    
     if (this.fieldname === undefined) {
       //handle error no file uploaded
       return false;
     } else {
-      //Pushing new file to array
+      //Loading icon
     this.setState({ uploading:true }); 
     
-    uploadFile(data).then(file => {
+    uploadFile(data)
+    .then(file => {
       const newFile = {
         fileId: shortid.generate(),
         fileName : file.fieldname,
@@ -67,7 +67,7 @@ class Files extends Component {
         this.props.onUpload({documents});
       });
       
-    });
+    })
     }
     
   }
@@ -75,7 +75,6 @@ class Files extends Component {
   deleteDoc = (doc) => (e) => {
     e.preventDefault();
     const {documents} = this.state;
-    
     removeFile(doc)
       .then(file => {
         const i = documents.findIndex(x => x.fileId === doc.fileId)
@@ -100,7 +99,7 @@ class Files extends Component {
                 <button className="btn btn-upload" name="append" type="submit" onClick={this.handleUpload} disabled={this.state.uploading}>
                   {this.state.uploading ? <Icon loading name="file archive outline" className="white" /> : <Icon name="upload" className="white" />}
                 </button>
-                <input name='files' type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.handleFiles = fieldname}} />
+                <input name="files" type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.fieldname = fieldname}} />
               </Grid.Column>
               <Grid.Column>
                 Number of files
