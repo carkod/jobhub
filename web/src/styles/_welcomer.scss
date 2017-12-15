@@ -1,0 +1,133 @@
+#welcomeNav {
+    
+    &::before {
+        top: 0;
+        content: '';
+        display: block;
+        height: 80px; // responsive
+        left: 0;
+        position: absolute;
+        right: 0;
+        transform: skewY(1deg);
+        transform-origin: 100%;
+        background-color:rgba(68, 176, 238, 1);
+        z-index: -1;
+    }
+    
+    &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: auto;
+        position: absolute;
+        transform: skewY(15deg);
+        transform-origin: 0 0;
+        background-color: white;
+        z-index: 2;
+        top:50%;
+        bottom: 0;
+        left: 0;
+        box-shadow: 8px 6px 10px 1px #000;
+    }
+
+    .bottom-wrap {
+        position:absolute;
+        bottom:0;
+        z-index:3;
+        padding:2.5rem 4rem;
+        max-width:28rem;
+        width:100%;
+    }
+    hr {
+        margin: 1rem 0;
+    }
+    .quick-nav {
+        .short-version {
+            @extend .sans-serif;
+            display:block;
+            text-transform:uppercase;
+            text-align:center;
+            margin:0.3rem 0;
+            padding:0;
+            line-height:1.1;
+            &.title {
+                font-size:1.55rem;
+                font-weight:600;
+            }
+            &.text {
+                font-size:1.06rem;
+                color:$blue;
+            }
+        } 
+        
+        #quick-cv {
+            border:none;    
+            width: 100%;
+            padding: 0;
+            margin: 0.5rem 0;
+            background-color: $blue;
+            color: white;
+            outline:none;
+            
+        }
+        .btn {
+            display:block;
+        }
+    }
+    
+    
+    
+    .explore {
+        .short-version {
+            @extend .sans-serif;
+            display:block;
+            text-transform:uppercase;
+            text-align:center;
+            margin:0.3rem 0;
+            padding:0;
+            line-height:1.1;
+            &.title {
+                font-size:1.55rem;
+                font-weight:600;
+            }
+            &.text {
+                font-size:1.06rem;
+                color:$blue;
+            }
+        } 
+        
+        #quick-cv {
+            border:none;    
+            width: 100%;
+            padding: 0;
+            margin: 0.5rem 0;
+            background-color: $blue;
+            color: white;
+            outline:none;
+            
+        }
+        .btn {
+            display:block;
+        }
+    }
+    
+    .home-details {
+        position: absolute;
+        bottom: 0;
+        left: 25rem;
+        z-index: 3;
+        padding: 2.5rem 4rem;
+        font-size: 1.2rem;
+    }
+    
+    .copyright {
+        position: absolute;
+        bottom: 0;
+        left: 44rem;
+        z-index: 3;
+        padding: 2.5rem 4rem;
+        font-size: 1.2rem;
+    }
+    
+    
+}

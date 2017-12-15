@@ -20,11 +20,9 @@ class Layout extends Component {
   }
   
   render() {
-   
-  
     return (
       <div className="layout">
-        This is layout
+        {this.props.children}
       </div>
     );
   }
