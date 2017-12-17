@@ -1,7 +1,11 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import {NavLink} from 'react-router-dom';
+
+const MenuData = [
+    {}    
+
+]
 
 export default class WelcomeNav extends Component {
   

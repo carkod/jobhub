@@ -2,6 +2,10 @@
 
 $blue: #44b0ee;
 $grey: #eee;
+$orange: #F6AE1B;
+$dark: #414143;
+
+$preset-font: 1.3rem;
 
 .serif {
   font-family: 'Source Serif Pro', serif;
@@ -33,4 +37,7 @@ h1, h2, h3, h4, h5, h6 {
   @extend .serif;
 }
 
+a, a:link {
+  color: $orange;
+}
 
