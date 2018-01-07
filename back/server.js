@@ -24,6 +24,7 @@ dbUrl = 'mongodb://carkod:48295620-j@www.carloswu.xyz:27017/' + dbName;
 import CVs from './CVs.js';
 import CoverLetters from './CoverLetters.js';
 import Portfolio from './Portfolio.js';
+import Categories from './Categories.js';
 import {IN} from './linkedin';
 
 let promise = mongoose.connect(dbUrl, { useMongoClient: true });
@@ -54,6 +55,7 @@ promise.then((db) => {
     CVs(app, db);
     CoverLetters(app, db);
     Portfolio(app, db);
+    Categories(app, db);
     
    app.listen(PORT, () => console.log('Server is running on localhost:' + PORT)); 
    

@@ -1,7 +1,8 @@
 //import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
-
 import { CVSchema } from './Schemas';
+import slug from 'slug';
+import shortid from 'shortid';
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
@@ -19,27 +20,44 @@ export default function CVs (app, db) {
         
     app.post('/api/cvs', (req, res) => {
         let r = req.body,
-            cv;
-         
-        
+            cv,
+            slugger;
             
+        // TODO if slug exists change it add "name-1"
+        // if slug number exists, increment it "name-2"
+        // if slug does not exist, create normal slug (below)
+        
+        slugger = slug(r.name.toLowerCase());
+        CVModel.find({slug: slugger}, (err, doc) => {
+            if (!err) {
+                return slugger = slugger + '-' + shortid.generate();
+            } else {
+                console.log('slug doesn´t exist')
+            }
+            
+        });
+        
         if (!r._id) {
             // Create New
+            
             cv = new CVModel({
                 _id: mongoose.Types.ObjectId(),
                 name: r.name,
-            });        
+                slug:slugger,
+            });
+            
             
         } else {
             // Update
             cv = new CVModel({
                 name: r.name,
                 summary: r.summary,
-                slug: r.slug,
+                slug: slugger,
                 cats: {
                     position: r.cats.position,
                     locale: r.cats.locale,
                     cvCountry: r.cats.cvCountry,
+                    status: r.cats.status,
                 },
                 image: r.image,
                 persdetails: r.persdetails,
@@ -50,25 +68,26 @@ export default function CVs (app, db) {
                 itSkills: r.itSkills,
                 other: r.other,
             });
-            console.log(r)
+            
         }
         
         const id = r._id || cv._id;
         delete r._id;
+        
+        
         CVModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {
-            
+        console.log(cv)
           if (err) {
               throw err;
               
           } else {
-              
               if (msg.ok) {
                 const savedID = id;   
                 res.json({ _id: savedID, status: !!msg.ok });
-                //console.log('changes saved!')  
+                console.log('changes saved!')  
               } else {
                   res.json({ status: !!msg.ok });
-                  //console.log('No changes')  
+                  console.log('No changes')  
               }
           }
         });
@@ -91,6 +110,7 @@ export default function CVs (app, db) {
                     position: r.cats.position,
                     locale: r.cats.locale,
                     cvCountry: r.cats.cvCountry,
+                    status: r.cats.status,
                 },
                 image: r.image,
                 persdetails: r.persdetails,

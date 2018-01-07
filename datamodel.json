@@ -1,7 +1,7 @@
 {
     cv : [
         {
-            _id: ObjectId(),
+            _id: new ObjectId(),
             slug:'front-end-developer-cv'
             lastModified: ISODate("2013-10-02T01:11:18.965Z")
             name: 'CV front-end developer',
@@ -188,3 +188,42 @@
         
     ]
 }
+
+
+// Navigation data model
+
+{
+    _id: new ObjectId(),
+    label: 'positions',
+    title: 'Positions',
+    children: [
+        { key: new ObjectId(), value: 'Front-end', text: 'Front-end Developer' }, 
+        { key: new ObjectId(), value: 'Business', text: 'Business Analyst' }, 
+    ],
+    
+},
+{
+    _id: new ObjectId(),
+    label: 'languages',
+    title: 'Languages',
+    children: [
+        { key: new ObjectId(), value: 'es_ES', text: 'Spanish (Spain)' }, 
+        { key: new ObjectId(), value: 'en_GB', text: 'English (UK)' }, 
+        { key: new ObjectId(), value: 'en_US', text: 'English (US)' }, 
+        { key: new ObjectId(), value: 'zh-CN', text: 'Chinese (China)' },  
+    ],
+    
+},
+{
+    _id: new ObjectId(),
+    label: 'statuses',
+    title: 'Statuses',
+    children: [
+        { key: new ObjectId(), value: 'public', text: 'Public' }, 
+        { key: new ObjectId(), value: 'draft', text: 'Draft' }, 
+        { key: new ObjectId(), value: 'private', text: 'Private' },
+        { key: new ObjectId(), value: 'revision', text: 'Revision' },  
+    ],
+    
+},
+

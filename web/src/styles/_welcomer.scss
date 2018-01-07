@@ -1,4 +1,4 @@
-#welcomeNav {
+#main {
     display:flex;
     flex-flow: row;
     @media (min-width:42rem) {
@@ -53,41 +53,12 @@
     .lefty {
         width:35%;
         height:100%;
-        display:flex;
-        flex-flow: column nowrap;
-        align-content: stretch;
-        justify-content: space-between;
         position:absolute;
         top:0;
         left:0;
     }
     
-    #primary {
-      border:none;
-      margin:0;
-      width:100%;
-      margin: 10% 0;
-      
-        > .item {
-            @extend .sans-serif;
-            font-size:1rem;
-            text-transform:uppercase;
-            text-align:center;
-            transform: scaleX(1.2);
-            color:#fff; 
-            border:none;
-        }
-        
-        .menu {
-            margin: 1rem;
-            display:none;
-            &.openmenu {
-                display:block;
-            }
-            
-            .item {border:none;}
-        }
-    }
+    
     
     #secondary {
         border:none;

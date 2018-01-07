@@ -5,19 +5,23 @@
 
 /* End WEave pattern */
 
-#home {
-    position:relative;
-    overflow:hidden;
-    height:100%;
+body {
     &:before {
         content: "Carlos";
         font-size: 100%;
         text-align: left;
         transform:scale(90);
         display:inline-block;
-        position:absolute;
+        position:fixed;
         top:40%;
         left:0;
         z-index:-1;
     }
+}
+
+#home {
+    position:relative;
+    overflow:hidden;
+    height:100%;
+    
 }

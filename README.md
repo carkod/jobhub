@@ -1,7 +1,7 @@
 TO-DO
 ======
 
-- Ranking field for each element in CV
+
 
 ### project.js
 
@@ -22,6 +22,7 @@ TO-DO
 - Full testing of CVs and Projects
 - Refactor SysMessage component. Use Redux actions {type: actionName, data: ...} to pass notification messages, reducer format (switch and return) - single component for all sysmessages
 - message/disable button when no file has been uploaded  (this.filename === undefined)
+- Slug > Check DB for duplicates and if matched add number
 
 
 ***
@@ -38,6 +39,7 @@ NEXT VERSION:
 
 LOG
 ======
+- Ranking field for each element in CV (now using status)
 - fix select boxes for meta cats
 - Add Ctrl + S for CVs and portfolio
 - add all fields for personal details

@@ -102,6 +102,7 @@ const clInit = [
         position: '',
         locale: '',
         cvCountry:'',
+        status:'',
     },
     image: '',
     desc: RichTextEditor.createEmptyValue(),

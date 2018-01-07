@@ -40,7 +40,8 @@ ReactDOM.render(
       <Switch>
         <Layout>
           <Route exact path="/" component={Home} />
-          <Route exact path="/cv" component={MainCV} />
+          <Route exact path="/cv/:language/:position" component={MainCV} />
+          
           {/*<Route exact path="/cv/positions" component={Cats} />
           <Route exact path="/cv/languages" component={Cats} />
           <Route path="/cv/id=:id" component={Detail} />  
@@ -56,6 +57,6 @@ ReactDOM.render(
       </Switch>
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('web')
 );
 registerServiceWorker();
