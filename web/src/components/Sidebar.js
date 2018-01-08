@@ -43,16 +43,23 @@ class Sidebar extends Component {
     if (data !== undefined) {
       //Positions
       const positionsIndex = data.findIndex(e => e.label === 'positions');
-        renderPositions = data[positionsIndex].children.map((el, i) =>
-          <li key={shortid.generate()} className="item" ><NavLink to={`/${parent}/en/${el.value}`} className="" activeClassName="active">{el.text}</NavLink></li>
+        renderPositions = parent => data[positionsIndex].children.map((el, i) =>
+          <li key={shortid.generate()} className="item" ><NavLink to={`/en_UK/${parent}/${el.value}`} className="" activeClassName="active">{el.text}</NavLink></li>
           )
       
       //Languages    
       const languagesIndex = data.findIndex(e => e.label === 'languages');
+      
         renderLanguages = data[languagesIndex].children.map((el, i) =>
-          <NavLink key={shortid.generate()} to={`/${parent}/en/${el.value}`} className="item" activeClassName="active">{el.text}}</NavLink>
+        
+      <option key={shortid.generate()} value={`${el.value}`} >
+        {el.text}
+      </option>        
+
         )
     }
+    
+    const urlLang = this.props.location.pathname.split('/')[1];
     return (
     <nav id="nav" role="navigation">
       <div id="primary" className="ui link list">
@@ -66,13 +73,19 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <a href="#" className="" onClick={this.toggleMenu('cv')} >CV</a>
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu' }>
-              {renderPositions !== undefined ? renderPositions : ''}
+              {renderPositions !== undefined ? renderPositions('cv') : ''}
             </ul>
           </li>
           <li className="item dropdown">
             <a href="#" className="" onClick={this.toggleMenu('resources')}>Resources</a>
             <ul id="resources" className={this.state.openmenu === 'resources' ? 'openMenu' : 'closeMenu' }>
-              {renderPositions !== undefined ? renderPositions : ''}
+              {renderPositions !== undefined ? renderPositions('resources') : ''}
+            </ul>
+          </li>
+          <li className="item dropdown">
+            <a href="#" className="" onClick={this.toggleMenu('cl')} >Cover Letters</a>
+            <ul id="cl" className={this.state.openmenu === 'cl' ? 'openMenu' : 'closeMenu' }>
+              {renderPositions !== undefined ? renderPositions('cl') : ''}
             </ul>
           </li>
           
@@ -84,11 +97,9 @@ class Sidebar extends Component {
       </div>
           
       <div id="secondary" className="ui secondarymenu">
-      {renderLanguages !== undefined ? renderLanguages : ''}
-        <a className="item">
-          <i className="united kingdom flag"></i>English (UK)
-        </a>
-        
+        <select className="ui dropdown" defaultValue={window.location.pathname} placeholder="Select Language">
+          {renderLanguages !== undefined ? renderLanguages : ''}
+        </select>
       </div>
     </nav>
     );

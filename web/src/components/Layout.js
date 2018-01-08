@@ -18,7 +18,7 @@ class Layout extends Component {
   }
   
   componentDidMount = () => {
-    console.log(this.props)
+    
   }
   
   componentWillReceiveProps = (props) => {
@@ -26,11 +26,12 @@ class Layout extends Component {
   }
   
   render() {
+    
     return (
       <div className="layout">
         <main id="main" className="container navigation">
           <div className="lefty">
-            <Sidebar />
+            <Sidebar {...this.props} />
           </div>
           
           <div className="righty">

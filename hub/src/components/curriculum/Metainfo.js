@@ -13,7 +13,7 @@ const languages = [
     { key: shortid.generate(), value: 'es_ES', text: 'Spanish (Spain)' }, 
     { key: shortid.generate(), value: 'en_GB', text: 'English (UK)' }, 
     { key: shortid.generate(), value: 'en_US', text: 'English (US)' }, 
-    { key: shortid.generate(), value: 'zh-CN', text: 'Chinese (China)' }, 
+    { key: shortid.generate(), value: 'zh_CN', text: 'Chinese (China)' }, 
 ]
 
 const statuses = [
