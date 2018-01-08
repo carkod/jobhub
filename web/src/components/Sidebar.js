@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
 import shortid from 'shortid';
+import {fetchCats} from '../actions/cats';
 
 class Sidebar extends Component {
   
@@ -17,42 +17,40 @@ class Sidebar extends Component {
   }
   
   componentDidMount = () => {
-    axios.get('http://cv-generator-carkod.c9users.io:8081/api/cats')
-      .then((res) => {
+    fetchCats().then((res) => {
         const {data} = res;
         this.setState({data})
       })
-      .catch((error) => {
-        console.log(error);
-      });
   }
   
   componentWillReceiveProps = (props) => {
+    //console.log(props)
+  }
+  
+  toggleMenu = (parent) => (e) => {
+    e.preventDefault();
+    const lastParent = parent;
+    if (this.state.openmenu === lastParent ) {
+      this.setState({openmenu: ''})
+    } else {
+      this.setState({openmenu: parent})  
+    }
   }
   
   render() {
-    console.log(this.props)
     const {data} = this.state;
     let renderPositions, renderLanguages;
     if (data !== undefined) {
       //Positions
       const positionsIndex = data.findIndex(e => e.label === 'positions');
-        renderPositions = parent => 
-          <li className="item dropdown">
-            <a href="#" className="" >{parent}</a>
-            <ul>
-          {data[positionsIndex].children.map((el, i) =>
-            
-              <li key={shortid.generate()} className="item" ><NavLink to={`/${parent}/en/${el.value}`} className="" activeClassName="active">{el.text}</NavLink></li>
-            
-          )}
-            </ul>
-          </li>
+        renderPositions = data[positionsIndex].children.map((el, i) =>
+          <li key={shortid.generate()} className="item" ><NavLink to={`/${parent}/en/${el.value}`} className="" activeClassName="active">{el.text}</NavLink></li>
+          )
       
       //Languages    
       const languagesIndex = data.findIndex(e => e.label === 'languages');
         renderLanguages = data[languagesIndex].children.map((el, i) =>
-          <NavLink key={shortid.generate()} to={`/${parent}/en/${el.value}`} className="item" activeClassName="active">{el.text}{console.log(el)}</NavLink>
+          <NavLink key={shortid.generate()} to={`/${parent}/en/${el.value}`} className="item" activeClassName="active">{el.text}}</NavLink>
         )
     }
     return (
@@ -65,10 +63,18 @@ class Sidebar extends Component {
           <li className="item">
             <NavLink to="/about" activeClassName="active" className="" >About</NavLink>
           </li>
-          
-          {renderPositions !== undefined ? renderPositions('cv') : ''}
-          
-          {renderPositions !== undefined ? renderPositions('resources') : ''}
+          <li className="item dropdown">
+            <a href="#" className="" onClick={this.toggleMenu('cv')} >CV</a>
+            <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu' }>
+              {renderPositions !== undefined ? renderPositions : ''}
+            </ul>
+          </li>
+          <li className="item dropdown">
+            <a href="#" className="" onClick={this.toggleMenu('resources')}>Resources</a>
+            <ul id="resources" className={this.state.openmenu === 'resources' ? 'openMenu' : 'closeMenu' }>
+              {renderPositions !== undefined ? renderPositions : ''}
+            </ul>
+          </li>
           
           <li className="item" >
             <NavLink to="/sitemap" activeClassName="active" >Sitemap</NavLink>

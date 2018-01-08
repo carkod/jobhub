@@ -16,7 +16,14 @@
           margin:0;
           padding:0;
               
-            ul { padding-bottom:.5rem;}  
+            ul { padding-bottom:.5rem; display:none;
+                &.openMenu {
+                    display:block;
+                }
+                &.closeMenu {
+                    display:none;
+                }
+            }  
           
       }
       .item {
