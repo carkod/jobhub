@@ -1,35 +1,24 @@
 /*
-Error: Undefined variable: "$blue".
-        on line 32 of /home/ubuntu/workspace/web/src/styles/_home.scss
+Error: Undefined variable: "$grey".
+        on line 7 of /home/ubuntu/workspace/web/src/styles/_mainCV.scss
 
-27:                 font-size:1.55rem;
-28:                 font-weight:600;
-29:             }
-30:             &.text {
-31:                 font-size:1.06rem;
-32:                 color:$blue;
-33:             }
-34:         } 
-35:         
-36:         #quick-cv {
-37:             @extend .sans-serif;
+2:     <MainCV>
+3: --------------*\/
+4: 
+5: #mainCV {
+6:     h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem;
+7:         small {color:$grey; font-weight:300; font-size: 2rem;}
+8:     }
+9:     h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}
+10:     h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; }
+11:     p {@extend .sans-serif; font-weight: 200; font-size: 1rem;}
+12:     
 
 Backtrace:
-/home/ubuntu/workspace/web/src/styles/_home.scss:32
+/home/ubuntu/workspace/web/src/styles/_mainCV.scss:7
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `map'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
@@ -98,4 +87,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$blue\".\A         on line 32 of /home/ubuntu/workspace/web/src/styles/_home.scss\A \A 27:                 font-size:1.55rem;\A 28:                 font-weight:600;\A 29:             }\A 30:             &.text {\A 31:                 font-size:1.06rem;\A 32:                 color:$blue;\A 33:             }\A 34:         } \A 35:         \A 36:         #quick-cv {\A 37:             @extend .sans-serif;"; }
+  content: "Error: Undefined variable: \"$grey\".\A         on line 7 of /home/ubuntu/workspace/web/src/styles/_mainCV.scss\A \A 2:     <MainCV>\A 3: --------------*/\A 4: \A 5: #mainCV {\A 6:     h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem;\A 7:         small {color:$grey; font-weight:300; font-size: 2rem;}\A 8:     }\A 9:     h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}\A 10:     h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; }\A 11:     p {@extend .sans-serif; font-weight: 200; font-size: 1rem;}\A 12:     "; }

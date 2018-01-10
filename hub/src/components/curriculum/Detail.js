@@ -112,7 +112,6 @@ class Detail extends Component {
   
   render() {
     const {cv} = this.state;
-    console.log(cv)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >

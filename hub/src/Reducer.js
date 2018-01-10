@@ -142,11 +142,11 @@ function detail (state = detailInit, action = {}) {
     }
 }
 
+
+// ++correct here, always return the state then the data
 const portfolio = (state = pfInit, action = {}) =>  {
     switch (action.type) {
         case FILE_REMOVED:
-            console.log(state);
-            console.log(action);
             const file = action.data
             return file
         case SET_PROJECTS:

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import shortid from 'shortid';
 import {fetchCats} from '../actions/cats';
+import { fetchCVs } from '../actions/cv';
+
 
 class Sidebar extends Component {
   
@@ -17,14 +19,11 @@ class Sidebar extends Component {
   }
   
   componentDidMount = () => {
-    fetchCats().then((res) => {
-        const {data} = res;
-        this.setState({data})
-      })
+    this.props.fetchCats();
+    this.props.fetchCVs();
   }
   
   componentWillReceiveProps = (props) => {
-    //console.log(props)
   }
   
   toggleMenu = (parent) => (e) => {
@@ -38,23 +37,22 @@ class Sidebar extends Component {
   }
   
   render() {
-    const {data} = this.state;
+    const {cats} = this.props;
     let renderPositions, renderLanguages;
-    if (data !== undefined) {
+    if (cats !== undefined) {
       //Positions
-      const positionsIndex = data.findIndex(e => e.label === 'positions');
-        renderPositions = parent => data[positionsIndex].children.map((el, i) =>
-          <li key={shortid.generate()} className="item" ><NavLink to={`/en_UK/${parent}/${el.value}`} className="" activeClassName="active">{el.text}</NavLink></li>
+      const positionsIndex = cats.findIndex(e => e.label === 'positions');
+      // No cv what happens? - When creating categories
+        renderPositions = parent => cats[positionsIndex].children.map((el, i) =>
+          <li key={shortid.generate()} className="item" ><NavLink to={`/en_GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
           )
       
       //Languages    
-      const languagesIndex = data.findIndex(e => e.label === 'languages');
+      const languagesIndex = cats.findIndex(e => e.label === 'languages');
       
-        renderLanguages = data[languagesIndex].children.map((el, i) =>
-        
-      <option key={shortid.generate()} value={`${el.value}`} >
-        {el.text}
-      </option>        
+        renderLanguages = cats[languagesIndex].children.map((el, i) =>
+      
+      <li key={shortid.generate()} className="item" ><NavLink to={`${el.value}`} activeClassName="active">{el.text}</NavLink></li>
 
         )
     }
@@ -72,7 +70,7 @@ class Sidebar extends Component {
           </li>
           <li className="item dropdown">
             <a href="#" className="" onClick={this.toggleMenu('cv')} >CV</a>
-            <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu' }>
+            <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
               {renderPositions !== undefined ? renderPositions('cv') : ''}
             </ul>
           </li>
@@ -88,22 +86,37 @@ class Sidebar extends Component {
               {renderPositions !== undefined ? renderPositions('cl') : ''}
             </ul>
           </li>
-          
-          <li className="item" >
-            <NavLink to="/sitemap" activeClassName="active" >Sitemap</NavLink>
+          <li className="item dropdown">
+            <a href="#" className="" onClick={this.toggleMenu('lang')} >Site and CV language</a>
+            <ul id="lang" className={this.state.openmenu === 'lang' ? 'openMenu' : 'closeMenu' }>
+              {renderLanguages !== undefined ? renderLanguages : ''}
+            </ul>
           </li>
         </ul>
             
-      </div>
-          
-      <div id="secondary" className="ui secondarymenu">
-        <select className="ui dropdown" defaultValue={window.location.pathname} placeholder="Select Language">
-          {renderLanguages !== undefined ? renderLanguages : ''}
-        </select>
       </div>
     </nav>
     );
   }
 }
 
-export default Sidebar;
+const mapStateToProps = (s,p) => {
+  // Receive list of CVs
+    // Check if there is a CV with status public
+    // Check if this CV matches the Position
+  // If all positive show CV
+  // if one of them fails tell sidebar not to show this position on the sidebar
+  
+  
+  if (s.cats.data !== undefined) {
+    return {
+      cats: s.cats.data,
+      cvs: s.cvs
+    }  
+  } else {
+    return {}
+  }
+  
+}
+
+export default connect(mapStateToProps, { fetchCVs, fetchCats })(Sidebar);

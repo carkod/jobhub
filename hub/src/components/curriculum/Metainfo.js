@@ -6,8 +6,8 @@ import shortid from 'shortid';
 import { Header, List, Select } from 'semantic-ui-react';
 
 const positions = [
-    { key: shortid.generate(), value: 'Front-end developer', text: 'Front-end Developer' }, 
-    { key: shortid.generate(), value: 'Business', text: 'Business Analyst' }, 
+    { key: shortid.generate(), value: 'front-end', text: 'Front-end Developer' }, 
+    { key: shortid.generate(), value: 'business', text: 'Business Analyst' }, 
 ]
 const languages = [
     { key: shortid.generate(), value: 'es_ES', text: 'Spanish (Spain)' }, 
@@ -26,7 +26,7 @@ const statuses = [
 const Metainfo = props => {
     const {meta} = props;
     const positionIndex = positions.findIndex(v => v.value === meta.cats.position);
-    const position = meta.cats.position ? positions[positionIndex].text : 'Select position';
+    const position = meta.cats.position === undefined || positionIndex > 0 ? positions[positionIndex].text : 'Select position';
     const languageIndex = languages.findIndex(v => v.value === meta.cats.locale);
     const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
     const statusIndex = statuses.findIndex(v => v.value === meta.cats.status);

@@ -3,7 +3,10 @@ TO-DO
 
 
 
-### project.js
+### WEB
+
+- Homogenize language URL structure (smallcase All for URL pathname)
+- Navigation control panel
 
 ### SERVER
 

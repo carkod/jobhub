@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { SET_CV } from './actions/cv';
+import { SET_CATS } from './actions/cats';
 
 const cvInitial = 
     [
@@ -82,6 +83,17 @@ const cvs = (state = cvInitial, action = {}) =>  {
     }
 }
 
+const cats = (state = {}, action = {}) => {
+    switch (action.type) {
+        case SET_CATS:
+            const data = action.cats;
+            return Object.assign({}, state, {
+                data
+            })
+        default:
+            return state
+    }
+}
 
-export default combineReducers({ cvs });
+export default combineReducers({ cvs, cats });
 

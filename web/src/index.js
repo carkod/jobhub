@@ -16,7 +16,7 @@ import './index.css';
 import Reducer from './Reducer';
 import Home from './components/Home';
 import Layout from './components/Layout';
-import MainCV from './components/MainCV';
+import MainCV from './components/cv/MainCV';
 
 //import { loadState, saveState } from './localStorage';
 
@@ -39,20 +39,19 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Layout>
-          <Route exact path="/:language" component={Home} />
-          <Route exact path="/:language/cv/:position" component={MainCV} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/:language/" component={Home} />
+          <Route exact path="/:language/:position/cv" component={MainCV} />
           
           {/*<Route exact path="/cv/positions" component={Cats} />
           <Route exact path="/cv/languages" component={Cats} />
           <Route path="/cv/id=:id" component={Detail} />  
-          
           <Route exact path="/portfolio" component={Portfolio} />
           <Route exact path="/portfolio/project/id=:id" component={Project} />
-          
           <Route exact path="/coverletters" component={CoverLetters} />
           <Route exact path="/coverletters/id=:id" component={Letter} />
-          
           <Route exact path="/jobs/linkedin/" component={LinkedIn} />*/}
+          
         </Layout>
       </Switch>
     </BrowserRouter>
