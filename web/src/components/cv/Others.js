@@ -16,31 +16,34 @@ class Work extends Component {
   }
   
   componentWillReceiveProps = (props) => {
-    const {persdetails} = props;
-    this.setState({ persdetails })
+    const {others} = props;
+    this.setState({ others })
   }
   
   render() {
-    const {persdetails} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {others} = !!Object.keys(this.state).length ? this.state : this.props;
     
     return (
-      <section id="details">
-                
-        <p className="details">First name: {persdetails.name}</p>
-        <p className="details">Last name: {persdetails.lastname}</p>
-        <p className="details">Nationality: {persdetails.nationality}</p>
-        <p className="details">Address: {persdetails.address}</p>
-        <p className="details">Date of Birth: {persdetails.DoB}</p>
-        <p>Passport:{persdetails.ID}</p>
-        <p>PostCode:{persdetails.PC}</p>
-        <p>City:{persdetails.city}</p>
-        <p>Country:{persdetails.country}</p>
-        <p>Email:{persdetails.email}</p>
-        <p>Nationality:{persdetails.nationality}</p>
-        <p>Phone:{persdetails.phone}</p>
-        <p>Date of Birth:{persdetails.DoB}</p>
-                
-    </section>
+      <section id="it" className="skills">
+        <h2 className="ui dividing header">IT software</h2>
+          <div className="ui grid">
+          {others.map((ed, i) => 
+            <div key={i} className="row">  
+              <div className="label ten wide column">
+                  <h4>{ed.name} <small>{ed.desc}</small></h4>
+              </div>
+              
+              <div className="level six wide column">
+                  <div className="ui small grey progress">
+                    <div className="bar" style={{width:ed.level}}></div>
+                  </div>
+
+              </div>
+              
+            </div>
+          )}
+          </div>        
+      </section>
     );
   }
 }

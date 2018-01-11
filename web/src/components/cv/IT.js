@@ -25,33 +25,26 @@ class IT extends Component {
     const {itSkills} = !!Object.keys(this.state).length ? this.state : this.props;
     
     return (
-      <section id="details">
-        <h2 className="ui dividing header">Languages</h2>
+      <section id="it">
+        <h2 className="ui dividing header">IT software</h2>
+          <div className="ui grid">
           {itSkills.map((ed, i) => 
-            <div key={i} className="ui grid">
-              <div className="row">
-                  <div className="workplace six wide column">
-                      <h3>{ed.insitution}</h3>
-                  </div>
-                  
-                  <div className="position ten wide column">
-                      <h3>{ed.diploma}</h3>
-                  </div>
+            <div key={i} className="row">  
+              <div className="workplace ten wide column">
+                  <h4>{ed.name} <small>{ed.desc}</small></h4>
               </div>
-              <div className="row">
-                  <div className="ed-date six wide column">
-                      {ed.date}
+              
+              <div className="position six wide column">
+                  <div className="ui small purple progress">
+                    <div className="bar" style={{width:ed.level}}></div>
                   </div>
-                  
-                  <div className="ed-desc ten wide column">
-                    <HtmlText text={ed.desc} />
-                  </div>
-                  
+
               </div>
+              
             </div>
           )}
-                
-    </section>
+          </div>        
+      </section>
     );
   }
 }

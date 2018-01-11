@@ -39,11 +39,11 @@ class Education extends Component {
                   </div>
               </div>
               <div className="row">
-                  <div className="ed-date six wide column">
+                  <div className="work-date six wide column">
                       {ed.date}
                   </div>
                   
-                  <div className="ed-desc ten wide column">
+                  <div className="work-desc ten wide column">
                     <HtmlText text={ed.desc} />
                   </div>
                   

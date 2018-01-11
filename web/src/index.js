@@ -17,6 +17,7 @@ import Reducer from './Reducer';
 import Home from './components/Home';
 import Layout from './components/Layout';
 import MainCV from './components/cv/MainCV';
+import MainResources from './components/resources/MainResources';
 
 //import { loadState, saveState } from './localStorage';
 
@@ -42,6 +43,7 @@ ReactDOM.render(
           <Route exact path="/" component={Home} />
           <Route exact path="/:language/" component={Home} />
           <Route exact path="/:language/:position/cv" component={MainCV} />
+          <Route exact path="/:language/:position/resources" component={MainResources} />
           
           {/*<Route exact path="/cv/positions" component={Cats} />
           <Route exact path="/cv/languages" component={Cats} />

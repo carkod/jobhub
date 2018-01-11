@@ -2,7 +2,7 @@
 Error: Undefined variable: "$blue".
         on line 29 of /home/ubuntu/workspace/web/src/styles/_layout.scss
 
-24:             left: -20%;
+24:             left: -30%;
 25:             right:0;
 26:             position: absolute;
 27:             transform: skewX(9deg);
@@ -98,4 +98,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$blue\".\A         on line 29 of /home/ubuntu/workspace/web/src/styles/_layout.scss\A \A 24:             left: -20%;\A 25:             right:0;\A 26:             position: absolute;\A 27:             transform: skewX(9deg);\A 28:             transform-origin: 0;\A 29:             background-color: rgba($blue, 0.8);\A 30:             z-index: -1;\A 31:             width: 60%;\A 32:         }\A 33:         \A 34:         &::after {"; }
+  content: "Error: Undefined variable: \"$blue\".\A         on line 29 of /home/ubuntu/workspace/web/src/styles/_layout.scss\A \A 24:             left: -30%;\A 25:             right:0;\A 26:             position: absolute;\A 27:             transform: skewX(9deg);\A 28:             transform-origin: 0;\A 29:             background-color: rgba($blue, 0.8);\A 30:             z-index: -1;\A 31:             width: 60%;\A 32:         }\A 33:         \A 34:         &::after {"; }
