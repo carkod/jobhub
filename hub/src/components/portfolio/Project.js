@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Icon, Button, Header, Input } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 
-import { saveProject, fetchPortfolio, uploadFile } from '../../actions/project';
+import { saveProject, fetchPortfolio, uploadFile, fetchCats } from '../../actions/project';
 
 import Metainfo from './Metainfo'; 
 import Files from './Files'; 
@@ -31,12 +31,14 @@ class Project extends Component {
 
   componentDidMount = () => {
     this.props.fetchPortfolio();
+    this.props.fetchCats();
     document.addEventListener('keydown', this.keySave, false);
   }
   
   componentWillReceiveProps = (props) => {
     const {project} = props;
-    this.setState({ project })
+    const {categories} = props;
+    this.setState({ project, categories })
   }
   
   metaChange = (e, value) => {
@@ -94,10 +96,12 @@ class Project extends Component {
   
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {categories} = this.props;
+    
     return (
       <div id="project">
       <form onSubmit={this.onSubmit} name="project" >
-        <Metainfo meta={project} onChange={this.metaChange} />
+        <Metainfo meta={project} onChange={this.metaChange} categories={categories ? categories.data : false} />
         <div className="container">
           <Editor value={project.desc} onChange={v => this.descChange(v)} />
           <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
@@ -120,17 +124,19 @@ const mapStateToProps = (state, props) => {
     const project = state.portfolio.find(item => item._id === props.match.params.id);
     return {
       project: project,
-      projUI: state.projUI
+      projUI: state.projUI,
+      categories: state.cats
     }
   } else {
     return { 
       project: state.portfolio[0],
-      detail: state.detail
+      detail: state.detail,
+      categories: [],
     }    
   }
   
 }
 
 
-export default connect(mapStateToProps, { saveProject, fetchPortfolio, uploadFile })(Project);
+export default connect(mapStateToProps, { saveProject, fetchPortfolio, uploadFile, fetchCats })(Project);
 

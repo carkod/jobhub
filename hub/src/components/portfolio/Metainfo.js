@@ -9,11 +9,21 @@ import {positions, languages} from '../Categories';
 
 const Metainfo = props => {
     const {meta} = props;
+    // if category is undefined I still want to render the UI
+    console.log(props)
+    if (categories === undefined) {
+        categories = props.categories;
+    } else {
+        categories = props.categories;
+    }
     
     const positionIndex = positions.findIndex(v => v.value === meta.cats.position);
     const position = meta.cats.position ? positions[positionIndex].text : 'Select position';
     const languageIndex = languages.findIndex(v => v.value === meta.cats.locale);
     const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
+    
+    const statusIndex = statuses.findIndex(v => v.value === meta.cats.locale);
+    // const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
     
     return (
         <div id="metainfo">
@@ -28,6 +38,9 @@ const Metainfo = props => {
                 <List>
                     <List.Item><b>Created</b>: {moment(meta.createdAt).calendar()}</List.Item>
                     <List.Item><b>Updated</b>: {moment(meta.updatedAt).calendar()}</List.Item>
+                    <List.Item>
+                        <Select placeholder={status} options={statuses} name='status' onChange={props.onChange} />
+                    </List.Item>
                     <List.Item>
                         <Select placeholder={position} options={positions} name='position' onChange={props.onChange} selection/>
                     </List.Item>

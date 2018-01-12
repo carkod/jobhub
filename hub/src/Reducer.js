@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import { SET_CV, CV_DELETED, SYNC_PERSDETAILS } from './actions/cv';
 import { SET_CLS, CL_DELETED } from './actions/cl';
-import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED } from './actions/project';
+import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED, SET_CATS } from './actions/project';
 import RichTextEditor from 'react-rte';
 
 const cvInitial = 
@@ -182,5 +182,17 @@ const coverLetters = (state = clInit, action = {}) =>  {
     }
 }
 
-export default combineReducers({ cvs, detail, portfolio, coverLetters });
+const cats = (state = {}, action = {}) => {
+    switch (action.type) {
+        case SET_CATS:
+            const data = action.cats;
+            return Object.assign({}, state, {
+                data
+            })
+        default:
+            return state
+    }
+}
+
+export default combineReducers({ cvs, detail, portfolio, coverLetters, cats });
 

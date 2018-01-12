@@ -1,5 +1,6 @@
 /* eslint-disable */
 import API_URL from './dev';
+
 export const SET_PROJECTS  = 'SET_PROJECTS';
 export const ADD_PROJECT  = 'ADD_PROJECT';
 export const PROJECT_FETCHED = 'PROJECT_FETCHED';
@@ -11,7 +12,7 @@ export const PROJECT_DELETED = 'PROJECT_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
-//export const UPDATE_LIST = 'UPDATE_LIST';
+export const SET_CATS  = 'SET_CATS';
 
 function handleResponse(response) {
     if (response.ok) {
@@ -23,6 +24,12 @@ function handleResponse(response) {
     }
 }
 
+export function setCats(cats) {
+    return {
+        type: SET_CATS,
+        cats
+    }
+}
 
 export function setProjects(projects) {
     return {
@@ -169,5 +176,13 @@ export function fetchProject(id) {
         fetch(`${API_URL}/project/${id}`)
         .then(res => res.json())
         .then(data => dispatch(setProjects(data)))
+    }
+}
+
+export function fetchCats() {
+    return dispatch => {
+        fetch(`${API_URL}/cats`)
+        .then(res => res.json())
+        .then(data => dispatch(setCats(data)))
     }
 }
