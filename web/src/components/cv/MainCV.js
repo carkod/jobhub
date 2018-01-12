@@ -31,7 +31,6 @@ class MainCV extends Component {
   }
   
   componentWillReceiveProps = (props) => {
-    console.log(props)
     const {cv} = props;
     this.setState({cv: cv});
     
@@ -39,7 +38,6 @@ class MainCV extends Component {
   
   render() {
     const {cv} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(cv)
     return (
       <div id="mainCV" className="container">
         <Helmet>

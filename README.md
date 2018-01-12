@@ -1,6 +1,14 @@
 TO-DO
 ======
 
+- create status drowpdown in hub
+ + Add it to all cats
+ + Database
+ + Reducer
+ + 
+ 
+- Then MainResources mapStateToProps()
+- Print CV wkhtmltopdf
 
 
 ### WEB

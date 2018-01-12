@@ -7,7 +7,7 @@ export const SET_PROJECTS = 'SET_PROJECTS';
 
 export function setProjects(project) {
     return {
-        type: SET_PORTFOLIO,
+        type: SET_PROJECTS,
         project: project.data,
     }
 }

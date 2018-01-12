@@ -68,6 +68,23 @@ const cvInitial =
     ]
 
 
+const pfInit = [
+   {
+    _id: '' ,
+    name: '',
+    slug: '',
+    cats: {
+        position: '',
+        locale: '',
+        cvCountry:'',
+    },
+    image: '',
+    desc: '',
+    documents: [],
+    links: [],
+   } 
+]
+
 const cvs = (state = cvInitial, action = {}) =>  {
     switch (action.type) {
         case SET_CV:
@@ -96,13 +113,15 @@ const cats = (state = {}, action = {}) => {
     }
 }
 
-const portfolio = (state = {}, action = {}) => {
+const portfolio = (state = pfInit, action = {}) => {
     switch (action.type) {
         case SET_PROJECTS:
-            const data = action.cats;
-            return Object.assign({}, state, {
-                data
-            })
+            let combined = [];
+            for (let i of action.project) {
+                const merge = Object.assign({}, pfInit[0], i);
+                combined.push(merge)
+            }
+            return combined;
         default:
             return state
     }
