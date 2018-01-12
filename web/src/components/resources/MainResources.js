@@ -31,7 +31,7 @@ class MainResources extends Component {
   
   render() {
     const {portfolio} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(this.props)
+    console.log(portfolio)
     return (
       <div id="mainportfolio" className="container">
         <Helmet>
@@ -56,16 +56,16 @@ class MainResources extends Component {
 }
 
 const matchProject = (item, props) => {
-    console.log(props)
+    
     // Create status in HUB application
     try {
         if (item.cats.position.toLowerCase() !== props.match.params.position.toLowerCase()) throw "Could not match position";
-        if (item.portfolio.status !== 'public') throw "could not find status public"
+        if (item.cats.status !== 'public') throw "could not find status public"
     } catch (e) {
-        console.log(e)
+        //console.log(e)
     }
-    
-    return item.portfolio.status === 'public' && item.cats.position.toLowerCase() === props.match.params.position.toLowerCase();
+    console.log(item.cats.status === 'public' && item.cats.position.toLowerCase() === props.match.params.position.toLowerCase())
+    return item.cats.status === 'public' && item.cats.position.toLowerCase() === props.match.params.position.toLowerCase();
     
 }
 
@@ -79,11 +79,13 @@ const mapStateToProps = (state, props) => {
       // if unable to find index throw error
       
       const matchIndex = state.portfolio.findIndex(item => matchProject(item, props))
-      
+      console.log('have an ID, therefore find correct project')
+      //console.log(matchIndex)
       return {
         portfolio: state.portfolio[matchIndex]   
       }
   } else {
+    console.log('NO ID dummy data')
       return {
         portfolio: state.portfolio[0]
       }

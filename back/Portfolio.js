@@ -79,6 +79,7 @@ export default function Portfolio (app, db) {
                     position: r.cats.position,
                     locale: r.cats.locale,
                     cvCountry: r.cats.cvCountry,
+                    status: r.cats.status
                 },
                 image: r.image,
                 desc: r.desc,

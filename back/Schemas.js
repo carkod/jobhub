@@ -51,6 +51,7 @@ const ProjectSchema = new Schema({
     name: { type: String },
     slug: { type: String, lowercase: true, trim: true },
     cats: {
+        status: { type: String },
         position: { type: String },
         locale: { type: String },
         cvCountry: { type: String },

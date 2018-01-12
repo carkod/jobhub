@@ -85,6 +85,7 @@ const pfInit = [
         position: '',
         locale: '',
         cvCountry:'',
+        status:'',
     },
     image: '',
     desc: RichTextEditor.createEmptyValue(),
@@ -107,6 +108,30 @@ const clInit = [
     image: '',
     desc: RichTextEditor.createEmptyValue(),
    } 
+]
+
+const catInit  = [
+    {
+        _id: '',
+        label: "positions",
+        title: "Positions",
+        singLabel:"position",
+        children: [],
+    },
+    {
+        _id: '',
+        label: "locales",
+        title: "Languages",
+        singLabel:"locale",
+        children: [],
+    },
+    {
+        _id: '',
+        label: "statuses",
+        title: "Statuses",
+        singLabel:"status",
+        children: [],
+    }
 ]
 
 function cvs (state = cvInitial, action = {} ){
@@ -155,6 +180,7 @@ const portfolio = (state = pfInit, action = {}) =>  {
                 const merge = Object.assign({}, pfInit[0], i);
                 portfolio.push(merge)
             }
+            console.log(portfolio)
             return portfolio;
         case PROJECT_DELETED:
             const deleted = state.filter((item) => item._id !== action.cvs);
@@ -169,7 +195,7 @@ const coverLetters = (state = clInit, action = {}) =>  {
         case SET_CLS:
             let combined = [];
             for (let i of action.CLs) {
-                const merge = Object.assign({}, clInit[0], i);
+                const merge = Object.assign({}, clInit, i);
                 combined.push(merge)
             }
             //Find immutable way of doing this
@@ -182,13 +208,15 @@ const coverLetters = (state = clInit, action = {}) =>  {
     }
 }
 
-const cats = (state = {}, action = {}) => {
+const cats = (state = catInit, action = {}) => {
     switch (action.type) {
         case SET_CATS:
-            const data = action.cats;
-            return Object.assign({}, state, {
-                data
-            })
+            let combined = [];
+            for (let i of action.cats) {
+                const merge = Object.assign({}, catInit[0], i);
+                combined.push(merge)
+            }
+            return combined
         default:
             return state
     }

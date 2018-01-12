@@ -19,5 +19,4 @@ export function fetchCats() {
         .catch((err) => handleResponse(err))
         .then(cats => dispatch(setCats(cats)));    
     }
-    
 }

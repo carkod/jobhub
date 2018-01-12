@@ -19,9 +19,9 @@ class Project extends Component {
 
   constructor(props) {
     super(props);
-    let {project, detail} = this.props;
     this.state = {
       project: props.project,
+      categories: props.categories
     };
     this.metaChange = this.metaChange.bind(this);
     this.descChange = this.descChange.bind(this);
@@ -36,18 +36,17 @@ class Project extends Component {
   }
   
   componentWillReceiveProps = (props) => {
-    const {project} = props;
-    const {categories} = props;
-    this.setState({ project, categories })
+    const {project, categories} = props;
+    this.setState({ project, categories})
   }
   
-  metaChange = (e, value) => {
+  metaChange = (e, props) => {
     const {project} = this.state;
-    if (e.target.name) {
-      project[e.target.name] = e.target.value;
-    } else {
-      project.cats[value.name] = value.value;
-    }
+    const {value} = props;
+    const {name} = props;
+    
+    project.cats[name] = value;
+    
     this.setState({ project })
   }
   
@@ -96,24 +95,24 @@ class Project extends Component {
   
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
-    const {categories} = this.props;
-    
+    const {categories} = this.state;
+    console.log(this.state)
     return (
       <div id="project">
-      <form onSubmit={this.onSubmit} name="project" >
-        <Metainfo meta={project} onChange={this.metaChange} categories={categories ? categories.data : false} />
-        <div className="container">
-          <Editor value={project.desc} onChange={v => this.descChange(v)} />
-          <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
-          <Links links={project.links} onChange={l => this.handleChange(l)} />
-          {/*<SysMessage messages={this.state.projUI.messages} />*/}
-          
-          <Button type="submit" value="Save">
-            <Icon name="save" />Save
-          </Button>
-          
-          </div>
-        </form>
+        <form onSubmit={this.onSubmit} name="project" >
+          <Metainfo meta={project} onChange={this.metaChange} categories={categories} />
+          <div className="container">
+            <Editor value={project.desc} onChange={v => this.descChange(v)} />
+            <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
+            <Links links={project.links} onChange={l => this.handleChange(l)} />
+            {/*<SysMessage messages={this.state.projUI.messages} />*/}
+            
+            <Button type="submit" value="Save">
+              <Icon name="save" />Save
+            </Button>
+            
+            </div>
+          </form>
       </div>
     );
   }
@@ -131,7 +130,7 @@ const mapStateToProps = (state, props) => {
     return { 
       project: state.portfolio[0],
       detail: state.detail,
-      categories: [],
+      categories: state.cats,
     }    
   }
   

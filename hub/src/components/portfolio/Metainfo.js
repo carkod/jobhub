@@ -3,26 +3,20 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 import shortid from 'shortid';
-import { Header, List, Select } from 'semantic-ui-react';
+import { Header, List, Dropdown } from 'semantic-ui-react';
 import {positions, languages} from '../Categories';
 
 
 const Metainfo = props => {
-    const {meta} = props;
+    const {meta, categories} = props;
     // if category is undefined I still want to render the UI
-    console.log(props)
-    if (categories === undefined) {
-        categories = props.categories;
-    } else {
-        categories = props.categories;
-    }
     
     const positionIndex = positions.findIndex(v => v.value === meta.cats.position);
     const position = meta.cats.position ? positions[positionIndex].text : 'Select position';
     const languageIndex = languages.findIndex(v => v.value === meta.cats.locale);
     const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
     
-    const statusIndex = statuses.findIndex(v => v.value === meta.cats.locale);
+    //const statusIndex = statuses.findIndex(v => v.value === meta.cats.locale);
     // const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
     
     return (
@@ -38,7 +32,12 @@ const Metainfo = props => {
                 <List>
                     <List.Item><b>Created</b>: {moment(meta.createdAt).calendar()}</List.Item>
                     <List.Item><b>Updated</b>: {moment(meta.updatedAt).calendar()}</List.Item>
-                    <List.Item>
+                    {categories.map((cat, i) => 
+                        <List.Item key={i}>
+                            <Dropdown placeholder={meta.cats[cat.singLabel] === undefined ? `Select ${cat.singLabel}` : meta.cats[cat.singLabel]} options={cat.children} value={meta.cats[cat.singLabel]} onChange={props.onChange} name={cat.singLabel} selection />
+                        </List.Item>
+                    )}
+                    {/*<List.Item>
                         <Select placeholder={status} options={statuses} name='status' onChange={props.onChange} />
                     </List.Item>
                     <List.Item>
@@ -46,7 +45,7 @@ const Metainfo = props => {
                     </List.Item>
                     <List.Item>
                         <Select placeholder={language} options={languages} name='locale' onChange={props.onChange} />
-                    </List.Item>
+                    </List.Item>*/}
                 </List>
             </div>
         </div>

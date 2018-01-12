@@ -48,7 +48,7 @@ class Sidebar extends Component {
           )
       
       //Languages    
-      const languagesIndex = cats.findIndex(e => e.label === 'languages');
+      const languagesIndex = cats.findIndex(e => e.label === 'locales');
       
         renderLanguages = cats[languagesIndex].children.map((el, i) =>
       
