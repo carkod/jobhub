@@ -11,20 +11,28 @@ class HtmlText extends Component {
     constructor(props) {
     super(props);
     const {text} = this.props;
-    const convert = convertFromHTML("<p></p>");
-    const content = ContentState.createFromBlockArray(convert.contentBlocks,convert.entityMap)
+    const convert = convertFromHTML(text)
+    const state = ContentState.createFromBlockArray(
+      convert.contentBlocks,
+      convert.entityMap
+    );
+    
     this.state = {
-        editorState: EditorState.createWithContent(content)
+        editorState: EditorState.createWithContent(state)
     };
     
     }
     
+    componentDidMount = () => {
+        
+    }
+    
     componentWillReceiveProps = (props) => {
         const {text} = props;
+        console.log(text)
         const convert = convertFromHTML(text);
         const content = ContentState.createFromBlockArray(convert.contentBlocks,convert.entityMap)
         this.setState({editorState: EditorState.createWithContent(content)})    
-    
     }
 
     render () {

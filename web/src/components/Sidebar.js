@@ -37,7 +37,6 @@ class Sidebar extends Component {
   }
   
   render() {
-    console.log(this.props)
     const {cats} = this.props;
     let renderPositions, renderLanguages;
     if (cats !== undefined) {
