@@ -37,6 +37,7 @@ class Sidebar extends Component {
   }
   
   render() {
+    console.log(this.props)
     const {cats} = this.props;
     let renderPositions, renderLanguages;
     if (cats !== undefined) {
@@ -57,16 +58,16 @@ class Sidebar extends Component {
         )
     }
     
-    const urlLang = this.props.location.pathname.split('/')[1];
+    
     return (
     <nav id="nav" role="navigation">
       <div id="primary" className="ui link list">
         <ul>
           <li className="item">
-            <a href="/" className="">Home</a>
+            <NavLink exact to="/" activeClassName="active">Home</NavLink>
           </li>
           <li className="item">
-            <NavLink to="/about" activeClassName="active" className="" >About</NavLink>
+            <NavLink exact to="/about" activeClassName="active" className="" >About</NavLink>
           </li>
           <li className="item dropdown">
             <a href="#" className="" onClick={this.toggleMenu('cv')} >CV</a>

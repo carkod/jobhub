@@ -2,7 +2,7 @@
 .serif, h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Serif Pro', serif; }
 
-.sans-serif, body {
+.sans-serif, body, ul li, dl, ol li {
   font-family: 'Source Sans Pro', sans-serif; }
 
 .btn {
@@ -18,5 +18,16 @@ html {
 
 a, a:link {
   color: #F6AE1B; }
+
+ul li, dl, ol li {
+  font-size: 1rem;
+  font-weight: 400; }
+
+p {
+  font-size: 1rem;
+  font-weight: 400; }
+
+.container {
+  padding-top: 2rem; }
 
 /*# sourceMappingURL=_global.css.map */

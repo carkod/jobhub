@@ -15,8 +15,12 @@ import './index.css';
 
 import Reducer from './Reducer';
 import Home from './components/Home';
+import About from './components/About';
 import Layout from './components/Layout';
+import Print from './components/Print';
 import MainCV from './components/cv/MainCV';
+import FullPrint from './components/cv/FullPrint';
+import QuickPrint from './components/cv/QuickPrint';
 import MainResources from './components/resources/MainResources';
 
 //import { loadState, saveState } from './localStorage';
@@ -34,27 +38,25 @@ const store = createStore(
   saveState(store.getState())
 })*/
 
+const RenderRoute = ({ component: Component, layout: Layout, ...rest }) => (
+  <Route {...rest} render={props => (
+    <Layout>
+      <Component {...props}/>
+    </Layout>
+  )}/>
+)
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Layout>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/:language/" component={Home} />
-          <Route exact path="/:language/:position/cv" component={MainCV} />
-          <Route exact path="/:language/:position/resources" component={MainResources} />
-          
-          {/*<Route exact path="/cv/positions" component={Cats} />
-          <Route exact path="/cv/languages" component={Cats} />
-          <Route path="/cv/id=:id" component={Detail} />  
-          <Route exact path="/portfolio" component={Portfolio} />
-          <Route exact path="/portfolio/project/id=:id" component={Project} />
-          <Route exact path="/coverletters" component={CoverLetters} />
-          <Route exact path="/coverletters/id=:id" component={Letter} />
-          <Route exact path="/jobs/linkedin/" component={LinkedIn} />*/}
-          
-        </Layout>
+        <RenderRoute layout={Layout} exact path="/" component={Home} />
+        <RenderRoute layout={Layout} path="/about" component={About} />
+        <RenderRoute layout={Layout} exact strict path="/:language/:position/cv" component={MainCV} />
+        <RenderRoute layout={Layout} exact strict path="/:language/:position/resources" component={MainResources} />
+        <RenderRoute layout={Print} exact strict path="/:language/:position/cv/fullprint" component={FullPrint} />
+        <RenderRoute layout={Print} exact strict path="/:language/:position/cv/quickprint" component={QuickPrint} />
+        {/*<Route component={404} />*/}
       </Switch>
     </BrowserRouter>
   </Provider>,

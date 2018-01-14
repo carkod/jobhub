@@ -5,6 +5,7 @@ import {Helmet} from "react-helmet";
 import { connect } from 'react-redux';
 import {stateToHTML} from 'draft-js-export-html';
 import { fetchProjects } from '../../actions/res';
+import { fetchCats } from '../../actions/cats';
 import HtmlText from './HtmlText';
 
 class MainResources extends Component {
@@ -21,6 +22,7 @@ class MainResources extends Component {
 
   componentDidMount = () => {
     this.props.fetchProjects();
+    this.props.fetchCats();
   }
   
   componentWillReceiveProps = (props) => {
@@ -41,13 +43,53 @@ class MainResources extends Component {
           <link rel="canonical" href="http://carloswu.xyz/" />
         </Helmet>
         
-        <main className="portfolioContent">
-            <h1>{'Name of Category'} - <small>{portfolio.name}</small></h1>
-            <section id="summary">
-              <h2>Summary and professional goals</h2>
+        <main className="portfolioContent ui grid">
+          <h1>{portfolio.cats.position} - <small>{portfolio.name}</small></h1>
+          {portfolio.map((project, i) => (
+            <section id="project" className="row two column wide">
+            <div className="left two column">
+              <img src={portfolio.imgURL} className="preview" alt="Image"/>
+            </div>
+            <div className="right two column">
+              <div className="description">
+                <HtmlText text={portfolio.desc} />
+              </div>
               
-            </section>
+            </div>
             
+          </section>
+          <section id="material" className="row two column wide">
+              <div className="two column">
+                {portfolio.links.length > 0 ? <div className="links ui top left label">Links</div> : ''}                
+                  <div className="ui divided selection list">
+                {portfolio.links.map((link, i) =>
+                    <div className="item" key={link.id}>
+                      <div className="name">
+                        <a href={link.url} className="url">{link.title}<i className="icon"></i></a>
+                      </div>
+                      
+                    </div>
+                  )}
+                </div>          
+              </div>
+            
+              <div className="two column">
+              {portfolio.documents.length > 0 ? <div className="files ui top right label">Files</div> : '' }
+                  <div className="ui divided selection list">
+                  {portfolio.documents.map((doc, i) =>
+                    <div className="item" key={doc.fileId}>
+                      <div className="name">
+                        <a href={doc.fileURL} className="url">{doc.fileName} <span className="detail">{doc.fileSize}</span><i className="icon"></i></a>
+                      </div>
+                      
+                    </div>
+                  )}
+                </div>
+                
+            </div>
+          </section>            
+          ))}
+          
         </main>
         
       </div>
@@ -55,43 +97,13 @@ class MainResources extends Component {
   }
 }
 
-const matchProject = (item, props) => {
-    
-    // Create status in HUB application
-    try {
-        if (item.cats.position.toLowerCase() !== props.match.params.position.toLowerCase()) throw "Could not match position";
-        if (item.cats.status !== 'public') throw "could not find status public"
-    } catch (e) {
-        //console.log(e)
-    }
-    console.log(item.cats.status === 'public' && item.cats.position.toLowerCase() === props.match.params.position.toLowerCase())
-    return item.cats.status === 'public' && item.cats.position.toLowerCase() === props.match.params.position.toLowerCase();
-    
-}
-
 
 const mapStateToProps = (state, props) => {
-    
-  if (!!state.portfolio[0]._id) {
-      //console.log(state)
-      // set position front-end in hub
-      // findIndex item.portfolio.position === props.match.params.portfolio.position
-      // if unable to find index throw error
-      
-      const matchIndex = state.portfolio.findIndex(item => matchProject(item, props))
-      console.log('have an ID, therefore find correct project')
-      //console.log(matchIndex)
-      return {
-        portfolio: state.portfolio[matchIndex]   
-      }
-  } else {
-    console.log('NO ID dummy data')
-      return {
-        portfolio: state.portfolio[0]
-      }
+  return {
+    portfolio: state.portfolio  
   }
   
 }
 
 
-export default connect(mapStateToProps, { fetchProjects })(MainResources);
+export default connect(mapStateToProps, { fetchProjects, fetchCats })(MainResources);

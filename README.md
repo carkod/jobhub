@@ -1,15 +1,8 @@
 TO-DO
 ======
 
-- create status drowpdown in hub
- + Add it to all cats
- + Database
- + Reducer
- + 
- 
-- Then MainResources mapStateToProps()
-- Print CV wkhtmltopdf
 
+- Print CV wkhtmltopdf
 
 ### WEB
 
@@ -28,11 +21,18 @@ TO-DO
 - List.js search: use React semantic ui input datalist [https://react.semantic-ui.com/elements/input#input-example-ref-focus]
 
 
+### ISSUES
+
+- Resources/Portfolio: Must set one portfolio as public per category
+    +  If no projects set status = public -> error
+    +  If one project has set status = public, but doesn't match sidebar category -> error
+    +  If category has no items -> error
+    +  
+
 ### Others
 
-- Full testing of CVs and Projects
 - Refactor SysMessage component. Use Redux actions {type: actionName, data: ...} to pass notification messages, reducer format (switch and return) - single component for all sysmessages
-- message/disable button when no file has been uploaded  (this.filename === undefined)
+
 - Slug > Check DB for duplicates and if matched add number
 
 
@@ -50,6 +50,9 @@ NEXT VERSION:
 
 LOG
 ======
+- message/disable button when no file has been uploaded  (this.filename === undefined)
+- create status drowpdown in hub
+- Then MainResources mapStateToProps()
 - Ranking field for each element in CV (now using status)
 - fix select boxes for meta cats
 - Add Ctrl + S for CVs and portfolio
