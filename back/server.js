@@ -26,6 +26,10 @@ import CoverLetters from './CoverLetters.js';
 import Portfolio from './Portfolio.js';
 import Categories from './Categories.js';
 import {IN} from './linkedin';
+import Pdf from './Pdf';
+var sassMiddleware = require('node-sass-middleware');
+import sass from 'node-sass';
+import path from 'path';
 
 let promise = mongoose.connect(dbUrl, { useMongoClient: true });
 
@@ -42,12 +46,13 @@ promise.then((db) => {
     app.use(expressValidator());
     app.use(cors());
     
+    
     //Download static files in uploads folder
     app.use(express.static(__dirname + '/uploads'));
     app.get('/uploads/:filename', (req, res) => {
         res.download(__dirname + req.url);
     });
-
+    
     //3rd party APIs
     IN(app);
     
@@ -56,6 +61,9 @@ promise.then((db) => {
     CoverLetters(app, db);
     Portfolio(app, db);
     Categories(app, db);
+    
+    //Other applications
+    Pdf(app, db);
     
    app.listen(PORT, () => console.log('Server is running on localhost:' + PORT)); 
    

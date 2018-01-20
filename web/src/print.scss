@@ -1,0 +1,17 @@
+#print {
+    background-color:#fff;
+}
+
+body {
+    &:before {
+        content: "";
+        font-size: 100%;
+        text-align: left;
+        transform:scale(90);
+        display:none;
+        position:fixed;
+        top:40%;
+        left:0;
+        z-index:-1;
+    }
+}

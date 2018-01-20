@@ -1,5 +1,6 @@
 
 /* eslint-disable */
+let regeneratorRuntime =  require("regenerator-runtime");
 import React, {Component} from 'react';
 import registerServiceWorker from './registerServiceWorker';
 import ReactDOM from 'react-dom';

@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node -- ./server.js",
+    "start": "npm-run-all -p watch-sass watch-js",
+    "watch-js": "nodemon --exec babel-node -- ./server.js",
+    "watch-sass": "node-sass -o pdf/styles/ pdf/assets/ --watch pdf/styles/",
     "socket": "nodemon --exec babel-node -- ./socketserver.js"
   },
   "keywords": [],
@@ -15,20 +17,26 @@
     "axios": "^0.17.1",
     "body-parser": "^1.15.2",
     "cors": "^2.8.4",
+    "draft-js": "^0.10.4",
     "express": "^4.15.2",
+    "express-react-views": "^0.10.5",
     "express-validator": "^3.2.0",
     "mongodb": "^2.2.26",
     "mongoose": "^4.11.5",
     "multer": "^1.3.0",
-    "node-linkedin": "^0.5.6",
+    "node-sass": "^4.7.2",
     "querystring": "^0.2.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "semantic-ui-css": "^2.2.12",
     "slug": "^0.9.1",
     "validator": "^7.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.1.2"
   },
   "babel": {
     "presets": [

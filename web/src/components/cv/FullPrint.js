@@ -13,6 +13,9 @@ import Languages from './Languages';
 import WebDev from './WebDev';
 import IT from './IT';
 import Others from './Others';
+import html2pdf from 'html2pdf.js';
+
+var element = document.getElementById('web');
 
 class FullPrint extends Component {
     
@@ -36,13 +39,17 @@ class FullPrint extends Component {
     
   }
   
+  handleClick = (e) => {
+    html2pdf(element);
+  }
+  
   render() {
     const {cv} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
       <div id="mainCV" className="container">
         
         <main className="cvContent">
-            <h1>Carlos Wu - <small>{cv.name}</small></h1>
+            <h1><a href="#" onClick={this.handleClick}>Carlos Wu</a> - <small>{cv.name}</small></h1>
             <section id="summary">
               <h2>Summary and professional goals</h2>
               <HtmlText text={cv.summary} />

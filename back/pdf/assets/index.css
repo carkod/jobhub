@@ -1,0 +1,251 @@
+/*@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,900,900i|Source+Serif+Pro:400,600,700|Source+Serif+Pro:400,600,700');*/
+.serif, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Serif Pro', serif; }
+
+.sans-serif, body, ul li, dl, ol li, #home .quick-nav .short-version, #home .quick-nav #quick-cv, #home .explore .short-version, #home .explore #quick-cv, #mainCV h1, #mainCV h2, #mainCV h3, #mainCV h4, #mainCV .HtmlText, #mainCV .field, #mainCV .work-date {
+  font-family: 'Source Sans Pro', sans-serif; }
+
+.btn {
+  border: none;
+  background: none;
+  outline: none; }
+
+html, body, #root, .layout {
+  height: 100%; }
+
+html {
+  font-size: 16px; }
+
+a, a:link {
+  color: #F6AE1B; }
+
+ul li, dl, ol li {
+  font-size: 1rem;
+  font-weight: 400; }
+
+p {
+  font-size: 1rem;
+  font-weight: 400; }
+
+.container {
+  padding-top: 2rem; }
+
+body:before {
+  content: "Carlos";
+  font-size: 100%;
+  text-align: left;
+  transform: scale(90);
+  display: inline-block;
+  position: fixed;
+  top: 40%;
+  left: 0;
+  z-index: -1; }
+
+#main {
+  display: flex;
+  flex-flow: row; }
+  @media (min-width: 42rem) {
+    #main::before {
+      top: 0;
+      content: '';
+      display: block;
+      height: 100%;
+      left: -30%;
+      right: 0;
+      position: absolute;
+      transform: skewX(9deg);
+      transform-origin: 0;
+      background-color: rgba(68, 176, 238, 0.8);
+      z-index: -1;
+      width: 60%; }
+    #main::after {
+      top: 0;
+      content: '';
+      display: block;
+      height: 100%;
+      right: -10%;
+      position: absolute;
+      transform: skewX(9deg);
+      transform-origin: 0;
+      background-color: #fff;
+      z-index: -1;
+      width: 79%; } }
+  @media (max-width: 40rem) {
+    #main::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      display: block;
+      height: 5rem;
+      left: 0;
+      right: 0;
+      transform: skewY(-45deg);
+      transform-origin: 0 100%;
+      background-color: rgba(68, 176, 238, 0.8);
+      z-index: -1; } }
+  #main .lefty {
+    width: 30%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  #main .righty {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow-y: scroll;
+    overflow-x: hidden; }
+    @media (max-width: 75rem) {
+      #main .righty {
+        align-items: center; } }
+
+/*-------------
+    Home
+--------------*/
+#home {
+  position: relative; }
+  #home .quick-nav {
+    margin-right: 5%;
+    margin-top: 10%;
+    margin-bottom: 10%; }
+    @media (max-width: 75rem) {
+      #home .quick-nav {
+        margin: 0 10%;
+        margin-top: 4rem; } }
+    #home .quick-nav .short-version {
+      display: block;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0.3rem 0;
+      padding: 0;
+      line-height: 1.1; }
+      #home .quick-nav .short-version.title {
+        font-size: 1.55rem;
+        font-weight: 600; }
+      #home .quick-nav .short-version.text {
+        font-size: 1.06rem;
+        color: #44b0ee; }
+    #home .quick-nav #quick-cv {
+      font-weight: 200;
+      font-size: 1.3rem;
+      height: 3rem;
+      border: none;
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      background-color: #44b0ee;
+      color: white;
+      outline: none; }
+    #home .quick-nav .btn {
+      display: block; }
+  #home .explore {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 10%;
+    margin-bottom: 10%; }
+    @media (max-width: 75rem) {
+      #home .explore {
+        margin: 0 10%;
+        margin-top: 4rem; } }
+    #home .explore .short-version {
+      display: block;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0.3rem 0;
+      padding: 0;
+      line-height: 1.1; }
+      #home .explore .short-version.title {
+        font-size: 1.55rem;
+        font-weight: 600; }
+      #home .explore .short-version.text {
+        font-size: 1.6rem;
+        color: #44b0ee; }
+    #home .explore #quick-cv {
+      font-weight: 200;
+      font-size: 1.3rem;
+      height: 3rem;
+      border: none;
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      background-color: #44b0ee;
+      color: white;
+      outline: none; }
+    #home .explore .btn {
+      display: block; }
+  #home .home-details {
+    z-index: 3;
+    padding: 2.5rem 4rem;
+    font-size: 1.2rem;
+    width: 100%; }
+  #home .copyright {
+    padding: 2.5rem 4rem;
+    font-size: 1.2rem; }
+
+/*-------------
+    <MainCV>
+--------------*/
+#mainCV {
+  padding-right: 3rem; }
+  #mainCV h1 {
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem; }
+    #mainCV h1 small {
+      color: #868e96;
+      font-weight: 300;
+      font-size: 2rem; }
+  #mainCV h2 {
+    font-weight: 200;
+    font-size: 2rem;
+    margin-bottom: 0.5rem; }
+  #mainCV h3 {
+    font-weight: 600;
+    font-size: 1.3rem; }
+  #mainCV h4 {
+    font-weight: 400; }
+    #mainCV h4 small {
+      font-weight: 600;
+      color: #868e96; }
+  #mainCV strong {
+    font-weight: 600;
+    font-size: 1rem; }
+  #mainCV section {
+    margin: 1rem 0; }
+  #mainCV .row {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; }
+  #mainCV .HtmlText {
+    font-weight: 400;
+    font-size: 1rem; }
+    #mainCV .HtmlText .public-DraftStyleDefault-ul {
+      list-style-type: square; }
+  #mainCV .field {
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.5rem 1rem; }
+    #mainCV .field strong {
+      font-weight: 600; }
+  #mainCV .ui.dividing.header {
+    border-top: 1px solid rgba(34, 36, 38, 0.15);
+    margin: 2rem 0;
+    padding: 0.5rem 0; }
+  #mainCV .work-date {
+    font-weight: 400;
+    font-size: 1.2rem; }
+  #mainCV .skills .bar {
+    transition: width 2s, background-color 2s; }
+  #mainCV .skills small {
+    margin-left: 0.3rem;
+    opacity: 0; }
+  #mainCV .skills h4:hover, #mainCV .skills h4:active {
+    cursor: pointer; }
+    #mainCV .skills h4:hover small, #mainCV .skills h4:active small {
+      opacity: 1;
+      transition: opacity 1s ease-in-out; }
+
+/*# sourceMappingURL=index.css.map */
