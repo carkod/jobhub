@@ -1,4 +1,4 @@
-/*@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,900,900i|Source+Serif+Pro:400,600,700|Source+Serif+Pro:400,600,700');*/
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,900,900i|Source+Serif+Pro:400,600,700|Source+Serif+Pro:400,600,700");
 .serif, h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Serif Pro', serif; }
 
@@ -29,17 +29,6 @@ p {
 
 .container {
   padding-top: 2rem; }
-
-body:before {
-  content: "Carlos";
-  font-size: 100%;
-  text-align: left;
-  transform: scale(90);
-  display: inline-block;
-  position: fixed;
-  top: 40%;
-  left: 0;
-  z-index: -1; }
 
 #main {
   display: flex;
@@ -247,5 +236,3 @@ body:before {
     #mainCV .skills h4:hover small, #mainCV .skills h4:active small {
       opacity: 1;
       transition: opacity 1s ease-in-out; }
-
-/*# sourceMappingURL=index.css.map */

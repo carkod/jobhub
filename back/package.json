@@ -7,8 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm-run-all -p watch-sass watch-js",
     "watch-js": "nodemon --exec babel-node -- ./server.js",
-    "watch-sass": "node-sass -o pdf/styles/ pdf/assets/ --watch pdf/styles/",
-    "socket": "nodemon --exec babel-node -- ./socketserver.js"
+    "watch-sass": "node-sass --watch pdf/styles/ -o pdf/assets/ pdf/styles/ ",
+    "socket": "nodemon --exec babel-node -- ./socketserver.js",
+    "build": "babel ./*.js -d dist --presets es2015",
+    "production": "node dist/server.js"
+
   },
   "keywords": [],
   "author": "",
@@ -29,6 +32,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "semantic-ui-css": "^2.2.12",
+    "shortid": "^2.2.8",
     "slug": "^0.9.1",
     "validator": "^7.0.0"
   },

@@ -25,11 +25,7 @@ import CVs from './CVs.js';
 import CoverLetters from './CoverLetters.js';
 import Portfolio from './Portfolio.js';
 import Categories from './Categories.js';
-import {IN} from './linkedin';
 import Pdf from './Pdf';
-var sassMiddleware = require('node-sass-middleware');
-import sass from 'node-sass';
-import path from 'path';
 
 let promise = mongoose.connect(dbUrl, { useMongoClient: true });
 
@@ -54,7 +50,7 @@ promise.then((db) => {
     });
     
     //3rd party APIs
-    IN(app);
+    //IN(app);
     
     //CRUD
     CVs(app, db);
