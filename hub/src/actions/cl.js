@@ -1,5 +1,5 @@
 /* eslint-disable */
-import API_URL from './dev';
+import {API_URL} from './dev';
 export const SET_CLS  = 'SET_CLS';
 export const ADD_CL  = 'ADD_CL';
 export const CL_FETCHED = 'CL_FETCHED';

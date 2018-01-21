@@ -16,6 +16,9 @@ html, body, #root, .layout {
 html {
   font-size: 16px; }
 
+body {
+  background: #fff; }
+
 a, a:link {
   color: #F6AE1B; }
 
@@ -26,8 +29,5 @@ ul li, dl, ol li {
 p {
   font-size: 1rem;
   font-weight: 400; }
-
-.container {
-  padding-top: 2rem; }
 
 /*# sourceMappingURL=_global.css.map */

@@ -76,7 +76,6 @@ export default function CVs (app, db) {
         
         
         CVModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {
-        console.log(cv)
           if (err) {
               throw err;
               

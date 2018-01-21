@@ -6,7 +6,7 @@ import Languages from './Languages';
 import WebDev from './WebDev';
 import IT from './IT';
 
-class FullPrint extends Component {
+class QuickPrint extends Component {
   
   render() {
     const cv = this.props;
@@ -16,7 +16,7 @@ class FullPrint extends Component {
          <link rel="stylesheet" href="/pdf/assets/index.css" />
       </head>
       <body>
-      <div id="fullprint" className="container">
+      <div id="quickprint" className="container">
         <main className="cvContent">
             <h1>Carlos Wu - <small>{cv.name}</small></h1>
             <section id="summary">
@@ -38,4 +38,4 @@ class FullPrint extends Component {
   }
 }
 
-export default FullPrint;
+export default QuickPrint;

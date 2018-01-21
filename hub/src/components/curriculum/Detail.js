@@ -8,7 +8,7 @@ import shortid from 'shortid';
 import moment from 'moment';
 import { Icon, Button, Header, Input, Checkbox } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
-import { saveCV, fetchCVs } from '../../actions/cv';
+import { saveCV, fetchCVs, generatePDF } from '../../actions/cv';
 import { authorization } from '../../actions/linkedin';
 import SysMessage from '../SysMessage';
 
@@ -94,20 +94,13 @@ class Detail extends Component {
     const {messages} = this.state.detail;
     const {_id} = this.state.cv;
     
-    if (this.state.linkedin) {
-        this.props.saveCV(this.state.cv).then(status => {
-        this.state.detail.messages.savedID = status.data._id;
-        this.setState({ messages });
-        authorization(_id)
-      })
-      .then(() => window.location = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78n5odk9nuiotg&redirect_uri=http%3A%2F%2Fcv-generator-carkod.c9users.io%3A8081%2Fapi%2Flinkedin&state=48295620` );  
-    } else {
-      this.props.saveCV(this.state.cv).then(status => {
+    this.props.saveCV(this.state.cv).then(status => {
       this.state.detail.messages.savedID = status.data._id;
       this.setState({ messages })
     });
-    }
     
+    generatePDF('fullprint', _id)
+   
   }
   
   render() {

@@ -1,19 +1,20 @@
 {
   "name": "back",
   "version": "1.0.0",
-  "description": "",
+  "description": "Back-end application for Jobhub",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm-run-all -p watch-sass start-js",
     "start-js": "nodemon --exec babel-node -- src/server.js",
-    "watch-sass": "node-sass --watch src/pdf/styles/ -o src/pdf/assets/ src/pdf/styles/ ",
-    "build": "babel ./*.js -d dist --presets es2015",
+    "watch-sass": "node-sass --watch src/pdf/styles/ -o src/pdf/assets/ src/pdf/styles/",
+    "build-js": "babel src/*.js -d dist/. --presets es2015",
+    "build-sass": "node-sass -o dist/pdf/assets -x --output-style compressed src/pdf/styles/index.scss",
+    "build": "npm-run-all -p build-js build-sass",
     "production": "node dist/server.js"
-
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["back-end", "mongoose", "mongodb", "expressjs"],
+  "author": "Carlos Wu",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",
@@ -36,14 +37,16 @@
     "validator": "^7.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.1.2"
   },
   "babel": {
     "presets": [
-      "es2015"
+      "es2015", "react"
     ]
   }
 }

@@ -16,10 +16,6 @@ var _cors = require('cors');
 
 var _cors2 = _interopRequireDefault(_cors);
 
-var _mongodb = require('mongodb');
-
-var _mongodb2 = _interopRequireDefault(_mongodb);
-
 var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
@@ -47,16 +43,10 @@ var _Pdf2 = _interopRequireDefault(_Pdf);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
-var Schema = _mongoose2.default.Schema;
 var dbName = 'cv_generator';
 //const dbLive = 'jobhub';
 var PORT = 8081;
 var dbUrl = void 0;
-/*if (process.env.NODE_ENV !== 'production') {
-    dbUrl = 'mongodb://carloswu.xyz:27017/' + dbName;
-} else {
-    dbUrl = 'mongodb://localhost:27017/' + dbName;        
-}*/
 
 //Live Digital ocean MongoDB only allows to connect from c9.io IP (dev environment)
 dbUrl = 'mongodb://carkod:48295620-j@www.carloswu.xyz:27017/' + dbName;

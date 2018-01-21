@@ -16,7 +16,7 @@ class FullPrint extends Component {
          <link rel="stylesheet" href="/pdf/assets/index.css" />
       </head>
       <body>
-      <div id="fullprint" className="container">
+      <div id="mainCV" className="container">
         <main className="cvContent">
             <h1>Carlos Wu - <small>{cv.name}</small></h1>
             <section id="summary">

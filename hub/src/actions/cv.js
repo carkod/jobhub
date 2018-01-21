@@ -1,5 +1,5 @@
 /* eslint-disable */
-import API_URL from './dev';
+import {API_URL, PDF_URL} from './dev';
 
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
@@ -124,6 +124,16 @@ export function saveCV(data) {
            }
         }).then(handleResponse).then(data => dispatch(addCV(data))).then(data);   
     }
+}
+
+export function generatePDF(type, id) {
+    return fetch(`${PDF_URL}/${type}/${id}`, {
+        headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+    })
+    .then(handleResponse).then(url => console.log(url))
 }
 
 export function fetchCVs() {

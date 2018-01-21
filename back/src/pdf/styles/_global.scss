@@ -32,6 +32,7 @@ html {
 
 body {
     @extend .sans-serif;
+    background:#fff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -54,5 +55,4 @@ p {
 }
 
 .container {
-  padding-top:2rem;
 }
