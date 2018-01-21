@@ -5,10 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm-run-all -p watch-sass watch-js",
-    "watch-js": "nodemon --exec babel-node -- ./server.js",
-    "watch-sass": "node-sass --watch pdf/styles/ -o pdf/assets/ pdf/styles/ ",
-    "socket": "nodemon --exec babel-node -- ./socketserver.js",
+    "start": "npm-run-all -p watch-sass start-js",
+    "start-js": "nodemon --exec babel-node -- src/server.js",
+    "watch-sass": "node-sass --watch src/pdf/styles/ -o src/pdf/assets/ src/pdf/styles/ ",
     "build": "babel ./*.js -d dist --presets es2015",
     "production": "node dist/server.js"
 

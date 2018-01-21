@@ -1,0 +1,78 @@
+/*-------------
+    <MainCV>
+--------------*/
+
+#mainCV {
+    padding-right:3rem;
+    
+    h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;
+        small {color:$dark-grey; font-weight:300; font-size: 2rem;}
+    }
+    h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}
+    h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; }
+    h4 {
+        @extend .sans-serif; font-weight:400;
+        
+        small {
+            font-weight:600; 
+            color:$dark-grey;
+        }
+    }
+    
+    strong {font-weight:600; font-size: 1rem;}
+    section {
+        margin: 1rem 0;
+    }
+    
+    .row {padding-top:0.5rem; padding-bottom: 0.5rem;}
+    
+    .HtmlText {
+        @extend .sans-serif; font-weight: 400; font-size: 1rem;
+        
+        .public-DraftStyleDefault-ul {
+            list-style-type:square;
+        }
+    }
+    
+    .field {
+        @extend .sans-serif; 
+        font-weight: 400; 
+        font-size: 1rem; 
+        padding:0.5rem 1rem;
+        
+        strong {font-weight: 600;}
+    }
+    
+    .ui.dividing.header {
+        border-top: 1px solid rgba(34,36,38,.15);
+        margin: 2rem 0;
+        padding: 0.5rem 0;
+    }
+    
+    .work-date {
+        @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
+    }
+    .skills {
+        .bar {
+            transition: width 2s, background-color 2s;
+        }
+        small {
+            margin-left:0.3rem;
+            opacity:0;
+        }
+        h4:hover, h4:active {
+            cursor:pointer;
+            small { 
+                opacity:1;
+                transition:opacity 1s ease-in-out;
+            }   
+        }
+        
+    }
+    
+    
+}
+
+#detail {
+    
+}
