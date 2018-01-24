@@ -25,14 +25,6 @@
     
     .row {padding-top:0.5rem; padding-bottom: 0.5rem;}
     
-    .HtmlText {
-        @extend .sans-serif; font-weight: 400; font-size: 1rem;
-        
-        .public-DraftStyleDefault-ul {
-            list-style-type:square;
-        }
-    }
-    
     .field {
         @extend .sans-serif; 
         font-weight: 400; 
@@ -46,6 +38,10 @@
         border-top: 1px solid rgba(34,36,38,.15);
         margin: 2rem 0;
         padding: 0.5rem 0;
+    }
+    
+    .workplace, .position {
+        padding-bottom:0px;
     }
     
     .work-date {
@@ -74,11 +70,11 @@
 
 #quickprint {
     
-    h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;
-        small {color:$dark-grey; font-weight:300; font-size: 2rem;}
+    h1 {@extend .sans-serif; font-weight: 600; font-size: 30px; margin-bottom:1.5rem;
+        small {color:$dark-grey; font-weight:300; font-size: 25px;}
     }
-    h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}
-    h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; }
+    h2 {@extend .sans-serif; font-weight: 200; font-size: 23px; margin-bottom: 0.5rem;}
+    h3 {@extend .sans-serif; font-weight: 600; font-size: 20px; }
     h4 {
         @extend .sans-serif; font-weight:400;
         
@@ -109,31 +105,47 @@
     }
     
     .ui.dividing.header {
-        border-top: 1px solid rgba(34,36,38,.15);
-        margin: 2rem 0;
+        margin: 1rem 0;
         padding: 0.5rem 0;
+    }
+    
+    .position {
+        display:none;
+    }
+    
+    .workplace, .position, {
+        padding-bottom:0px;
+    }
+    .work-date, .work-desc {
+        padding-top:10px;
     }
     
     .work-date {
         @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
     }
-    .skills {
-        .bar {
-            transition: width 2s, background-color 2s;
-        }
-        small {
-            margin-left:0.3rem;
-            opacity:0;
-        }
-        h4:hover, h4:active {
-            cursor:pointer;
-            small { 
-                opacity:1;
-                transition:opacity 1s ease-in-out;
-            }   
-        }
-        
+    
+    #education .desc {
+        display:none;
     }
     
     
+    #country, #passport, #city, #pob, #dob {
+        display:none;
+    }
+    
+    .skills {
+        float:left;
+        margin:0px;
+        width:33%;
+        .level {
+            display:none;
+        }
+        small {
+            opacity:1 ;
+        }
+    }
+    
+    #languages {
+        
+    }
 }

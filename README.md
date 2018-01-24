@@ -1,8 +1,8 @@
 TO-DO
 ======
 
-
-- Print CV wkhtmltopdf
+- Detailjs Hub one line
+- Detailjs Hub Add PDF link
 
 ### WEB
 
@@ -50,6 +50,7 @@ NEXT VERSION:
 
 LOG
 ======
+- Print CV wkhtmltopdf
 - message/disable button when no file has been uploaded  (this.filename === undefined)
 - create status drowpdown in hub
 - Then MainResources mapStateToProps()

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 import shortid from 'shortid';
-import { Header, List, Select } from 'semantic-ui-react';
+import { Header, List, Segment, Dropdown } from 'semantic-ui-react';
 
 const positions = [
     { key: shortid.generate(), value: 'front-end', text: 'Front-end Developer' }, 
@@ -42,20 +42,38 @@ const Metainfo = props => {
                 <Header sub>
                     META
                 </Header>
-                <List>
-                    <List.Item><b>Created</b>: {moment(meta.createdAt).calendar()}</List.Item>
-                    <List.Item><b>Updated</b>: {moment(meta.updatedAt).calendar()}</List.Item>
-                    <List.Item><b>Slug</b>: {meta.slug}</List.Item>
-                    <List.Item>
-                        <Select placeholder={status} options={statuses} name='status' onChange={props.onChange} />
-                    </List.Item>
-                    <List.Item>
-                        <Select placeholder={position} options={positions} name='position' onChange={props.onChange} selection/>
-                    </List.Item>
-                    <List.Item>
-                        <Select placeholder={language} options={languages} name='locale' onChange={props.onChange} />
-                    </List.Item>
-                </List>
+                
+                
+                <Segment.Group>
+                <Segment.Group horizontal>
+                  <Segment><b>Created</b>: {moment(meta.createdAt).calendar()}</Segment>
+                  
+                  <Segment><b>Updated</b>: {moment(meta.updatedAt).calendar()}</Segment>
+                  
+                  <Segment><b>Slug</b>: {meta.slug}</Segment>
+                  
+                    <Segment><b>PDF</b>:
+                    {meta.pdf[0] !== undefined ? meta.pdf.map((el,i) => 
+                         <a key={shortid.generate()} href={el.link}>{'\u00A0' + el.name + '\u00A0'}</a>
+                    ) : ''}
+                    </Segment>
+                </Segment.Group>
+                
+                <Segment.Group horizontal>
+                <Segment><Dropdown placeholder={status} options={statuses} name='status' onChange={props.onChange} /></Segment>
+                
+                <Segment>
+                    <Dropdown placeholder={position} options={positions} name='position' onChange={props.onChange}/>
+                </Segment>
+                
+                <Segment>
+                    <Dropdown placeholder={language} options={languages} name='locale' onChange={props.onChange} />
+                </Segment>
+                
+                </Segment.Group>
+              </Segment.Group>
+              
+                
             </div>
         </div>
     )

@@ -12,6 +12,7 @@ const cvInitial =
           name: '',
           createdAt: '',
           updatedAt: '',
+          pdf:[],
           cats: {
                 position: '',
                 locale: '',

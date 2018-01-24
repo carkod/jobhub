@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import {Helmet} from "react-helmet";
 import { connect } from 'react-redux';
-import {stateToHTML} from 'draft-js-export-html';
 import { saveCV, fetchCVs } from '../../actions/cv';
 import PD from './PD';
 import HtmlText from './HtmlText';
@@ -57,8 +56,9 @@ class MainCV extends Component {
             <Work workExp={cv.workExp} />            
             <Education educ={cv.educ} />
             <Languages langSkills={cv.langSkills} />
-            <WebDev webdevSkills={cv.webdevSkills} />
-            <IT itSkills={cv.itSkills} />
+            {/*Optional fields*/}
+            {cv.webdevSkills.length > 1 && cv.webdevSkills[0].name !== '' ? <WebDev webdevSkills={cv.webdevSkills} /> : ''}
+            {cv.itSkills.length > 1 && cv.itSkills[0].name !== '' ? <IT itSkills={cv.itSkills} /> : ''}
             {/*<Others others={cv.others} />*/}
             
         </main>

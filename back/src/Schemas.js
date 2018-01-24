@@ -13,6 +13,7 @@ const CVSchema = new Schema({
     name: { type: String },
     summary: { type: String },
     slug: { type: String, slug: "name", unique: true },
+    pdf: { type: Array },
     cats: {
         position: { type: String },
         locale: { type: String },

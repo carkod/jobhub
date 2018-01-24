@@ -126,14 +126,14 @@ export function saveCV(data) {
     }
 }
 
-export function generatePDF(type, id) {
-    return fetch(`${PDF_URL}/${type}/${id}`, {
+export function generatePDF(id) {
+    return fetch(`${PDF_URL}/generate/${id}`, {
+        method:'GET',
         headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }
-    })
-    .then(handleResponse).then(url => console.log(url))
+        "Content-Type": "application/json",
+       },
+    }).then(handleResponse)
+    
 }
 
 export function fetchCVs() {

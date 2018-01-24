@@ -32,7 +32,7 @@ export default function CVs (app, db) {
             if (!err) {
                 return slugger = slugger + '-' + shortid.generate();
             } else {
-                console.log('slug doesn´t exist')
+                console.log('slug doesn\'t exist')
             }
             
         });
@@ -53,6 +53,7 @@ export default function CVs (app, db) {
                 name: r.name,
                 summary: r.summary,
                 slug: slugger,
+                pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
                     locale: r.cats.locale,
@@ -101,10 +102,10 @@ export default function CVs (app, db) {
         if (req.params._id) {
         
             cv = new CVModel({
-                _id: mongoose.Types.ObjectId(),
                 name: r.name,
                 summary: r.summary,
-                slug: r.slug,
+                slug: slug(r.name.toLowerCase()),
+                pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
                     locale: r.cats.locale,

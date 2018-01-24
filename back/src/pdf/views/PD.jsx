@@ -13,20 +13,32 @@ class PD extends Component {
         <div className="ui grid">
           <div className="text twelve wide column">
           <div className="ui two column grid">
-            <div className="field column"><strong><span className="label">First name: </span></strong>{persdetails.name}</div>
-            <div className="field column"><strong><span className="label">Last name: </span></strong>{persdetails.lastname}</div>
-            <div className="field two column wide"><strong><span className="label">Nationality: </span></strong>{persdetails.nationality}</div>
-            <div className="field two column wide"><strong><span className="label">Address: </span></strong>{persdetails.address}</div>
-            <div className="field two column wide"><strong><span className="label">Date of Birth: </span></strong>{persdetails.DoB}</div>
-            <div className="field two column wide"><strong><span className="label">Passport: </span></strong>{persdetails.ID}</div>
-            <div className="field two column wide"><strong><span className="label">PostCode: </span></strong>{persdetails.PC}</div>
-            <div className="field two column wide"><strong><span className="label">City: </span></strong>{persdetails.city}</div>
-            <div className="field two column wide"><strong><span className="label">Country: </span></strong>{persdetails.country}</div>
-            <div className="field two column wide"><strong><span className="label">Email: </span></strong>{persdetails.email}</div>
-            <div className="field two column wide"><strong><span className="label">Nationality: </span></strong>{persdetails.nationality}</div>
-            <div className="field two column wide"><strong><span className="label">Phone: </span></strong>{persdetails.phone}</div>
-            <div className="field two column wide"><strong><span className="label">Date of Birth: </span></strong>{persdetails.DoB}</div>
-          </div>
+            {persdetails.name ? <div id="firstname" className="field two column wide"><strong><span className="label">First name: </span></strong>{persdetails.name}</div> : ''}
+            
+            {persdetails.lastname ? <div id="lastname" className="field two column wide"><strong><span className="label">Surname: </span></strong>{persdetails.lastname}</div> : ''}
+            
+            {persdetails.email ? <div id="email" className="field two column wide"><strong><span className="label">Email: </span></strong>{persdetails.email}</div> : ''}
+            
+            {persdetails.phone ? <div id="phone" className="field two column wide"><strong><span className="label">Phone: </span></strong>{persdetails.phone}</div> : ''}
+            
+            {persdetails.address ? <div id="address" className="field two column wide"><strong><span className="label">Address: </span></strong>{persdetails.address}</div> : ''}
+            
+            {persdetails.PC ? <div id="postcode" className="field two column wide"><strong><span className="label">Post Code: </span></strong>{persdetails.PC}</div> : ''}
+            
+            {persdetails.city ? <div id="city" className="field two column wide"><strong><span className="label">City: </span></strong>{persdetails.city}</div> : ''}
+            
+            {persdetails.country ? <div id="country" className="field two column wide"><strong><span className="label">Country: </span></strong>{persdetails.country}</div> : ''}
+            
+            
+            {persdetails.nationality ? <div id="nationality" className="field two column wide"><strong><span className="label">Nationality: </span></strong>{persdetails.nationality}</div> : ''}
+            
+            {persdetails.DoB ? <div id="dob" className="additional field two column wide"><strong><span className="label">Date of Birth: </span></strong>{persdetails.DoB}</div> : ''}
+            
+            {persdetails.ID ? <div id="passport" className="additional field two column wide"><strong><span className="label">Passport: </span></strong>{persdetails.ID}</div> : ''}
+            
+            {persdetails.PoB ? <div id="pob" className="additional field two column wide"><strong><span className="label">Place of Birth: </span></strong>{persdetails.PoB}</div> : ''}
+            
+            </div>
           </div>
           <div className="photo four wide column">{persdetails.photo}</div>  
       </div>

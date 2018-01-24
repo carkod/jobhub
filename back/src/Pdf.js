@@ -1,27 +1,30 @@
 import express from 'express';
-import path from 'path';
 import mongoose from 'mongoose';
 import { CVSchema } from './Schemas';
-import sassMiddleware from 'node-sass-middleware';
 import wkhtmltopdf from 'wkhtmltopdf';
+import moment from 'moment';
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
 
-const generatePDF = (req, data) => {
+const generatePDF = (req, data, printType, headerText) => {
     const url = req.protocol + '://' + req.get('host') + req.originalUrl;
     const footerURL = 'www.carloswu.xyz'
-    const name = data.name;
+    const name = data.name.replace(/\s/g, '');;
     const position = data.cats.position;
+    const updated = 'Updated ' + moment(data.updatedAt).year();
+    const uri = `docs/CarlosWu-${name}(${printType}).pdf`;
     const options = {
-      output : `docs/CarlosWu-${name}.pdf`,
+      output : uri,
       ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
-      footerLeft : `${footerURL}`,
+      headerRight : `${footerURL}`,
       footerRight: '[page]',
-      headerLeft: `Curriculum Vitae - ${position}`
+      headerLeft: `${headerText} - ${position}`,
+      footerLeft: `${updated}`
     }
     
-    const asycGen = new Promise((ok,fail) => {
-        const pdfURL = req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}.pdf`;
+    const pdfURL = req.protocol + '://' + req.get('host') + uri; 
+   
+    return new Promise((ok,fail) => {
         wkhtmltopdf(url, options, (err) => {
             if (err) {
                 fail(err)
@@ -31,7 +34,6 @@ const generatePDF = (req, data) => {
             
         });
     });
-    return asycGen;
     
 }
 
@@ -42,16 +44,69 @@ export default function Pdf (app,db) {
     app.set('view engine', 'jsx');
     app.engine('jsx', require('express-react-views').createEngine()); 
     
-    app.get('/pdf/:type/:id', (req, res) => {
-        const {type, id} = req.params;
+    app.get('/pdf/generate/:id', (req, res) => {
+        const {id} = req.params;
+        
+        
         CVModel.findOne({_id: id}, function(err, content) {
-           if (err) throw err;
-           if (type === 'fullprint') {
-               res.render('FullPrint', content)
-           } else if (type === 'quickprint') {
-                res.render('QuickPrint', content)    
-           }
-        }).then((data) => generatePDF(req, data).then(pdf => res.send(pdf)) )
+            if (err) throw err;
+            
+            
+            function fullPrint() {
+                return new Promise((a,f) => {
+                    app.render('FullPrint.jsx', content, (err, html) => {
+                    if (err) {f(err)} else {a(content)} 
+                    })               
+                })
+            }
+            
+            function quickPrint() {
+                return new Promise((a,f) => {
+                    app.render('QuickPrint.jsx', content, (err, html) => {
+                    if (err) {f(err)} else {a(content)} 
+                    })               
+                })
+            }
+            
+            let pdfObj = []
+            
+            /*
+                1. Render Fullprint page.
+                2. Print fullprint page PDF
+                3. Render Quickprint page.
+                4. Print quickprint page.
+            */
+            
+            fullPrint().catch(e => console.log(e)).then(data => {
+               const printType = 'f';  
+               const headerText = 'Currilum Vitae';
+               generatePDF(req, data, printType, headerText).then(e => {
+                pdfObj.push({name: 'Full Version', value:printType, link:e});
+                quickPrint().catch(e => console.log(e)).then(data2 => {
+                const printType2 = 'q';  
+                generatePDF(req, data2, printType2, headerText).catch(e => console.log(e)).then(e2 => { pdfObj.push({name:'Short Version', value: printType2, link:e2}); res.json(pdfObj)})
+                })
+               })
+            })
+        })
+        return;
+    });
+    
+    app.get('/pdf/generateCL/:id', (req, res) => {
+        const {id} = req.params;
+        CVModel.findOne({_id: id}, function(err, content) {
+            if (err) throw err;
+            let objPDF = {};
+            
+            app.render('FullPrint.jsx', content, (err, html) => {
+                if (err) throw err;
+                const printType = 'coverletter';
+                const headerText = 'Cover Letter';
+                generatePDF(req, content, printType, headerText).then(url => { objPDF.Fpdf = url; });
+            })
+            
+           return res.json(objPDF);
+        })
         
     });
 }

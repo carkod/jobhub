@@ -94,17 +94,20 @@ class Detail extends Component {
     const {messages} = this.state.detail;
     const {_id} = this.state.cv;
     
-    this.props.saveCV(this.state.cv).then(status => {
+    generatePDF(_id).then(url => {
+      this.state.cv.pdf = url;
+      this.props.saveCV(this.state.cv).then(status => {
       this.state.detail.messages.savedID = status.data._id;
-      this.setState({ messages })
-    });
+      this.setState({ messages });
+    });      
+        
+    })  
     
-    generatePDF('fullprint', _id)
-   
   }
   
   render() {
     const {cv} = this.state;
+    console.log(cv)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
@@ -142,6 +145,7 @@ class Detail extends Component {
 }
 
 const mapStateToProps = (state, props) => {
+  console.log(state)
   if (state.cvs[0]._id) {
     const cv = state.cvs.find(item => item._id === props.match.params.id);
     return {

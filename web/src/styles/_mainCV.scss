@@ -49,6 +49,10 @@
         padding: 0.5rem 0;
     }
     
+    .workplace, .position {
+        padding-bottom:0;
+    }
+    
     .work-date {
         @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
     }

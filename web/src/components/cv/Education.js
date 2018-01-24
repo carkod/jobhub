@@ -29,24 +29,19 @@ class Education extends Component {
         <h2 className="ui dividing header">Education</h2>
           {educ.map((ed, i) => 
             <div key={i} className="ui grid">
-              <div className="row">
-                  <div className="workplace six wide column">
-                      <h3>{ed.insitution}</h3>
-                  </div>
-                  
-                  <div className="position ten wide column">
-                      <h3>{ed.diploma}</h3>
-                  </div>
+              <div className="workplace six wide column">
+                  <h3>{ed.insitution}</h3>
               </div>
-              <div className="row">
-                  <div className="work-date six wide column">
-                      {ed.date}
-                  </div>
-                  
-                  <div className="work-desc ten wide column">
-                    <HtmlText text={ed.desc} />
-                  </div>
-                  
+              
+              <div className="position ten wide column">
+                  <h3>{ed.diploma}</h3>
+              </div>
+              <div className="work-date six wide column">
+                  {ed.date}
+              </div>
+              
+              <div className="work-desc ten wide column">
+                <HtmlText text={ed.desc} />
               </div>
             </div>
           )}

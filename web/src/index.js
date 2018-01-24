@@ -18,10 +18,7 @@ import Reducer from './Reducer';
 import Home from './components/Home';
 import About from './components/About';
 import Layout from './components/Layout';
-import Print from './components/Print';
 import MainCV from './components/cv/MainCV';
-import FullPrint from './components/cv/FullPrint';
-import QuickPrint from './components/cv/QuickPrint';
 import MainResources from './components/resources/MainResources';
 
 //import { loadState, saveState } from './localStorage';
@@ -55,8 +52,6 @@ ReactDOM.render(
         <RenderRoute layout={Layout} path="/about" component={About} />
         <RenderRoute layout={Layout} exact strict path="/:language/:position/cv" component={MainCV} />
         <RenderRoute layout={Layout} exact strict path="/:language/:position/resources" component={MainResources} />
-        <RenderRoute layout={Print} exact strict path="/:language/:position/cv/fullprint" component={FullPrint} />
-        <RenderRoute layout={Print} exact strict path="/:language/:position/cv/quickprint" component={QuickPrint} />
         {/*<Route component={404} />*/}
       </Switch>
     </BrowserRouter>
