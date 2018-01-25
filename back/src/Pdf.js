@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import { CVSchema } from './Schemas';
 import wkhtmltopdf from 'wkhtmltopdf';
 import moment from 'moment';
+import path from 'path';
+
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
 
@@ -12,7 +14,8 @@ const generatePDF = (req, data, printType, headerText) => {
     const name = data.name.replace(/\s/g, '');;
     const position = data.cats.position;
     const updated = 'Updated ' + moment(data.updatedAt).year();
-    const uri = `docs/CarlosWu-${name}(${printType}).pdf`;
+    const folder = path.join(__dirname, '../', '/docs');
+    const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
     const options = {
       output : uri,
       ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
@@ -22,12 +25,14 @@ const generatePDF = (req, data, printType, headerText) => {
       footerLeft: `${updated}`
     }
     
-    const pdfURL = req.protocol + '://' + req.get('host') + uri; 
+    const pdfURL = req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`; 
    
     return new Promise((ok,fail) => {
+        console.log(url)
         wkhtmltopdf(url, options, (err) => {
             if (err) {
-                fail(err)
+                
+                fail(err);
             } else {
                 ok(pdfURL);        
             }
@@ -80,11 +85,11 @@ export default function Pdf (app,db) {
             fullPrint().catch(e => console.log(e)).then(data => {
                const printType = 'f';  
                const headerText = 'Currilum Vitae';
-               generatePDF(req, data, printType, headerText).then(e => {
+               generatePDF(req, data, printType, headerText).catch(e => console.log('error generating full CV')).then(e => {
                 pdfObj.push({name: 'Full Version', value:printType, link:e});
                 quickPrint().catch(e => console.log(e)).then(data2 => {
                 const printType2 = 'q';  
-                generatePDF(req, data2, printType2, headerText).catch(e => console.log(e)).then(e2 => { pdfObj.push({name:'Short Version', value: printType2, link:e2}); res.json(pdfObj)})
+                generatePDF(req, data2, printType2, headerText).catch(e => console.log('error generating quick CV')).then(e2 => { pdfObj.push({name:'Short Version', value: printType2, link:e2}); res.json(pdfObj)})
                 })
                })
             })

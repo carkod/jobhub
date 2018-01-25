@@ -1,8 +1,8 @@
 TO-DO
 ======
 
-- Detailjs Hub one line
 - Detailjs Hub Add PDF link
+- Remove Mongodb details 
 
 ### WEB
 
@@ -50,6 +50,7 @@ NEXT VERSION:
 
 LOG
 ======
+- Detailjs Hub one line
 - Print CV wkhtmltopdf
 - message/disable button when no file has been uploaded  (this.filename === undefined)
 - create status drowpdown in hub

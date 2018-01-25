@@ -40,11 +40,11 @@ const PD = (props) => {
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-                <Grid.Column width={8}>
+                <Grid.Column width={6}>
                     <label>Address </label>
-                    <input name="address" type="text" onChange={props.onChange} value={persdetails.address} />  
+                    <input name="address" type="text" onChange={props.onChange} value={persdetails.address} size={30} />  
                 </Grid.Column>
-                <Grid.Column width={4}>
+                <Grid.Column width={5}>
                     <label>PostCode </label>
                     <input name="PC" type="text" onChange={props.onChange} value={persdetails.PC} /> 
                 </Grid.Column>

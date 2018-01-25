@@ -3,7 +3,7 @@ import express from 'express';
 import expressValidator from 'express-validator';
 import cors from 'cors';
 import mongoose from 'mongoose';
-
+import path from 'path';
 
 const app = express();
 const dbName = 'cv_generator';
@@ -38,9 +38,15 @@ promise.then((db) => {
     
     
     //Download static files in uploads folder
-    app.use(express.static(__dirname + '/uploads'));
+    app.use(express.static(path.join(__dirname, '../', '/uploads')));
     app.get('/uploads/:filename', (req, res) => {
-        res.download(__dirname + req.url);
+        res.download(path.join(__dirname, '../', req.url));
+    });
+    
+    // PDF generator folder
+    app.use(express.static(path.join(__dirname, '../', '/docs')));    
+    app.get('/docs/:filename', (req, res) => {
+        res.download(path.join(__dirname, '../', req.url));
     });
     
     //3rd party APIs

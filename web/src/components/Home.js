@@ -2,11 +2,32 @@
 
 import React, { Component } from 'react';
 import {Helmet} from "react-helmet";
+import { connect } from 'react-redux';
+import { fetchCVs } from '../actions/cv';
+import { fetchCats } from '../actions/cats';
+import Quick from './Quick';
+import Explore from './Explore';
 
+class Home extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
-export default class Home extends Component {
+  componentDidMount = () => {
+    this.props.fetchCVs();
+    this.props.fetchCats();
+  }
+  
+  componentWillReceiveProps = (props) => {
+  }
+  
+  
   
   render() {
+    const {cvs} = this.props;
     return (
       <div id="home" className="container">
         <Helmet>
@@ -16,74 +37,95 @@ export default class Home extends Component {
           <link rel="canonical" href="http://carloswu.xyz/" />
         </Helmet>
         
-        <div className="quick-nav">
-              <h2 className="short-version title">No time for browsing?</h2>
-              <p className="short-version text">Download short version of my CV</p>
-              <select id="quick-cv" className="ui dropdown" selected="Select Role">
-                <option value="frontend">Front-end</option>
-                <option value="project-manager">Project Manager</option>
-                <option value="business">Business Analyst</option>
-              </select>
-            </div>
-            <div className="explore">
-              <h2 className="short-version title">Explore my background</h2>
-              <p className="short-version text">Proceed to extended CV</p>
-              <select id="quick-cv" className="ui dropdown" selected="Select Role">
-                <option value="frontend">Front-end</option>
-                <option value="project-manager">Project Manager</option>
-                <option value="business">Business Analyst</option>
-              </select>
-            </div>
-            
-            <div className="home-details">
-            <div className="ui list">
-              
-              <div className="item">
-                <i className="id card icon"></i>
-                <div className="content">
-                  Carlos Wu 
-                </div>
-              </div>
-              <div className="item">
-                <i className="briefcase icon"></i>
-                <div className="content">
-                  Eventure Internet
-                </div>
-              </div>
-              <div className="item">
-                <i className="marker icon"></i>
-                <div className="content">
-                  Mansfield, Notts, UK
-                </div>
-              </div>
-              <div className="item">
-                <i className="mail icon"></i>
-                <div className="content">
-                  <a href="mailto:carkodesign@gmail.com">carkodesign@gmail.com</a>
-                </div>
-              </div>
-              <div className="item">
-                <i className="linkedin square icon"></i>
-                <div className="content">
-                  <a href="https://www.linkedin.com/in/carkod/" title="https://www.linkedin.com/in/carkod/">LinkedIn</a>
-                </div>
-              </div>
-              <div className="item">
-                <i className="github icon"></i>
-                <div className="content">
-                  <a href="http://github.com/carkod/jobhub" title="http://github.com/carkod/jobhub">Github</a>
-                </div>
-              </div>
-              <div className="item">
-                <i className="stack overflow icon"></i>
-                <div className="content">
-                  <a href="https://stackoverflow.com/users/2454059/carkod" title="https://stackoverflow.com/users/2454059/carkod">StackOverflow</a>
-                </div>
-              </div>
-              
-            </div>
+        <div className="ui grid">
+          <div className="eight wide column">
+            <Quick cvs={this.props.cvs} />
           </div>
+          <div className="eight wide column">
+            <Explore cvs={this.props.cvs} location={this.props.location}/>
+          </div>
+        </div>      
+        <div className="home-details">
+          <div className="ui grid">
+            <div id="revealer" className="two column row">
+        
+        
+              <div className={this.state.revealDetail ? "pad-left column cover revealed": "pad-left column cover"} onClick={() => this.setState({revealDetail: !this.state.revealDetail})} >
+                <div className="ui list">
+                  <div className="item">
+                    <i className="id card icon"/>
+                    <div className="content">Carlos Wu </div>
+                  </div>
+                  <div className="item">
+                    <i className="briefcase icon"/>
+                    <div className="content">Eventure Internet</div>
+                  </div>
+                  <div className="item">
+                    <i className="marker icon"/>
+                    <div className="content">Mansfield, Notts, UK</div>
+                  </div>
+                </div>
+              </div>
+              
+              
+              <div className={this.state.revealDetail ? "pad-right column" : "pad-right column revealed"} onClick={() => this.setState({revealDetail: !this.state.revealDetail})} >
+                <div className="ui list">
+                  <div className="item">
+                    <i className="mail icon"/>
+                    <div className="content"><a href="mailto:carkodesign@gmail.com">carkodesign@gmail.com</a></div>
+                  </div>
+                  <div className="item">
+                    <i className="linkedin square icon"/>
+                    <div className="content"><a href="https://www.linkedin.com/in/carkod/" title="https://www.linkedin.com/in/carkod/">LinkedIn</a></div>
+                  </div>
+                  <div className="item">
+                    <i className="github icon"/>
+                    <div className="content"><a href="http://github.com/carkod/jobhub" title="http://github.com/carkod/jobhub">Github</a></div>
+                  </div>
+                  <div className="item">
+                  <i className="stack overflow icon"/>
+                    <div className="content"><a href="https://stackoverflow.com/users/2454059/carkod" title="https://stackoverflow.com/users/2454059/carkod">StackOverflow</a></div>
+                  </div>
+                </div>
+              </div>
+        
+        
+          </div>
+        </div>
       </div>
+    </div>
     );
   }
 }
+
+const matchCV = (item) => {
+  const checkStatus = item.cats.status === 'public';
+  const checkPos = item.cats.position !== '' || item.cats.position !== undefined;
+  const checkPDF = item.pdf !== '' || item.pdf !== undefined;
+  
+  if (checkStatus && checkPos && checkPDF) {
+    return item
+  } else {
+    //console.log('no match');
+    return false
+  }
+  
+}
+
+const mapStateToProps = (state, props) => {
+  const {cvs, cats}  = state;
+  if (cvs !== undefined ) {
+    const newArray = cvs.filter(i => matchCV(i));
+    
+    return {
+      cvs: newArray  
+    }
+  } else {
+    return {
+      cvs: null
+    }
+  }
+}
+
+
+export default connect(mapStateToProps, { fetchCVs, fetchCats })(Home);

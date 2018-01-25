@@ -9,6 +9,7 @@ import moment from 'moment';
 import { Icon, Button, Header, Input, Checkbox } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 import { saveCV, fetchCVs, generatePDF } from '../../actions/cv';
+import {fetchCats} from '../../actions/project';
 import { authorization } from '../../actions/linkedin';
 import SysMessage from '../SysMessage';
 
@@ -26,10 +27,11 @@ class Detail extends Component {
 
   constructor(props) {
     super(props);
-    let {cv, detail} = this.props;
+    let {cv, detail, categories} = this.props;
     this.state = {
       cv: cv,
       detail: detail,
+      categories: categories,
     };
     this.pdChange = this.pdChange.bind(this);
     this.metaChange = this.metaChange.bind(this);
@@ -38,12 +40,14 @@ class Detail extends Component {
 
   componentDidMount = () => {
     this.props.fetchCVs();
+    this.props.fetchCats();
     document.addEventListener('keydown', this.keySave, false);
   }
   
   componentWillReceiveProps = (props) => {
-    const {cv} = props;
-    this.setState({ cv })
+    const {cv, categories} = props;
+    console.log(categories)
+    this.setState({ cv, categories })
   }
   
  
@@ -106,12 +110,11 @@ class Detail extends Component {
   }
   
   render() {
-    const {cv} = this.state;
-    console.log(cv)
+    const {cv, categories} = this.state;
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
-        <Metainfo meta={cv} onChange={this.metaChange} />
+        <Metainfo categories={categories} meta={cv} onChange={this.metaChange} />
         <div className="container">
           <Summary summary={cv.summary} onChange={this.summaryChange} />
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
@@ -146,15 +149,17 @@ class Detail extends Component {
 
 const mapStateToProps = (state, props) => {
   console.log(state)
-  if (state.cvs[0]._id) {
+  if (state.cvs[0]._id && state.cats[0]._id) {
     const cv = state.cvs.find(item => item._id === props.match.params.id);
     return {
       cv: cv,
+      categories: state.cats,
       detail: state.detail
     }
   } else {
     return { 
       cv: state.cvs[0],
+      categories: state.cats,
       detail: state.detail
     }    
   }
@@ -162,6 +167,6 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { saveCV, fetchCVs })(Detail);
+export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats })(Detail);
 
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 import shortid from 'shortid';
-import { Header, List, Dropdown } from 'semantic-ui-react';
+import { Header, List, Dropdown, Segment } from 'semantic-ui-react';
 import {positions, languages} from '../Categories';
 
 
@@ -29,24 +29,31 @@ const Metainfo = props => {
                 <Header sub>
                     META
                 </Header>
-                <List>
-                    <List.Item><b>Created</b>: {moment(meta.createdAt).calendar()}</List.Item>
-                    <List.Item><b>Updated</b>: {moment(meta.updatedAt).calendar()}</List.Item>
-                    {categories.map((cat, i) => 
-                        <List.Item key={i}>
+                <Segment.Group>
+                    <Segment.Group horizontal>
+                        <Segment><b>Created</b>: {moment(meta.createdAt).calendar()}</Segment>
+                  
+                          <Segment><b>Updated</b>: {moment(meta.updatedAt).calendar()}</Segment>
+                          
+                          <Segment><b>Slug</b>: {meta.slug}</Segment>
+                        <Segment><b>PDF</b>:
+                        {meta.pdf !== undefined ? meta.pdf.map((el,i) => 
+                             <a key={shortid.generate()} href={el.link}>{'\u00A0' + el.name + '\u00A0'}</a>
+                        ) : ''}
+                        </Segment>
+                    </Segment.Group>
+                        
+                    <Segment.Group horizontal>
+                        {categories.map((cat, i) => 
+                        <Segment key={i}>
                             <Dropdown placeholder={meta.cats[cat.singLabel] === undefined ? `Select ${cat.singLabel}` : meta.cats[cat.singLabel]} options={cat.children} value={meta.cats[cat.singLabel]} onChange={props.onChange} name={cat.singLabel} selection />
-                        </List.Item>
-                    )}
-                    {/*<List.Item>
-                        <Select placeholder={status} options={statuses} name='status' onChange={props.onChange} />
-                    </List.Item>
-                    <List.Item>
-                        <Select placeholder={position} options={positions} name='position' onChange={props.onChange} selection/>
-                    </List.Item>
-                    <List.Item>
-                        <Select placeholder={language} options={languages} name='locale' onChange={props.onChange} />
-                    </List.Item>*/}
-                </List>
+                        </Segment>
+                        )}
+                    
+                    </Segment.Group>
+                
+                </Segment.Group>
+                
             </div>
         </div>
     )

@@ -15,7 +15,7 @@ import Others from './Others';
 
 class MainCV extends Component {
     
-    constructor(props) {
+  constructor(props) {
     super(props);
     const {cv} = this.props;
     

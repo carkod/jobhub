@@ -24,13 +24,7 @@ const statuses = [
 ]
 
 const Metainfo = props => {
-    const {meta} = props;
-    const positionIndex = positions.findIndex(v => v.value === meta.cats.position);
-    const position = meta.cats.position === undefined || positionIndex > 0 ? positions[positionIndex].text : 'Select position';
-    const languageIndex = languages.findIndex(v => v.value === meta.cats.locale);
-    const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
-    const statusIndex = statuses.findIndex(v => v.value === meta.cats.status);
-    const status = meta.cats.status ? statuses[statusIndex].text : 'Select status';
+    const {meta, categories} = props;
     
     return (
         <div id="metainfo">
@@ -42,7 +36,6 @@ const Metainfo = props => {
                 <Header sub>
                     META
                 </Header>
-                
                 
                 <Segment.Group>
                 <Segment.Group horizontal>
@@ -60,15 +53,12 @@ const Metainfo = props => {
                 </Segment.Group>
                 
                 <Segment.Group horizontal>
-                <Segment><Dropdown placeholder={status} options={statuses} name='status' onChange={props.onChange} /></Segment>
                 
-                <Segment>
-                    <Dropdown placeholder={position} options={positions} name='position' onChange={props.onChange}/>
+                {categories.map((cat, i) => 
+                <Segment key={i}>
+                    <Dropdown placeholder={meta.cats[cat.singLabel] === undefined ? `Select ${cat.singLabel}` : meta.cats[cat.singLabel]} options={cat.children} value={meta.cats[cat.singLabel]} onChange={props.onChange} name={cat.singLabel} selection />
                 </Segment>
-                
-                <Segment>
-                    <Dropdown placeholder={language} options={languages} name='locale' onChange={props.onChange} />
-                </Segment>
+                )}
                 
                 </Segment.Group>
               </Segment.Group>
