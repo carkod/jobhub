@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$dark-grey".
-        on line 9 of /home/ubuntu/workspace/web/src/styles/_mainCV.scss
+        on line 14 of /home/ubuntu/workspace/web/src/styles/_mainCV.scss
 
-4: 
-5: #mainCV {
-6:     padding-right:3rem;
-7:     
-8:     h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;
-9:         small {color:$dark-grey; font-weight:300; font-size: 2rem;}
-10:     }
-11:     h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}
-12:     h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; }
-13:     h4 {
-14:         @extend .sans-serif; font-weight:400;
+9:     }
+10:     h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;
+11:         @media (max-width:66rem) {
+12:             font-size: 2.2rem;
+13:         }
+14:         small {color:$dark-grey; font-weight:300; font-size: 2rem;
+15:             @media (max-width:66rem) {
+16:                 font-size: 1.8rem;
+17:             }   
+18:         }
+19:         
 
 Backtrace:
-/home/ubuntu/workspace/web/src/styles/_mainCV.scss:9
+/home/ubuntu/workspace/web/src/styles/_mainCV.scss:14
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -87,4 +87,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$dark-grey\".\A         on line 9 of /home/ubuntu/workspace/web/src/styles/_mainCV.scss\A \A 4: \A 5: #mainCV {\A 6:     padding-right:3rem;\A 7:     \A 8:     h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;\A 9:         small {color:$dark-grey; font-weight:300; font-size: 2rem;}\A 10:     }\A 11:     h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}\A 12:     h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; }\A 13:     h4 {\A 14:         @extend .sans-serif; font-weight:400;"; }
+  content: "Error: Undefined variable: \"$dark-grey\".\A         on line 14 of /home/ubuntu/workspace/web/src/styles/_mainCV.scss\A \A 9:     }\A 10:     h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;\A 11:         @media (max-width:66rem) {\A 12:             font-size: 2.2rem;\A 13:         }\A 14:         small {color:$dark-grey; font-weight:300; font-size: 2rem;\A 15:             @media (max-width:66rem) {\A 16:                 font-size: 1.8rem;\A 17:             }   \A 18:         }\A 19:         "; }

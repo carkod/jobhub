@@ -10,50 +10,59 @@
 }
 
 @mixin dropdown() {
-    .cv-dropdown {
-        @extend .sans-serif;
-        font-weight:200;
-        font-size: $preset-font;
-        border:1px solid $blue;    
-        outline:none;
+.cv-dropdown {
+    @extend .sans-serif;
+    font-weight:200;
+    font-size: $preset-font;
+    border:1px solid $blue;    
+    outline:none;
+    border-radius:0px;
+    background-color: $blue;
+    box-shadow:none;
+    padding-right:1.3rem;
+    
+    @media (max-width:66rem) {
+        padding:1rem;
+        font-size:$preset-font*0.8;
+    }
+    
+    .default.text {
+        color: #fff;
+    }
+    .icon{
+        float:right; color:#fff;
+            &.cloud {
+                animation: bounce 1s infinite;
+                transition: animation 1s ease-in-out;
+            }
+    }
+    
+    .menu {
         border-radius:0px;
-        background-color: $blue;
+        border-color:$blue;
         box-shadow:none;
-        padding-right:1.3rem;
-        .default.text {
-            color: #fff;
-        }
-        .icon{
-            float:right; color:#fff;
-                &.cloud {
-                    animation: bounce 1s infinite;
-                    transition: animation 1s ease-in-out;
-                }
-        }
         
-        .menu {
-            border-radius:0px;
-            border-color:$blue;
-            box-shadow:none;
-            
-            
-            
-            .menutem {
-                a {
-                    display:block;
-                    @extend .sans-serif;
-                    font-size:$preset-font;                        
-                    color:$blue;
-                    padding:1rem 1.25rem;
-                    &:hover {
-                        color:#fff;
-                        background-color:$blue;
-                    }
+        .menutem {
+            a {
+                display:block;
+                @extend .sans-serif;
+                color:$blue;
+                padding:1rem 1.25rem;
+                
+                @media (max-width:66rem) {
+                    padding:1rem;
+                    font-size:$preset-font*0.8;
                 }
                 
+                &:hover {
+                    color:#fff;
+                    background-color:$blue;
+                }
             }
+            
         }
     }
+}
 }
 
 @mixin box {
@@ -64,11 +73,16 @@
     margin:0.3rem 0;
     padding:0;
     line-height:1.1;
+    
         .title {
             @extend .sans-serif;
             font-size:1.55rem;
             font-weight:600;
             margin-bottom:0.2rem;
+            
+            @media (max-width:66rem) {
+                font-size:1.2rem;
+            }
         }
         .text {
             @extend .sans-serif;
@@ -85,7 +99,10 @@
 #home {
     position:relative;
     width:100%;
-    margin-right:5em;
+    margin-right:5%;
+    @media (max-width: 44rem) {
+        margin-right:0px;
+    }
     #quick {
         @include box;
         @include dropdown;
@@ -103,12 +120,17 @@
         font-size: 1.2rem;
         margin: 4rem 0;
         
+        @media (max-width:66rem) {
+            font-size:1rem;
+        }
+        
         #revealer {position:relative;}
         .cover {
             
             &::before {
+                @media (min-width:48rem) {
                 content: '\00a0';
-                pointer: cursor;
+                cursor: pointer;
                 background-color:$blue;
                 position:absolute;
                 width:70%;
@@ -118,6 +140,11 @@
                 z-index:2;
                 transform:translateX(147%);
                 transition: transform 1s ease-in-out;
+                }
+                @media (max-width:66rem) {
+                    width:80%;
+                    transform:translateX(130%);
+                }
             }
             
             /*&::after {
@@ -136,10 +163,12 @@
             
         }
         .revealed {
-            &::before {
-                
-                transform:translateX(0);
-                transition: transform 1s ease-in-out;
+            @media (min-width:48rem) {
+                &::before {
+                    
+                    transform:translateX(0);
+                    transition: transform 1s ease-in-out;
+                }
             }
             /*&::after {
                 content: '\00a0';

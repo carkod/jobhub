@@ -4,12 +4,30 @@
 
 #mainCV {
     padding-right:3rem;
-    
-    h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;
-        small {color:$dark-grey; font-weight:300; font-size: 2rem;}
+    @media (max-width:44rem) {
+        padding-right:0px;
     }
-    h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}
-    h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; }
+    h1 {@extend .sans-serif; font-weight: 600; font-size: 2.5rem; margin-bottom:1.5rem;
+        @media (max-width:66rem) {
+            font-size: 2.2rem;
+        }
+        small {color:$dark-grey; font-weight:300; font-size: 2rem;
+            @media (max-width:66rem) {
+                font-size: 1.8rem;
+            }   
+        }
+        
+    }
+    h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;
+        @media (max-width:66rem) {
+            font-size: 1.8rem;
+        }
+    }
+    h3 {@extend .sans-serif; font-weight: 600; font-size: 1.3rem; 
+        @media (max-width:66rem) {
+            font-size: 1.1rem;
+        }
+    }
     h4 {
         @extend .sans-serif; font-weight:400;
         
@@ -47,6 +65,9 @@
         border-top: 1px solid rgba(34,36,38,.15);
         margin: 2rem 0;
         padding: 0.5rem 0;
+        @media (max-width:66rem) {
+            font-size: 1.5rem;
+        }
     }
     
     .workplace, .position {
@@ -55,6 +76,9 @@
     
     .work-date {
         @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
+        @media (max-width:66rem) {
+            font-size: 1rem;
+        }
     }
     .skills {
         .bar {

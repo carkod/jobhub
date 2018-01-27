@@ -23,7 +23,13 @@ $preset-font: 1.3rem;
 }
 
 html, body, #root, .layout {
-  height:100%;
+  @media (min-width:45rem) {
+    height:100%;  
+  }
+  @media (max-width:44rem) {
+    height:auto;
+  }
+  
 }
 
 html {

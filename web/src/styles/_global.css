@@ -10,8 +10,12 @@
   background: none;
   outline: none; }
 
-html, body, #root, .layout {
-  height: 100%; }
+@media (min-width: 45rem) {
+  html, body, #root, .layout {
+    height: 100%; } }
+@media (max-width: 44rem) {
+  html, body, #root, .layout {
+    height: auto; } }
 
 html {
   font-size: 16px; }

@@ -1,23 +1,23 @@
 /*
 Error: Undefined variable: "$blue".
-        on line 76 of /home/ubuntu/workspace/web/src/styles/_home.scss, in `box'
-        from line 90 of /home/ubuntu/workspace/web/src/styles/_home.scss
+        on line 90 of /home/ubuntu/workspace/web/src/styles/_home.scss, in `box'
+        from line 107 of /home/ubuntu/workspace/web/src/styles/_home.scss
 
-71:             margin-bottom:0.2rem;
-72:         }
-73:         .text {
-74:             @extend .sans-serif;
-75:             font-size:1.06rem;
-76:             color:$blue;
-77:         }
-78:     }
-79: }
-80: 
-81: /*-------------
+85:             }
+86:         }
+87:         .text {
+88:             @extend .sans-serif;
+89:             font-size:1.06rem;
+90:             color:$blue;
+91:         }
+92:     }
+93: }
+94: 
+95: /*-------------
 
 Backtrace:
-/home/ubuntu/workspace/web/src/styles/_home.scss:76:in `box'
-/home/ubuntu/workspace/web/src/styles/_home.scss:90
+/home/ubuntu/workspace/web/src/styles/_home.scss:90:in `box'
+/home/ubuntu/workspace/web/src/styles/_home.scss:107
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -117,4 +117,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$blue\".\A         on line 76 of /home/ubuntu/workspace/web/src/styles/_home.scss, in `box'\A         from line 90 of /home/ubuntu/workspace/web/src/styles/_home.scss\A \A 71:             margin-bottom:0.2rem;\A 72:         }\A 73:         .text {\A 74:             @extend .sans-serif;\A 75:             font-size:1.06rem;\A 76:             color:$blue;\A 77:         }\A 78:     }\A 79: }\A 80: \A 81: /*-------------"; }
+  content: "Error: Undefined variable: \"$blue\".\A         on line 90 of /home/ubuntu/workspace/web/src/styles/_home.scss, in `box'\A         from line 107 of /home/ubuntu/workspace/web/src/styles/_home.scss\A \A 85:             }\A 86:         }\A 87:         .text {\A 88:             @extend .sans-serif;\A 89:             font-size:1.06rem;\A 90:             color:$blue;\A 91:         }\A 92:     }\A 93: }\A 94: \A 95: /*-------------"; }

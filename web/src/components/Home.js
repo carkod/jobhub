@@ -38,16 +38,16 @@ class Home extends Component {
         </Helmet>
         
         <div className="ui grid">
-          <div className="eight wide column">
+          <div className="sixteen wide mobile eight wide computer column ">
             <Quick cvs={this.props.cvs} />
           </div>
-          <div className="eight wide column">
+          <div className="eight wide computer column sixteen wide mobile">
             <Explore cvs={this.props.cvs} location={this.props.location}/>
           </div>
         </div>      
         <div className="home-details">
-          <div className="ui grid">
-            <div id="revealer" className="two column row">
+          <div className="ui grid equal width stackable">
+            <div id="revealer" className="equal width row">
         
         
               <div className={this.state.revealDetail ? "pad-left column cover revealed": "pad-left column cover"} onClick={() => this.setState({revealDetail: !this.state.revealDetail})} >
@@ -76,15 +76,15 @@ class Home extends Component {
                   </div>
                   <div className="item">
                     <i className="linkedin square icon"/>
-                    <div className="content"><a href="https://www.linkedin.com/in/carkod/" title="https://www.linkedin.com/in/carkod/">LinkedIn</a></div>
+                    <div className="content"><a href="https://www.linkedin.com/in/carkod/" title="https://www.linkedin.com/in/carkod/" target="_blank">LinkedIn</a></div>
                   </div>
                   <div className="item">
                     <i className="github icon"/>
-                    <div className="content"><a href="http://github.com/carkod/jobhub" title="http://github.com/carkod/jobhub">Github</a></div>
+                    <div className="content"><a href="http://github.com/carkod/jobhub" title="http://github.com/carkod/jobhub" target="_blank">Github</a></div>
                   </div>
                   <div className="item">
                   <i className="stack overflow icon"/>
-                    <div className="content"><a href="https://stackoverflow.com/users/2454059/carkod" title="https://stackoverflow.com/users/2454059/carkod">StackOverflow</a></div>
+                    <div className="content"><a href="https://stackoverflow.com/users/2454059/carkod" title="https://stackoverflow.com/users/2454059/carkod" target="_blank">StackOverflow</a></div>
                   </div>
                 </div>
               </div>

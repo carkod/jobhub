@@ -13,7 +13,7 @@ class Layout extends Component {
     super(props);
     this.state = {
       openmenu: false,
-      active: false
+      active: false,
     }
   }
   
@@ -29,8 +29,9 @@ class Layout extends Component {
     
     return (
       <div className="layout">
-        <main id="main" className="container navigation">
-          <div className="lefty">
+        <main id="main" className="container">
+          <button id="burger" className="mobile only" onClick={() => this.setState({navigation: !this.state.navigation})} ><i className="cube icon" /></button>
+          <div className={this.state.navigation ? "lefty open" : "lefty close"}>
             <Sidebar {...this.props} />
           </div>
           
