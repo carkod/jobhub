@@ -93,15 +93,12 @@ class About extends Component {
                   <li>Over time, more features are added. Every new feature uses a component, which could be seen as a WordPress plugin. Therefore, I do not need to dig into the complexity of the old application and see where it fits, I just write a new component and hook it inside. I could use the index component or a parent/presentational component (which does not have or has very little logic) to do this.</li>
                   <li>Data convenience. Usually a document based database such as MongoDB in this case, is an Object, which has several levels depth. The way I do it, each level of depth (objects and arrays of objects) are split into a children components, which keeps data structure simple (one level of depth per component). When you log it into the browser console you are not going to see an endless nested Object, you will see one or two levels of depth only. And this could be made available across the application with Redux (also used in this application)</li>
                 </ul>
-                <p>Regarding the uses of Hub, it goes far more complex than the back end or the Web application. My intial idea was to make it a "integrated career management tool", which comprises of: 
+                <p>Regarding the uses of Hub, it goes far more complex than the back end or the Web application. My intial idea was to make it a "integrated career management tool", which comprises of: </p>
                 <ul>
                   <li>Analytics (web analytics, and career analytics, which would be jobs length, roles, type of companies, number of employees... to analyze which is the best type of company for me -or the candidate, over the years)</li>
                   <li>Job site integration (e.g. LinkedIn jobs with matched roles, although this is no longer possible for the free API version)</li>
                   <li>CV builder. Which is the feature already in. The plan would be to make it drag-and-dropable and be able to create and copy multiple instances of CVs and link portfolio of projects to difference CVs using categories.</li>
                 </ul>
-                
-                
-                </p>
                 
             </section>
         </main>

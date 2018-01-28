@@ -5,7 +5,20 @@ import { Link, Route } from 'react-router-dom';
 
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import CSSTransition from 'react-transition-group';
 
+const duration = 300;
+
+const defaultStyle = {
+  transition: `transform 200ms ease-in-out`,
+  transform: 'translateX(-100%)',
+  backgroundColor: 'blue',
+}
+
+const transitionStyles = {
+  entering: { transform: 'translateX(-10%)' },
+  entered: { transform: 'translateX(0%)' },
+};
 
 class Layout extends Component {
   
@@ -15,14 +28,6 @@ class Layout extends Component {
       openmenu: false,
       active: false,
     }
-  }
-  
-  componentDidMount = () => {
-    
-  }
-  
-  componentWillReceiveProps = (props) => {
-    
   }
   
   render() {

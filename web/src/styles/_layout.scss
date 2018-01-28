@@ -1,3 +1,23 @@
+.slide-appear,
+.slide-enter {
+  opacity: 0;
+}
+
+.slide-appear-active,
+.slide-enter-active {
+  transition: opacity .3s linear;
+  opacity: 1;
+}
+
+.slide-exit {
+  transition: opacity .2s linear;
+  opacity: 1;
+}
+
+.slide-exit-active {
+  opacity: 0;
+}
+
 body {
     @media (min-width:45rem) {
         &:before {

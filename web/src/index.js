@@ -6,7 +6,6 @@ import registerServiceWorker from './registerServiceWorker';
 import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-//import Reducer from './Reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import { Link, Route, IndexRoute, Router, Switch, BrowserRouter } from 'react-router-dom';
@@ -15,12 +14,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 
 import Reducer from './Reducer';
-import Home from './components/Home';
-import About from './components/About';
-import Layout from './components/Layout';
-import MainCV from './components/cv/MainCV';
-import MainResources from './components/resources/MainResources';
-
+import App from './components/App';
 //import { loadState, saveState } from './localStorage';
 
 //const persistedStore = loadState();
@@ -36,24 +30,12 @@ const store = createStore(
   saveState(store.getState())
 })*/
 
-const RenderRoute = ({ component: Component, layout: Layout, ...rest }) => (
-  <Route {...rest} render={props => (
-    <Layout>
-      <Component {...props}/>
-    </Layout>
-  )}/>
-)
+
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Switch>
-        <RenderRoute layout={Layout} exact path="/" component={Home} />
-        <RenderRoute layout={Layout} path="/about" component={About} />
-        <RenderRoute layout={Layout} exact strict path="/:language/:position/cv" component={MainCV} />
-        <RenderRoute layout={Layout} exact strict path="/:language/:position/resources" component={MainResources} />
-        {/*<Route component={404} />*/}
-      </Switch>
+      <App />
     </BrowserRouter>
   </Provider>,
   document.getElementById('web')

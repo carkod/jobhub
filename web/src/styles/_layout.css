@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$blue".
-        on line 37 of /home/ubuntu/workspace/web/src/styles/_layout.scss
+        on line 57 of /home/ubuntu/workspace/web/src/styles/_layout.scss
 
-32:             left: -30%;
-33:             right:0;
-34:             position: absolute;
-35:             transform: skewX(9deg);
-36:             transform-origin: 0;
-37:             background-color: rgba($blue, 0.8);
-38:             z-index: -1;
-39:             width: 60%;
-40:         }
-41:         
-42:         &::after {
+52:             left: -30%;
+53:             right:0;
+54:             position: absolute;
+55:             transform: skewX(9deg);
+56:             transform-origin: 0;
+57:             background-color: rgba($blue, 0.8);
+58:             z-index: -1;
+59:             width: 60%;
+60:         }
+61:         
+62:         &::after {
 
 Backtrace:
-/home/ubuntu/workspace/web/src/styles/_layout.scss:37
+/home/ubuntu/workspace/web/src/styles/_layout.scss:57
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:173:in `perform_arg'
@@ -98,4 +98,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$blue\".\A         on line 37 of /home/ubuntu/workspace/web/src/styles/_layout.scss\A \A 32:             left: -30%;\A 33:             right:0;\A 34:             position: absolute;\A 35:             transform: skewX(9deg);\A 36:             transform-origin: 0;\A 37:             background-color: rgba($blue, 0.8);\A 38:             z-index: -1;\A 39:             width: 60%;\A 40:         }\A 41:         \A 42:         &::after {"; }
+  content: "Error: Undefined variable: \"$blue\".\A         on line 57 of /home/ubuntu/workspace/web/src/styles/_layout.scss\A \A 52:             left: -30%;\A 53:             right:0;\A 54:             position: absolute;\A 55:             transform: skewX(9deg);\A 56:             transform-origin: 0;\A 57:             background-color: rgba($blue, 0.8);\A 58:             z-index: -1;\A 59:             width: 60%;\A 60:         }\A 61:         \A 62:         &::after {"; }
