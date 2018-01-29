@@ -30,11 +30,11 @@ class IT extends Component {
           <div className="ui grid">
           {itSkills.map((ed, i) => 
             <div key={i} className="row">  
-              <div className="label ten wide column">
+              <div className="label ten wide column sixteen wide column mobile">
                   <h4>{ed.name} <small>{ed.desc}</small></h4>
               </div>
               
-              <div className="level six wide column">
+              <div className="level six wide column sixteen wide column mobile">
                   <div className="ui small purple progress">
                     <div className="bar" style={{width:ed.level}}></div>
                   </div>

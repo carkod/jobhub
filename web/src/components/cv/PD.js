@@ -12,18 +12,9 @@ class PD extends Component {
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    const {persdetails} = props;
-    this.setState({ persdetails })
-  }
-  
-  ren
-  
+
   render() {
-    const {persdetails} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {persdetails} = this.props;
     
     return (
       <section id="details">

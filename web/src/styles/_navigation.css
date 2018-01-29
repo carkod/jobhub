@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$blue".
-        on line 55 of /home/ubuntu/workspace/web/src/styles/_navigation.scss
+        on line 56 of /home/ubuntu/workspace/web/src/styles/_navigation.scss
 
-50:             margin:0.5rem 0;
-51:         }
-52:         
+51:             margin:0.5rem 0;
+52:         }
 53:         
-54:             .active {
-55:                 color:$blue;
-56:                 background:#fff;
-57:                 
-58:                 &::before {
-59:                     content:"";
-60:                     width:100%;
+54:         
+55:             .active {
+56:                 color:$blue;
+57:                 background:#fff;
+58:                 
+59:                 &::before {
+60:                     content:"";
+61:                     width:100%;
 
 Backtrace:
-/home/ubuntu/workspace/web/src/styles/_navigation.scss:55
+/home/ubuntu/workspace/web/src/styles/_navigation.scss:56
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -98,4 +98,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$blue\".\A         on line 55 of /home/ubuntu/workspace/web/src/styles/_navigation.scss\A \A 50:             margin:0.5rem 0;\A 51:         }\A 52:         \A 53:         \A 54:             .active {\A 55:                 color:$blue;\A 56:                 background:#fff;\A 57:                 \A 58:                 &::before {\A 59:                     content:\"\";\A 60:                     width:100%;"; }
+  content: "Error: Undefined variable: \"$blue\".\A         on line 56 of /home/ubuntu/workspace/web/src/styles/_navigation.scss\A \A 51:             margin:0.5rem 0;\A 52:         }\A 53:         \A 54:         \A 55:             .active {\A 56:                 color:$blue;\A 57:                 background:#fff;\A 58:                 \A 59:                 &::before {\A 60:                     content:\"\";\A 61:                     width:100%;"; }
