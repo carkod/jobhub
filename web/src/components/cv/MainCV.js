@@ -52,6 +52,7 @@ class MainCV extends Component {
               <h2>Summary and professional goals</h2>
               <HtmlText text={cv.summary} />
             </section>
+            
             <PD persdetails={cv.persdetails}/>
             <Work workExp={cv.workExp} />            
             <Education educ={cv.educ} />

@@ -13,22 +13,15 @@ class Education extends Component {
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    const {educ} = props;
-    this.setState({ educ })
-  }
   
   render() {
-    const {educ} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {educ} = this.props;
     return (
       <section id="education">
                 
-        <h2 className="ui dividing header">Education</h2>
+        <h2 className="ui dividing header">Education <button className="btn" onClick={() => this.setState({collapse: !this.state.collapse})}><i className={this.state.collapse ? 'plus icon': 'minus icon'} /> </button></h2>
           {educ.map((ed, i) => 
-            <div key={i} className="ui grid">
+            <div key={i} className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`}>
               <div className="workplace six wide column">
                   <h3>{ed.insitution}</h3>
               </div>

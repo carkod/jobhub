@@ -14,22 +14,13 @@ class Languages extends Component {
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    const {langSkills} = props;
-    this.setState({ langSkills })
-  }
-  
-  
   render() {
-    const {langSkills} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {langSkills} = this.props;
     return (
       <section id="languages" className="skills">
                 
-        <h2 className="ui dividing header">Languages</h2>
-          <div className="ui grid">
+        <h2 className="ui dividing header">Languages <button className="btn" onClick={() => this.setState({collapse: !this.state.collapse})}><i className={this.state.collapse ? 'plus icon': 'minus icon'} /> </button></h2>
+          <div className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`}>
           {langSkills.map((ed, i) => 
             <div key={i} className="row">  
               <div className="label ten wide column sixteen wide column mobile">

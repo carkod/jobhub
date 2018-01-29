@@ -70,6 +70,18 @@
         }
     }
     
+    .visible {
+        overflow:hidden;
+        max-height:99em;
+        transition:max-height 1s;
+    }
+    
+    .hidden {
+        overflow:hidden;
+        max-height:0;
+        transition:max-height 1s;
+    }
+    
     .workplace, .position {
         padding-bottom:0;
     }

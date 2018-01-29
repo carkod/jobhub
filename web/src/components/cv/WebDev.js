@@ -14,22 +14,14 @@ class WebDev extends Component {
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    const {webdevSkills} = props;
-    this.setState({ webdevSkills })
-  }
-  
   render() {
-    const {webdevSkills} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {webdevSkills} = this.props;
     
     return (
       <section id="webdev" className="skills">
                 
-        <h2 className="ui dividing header">Web Development</h2>
-          <div className="ui grid">
+        <h2 className="ui dividing header">Web Development <button className="btn" onClick={() => this.setState({collapse: !this.state.collapse})}><i className={this.state.collapse ? 'plus icon': 'minus icon'} /> </button></h2>
+          <div className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`}>
           {webdevSkills.map((ed, i) => 
             <div key={i} className="row">  
               <div className="label ten wide column sixteen wide column mobile">

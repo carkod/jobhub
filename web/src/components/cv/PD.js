@@ -5,9 +5,10 @@ import {Helmet} from "react-helmet";
 
 class PD extends Component {
     
-    constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
+      collapse: false
     };
     
   }
@@ -18,8 +19,8 @@ class PD extends Component {
     
     return (
       <section id="details">
-      <h2 className="ui dividing header">Personal Details</h2>
-        <div className="ui grid">
+      <h2 className="ui dividing header">Personal Details <button className="btn" onClick={() => this.setState({collapse: !this.state.collapse})}><i className={this.state.collapse ? 'plus icon': 'minus icon'} /> </button></h2>
+        <div className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`} >
           <div className="text twelve wide column">
           <div className="ui two column grid">
             

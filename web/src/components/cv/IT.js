@@ -13,21 +13,13 @@ class IT extends Component {
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    const {itSkills} = props;
-    this.setState({ itSkills })
-  }
-  
   render() {
-    const {itSkills} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {itSkills} = this.props;
     
     return (
       <section id="it" className="skills">
-        <h2 className="ui dividing header">IT software</h2>
-          <div className="ui grid">
+        <h2 className="ui dividing header">IT software <button className="btn" onClick={() => this.setState({collapse: !this.state.collapse})}><i className={this.state.collapse ? 'plus icon': 'minus icon'} /> </button></h2>
+          <div className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`}>
           {itSkills.map((ed, i) => 
             <div key={i} className="row">  
               <div className="label ten wide column sixteen wide column mobile">

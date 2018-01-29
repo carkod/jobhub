@@ -13,22 +13,15 @@ class Work extends Component {
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    const {workExp} = props;
-    this.setState({ workExp })
-  }
   
   render() {
-    const {workExp} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {workExp} = this.props;
     
     return (
       <section id="work">
-      <h2 className="ui dividing header">Work Experience</h2>
+      <h2 className="ui dividing header">Work Experience <button className="btn" onClick={() => this.setState({collapse: !this.state.collapse})}><i className={this.state.collapse ? 'plus icon': 'minus icon'} /> </button></h2>
       {workExp.map((work, i) => 
-        <div key={i} className="ui grid">
+        <div key={i} className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`}>
           <div className="workplace six wide column">
               <h3>{work.company}</h3>
           </div>
