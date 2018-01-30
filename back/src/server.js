@@ -4,7 +4,7 @@ import expressValidator from 'express-validator';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';
-import credentials from '../credentials';
+import credentials from './credentials';
 const app = express();
 const PORT = 8081;
 const dbUrl = `mongodb://${credentials.user}:${credentials.pass}@${credentials.host}:${credentials.port}/${credentials.db}`;

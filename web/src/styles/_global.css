@@ -8,7 +8,8 @@
 .btn {
   border: none;
   background: none;
-  outline: none; }
+  outline: none;
+  cursor: pointer; }
 
 @media (min-width: 45rem) {
   html, body, #root, .layout {

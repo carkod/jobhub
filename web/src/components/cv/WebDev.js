@@ -24,11 +24,11 @@ class WebDev extends Component {
           <div className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`}>
           {webdevSkills.map((ed, i) => 
             <div key={i} className="row">  
-              <div className="label ten wide column sixteen wide column mobile">
+              <div className="label ten wide column computer stackable">
                   <h4>{ed.name} <small>{ed.desc}</small></h4>
               </div>
               
-              <div className="level six wide column sixteen wide column mobile">
+              <div className="level six wide column computer stackable">
                   <div className="ui small blue progress">
                     <div className="bar" style={{width:ed.level}}></div>
                   </div>

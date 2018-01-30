@@ -29,14 +29,13 @@ class MainCV extends Component {
     this.props.fetchCVs();
   }
   
-  componentWillReceiveProps = (props) => {
-    const {cv} = props;
-    this.setState({cv: cv});
-    
-  }
-  
   render() {
-    const {cv} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {cv} = this.props;
+    let fullCV;
+    if (!!cv.pdf) {
+      fullCV = cv.pdf.find(i => i.value === 'f');
+    }
+    
     return (
       <div id="mainCV" className="container">
         <Helmet>
@@ -47,9 +46,9 @@ class MainCV extends Component {
         </Helmet>
         
         <main className="cvContent">
-            <h1>Carlos Wu - <small>{cv.name}</small></h1>
+            <h1>Carlos Wu - <small>{cv.name}</small>{fullCV !== undefined ? <a href={fullCV.link} className="download"><i className="file pdf outline icon" /></a> : ''}</h1>
             <section id="summary">
-              <h2>Summary and professional goals</h2>
+              <h2>Summary and professional goals </h2>
               <HtmlText text={cv.summary} />
             </section>
             

@@ -23,11 +23,11 @@ class Languages extends Component {
           <div className={`ui grid ${this.state.collapse ? 'hidden' : 'visible'}`}>
           {langSkills.map((ed, i) => 
             <div key={i} className="row">  
-              <div className="label ten wide column sixteen wide column mobile">
+              <div className="label ten wide column stackable">
                   <h4>{ed.name} <small>{ed.desc}</small></h4>
               </div>
               
-              <div className="level six wide column sixteen wide column mobile">
+              <div className="level six wide column stackable">
                   <div className="ui small orange progress">
                     <div className="bar" style={{width:ed.level}}></div>
                   </div>

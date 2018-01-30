@@ -5,3 +5,5 @@ const credentials = {
     port: "27017",
     db: "cv_generator",
 }
+
+export default credentials;
