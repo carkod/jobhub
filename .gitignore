@@ -1,4 +1,7 @@
 
+#DB Credentials
+back/credentials.js
+
 # WEB
 web/src/*.css
 

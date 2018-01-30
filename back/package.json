@@ -11,14 +11,10 @@
     "build-js": "babel src/*.js -d dist/. --presets es2015",
     "build-sass": "node-sass -o dist/pdf/assets -x --output-style compressed src/pdf/styles/index.scss",
     "build": "npm-run-all -p build-js build-sass",
-    "production": "node dist/server.js"
+    "production": "node dist/server.js",
+    "deploy":"scp -r dist/ root@188.166.92.221:/var/www/carloswu.xyz/back/dist/"
   },
-  "keywords": [
-    "back-end",
-    "mongoose",
-    "mongodb",
-    "expressjs"
-  ],
+  "keywords": ["back-end","mongoose","mongodb","expressjs"],
   "author": "Carlos Wu",
   "license": "ISC",
   "dependencies": {
@@ -40,7 +36,8 @@
     "semantic-ui-css": "^2.2.12",
     "shortid": "^2.2.8",
     "slug": "^0.9.1",
-    "validator": "^7.0.0"
+    "validator": "^7.0.0",
+    "wkhtmltopdf": "^0.3.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

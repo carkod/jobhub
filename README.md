@@ -1,8 +1,10 @@
 TO-DO
 ======
 
-- Detailjs Hub Add PDF link
+- Add link to Web CV
 - Remove Mongodb details 
+- Add favicon
+
 
 ### WEB
 

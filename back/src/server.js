@@ -4,16 +4,10 @@ import expressValidator from 'express-validator';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';
-
+import credentials from '../credentials';
 const app = express();
-const dbName = 'cv_generator';
-//const dbLive = 'jobhub';
 const PORT = 8081;
-let dbUrl;
-
-
-//Live Digital ocean MongoDB only allows to connect from c9.io IP (dev environment)
-dbUrl = 'mongodb://carkod:48295620-j@www.carloswu.xyz:27017/' + dbName;
+const dbUrl = `mongodb://${credentials.user}:${credentials.pass}@${credentials.host}:${credentials.port}/${credentials.db}`;
 
 import CVs from './CVs.js';
 import CoverLetters from './CoverLetters.js';
@@ -22,7 +16,6 @@ import Categories from './Categories.js';
 import Pdf from './Pdf';
 
 let promise = mongoose.connect(dbUrl, { useMongoClient: true });
-
 let db = mongoose.connection;
 
 //Bind connection to error event (to get notification of connection errors)

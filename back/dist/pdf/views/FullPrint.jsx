@@ -16,7 +16,7 @@ class FullPrint extends Component {
          <link rel="stylesheet" href="/pdf/assets/index.css" />
       </head>
       <body>
-      <div id="mainCV" className="container">
+      <div id="fullprint" className="container">
         <main className="cvContent">
             <h1>Carlos Wu - <small>{cv.name}</small></h1>
             <section id="summary">
@@ -27,8 +27,10 @@ class FullPrint extends Component {
             <Work workExp={cv.workExp} />            
             <Education educ={cv.educ} />
             <Languages langSkills={cv.langSkills} />
-            <WebDev webdevSkills={cv.webdevSkills} />
-            <IT itSkills={cv.itSkills} />
+            
+            {/*Optional fields*/}
+            {cv.webdevSkills.length > 1 && cv.webdevSkills[0].name !== '' ? <WebDev webdevSkills={cv.webdevSkills} /> : ''}
+            {cv.itSkills.length > 1 && cv.itSkills[0].name !== '' ? <IT itSkills={cv.itSkills} /> : ''}
             {/*<Others others={cv.others} />*/}
         </main>
       </div>

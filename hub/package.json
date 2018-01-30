@@ -21,7 +21,8 @@
     "start": "PORT=8082 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy":"scp -r build/ root@188.166.92.221:/var/www/carloswu.xyz/hub/build/"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",
