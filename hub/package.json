@@ -22,7 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy":"scp -r build/ root@188.166.92.221:/var/www/carloswu.xyz/hub/build/"
+    "deploy":"scp -r build/ root@188.166.92.221:/var/www/carloswu.xyz/hub/"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",

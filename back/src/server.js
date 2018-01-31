@@ -1,3 +1,4 @@
+import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import express from 'express';
 import expressValidator from 'express-validator';
@@ -22,6 +23,9 @@ let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 promise.then((db) => {
+    
+    //Security
+    app.use(helmet())
     
     //Parser Middlewares
     app.use(bodyParser.urlencoded({ extended: true }));

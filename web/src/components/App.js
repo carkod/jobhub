@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { Link, Route, IndexRoute, Router, Switch, BrowserRouter, withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import Home from './Home';
+import Home from './home/Home';
 import About from './About';
 import Layout from './Layout';
 import MainCV from './cv/MainCV';
@@ -21,7 +21,6 @@ const RenderRoute = ({ component: Component, layout: Layout, ...rest }) => (
 const App = (props) => {
   const timeout = { enter: 300, exit: 200 }
   const currentKey = props.location.pathname || '/';
-  console.log(props)
   return (
   <TransitionGroup component="main">
     <CSSTransition key={currentKey} timeout={timeout} classNames="slide" appear>

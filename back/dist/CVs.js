@@ -50,7 +50,7 @@ function CVs(app, db) {
             if (!err) {
                 return slugger = slugger + '-' + _shortid2.default.generate();
             } else {
-                console.log('slug doesn´t exist');
+                console.log('slug doesn\'t exist');
             }
         });
 
@@ -68,6 +68,7 @@ function CVs(app, db) {
                 name: r.name,
                 summary: r.summary,
                 slug: slugger,
+                pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
                     locale: r.cats.locale,
@@ -89,7 +90,6 @@ function CVs(app, db) {
         delete r._id;
 
         CVModel.update({ _id: id }, cv, { upsert: true }, function (err, msg) {
-            console.log(cv);
             if (err) {
                 throw err;
             } else {
@@ -113,10 +113,10 @@ function CVs(app, db) {
         if (req.params._id) {
 
             cv = new CVModel({
-                _id: _mongoose2.default.Types.ObjectId(),
                 name: r.name,
                 summary: r.summary,
-                slug: r.slug,
+                slug: (0, _slug2.default)(r.name.toLowerCase()),
+                pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
                     locale: r.cats.locale,

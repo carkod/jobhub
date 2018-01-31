@@ -3,6 +3,7 @@ TO-DO
 
 
 - Restrict creat-react-app apps /* URLs
+- Known vulnerability back app -> slug package
 
 ### WEB
 

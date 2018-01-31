@@ -12,9 +12,14 @@
     "build-sass": "node-sass -o dist/pdf/assets -x --output-style compressed src/pdf/styles/index.scss",
     "build": "npm-run-all -p build-js build-sass",
     "production": "node dist/server.js",
-    "deploy":"scp -r dist/ root@188.166.92.221:/var/www/carloswu.xyz/back/dist/"
+    "deploy": "scp -r dist/ root@188.166.92.221:/var/www/carloswu.xyz/back/dist/"
   },
-  "keywords": ["back-end","mongoose","mongodb","expressjs"],
+  "keywords": [
+    "back-end",
+    "mongoose",
+    "mongodb",
+    "expressjs"
+  ],
   "author": "Carlos Wu",
   "license": "ISC",
   "dependencies": {
@@ -25,6 +30,7 @@
     "express": "^4.15.2",
     "express-react-views": "^0.10.5",
     "express-validator": "^3.2.0",
+    "helmet": "^3.10.0",
     "moment": "^2.20.1",
     "mongodb": "^2.2.26",
     "mongoose": "^4.11.5",

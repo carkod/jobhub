@@ -20,6 +20,14 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _credentials = require('./credentials');
+
+var _credentials2 = _interopRequireDefault(_credentials);
+
 var _CVs = require('./CVs.js');
 
 var _CVs2 = _interopRequireDefault(_CVs);
@@ -43,16 +51,10 @@ var _Pdf2 = _interopRequireDefault(_Pdf);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
-var dbName = 'cv_generator';
-//const dbLive = 'jobhub';
 var PORT = 8081;
-var dbUrl = void 0;
-
-//Live Digital ocean MongoDB only allows to connect from c9.io IP (dev environment)
-dbUrl = 'mongodb://carkod:48295620-j@www.carloswu.xyz:27017/' + dbName;
+var dbUrl = 'mongodb://' + _credentials2.default.user + ':' + _credentials2.default.pass + '@' + _credentials2.default.host + ':' + _credentials2.default.port + '/' + _credentials2.default.db;
 
 var promise = _mongoose2.default.connect(dbUrl, { useMongoClient: true });
-
 var db = _mongoose2.default.connection;
 
 //Bind connection to error event (to get notification of connection errors)
@@ -67,9 +69,15 @@ promise.then(function (db) {
     app.use((0, _cors2.default)());
 
     //Download static files in uploads folder
-    app.use(_express2.default.static(__dirname + '/uploads'));
+    app.use(_express2.default.static(_path2.default.join(__dirname, '../', '/uploads')));
     app.get('/uploads/:filename', function (req, res) {
-        res.download(__dirname + req.url);
+        res.download(_path2.default.join(__dirname, '../', req.url));
+    });
+
+    // PDF generator folder
+    app.use(_express2.default.static(_path2.default.join(__dirname, '../', '/docs')));
+    app.get('/docs/:filename', function (req, res) {
+        res.download(_path2.default.join(__dirname, '../', req.url));
     });
 
     //3rd party APIs
