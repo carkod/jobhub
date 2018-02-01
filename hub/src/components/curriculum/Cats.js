@@ -1,43 +1,36 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-//import Detail from './components/Detail';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { fetchCVs, saveCV } from '../../actions/cv';
+import { fetchCats, saveCats } from '../../actions/cv';
 
 
-class Cats extends Component {
+class Positions extends Component {
   
-  state = {
-    name: this.props.name ?  this.props.name : null,  
-    
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.listing = this.listing.bind(this);
   }
 
   
   componentDidMount = () => {
-    this.props.fetchCVs();
-    
+    this.props.fetchCats();
+    this.props.SaveCats();
   }
   
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps)
-     this.setState({
-       name: nextProps.name,
-     });
-    }
+     
+  }
   
   onChange = (e) => {
-      this.setState({ 
-        name: e.target.value
-        
-      });
+      
     }
     
   onSubmit = (e) => {
-    const name = this.state.name;
     
-    this.props.saveCV({ name })
+    // this.props.saveCats({ name })
     
   }
 
@@ -67,4 +60,4 @@ function mapStateToProps (state, ownProps) {
 }
 
 
-export default connect(mapStateToProps, { saveCV, fetchCVs })(Cats);
+export default connect(mapStateToProps, { saveCats, fetchCats })(Positions);
