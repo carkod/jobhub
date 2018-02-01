@@ -212,12 +212,8 @@ const coverLetters = (state = clInit, action = {}) =>  {
 const cats = (state = catInit, action = {}) => {
     switch (action.type) {
         case SET_CATS:
-            let combined = [];
-            for (let i of action.cats) {
-                const merge = Object.assign({}, catInit[0], i);
-                combined.push(merge)
-            }
-            return combined
+            
+            return action.cats;
         default:
             return state
     }

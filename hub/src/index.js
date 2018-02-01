@@ -14,16 +14,16 @@ import Home from './components/Home';
 import Layout from './components/Layout';
 import Listing from './components/curriculum/Listing';
 import Detail from './components/curriculum/Detail';
-import Cats from './components/curriculum/Cats';
+import Positions from './components/curriculum/Positions';
 import Portfolio from './components/portfolio/Portfolio';
 import Project from './components/portfolio/Project';
 import CoverLetters from './components/coverLetters/CoverLetters';
 import Letter from './components/coverLetters/Letter';
 import LinkedIn from './components/LinkedIn';
 
-import { loadState, saveState } from './localStorage';
+/*import { loadState, saveState } from './localStorage';
+const persistedStore = loadState();*/
 
-const persistedStore = loadState();
 const store = createStore(
     Reducer,
     //persistedStore,
@@ -44,8 +44,8 @@ ReactDOM.render(
         <Layout>
           <Route exact path="/" component={Home} />
           <Route exact path="/cv" component={Listing} />
-          <Route exact path="/cv/positions" component={Cats} />
-          <Route exact path="/cv/languages" component={Cats} />
+          <Route exact path="/cv/positions" component={Positions} />
+          {/*<Route exact path="/cv/languages" component={Cats} />*/}
           <Route path="/cv/id=:id" component={Detail} />  
           
           <Route exact path="/portfolio" component={Portfolio} />

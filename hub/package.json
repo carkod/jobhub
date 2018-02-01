@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.17.1",
     "draft-js": "^0.10.4",
     "moment": "^2.19.3",
     "react": "^16.2.0",
@@ -10,7 +11,7 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-rte": "^0.15.0",
-    "react-scripts": "1.0.17",
+    "react-scripts": "^1.0.17",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.12",
@@ -22,7 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy":"scp -r build/ root@188.166.92.221:/var/www/carloswu.xyz/hub/"
+    "deploy": "scp -r build/ root@188.166.92.221:/var/www/carloswu.xyz/hub/"
   },
   "devDependencies": {
     "babel-polyfill": "^6.26.0",
