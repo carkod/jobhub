@@ -2,16 +2,13 @@ import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
 const Schema = mongoose.Schema;
 mongoose.plugin(slug);
-var print = console.log.bind(console, '>')
  
-//print(slug('Front-end developer', {lowercase: true}).toLowerCase())
-
 // CV
 const CVSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
     summary: { type: String },
-    slug: { type: String, slug: "name", unique: true },
+    slug: { type: String, slug: "name", lowercase: true, unique: true },
     pdf: { type: Array },
     cats: {
         position: { type: String },
@@ -33,7 +30,8 @@ const CVSchema = new Schema({
 const CLSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
-    slug: { type: String, lowercase: true, trim: true },
+    slug: { type: String, slug: "name", lowercase: true, unique: true },
+    pdf: { type: Array },
     cats: {
         position: { type: String },
         locale: { type: String },
@@ -49,7 +47,7 @@ const CLSchema = new Schema({
 const ProjectSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
-    slug: { type: String, lowercase: true, trim: true },
+    slug: { type: String, slug: "name", lowercase: true, unique: true },
     cats: {
         status: { type: String },
         position: { type: String },

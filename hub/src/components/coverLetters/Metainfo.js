@@ -28,6 +28,7 @@ const Metainfo = props => {
                 <List>
                     <List.Item><b>Created</b>: {moment(meta.createdAt).calendar()}</List.Item>
                     <List.Item><b>Updated</b>: {moment(meta.updatedAt).calendar()}</List.Item>
+                    <List.Item><b>PDF</b>: {console.log(meta)}</List.Item>
                     <List.Item>
                         <Select placeholder={position} options={positions} name='position' onChange={props.onChange} selection/>
                     </List.Item>

@@ -100,6 +100,7 @@ const clInit = [
     _id: '' ,
     name: '',
     slug: '',
+    pdf:[],
     cats: {
         position: '',
         locale: '',
