@@ -45,7 +45,10 @@
     .row {padding-top:0.5rem; padding-bottom: 0.5rem;}
     
     .HtmlText {
-        @extend .sans-serif; font-weight: 400; font-size: 1rem;
+        @extend .sans-serif; 
+        font-weight: 400; 
+        font-size: 1rem;
+        line-height:1.5;
         
         .public-DraftStyleDefault-ul {
             list-style-type:square;

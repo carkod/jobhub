@@ -79,7 +79,7 @@ class Listing extends Component {
               <List.Item><Icon fitted name='briefcase' /> {cv.cats ? cv.cats.position : 'N/A'}</List.Item>
               <List.Item><Icon fitted name='talk' /> {cv.cats ? cv.cats.cvLang : 'N/A'}</List.Item>
               <List.Item><Icon fitted name='globe' /> {cv.cats ? cv.cats.cvCountry : 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='globe' /> {cv.slug || ''}</List.Item>
+              <List.Item><Icon fitted name='linkify' /> {cv.slug || ''}</List.Item>
             </List>
           </div>
           <div className="buttons">
