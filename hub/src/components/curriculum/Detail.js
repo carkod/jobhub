@@ -46,7 +46,6 @@ class Detail extends Component {
   
   componentWillReceiveProps = (props) => {
     const {cv, categories} = props;
-    console.log(categories)
     this.setState({ cv, categories })
   }
   

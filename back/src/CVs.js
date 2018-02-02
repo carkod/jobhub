@@ -1,8 +1,8 @@
 //import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 import { CVSchema } from './Schemas';
-import slug from 'slug';
 import shortid from 'shortid';
+// import mongooseSlugPlugin from 'mongoose-slug-plugin';
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
@@ -27,23 +27,12 @@ export default function CVs (app, db) {
         // if slug number exists, increment it "name-2"
         // if slug does not exist, create normal slug (below)
         
-        slugger = slug(r.name.toLowerCase());
-        CVModel.find({slug: slugger}, (err, doc) => {
-            if (!err) {
-                return slugger = slugger + '-' + shortid.generate();
-            } else {
-                console.log('slug doesn\'t exist')
-            }
-            
-        });
-        
         if (!r._id) {
             // Create New
             
             cv = new CVModel({
                 _id: mongoose.Types.ObjectId(),
                 name: r.name,
-                slug:slugger,
             });
             
             
@@ -52,7 +41,6 @@ export default function CVs (app, db) {
             cv = new CVModel({
                 name: r.name,
                 summary: r.summary,
-                slug: slugger,
                 pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
@@ -84,7 +72,7 @@ export default function CVs (app, db) {
               if (msg.ok) {
                 const savedID = id;   
                 res.json({ _id: savedID, status: !!msg.ok });
-                console.log('changes saved!')  
+                    console.log('changes saved!')  
               } else {
                   res.json({ status: !!msg.ok });
                   console.log('No changes')  
@@ -102,9 +90,9 @@ export default function CVs (app, db) {
         if (req.params._id) {
         
             cv = new CVModel({
+                _id: mongoose.Types.ObjectId(),
                 name: r.name,
                 summary: r.summary,
-                slug: slug(r.name.toLowerCase()),
                 pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
@@ -122,9 +110,9 @@ export default function CVs (app, db) {
                 other: r.other,
             });    
         
-        const id = r._id || cv._id;
+        const id = cv._id;
         delete r._id;
-        CVModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {
+        CVModel.create(cv, (err, msg) => {
             
           if (err) {
               throw err;

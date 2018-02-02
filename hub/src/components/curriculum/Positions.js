@@ -63,8 +63,8 @@ class Positions extends Component {
                 <List.Item>title: <Input placeholder={cv.title} name="title" onChange={this.handleChange} /></List.Item>
                 
               </List>
-              <List vertical relaxed>
-                <List.Item>children:
+              <List vertical relaxed>children:
+                <List.Item>
                     {cv.children.map((it, i) => 
                     <List.List key={it.key}>
                       <List.Item>text: <Input placeholder={it.text} name="text" onChange={this.handleChange} /></List.Item>

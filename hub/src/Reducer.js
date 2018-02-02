@@ -89,7 +89,7 @@ const pfInit = [
         status:'',
     },
     image: '',
-    desc: RichTextEditor.createEmptyValue(),
+    desc: '<p></p>',
     documents: [],
     links: [],
    } 

@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import slug from 'slug';
-
+import slug from 'mongoose-slug-generator';
 const Schema = mongoose.Schema;
-
+mongoose.plugin(slug);
 var print = console.log.bind(console, '>')
  
 //print(slug('Front-end developer', {lowercase: true}).toLowerCase())
@@ -67,7 +66,6 @@ const ProjectSchema = new Schema({
 
 
 const CategoriesSchema = new Schema({},{timestamps: true}, {strict: false} );
-
 
 // CVSchema.pre('update', function(next){
 //     const slugger = slug(this._update.$set.name.toLowerCase());
