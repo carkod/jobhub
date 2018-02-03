@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$blue".
-        on line 15 of /home/ubuntu/workspace/back/pdf/styles/_layout.scss
+        on line 15 of /home/ubuntu/workspace/back/src/pdf/styles/_layout.scss
 
 10:             left: -30%;
 11:             right:0;
@@ -15,7 +15,7 @@ Error: Undefined variable: "$blue".
 20:         &::after {
 
 Backtrace:
-/home/ubuntu/workspace/back/pdf/styles/_layout.scss:15
+/home/ubuntu/workspace/back/src/pdf/styles/_layout.scss:15
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:173:in `perform_arg'
@@ -98,4 +98,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$blue\".\A         on line 15 of /home/ubuntu/workspace/back/pdf/styles/_layout.scss\A \A 10:             left: -30%;\A 11:             right:0;\A 12:             position: absolute;\A 13:             transform: skewX(9deg);\A 14:             transform-origin: 0;\A 15:             background-color: rgba($blue, 0.8);\A 16:             z-index: -1;\A 17:             width: 60%;\A 18:         }\A 19:         \A 20:         &::after {"; }
+  content: "Error: Undefined variable: \"$blue\".\A         on line 15 of /home/ubuntu/workspace/back/src/pdf/styles/_layout.scss\A \A 10:             left: -30%;\A 11:             right:0;\A 12:             position: absolute;\A 13:             transform: skewX(9deg);\A 14:             transform-origin: 0;\A 15:             background-color: rgba($blue, 0.8);\A 16:             z-index: -1;\A 17:             width: 60%;\A 18:         }\A 19:         \A 20:         &::after {"; }

@@ -11,20 +11,16 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 
 var _Schemas = require('./Schemas');
 
-var _slug = require('slug');
-
-var _slug2 = _interopRequireDefault(_slug);
-
 var _shortid = require('shortid');
 
 var _shortid2 = _interopRequireDefault(_shortid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Compile model from schema
-//import { ObjectId } from 'mongodb';
-var CVModel = _mongoose2.default.model('CVModel', _Schemas.CVSchema);
+// import mongooseSlugPlugin from 'mongoose-slug-plugin';
 
+// Compile model from schema
+var CVModel = _mongoose2.default.model('CVModel', _Schemas.CVSchema); //import { ObjectId } from 'mongodb';
 function CVs(app, db) {
 
     app.get('/api/cvs', function (req, res) {
@@ -45,29 +41,18 @@ function CVs(app, db) {
         // if slug number exists, increment it "name-2"
         // if slug does not exist, create normal slug (below)
 
-        slugger = (0, _slug2.default)(r.name.toLowerCase());
-        CVModel.find({ slug: slugger }, function (err, doc) {
-            if (!err) {
-                return slugger = slugger + '-' + _shortid2.default.generate();
-            } else {
-                console.log('slug doesn\'t exist');
-            }
-        });
-
         if (!r._id) {
             // Create New
 
             cv = new CVModel({
                 _id: _mongoose2.default.Types.ObjectId(),
-                name: r.name,
-                slug: slugger
+                name: r.name
             });
         } else {
             // Update
             cv = new CVModel({
                 name: r.name,
                 summary: r.summary,
-                slug: slugger,
                 pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
@@ -113,9 +98,9 @@ function CVs(app, db) {
         if (req.params._id) {
 
             cv = new CVModel({
+                _id: _mongoose2.default.Types.ObjectId(),
                 name: r.name,
                 summary: r.summary,
-                slug: (0, _slug2.default)(r.name.toLowerCase()),
                 pdf: r.pdf,
                 cats: {
                     position: r.cats.position,
@@ -133,9 +118,9 @@ function CVs(app, db) {
                 other: r.other
             });
 
-            var id = r._id || cv._id;
+            var id = cv._id;
             delete r._id;
-            CVModel.update({ _id: id }, cv, { upsert: true }, function (err, msg) {
+            CVModel.create(cv, function (err, msg) {
 
                 if (err) {
                     throw err;

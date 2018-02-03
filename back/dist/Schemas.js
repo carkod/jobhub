@@ -9,24 +9,21 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _slug = require('slug');
+var _mongooseSlugGenerator = require('mongoose-slug-generator');
 
-var _slug2 = _interopRequireDefault(_slug);
+var _mongooseSlugGenerator2 = _interopRequireDefault(_mongooseSlugGenerator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Schema = _mongoose2.default.Schema;
-
-var print = console.log.bind(console, '>');
-
-//print(slug('Front-end developer', {lowercase: true}).toLowerCase())
+_mongoose2.default.plugin(_mongooseSlugGenerator2.default);
 
 // CV
 var CVSchema = new Schema({
     _id: _mongoose2.default.Schema.ObjectId,
     name: { type: String },
     summary: { type: String },
-    slug: { type: String, slug: "name", unique: true },
+    slug: { type: String, slug: "name", lowercase: true, unique: true },
     pdf: { type: Array },
     cats: {
         position: { type: String },
@@ -48,7 +45,8 @@ var CVSchema = new Schema({
 var CLSchema = new Schema({
     _id: _mongoose2.default.Schema.ObjectId,
     name: { type: String },
-    slug: { type: String, lowercase: true, trim: true },
+    slug: { type: String, slug: "name", lowercase: true, unique: true },
+    pdf: { type: Array },
     cats: {
         position: { type: String },
         locale: { type: String },
@@ -64,7 +62,7 @@ var CLSchema = new Schema({
 var ProjectSchema = new Schema({
     _id: _mongoose2.default.Schema.ObjectId,
     name: { type: String },
-    slug: { type: String, lowercase: true, trim: true },
+    slug: { type: String, slug: "name", lowercase: true, unique: true },
     cats: {
         status: { type: String },
         position: { type: String },

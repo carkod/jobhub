@@ -1,5 +1,9 @@
 'use strict';
 
+var _helmet = require('helmet');
+
+var _helmet2 = _interopRequireDefault(_helmet);
+
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
@@ -61,6 +65,9 @@ var db = _mongoose2.default.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 promise.then(function (db) {
+
+    //Security
+    app.use((0, _helmet2.default)());
 
     //Parser Middlewares
     app.use(_bodyParser2.default.urlencoded({ extended: true }));
