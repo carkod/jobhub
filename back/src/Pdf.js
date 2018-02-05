@@ -4,13 +4,14 @@ import { CVSchema } from './Schemas';
 import wkhtmltopdf from 'wkhtmltopdf';
 import moment from 'moment';
 import path from 'path';
+import axios from 'axios';
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
 
-const generatePDF = (req, data, printType, headerText) => {
-    const url = req.protocol + '://' + req.get('host') + req.originalUrl;
-    const footerURL = 'www.carloswu.xyz'
+const generatePDF = (url, req, data, printType, headerText) => {
+    //const url = req.protocol + '://' + req.get('host') + req.originalUrl;
+    const footerURL = 'www.carloswu.xyz';
     const name = data.name.replace(/\s/g, '');;
     const position = data.cats.position;
     const updated = 'Updated ' + moment(data.updatedAt).year();
@@ -25,10 +26,14 @@ const generatePDF = (req, data, printType, headerText) => {
       footerLeft: `${updated}`
     }
     
-    const pdfURL = req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`; 
+    const pdfURL = {
+        name: printType === 'q' ? 'Quick Version' : printType === 'f' ? 'Full Version' : '',
+        value: printType,
+        link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
+        
+    }
    
     return new Promise((ok,fail) => {
-        console.log(url)
         wkhtmltopdf(url, options, (err) => {
             if (err) {
                 
@@ -49,52 +54,46 @@ export default function Pdf (app,db) {
     app.set('view engine', 'jsx');
     app.engine('jsx', require('express-react-views').createEngine()); 
     
-    app.get('/pdf/generate/:id', (req, res) => {
+    app.get('/pdf/fullprint/:id', (req, res, next) => {
         const {id} = req.params;
+        CVModel.findOne({_id: id}, (findErr, content) => {
+        if (findErr) throw findErr;
+            res.render('FullPrint.jsx', content, (err, html) => {
+                if (err) throw err;
+                res.send(html)
+            })    
         
+        })
+    })
+    
+    app.get('/pdf/quickprint/:id', (req, res, next) => {
+        const {id} = req.params;
+        CVModel.findOne({_id: id}, (findErr, content) => {
+        if (findErr) throw findErr;
+            res.render('QuickPrint.jsx', content, (err, html) => {
+                if (err) throw err;
+                res.send(html)
+            })    
+        
+        })
+    })
+    
+    app.get('/pdf/generate/:id', (req, res, next) => {
+        const {id} = req.params;
         
         CVModel.findOne({_id: id}, function(err, content) {
             if (err) throw err;
             
+            const printType = 'f';  
+            const printType2 = 'q';  
+            const headerText = 'Currilum Vitae';
+            const url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + id;
+           
             
-            function fullPrint() {
-                return new Promise((a,f) => {
-                    app.render('FullPrint.jsx', content, (err, html) => {
-                    if (err) {f(err)} else {a(content)} 
-                    })               
-                })
-            }
+            Promise.all([generatePDF(url, req, content, printType, headerText), generatePDF(url, req, content, printType2, headerText)]).then(links => res.send(links))
             
-            function quickPrint() {
-                return new Promise((a,f) => {
-                    app.render('QuickPrint.jsx', content, (err, html) => {
-                    if (err) {f(err)} else {a(content)} 
-                    })               
-                })
-            }
-            
-            let pdfObj = []
-            
-            /*
-                1. Render Fullprint page.
-                2. Print fullprint page PDF
-                3. Render Quickprint page.
-                4. Print quickprint page.
-            */
-            
-            fullPrint().catch(e => console.log(e)).then(data => {
-               const printType = 'f';  
-               const headerText = 'Currilum Vitae';
-               generatePDF(req, data, printType, headerText).catch(e => console.log('error generating full CV')).then(e => {
-                pdfObj.push({name: 'Full Version', value:printType, link:e});
-                quickPrint().catch(e => console.log(e)).then(data2 => {
-                const printType2 = 'q';  
-                generatePDF(req, data2, printType2, headerText).catch(e => console.log('error generating quick CV')).then(e2 => { pdfObj.push({name:'Short Version', value: printType2, link:e2}); res.json(pdfObj)})
-                })
-               })
-            })
         })
-        return;
+        //return next();
     });
     
     app.get('/pdf/generateCL/:id', (req, res) => {

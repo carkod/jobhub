@@ -27,13 +27,17 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Compile model from schema
 var CVModel = _mongoose2.default.model('CVModel', _Schemas.CVSchema);
 
-var generatePDF = function generatePDF(req, data, printType, headerText) {
-    var url = req.protocol + '://' + req.get('host') + req.originalUrl;
+var generatePDF = function generatePDF(url, req, data, printType, headerText) {
+    //const url = req.protocol + '://' + req.get('host') + req.originalUrl;
     var footerURL = 'www.carloswu.xyz';
     var name = data.name.replace(/\s/g, '');;
     var position = data.cats.position;
@@ -49,10 +53,14 @@ var generatePDF = function generatePDF(req, data, printType, headerText) {
         footerLeft: '' + updated
     };
 
-    var pdfURL = req.protocol + '://' + req.get('host') + ('/docs/CarlosWu-' + name + '(' + printType + ').pdf');
+    var pdfURL = {
+        name: printType === 'q' ? 'Quick Version' : printType === 'f' ? 'Full Version' : '',
+        value: printType,
+        link: req.protocol + '://' + req.get('host') + ('/docs/CarlosWu-' + name + '(' + printType + ').pdf')
+
+    };
 
     return new Promise(function (ok, fail) {
-        console.log(url);
         (0, _wkhtmltopdf2.default)(url, options, function (err) {
             if (err) {
 
@@ -71,69 +79,47 @@ function Pdf(app, db) {
     app.set('view engine', 'jsx');
     app.engine('jsx', require('express-react-views').createEngine());
 
-    app.get('/pdf/generate/:id', function (req, res) {
+    app.get('/pdf/fullprint/:id', function (req, res, next) {
+        var id = req.params.id;
+
+        CVModel.findOne({ _id: id }, function (findErr, content) {
+            if (findErr) throw findErr;
+            res.render('FullPrint.jsx', content, function (err, html) {
+                if (err) throw err;
+                res.send(html);
+            });
+        });
+    });
+
+    app.get('/pdf/quickprint/:id', function (req, res, next) {
+        var id = req.params.id;
+
+        CVModel.findOne({ _id: id }, function (findErr, content) {
+            if (findErr) throw findErr;
+            res.render('QuickPrint.jsx', content, function (err, html) {
+                if (err) throw err;
+                res.send(html);
+            });
+        });
+    });
+
+    app.get('/pdf/generate/:id', function (req, res, next) {
         var id = req.params.id;
 
 
         CVModel.findOne({ _id: id }, function (err, content) {
             if (err) throw err;
 
-            function fullPrint() {
-                return new Promise(function (a, f) {
-                    app.render('FullPrint.jsx', content, function (err, html) {
-                        if (err) {
-                            f(err);
-                        } else {
-                            a(content);
-                        }
-                    });
-                });
-            }
+            var printType = 'f';
+            var printType2 = 'q';
+            var headerText = 'Currilum Vitae';
+            var url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + id;
 
-            function quickPrint() {
-                return new Promise(function (a, f) {
-                    app.render('QuickPrint.jsx', content, function (err, html) {
-                        if (err) {
-                            f(err);
-                        } else {
-                            a(content);
-                        }
-                    });
-                });
-            }
-
-            var pdfObj = [];
-
-            /*
-                1. Render Fullprint page.
-                2. Print fullprint page PDF
-                3. Render Quickprint page.
-                4. Print quickprint page.
-            */
-
-            fullPrint().catch(function (e) {
-                return console.log(e);
-            }).then(function (data) {
-                var printType = 'f';
-                var headerText = 'Currilum Vitae';
-                generatePDF(req, data, printType, headerText).catch(function (e) {
-                    return console.log('error generating full CV');
-                }).then(function (e) {
-                    pdfObj.push({ name: 'Full Version', value: printType, link: e });
-                    quickPrint().catch(function (e) {
-                        return console.log(e);
-                    }).then(function (data2) {
-                        var printType2 = 'q';
-                        generatePDF(req, data2, printType2, headerText).catch(function (e) {
-                            return console.log('error generating quick CV');
-                        }).then(function (e2) {
-                            pdfObj.push({ name: 'Short Version', value: printType2, link: e2 });res.json(pdfObj);
-                        });
-                    });
-                });
+            Promise.all([generatePDF(url, req, content, printType, headerText), generatePDF(url, req, content, printType2, headerText)]).then(function (links) {
+                return res.send(links);
             });
         });
-        return;
+        //return next();
     });
 
     app.get('/pdf/generateCL/:id', function (req, res) {

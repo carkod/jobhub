@@ -11,10 +11,6 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 
 var _Schemas = require('./Schemas');
 
-var _slug = require('slug');
-
-var _slug2 = _interopRequireDefault(_slug);
-
 var _shortid = require('shortid');
 
 var _shortid2 = _interopRequireDefault(_shortid);
@@ -22,9 +18,7 @@ var _shortid2 = _interopRequireDefault(_shortid);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Compile model from schema
-//import { ObjectId } from 'mongodb';
-var cats = _mongoose2.default.model('categories', _Schemas.CategoriesSchema);
-
+var cats = _mongoose2.default.model('categories', _Schemas.CategoriesSchema); //import { ObjectId } from 'mongodb';
 function Categories(app, db) {
 
     app.get('/api/cats', function (req, res) {
