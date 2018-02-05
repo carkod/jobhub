@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
-const Schema = mongoose.Schema;
+
 mongoose.plugin(slug);
+const Schema = mongoose.Schema;
+
  
 // CV
 const CVSchema = new Schema({

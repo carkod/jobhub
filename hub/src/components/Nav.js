@@ -40,6 +40,9 @@ class Nav extends Component {
                     </div>
                 </div>
                 <div className="item">
+                    <NavLink to="/relationships" activeClassName="current" >Relationships</NavLink>
+                </div>
+                <div className="item">
                     <NavLink to="/coverletters" activeClassName="current" >Cover Letters</NavLink>    
                 </div>
                 <div className="item">

@@ -41,7 +41,7 @@ var generatePDF = function generatePDF(url, req, data, printType, headerText) {
     //const url = req.protocol + '://' + req.get('host') + req.originalUrl;
     var footerURL = 'www.carloswu.xyz';
     var name = data.name.replace(/\s/g, '');;
-    var position = data.cats.position;
+    var position = ''; //data.cats !== undefined ? data.cats.position : '';
     var updated = 'Updated ' + (0, _moment2.default)(data.updatedAt).year();
     var folder = _path2.default.join(__dirname, '../', '/docs');
     var uri = folder + ('/CarlosWu-' + name + '(' + printType + ').pdf');
@@ -55,7 +55,7 @@ var generatePDF = function generatePDF(url, req, data, printType, headerText) {
     };
 
     var pdfURL = {
-        name: printType === 'q' ? 'Quick Version' : printType === 'f' ? 'Full Version' : '',
+        name: printType === 'q' ? 'Quick Version' : printType === 'f' ? 'Full Version' : printType === 'cl' ? 'Cover Letter default version' : '',
         value: printType,
         link: req.protocol + '://' + req.get('host') + ('/docs/CarlosWu-' + name + '(' + printType + ').pdf')
 
@@ -145,7 +145,7 @@ function Pdf(app, db) {
             var printType = 'cl';
             var headerText = 'Cover Letter';
             var url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + id;
-
+            console.log(content);
             Promise.all([generatePDF(url, req, content, printType, headerText)]).then(function (links) {
                 return res.send(links);
             });

@@ -3,24 +3,15 @@ TO-DO
 
 
 - Restrict creat-react-app apps /* URLs
-- Known vulnerability back app -> slug package
+
 
 ### WEB
 
 - Homogenize language URL structure (smallcase All for URL pathname)
-- Navigation control panel
 
 ### SERVER
 
-- Download files /uploads with spaces in filename
-- Create slug for CVModel
 - Live Mongodb configure authorization
-- Production Build back
-
-### List.js
-
-- List.js search: use React semantic ui input datalist [https://react.semantic-ui.com/elements/input#input-example-ref-focus]
-
 
 ### ISSUES
 
@@ -34,7 +25,6 @@ TO-DO
 
 - Refactor SysMessage component. Use Redux actions {type: actionName, data: ...} to pass notification messages, reducer format (switch and return) - single component for all sysmessages
 
-- Slug > Check DB for duplicates and if matched add number
 
 
 ***
@@ -50,8 +40,11 @@ NEXT VERSION:
 
 ***
 
-Log v0.4
+Log
 ======
-
+- Production Build back
+- Create slug for CVModel - used external package mongoose-slug-generator
+- Download files /uploads with spaces in filename - removed all spaces
+- Known vulnerability back app -> slug package - fixed
 - Add link to Web CV
 - Add favicon

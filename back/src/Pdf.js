@@ -1,52 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { CVSchema, CLSchema } from './Schemas';
-import wkhtmltopdf from 'wkhtmltopdf';
-import moment from 'moment';
-import path from 'path';
-import axios from 'axios';
+import generatePDF from './generator';
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
 let CLModel = mongoose.model('CLModel', CLSchema );
 
-const generatePDF = (url, req, data, printType, headerText) => {
-    //const url = req.protocol + '://' + req.get('host') + req.originalUrl;
-    const footerURL = 'www.carloswu.xyz';
-    const name = data.name.replace(/\s/g, '');;
-    const position = data.cats.position;
-    const updated = 'Updated ' + moment(data.updatedAt).year();
-    const folder = path.join(__dirname, '../', '/docs');
-    const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
-    const options = {
-      output : uri,
-      ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
-      headerRight : `${footerURL}`,
-      footerRight: '[page]',
-      headerLeft: `${headerText} - ${position}`,
-      footerLeft: `${updated}`
-    }
-    
-    const pdfURL = {
-        name: printType === 'q' ? 'Quick Version' : printType === 'f' ? 'Full Version' : '',
-        value: printType,
-        link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
-        
-    }
-   
-    return new Promise((ok,fail) => {
-        wkhtmltopdf(url, options, (err) => {
-            if (err) {
-                
-                fail(err);
-            } else {
-                ok(pdfURL);        
-            }
-            
-        });
-    });
-    
-}
 
 export default function Pdf (app,db) {
     app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
@@ -118,7 +78,7 @@ export default function Pdf (app,db) {
             const printType = 'cl';  
             const headerText = 'Cover Letter';
             const url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + id;
-           
+           console.log(content)
             Promise.all([generatePDF(url, req, content, printType, headerText)]).then(links => res.send(links))
             
         })

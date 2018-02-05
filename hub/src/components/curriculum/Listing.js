@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'semantic-ui-react';
+import { Item, Header, Accordion, Button, Icon, Segment, Label, Message } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -71,17 +71,51 @@ class Listing extends Component {
         content: (
           <div className="metadata">
           <div className="meta-content">
-            <List horizontal relaxed>
-              <List.Item><Icon fitted name='id card' /> {cv._id || 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='checked calendar' /> {moment(cv.updateDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='clock' /> {moment(cv.createdDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
+          
+            <Segment.Group>
+              <Segment.Group horizontal>
+                <Segment>
+                  <Icon fitted name='id card' /> {cv._id || 'N/A'}
+                </Segment>
+                
+                <Segment>
+                  <Icon fitted name='checked calendar' /> {moment(cv.updateDate).format('Do MMMM YYYY') || 'N/A'}
+                </Segment>
+                
+                <Segment>
+                  <Icon fitted name='clock' /> {moment(cv.createdDate).format('Do MMMM YYYY') || 'N/A'}
+                </Segment>
+                
+                  <Segment>
+                    <Icon fitted name='briefcase' /> {cv.cats ? cv.cats.position : 'N/A'}
+                  </Segment>
+                  
+                  <Segment><Icon fitted name='talk' /> {cv.cats ? cv.cats.cvLang : 'N/A'}</Segment>
+                  
+                  
+                  
+              </Segment.Group>
               
-              <List.Item><Icon fitted name='briefcase' /> {cv.cats ? cv.cats.position : 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='talk' /> {cv.cats ? cv.cats.cvLang : 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='globe' /> {cv.cats ? cv.cats.cvCountry : 'N/A'}</List.Item>
-              <List.Item><Icon fitted name='linkify' /> {cv.slug || ''}</List.Item>
-            </List>
+              <Segment.Group horizontal>
+              
+              <Segment>
+                <Icon fitted name='globe' /> {cv.cats ? cv.cats.cvCountry : 'N/A'}
+              </Segment>
+              
+              <Segment>
+                <Icon fitted name='linkify' /> {cv.slug || ''}
+              </Segment>
+              
+              <Segment>
+                Status: {cv.cats.status}
+              </Segment>
+              
+              </Segment.Group>
+            </Segment.Group>
           </div>
+          
+          <br />
+          
           <div className="buttons">
             <Button primary><Link style={{color: '#fff', display:'block'}} to={`/cv/id=${cv._id}`}>Edit/View</Link></Button>
             <Button onClick={this.handleCopy(i)} secondary>Copy</Button>

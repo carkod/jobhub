@@ -17620,3 +17620,9 @@ p {
     @media (max-width: 75rem) {
       #main .righty {
         align-items: center; } }
+
+#coverletter p, #coverletter li, #coverletter a {
+  font-size: 1.5rem; }
+
+#coverletter p strong, #coverletter p em, #coverletter p b, #coverletter p .underline, #coverletter p .strikethrough {
+  font-size: 1.5rem; }

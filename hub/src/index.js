@@ -20,6 +20,7 @@ import Project from './components/portfolio/Project';
 import CoverLetters from './components/coverLetters/CoverLetters';
 import Letter from './components/coverLetters/Letter';
 import LinkedIn from './components/LinkedIn';
+import Relationships from './components/relationships/Relationships';
 
 /*import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();*/
@@ -45,6 +46,7 @@ ReactDOM.render(
           <Route exact path="/" component={Home} />
           <Route exact path="/cv" component={Listing} />
           <Route exact path="/cv/positions" component={Positions} />
+          <Route exact path="/relationships" component={Relationships} />
           {/*<Route exact path="/cv/languages" component={Cats} />*/}
           <Route path="/cv/id=:id" component={Detail} />  
           
