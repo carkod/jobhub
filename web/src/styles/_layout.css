@@ -1,57 +1,20 @@
 /*
 Error: Undefined variable: "$blue".
-        on line 57 of /home/ubuntu/workspace/web/src/styles/_layout.scss
+        on line 2 of /home/ubuntu/workspace/web/src/styles/_layout.scss
 
-52:             left: -30%;
-53:             right:0;
-54:             position: absolute;
-55:             transform: skewX(9deg);
-56:             transform-origin: 0;
-57:             background-color: rgba($blue, 0.8);
-58:             z-index: -1;
-59:             width: 60%;
-60:         }
-61:         
-62:         &::after {
+1: #fourofour {
+2:     background-color:$blue;
+3:     height:100vh;
+4:     display:flex;
+5:     align-items:center;
+6:     justify-content:center;
+7:     text-align:center;
 
 Backtrace:
-/home/ubuntu/workspace/web/src/styles/_layout.scss:57
+/home/ubuntu/workspace/web/src/styles/_layout.scss:2
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:173:in `perform_arg'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `block in _perform'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `each'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `each_with_index'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `each'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `map'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `_perform'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `map'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `map'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:169:in `block in visit_children'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:168:in `visit_children'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-/nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:515:in `visit_media'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
 /nix/store/zmisxnl63ica4zaviifixamr3xg27kzp-ruby-2.3.1-p0/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
@@ -98,4 +61,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$blue\".\A         on line 57 of /home/ubuntu/workspace/web/src/styles/_layout.scss\A \A 52:             left: -30%;\A 53:             right:0;\A 54:             position: absolute;\A 55:             transform: skewX(9deg);\A 56:             transform-origin: 0;\A 57:             background-color: rgba($blue, 0.8);\A 58:             z-index: -1;\A 59:             width: 60%;\A 60:         }\A 61:         \A 62:         &::after {"; }
+  content: "Error: Undefined variable: \"$blue\".\A         on line 2 of /home/ubuntu/workspace/web/src/styles/_layout.scss\A \A 1: #fourofour {\A 2:     background-color:$blue;\A 3:     height:100vh;\A 4:     display:flex;\A 5:     align-items:center;\A 6:     justify-content:center;\A 7:     text-align:center;"; }

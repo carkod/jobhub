@@ -8,7 +8,7 @@ import About from './About';
 import Layout from './Layout';
 import MainCV from './cv/MainCV';
 import MainResources from './resources/MainResources';
-
+import FourOFour from './FourOFour';
 
 const RenderRoute = ({ component: Component, layout: Layout, ...rest }) => (
   <Route {...rest} render={props => (
@@ -29,7 +29,7 @@ const App = (props) => {
         <RenderRoute layout={Layout} path="/about" component={About} />
         <RenderRoute layout={Layout} exact strict path="/:language/:position/cv" component={MainCV} />
         <RenderRoute layout={Layout} exact strict path="/:language/:position/resources" component={MainResources} />
-        {/*<Route component={404} />*/}
+        <Route component={FourOFour} />
       </Switch>
     </CSSTransition>
   </TransitionGroup>
