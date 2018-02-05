@@ -34,6 +34,14 @@ class Relationships extends Component {
       [e.target.name]: e.target.value
     })    
   }
+  
+  addChild = e => {
+    console.log(e.target.name)
+    console.log(e.target.value)
+    /*this.setState({
+      [e.target.name]: e.target.value
+    })*/
+  }
     
   onSubmit = (e) => {
     
@@ -43,7 +51,7 @@ class Relationships extends Component {
 
   render() {
     const {cats} = this.props;
-    const addNew = ({singLabel}) => <button onClick={this.addChild} className='btn'>Add New</button>
+    const newButton = ({singLabel}) => <button onClick={this.addChild} className='btn'>Add New</button>
     let renderList;
     if (cats.length > 0) {
       const arrayList =
@@ -64,7 +72,7 @@ class Relationships extends Component {
                 
               </List>
               <List relaxed>{'children: '}
-              <Input icon='tags' iconPosition='left' label={{ tag: true, content: addNew(cv) }} labelPosition='right' placeholder={`New ${cv.singLabel}`} />
+              <Input icon='tags' iconPosition='left' label={{ tag: true, content: newButton(cv) }} labelPosition='right' placeholder={`New ${cv.singLabel}`} value={this.addChild} />
                 <Children children={cv.children} onChange={this.handleChange}/> 
               </List>
             </div>
