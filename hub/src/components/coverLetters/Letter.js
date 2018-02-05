@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Icon, Button, Header, Input } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 
-import { saveCL, fetchCLs } from '../../actions/cl';
+import { saveCL, fetchCLs, generatePDF } from '../../actions/cl';
 
 import Metainfo from './Metainfo'; 
 import Editor from './Editor'; 
@@ -82,16 +82,23 @@ class Letter extends Component {
     const {cl} = this.state;
     //const {messages} = this.state.projUI;
     
-    this.props.saveCL(cl).then(status => {
-      //this.state.detail.messages.savedID = status.data._id;
-      //this.setState({ messages })
-    });
+    generatePDF(cl._id).then(p => {
+        this.state.cl.pdf = p;
+        this.setState({ cl })  
+    })
     
+    this.props.saveCL(cl).then(result => {
+      
+      // this.setState({ messages })  
+      //this.state.detail.messages.savedID = status.data._id;
+      
+    })
   }
   
   
   render() {
     const {cl} = !!Object.keys(this.state).length ? this.state : this.props;
+    console.log(cl)
     return (
       <div id="cl">
       <form onSubmit={this.onSubmit} name="cl" >

@@ -35,6 +35,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // Compile model from schema
 var CVModel = _mongoose2.default.model('CVModel', _Schemas.CVSchema);
+var CLModel = _mongoose2.default.model('CLModel', _Schemas.CLSchema);
 
 var generatePDF = function generatePDF(url, req, data, printType, headerText) {
     //const url = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -122,23 +123,33 @@ function Pdf(app, db) {
         //return next();
     });
 
-    app.get('/pdf/generateCL/:id', function (req, res) {
+    app.get('/pdf/coverletter/:id', function (req, res, next) {
         var id = req.params.id;
 
-        CVModel.findOne({ _id: id }, function (err, content) {
-            if (err) throw err;
-            var objPDF = {};
-
-            app.render('FullPrint.jsx', content, function (err, html) {
+        CLModel.findOne({ _id: id }, function (findErr, content) {
+            if (findErr) throw findErr;
+            res.render('CoverLetter.jsx', content, function (err, html) {
                 if (err) throw err;
-                var printType = 'coverletter';
-                var headerText = 'Cover Letter';
-                generatePDF(req, content, printType, headerText).then(function (url) {
-                    objPDF.Fpdf = url;
-                });
+                res.send(html);
             });
-
-            return res.json(objPDF);
         });
+    });
+
+    app.get('/pdf/generateCl/:id', function (req, res, next) {
+        var id = req.params.id;
+
+
+        CLModel.findOne({ _id: id }, function (err, content) {
+            if (err) throw err;
+
+            var printType = 'cl';
+            var headerText = 'Cover Letter';
+            var url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + id;
+
+            Promise.all([generatePDF(url, req, content, printType, headerText)]).then(function (links) {
+                return res.send(links);
+            });
+        });
+        //return next();
     });
 }

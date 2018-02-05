@@ -80,18 +80,18 @@ class Sidebar extends Component {
               {renderPositions !== undefined ? renderPositions('resources') : ''}
             </ul>
           </li>
-          <li className="item dropdown">
+          {/*<li className="item dropdown">
             <a href="#" className="" onClick={this.toggleMenu('cl')} >Cover Letters</a>
             <ul id="cl" className={this.state.openmenu === 'cl' ? 'openMenu' : 'closeMenu' }>
               {renderPositions !== undefined ? renderPositions('cl') : ''}
             </ul>
-          </li>
-          <li className="item dropdown">
+          </li>*/}
+          {/*<li className="item dropdown">
             <a href="#" className="" onClick={this.toggleMenu('lang')} >Site and CV language</a>
             <ul id="lang" className={this.state.openmenu === 'lang' ? 'openMenu' : 'closeMenu' }>
               {renderLanguages !== undefined ? renderLanguages : ''}
             </ul>
-          </li>
+          </li>*/}
         </ul>
             
       </div>

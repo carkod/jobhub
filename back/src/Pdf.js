@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { CVSchema } from './Schemas';
+import { CVSchema, CLSchema } from './Schemas';
 import wkhtmltopdf from 'wkhtmltopdf';
 import moment from 'moment';
 import path from 'path';
@@ -8,6 +8,7 @@ import axios from 'axios';
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
+let CLModel = mongoose.model('CLModel', CLSchema );
 
 const generatePDF = (url, req, data, printType, headerText) => {
     //const url = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -96,22 +97,32 @@ export default function Pdf (app,db) {
         //return next();
     });
     
-    app.get('/pdf/generateCL/:id', (req, res) => {
+    app.get('/pdf/coverletter/:id', (req, res, next) => {
         const {id} = req.params;
-        CVModel.findOne({_id: id}, function(err, content) {
-            if (err) throw err;
-            let objPDF = {};
-            
-            app.render('FullPrint.jsx', content, (err, html) => {
+        CLModel.findOne({_id: id}, function(findErr, content) {
+        if (findErr) throw findErr;
+            res.render('CoverLetter.jsx', content, (err, html) => {
                 if (err) throw err;
-                const printType = 'coverletter';
-                const headerText = 'Cover Letter';
-                generatePDF(req, content, printType, headerText).then(url => { objPDF.Fpdf = url; });
-            })
-            
-           return res.json(objPDF);
-        })
+                res.send(html)
+            })    
         
+        })
+    })
+    
+    app.get('/pdf/generateCl/:id', (req, res, next) => {
+        const {id} = req.params;
+        
+        CLModel.findOne({_id: id}, function(err, content) {
+            if (err) throw err;
+            
+            const printType = 'cl';  
+            const headerText = 'Cover Letter';
+            const url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + id;
+           
+            Promise.all([generatePDF(url, req, content, printType, headerText)]).then(links => res.send(links))
+            
+        })
+        //return next();
     });
 }
 
