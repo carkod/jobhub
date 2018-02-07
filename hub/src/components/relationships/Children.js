@@ -43,16 +43,23 @@ class Children extends Component {
   }
   
   onSubmit = () => {
-      const {children} = this.state;
-      const newObj = {
-          rank: '',
-          key: shortid.generate(),
-          text: this.state.newChild,
-          value: this.state.newChild.replace(/\s/g, '-').toLowerCase(),
-      }
-      this.state.children.push(newObj)
-      this.setState({children});
-      this.props.newChild(this.state.children)
+    const {children} = this.state;
+    const newObj = {
+        rank: '',
+        key: shortid.generate(),
+        text: this.state.newChild,
+        value: this.state.newChild.replace(/\s/g, '-').toLowerCase(),
+    }
+    this.state.children.push(newObj)
+    this.setState({children});
+    this.props.newChild(this.state.children)
+  }
+  
+  removeChild = i => (e) => {
+    const {children} = this.state;
+    console.log(children.splice(i));
+    this.setState({children});
+    this.props.newChild(this.state.children)
   }
     
   render() {
@@ -64,6 +71,7 @@ class Children extends Component {
             <List.Item>
               {children.map((it, i) => 
                 <Form.Group key={it.key} widths="equal">
+                <Button onClick={this.removeChild(i)} color='red' icon><Icon name='remove' /></Button>
                   <Input label={'Text: '} name="text" onChange={this.handleChange(i)} value={children[i].text} />
                   <Input label={'Value: '} name="value" onChange={this.handleChange(i)} value={children[i].value} />
                   <Input label={'Rank: '} name="rank" onChange={this.handleChange(i)} value={children[i].rank} />

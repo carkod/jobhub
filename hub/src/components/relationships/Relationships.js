@@ -36,7 +36,6 @@ class Relationships extends Component {
   }
   
   handleChildren = children => {
-    const {activeIndex, cats} = this.state;
     this.setState({children})
   }
   
@@ -45,7 +44,6 @@ class Relationships extends Component {
     cats[activeIndex].children[i][e.target.name] = e.target.value
     this.setState({cats})
   }
-  
   
   save = (e) => {
     const {activeIndex, cats} = this.state;
@@ -81,7 +79,6 @@ class Relationships extends Component {
             <br />
             <div className="buttons">
               <Button onClick={this.save} primary>Save</Button>
-              {/*<Button onClick={this.handleDelete} negative>Delete</Button>*/}
             </div>
           </div>
           )
