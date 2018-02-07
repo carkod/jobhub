@@ -65,7 +65,13 @@ const ProjectSchema = new Schema({
 },{timestamps: true}, {strict: false} );
 
 
-const CategoriesSchema = new Schema({},{timestamps: true}, {strict: false} );
+const CategoriesSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    title: { type: String },
+    label: { type: String },
+    singLabel: { type: String },
+    children: [],
+},{timestamps: true}, {strict: false} );
 
 // CVSchema.pre('update', function(next){
 //     const slugger = slug(this._update.$set.name.toLowerCase());

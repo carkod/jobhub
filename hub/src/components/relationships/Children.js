@@ -12,7 +12,9 @@ class Children extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cats: props.cats
+        newChild: '',
+        children: props.children,
+        singLabel: props.singLabel
     };
   }
 
@@ -21,30 +23,54 @@ class Children extends Component {
   }
   
   componentWillReceiveProps = (p) => {
-     this.setState({
-       cats: p.cats
-     })
+    console.log(p)
+     this.setState({p})
   }
   
-  handleChange = (e) => {
+  handleChange = i => (e) => {
     e.preventDefault();
-    this.setState({
-      [e.target.name]: e.target.value
-    })    
+    const {children} = this.state;
+    children[i][e.target.name] = e.target.value;
+    this.setState({children});
+    this.props.onChange(children);
+  }
+  
+  newChild = e => {
+    // const {singLabel} = cv;
+    const {value} = e.target;
+    this.setState({newChild: value})
+    
+  }
+  
+  onSubmit = () => {
+      const {children} = this.state;
+      const newObj = {
+          rank: '',
+          key: shortid.generate(),
+          text: this.state.newChild,
+          value: this.state.newChild.replace(/\s/g, '-').toLowerCase(),
+      }
+      this.state.children.push(newObj)
+      this.setState({children});
+      this.props.newChild(this.state.children)
   }
     
   render() {
-    const {children} = this.props;
-   
+    const {children, singLabel} = this.state || this.props;
+    const newButton = (singLabel) => <button className='btn' onClick={this.onSubmit}>Add New</button>
     return (
-        <List.Item>
-          {children.map((it, i) => 
-            <Form.Group key={it.key} widths="equal">
-              <Input label={'Text: '} name="text" onChange={this.props.onChange} value={it.text} />
-              <Input label={'Value: '} name="value" onChange={this.props.onChange} value={it.value} />
-            </Form.Group>
-          )}
-        </List.Item>  
+        <List relaxed>{'children: '}
+            <Input icon='tags' iconPosition='left' label={{ tag: true, content: newButton(singLabel) }} labelPosition='right' placeholder={`New ${singLabel}`} onChange={this.newChild} value={this.state.newChild}/>
+            <List.Item>
+              {children.map((it, i) => 
+                <Form.Group key={it.key} widths="equal">
+                  <Input label={'Text: '} name="text" onChange={this.handleChange(i)} value={children[i].text} />
+                  <Input label={'Value: '} name="value" onChange={this.handleChange(i)} value={children[i].value} />
+                  <Input label={'Rank: '} name="rank" onChange={this.handleChange(i)} value={children[i].rank} />
+                </Form.Group>
+              )}
+            </List.Item>  
+        </List>
     );
   }
 }

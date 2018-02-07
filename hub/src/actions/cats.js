@@ -3,13 +3,13 @@ import {API_URL} from './dev';
 import axios from 'axios';
 
 export const SET_CATS = 'SET_CATS';
+export const SAVED_CATS = 'SAVED_CATS';
 /*export const DELETED_CATS = 'DELETED_CATS';
 export const COPIED_CATS = 'COPIED_CATS';
-export const SAVED_CATS = 'SAVED_CATS';
+
 */
 function handleResponse(response) {
     if (response.status === 200) {
-        console.log(response.data)
         return response.data;
     } else {
         let error = new Error(response.statusText);
@@ -25,12 +25,6 @@ function handleResponse(response) {
     }
 }
 
-export function savedCats(cats) {
-    return {
-        type: SAVED_CATS,
-        cats: cats.data,
-    }
-}
 
 export function copiedCats(cats) {
     return {
@@ -39,6 +33,14 @@ export function copiedCats(cats) {
     }
 }
 */
+
+export function savedCats(cats) {
+    return {
+        type: SAVED_CATS,
+        cats,
+    }
+}
+
 export function setCats(cats) {
     return {
         type: SET_CATS,
@@ -57,6 +59,17 @@ export function fetchCats() {
     }
 }
 
+export function saveCats(data) {
+    return dispatch => {
+        return fetch(`${API_URL}/cats`, {
+           method: 'post',
+           body: JSON.stringify(data),
+           headers: {
+               "Content-Type" : "application/json"
+           }
+        }).then(handleResponse).then(data => {dispatch(savedCats(data)); console.log(data)}).then(data);   
+    }
+}
 
 /*export function deleteCats(id) {
     return dispatch => {
@@ -86,14 +99,4 @@ export function copyCats(data) {
     
 }
 
-export function saveCats(data) {
-    return dispatch => {
-        return fetch(`${API_URL}/cats`, {
-           method: 'post',
-           body: JSON.stringify(data),
-           headers: {
-               "Content-Type" : "application/json"
-           }
-        }).then(handleResponse).then(data => dispatch(savedCV(data))).then(data);   
-    }
-}*/
+*/

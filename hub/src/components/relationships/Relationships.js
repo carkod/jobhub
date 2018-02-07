@@ -5,7 +5,7 @@ import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, 
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import moment from 'moment';
-import { fetchCats } from '../../actions/cats';
+import { fetchCats, saveCats } from '../../actions/cats';
 import Children from './Children';
 
 class Relationships extends Component {
@@ -30,28 +30,31 @@ class Relationships extends Component {
   
   handleChange = (e) => {
     e.preventDefault();
-    this.setState({
-      [e.target.name]: e.target.value
-    })    
+    const {activeIndex, cats} = this.state;
+    cats[activeIndex][e.target.name] = e.target.value;
+    this.setState({cats})    
   }
   
-  addChild = e => {
-    console.log(e.target.name)
-    console.log(e.target.value)
-    /*this.setState({
-      [e.target.name]: e.target.value
-    })*/
+  handleChildren = children => {
+    const {activeIndex, cats} = this.state;
+    this.setState({children})
   }
-    
-  onSubmit = (e) => {
-    
-    // this.props.saveCats({ name })
-    
+  
+  changeChildren = i => e => {
+    const {activeIndex, cats} = this.state;
+    cats[activeIndex].children[i][e.target.name] = e.target.value
+    this.setState({cats})
+  }
+  
+  
+  save = (e) => {
+    const {activeIndex, cats} = this.state;
+    this.props.saveCats({ cats }).then(res => console.log(res))
   }
 
   render() {
-    const {cats} = this.props;
-    const newButton = ({singLabel}) => <button onClick={this.addChild} className='btn'>Add New</button>
+    console.log(this.state)
+    const {cats} = this.state || this.props;
     let renderList;
     if (cats.length > 0) {
       const arrayList =
@@ -67,20 +70,19 @@ class Relationships extends Component {
             <div className="meta-content">
               <List horizontal relaxed>
                 <List.Item>_id: {cv._id}</List.Item>
+                <List.Item>label: <Input value={cv.label} name="label" onChange={this.handleChange} /></List.Item>
                 <List.Item>singLabel: <Input value={cv.singLabel} name="singLabel" onChange={this.handleChange} /></List.Item>
-                <List.Item>title: <Input value={cv.title} name="title" onChange={this.handleChange} /></List.Item>
+                <List.Item>title: <Input value={cv.title} name="title" /></List.Item>
                 
               </List>
-              <List relaxed>{'children: '}
-              <Input icon='tags' iconPosition='left' label={{ tag: true, content: newButton(cv) }} labelPosition='right' placeholder={`New ${cv.singLabel}`} value={this.addChild} />
-                <Children children={cv.children} onChange={this.handleChange}/> 
-              </List>
+              
+                <Children singLabel={cv.singLabel} children={cv.children} newChild={this.handleChildren} onChange={this.changeChildren}/> 
             </div>
-            {/*<div className="buttons">
-              <Button primary><Link style={{color: '#fff', display:'block'}} to={`/cv/id=${cv._id}`}>Edit/View</Link></Button>
-              <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
-              <Button onClick={this.handleDelete} negative>Delete</Button>
-            </div>*/}
+            <br />
+            <div className="buttons">
+              <Button onClick={this.save} primary>Save</Button>
+              {/*<Button onClick={this.handleDelete} negative>Delete</Button>*/}
+            </div>
           </div>
           )
         }
@@ -110,4 +112,4 @@ function mapStateToProps (state, props) {
 }
 
 
-export default connect(mapStateToProps, { fetchCats })(Relationships);
+export default connect(mapStateToProps, { fetchCats, saveCats })(Relationships);

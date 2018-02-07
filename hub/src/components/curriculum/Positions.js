@@ -43,7 +43,6 @@ class Positions extends Component {
 
   render() {
     const {cats} = this.props;
-    console.log(cats)
     let renderList;
     if (cats.length > 0) {
       const arrayList =
