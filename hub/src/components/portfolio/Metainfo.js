@@ -9,27 +9,23 @@ import { Header, List, Dropdown, Segment } from 'semantic-ui-react';
 
 const Metainfo = props => {
     const {meta, categories} = props;
-    let position, language, status;
+    console.log(meta)
+    let position = 'Select Position', language = 'Select Locale', status = 'Select Status';
     const positions = props.categories.find(i => i.label === 'positions').children;
     const languages = props.categories.find(i => i.label === 'locales').children;
     const statuses = props.categories.find(i => i.label === 'statuses').children;
     
     if (!!categories[0]._id  && meta) {
         
-        const positionIndex = positions.findIndex(v => v.value === meta.cats.position.toLowerCase());
-        position = meta.cats.position ? positions[positionIndex].text : 'Select position';    
+        const positionIndex = positions.findIndex(v => v.value.toLowerCase() === meta.cats.position.toLowerCase());
+        position = meta.cats.position && positionIndex !== -1 ? meta.cats.position.toLowerCase() : 'Select Position';    
+            
+        const languageIndex = languages.findIndex(v => v.value === meta.cats.locale);
+        language = !!meta.cats.locale && languageIndex !== -1 ? meta.cats.locale : 'Select Locale';
+        
+        const statusIndex = statuses.findIndex(v => v.value === meta.cats.status);
+        status = meta.cats.status && statusIndex !== -1 ? meta.cats.status : 'Select Status';    
     }
-    console.log(position)    
-    /*if (!languages.length && meta) {
-        
-        const languageIndex = languages.findIndex(v => v.value === meta.cats.locale.toLowerCase());
-        language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
-        
-    }*/
-    // if category is undefined I still want to render the UI
-    
-    //const statusIndex = statuses.findIndex(v => v.value === meta.cats.locale);
-    // const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
     
     return (
         <div id="metainfo">
@@ -54,16 +50,24 @@ const Metainfo = props => {
                         ) : ''}
                         </Segment>
                     </Segment.Group>
-                        
-                    <Segment.Group horizontal>
-                        {!!categories[0]._id ? 
-                        <Segment>
-                            <Dropdown placeholder={!!categories[0]._id ? '' : 'Select Position'} options={positions} value={meta.cats.position.toLowerCase()} onChange={props.onChange} name='position' selection />
-                        </Segment>
-                         : ''}
                     
+                    {!!categories[0]._id ? 
+                    <Segment.Group horizontal>
+                        
+                        <Segment>
+                            <Dropdown placeholder={language} options={languages} value={language} onChange={props.onChange} name='locale' selection />
+                        </Segment>
+                        
+                        <Segment>
+                            <Dropdown placeholder={status} options={statuses} value={status} onChange={props.onChange} name='status' selection />
+                        </Segment>
+                    
+                        <Segment>
+                            <Dropdown placeholder={position} options={positions} value={position} onChange={props.onChange} name='position' selection />
+                        </Segment>
                     </Segment.Group>
-                
+                    : ''}
+                    
                 </Segment.Group>
                 
             </div>
