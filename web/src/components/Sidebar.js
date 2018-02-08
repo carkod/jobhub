@@ -65,7 +65,7 @@ class Sidebar extends Component {
       if (cvs) {
         matchProjectCVs = cats[posIx].children.filter(i => {
           for (let cv of projects) {
-            if (cv.cats.position === i.value && cv.cats.status === 'public')
+            if (cv.cats.position.toLowerCase() === i.value && cv.cats.status === 'public')
             return true;
           }
                    
@@ -106,7 +106,7 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('resources')}>Resources</button>
             <ul id="resources" className={this.state.openmenu === 'resources' ? 'openMenu' : 'closeMenu' }>
-              {renderPositions !== undefined ? renderPositions('resources') : ''}
+              {renderResources !== undefined ? renderResources('resources') : ''}
             </ul>
           </li>
           {/*<li className="item dropdown">

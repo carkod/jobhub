@@ -46,7 +46,6 @@ class Project extends Component {
     const {name} = props;
     
     project.cats[name] = value;
-    
     this.setState({ project })
   }
   
@@ -95,8 +94,8 @@ class Project extends Component {
   
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
+    console.log(project)
     const {categories} = this.state;
-    console.log(this.state)
     return (
       <div id="project">
         <form onSubmit={this.onSubmit} name="project" >
