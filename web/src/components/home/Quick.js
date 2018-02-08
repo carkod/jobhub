@@ -50,7 +50,7 @@ class Quick extends Component {
         return Qpdf.link;
         
       } else {
-        console.log('not matched')
+        // console.log('not matched')
       }
       
     }

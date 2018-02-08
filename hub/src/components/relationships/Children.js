@@ -57,7 +57,6 @@ class Children extends Component {
   
   removeChild = i => (e) => {
     const {children} = this.state;
-    console.log(children.splice(i));
     this.setState({children});
     this.props.newChild(this.state.children)
   }

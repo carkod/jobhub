@@ -15,6 +15,7 @@ function handleResponse(response) {
     }
 }
 
+
 export function setCats(cats) {
     return {
         type: SET_CATS,

@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import shortid from 'shortid';
 import {fetchCats} from '../actions/cats';
 import { fetchCVs } from '../actions/cv';
-
+import { fetchProjects } from '../actions/res';
 
 class Sidebar extends Component {
   
@@ -21,6 +21,7 @@ class Sidebar extends Component {
   componentDidMount = () => {
     this.props.fetchCats();
     this.props.fetchCVs();
+    this.props.fetchProjects();
   }
   
   componentWillReceiveProps = (props) => {
@@ -37,16 +38,45 @@ class Sidebar extends Component {
   }
   
   render() {
-    const {cats} = this.props;
-    let renderPositions, renderLanguages;
+    const {cats, cvs, projects} = this.props;
+    let renderPositions, renderLanguages, renderResources, matchCatsCVs, matchProjectCVs;
     if (cats !== undefined) {
       //Positions
-      const positionsIndex = cats.findIndex(e => e.label === 'positions');
-      // No cv what happens? - When creating categories
-        renderPositions = parent => cats[positionsIndex].children.map((el, i) =>
+      
+      
+      // const positionsIndex = cats.findIndex(e => e.label === 'positions');
+      const posIx = cats.findIndex(e => e.label === 'positions');
+      if (cvs) {
+        matchCatsCVs = cats[posIx].children.filter(i => {
+          for (let cv of cvs) {
+            if (cv.cats.position === i.value && cv.cats.status === 'public')
+            return true;
+          }
+                   
+        })
+      } else {
+        matchCatsCVs = cats[posIx].children;
+      }
+        renderPositions = parent => matchCatsCVs.map((el, i) =>
           <li key={shortid.generate()} className="item" ><NavLink to={`/en_GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
           )
       
+      //Resources
+      if (cvs) {
+        matchProjectCVs = cats[posIx].children.filter(i => {
+          for (let cv of projects) {
+            if (cv.cats.position === i.value && cv.cats.status === 'public')
+            return true;
+          }
+                   
+        })
+      } else {
+        matchProjectCVs = cats[posIx].children;
+      }
+      console.log(matchProjectCVs)
+       renderResources = parent => matchProjectCVs.map((el, i) =>
+          <li key={shortid.generate()} className="item" ><NavLink to={`/en_GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
+          )
       //Languages    
       const languagesIndex = cats.findIndex(e => e.label === 'locales');
       
@@ -69,13 +99,13 @@ class Sidebar extends Component {
             <NavLink exact to="/about" activeClassName="active" className="" >About</NavLink>
           </li>
           <li className="item dropdown">
-            <a href="#" className="" onClick={this.toggleMenu('cv')} >CV</a>
+            <button className="btn" onClick={this.toggleMenu('cv')} >CV</button>
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
               {renderPositions !== undefined ? renderPositions('cv') : ''}
             </ul>
           </li>
           <li className="item dropdown">
-            <a href="#" className="" onClick={this.toggleMenu('resources')}>Resources</a>
+            <button className="btn" onClick={this.toggleMenu('resources')}>Resources</button>
             <ul id="resources" className={this.state.openmenu === 'resources' ? 'openMenu' : 'closeMenu' }>
               {renderPositions !== undefined ? renderPositions('resources') : ''}
             </ul>
@@ -107,11 +137,11 @@ const mapStateToProps = (s,p) => {
   // If all positive show CV
   // if one of them fails tell sidebar not to show this position on the sidebar
   
-  
   if (s.cats.data !== undefined) {
     return {
       cats: s.cats.data,
-      cvs: s.cvs
+      cvs: s.cvs,
+      projects: s.portfolio
     }  
   } else {
     return {}
@@ -119,4 +149,4 @@ const mapStateToProps = (s,p) => {
   
 }
 
-export default connect(mapStateToProps, { fetchCVs, fetchCats })(Sidebar);
+export default connect(mapStateToProps, { fetchCVs, fetchCats, fetchProjects })(Sidebar);

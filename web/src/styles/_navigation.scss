@@ -27,7 +27,7 @@
             }  
           
       }
-      .item {
+      .item, .btn {
         @extend .sans-serif;
         font-size:1rem;
         font-weight:800;
@@ -42,7 +42,7 @@
        ul .item {
            font-weight:100;
        } 
-        a {
+        a, button {
             color:#fff;
             position:relative;
             display:inline-block;
