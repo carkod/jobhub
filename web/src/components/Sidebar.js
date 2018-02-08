@@ -73,7 +73,6 @@ class Sidebar extends Component {
       } else {
         matchProjectCVs = cats[posIx].children;
       }
-      console.log(matchProjectCVs)
        renderResources = parent => matchProjectCVs.map((el, i) =>
           <li key={shortid.generate()} className="item" ><NavLink to={`/en_GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
           )

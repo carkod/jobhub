@@ -78,17 +78,24 @@ class MainResources extends Component {
 
 
 const mapStateToProps = (state, props) => {
+  const {portfolio} = state;
+  const {position} = props.match.params;
+  let cats = state.cats.data;
+  let urlCategory = [];
   
-  if (!!state.portfolio._id) {
-  const filterProjects = state.portfolio.find(item => item.cats.position.toLowerCase() === props.match.params.position.toLowerCase());
-  let newPortfolio = [];
-  console.log(newPortfolio.push(filterProjects))
+  if (portfolio[0]._id !== '' && cats) {
+    cats = cats.find(it => it.label === 'positions').children;
+    urlCategory = portfolio.filter(cv => {
+      return cv.cats.position.toLowerCase() === position
+    })
+    
+  
     return {
-      portfolio: newPortfolio.push(filterProjects)  
+      portfolio: urlCategory,
     }
   } else {
     return {
-      portfolio: state.portfolio  
+      portfolio: portfolio
     }
   }
   
