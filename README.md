@@ -2,7 +2,7 @@ TO-DO
 ======
 
 
-- Restrict creat-react-app apps /* URLs
+- Build sitemap (check google console)
 
 
 ### WEB
@@ -13,13 +13,6 @@ TO-DO
 
 - Live Mongodb configure authorization
 
-### ISSUES
-
-- Resources/Portfolio: Must set one portfolio as public per category
-    +  If no projects set status = public -> error
-    +  If one project has set status = public, but doesn't match sidebar category -> error
-    +  If category has no items -> error
-    +  
 
 ### Others
 
@@ -42,6 +35,7 @@ NEXT VERSION:
 
 Log
 ======
+- Restrict creat-react-app apps /* URLs
 - Production Build back
 - Create slug for CVModel - used external package mongoose-slug-generator
 - Download files /uploads with spaces in filename - removed all spaces
