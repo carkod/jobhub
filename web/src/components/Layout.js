@@ -31,13 +31,12 @@ class Layout extends Component {
   }
   
   render() {
-    
     return (
       <div className="layout">
         <main id="main" className="container">
           <button id="burger" className="mobile only" onClick={() => this.setState({navigation: !this.state.navigation})} ><i className="cube icon" /></button>
           <div className={this.state.navigation ? "lefty open" : "lefty close"}>
-            <Sidebar {...this.props} />
+            <Sidebar {...this.props} unavailable={() => this.setState({dimmer:true})}/>
           </div>
           
           <div className="righty">
@@ -46,7 +45,20 @@ class Layout extends Component {
           </div>
             
         </main>
-        
+        <div className={`ui dimmer transition ${this.state.dimmer ? 'visible active' : 'hidden'}`} onClick={() => this.setState({dimmer: !this.state.dimmer})}>
+          <div class="content">
+            <div class="center">
+              <h2 class="ui inverted icon header">
+                <i class="protect icon" />
+                <span>THIS CONTENT IS NOT AVAILABLE</span>
+                <hr />
+                <div class="sub header">
+                  It might be restricted or still under development, please contact me to get access.
+                </div>
+              </h2>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
