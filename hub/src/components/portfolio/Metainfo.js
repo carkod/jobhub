@@ -30,7 +30,7 @@ const Metainfo = props => {
     return (
         <div id="metainfo">
             <Header as='h1'>
-                <input type="text" name="name" value={meta.name} onChange={props.onChange} />
+                <input type="text" name="name" value={meta.name} onChange={props.name} />
                 <Header.Subheader>{meta._id}</Header.Subheader>
             </Header>
             <div className="section">

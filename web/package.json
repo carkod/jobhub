@@ -8,6 +8,7 @@
     "draft-js": "^0.10.4",
     "draft-js-export-html": "^1.2.0",
     "html2pdf.js": "^0.8.2",
+    "moment": "^2.20.1",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",
     "react": "^16.2.0",
@@ -34,7 +35,7 @@
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy":"scp -r build/ root@188.166.92.221:/var/www/carloswu.xyz/web/"
+    "deploy": "scp -r build/ root@188.166.92.221:/var/www/carloswu.xyz/web/"
   },
   "babel": {
     "presets": [

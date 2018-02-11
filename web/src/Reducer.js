@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { combineReducers } from 'redux';
 
 import { SET_CV } from './actions/cv';
@@ -86,11 +87,14 @@ const pfInit = [
    } 
 ]
 
+
+
 const cvs = (state = cvInitial, action = {}) =>  {
     switch (action.type) {
         case SET_CV:
             let combined = [];
             for (let i of action.cvs) {
+                console.log(i)
                 const merge = Object.assign({}, cvInitial[0], i);
                 combined.push(merge)
             }

@@ -40,6 +40,12 @@ class Project extends Component {
     this.setState({ project, categories})
   }
   
+  projectName = e => {
+    const {project} = this.state;
+    project[e.target.name] = e.target.value
+    this.setState({ project })
+  }
+  
   metaChange = (e, props) => {
     const {project} = this.state;
     const {value} = props;
@@ -97,7 +103,7 @@ class Project extends Component {
     return (
       <div id="project">
         <form onSubmit={this.onSubmit} name="project" >
-          <Metainfo meta={project} onChange={this.metaChange} categories={categories} />
+          <Metainfo meta={project} onChange={this.metaChange} categories={categories} name={this.projectName}/>
           <div className="container">
             <Editor value={project.desc} onChange={v => this.descChange(v)} />
             <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>

@@ -2,10 +2,18 @@
 import mongoose from 'mongoose';
 import { CVSchema } from './Schemas';
 import shortid from 'shortid';
+import moment from 'moment';
 // import mongooseSlugPlugin from 'mongoose-slug-plugin';
 
 // Compile model from schema
 let CVModel = mongoose.model('CVModel', CVSchema );
+const compare = (a,b) => {
+    a = a.date.split('–')[0];
+    a = moment(a.split('/').reverse());
+    b = b.date.split('–')[0];
+    b = moment(b.split('/').reverse());
+    return b.diff(a);
+}
 
 export default function CVs (app, db) {
     
@@ -22,7 +30,11 @@ export default function CVs (app, db) {
         let r = req.body,
             cv,
             slugger;
-            
+        
+        // Sort by date            
+        const workExp = r.workExp.sort(compare)
+        const educ = r.educ.sort(compare)
+                    
         // TODO if slug exists change it add "name-1"
         // if slug number exists, increment it "name-2"
         // if slug does not exist, create normal slug (below)
@@ -50,8 +62,8 @@ export default function CVs (app, db) {
                 },
                 image: r.image,
                 persdetails: r.persdetails,
-                workExp: r.workExp,
-                educ: r.educ,
+                workExp: workExp,
+                educ: educ,
                 langSkills: r.langSkills,
                 webdevSkills: r.webdevSkills,  
                 itSkills: r.itSkills,

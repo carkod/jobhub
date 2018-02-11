@@ -46,13 +46,13 @@ class Layout extends Component {
             
         </main>
         <div className={`ui dimmer transition ${this.state.dimmer ? 'visible active' : 'hidden'}`} onClick={() => this.setState({dimmer: !this.state.dimmer})}>
-          <div class="content">
-            <div class="center">
-              <h2 class="ui inverted icon header">
-                <i class="protect icon" />
+          <div className="content">
+            <div className="center">
+              <h2 className="ui inverted icon header">
+                <i className="protect icon" />
                 <span>THIS CONTENT IS NOT AVAILABLE</span>
                 <hr />
-                <div class="sub header">
+                <div className="sub header">
                   It might be restricted or still under development, please contact me to get access.
                 </div>
               </h2>
