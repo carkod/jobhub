@@ -17532,7 +17532,7 @@ html.ios {
 .serif, h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Serif Pro', serif; }
 
-.sans-serif, body, ul li, dl, ol li, #fullprint h1, #fullprint h2, #fullprint h3, #fullprint h4, #fullprint .field, #fullprint .work-date, #quickprint h1, #quickprint h2, #quickprint h3, #quickprint h4, #quickprint .field, #quickprint .work-date {
+.sans-serif, body, ul li, dl, ol li, #fullprint h1, #fullprint h2, #fullprint h3, #fullprint h4, #fullprint .field, #fullprint .work-date {
   font-family: 'Source Sans Pro', sans-serif; }
 
 .btn {
@@ -17553,11 +17553,11 @@ a, a:link {
   color: #F6AE1B; }
 
 ul li, dl, ol li {
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 400; }
 
 p {
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 400; }
 
 #main {
@@ -17625,7 +17625,7 @@ p {
 .serif, h1, h2, h3, h4, h5, h6, h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Serif Pro', serif; }
 
-.sans-serif, body, ul li, dl, ol li, #fullprint h1, #fullprint h2, #fullprint h3, #fullprint h4, #fullprint .field, #fullprint .work-date, #quickprint h1, #quickprint h2, #quickprint h3, #quickprint h4, #quickprint .field, #quickprint .work-date, body, ul li, dl, ol li {
+.sans-serif, body, ul li, dl, ol li, #fullprint h1, #fullprint h2, #fullprint h3, #fullprint h4, #fullprint .field, #fullprint .work-date, body, ul li, dl, ol li {
   font-family: 'Source Sans Pro', sans-serif; }
 
 .btn {
@@ -17663,26 +17663,31 @@ p {
   #fullprint h1 small {
     color: #868e96;
     font-weight: 300;
-    font-size: 2rem; }
+    font-size: 2.3rem; }
 
 #fullprint h2 {
   font-weight: 200;
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem; }
 
 #fullprint h3 {
   font-weight: 600;
-  font-size: 1.3rem; }
+  font-size: 2rem; }
 
 #fullprint h4 {
-  font-weight: 400; }
+  font-weight: 400;
+  font-size: 1.4rem; }
   #fullprint h4 small {
+    font-size: 1.2rem;
     font-weight: 600;
     color: #868e96; }
 
+#fullprint p {
+  font-size: 1.3rem; }
+
 #fullprint strong {
   font-weight: 600;
-  font-size: 1rem; }
+  font-size: 1.3rem; }
 
 #fullprint section {
   margin: 1rem 0; }
@@ -17693,7 +17698,7 @@ p {
 
 #fullprint .field {
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.3rem;
   padding: 0.5rem 1rem; }
   #fullprint .field strong {
     font-weight: 600; }
@@ -17708,94 +17713,11 @@ p {
 
 #fullprint .work-date {
   font-weight: 400;
-  font-size: 1.2rem; }
+  font-size: 1.3rem; }
 
 #fullprint .skills .bar {
   transition: width 2s, background-color 2s; }
 
 #fullprint .skills small {
   margin-left: 0.3rem;
-  opacity: 0; }
-
-#fullprint .skills h4:hover, #fullprint .skills h4:active {
-  cursor: pointer; }
-  #fullprint .skills h4:hover small, #fullprint .skills h4:active small {
-    opacity: 1;
-    transition: opacity 1s ease-in-out; }
-
-#quickprint h1 {
-  font-weight: 600;
-  font-size: 30px;
-  margin-bottom: 1.5rem; }
-  #quickprint h1 small {
-    color: #868e96;
-    font-weight: 300;
-    font-size: 25px; }
-
-#quickprint h2 {
-  font-weight: 200;
-  font-size: 23px;
-  margin-bottom: 0.5rem; }
-
-#quickprint h3 {
-  font-weight: 600;
-  font-size: 20px; }
-
-#quickprint h4 {
-  font-weight: 400; }
-  #quickprint h4 small {
-    font-weight: 600;
-    color: #868e96; }
-
-#quickprint strong {
-  font-weight: 600;
-  font-size: 1rem; }
-
-#quickprint section {
-  margin: 1rem 0; }
-
-#quickprint .row {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem; }
-
-#quickprint .hide {
-  display: none; }
-
-#quickprint .field {
-  font-weight: 400;
-  font-size: 1rem;
-  padding: 0.5rem 1rem; }
-  #quickprint .field strong {
-    font-weight: 600; }
-
-#quickprint .ui.dividing.header {
-  margin: 1rem 0;
-  padding: 0.5rem 0; }
-
-#quickprint .position {
-  display: none; }
-
-#quickprint .workplace, #quickprint .position {
-  padding-bottom: 0px; }
-
-#quickprint .work-date, #quickprint .work-desc {
-  padding-top: 10px; }
-
-#quickprint .work-date {
-  font-weight: 400;
-  font-size: 1.2rem; }
-
-#quickprint #education .desc {
-  display: none; }
-
-#quickprint #country, #quickprint #passport, #quickprint #city, #quickprint #pob, #quickprint #dob {
-  display: none; }
-
-#quickprint .skills {
-  float: left;
-  margin: 0px;
-  width: 33%; }
-  #quickprint .skills .level {
-    display: none; }
-  #quickprint .skills small {
-    opacity: 1; }
+  opacity: 1; }

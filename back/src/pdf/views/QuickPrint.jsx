@@ -13,7 +13,7 @@ class QuickPrint extends Component {
     return (
       <html>
       <head>
-         <link rel="stylesheet" href="/pdf/assets/index.css" />
+         <link rel="stylesheet" href="/pdf/assets/cl.css" />
       </head>
       <body>
       <div id="quickprint" className="container">

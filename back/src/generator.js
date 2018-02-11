@@ -2,54 +2,123 @@ import wkhtmltopdf from 'wkhtmltopdf';
 import moment from 'moment';
 import path from 'path';
 
-export default function generatePDF (url, req, data, printType, headerText) {
-    //const url = req.protocol + '://' + req.get('host') + req.originalUrl;
-let options, pdfURL;
+export default function generatePDF (req, data, printType, headerText) {
+let options, pdfURL, url;
+let locale = data.cats.locale;
+
+if (printType === 'f' && locale === 'es-ES') {
+    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint-esp/' + data._id;
+} else if (printType === 'q' && locale === 'es-ES') {
+    url = req.protocol + '://' + req.get('host') + '/pdf/quickprint-esp/' + data._id;
+} else if (printType === 'f' && locale !== 'es-ES') {
+    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + data._id;
+} else if (printType === 'q' && locale !== 'es-ES') {
+    url = req.protocol + '://' + req.get('host') + '/pdf/quickprint/' + data._id;
+} else if (printType === 'cl') {
+    url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + data._id;
+} else {
+    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + data._id;
+}
 
     if (printType === 'q' || printType === 'f') {
-        const footerURL = 'www.carloswu.xyz';
-        const name = data.name.replace(/\s/g, '');;
-        const position = data.cats.position;
-        const updated = 'Updated ' + moment(data.updatedAt).year();
-        const folder = path.join(__dirname, '../', '/docs');
-        const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
-        options = {
-          output : uri,
-          ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
-          headerRight : `${footerURL}`,
-          footerRight: '[page]',
-          headerLeft: `${headerText} - ${position}`,
-          footerLeft: `${updated}`
-        }
         
-        pdfURL = {
-            name: printType === 'q' ? 'Quick Version' : printType === 'f' ? 'Full Version' : printType === 'cl' ? 'Cover Letter default version' : '',
-            value: printType,
-            link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
+        if (locale !== undefined && locale === 'es-ES') {
+            const footerURL = 'www.carloswu.xyz';
+            const name = data.name.replace(/\s/g, '');;
+            const position = data.cats.position;
+            const updated = 'Actualizado ' + moment(data.updatedAt).year();
+            const folder = path.join(__dirname, '../', '/docs');
+            const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
+            options = {
+              output : uri,
+              ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
+              headerRight : `${footerURL}`,
+              footerRight: '[page]',
+              footerLeft: `${updated}`,
+              minimumFontSize: 12,
+              headerFontSize: 8,
+              footerFontSize: 8,
+              enableSmartShrinking:false,
+              enableExternalLinks: true,
+              enableInternalLinks: true,
+              lowquality: true,
+              marginTop:12,
+              marginBottom:12,
+              marginLeft:12,
+              marginRight:12
+            }
             
-        }    
+            pdfURL = {
+                name: printType === 'q' ? 'Quick Version' : 'Full Version',
+                value: printType,
+                link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
+                
+            }  
+    
+        } else {
+            const footerURL = 'www.carloswu.xyz';
+            const name = data.name.replace(/\s/g, '');;
+            const position = data.cats.position;
+            const updated = 'Updated ' + moment(data.updatedAt).year();
+            const folder = path.join(__dirname, '../', '/docs');
+            const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
+            options = {
+              output : uri,
+              ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
+              headerRight : `${footerURL}`,
+              footerRight: '[page]',
+              headerLeft: `${headerText} - ${position}`,
+              footerLeft: `${updated}`,
+              minimumFontSize: 12,
+              headerFontSize: 8,
+              footerFontSize: 8,
+              enableSmartShrinking:false,
+              enableExternalLinks: true,
+              enableInternalLinks: true,
+              lowquality: true,
+              marginTop:12,
+              marginBottom:12,
+              marginLeft:12,
+              marginRight:12
+            }
+            
+            pdfURL = {
+                name: printType === 'q' ? 'Quick Version' : 'Full Version',
+                value: printType,
+                link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
+                
+            }
+        }
     } else if (printType === 'cl') {
         const footerURL = 'www.carloswu.xyz';
         const name = data.name.replace(/\s/g, '');;
-        const updated = 'Updated ' + moment(data.updatedAt).year();
         const folder = path.join(__dirname, '../', '/docs');
         const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
         options = {
           output : uri,
           ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
-          headerRight : `${footerURL}`,
+          headerRight : `Carlos Wu`,
           footerRight: '[page]',
-          footerLeft: `Generated by ${footerURL} - ${updated}`
+          footerLeft: `Generated by ${footerURL}`,
+          minimumFontSize: 12,
+          headerFontSize: 8,
+          footerFontSize: 8,
+          enableSmartShrinking:false,
+          enableExternalLinks: true,
+          enableInternalLinks: true,
+          lowquality: true,
+          marginTop:12,
+          marginBottom:12,
+          marginLeft:12,
+          marginRight:12
         }
         
         pdfURL = {
-            name: printType === 'q' ? 'Quick Version' : printType === 'f' ? 'Full Version' : printType === 'cl' ? 'Cover Letter default version' : '',
+            name: 'Cover Letter default version',
             value: printType,
             link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
-            
         }    
-    }
-    
+}
    
     return new Promise((ok,fail) => {
         wkhtmltopdf(url, options, (err) => {

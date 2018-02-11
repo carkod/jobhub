@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import { Item, Header, Accordion, Button, Icon, List, Label, Message } from 'semantic-ui-react';
+import { Item, Header, Accordion, Button, Icon, List, Label, Message, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -69,16 +69,20 @@ class CoverLetters extends Component {
         content: (
           <div className="metadata" >
             <div className="meta-content">
-              <List horizontal relaxed>
-                <List.Item><Icon fitted name='id card' /> {letter._id || 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='checked calendar' /> {moment(letter.updateDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='clock' /> {moment(letter.createdDate).format('Do MMMM YYYY') || 'N/A'}</List.Item>
-
-                <List.Item><Icon fitted name='briefcase' /> {letter.cats ? letter.cats.position : 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='talk' /> {letter.cats ? letter.cats.locale : 'N/A'}</List.Item>
-                <List.Item><Icon fitted name='globe' /> {letter.cats ? letter.cats.cvCountry : 'N/A'}</List.Item>  
-              </List>
+              <Segment.Group>
+                  <Segment.Group horizontal>
+                    <Segment><Icon fitted name='id card' /> {letter._id || 'N/A'}</Segment>
+                    <Segment><Icon fitted name='checked calendar' /> {moment(letter.updateDate).format('Do MMMM YYYY') || 'N/A'}</Segment>
+                    <Segment><Icon fitted name='clock' /> {moment(letter.createdDate).format('Do MMMM YYYY') || 'N/A'}</Segment>
+                  </Segment.Group>
+                  <Segment.Group horizontal>
+                    <Segment><Icon fitted name='briefcase' /> {letter.cats ? letter.cats.position : 'N/A'}</Segment>
+                    <Segment><Icon fitted name='talk' />{letter.cats ? letter.cats.locale : 'N/A'}</Segment>
+                    <Segment><Icon fitted name='globe' />{letter.cats ? letter.cats.cvCountry : 'N/A'}</Segment>
+                  </Segment.Group>
+              </Segment.Group>    
             </div>
+            <br />
             <div className="buttons">
               <Button primary><Link style={{color: '#fff', display:'block'}} to={`/coverletters/id=${letter._id}`}>Edit/View</Link></Button>
               <Button onClick={this.handleCopy(i)} secondary>Copy</Button>

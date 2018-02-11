@@ -12,7 +12,7 @@
     "build-sass": "node-sass -o dist/pdf/assets -x --output-style compressed src/pdf/styles/",
     "build": "npm-run-all -p build-js build-sass",
     "production": "node dist/server.js",
-    "deploy": "scp -r dist/ root@188.166.92.221:/var/www/carloswu.xyz/back/dist/"
+    "deploy": "scp -r src/ root@188.166.92.221:/var/www/carloswu.xyz/back/"
   },
   "keywords": [
     "back-end",

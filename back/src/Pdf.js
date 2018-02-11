@@ -39,19 +39,43 @@ export default function Pdf (app,db) {
         })
     })
     
+    app.get('/pdf/fullprint-esp/:id', (req, res, next) => {
+        const {id} = req.params;
+        CVModel.findOne({_id: id}, (findErr, content) => {
+        if (findErr) throw findErr;
+            res.render('FullPrint(esp).jsx', content, (err, html) => {
+                if (err) throw err;
+                res.send(html)
+            })    
+        
+        })
+    })
+    
+    app.get('/pdf/quickprint-esp/:id', (req, res, next) => {
+        const {id} = req.params;
+        CVModel.findOne({_id: id}, (findErr, content) => {
+        if (findErr) throw findErr;
+            res.render('QuickPrint(esp).jsx', content, (err, html) => {
+                if (err) throw err;
+                res.send(html)
+            })    
+        
+        })
+    })
+    
     app.get('/pdf/generate/:id', (req, res, next) => {
         const {id} = req.params;
         
         CVModel.findOne({_id: id}, function(err, content) {
             if (err) throw err;
             
-            const printType = 'f';  
-            const printType2 = 'q';  
-            const headerText = 'Currilum Vitae';
-            const url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + id;
-           
+            let printType, printType2, headerText, url;
             
-            Promise.all([generatePDF(url, req, content, printType, headerText), generatePDF(url, req, content, printType2, headerText)]).then(links => res.send(links))
+            printType = 'f';  
+            printType2 = 'q';  
+            headerText = 'Currilum Vitae';
+           
+            Promise.all([generatePDF(req, content, printType, headerText), generatePDF(req, content, printType2, headerText)]).then(links => res.send(links))
             
         })
         //return next();
@@ -77,9 +101,8 @@ export default function Pdf (app,db) {
             
             const printType = 'cl';  
             const headerText = 'Cover Letter';
-            const url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + id;
            console.log(content)
-            Promise.all([generatePDF(url, req, content, printType, headerText)]).then(links => res.send(links))
+            Promise.all([generatePDF(req, content, printType, headerText)]).then(links => res.send(links))
             
         })
         //return next();

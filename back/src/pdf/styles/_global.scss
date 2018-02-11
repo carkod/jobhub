@@ -7,6 +7,7 @@ $dark: #414143;
 $dark-grey:#868e96;
 
 $preset-font: 1.3rem;
+$print-font: 1.3rem;
 
 .serif {
   font-family: 'Source Serif Pro', serif;
@@ -45,12 +46,12 @@ a, a:link {
 
 ul li, dl, ol li {
   @extend .sans-serif;
-  font-size:1rem;
+  font-size:$print-font;
   font-weight:400;
 }
 
 p {
-  font-size:1rem;
+  font-size:$print-font;
   font-weight:400;
 }
 

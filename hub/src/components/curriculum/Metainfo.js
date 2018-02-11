@@ -33,9 +33,7 @@ const Metainfo = props => {
                 <Header.Subheader>{meta._id}</Header.Subheader>
             </Header>
             <div className="section">
-                <Header sub>
-                    META
-                </Header>
+                <Header sub>META</Header>
                 
                 <Segment.Group>
                 <Segment.Group horizontal>
@@ -46,7 +44,7 @@ const Metainfo = props => {
                   <Segment><b>Slug</b>: {meta.slug}</Segment>
                   
                     <Segment><b>PDF</b>:
-                    {meta.pdf[0] !== undefined ? meta.pdf.map((el,i) => 
+                    {meta.pdf[0] !== undefined && meta.pdf[0] !== null ? meta.pdf.map((el,i) => 
                          <a key={shortid.generate()} href={el.link}>{'\u00A0' + el.name + '\u00A0'}</a>
                     ) : ''}
                     </Segment>

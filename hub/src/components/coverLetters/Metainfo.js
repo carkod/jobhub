@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import moment from 'moment';
 import shortid from 'shortid';
-import { Header, List, Select } from 'semantic-ui-react';
+import { Header, List, Select, Segment } from 'semantic-ui-react';
 import {positions, languages} from '../Categories';
 
 
@@ -25,19 +25,20 @@ const Metainfo = props => {
                 <Header sub>
                     META
                 </Header>
-                <List>
-                    <List.Item><b>Created</b>: {moment(meta.createdAt).calendar()}</List.Item>
-                    <List.Item><b>Updated</b>: {moment(meta.updatedAt).calendar()}</List.Item>
-                    <List.Item><b>PDF</b>: {meta.pdf.map((p,i) => 
+                <Segment.Group>
+                  <Segment.Group horizontal>
+                    <Segment><b>Created</b>: {moment(meta.createdAt).calendar()}</Segment>
+                    <Segment><b>Updated</b>: {moment(meta.updatedAt).calendar()}</Segment>
+                    <Segment><b>PDF</b>: {meta.pdf.map((p,i) => 
                         <a key={shortid.generate()} href={p.link}>{'Cover Letter'}</a>
-                    )}</List.Item>
-                    <List.Item>
-                        <Select placeholder={position} options={positions} name='position' onChange={props.onChange} selection/>
-                    </List.Item>
-                    <List.Item>
-                        <Select placeholder={language} options={languages} name='locale' onChange={props.onChange} />
-                    </List.Item>
-                </List>
+                    )}</Segment>
+                  </Segment.Group>
+                  <Segment.Group horizontal>
+                    <Segment><Select placeholder={position} options={positions} name='position' onChange={props.onChange} selection/></Segment>
+                    <Segment><Select placeholder={language} options={languages} name='locale' onChange={props.onChange} /></Segment>
+                    <Segment></Segment>
+                  </Segment.Group>
+                </Segment.Group>
             </div>
         </div>
     )

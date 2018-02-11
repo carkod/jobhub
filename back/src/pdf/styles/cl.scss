@@ -3,8 +3,88 @@
 @import './_layout.scss';
 
 #coverletter {
-    p, li, a { font-size: 1.5rem;}
+    p, li, a { font-size: 1.3rem;}
     p {
-        strong, em, b, .underline, .strikethrough { font-size: 1.5rem; }
+        strong, em, b, .underline, .strikethrough { font-size: 1.3rem; }
+    }
+}
+
+#quickprint {
+    
+    h1 {@extend .sans-serif; font-weight: 600; font-size: 30px; margin-bottom:1.5rem;
+        small {color:$dark-grey; font-weight:300; font-size: 25px;}
+    }
+    h2 {@extend .sans-serif; font-weight: 200; font-size: 23px; margin-bottom: 0.5rem;}
+    h3 {@extend .sans-serif; font-weight: 600; font-size: 20px; }
+    h4 {
+        @extend .sans-serif; font-weight:400; font-size: 1.4rem;
+        
+        small {
+            font-size:1rem;
+            font-weight:200; 
+            color:$dark-grey;
+        }
+    }
+    
+    strong {font-weight:600; font-size:$print-font;}
+    section {
+        margin: 1rem 0;
+    }
+    
+    .row {padding-top:0.5rem; padding-bottom: 0.5rem;}
+    
+    .hide {
+        display:none;
+    }
+    
+    .field {
+        @extend .sans-serif; 
+        font-weight: 400; 
+        font-size: $print-font; 
+        padding:0.5rem 1rem;
+        
+        strong {font-weight: 600;}
+    }
+    
+    .ui.dividing.header {
+        margin: 1rem 0;
+        padding: 0.5rem 0;
+    }
+    
+    .workplace, .position, {
+        padding-bottom:0px;
+    }
+    .work-date, .work-desc {
+        padding-top:10px;
+    }
+    
+    .work-date {
+        @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
+    }
+    
+    #education .desc {
+        display:none;
+    }
+    
+    
+    #country, #passport, #city, #pob, #dob {
+        display:none;
+    }
+    
+    .skills {
+        float:left;
+        margin:0px;
+        width:33%;
+        .level {
+            display:none;
+        }
+        small {
+            opacity:1 ;
+        }
+    }
+    
+    #languages {
+        .label.ten.wide.column {}
+        .level.six.wide.column {display:none;}
     }
 }

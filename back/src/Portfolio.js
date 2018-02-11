@@ -11,7 +11,6 @@ let ProjectModel = mongoose.model('ProjectModel', ProjectSchema );
 const fileDir = 'uploads/'
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-      console.log(req.body)
     cb(null, fileDir);
   },
   filename(req, file, cb) {

@@ -12,7 +12,7 @@ class CoverLetter extends Component {
       <body>
       <div id="coverletter" className="container">
         <main className="clContent">
-            <h1>Carlos Wu - <small>{cv.name}</small></h1>
+            <h1>Cover Letter - <small>{cv.name}</small></h1>
             <section id="summary">
               <div dangerouslySetInnerHTML={{__html: cv.desc}}></div>
             </section>
