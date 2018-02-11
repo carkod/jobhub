@@ -30,4 +30,7 @@ p {
   font-size: 1.3rem;
   font-weight: 400; }
 
+table tr {
+  page-break-inside: avoid; }
+
 /*# sourceMappingURL=_global.css.map */

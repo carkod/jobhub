@@ -69,7 +69,7 @@ export default function Pdf (app,db) {
         CVModel.findOne({_id: id}, function(err, content) {
             if (err) throw err;
             
-            let printType, printType2, headerText, url;
+            let printType, printType2, headerText;
             
             printType = 'f';  
             printType2 = 'q';  
@@ -101,7 +101,6 @@ export default function Pdf (app,db) {
             
             const printType = 'cl';  
             const headerText = 'Cover Letter';
-           console.log(content)
             Promise.all([generatePDF(req, content, printType, headerText)]).then(links => res.send(links))
             
         })

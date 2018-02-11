@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { combineReducers } from 'redux';
 
 import { SET_CV } from './actions/cv';

@@ -13,7 +13,7 @@ class Education extends Component {
           {educ.map((ed, i) => 
             <div key={i} className="ui grid">
               <div className="workplace six wide column">
-                  <h3>{ed.insitution}</h3>
+                  <h3>{ed.institution}</h3>
               </div>
               
               <div className="position ten wide column">
