@@ -18,30 +18,49 @@ import Letter from './components/coverLetters/Letter';
 import LinkedIn from './components/LinkedIn';
 import Relationships from './components/relationships/Relationships';
 
-const App = (props) => {
+class App extends Component {
+    
+    constructor(p) {
+      super(p);
+      this.state = {}
+      this.notify = this.notify.bind(this);
+    }
+    
+    componentWillReceiveProps (p) {
+      console.log(p)
+    }
   
-    return (
-    <BrowserRouter>
-      <Switch>
-        <Layout>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/cv" component={Listing} />
-          <Route exact path="/cv/positions" component={Positions} />
-          <Route exact path="/relationships" component={Relationships} />
-          {/*<Route exact path="/cv/languages" component={Cats} />*/}
-          <Route path="/cv/id=:id" component={Detail} />  
-          
-          <Route exact path="/portfolio" component={Portfolio} />
-          <Route exact path="/portfolio/project/id=:id" component={Project} />
-          
-          <Route exact path="/coverletters" component={CoverLetters} />
-          <Route exact path="/coverletters/id=:id" component={Letter} />
-          
-          <Route exact path="/jobs/linkedin/" component={LinkedIn} />
-        </Layout>
-      </Switch>
-    </BrowserRouter>
+    notify(status) {
+      console.log(status)
+      /*this.setState({status: status})*/
+    }
+    
+    render(){
+      
+      return (
+      <BrowserRouter>
+        <Switch>
+          <Layout>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/cv" component={Listing} />
+            <Route exact path="/cv/positions" component={Positions} />
+            <Route exact path="/relationships" component={Relationships} />
+            {/*<Route exact path="/cv/languages" component={Cats} />*/}
+            <Route path="/cv/id=:id" component={Detail}/>  
+            
+            <Route exact path="/portfolio" component={Portfolio} />
+            <Route exact path="/portfolio/project/id=:id" component={Project} />
+            <Route exact path="/coverletters" component={CoverLetters} />
+            <Route exact path="/coverletters/id=:id" component={Letter} />
+            <Route exact path="/jobs/linkedin/" component={LinkedIn} />
+            {console.log(this.props)}
+            
+          </Layout>
+        </Switch>
+      </BrowserRouter>
     );
+    }
+  
 }
 
 export default App;

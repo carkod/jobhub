@@ -194,3 +194,16 @@ body {
 #metainfo .ui.header input {
   padding:0;
 }
+
+
+#notification {
+  position: fixed;
+  top:2rem;
+  right:2rem;
+  z-index: 999999;
+}
+
+#notification .ui.message {
+ background-color:#1aa62a; 
+ color:#fff;
+}

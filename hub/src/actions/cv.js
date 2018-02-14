@@ -3,12 +3,15 @@ import {API_URL, PDF_URL} from './dev';
 
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
-export const CV_FETCHED = 'CV_FETCHED';
 export const CV_PASTED = 'CV_PASTED';
+export const CV_FETCHED = 'CV_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
+export const PDF_GENERATED = 'PDF_GENERATED';
 
 function handleResponse(response) {
     if (response.ok) {
@@ -20,8 +23,21 @@ function handleResponse(response) {
     }
 }
 
+export function addNotification(status) {
+    return {
+        type: ADD_NOTIFICATION,
+        status
+    }
+}
+
+export function removeNotification(status) {
+    return {
+        type: REMOVE_NOTIFICATION,
+        status
+    }
+}
+
 export function setFormFields (data) {
-    console.log(data)
     return {
         type: SET_FIELDS,
         data
@@ -42,26 +58,10 @@ export function cvDeleted(cvs) {
     }
 }
 
-
-export function cvFetched(cv) {
-  return {
-    type: CV_FETCHED,
-    cv
-  }
-}
-
-
 export function addCV(data) {
     return {
         type: ADD_CV,
         data
-    }
-}
-
-export function deletedCV(id) {
-    return {
-        type: CV_DELETED,
-        id
     }
 }
 
@@ -72,18 +72,18 @@ export function retrievedCV(data) {
     }
 }
 
-export function syncPersdetails(fields) {
-    return {
-        type: SYNC_PERSDETAILS,
-        fields
-    }
-}
-
-export function cvPasted(cv) {
+export function cvPasted(id) {
   return {
     type: CV_FETCHED,
-    cv
+    id
   }
+}
+
+export function pdfReady(pdf) {
+    return {
+        type: PDF_GENERATED,
+        pdf
+    }
 }
 
 export function deleteCV(id) {
@@ -95,7 +95,10 @@ export function deleteCV(id) {
            }
         }) 
         .then(handleResponse)
-        .then(data => dispatch(cvDeleted(id)));   
+        .then(data => {
+            dispatch(cvDeleted(id))
+            dispatch(addNotification(cvDeleted(data)))
+        });   
     }
 }
 
@@ -109,7 +112,10 @@ export function copyCV(data) {
            }
         })
         .then(handleResponse)
-        .then(data => dispatch(cvPasted(data.CV)));
+        .then(id => {
+            dispatch(cvPasted(id))
+            dispatch(addNotification(cvPasted(id)));
+        });
     }
     
 }
@@ -122,25 +128,40 @@ export function saveCV(data) {
            headers: {
                "Content-Type" : "application/json"
            }
-        }).then(handleResponse).then(data => dispatch(addCV(data))).then(data);   
+        })
+        .then(handleResponse)
+        .then(data => {
+            dispatch(addCV(data));
+            dispatch(addNotification(addCV(data)));
+        });   
     }
 }
 
 export function generatePDF(id) {
-    return fetch(`${PDF_URL}/generate/${id}`, {
-        method:'GET',
-        headers : { 
-        "Content-Type": "application/json",
-       },
-    }).then(handleResponse)
-    
+    return dispatch => {
+        return fetch(`${PDF_URL}/generate/${id}`, {
+            method:'GET',
+            headers : { 
+            "Content-Type": "application/json",
+           },
+        })
+        .then(handleResponse)
+        .then(data => {
+            dispatch(pdfReady(data));
+            dispatch(addNotification(pdfReady(data)))
+        })
+    }
 }
 
 export function fetchCVs() {
     return dispatch => {
         fetch(`${API_URL}/cvs`)
-        .then(res => res.json())
-        .then(data => dispatch(setCVs(data)))
+        //.then(res => res.json())
+        .then(handleResponse)
+        .then(data => {
+            dispatch(setCVs(data));
+            dispatch(addNotification(setCVs(data)));
+        })
     }
 }
 

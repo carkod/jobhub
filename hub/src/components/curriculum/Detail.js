@@ -8,7 +8,7 @@ import shortid from 'shortid';
 import moment from 'moment';
 import { Icon, Button, Header, Input, Checkbox } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
-import { saveCV, fetchCVs, generatePDF } from '../../actions/cv';
+import { saveCV, fetchCVs, generatePDF, addNotification } from '../../actions/cv';
 import {fetchCats} from '../../actions/project';
 import { authorization } from '../../actions/linkedin';
 import SysMessage from '../SysMessage';
@@ -21,7 +21,6 @@ import Education from './Education';
 import LangSkills from './LangSkills';
 import WebdevSkills from './WebdevSkills';
 import ItSkills from './ItSkills';
-
 
 class Detail extends Component {
 
@@ -42,6 +41,10 @@ class Detail extends Component {
     this.props.fetchCVs();
     this.props.fetchCats();
     document.addEventListener('keydown', this.keySave, false);
+  }
+  
+  componentWillUnmount = () => {
+    document.removeEventListener('keydown', this.keySave, false);
   }
   
   componentWillReceiveProps = (props) => {
@@ -83,7 +86,7 @@ class Detail extends Component {
         e.preventDefault();
         e.stopPropagation();
         this.props.saveCV(cv).then(status => {
-          console.log('saved')
+          console.log('keyboard save')
           //this.state.detail.messages.savedID = status.data._id;
           //this.setState({ messages })
         });
@@ -94,22 +97,21 @@ class Detail extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     clearTimeout();
-    const {messages} = this.state.detail;
-    const {_id} = this.state.cv;
+    const {cv, notification} = this.state;
     
-    generatePDF(_id).then(url => {
-      this.state.cv.pdf = url;
-      this.props.saveCV(this.state.cv).then(status => {
-      this.state.detail.messages.savedID = status.data._id;
-      this.setState({ messages });
-    });      
-        
+          
+    this.props.generatePDF(cv._id).then(url => {
+      console.log()
+      // console.log(url)
+      //this.state.cv.pdf = notification.pdf;
+      this.props.saveCV(cv);      
     })  
     
   }
   
   render() {
     const {cv, categories} = this.state;
+    // console.log(this.props)
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
@@ -131,8 +133,6 @@ class Detail extends Component {
           <Checkbox type="checkbox" label='Push to Jobbio' toggle checked={this.state.jobbio} onChange={() => this.setState({ jobbio: !this.state.jobbio})} />
           </div>
           
-          <SysMessage messages={this.state.detail.messages} />
-          
           <br />          
           
           <Button type="submit" value="Save">
@@ -147,25 +147,25 @@ class Detail extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log(state)
   if (state.cvs[0]._id && state.cats[0]._id) {
     const cv = state.cvs.find(item => item._id === props.match.params.id);
+    
     return {
       cv: cv,
       categories: state.cats,
-      detail: state.detail
+      notification: state.notification
     }
   } else {
     return { 
       cv: state.cvs[0],
       categories: state.cats,
-      detail: state.detail
+      notification: state.notification
     }    
   }
   
 }
 
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats })(Detail);
+export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats, addNotification, generatePDF })(Detail);
 
 

@@ -75,7 +75,10 @@ export default function Pdf (app,db) {
             printType2 = 'q';  
             headerText = 'Currilum Vitae';
            
-            Promise.all([generatePDF(req, content, printType, headerText), generatePDF(req, content, printType2, headerText)]).then(links => res.send(links))
+            Promise.all([generatePDF(req, content, printType, headerText), generatePDF(req, content, printType2, headerText)]).then(links => {
+                content.pdf = links;
+                res.send(content)
+            })
             
         })
         //return next();
@@ -101,7 +104,11 @@ export default function Pdf (app,db) {
             
             const printType = 'cl';  
             const headerText = 'Cover Letter';
-            Promise.all([generatePDF(req, content, printType, headerText)]).then(links => res.send(links))
+            Promise.all([generatePDF(req, content, printType, headerText)]).then(links => {
+                
+                res.send(links)
+                
+            })
             
         })
         //return next();

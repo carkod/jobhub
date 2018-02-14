@@ -1,6 +1,8 @@
+/* eslint-disable */
+
 import { combineReducers } from 'redux';
 
-import { SET_CV, CV_DELETED, SYNC_PERSDETAILS } from './actions/cv';
+import { SET_CV, CV_DELETED, SYNC_PERSDETAILS, ADD_NOTIFICATION, REMOVE_NOTIFICATION, CV_FETCHED, PDF_GENERATED } from './actions/cv';
 import { SET_CLS, CL_DELETED } from './actions/cl';
 import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED, SET_CATS } from './actions/project';
 import { SAVED_CATS } from './actions/cats';
@@ -71,13 +73,6 @@ const cvInitial =
         }
     ]
 
-
-const detailInit = {
-    messages: {
-        savedID: '',
-        savedName: '',
-    }
-}
 
 const pfInit = [
    {
@@ -151,26 +146,16 @@ function cvs (state = cvInitial, action = {} ){
         case CV_DELETED:
             const deleted = state.filter((item) => item._id !== action.cvs);
             return deleted;
-        case SYNC_PERSDETAILS:
-            
-            return [ ...state, action.fields]
-            /*return Object.assign({}, state, {
-                persdetails: action.fields
-            })*/
-        
+        case CV_FETCHED:
+            return state;
+        case PDF_GENERATED:
+            const oldIndex = state.findIndex(i => i._id === action.pdf._id);
+            state[oldIndex].pdf = action.pdf.pdf;
+            return state;
         default: 
             return state;
     }
 }
-
-function detail (state = detailInit, action = {}) {
-    switch (action.type) {
-        
-        default:
-            return state
-    }
-}
-
 
 // ++correct here, always return the state then the data
 const portfolio = (state = pfInit, action = {}) =>  {
@@ -188,6 +173,7 @@ const portfolio = (state = pfInit, action = {}) =>  {
         case PROJECT_DELETED:
             const deleted = state.filter((item) => item._id !== action.cvs);
             return deleted;
+        
         default:
             return state
     }
@@ -222,5 +208,15 @@ const cats = (state = catInit, action = {}) => {
     }
 }
 
-export default combineReducers({ cvs, detail, portfolio, coverLetters, cats });
+const notification = (state = [],action) => {
+    switch (action.type) {
+        case ADD_NOTIFICATION:
+            const newState = Object.assign({}, state, action.status);
+            return newState;
+        default:
+            return []
+    }
+}
+
+export default combineReducers({ cvs, portfolio, coverLetters, cats, notification });
 

@@ -48,7 +48,6 @@ class Listing extends Component {
           getID = getItem._id,
           getName = getItem.name;
     this.props.deleteCV(getID).then(cv => {
-      this.setState({ deletedID: cv.id, deletedName: getName });
       this.setState({ openAccordion: false  }); 
       this.props.fetchCVs();
     })
@@ -64,18 +63,17 @@ class Listing extends Component {
     this.props.cvs.map((cv, i) => ({
       title: {
         key: shortid.generate(),  
-        content: <span color={this.state.savedID === cv._id ? 'red' : 'inherit' }>{cv.name}</span>,
+        content: <span>{cv.name !== undefined ? cv.name : 'Enter name'}</span>,
       },
       content: {
         key: shortid.generate(),
         content: (
           <div className="metadata">
           <div className="meta-content">
-          
             <Segment.Group>
               <Segment.Group horizontal>
                 <Segment>
-                  <Icon fitted name='id card' /> {cv._id || 'N/A'}
+                  <Icon fitted name='id card' />{cv._id || 'N/A'}
                 </Segment>
                 
                 <Segment>

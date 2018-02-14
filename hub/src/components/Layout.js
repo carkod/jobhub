@@ -3,28 +3,19 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { Sidebar, Button, Header, Segment, Menu } from 'semantic-ui-react';
-
 import Nav from './Nav';
-
+import Notifications from './Notification';
 import 'semantic-ui-css/semantic.min.css';
 
 class Layout extends Component {
   
-  
-  
   state = {
     navVisible: true,
-  }
-
-  
-  componentDidMount = () => {
-    
   }
   
   navVisibility = () => {
     this.setState({ navVisible: !this.state.navVisible })
   }
-  
   
   render() {
    
@@ -52,17 +43,21 @@ class Layout extends Component {
     return (
       <div className="layout">
         <Nav />
-        {/*This is Layout*/}
-        
         <div className={'pusher ' + (this.state.navVisible ? 'navVisible' : '')} style={style}>
         <div className="dimmer" />
         
           <i className={'icon toggle large ' + (this.state.navVisible ? 'on inverted green' : 'off')} onClick={this.navVisibility} />
           {this.props.children}
         </div>
+        <Notifications {...this.props}/>
       </div>
     );
   }
+}
+
+const mapStateToProps = (s,p) => {
+  const newObj = Object.assign({}, p, s)
+  return newObj
 }
 
 export default Layout;

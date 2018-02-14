@@ -124,22 +124,19 @@ export default function CVs (app, db) {
         
         const id = cv._id;
         delete r._id;
-        CVModel.create(cv, (err, msg) => {
+        CVModel.create(cv, (err, content) => {
             
-          if (err) {
+          if (err) 
               throw err;
               
-          } else {
-              
-              if (msg.ok) {
+              if (content !== undefined) {
                 const savedID = id;   
-                res.json({ _id: savedID, status: !!msg.ok });
-                //console.log('changes saved!')  
+                res.json({ _id: content._id, status: true });
+                console.log('changes saved!')  
               } else {
-                  res.json({ status: !!msg.ok });
-                  //console.log('No changes')  
+                  res.json({ status: false });
+                  console.log('No changes')  
               }
-          }
         });
         
         } else {
