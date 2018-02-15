@@ -8,8 +8,6 @@ import moment from 'moment';
 import shortid from 'shortid';
 import { fetchCLs, saveCL, deleteCL, copyCL } from '../../actions/cl';
 import NewCL from './NewCL';
-import Metainfo from './Metainfo';
-import SysMessage from './SysMessage';
 
 class CoverLetters extends Component {
   
@@ -97,8 +95,7 @@ class CoverLetters extends Component {
     
     return (
       <div id="cls" className="">
-        <h1>Section - All Cover Letters <NewCL sysmessage={({savedID, savedName}) => {this.setState({ savedID: savedID, savedName: savedName}); this.props.fetchCLs()}} /></h1>
-        {/*<SysMessage messages={this.state} />*/}
+        <h1>Section - All Cover Letters <NewCL /></h1>
         <div className="listItem">
           {cls ? renderList : 'Loading cover letters...'}
         </div>

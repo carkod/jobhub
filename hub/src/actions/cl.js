@@ -4,8 +4,9 @@ export const SET_CLS  = 'SET_CLS';
 export const ADD_CL  = 'ADD_CL';
 export const CL_FETCHED = 'CL_FETCHED';
 export const RETRIEVED_CL = 'RETRIEVED_CL';
-//export const CL_UPDATED = 'CL_UPDATED';
 export const CL_DELETED = 'CL_DELETED';
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const PDF_GENERATED = 'PDF_GENERATED';
 
 function handleResponse(response) {
     if (response.ok) {
@@ -17,6 +18,19 @@ function handleResponse(response) {
     }
 }
 
+export function pdfGenerated(status) {
+    return {
+        type: PDF_GENERATED,
+        status
+    }
+}
+
+export function addNotification(status) {
+    return {
+        type: ADD_NOTIFICATION,
+        status
+    }
+}
 
 export function setCLs(CLs) {
     return {
@@ -105,7 +119,11 @@ export function saveCL(data) {
            headers: {
                "Content-Type" : "application/json"
            }
-        }).then(handleResponse).then(data => dispatch(addCL(data))).then(data);   
+        }).then(handleResponse)
+        .then(data => {
+            dispatch(addCL(data))
+            dispatch(addNotification(addCL(data)))
+        })
     }
 }
 
@@ -113,15 +131,21 @@ export function fetchCLs() {
     return dispatch => {
         fetch(`${API_URL}/cls`)
         .then(res => res.json())
-        .then(data => dispatch(setCLs(data)))
+        .then(data => {
+            dispatch(setCLs(data))
+            dispatch(addNotification(setCLs(data)));
+        })
     }
 }
 
 export function fetchCL(id) {
     return dispatch => {
-        fetch(`${API_URL}/CL/${id}`)
+        return fetch(`${API_URL}/CL/${id}`)
         .then(res => res.json())
-        .then(data => dispatch(setCLs(data)))
+        .then(data => {
+            dispatch(setCLs(data))
+            dispatch(addNotification(setCLs(data)));
+        })
     }
 }
 
@@ -131,6 +155,7 @@ export function generatePDF(id) {
         headers : { 
         "Content-Type": "application/json",
        },
-    }).then(handleResponse)
+    })
+    .then(handleResponse)
     
 }

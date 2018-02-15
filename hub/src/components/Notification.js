@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 
 const message = action => {
-    // console.log(action)
+    console.log(action)
     switch (action) {
         case 'SET_CV':
             return 'CV fetched';
@@ -20,6 +20,14 @@ const message = action => {
             return 'CV copied';
         case 'PDF_GENERATED':
             return 'PDFs generated';
+        case 'SET_CLS':
+            return 'Cover Letter fetched';
+        case 'ADD_CL':
+            return 'Cover Letter saved';
+        case 'CL_DELETED':
+            return 'Cover Letter deleted';
+        case 'CL_FETCHED':
+            return 'Cover Letter copied';
         default:
             return false;
     }

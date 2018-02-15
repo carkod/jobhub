@@ -133,8 +133,7 @@ class Listing extends Component {
     
     return (
       <div id="list" className="">
-        <h1>Section - CV <AddNew sysmessage={({savedID, savedName}) => {this.setState({ savedID: savedID, savedName: savedName}); this.props.fetchCVs()}} /></h1>
-        <SysMessage messages={this.state} />
+        <h1>Section - CV <AddNew /></h1>
         <div className="listItem">
           {renderList}
         </div>

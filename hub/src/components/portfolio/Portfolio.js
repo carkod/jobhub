@@ -8,8 +8,7 @@ import moment from 'moment';
 import shortid from 'shortid';
 import { fetchPortfolio, saveProject, deleteProject, copyProject } from '../../actions/project';
 import NewProject from './NewProject';
-import Metainfo from './Metainfo';
-import SysMessage from './SysMessage';
+import Metainfo from '../Metainfo';
 
 class Portfolio extends Component {
   
@@ -37,8 +36,6 @@ class Portfolio extends Component {
     if (portfolio) {
       this.props.copyProject(newCV).then(status => {
           this.props.fetchPortfolio();
-          //this.state.detail.messages.savedID = status.data._id;
-          //this.setState({ messages })
         });
     }
   }
@@ -49,7 +46,6 @@ class Portfolio extends Component {
           getName = getItem.name;
           
     this.props.deleteProject(getID).then(cv => {
-      this.setState({ deletedID: cv.id, deletedName: getName });
       this.setState({ openAccordion: false  }); 
       this.props.fetchPortfolio();
     })
@@ -96,8 +92,7 @@ class Portfolio extends Component {
     
     return (
       <div id="portfolio" className="">
-        <h1>Section - All projects <NewProject sysmessage={({savedID, savedName}) => {this.setState({ savedID: savedID, savedName: savedName}); this.props.fetchPortfolio()}} /></h1>
-        {/*<SysMessage messages={this.state} />*/}
+        <h1>Section - All projects <NewProject /></h1>
         <div className="listItem">
           {portfolio ? renderList : 'Loading projects...'}
         </div>

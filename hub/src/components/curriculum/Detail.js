@@ -12,7 +12,7 @@ import { saveCV, fetchCVs, generatePDF, addNotification } from '../../actions/cv
 import {fetchCats} from '../../actions/project';
 
 import Summary from './Summary'; 
-import Metainfo from './Metainfo'; 
+import Metainfo from '../Metainfo'; 
 import PD from './PD'; 
 import WorkRepeater from './WorkRepeater';
 import Education from './Education';
@@ -77,6 +77,12 @@ class Detail extends Component {
     this.setState({langSkills, webdevSkills, itSkills, workExp})
   }
   
+  cvName = e => {
+    const {project} = this.state;
+    project[e.target.name] = e.target.value
+    this.setState({ project })
+  }
+  
   keySave = e => {
     const {cv} = this.state;
     if (e.ctrlKey || e.metaKey) {
@@ -99,7 +105,6 @@ class Detail extends Component {
     
           
     this.props.generatePDF(cv._id).then(url => {
-      console.log()
       // console.log(url)
       //this.state.cv.pdf = notification.pdf;
       this.props.saveCV(cv);      
@@ -113,7 +118,8 @@ class Detail extends Component {
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
-        <Metainfo categories={categories} meta={cv} onChange={this.metaChange} />
+        
+        <Metainfo meta={cv} onChange={this.metaChange} categories={categories} name={this.projectName}/>
         <div className="container">
           <Summary summary={cv.summary} onChange={this.summaryChange} />
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />

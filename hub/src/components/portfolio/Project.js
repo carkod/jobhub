@@ -13,7 +13,6 @@ import Metainfo from './Metainfo';
 import Files from './Files'; 
 import Editor from './Editor'; 
 import Links from './Links'; 
-import SysMessage from './SysMessage';
 
 class Project extends Component {
 
@@ -108,7 +107,6 @@ class Project extends Component {
             <Editor value={project.desc} onChange={v => this.descChange(v)} />
             <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
             <Links links={project.links} onChange={l => this.handleChange(l)} />
-            {/*<SysMessage messages={this.state.projUI.messages} />*/}
             
             <Button type="submit" value="Save">
               <Icon name="save" />Save

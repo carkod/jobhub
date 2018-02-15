@@ -7,11 +7,11 @@ import moment from 'moment';
 import { Icon, Button, Header, Input } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 
-import { saveCL, fetchCLs, generatePDF } from '../../actions/cl';
+import { saveCL, fetchCLs, generatePDF, addNotification } from '../../actions/cl';
 import { fetchCats } from '../../actions/cats';
-import Metainfo from './Metainfo'; 
+import Metainfo from '../Metainfo'; 
 import Editor from './Editor'; 
-import SysMessage from './SysMessage';
+
 
 class Letter extends Component {
 
@@ -54,6 +54,12 @@ class Letter extends Component {
     this.setState({ desc })
   }
   
+  handleName = e => {
+    const {project} = this.state;
+    project[e.target.name] = e.target.value
+    this.setState({ project })
+  }
+  
   handleChange = ({links}) => {
     this.setState({links: links})
   }
@@ -79,27 +85,24 @@ class Letter extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const {cl} = this.state;
-    //const {messages} = this.state.projUI;
     
     generatePDF(cl._id).then(p => {
         this.state.cl.pdf = p;
-        this.setState({ cl })  
+        addNotification({type: 'PDF_GENERATED', p})
+        this.props.saveCL(cl)
     })
     
-    this.props.saveCL(cl).then(result => {
-      
-    })
+    
   }
   
   
   render() {
     const {cl} = !!Object.keys(this.state).length ? this.state : this.props;
     const {cats} = this.props;
-    console.log(cl)
     return (
       <div id="cl">
       <form onSubmit={this.onSubmit} name="cl" >
-        <Metainfo meta={cl} onChange={this.metaChange} cats={cats}/>
+      <Metainfo meta={cl} onChange={this.metaChange} categories={cats} name={this.handleName}/>
         <div className="container">
           <Editor value={cl.desc} onChange={v => this.descChange(v)} />
           

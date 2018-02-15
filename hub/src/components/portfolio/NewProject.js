@@ -27,7 +27,6 @@ class NewProject extends Component {
     this.props.saveProject({ _id:'', name: this.state.name })
     .then(project => { 
       this.setState({ savedID: project.data._id, modalOpen: false });
-      this.props.sysmessage({ savedID: project.data._id, savedName: this.state.name })
     })
     
   }

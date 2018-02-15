@@ -27,7 +27,6 @@ class NewCL extends Component {
     this.props.saveCL({ _id:'', name: this.state.name })
     .then(cl => { 
       this.setState({ savedID: cl.data._id, modalOpen: false });
-      this.props.sysmessage({ savedID: cl.data._id, savedName: this.state.name })
     })
     
   }

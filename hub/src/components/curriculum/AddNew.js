@@ -27,7 +27,7 @@ class AddNew extends Component {
     this.props.saveCV({ _id:'', name: this.state.name })
     .then(cv => { 
       this.setState({ savedID: cv.data._id, modalOpen: false });
-      this.props.sysmessage({ savedID: cv.data._id, savedName: this.state.name })
+      
     })
     
   }
