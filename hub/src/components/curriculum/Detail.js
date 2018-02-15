@@ -118,7 +118,6 @@ class Detail extends Component {
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
-        
         <Metainfo meta={cv} onChange={this.metaChange} categories={categories} name={this.projectName}/>
         <div className="container">
           <Summary summary={cv.summary} onChange={this.summaryChange} />
@@ -131,11 +130,11 @@ class Detail extends Component {
           <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
           <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
           
-          <div className="section">
+          {/*<div className="section">
           <Checkbox type="checkbox" label={<label><i className="blue linkedin square large icon"/></label>} toggle checked={this.state.linkedin} onChange={() => this.setState({ linkedin: !this.state.linkedin})} fitted/>
           
           <Checkbox type="checkbox" label='Push to Jobbio' toggle checked={this.state.jobbio} onChange={() => this.setState({ jobbio: !this.state.jobbio})} />
-          </div>
+          </div>*/}
           
           <br />          
           
