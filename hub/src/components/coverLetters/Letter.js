@@ -8,7 +8,7 @@ import { Icon, Button, Header, Input } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 
 import { saveCL, fetchCLs, generatePDF } from '../../actions/cl';
-
+import { fetchCats } from '../../actions/cats';
 import Metainfo from './Metainfo'; 
 import Editor from './Editor'; 
 import SysMessage from './SysMessage';
@@ -29,12 +29,13 @@ class Letter extends Component {
 
   componentDidMount = () => {
     this.props.fetchCLs();
+    this.props.fetchCats();
     document.addEventListener('keydown', this.keySave, false);
   }
   
   componentWillReceiveProps = (props) => {
-    const {cl} = props;
-    this.setState({ cl })
+    const {cl, cats} = props;
+    this.setState({ cl, cats})
   }
   
   metaChange = (e, value) => {
@@ -70,8 +71,6 @@ class Letter extends Component {
         e.preventDefault();
         e.stopPropagation();
         this.props.saveCL(cl).then(status => {
-          //this.state.detail.messages.savedID = status.data._id;
-          //this.setState({ messages })
         });
       }
     }
@@ -89,23 +88,20 @@ class Letter extends Component {
     
     this.props.saveCL(cl).then(result => {
       
-      // this.setState({ messages })  
-      //this.state.detail.messages.savedID = status.data._id;
-      
     })
   }
   
   
   render() {
     const {cl} = !!Object.keys(this.state).length ? this.state : this.props;
+    const {cats} = this.props;
     console.log(cl)
     return (
       <div id="cl">
       <form onSubmit={this.onSubmit} name="cl" >
-        <Metainfo meta={cl} onChange={this.metaChange} />
+        <Metainfo meta={cl} onChange={this.metaChange} cats={cats}/>
         <div className="container">
           <Editor value={cl.desc} onChange={v => this.descChange(v)} />
-          {/*<SysMessage messages={this.state.projUI.messages} />*/}
           
           <Button type="submit" value="Save">
             <Icon name="save" />Save
@@ -120,19 +116,21 @@ class Letter extends Component {
 
 const mapStateToProps = (state, props) => {
   
-  if (state.coverLetters[0]._id) {
+  if (state.coverLetters[0]._id && state.cats[0]._id) {
     const cl = state.coverLetters.find(item => item._id === props.match.params.id);
     return {
       cl: cl,
+      cats: state.cats,
     }
   } else {
     return { 
       cl: state.coverLetters[0],
+      cats: state.cats
     }    
   }
   
 }
 
 
-export default connect(mapStateToProps, { saveCL, fetchCLs })(Letter);
+export default connect(mapStateToProps, { saveCL, fetchCLs, fetchCats })(Letter);
 

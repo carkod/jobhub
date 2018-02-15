@@ -49,7 +49,6 @@ class CoverLetters extends Component {
           getID = getItem._id,
           getName = getItem.name;
     this.props.deleteCL(getID).then(cv => {
-      this.setState({ deletedID: cv.id, deletedName: getName });
       this.setState({ openAccordion: false  }); 
       this.props.fetchCLs();
     })
@@ -110,7 +109,8 @@ class CoverLetters extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-      cls: state.coverLetters
+      cls: state.coverLetters,
+      cats: state.cats,
     }
 }
 

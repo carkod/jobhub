@@ -10,8 +10,6 @@ import { Icon, Button, Header, Input, Checkbox } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
 import { saveCV, fetchCVs, generatePDF, addNotification } from '../../actions/cv';
 import {fetchCats} from '../../actions/project';
-import { authorization } from '../../actions/linkedin';
-import SysMessage from '../SysMessage';
 
 import Summary from './Summary'; 
 import Metainfo from './Metainfo'; 

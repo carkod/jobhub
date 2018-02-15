@@ -67,7 +67,9 @@ export function saveCats(data) {
            headers: {
                "Content-Type" : "application/json"
            }
-        }).then(handleResponse).then(data => {dispatch(savedCats(data)); console.log(data)}).then(data);   
+        }).then(handleResponse).then(data => {
+            dispatch(savedCats(data));
+        }).then(data);   
     }
 }
 

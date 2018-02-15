@@ -4,16 +4,17 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import shortid from 'shortid';
 import { Header, List, Select, Segment } from 'semantic-ui-react';
-import {positions, languages} from '../Categories';
 
 
 const Metainfo = props => {
-    const {meta} = props;
+    const {meta,cats} = props;
     
-    const positionIndex = positions.findIndex(v => v.value === meta.cats.position);
-    const position = meta.cats.position ? positions[positionIndex].text : 'Select position';
-    const languageIndex = languages.findIndex(v => v.value === meta.cats.locale);
-    const language = meta.cats.locale ? languages[languageIndex].text : 'Select language';
+    let positions = cats.find(i => i.label === 'positions');
+    positions = positions.children === undefined ? [] : positions.children;
+    let languages = cats.find(i => i.label === 'locales')
+    languages = languages.children === undefined ? [] : languages.children;
+    let statuses = cats.find(i => i.label === 'statuses')
+    statuses = statuses.children === undefined ? [] : statuses.children;
     
     return (
         <div id="metainfo">
@@ -34,8 +35,8 @@ const Metainfo = props => {
                     )}</Segment>
                   </Segment.Group>
                   <Segment.Group horizontal>
-                    <Segment><Select placeholder={position} options={positions} name='position' onChange={props.onChange} selection/></Segment>
-                    <Segment><Select placeholder={language} options={languages} name='locale' onChange={props.onChange} /></Segment>
+                    <Segment><Select placeholder={meta.cats === undefined ? 'Select Position' : meta.cats.position} options={positions} name='position' onChange={props.onChange} selection/></Segment>
+                    <Segment><Select placeholder={meta.cats === undefined ? 'Select Locale' : meta.cats.language} options={languages} name='locale' onChange={props.onChange} /></Segment>
                     <Segment></Segment>
                   </Segment.Group>
                 </Segment.Group>

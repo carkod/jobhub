@@ -184,7 +184,7 @@ const coverLetters = (state = clInit, action = {}) =>  {
         case SET_CLS:
             let combined = [];
             for (let i of action.CLs) {
-                const merge = Object.assign({}, clInit, i);
+                const merge = Object.assign({}, clInit[0], i);
                 combined.push(merge)
             }
             //Find immutable way of doing this

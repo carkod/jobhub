@@ -9,7 +9,6 @@ import shortid from 'shortid';
 import { fetchCVs, saveCV, deleteCV, copyCV } from '../../actions/cv';
 import Detail from './Detail';
 import AddNew from './AddNew';
-import SysMessage from '../SysMessage';
 
 class Listing extends Component {
   
