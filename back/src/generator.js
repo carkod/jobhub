@@ -24,7 +24,7 @@ if (printType === 'f' && locale === 'es-ES') {
         
         if (locale !== undefined && locale === 'es-ES') {
             const footerURL = 'www.carloswu.xyz';
-            const name = data.name.replace(/\s/g, '');;
+            const name = data.name.replace(/\s/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
             const position = data.cats.position;
             const updated = 'Actualizado ' + moment(data.updatedAt).year();
             const folder = path.join(__dirname, '../', '/docs');
@@ -91,7 +91,7 @@ if (printType === 'f' && locale === 'es-ES') {
         }
     } else if (printType === 'cl') {
         const footerURL = 'www.carloswu.xyz';
-        const name = data.name.replace(/\s/g, '');;
+        const name = data.name.replace(/\s/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         const folder = path.join(__dirname, '../', '/docs');
         const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
         options = {
