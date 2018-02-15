@@ -150,7 +150,6 @@ function cvs (state = cvInitial, action = {} ){
             return state;
         case PDF_GENERATED:
             const oldIndex = state.findIndex(i => i._id === action.pdf._id);
-            console.log(action)
             state[oldIndex].pdf = action.pdf.pdf;
             return state;
         default: 

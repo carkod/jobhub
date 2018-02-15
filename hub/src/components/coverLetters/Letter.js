@@ -55,9 +55,9 @@ class Letter extends Component {
   }
   
   handleName = e => {
-    const {project} = this.state;
-    project[e.target.name] = e.target.value
-    this.setState({ project })
+    const {cl} = this.state;
+    cl[e.target.name] = e.target.value
+    this.setState({ cl })
   }
   
   handleChange = ({links}) => {

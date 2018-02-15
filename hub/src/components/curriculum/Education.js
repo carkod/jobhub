@@ -35,7 +35,7 @@ class Education extends Component {
       institution:'',
       desc: RichTextEditor.createEmptyValue(),
     }
-    educ.push(newExp)
+    educ.unshift(newExp)
     this.setState({ educ });
   }
   

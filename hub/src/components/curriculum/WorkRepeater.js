@@ -27,7 +27,7 @@ class WorkRepeater extends Component {
   pushExp = (e) => {
     e.preventDefault();
     const {workExp} = this.state;
-    const id = 'langSkill-' + shortid.generate();
+    const id = 'workExp-' + shortid.generate();
     const newExp = {
       id: id, 
       date: '', 
@@ -35,7 +35,7 @@ class WorkRepeater extends Component {
       company:'',
       desc: RichTextEditor.createEmptyValue(),
     }
-    workExp.push(newExp)
+    workExp.unshift(newExp)
     this.setState({ workExp });
   }
   

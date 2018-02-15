@@ -73,14 +73,14 @@ class Detail extends Component {
     this.setState({ persdetails })
   }
   
-  skillsChange = ({langSkills, webdevSkills, itSkills, workExp}) => {
-    this.setState({langSkills, webdevSkills, itSkills, workExp})
+  skillsChange = ({langSkills, webdevSkills, itSkills, workExp, educ}) => {
+    this.setState({langSkills, webdevSkills, itSkills, workExp, educ})
   }
   
   cvName = e => {
-    const {project} = this.state;
-    project[e.target.name] = e.target.value
-    this.setState({ project })
+    const {cv} = this.state;
+    cv[e.target.name] = e.target.value
+    this.setState({ cv })
   }
   
   keySave = e => {
@@ -105,8 +105,6 @@ class Detail extends Component {
     
           
     this.props.generatePDF(cv._id).then(url => {
-      // console.log(url)
-      //this.state.cv.pdf = notification.pdf;
       this.props.saveCV(cv);      
     })  
     
@@ -118,7 +116,7 @@ class Detail extends Component {
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
-        <Metainfo meta={cv} onChange={this.metaChange} categories={categories} name={this.projectName}/>
+        <Metainfo meta={cv} onChange={this.metaChange} categories={categories} name={this.cvName}/>
         <div className="container">
           <Summary summary={cv.summary} onChange={this.summaryChange} />
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
