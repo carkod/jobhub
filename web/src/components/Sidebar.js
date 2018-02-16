@@ -58,11 +58,7 @@ class Sidebar extends Component {
         matchCatsCVs = cats[posIx].children;
       }
         renderPositions = parent => matchCatsCVs.map((el, i) =>
-<<<<<<< HEAD
-          <li key={shortid.generate()} className="item" ><NavLink to={`/en_GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
-=======
           <li key={shortid.generate()} className="item" ><NavLink to={`/en-GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
->>>>>>> new history fix corrupted git
           )
       
       //Resources
@@ -78,11 +74,7 @@ class Sidebar extends Component {
         matchProjectCVs = cats[posIx].children;
       }
        renderResources = parent => matchProjectCVs.map((el, i) =>
-<<<<<<< HEAD
-          <li key={shortid.generate()} className="item" ><NavLink to={`/en_GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
-=======
           <li key={shortid.generate()} className="item" ><NavLink to={`/en-GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
->>>>>>> new history fix corrupted git
           )
       //Languages    
       const languagesIndex = cats.findIndex(e => e.label === 'locales');

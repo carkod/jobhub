@@ -78,11 +78,7 @@ class Portfolio extends Component {
               </List>
             </div>
             <div className="buttons">
-<<<<<<< HEAD
-              <Button primary><Link style={{color: '#fff', display:'block'}} to={`/portfolio/project/id=${proj._id}`}>Edit/View</Link></Button>
-=======
               <Link className="ui primary button" to={`/portfolio/project/id=${proj._id}`}>Edit/View</Link>
->>>>>>> new history fix corrupted git
               <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
               <Button onClick={this.handleDelete} negative>Delete</Button>
             </div>

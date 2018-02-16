@@ -34,12 +34,8 @@ class Documents extends Component {
               {documents.map((doc, i) =>
                 <div className="item" key={doc.fileId}>
                   <div className="name">
-<<<<<<< HEAD
-                    <a href={doc.fileURL} className="url">{doc.fileName} <span className="detail">{doc.fileSize}</span><i className="icon"></i></a>
-=======
                     <a href={doc.fileURL} className="url">{doc.fileName} <i className="icon"></i></a>
                     <span className="detail">{doc.fileSize}</span>
->>>>>>> new history fix corrupted git
                   </div>
                   
                 </div>

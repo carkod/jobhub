@@ -5,15 +5,8 @@ import { Item, Header, Accordion, Button, Icon, List, Label, Message, Transition
 import { fetchCVs } from '../actions/cv';
 import { connect } from 'react-redux';
 
-<<<<<<< HEAD
-
-
-const message = action => {
-    console.log(action)
-=======
 const message = action => {
     // console.log(action)
->>>>>>> new history fix corrupted git
     switch (action) {
         case 'SET_CV':
             return 'CV fetched';
@@ -33,8 +26,6 @@ const message = action => {
             return 'Cover Letter deleted';
         case 'CL_FETCHED':
             return 'Cover Letter copied';
-<<<<<<< HEAD
-=======
         case 'FILE_REMOVED':
             return 'File has been removed';
         case 'SET_PROJECTS':
@@ -50,7 +41,6 @@ const message = action => {
         case 'UPLODED_FILE':
             return 'File was uploaded';
         
->>>>>>> new history fix corrupted git
         default:
             return false;
     }

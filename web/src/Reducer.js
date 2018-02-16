@@ -93,10 +93,6 @@ const cvs = (state = cvInitial, action = {}) =>  {
         case SET_CV:
             let combined = [];
             for (let i of action.cvs) {
-<<<<<<< HEAD
-                console.log(i)
-=======
->>>>>>> new history fix corrupted git
                 const merge = Object.assign({}, cvInitial[0], i);
                 combined.push(merge)
             }

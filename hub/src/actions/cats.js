@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const SET_CATS = 'SET_CATS';
 export const SAVED_CATS = 'SAVED_CATS';
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 /*export const DELETED_CATS = 'DELETED_CATS';
 export const COPIED_CATS = 'COPIED_CATS';
 
@@ -15,6 +16,13 @@ function handleResponse(response) {
         let error = new Error(response.statusText);
         error.response = response;
         throw error;
+    }
+}
+
+export function addNotification(status) {
+    return {
+        type: ADD_NOTIFICATION,
+        status
     }
 }
 
@@ -55,10 +63,7 @@ export function fetchCats() {
         .then(res => {
             handleResponse(res)
             dispatch(setCats(res.data))
-<<<<<<< HEAD
-=======
             dispatch(addNotification(setCats(res.data)))
->>>>>>> new history fix corrupted git
         });    
     }
 }
@@ -73,10 +78,7 @@ export function saveCats(data) {
            }
         }).then(handleResponse).then(data => {
             dispatch(savedCats(data));
-<<<<<<< HEAD
-=======
             dispatch(addNotification(savedCats(data)))
->>>>>>> new history fix corrupted git
         }).then(data);   
     }
 }

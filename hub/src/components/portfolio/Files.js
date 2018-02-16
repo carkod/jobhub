@@ -3,11 +3,7 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon, Label, Table } from 'semantic-ui-react';
-<<<<<<< HEAD
-import { uploadFile, removeFile } from '../../actions/project';
-=======
 import { uploadFile, removeFile, addNotification } from '../../actions/project';
->>>>>>> new history fix corrupted git
 import Editor from './Editor';
 import RichTextEditor from 'react-rte';
 import moment from 'moment';
@@ -43,36 +39,22 @@ class Files extends Component {
   }
   
   handleUpload = e => {
-<<<<<<< HEAD
-    const {documents} = this.state;
-    const data = this.data;
-    const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2) + ' KB';
-    
-    if (this.fieldname === undefined) {
-      //handle error no file uploaded
-      return false;
-    } else {
-=======
     e.preventDefault();
     const {documents} = this.state;
     const data = this.data;
-    const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2) + ' KB';
+    const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2);
     if (this.fieldname === undefined || this.fieldname.files.length < 1) {
       
       addNotification({type: 'NO_FILE'})
       //handle error no file uploaded
     } else {
       console.log('file found')
->>>>>>> new history fix corrupted git
       //Loading icon
     this.setState({ uploading:true }); 
     
     uploadFile(data)
     .then(file => {
-<<<<<<< HEAD
-=======
       addNotification({type: 'UPLODED_FILE'})
->>>>>>> new history fix corrupted git
       const newFile = {
         fileId: shortid.generate(),
         fileName : file.fieldname,
@@ -117,11 +99,7 @@ class Files extends Component {
           <Grid padded celled>
             <Grid.Row columns={2} className="headerRow">
               <Grid.Column>
-<<<<<<< HEAD
-                <button className="btn btn-upload" name="append" type="submit" onClick={this.handleUpload} disabled={this.state.uploading}>
-=======
                 <button className="btn btn-upload" name="append" onClick={this.handleUpload} disabled={this.state.uploading}>
->>>>>>> new history fix corrupted git
                   {this.state.uploading ? <Icon loading name="file archive outline" className="white" /> : <Icon name="upload" className="white" />}
                 </button>
                 <input name="files" type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.fieldname = fieldname}} />
@@ -142,7 +120,7 @@ class Files extends Component {
                   {moment(doc.fileDate).format('D-M-Y')}
                 </Grid.Column>
                 <Grid.Column textAlign="right" width={4}>
-                  {doc.fileSize}
+                  {doc.fileSize + ' KB'}
                 </Grid.Column>
                 <Grid.Column width={16} className="borderTopDashed">
                   <a href={doc.fileURL} title="download">{doc.fileURL}</a>
