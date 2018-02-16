@@ -13,6 +13,10 @@ export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
 export const SET_CATS  = 'SET_CATS';
+<<<<<<< HEAD
+=======
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+>>>>>>> new history fix corrupted git
 
 function handleResponse(response) {
     if (response.ok) {
@@ -24,6 +28,16 @@ function handleResponse(response) {
     }
 }
 
+<<<<<<< HEAD
+=======
+export function addNotification(status) {
+    return {
+        type: ADD_NOTIFICATION,
+        status
+    }
+}
+
+>>>>>>> new history fix corrupted git
 export function setCats(cats) {
     return {
         type: SET_CATS,
@@ -131,12 +145,22 @@ export function deleteProject(id) {
            }
         }) 
         .then(handleResponse)
+<<<<<<< HEAD
         .then(data => dispatch(projectDeleted(id)));   
+=======
+        .then(data => {
+            dispatch(projectDeleted(id))
+            dispatch(addNotification(projectDeleted(id)))
+        });   
+>>>>>>> new history fix corrupted git
     }
 }
 
 export function copyProject(data) {
+<<<<<<< HEAD
     console.log(data)
+=======
+>>>>>>> new history fix corrupted git
     return dispatch => {
         return fetch(`${API_URL}/portfolio/${data._id}`, {
            method: 'post',
@@ -146,7 +170,14 @@ export function copyProject(data) {
            }
         })
         .then(handleResponse)
+<<<<<<< HEAD
         .then(data => dispatch(pastedProject(data.Project)));
+=======
+        .then(data => {
+            dispatch(pastedProject(data.Project))
+            dispatch(addNotification(pastedProject(data.Project)))
+        });
+>>>>>>> new history fix corrupted git
     }
     
 }
@@ -159,7 +190,15 @@ export function saveProject(data) {
            headers: {
                "Content-Type" : "application/json"
            }
+<<<<<<< HEAD
         }).then(handleResponse).then(data => dispatch(addProject(data))).then(data);   
+=======
+        }).then(handleResponse)
+        .then(data => {
+            dispatch(addProject(data))
+            dispatch(addNotification(addProject(data)))
+        })
+>>>>>>> new history fix corrupted git
     }
 }
 
@@ -167,7 +206,14 @@ export function fetchPortfolio() {
     return dispatch => {
         fetch(`${API_URL}/portfolio`)
         .then(res => res.json())
+<<<<<<< HEAD
         .then(data => dispatch(setProjects(data)))
+=======
+        .then(data => {
+            dispatch(setProjects(data))
+            dispatch(addNotification(setProjects(data)))
+        })
+>>>>>>> new history fix corrupted git
     }
 }
 
@@ -175,7 +221,14 @@ export function fetchProject(id) {
     return dispatch => {
         fetch(`${API_URL}/project/${id}`)
         .then(res => res.json())
+<<<<<<< HEAD
         .then(data => dispatch(setProjects(data)))
+=======
+        .then(data => {
+            dispatch(setProjects(data))
+            dispatch(addNotification(setProjects(data)))
+        })
+>>>>>>> new history fix corrupted git
     }
 }
 
@@ -183,6 +236,13 @@ export function fetchCats() {
     return dispatch => {
         fetch(`${API_URL}/cats`)
         .then(res => res.json())
+<<<<<<< HEAD
         .then(data => dispatch(setCats(data)))
+=======
+        .then(data => {
+            dispatch(setCats(data))
+            dispatch(addNotification(setCats(data)))
+        })
+>>>>>>> new history fix corrupted git
     }
 }

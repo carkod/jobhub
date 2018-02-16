@@ -32,6 +32,11 @@
         .public-DraftStyleDefault-ul {
             list-style-type:square;
         }
+<<<<<<< HEAD
+=======
+        
+        li {margin: 1em 1.5em;}
+>>>>>>> new history fix corrupted git
     }
     
     .field {
@@ -49,5 +54,13 @@
         padding: 0.5rem 0;
     }
     
+<<<<<<< HEAD
     
+=======
+    .description {
+        .ui.label {
+            border-radius:0px;
+        }
+    }
+>>>>>>> new history fix corrupted git
 }

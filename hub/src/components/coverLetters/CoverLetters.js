@@ -81,7 +81,11 @@ class CoverLetters extends Component {
             </div>
             <br />
             <div className="buttons">
+<<<<<<< HEAD
               <Button primary><Link style={{color: '#fff', display:'block'}} to={`/coverletters/id=${letter._id}`}>Edit/View</Link></Button>
+=======
+              <Link className="ui primary button" to={`/coverletters/id=${letter._id}`}>Edit/View</Link>
+>>>>>>> new history fix corrupted git
               <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
               <Button onClick={this.handleDelete} negative>Delete</Button>
             </div>

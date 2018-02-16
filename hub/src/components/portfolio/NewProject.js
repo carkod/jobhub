@@ -26,7 +26,11 @@ class NewProject extends Component {
     //console.log(this.state)
     this.props.saveProject({ _id:'', name: this.state.name })
     .then(project => { 
+<<<<<<< HEAD
       this.setState({ savedID: project.data._id, modalOpen: false });
+=======
+      this.setState({ modalOpen: false });
+>>>>>>> new history fix corrupted git
     })
     
   }

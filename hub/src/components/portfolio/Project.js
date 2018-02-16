@@ -87,6 +87,7 @@ class Project extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const {project} = this.state;
+<<<<<<< HEAD
     //const {messages} = this.state.projUI;
     
     this.props.saveProject(project).then(status => {
@@ -94,6 +95,9 @@ class Project extends Component {
       //this.setState({ messages })
     });
     
+=======
+    this.props.saveProject(project)
+>>>>>>> new history fix corrupted git
   }
   
   render() {

@@ -55,6 +55,10 @@ export function fetchCats() {
         .then(res => {
             handleResponse(res)
             dispatch(setCats(res.data))
+<<<<<<< HEAD
+=======
+            dispatch(addNotification(setCats(res.data)))
+>>>>>>> new history fix corrupted git
         });    
     }
 }
@@ -69,6 +73,10 @@ export function saveCats(data) {
            }
         }).then(handleResponse).then(data => {
             dispatch(savedCats(data));
+<<<<<<< HEAD
+=======
+            dispatch(addNotification(savedCats(data)))
+>>>>>>> new history fix corrupted git
         }).then(data);   
     }
 }
