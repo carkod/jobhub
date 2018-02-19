@@ -6,13 +6,13 @@ import shortid from 'shortid';
 import moment from 'moment';
 import { Icon, Button, Header, Input } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
-
 import { saveProject, fetchPortfolio, uploadFile, fetchCats } from '../../actions/project';
 
 import Metainfo from './Metainfo'; 
 import Files from './Files'; 
 import Editor from './Editor'; 
 import Links from './Links'; 
+import PrevImage from './PrevImage';
 
 class Project extends Component {
 
@@ -70,6 +70,14 @@ class Project extends Component {
     this.props.saveProject();
   }
   
+  handlePrevImg = ({image}) => {
+    const {project} = this.state;
+    const newState = Object.assign({}, project, {
+      image:image
+    })
+    this.setState({project: newState});
+  }
+  
   keySave = e => {
     const {project} = this.state;
     if (e.ctrlKey || e.metaKey) {
@@ -93,11 +101,13 @@ class Project extends Component {
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
     const {categories} = this.state;
+    console.log(project)
     return (
       <div id="project">
         <form onSubmit={this.onSubmit} name="project" >
           <Metainfo meta={project} onChange={this.metaChange} categories={categories} name={this.projectName}/>
           <div className="container">
+            <PrevImage image={project.image} onUpload={this.handlePrevImg} />
             <Editor value={project.desc} onChange={v => this.descChange(v)} />
             <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles}/>
             <Links links={project.links} onChange={l => this.handleChange(l)} />

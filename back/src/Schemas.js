@@ -56,7 +56,7 @@ const ProjectSchema = new Schema({
         locale: { type: String },
         cvCountry: { type: String },
     },
-    image: { type: String },
+    image: { type: Object },
     desc: { type: Schema.Types.Mixed },
     documents: [],
     links: [],

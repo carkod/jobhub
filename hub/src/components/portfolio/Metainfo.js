@@ -9,7 +9,6 @@ import { Header, List, Dropdown, Segment } from 'semantic-ui-react';
 
 const Metainfo = props => {
     const {meta, categories} = props;
-    console.log(meta)
     let position = 'Select Position', language = 'Select Locale', status = 'Select Status';
     const positions = props.categories.find(i => i.label === 'positions').children;
     const languages = props.categories.find(i => i.label === 'locales').children;

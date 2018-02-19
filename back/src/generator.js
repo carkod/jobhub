@@ -57,7 +57,7 @@ if (printType === 'f' && locale === 'es-ES') {
     
         } else {
             const footerURL = 'www.carloswu.xyz';
-            const name = data.name.replace(/\s/g, '');;
+            const name = data.name.replace(/\s/g, '').replace(/[^A-Za-z0-9]/g,'-');
             const position = data.cats.position;
             const updated = 'Updated ' + moment(data.updatedAt).year();
             const folder = path.join(__dirname, '../', '/docs');
