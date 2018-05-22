@@ -8,7 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import 'draft-js/dist/Draft.css';
 import './index.css';
-import { Link, Route, IndexRoute, Router, Switch, BrowserRouter } from 'react-router-dom';
+import { Link, Route, IndexRoute, Router, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 
 import Home from './components/Home';
 import Layout from './components/Layout';
@@ -21,6 +21,9 @@ import CoverLetters from './components/coverLetters/CoverLetters';
 import Letter from './components/coverLetters/Letter';
 import LinkedIn from './components/LinkedIn';
 import Relationships from './components/relationships/Relationships';
+import Login from './components/Login';
+
+// import fakeAuth from './components/fakeAuth';
 
 /*import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();*/
@@ -37,13 +40,20 @@ const store = createStore(
   saveState(store.getState())
 })*/
 
+const fakeAuth = {
+  isAuthenticated: false
+};
+
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
         <Layout>
-          <Route exact path="/" component={Home} />
+          
+
+          <Route exact path="/" render={() => fakeAuth.isAuthenticated ? (<Redirect to={{pathname: "/login"}})} component={{fakeAuth ?  }} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/cv" component={Listing} />
           <Route exact path="/cv/positions" component={Positions} />
           <Route exact path="/relationships" component={Relationships} />
