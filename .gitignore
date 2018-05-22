@@ -1,4 +1,7 @@
 
+#files
+*.pdf
+
 #DB Credentials
 back/credentials.js
 
