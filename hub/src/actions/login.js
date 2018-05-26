@@ -11,9 +11,10 @@ function handleResponse(response) {
     }
 }
 
-export default function authenticate (details) {
+export default function authenticate (data) {
     return dispatch => {
-        return fetch(`${API_URL}/cvs`, {
+        console.log(data)
+        return fetch(`http://localhost:8081/api/login`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: {
@@ -22,8 +23,23 @@ export default function authenticate (details) {
         })
         .then(handleResponse)
         .then(data => {
-            dispatch(addCV(data));
-            dispatch(addNotification(addCV(data)));
-        });   
-    }
+            
+            // dispatch(addCV(data));
+            // dispatch(addNotification(addCV(data)));
+        });
+    }  
+    // return dispatch => {
+    //     return fetch(`localhost:8081/api/login`, {
+    //         method: 'post',
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             "Content-Type" : "application/json"
+    //         }
+    //     })
+    //     .then(handleResponse)
+    //     .then(data => {
+    //         // dispatch(addCV(data));
+    //         // dispatch(addNotification(addCV(data)));
+    //     });   
+    // }
 }

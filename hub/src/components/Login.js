@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link, Route, NavLink } from 'react-router-dom';
 import { Label, Input, Button, Header, Segment, Menu, Form, Checkbox, Container } from 'semantic-ui-react';
 
-import fakeAuth from './fakeAuth';
+import authenticate from '../actions/login';
 
 
 //   const AuthButton = withRouter(
@@ -30,11 +30,12 @@ class Login extends Component {
     };
   
     login = (e) => {
-        console.log(this.state)
         
-      fakeAuth.authenticate(() => {
-        this.setState({ redirectToReferrer: true });
-      });
+      this.props.authenticate(this.state)
+      // .then(() => {
+      //   this.setState({ 
+      //     redirectToReferrer: true });
+      // });
     }
 
     handleChange = (e) => { 
@@ -57,7 +58,7 @@ class Login extends Component {
     //   if (redirectToReferrer) {
     //     return <Redirect to={from} />;
     //   }
-      console.log(fakeAuth())
+      
       return (
         <div className="login-centerer">
           <Segment id='login' compact>
