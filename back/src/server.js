@@ -15,6 +15,7 @@ import CoverLetters from './CoverLetters.js';
 import Portfolio from './Portfolio.js';
 import Categories from './Categories.js';
 import Pdf from './Pdf';
+import Login from './Login';
 
 let promise = mongoose.connect(dbUrl, { useMongoClient: true });
 let db = mongoose.connection;
@@ -54,7 +55,7 @@ promise.then((db) => {
     CoverLetters(app, db);
     Portfolio(app, db);
     Categories(app, db);
-    
+    Login(app,db)
     //Other applications
     Pdf(app, db);
     
