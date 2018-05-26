@@ -12,7 +12,6 @@ function handleResponse(response) {
 }
 
 export default function authenticate (details) {
-    
     return dispatch => {
         return fetch(`${API_URL}/cvs`, {
             method: 'post',
@@ -27,5 +26,4 @@ export default function authenticate (details) {
             dispatch(addNotification(addCV(data)));
         });   
     }
-    
 }
