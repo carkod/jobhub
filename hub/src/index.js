@@ -49,11 +49,10 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
+        <Route exact path="/login" component={Login} />
         <Layout>
+        <Route exact path="/" render={() => (fakeAuth.isAuthenticated ? (<Home />) :  (<Redirect to={{pathname: "/login"}} />) )} />        
           
-
-          <Route exact path="/" render={() => fakeAuth.isAuthenticated ? (<Redirect to={{pathname: "/login"}})} component={{fakeAuth ?  }} />
-          <Route exact path="/login" component={Login} />
           <Route exact path="/cv" component={Listing} />
           <Route exact path="/cv/positions" component={Positions} />
           <Route exact path="/relationships" component={Relationships} />
@@ -62,10 +61,8 @@ ReactDOM.render(
           
           <Route exact path="/portfolio" component={Portfolio} />
           <Route exact path="/portfolio/project/id=:id" component={Project} />
-          
           <Route exact path="/coverletters" component={CoverLetters} />
           <Route exact path="/coverletters/id=:id" component={Letter} />
-          
           <Route exact path="/jobs/linkedin/" component={LinkedIn} />
         </Layout>
       </Switch>

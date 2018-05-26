@@ -73,6 +73,16 @@ const CategoriesSchema = new Schema({
     children: [],
 },{timestamps: true}, {strict: false} );
 
+const UserSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    username: { type: String, lowercase: true, required: true },
+    password: { type: String, lowercase: true, required: true },
+    email: { type: String },
+    updatedAt: { type: Date, default: Date.now },
+    role: []
+}, {timestamps: true}, {strict: false});
+
+
 // CVSchema.pre('update', function(next){
 //     const slugger = slug(this._update.$set.name.toLowerCase());
 //     // this._findOne({id: '5a2b3658c54dd20bd20ee3f9'},function(err, doc) {
@@ -87,4 +97,4 @@ const CategoriesSchema = new Schema({
 //     //next(err, doc);
 // });
 
-export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema };
+export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema };

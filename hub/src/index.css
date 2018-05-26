@@ -207,3 +207,15 @@ body {
  background-color:#1aa62a; 
  color:#fff;
 }
+
+#login {
+  flex: none;
+  
+}
+
+.login-centerer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
