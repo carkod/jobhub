@@ -52,7 +52,7 @@ ReactDOM.render(
         
         <Route exact path="/login" component={Login} />
         <Layout>
-          <Route exact path="/" render={() => (authenticat ? (<Home />) :  (<Redirect to={{pathname: "/login"}} />) )} />        
+          {/* <Route exact path="/" render={() => (authenticated ? (<Home />) :  (<Redirect to={{pathname: "/login"}} />) )} />         */}
           <Route exact path="/cv" component={Listing} />
           <Route exact path="/cv/positions" component={Positions} />
           <Route exact path="/relationships" component={Relationships} />

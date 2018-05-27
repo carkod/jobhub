@@ -4,17 +4,22 @@ import { Link, Route, NavLink } from 'react-router-dom';
 import { Label, Input, Button, Header, Segment, Menu, Form, Checkbox, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import Notifications from './Notification';
-import {authenticate} from '../actions/login';
+import { auth } from '../actions/login';
 
 
 class Login extends Component {
-    state = {
-    //   redirectToReferrer: false
-    };
-  
+
+    constructor (props) {
+      super(props);
+      this.state = {
+        //   redirectToReferrer: false
+        };
+    }
+
     login = (e) => {
-        
-      this.props.authenticate(this.state)
+      console.log(this.props)
+      this.props.auth(this.state)
+      .catch(e => console.log(e))
       .then((d) => {
         console.log(d)
         this.setState({ 
@@ -69,10 +74,10 @@ class Login extends Component {
   }
 
 function mapStateToProps (state, props) {
-  
   return {
-    notification: state.notification
+    notification: state.notification,
+    authentication: state.authentication,
   }
 }
 
-export default connect(mapStateToProps, { authenticate })(Login);
+export default connect(mapStateToProps, { auth })(Login);

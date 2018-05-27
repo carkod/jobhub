@@ -220,5 +220,19 @@ const notification = (state = [], action) => {
     }
 }
 
-export default combineReducers({ cvs, portfolio, coverLetters, cats, notification });
+const authentication = (state = {}, action) => {
+    switch (action.type) {
+        case IS_AUTH:
+            const isAuth = Object.assign({}, state, action.id);
+            return isAuth;
+        case NOT_AUTH:
+            console.log('action: ', action)
+            const noAuth = Object.assign({}, state, action.id);
+            return noAuth;
+        default:
+            return {}
+    }
+}
+
+export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication });
 

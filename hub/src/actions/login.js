@@ -29,7 +29,7 @@ export function isNotAuthenticated(id) {
     }
 }
 
-export function authenticate (data) {
+export function auth (data) {
     return dispatch => {
         return fetch(`${API_URL}/login`, {
             method: 'post',
@@ -41,13 +41,11 @@ export function authenticate (data) {
         .then(handleResponse)
         .then(data => {
             if (data.status) {
-                dispatch(isAuthenticated(data))
-                data.type = 'IS_AUTH';
-                dispatch(addNotification(data));
+                dispatch(addNotification(isAuthenticated(data)));
+                return dispatch(isAuthenticated(data));
             } else {
-                dispatch(isNotAuthenticated(data))
-                data.type = 'NOT_AUTH';
-                dispatch(addNotification(data));
+                dispatch(addNotification(isNotAuthenticated(data)));
+                return dispatch(isNotAuthenticated(data));
             }
             
         });

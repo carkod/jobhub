@@ -157,7 +157,3 @@ export function fetchCV(id) {
         .then(data => dispatch(setCVs(data)))
     }
 }
-
-export default function fakeAuth () {
-    
-}

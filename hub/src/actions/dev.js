@@ -4,8 +4,8 @@ let API_URL, PDF_URL;
 if (process.env.NODE_ENV === "development") {
     // API_URL = `https://cv-generator-carkod.c9users.io:8081/api`;
     // PDF_URL = `https://cv-generator-carkod.c9users.io:8081/pdf`;    
-    API_URL = `localhost:8081/api`;
-    PDF_URL = `localhost:8081/pdf`;   
+    API_URL = `http://localhost:8081/api`;
+    PDF_URL = `http://localhost:8081/pdf`;   
 } else {
     API_URL = `http://carloswu.xyz:8081/api`;
     PDF_URL = `http://carloswu.xyz:8081/pdf`;    

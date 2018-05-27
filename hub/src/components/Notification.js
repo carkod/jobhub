@@ -6,8 +6,6 @@ import { fetchCVs } from '../actions/cv';
 import { connect } from 'react-redux';
 
 const message = action => {
-    console.log(action)
-    // debugger;
     switch (action) {
         case 'SET_CV':
             return 'CV fetched';
