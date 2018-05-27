@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import { Link, Route, NavLink } from 'react-router-dom';
 import { Label, Input, Button, Header, Segment, Menu, Form, Checkbox, Container } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
-import authenticate from '../actions/login';
+import {authenticate} from '../actions/login';
 
 
 //   const AuthButton = withRouter(
@@ -83,4 +84,10 @@ class Login extends Component {
     }
   }
 
-  export default Login;
+function mapStateToProps (state, props) {
+  return {
+    
+  }
+}
+
+export default connect(mapStateToProps, { authenticate })(Login);
