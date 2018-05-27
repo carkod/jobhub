@@ -1,6 +1,7 @@
 /* eslint-disable */
 import {API_URL, PDF_URL} from './dev';
 import {addNotification, removeNotification} from './notification';
+
 export const IS_AUTH  = 'IS_AUTH';
 export const NOT_AUTH = 'NOT_AUTH';
 
@@ -30,7 +31,7 @@ export function isNotAuthenticated(id) {
 
 export function authenticate (data) {
     return dispatch => {
-        return fetch(`http://localhost:8081/api/login`, {
+        return fetch(`${API_URL}/login`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: {
@@ -39,27 +40,17 @@ export function authenticate (data) {
         })
         .then(handleResponse)
         .then(data => {
-            console.log(data)    
             if (data.status) {
-                dispatch(addNotification(isAuthenticated(data)));
+                dispatch(isAuthenticated(data))
+                data.type = 'IS_AUTH';
+                dispatch(addNotification(data));
             } else {
-                dispatch(addNotification(isNotAuthenticated(data)));
+                dispatch(isNotAuthenticated(data))
+                data.type = 'NOT_AUTH';
+                dispatch(addNotification(data));
             }
             
         });
     }  
-    // return dispatch => {
-    //     return fetch(`localhost:8081/api/login`, {
-    //         method: 'post',
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             "Content-Type" : "application/json"
-    //         }
-    //     })
-    //     .then(handleResponse)
-    //     .then(data => {
-    //         // dispatch(addCV(data));
-    //         // dispatch(addNotification(addCV(data)));
-    //     });   
-    // }
+    
 }

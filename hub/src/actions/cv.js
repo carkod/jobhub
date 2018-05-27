@@ -1,5 +1,6 @@
 /* eslint-disable */
 import {API_URL, PDF_URL} from './dev';
+import {addNotification, removeNotification} from './notification';
 
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
@@ -9,8 +10,6 @@ export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
-export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 export const PDF_GENERATED = 'PDF_GENERATED';
 
 function handleResponse(response) {
@@ -20,20 +19,6 @@ function handleResponse(response) {
         let error = new Error(response.statusText);
         error.response = response;
         throw error;
-    }
-}
-
-export function addNotification(status) {
-    return {
-        type: ADD_NOTIFICATION,
-        status
-    }
-}
-
-export function removeNotification(status) {
-    return {
-        type: REMOVE_NOTIFICATION,
-        status
     }
 }
 

@@ -2,10 +2,12 @@
 
 import { combineReducers } from 'redux';
 
-import { SET_CV, CV_DELETED, SYNC_PERSDETAILS, ADD_NOTIFICATION, REMOVE_NOTIFICATION, CV_FETCHED, PDF_GENERATED } from './actions/cv';
+import { SET_CV, CV_DELETED, SYNC_PERSDETAILS, CV_FETCHED, PDF_GENERATED } from './actions/cv';
 import { SET_CLS, CL_DELETED } from './actions/cl';
 import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED, SET_CATS } from './actions/project';
 import { SAVED_CATS } from './actions/cats';
+import { ADD_NOTIFICATION, REMOVE_NOTIFICATION } from './actions/notification';
+import { IS_AUTH, NOT_AUTH } from './actions/login';
 
 import RichTextEditor from 'react-rte';
 
@@ -208,7 +210,7 @@ const cats = (state = catInit, action = {}) => {
     }
 }
 
-const notification = (state = [],action) => {
+const notification = (state = [], action) => {
     switch (action.type) {
         case ADD_NOTIFICATION:
             const newState = Object.assign({}, state, action.status);

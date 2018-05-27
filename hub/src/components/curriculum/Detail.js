@@ -8,8 +8,8 @@ import shortid from 'shortid';
 import moment from 'moment';
 import { Icon, Button, Header, Input, Checkbox } from 'semantic-ui-react';
 import RichTextEditor from 'react-rte';
-import { saveCV, fetchCVs, generatePDF, addNotification } from '../../actions/cv';
-import {fetchCats} from '../../actions/project';
+import { saveCV, fetchCVs, generatePDF } from '../../actions/cv';
+import { fetchCats } from '../../actions/project';
 
 import Summary from './Summary'; 
 import Metainfo from '../Metainfo'; 
@@ -167,6 +167,6 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats, addNotification, generatePDF })(Detail);
+export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats, generatePDF })(Detail);
 
 

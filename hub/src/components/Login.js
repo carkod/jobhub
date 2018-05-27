@@ -3,27 +3,9 @@ import React, { Component } from 'react';
 import { Link, Route, NavLink } from 'react-router-dom';
 import { Label, Input, Button, Header, Segment, Menu, Form, Checkbox, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-
+import Notifications from './Notification';
 import {authenticate} from '../actions/login';
 
-
-//   const AuthButton = withRouter(
-//     ({ history }) =>
-//       fakeAuth.isAuthenticated ? (
-//         <p>
-//           Welcome!{" "}
-//           <button
-//             onClick={() => {
-//               fakeAuth.signout(() => history.push("/"));
-//             }}
-//           >
-//             Sign out
-//           </button>
-//         </p>
-//       ) : (
-//         <p>You are not logged in.</p>
-//       )
-//   );
 
 class Login extends Component {
     state = {
@@ -33,10 +15,11 @@ class Login extends Component {
     login = (e) => {
         
       this.props.authenticate(this.state)
-      // .then(() => {
-      //   this.setState({ 
-      //     redirectToReferrer: true });
-      // });
+      .then((d) => {
+        console.log(d)
+        this.setState({ 
+          redirectToReferrer: true });
+      });
     }
 
     handleChange = (e) => { 
@@ -62,8 +45,9 @@ class Login extends Component {
       
       return (
         <div className="login-centerer">
+          <Notifications notifications={this.props.notifications} />
           <Segment id='login' compact>
-            <Header as='h2'>You need to log in to see this application</Header>
+            <Header as='h2'>You need to log in to access this application</Header>
             <Form>
               <Form.Field>
                 <Input type='text' name='username' placeholder='Username' onChange={this.handleChange} />
@@ -85,8 +69,9 @@ class Login extends Component {
   }
 
 function mapStateToProps (state, props) {
+  
   return {
-    
+    notification: state.notification
   }
 }
 

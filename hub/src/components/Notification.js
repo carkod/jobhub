@@ -6,7 +6,8 @@ import { fetchCVs } from '../actions/cv';
 import { connect } from 'react-redux';
 
 const message = action => {
-    // console.log(action)
+    console.log(action)
+    // debugger;
     switch (action) {
         case 'SET_CV':
             return 'CV fetched';
@@ -40,7 +41,10 @@ const message = action => {
             return 'File not found';
         case 'UPLODED_FILE':
             return 'File was uploaded';
-        
+        case 'IS_AUTH':
+            return 'Login successful!';
+        case 'NOT_AUTH':
+            return 'Login error';
         default:
             return false;
     }

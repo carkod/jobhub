@@ -22,7 +22,7 @@ import Letter from './components/coverLetters/Letter';
 import LinkedIn from './components/LinkedIn';
 import Relationships from './components/relationships/Relationships';
 import Login from './components/Login';
-
+import Notifications from './components/Notification';
 // import fakeAuth from './components/fakeAuth';
 
 /*import { loadState, saveState } from './localStorage';
@@ -49,10 +49,10 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
+        
         <Route exact path="/login" component={Login} />
         <Layout>
-        <Route exact path="/" render={() => (fakeAuth.isAuthenticated ? (<Home />) :  (<Redirect to={{pathname: "/login"}} />) )} />        
-          
+          <Route exact path="/" render={() => (authenticat ? (<Home />) :  (<Redirect to={{pathname: "/login"}} />) )} />        
           <Route exact path="/cv" component={Listing} />
           <Route exact path="/cv/positions" component={Positions} />
           <Route exact path="/relationships" component={Relationships} />
