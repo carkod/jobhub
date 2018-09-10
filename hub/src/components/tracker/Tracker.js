@@ -22,6 +22,7 @@ class Tracker extends Component {
         return (
           <div id="tracker">
             <h1>Tracker list</h1>
+            {/*Three tabs: tracking table, add stage, contact book*/}
             <TrackingTable />
           </div>
         );

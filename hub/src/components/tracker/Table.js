@@ -1,7 +1,18 @@
 /* eslint-disable */
 import React, { Component } from "react";
 
-const columns = ['Company', 'Date', 'Current Stage', 'Web']
+const columns = ['Company', 'Company Type', 'Role', 'Web', 'Seniority', 'Description', 'Files'];
+const stages = [
+    // (1) Use default stages and (2) allow for adding additional stages
+    { order: 0, type: 'First contact', dept: 'HR', startDate: new Date(), finishDate: new Date() },
+    { order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() },
+    { order: 2, type: 'Videocall', dept: 'Senior Developer', startDate: new Date(), finishDate: new Date() },
+    { order: 3, type: 'Face2Face', dept: 'Developer', startDate: new Date(), finishDate: new Date() },
+    { order: 3, type: 'Test', dept: 'Technical', startDate: new Date(), finishDate: new Date() },
+];
+const role = ['Front-end developer', 'JavaScript developer', 'Business analyst', 'Project manager'];
+const roleSeniority = ['Junior', 'Mid-level', 'Senior'];
+const description, web, companyType;
 
 class TrackingTable extends Component {
     constructor(props) {
@@ -16,11 +27,10 @@ class TrackingTable extends Component {
             <table class="ui celled padded table">
                 <thead>
                     <tr>
-                        <th class="single line">Evidence Rating</th>
-                        <th>Company</th>
-                        <th>Efficacy</th>
-                        <th>Consensus</th>
-                        <th>Comments</th>
+                        {columns.map(text =>
+                            <th>{text}</th>
+                        )}
+
                     </tr>
                 </thead>
                 <tbody>
