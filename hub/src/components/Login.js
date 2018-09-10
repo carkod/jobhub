@@ -17,7 +17,6 @@ class Login extends Component {
     }
 
     login = (e) => {
-      console.log(this.props)
       this.props.auth(this.state)
       .catch(e => console.log(e))
       .then((d) => {

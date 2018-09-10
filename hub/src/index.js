@@ -23,6 +23,7 @@ import LinkedIn from './components/LinkedIn';
 import Relationships from './components/relationships/Relationships';
 import Login from './components/Login';
 import Notifications from './components/Notification';
+import Tracker from './components/tracker/Tracker';
 // import fakeAuth from './components/fakeAuth';
 
 /*import { loadState, saveState } from './localStorage';
@@ -43,7 +44,7 @@ const store = createStore(
 const fakeAuth = {
   isAuthenticated: false
 };
-
+const authenticated = true;
 
 ReactDOM.render(
   <Provider store={store}>
@@ -52,7 +53,16 @@ ReactDOM.render(
         
         <Route exact path="/login" component={Login} />
         <Layout>
-          {/* <Route exact path="/" render={() => (authenticated ? (<Home />) :  (<Redirect to={{pathname: "/login"}} />) )} />         */}
+          <Route exact path="/" render={
+            (props) => {
+              console.log(props)
+              if (authenticated) {
+                return <Home /> 
+              } else {
+                return <Redirect to={{pathname: "/login"}} />
+              }
+            }
+          } />        
           <Route exact path="/cv" component={Listing} />
           <Route exact path="/cv/positions" component={Positions} />
           <Route exact path="/relationships" component={Relationships} />
@@ -64,6 +74,7 @@ ReactDOM.render(
           <Route exact path="/coverletters" component={CoverLetters} />
           <Route exact path="/coverletters/id=:id" component={Letter} />
           <Route exact path="/jobs/linkedin/" component={LinkedIn} />
+          <Route exact path="/tracker/" component={Tracker} />
         </Layout>
       </Switch>
     </BrowserRouter>
