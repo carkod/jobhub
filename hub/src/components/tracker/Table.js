@@ -11,7 +11,7 @@ const stages = [
     { order: 3, type: 'Test', dept: 'Technical', startDate: new Date(), finishDate: new Date() },
 ];
 const role = ['Front-end developer', 'JavaScript developer', 'Business analyst', 'Project manager', 'Full stack Javascript Developer'];
-const roleSeniority = ['Junior', 'Mid-level', 'Senior'];
+// const roleSeniority = ['Junior', 'Mid-level', 'Senior'];
 let description, web, companyType;
 
 class TrackingTable extends Component {
