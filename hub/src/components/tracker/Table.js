@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from "react";
 
-const columns = ['Company', 'Company Type', 'Role', 'Web', 'Seniority', 'Description', 'Files'];
+const columns = ['Company', 'Role (Seniority)', 'Location', 'Contact', 'Web', 'Industry', 'Description', 'Files'];
 const stages = [
     // (1) Use default stages and (2) allow for adding additional stages
     { order: 0, type: 'First contact', dept: 'HR', startDate: new Date(), finishDate: new Date() },
@@ -12,7 +12,7 @@ const stages = [
 ];
 const role = ['Front-end developer', 'JavaScript developer', 'Business analyst', 'Project manager'];
 const roleSeniority = ['Junior', 'Mid-level', 'Senior'];
-const description, web, companyType;
+let description, web, companyType;
 
 class TrackingTable extends Component {
     constructor(props) {
