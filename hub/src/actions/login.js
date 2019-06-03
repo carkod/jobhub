@@ -18,14 +18,14 @@ function handleResponse(response) {
 export function isAuthenticated(id) {
     return {
       type: IS_AUTH,
-      id
+      id,
     }
 }
 
 export function isNotAuthenticated(id) {
     return {
       type: NOT_AUTH,
-      id
+      id,
     }
 }
 

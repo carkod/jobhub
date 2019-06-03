@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Button, Checkbox, Form, Header, Input, Label, Segment } from 'semantic-ui-react';
 import { auth } from '../actions/login';
 import Notifications from './Notification';
@@ -11,7 +12,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //   redirectToReferrer: false
+      redirectToReferrer: false,
+      isAuthenticated: false,
     };
   }
 
@@ -20,11 +22,10 @@ class Login extends Component {
     this.props.auth(this.state)
       .catch(e => console.log(e))
       .then((d) => {
-        console.log(d)
-        console.log(d)
         const token = JSON.stringify(d.token);
         localStorage.setItem('token', token);
-        this.setState({ redirectToReferrer: true });
+        this.setState({ isAuthenticated: true });
+        // this.setState({ redirectToReferrer: true });
       });
   }
 
@@ -40,14 +41,16 @@ class Login extends Component {
     })
   }
 
+  componentWillUnmount() {
+
+  }
+
 
   render() {
-    //   const { from } = this.props.location.state || { from: { pathname: "/" } };
-    //   const { redirectToReferrer } = this.state;
-
-    //   if (redirectToReferrer) {
-    //     return <Redirect to={from} />;
-    //   }
+    const { isAuthenticated } = this.state;
+    if (isAuthenticated) {
+      return <Redirect to='/home' />;
+    }
 
     return (
       <div className="login-centerer">
@@ -80,8 +83,9 @@ class Login extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    notification: state.notification,
+    // notification: state.notification,
     authentication: state.authentication,
+    isAuthenticated: props.isAuthenticated,
   }
 }
 

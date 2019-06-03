@@ -220,8 +220,10 @@ const notification = (state = [], action) => {
     }
 }
 
+const token = JSON.parse(localStorage.getItem('hubToken'))
+console.log('reducer token', token);
 const authentication = (state = {
-    isAuthenticated: JSON.parse(localStorage.getItem('hubToken')) ? true : false
+    isAuthenticated: token ? true : false
 }, action) => {
     switch (action.type) {
         case IS_AUTH:
