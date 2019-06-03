@@ -41,7 +41,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Layout>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={withRoute(Home)} />
             <Route exact path="/cv" component={Listing} />
             <Route exact path="/cv/positions" component={Positions} />
             <Route exact path="/relationships" component={Relationships} />

@@ -220,14 +220,22 @@ const notification = (state = [], action) => {
     }
 }
 
-const authentication = (state = {}, action) => {
+const authentication = (state = {
+    isAuthenticated: JSON.parse(localStorage.getItem('hubToken')) ? true : false
+}, action) => {
     switch (action.type) {
         case IS_AUTH:
-            const isAuth = Object.assign({}, state, action.id);
+            const isAuth = Object.assign({}, state, {
+                id: action.id,
+                isAuthenticated: true
+            });
             return isAuth;
         case NOT_AUTH:
             console.log('action: ', action)
-            const noAuth = Object.assign({}, state, action.id);
+            const noAuth = Object.assign({}, state, {
+                id: action.id,
+                isAuthenticated: false
+            });
             return noAuth;
         default:
             return {}
