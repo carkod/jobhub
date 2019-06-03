@@ -47,10 +47,10 @@ class Login extends Component {
 
 
   render() {
-    const { isAuthenticated } = this.state;
-    if (isAuthenticated) {
-      return <Redirect to='/home' />;
-    }
+    // const { isAuthenticated } = this.state;
+    // if (isAuthenticated) {
+    //   return <Redirect to='/home' />;
+    // }
 
     return (
       <div className="login-centerer">
