@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 //import Detail from './components/Detail';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import { addNotification, fetchCVs, generatePDF, saveCV } from '../../actions/cv';
+import { fetchCVs, generatePDF, saveCV } from '../../actions/cv';
 import { fetchCats } from '../../actions/project';
 import Metainfo from '../Metainfo';
 import Education from './Education';
@@ -14,6 +14,7 @@ import PD from './PD';
 import Summary from './Summary';
 import WebdevSkills from './WebdevSkills';
 import WorkRepeater from './WorkRepeater';
+
 
 
 class Detail extends Component {
@@ -162,7 +163,6 @@ const mapStateToProps = (state, props) => {
   
 }
 
-
-export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats, addNotification, generatePDF })(Detail);
+export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats, generatePDF })(Detail);
 
 

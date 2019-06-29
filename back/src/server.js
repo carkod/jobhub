@@ -15,6 +15,15 @@ const app = express();
 const PORT = 8081;
 const dbUrl = `mongodb://${credentials.user}:${credentials.pass}@${credentials.host}:${credentials.port}/${credentials.db}`;
 
+<<<<<<< HEAD
+=======
+import CVs from './CVs.js';
+import CoverLetters from './CoverLetters.js';
+import Portfolio from './Portfolio.js';
+import Categories from './Categories.js';
+import Pdf from './Pdf';
+import Login from './Login';
+>>>>>>> fba7f0530dc9e208b3335df8602b36bd8fda325a
 
 let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
 let db = mongoose.connection;
@@ -54,8 +63,13 @@ promise.then((db) => {
     CoverLetters(app, db);
     Portfolio(app, db);
     Categories(app, db);
+<<<<<<< HEAD
     
     //Other applications    
+=======
+    Login(app,db)
+    //Other applications
+>>>>>>> fba7f0530dc9e208b3335df8602b36bd8fda325a
     Pdf(app, db);
     
    app.listen(PORT, () => console.log('Server is running on localhost:' + PORT)); 

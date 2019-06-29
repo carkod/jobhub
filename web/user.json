@@ -1,0 +1,16 @@
+[
+    {
+        "_id": "1234560",
+        "username": "carkod",
+        "password": "carlitos",
+        "email": "carkodw@gmail.com",
+        "role": "admin"
+    },
+    {
+        "_id": "1234568",
+        "username": "test",
+        "password": "test",
+        "email": "test@gmail.com",
+        "role": "guest"
+    }
+]

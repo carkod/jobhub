@@ -21,7 +21,7 @@ export default function CVs (app, db) {
        
        CVModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
            if (err) throw err;
-           //console.log(content)
+           console.log(content)
            res.json(content)
        });
     });

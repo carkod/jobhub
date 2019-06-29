@@ -13,18 +13,7 @@ class Summary extends Component {
         };
         //this.pdChange = this.pdChange.bind(this);
     }
-    
-    componentDidMount = () => {
-        /*const value = RichTextEditor.createValueFromString(this.props.summary.toString('html'), 'html');
-        this.setState({ value: value })*/
-    }
-    
-    componentWillReceiveProps = (props) => {
-        //console.log(props)
-        /*const {summary} = props;
-        const value = RichTextEditor.createValueFromString(summary.toString('html'), 'html');
-        this.setState({ value: value })*/
-    }
+   
     
     onChange = (e) => {
         this.props.onChange(e.toString('html'))
