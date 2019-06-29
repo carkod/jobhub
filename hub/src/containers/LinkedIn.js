@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-//import Detail from './components/Detail';
+//import Detail from './containers/Detail';
 
 import { connect } from 'react-redux';
 import shortid from 'shortid';

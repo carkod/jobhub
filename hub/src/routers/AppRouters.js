@@ -1,18 +1,18 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import CoverLetters from '../components/coverLetters/CoverLetters';
-import Letter from '../components/coverLetters/Letter';
-import Detail from '../components/curriculum/Detail';
-import Listing from '../components/curriculum/Listing';
-import Positions from '../components/curriculum/Positions';
-import Layout from '../components/Layout';
-import Login from '../components/Login';
-import Portfolio from '../components/portfolio/Portfolio';
-import Project from '../components/portfolio/Project';
-import Relationships from '../components/relationships/Relationships';
+import CoverLetters from '../containers/coverLetters/CoverLetters';
+import Letter from '../containers/coverLetters/Letter';
+import Detail from '../containers/curriculum/Detail';
+import Listing from '../containers/curriculum/Listing';
+import Positions from '../containers/curriculum/Positions';
+// import PublicRouter from './PublicRouter';
+import Home from '../containers/Home';
+import Layout from '../containers/Layout';
+// import Login from '../containers/Login';
+import Portfolio from '../containers/portfolio/Portfolio';
+import Project from '../containers/portfolio/Project';
+import Relationships from '../containers/relationships/Relationships';
 import PrivateRouter from './PrivateRouter';
-import PublicRouter from './PublicRouter';
-import Home from '../components/Home';
 
 const AppRouter = () => (
     <Layout>

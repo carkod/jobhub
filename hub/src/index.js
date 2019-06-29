@@ -11,9 +11,9 @@ import './index.css';
 import Reducer from './Reducer';
 import AppRouter from './routers/AppRouters';
 import PublicRouter from './routers/PublicRouter';
-import Login from './components/Login';
+import Login from './containers/Login';
 
-// import fakeAuth from './components/fakeAuth';
+// import fakeAuth from './containers/fakeAuth';
 
 /*import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();*/
