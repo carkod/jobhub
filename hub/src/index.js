@@ -1,26 +1,26 @@
 /* eslint-disable */
+import 'draft-js/dist/Draft.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import Reducer from './Reducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import 'draft-js/dist/Draft.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import CoverLetters from './containers/coverLetters/CoverLetters';
+import Letter from './containers/coverLetters/Letter';
+import Detail from './containers/curriculum/Detail';
+import Listing from './containers/curriculum/Listing';
+import Positions from './containers/curriculum/Positions';
+import Home from './containers/Home';
+import Layout from './containers/Layout';
+import LinkedIn from './containers/LinkedIn';
+import Portfolio from './containers/portfolio/Portfolio';
+import Project from './containers/portfolio/Project';
+import Relationships from './containers/relationships/Relationships';
 import './index.css';
-import { Link, Route, IndexRoute, Router, Switch, BrowserRouter } from 'react-router-dom';
+import Reducer from './Reducer';
 
-import Home from './components/Home';
-import Layout from './components/Layout';
-import Listing from './components/curriculum/Listing';
-import Detail from './components/curriculum/Detail';
-import Positions from './components/curriculum/Positions';
-import Portfolio from './components/portfolio/Portfolio';
-import Project from './components/portfolio/Project';
-import CoverLetters from './components/coverLetters/CoverLetters';
-import Letter from './components/coverLetters/Letter';
-import LinkedIn from './components/LinkedIn';
-import Relationships from './components/relationships/Relationships';
 
 /*import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();*/
