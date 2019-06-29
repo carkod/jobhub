@@ -1,22 +1,22 @@
-import helmet from 'helmet';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 import expressValidator from 'express-validator';
-import cors from 'cors';
+import helmet from 'helmet';
 import mongoose from 'mongoose';
 import path from 'path';
+import Categories from './Categories.js';
+import CoverLetters from './CoverLetters.js';
 import credentials from './credentials';
+import CVs from './CVs.js';
+import Pdf from './Pdf';
+import Portfolio from './Portfolio.js';
 const app = express();
 const PORT = 8081;
 const dbUrl = `mongodb://${credentials.user}:${credentials.pass}@${credentials.host}:${credentials.port}/${credentials.db}`;
 
-import CVs from './CVs.js';
-import CoverLetters from './CoverLetters.js';
-import Portfolio from './Portfolio.js';
-import Categories from './Categories.js';
-import Pdf from './Pdf';
 
-let promise = mongoose.connect(dbUrl, { useMongoClient: true });
+let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
 let db = mongoose.connection;
 
 //Bind connection to error event (to get notification of connection errors)
@@ -30,7 +30,7 @@ promise.then((db) => {
     //Parser Middlewares
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
-    app.use(expressValidator());
+    // app.use(expressValidator());
     app.use(cors());
     
     

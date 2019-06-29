@@ -13,6 +13,10 @@ export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 export const PDF_GENERATED = 'PDF_GENERATED';
 
+const headers = {
+    "Content-Type" : "application/json"
+}
+
 function handleResponse(response) {
     if (response.ok) {
         return response.json();
@@ -90,9 +94,7 @@ export function deleteCV(id) {
     return dispatch => {
         return fetch(`${API_URL}/cvs/${id}`, {
            method: 'delete',
-           headers: {
-               "Content-Type" : "application/json"
-           }
+           headers: headers
         }) 
         .then(handleResponse)
         .then(data => {
@@ -107,9 +109,7 @@ export function copyCV(data) {
         return fetch(`${API_URL}/cvs/${data._id}`, {
            method: 'post',
            body: JSON.stringify(data),
-           headers: {
-               "Content-Type" : "application/json"
-           }
+           headers: headers
         })
         .then(handleResponse)
         .then(id => {
@@ -125,9 +125,7 @@ export function saveCV(data) {
         return fetch(`${API_URL}/cvs`, {
            method: 'post',
            body: JSON.stringify(data),
-           headers: {
-               "Content-Type" : "application/json"
-           }
+           headers: headers
         })
         .then(handleResponse)
         .then(data => {
