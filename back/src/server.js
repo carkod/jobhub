@@ -55,7 +55,7 @@ promise.then((db) => {
     Portfolio(app, db);
     Categories(app, db);
     
-    //Other applications
+    //Other applications    
     Pdf(app, db);
     
    app.listen(PORT, () => console.log('Server is running on localhost:' + PORT)); 
