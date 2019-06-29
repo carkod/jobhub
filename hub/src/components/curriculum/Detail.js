@@ -2,23 +2,19 @@
 
 import React, { Component } from 'react';
 //import Detail from './components/Detail';
-
 import { connect } from 'react-redux';
-import shortid from 'shortid';
-import moment from 'moment';
-import { Icon, Button, Header, Input, Checkbox } from 'semantic-ui-react';
-import RichTextEditor from 'react-rte';
-import { saveCV, fetchCVs, generatePDF, addNotification } from '../../actions/cv';
-import {fetchCats} from '../../actions/project';
-
-import Summary from './Summary'; 
-import Metainfo from '../Metainfo'; 
-import PD from './PD'; 
-import WorkRepeater from './WorkRepeater';
+import { Button, Icon } from 'semantic-ui-react';
+import { addNotification, fetchCVs, generatePDF, saveCV } from '../../actions/cv';
+import { fetchCats } from '../../actions/project';
+import Metainfo from '../Metainfo';
 import Education from './Education';
-import LangSkills from './LangSkills';
-import WebdevSkills from './WebdevSkills';
 import ItSkills from './ItSkills';
+import LangSkills from './LangSkills';
+import PD from './PD';
+import Summary from './Summary';
+import WebdevSkills from './WebdevSkills';
+import WorkRepeater from './WorkRepeater';
+
 
 class Detail extends Component {
 

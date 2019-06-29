@@ -1,11 +1,8 @@
-/* eslint-disable */
-
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Accordion, Button, Icon, Segment } from 'semantic-ui-react';
-import shortid from 'shortid';
 import { copyCV, deleteCV, fetchCVs, saveCV } from '../../actions/cv';
 import AddNew from './AddNew';
 
@@ -17,7 +14,6 @@ class Listing extends Component {
     this.handleCopy = this.handleCopy.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
-
 
   componentDidMount = () => {
     this.props.fetchCVs()
@@ -33,7 +29,7 @@ class Listing extends Component {
     let newCV = cvs[i];
     delete newCV._id;
     if (cvs) {
-      this.props.copyCV(newCV).then(status => {
+      this.props.copyCV(newCV).then((status) => {
         this.props.fetchCVs();
         //this.state.detail.messages.savedID = status.data._id;
         //this.setState({ messages })
@@ -42,9 +38,7 @@ class Listing extends Component {
   }
 
   handleDelete = () => {
-    const getItem = this.props.cvs[this.state.activeIndex],
-      getID = getItem._id,
-      getName = getItem.name;
+    const getItem = this.props.cvs[this.state.activeIndex], getID = getItem._id;
     this.props.deleteCV(getID).then(cv => {
       this.setState({ openAccordion: false });
       this.props.fetchCVs();
@@ -54,17 +48,15 @@ class Listing extends Component {
 
 
   render() {
-    const status = this.state;
     let renderList;
     if (this.props.cvs.length > 0) {
       const arrayList =
         this.props.cvs.map((cv, i) => ({
+          key: `panel-${cv._id}`,
           title: {
-            key: shortid.generate(),
             content: <span>{cv.name !== undefined ? cv.name : 'Enter name'}</span>,
           },
           content: {
-            key: shortid.generate(),
             content: (
               <div className="metadata">
                 <div className="meta-content">
