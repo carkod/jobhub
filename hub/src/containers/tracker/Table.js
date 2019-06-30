@@ -1,7 +1,8 @@
 /* eslint-disable */
+import PropTypes from 'prop-types';
 import React, { Component } from "react";
 
-const columns = ['Company', 'Role (Seniority)', 'Location', 'Contact', 'Web', 'Industry', 'Description', 'Files'];
+const columns = ['Company', 'Role', 'Location', 'Contact', 'Application', 'Description', 'Files'];
 const stages = [
     // (1) Use default stages and (2) allow for adding additional stages
     { order: 0, type: 'First contact', dept: 'HR', startDate: new Date(), finishDate: new Date() },
@@ -14,6 +15,7 @@ const role = ['Front-end developer', 'JavaScript developer', 'Business analyst',
 // const roleSeniority = ['Junior', 'Mid-level', 'Senior'];
 let description, web, companyType;
 
+
 class TrackingTable extends Component {
     constructor(props) {
         super(props);
@@ -24,90 +26,64 @@ class TrackingTable extends Component {
     }
     render() {
         return (
-            <table class="ui celled padded table">
-                <thead>
-                    <tr>
-                        {columns.map(text =>
-                            <th>{text}</th>
+            <Table compact celled definition>
+                <Table.Header>
+                    <Table.Row>
+                        {columns.map(col => 
+                            <Table.HeaderCell>{col}</Table.HeaderCell>
                         )}
+                    </Table.Row>
+                </Table.Header>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h2 class="ui center aligned header">A</h2>
-                        </td>
-                        <td class="single line">Power Output</td>
-                        <td>
-                            <div class="ui star rating" role="radiogroup">
-                                <i aria-checked="false" aria-posinset="1" aria-setsize="3" class="active icon" tabindex="0" role="radio" />
-                                <i aria-checked="false" aria-posinset="2" aria-setsize="3" class="active icon" tabindex="0" role="radio" />
-                                <i
-                                    aria-checked="true"
-                                    aria-posinset="3"
-                                    aria-setsize="3"
-                                    class="active icon"
-                                    tabindex="0"
-                                    role="radio"
-                                />
-                            </div>
-                        </td>
-                        <td class="right aligned">
-                            80% <br />
-                            <a href="#">18 studies</a>
-                        </td>
-                        <td>
-                            Creatine supplementation is the reference compound for increasing muscular creatine levels;
-                            there is variability in this increase, however, with some nonresponders.
-                </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h2 class="ui center aligned header">A</h2>
-                        </td>
-                        <td class="single line">Weight</td>
-                        <td>
-                            <div class="ui star rating" role="radiogroup">
-                                <i
-                                    aria-checked="false"
-                                    aria-posinset="1"
-                                    aria-setsize="3"
-                                    class="active icon"
-                                    tabindex="0"
-                                    role="radio"
-                                />
-                                <i
-                                    aria-checked="false"
-                                    aria-posinset="2"
-                                    aria-setsize="3"
-                                    class="active icon"
-                                    tabindex="0"
-                                    role="radio"
-                                />
-                                <i
-                                    aria-checked="true"
-                                    aria-posinset="3"
-                                    aria-setsize="3"
-                                    class="active icon"
-                                    tabindex="0"
-                                    role="radio"
-                                />
-                            </div>
-                        </td>
-                        <td class="right aligned">
-                            100% <br />
-                            <a href="#">65 studies</a>
-                        </td>
-                        <td class="">
-                            Creatine is the reference compound for power improvement, with numbers from one
-                            meta-analysis to assess potency
-                </td>
-                    </tr>
-                </tbody>
-            </table>
+                <Table.Body>
+                    {}
+                    <Table.Row>
+                        <Table.Cell>Capgemini</Table.Cell>
+                        <Table.Cell>Success / In progress / Rejected</Table.Cell>
+                        <Table.Cell>Front-end developer</Table.Cell>
+                        <Table.Cell>{"Maria Zambrano <maria@recruitment.com>"}</Table.Cell>
+                        <Table.Cell>11/07/2019</Table.Cell>
+                        <Table.Cell>Interview / Group dynamics / Test</Table.Cell>
+                        <Table.Cell>https://www.linkedin.com/jobs/view/1331562981/</Table.Cell>
+                        <Table.Cell>Madrid</Table.Cell>
+                        <Table.Cell>28/07/2019</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+
+                <Table.Footer fullWidth>
+                    <Table.Row>
+                        <Table.HeaderCell />
+                        <Table.HeaderCell colSpan="4">
+                            <Button floated="right" labelPosition primary size="small">
+                                <Icon name="user" /> Add User
+                            </Button>
+                            <Button size="small">Approve</Button>
+                            <Button disabled size="small">
+                                Approve All
+                            </Button>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Footer>
+            </Table>
         )
     }
 }
+
+Track.propTypes = {
+    company: PropTypes.string,
+    status: PropTypes.array,
+    contact: PropTypes.string,
+    stage: PropTypes.array,
+    appliction: PropTypes.string,
+    location: PropTypes.string,
+}
+
+TrackingTable.propTypes = {
+    trackerData: PropTypes.arrayOf(PropTypes.string),
+    stages: PropTypes.array,
+    columns: PropTypes.arrayOf(PropTypes.string)
+
+}
+
 
 export default TrackingTable

@@ -1,37 +1,45 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-//import Detail from './containers/Detail';
+import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
 import TrackingTable from './Table.js';
 
 class Tracker extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-        };
+    this.state = {
+    };
 
-    }
+  }
 
-    componentDidMount = () => {
-    
-    }
+  componentDidMount = () => {
 
-    render() {
-        return (
-          <div id="tracker">
-            <h1>Tracker list</h1>
-            {/*Three tabs: tracking table, add stage, contact book*/}
-            <TrackingTable />
-          </div>
-        );
-      }
+  }
+
+  render() {
+    return (
+      <div id="tracker">
+        <h1>Tracker list</h1>
+        {/*Three tabs: tracking table, add stage, contact book*/}
+        <TrackingTable />
+        <Pagination
+          defaultActivePage={1}
+          firstItem={null}
+          lastItem={null}
+          pointing
+          secondary
+          totalPages={3}
+        />
+      </div>
+    );
+  }
 
 }
 
 const mapStateToProps = (state, props) => {
-    return true
+  return true
 }
+
 
 export default Tracker;
