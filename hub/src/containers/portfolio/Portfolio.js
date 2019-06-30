@@ -56,14 +56,13 @@ class Portfolio extends Component {
     const {portfolio} = this.state;
     const list =
     portfolio.map((proj, i) => ({
+      key: cv._id || shortid.generate(),
       title: {
-        key: shortid.generate(),
         content: (
           <span color={this.state.savedID === proj._id ? 'red' : 'inherit' }>{proj.name}</span>
         ),  
       },
       content: {
-        key: shortid.generate(),
         content: (
           <div className="metadata">
             <div className="meta-content">

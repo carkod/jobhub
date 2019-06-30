@@ -47,8 +47,8 @@ class Positions extends Component {
     if (cats.length > 0) {
       const arrayList =
       cats.map((cv, i) => ({
+        key: cv._id || shortid.generate(),
         title: {
-          key: cv._id || shortid.generate(),  
           content: <span color={this.state.savedID === cv._id ? 'red' : 'inherit' }>{cv.title}</span>,
         },
         content: {

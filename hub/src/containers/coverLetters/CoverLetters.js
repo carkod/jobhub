@@ -58,9 +58,9 @@ class CoverLetters extends Component {
     const {cls} = !!Object.keys(this.state).length ? this.state : this.props;
     const list =
     cls.map((letter, i) => ({
+      key: `panel-${letter._id}`,
       title: {
         content: <span color={this.state.savedID === letter._id ? 'red' : 'inherit' }>{letter.name}</span>,
-        key: shortid.generate(),
       },
       content: {
         content: (
