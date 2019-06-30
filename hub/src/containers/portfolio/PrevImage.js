@@ -74,7 +74,6 @@ class PrevImage extends Component {
   
   render() {
     const {image} = !!Object.keys(this.state).length ? this.state : this.props;
-    console.log(this.state)
     return (
       <div className="fileUpload section">
         <Header sub>

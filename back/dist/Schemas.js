@@ -79,20 +79,6 @@ var ProjectSchema = new Schema({
 
 var CategoriesSchema = new Schema({}, { timestamps: true }, { strict: false });
 
-// CVSchema.pre('update', function(next){
-//     const slugger = slug(this._update.$set.name.toLowerCase());
-//     // this._findOne({id: '5a2b3658c54dd20bd20ee3f9'},function(err, doc) {
-//     //     console.log(doc)
-//     //     // if (err) {
-//     //     //     this._update.$set.slug = slugger;
-//     //     // } else {
-//     //     //     console.log('slug already exists')
-//     //     // }
-
-//     // });
-//     //next(err, doc);
-// });
-
 exports.CVSchema = CVSchema;
 exports.CLSchema = CLSchema;
 exports.ProjectSchema = ProjectSchema;

@@ -23,7 +23,6 @@ class Children extends Component {
   }
   
   componentWillReceiveProps = (p) => {
-    console.log(p)
      this.setState({p})
   }
   

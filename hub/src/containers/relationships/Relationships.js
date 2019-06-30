@@ -51,7 +51,6 @@ class Relationships extends Component {
   }
 
   render() {
-    console.log(this.state)
     const {cats} = this.state || this.props;
     let renderList;
     if (cats.length > 0) {

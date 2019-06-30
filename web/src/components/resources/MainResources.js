@@ -37,7 +37,6 @@ class MainResources extends Component {
     const {portfolio} = !!Object.keys(this.state).length ? this.state : this.props;
     const {position} = this.props.match.params;
     const {positions} = this.props;
-    console.log(positions)
     const matchPos = pos => {
       if (positions) {
         return positions.find(i => i.value === pos)
@@ -45,7 +44,6 @@ class MainResources extends Component {
         return false;
       }
     }
-    console.log('match Pos method', matchPos(position))
     const title = positions ? matchPos(position).text : 'Professional Profile';
     
     return (

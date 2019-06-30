@@ -53,7 +53,6 @@ function CLs(app, db) {
                 desc: r.desc
             });
         }
-        console.log(r);
         var id = r._id || cv._id;
         delete r._id;
         CLModel.update({ _id: id }, cv, { upsert: true }, function (err, msg) {

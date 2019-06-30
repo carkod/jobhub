@@ -101,7 +101,6 @@ class Project extends Component {
   render() {
     const {project} = !!Object.keys(this.state).length ? this.state : this.props;
     const {categories} = this.state;
-    console.log(project)
     return (
       <div id="project">
         <form onSubmit={this.onSubmit} name="project" >

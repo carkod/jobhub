@@ -5,13 +5,12 @@ import { Route, Redirect } from 'react-router-dom';
 // const isAuthenticated = JSON.parse(localStorage.getItem('token'))
 
 export const PublicRoute = ({ isAuthenticated, component: Component, ...rest }) => (
-    <Route {...rest} component={(props) => { console.log(props); return (
+    <Route {...rest} component={(props) => (
       isAuthenticated ? <Redirect to="/" /> : <Component {...props} /> 
-    )} }/>
+    )} />
   );
 
 const mapStateToProps = state => {
-    console.log(state);
     return ({
         isAuthenticated: state.isAuthenticated,
     });

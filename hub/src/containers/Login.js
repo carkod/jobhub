@@ -16,11 +16,7 @@ class Login extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log('token', localStorage.getItem('hubToken'))
-  }
-
-  login = (e) => {
+  login (e) {
     this.props.auth(this.state)
       .then((d) => {
         if (d.id.token) {
