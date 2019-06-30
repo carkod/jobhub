@@ -11,7 +11,7 @@ function handleResponse(response) {
     } else {
         let error = new Error(response.statusText);
         error.response = response;
-        throw error;
+        return response.json();
     }
 }
 
@@ -22,10 +22,10 @@ export function isAuthenticated(id) {
     }
 }
 
-export function isNotAuthenticated(id) {
+export function isNotAuthenticated(payload) {
     return {
       type: NOT_AUTH,
-      id,
+      payload,
     }
 }
 

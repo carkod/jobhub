@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button, Checkbox, Form, Header, Input, Label, Segment } from 'semantic-ui-react';
+import { Button, Checkbox, Form, Header, Input, Segment } from 'semantic-ui-react';
 import { auth } from '../actions/login';
 import Notifications from './Notification';
 
@@ -18,15 +18,16 @@ class Login extends Component {
   }
 
   login = (e) => {
-    console.log('logging', this.state);
     this.props.auth(this.state)
-      .catch(e => console.log(e))
       .then((d) => {
-        const token = JSON.stringify(d.token);
-        localStorage.setItem('token', token);
-        this.setState({ isAuthenticated: true });
-        // this.setState({ redirectToReferrer: true });
-      });
+        if (d.id.token) {
+          const token = JSON.stringify(d.id.token);
+          localStorage.setItem('token', token);
+          this.setState({ isAuthenticated: true, redirectToReferrer: true });
+        }
+        return false;
+      })
+      .catch(e => console.log(e));
   }
 
   handleChange = (e) => {
@@ -47,38 +48,37 @@ class Login extends Component {
 
 
   render() {
-    // const { isAuthenticated } = this.state;
-    // if (isAuthenticated) {
-    //   return <Redirect to='/home' />;
-    // }
+    const { isAuthenticated } = this.state;
+    if (isAuthenticated) {
+      return <Redirect to='/home' />;
+    } else {
 
-    return (
-      <div className="login-centerer">
-        <Notifications notifications={this.props.notifications} />
-        <Segment id='login' compact>
-          <Header as='h2'>You need to log in to access this application</Header>
-          <Form>
-            <Form.Field>
-              <Input type='text' name='email' placeholder='Email' onChange={this.handleChange} />
-              <Label color='red' pointing active={false}>Email is incorrect</Label>
-            </Form.Field>
-            <Form.Field>
-              <Input type='text' name='username' placeholder='Username' onChange={this.handleChange} />
-              <Label color='red' pointing active={false}>Username is invalid</Label>
-            </Form.Field>
-            <Form.Field>
-              <Input type='password' name='password' placeholder='Password' onChange={this.handleChange} />
-              <Label color='red' pointing active={true}>Password is incorrect</Label>
-            </Form.Field>
-            <Form.Field>
-              <Checkbox name="remember" label='Remember me' onChange={this.checkboxChange} />
-            </Form.Field>
-            <Button onClick={this.login} name="login">Log in</Button>
-          </Form>
-        </Segment>
-      </div>
-    );
+      return (
+        <div className="login-centerer">
+          <Notifications notifications={this.props.notifications} />
+          <Segment id='login' compact>
+            <Header as='h2'>Log in to access this application</Header>
+            <Form>
+              <Form.Field>
+                <Input type='text' name='email' placeholder='Email' onChange={this.handleChange} />
+                {/* <Label color='red' pointing active={false}>Email is incorrect</Label> */}
+              </Form.Field>
+              <Form.Field>
+                <Input type='password' name='password' placeholder='Password' onChange={this.handleChange} />
+                {/* <Label color='red' pointing active={true}>Password is incorrect</Label> */}
+              </Form.Field>
+              <Form.Field>
+                <Checkbox name="remember" label='Remember me' onChange={this.checkboxChange} />
+              </Form.Field>
+              <Button onClick={this.login} name="login">Log in</Button>
+            </Form>
+          </Segment>
+        </div>
+      );
+    }
   }
+
+
 }
 
 function mapStateToProps(state, props) {

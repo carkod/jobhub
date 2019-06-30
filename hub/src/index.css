@@ -204,8 +204,13 @@ body {
 }
 
 #notification .ui.message {
- background-color:#1aa62a; 
+ background-color:#1aa62a;
  color:#fff;
+}
+
+#notification .ui.message.error {
+  background-color: red;
+  color:#fff;
 }
 
 #login {

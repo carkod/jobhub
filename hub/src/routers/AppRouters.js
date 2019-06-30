@@ -8,15 +8,17 @@ import Positions from '../containers/curriculum/Positions';
 // import PublicRouter from './PublicRouter';
 import Home from '../containers/Home';
 import Layout from '../containers/Layout';
-// import Login from '../containers/Login';
+import Login from '../containers/Login';
 import Portfolio from '../containers/portfolio/Portfolio';
 import Project from '../containers/portfolio/Project';
 import Relationships from '../containers/relationships/Relationships';
 import PrivateRouter from './PrivateRouter';
+import PublicRouter from './PublicRouter';
 
 const AppRouter = () => (
     <Layout>
-        <PrivateRouter exact path="/home" compoent={Home} />
+        <PublicRouter exact path="/login" component={Login} />
+        <PrivateRouter exact path="/home" component={Home} />
         <PrivateRouter exact path="/cv" component={Listing} />
         <PrivateRouter exact path="/cv/positions" component={Positions} />
         <PrivateRouter exact path="/relationships" component={Relationships} />
