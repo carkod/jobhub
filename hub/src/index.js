@@ -13,7 +13,6 @@ import AppRouter from './routers/AppRouters';
 import PublicRouter from './routers/PublicRouter';
 import Login from './containers/Login';
 
-// import fakeAuth from './containers/fakeAuth';
 
 /*import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();*/
@@ -26,18 +25,16 @@ const store = createStore(
     )
 );
 
-/*store.subscribe(() => {
-  saveState(store.getState())
-})*/
+// store.subscribe(() => {
+//   saveState(store.getState())
+// })
 
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Switch>
-        <PublicRouter exact path="/" component={Login} />
-        <AppRouter />
-      </Switch>
+    <AppRouter />
+      
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')
