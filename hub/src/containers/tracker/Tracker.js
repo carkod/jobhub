@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import TrackingTable from './Table.js';
+import { Pagination } from 'semantic-ui-react'
 
 class Tracker extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Tracker extends Component {
   render() {
     return (
       <div id="tracker">
-        <h1>Tracker list</h1>
+        <h1>Application tracking</h1>
         {/*Three tabs: tracking table, add stage, contact book*/}
         <TrackingTable />
         <Pagination

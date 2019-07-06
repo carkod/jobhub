@@ -13,6 +13,8 @@ import Project from '../containers/portfolio/Project';
 import Relationships from '../containers/relationships/Relationships';
 import PrivateRouter from './PrivateRouter';
 import PublicRouter from './PublicRouter';
+import Tracker from '../containers/tracker/Tracker'
+
 import { Switch } from 'react-router-dom';
 
 const AppRouter = () => (
@@ -30,7 +32,7 @@ const AppRouter = () => (
             <PrivateRouter path="/portfolio/project/id=:id" component={Project} />
             <PrivateRouter path="/coverletters" component={CoverLetters} />
             <PrivateRouter path="/coverletters/id=:id" component={Letter} />
-            {/* <PrivateRoute path="/tracker/" component={Tracker} /> */}
+            <PrivateRouter exact path="/tracker/" component={Tracker} />
         </Layout>
     </Switch>
 );
