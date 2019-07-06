@@ -5,7 +5,6 @@ import axios from 'axios';
 export const SET_CATS = 'SET_CATS';
 
 function handleResponse(response) {
-    console.log(response)
     if (response.ok) {
         return response.json();
     } else {

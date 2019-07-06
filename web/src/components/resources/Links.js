@@ -19,13 +19,6 @@ class Links extends Component {
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    console.log(props)
-  }
-  
   render() {
     const {links} = !!Object.keys(this.state).length ? this.state : this.props;
     return (

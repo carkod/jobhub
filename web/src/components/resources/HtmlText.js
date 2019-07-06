@@ -29,7 +29,6 @@ class HtmlText extends Component {
     
     componentWillReceiveProps = (props) => {
         const {text} = props;
-        console.log(text)
         const convert = convertFromHTML(text);
         const content = ContentState.createFromBlockArray(convert.contentBlocks,convert.entityMap)
         this.setState({editorState: EditorState.createWithContent(content)})    

@@ -1,26 +1,18 @@
 /* eslint-disable */
+import 'draft-js/dist/Draft.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import Reducer from './Reducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import 'draft-js/dist/Draft.css';
+import { BrowserRouter, Switch } from 'react-router-dom';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 import './index.css';
-import { Link, Route, IndexRoute, Router, Switch, BrowserRouter } from 'react-router-dom';
+import Reducer from './Reducer';
+import AppRouter from './routers/AppRouters';
+import PublicRouter from './routers/PublicRouter';
+import Login from './containers/Login';
 
-import Home from './components/Home';
-import Layout from './components/Layout';
-import Listing from './components/curriculum/Listing';
-import Detail from './components/curriculum/Detail';
-import Positions from './components/curriculum/Positions';
-import Portfolio from './components/portfolio/Portfolio';
-import Project from './components/portfolio/Project';
-import CoverLetters from './components/coverLetters/CoverLetters';
-import Letter from './components/coverLetters/Letter';
-import LinkedIn from './components/LinkedIn';
-import Relationships from './components/relationships/Relationships';
 
 /*import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();*/
@@ -33,32 +25,16 @@ const store = createStore(
     )
 );
 
-/*store.subscribe(() => {
-  saveState(store.getState())
-})*/
+// store.subscribe(() => {
+//   saveState(store.getState())
+// })
 
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Switch>
-        <Layout>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/cv" component={Listing} />
-          <Route exact path="/cv/positions" component={Positions} />
-          <Route exact path="/relationships" component={Relationships} />
-          {/*<Route exact path="/cv/languages" component={Cats} />*/}
-          <Route path="/cv/id=:id" component={Detail} />  
-          
-          <Route exact path="/portfolio" component={Portfolio} />
-          <Route exact path="/portfolio/project/id=:id" component={Project} />
-          
-          <Route exact path="/coverletters" component={CoverLetters} />
-          <Route exact path="/coverletters/id=:id" component={Letter} />
-          
-          <Route exact path="/jobs/linkedin/" component={LinkedIn} />
-        </Layout>
-      </Switch>
+    <AppRouter />
+      
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

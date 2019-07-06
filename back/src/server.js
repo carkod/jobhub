@@ -1,23 +1,24 @@
-import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import express from 'express';
-import expressValidator from 'express-validator';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
+import helmet from 'helmet';
 import mongoose from 'mongoose';
 import path from 'path';
-import credentials from './credentials';
+import Categories from './Categories.js';
+import CoverLetters from './CoverLetters.js';
+import CVs from './CVs.js';
+import Login from './Login.js';
+import Pdf from './Pdf';
+import Portfolio from './Portfolio.js';
+
+dotenv.config();
 const app = express();
 const PORT = 8081;
-const dbUrl = `mongodb://${credentials.user}:${credentials.pass}@${credentials.host}:${credentials.port}/${credentials.db}`;
-
-import CVs from './CVs.js';
-import CoverLetters from './CoverLetters.js';
-import Portfolio from './Portfolio.js';
-import Categories from './Categories.js';
-import Pdf from './Pdf';
-
-let promise = mongoose.connect(dbUrl, { useMongoClient: true });
+const dbUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
+let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
 let db = mongoose.connection;
+
 
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -30,7 +31,7 @@ promise.then((db) => {
     //Parser Middlewares
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
-    app.use(expressValidator());
+    // app.use(expressValidator());
     app.use(cors());
     
     
@@ -54,8 +55,9 @@ promise.then((db) => {
     CoverLetters(app, db);
     Portfolio(app, db);
     Categories(app, db);
+    Login(app, db);
     
-    //Other applications
+    //Other applications    
     Pdf(app, db);
     
    app.listen(PORT, () => console.log('Server is running on localhost:' + PORT)); 

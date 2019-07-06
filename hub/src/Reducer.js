@@ -2,10 +2,12 @@
 
 import { combineReducers } from 'redux';
 
-import { SET_CV, CV_DELETED, SYNC_PERSDETAILS, ADD_NOTIFICATION, REMOVE_NOTIFICATION, CV_FETCHED, PDF_GENERATED } from './actions/cv';
+import { SET_CV, CV_DELETED, SYNC_PERSDETAILS, CV_FETCHED, PDF_GENERATED } from './actions/cv';
 import { SET_CLS, CL_DELETED } from './actions/cl';
 import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED, SET_CATS } from './actions/project';
 import { SAVED_CATS } from './actions/cats';
+import { ADD_NOTIFICATION, REMOVE_NOTIFICATION } from './actions/notification';
+import { IS_AUTH, NOT_AUTH } from './actions/login';
 
 import RichTextEditor from 'react-rte';
 
@@ -208,7 +210,7 @@ const cats = (state = catInit, action = {}) => {
     }
 }
 
-const notification = (state = [],action) => {
+const notification = (state = [], action) => {
     switch (action.type) {
         case ADD_NOTIFICATION:
             const newState = Object.assign({}, state, action.status);
@@ -218,5 +220,24 @@ const notification = (state = [],action) => {
     }
 }
 
-export default combineReducers({ cvs, portfolio, coverLetters, cats, notification });
+const authentication = (state = {}, action) => {
+    switch (action.type) {
+        case IS_AUTH:
+            const isAuth = Object.assign({}, state, {
+                token: action.payload.token,
+                isAuthenticated: true
+            });
+            return isAuth;
+        case NOT_AUTH:
+            const noAuth = Object.assign({}, state, {
+                token: action.payload.token,
+                isAuthenticated: false
+            });
+            return noAuth;
+        default:
+            return {}
+    }
+}
+
+export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication });
 
