@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
 export const PrivateRouter = ({ isAuthenticated, component: Component, ...rest }) => {
-    debugger;
     return (
     <Route {...rest} render={(props) => (
         isAuthenticated ? <Component {...props} /> : <Redirect to={{

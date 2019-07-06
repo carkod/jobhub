@@ -1,6 +1,6 @@
 /* eslint-disable */
-import {API_URL, PDF_URL} from './dev';
-import {addNotification, removeNotification} from './notification';
+import { API_URL } from './dev';
+import { addNotification } from './notification';
 
 export const IS_AUTH  = 'IS_AUTH';
 export const NOT_AUTH = 'NOT_AUTH';
@@ -15,10 +15,10 @@ function handleResponse(response) {
     }
 }
 
-export function isAuthenticated(id) {
+export function isAuthenticated(payload) {
     return {
       type: IS_AUTH,
-      id,
+      payload,
     }
 }
 

@@ -2,10 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-// const isAuthenticated = JSON.parse(localStorage.getItem('token'))
-
 export const PublicRoute = ({ isAuthenticated, component: Component, ...rest }) => (
-    <Route {...rest} component={(props) => (
+    <Route {...rest} render={(props) => (
       isAuthenticated ? <Redirect to="/" /> : <Component {...props} /> 
     )} />
   );

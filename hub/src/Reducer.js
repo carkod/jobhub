@@ -224,13 +224,13 @@ const authentication = (state = {}, action) => {
     switch (action.type) {
         case IS_AUTH:
             const isAuth = Object.assign({}, state, {
-                id: action.id,
+                token: action.payload.token,
                 isAuthenticated: true
             });
             return isAuth;
         case NOT_AUTH:
             const noAuth = Object.assign({}, state, {
-                id: action.id,
+                token: action.payload.token,
                 isAuthenticated: false
             });
             return noAuth;

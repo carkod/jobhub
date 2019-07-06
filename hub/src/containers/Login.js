@@ -16,13 +16,14 @@ class Login extends Component {
     };
   }
 
-  login (e) {
+  login = (e) => {
     this.props.auth(this.state)
       .then((d) => {
-        if (d.id.token) {
-          const token = JSON.stringify(d.id.token);
-          localStorage.setItem('hubToken', token);
-          this.setState({ isAuthenticated: true, redirectToReferrer: true });
+        debugger;
+        if (d.payload.token) {
+          const token = JSON.stringify(d.payload.token);
+          this.setState({ isAuthenticated: true, redirectToReferrer: true, token: token });
+
         }
         return false;
       })
@@ -41,16 +42,12 @@ class Login extends Component {
     })
   }
 
-  componentWillUnmount() {
-
-  }
-
-
   render() {
+    console.log(this.props)
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-
+debugger
     if (this.state.redirectToReferrer === true) {
-      return <Redirect to={from} />
+      return <Redirect to='/' />
     }
     return (
       <div className="login-centerer">
@@ -83,8 +80,8 @@ class Login extends Component {
 function mapStateToProps(state, props) {
   return {
     // notification: state.notification,
-    authentication: state.authentication,
-    isAuthenticated: props.isAuthenticated,
+    isAuthenticated: state.authentication.isAuthenticated,
+    token: state.authentication.token || null
   }
 }
 
