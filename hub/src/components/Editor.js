@@ -10,28 +10,28 @@ class Editor extends Component {
       focus: false,
     };
   }
-  
+
   componentDidMount = () => {
     const value = RichTextEditor.createValueFromString(this.props.value.toString('html'), 'html');
-    this.setState({ value: value })   
+    this.setState({ value: value })
   }
 
-  
+
   componentWillReceiveProps = (props) => {
-      const value = RichTextEditor.createValueFromString(props.value.toString('html'), 'html');
-      this.setState({ value: value })   
+    const value = RichTextEditor.createValueFromString(props.value.toString('html'), 'html');
+    this.setState({ value: value })
   }
 
   onChange = (e) => {
-      const {value} = this.state;
-      this.setState({ value: e });
+    const { value } = this.state;
+    this.setState({ value: e });
   }
- 
+
   render() {
     return (
-        <RichTextEditor value={this.state.value} onChange={this.onChange} onBlur={() => this.props.onChange(this.state.value)}/>
-    );  
-    }
+      <RichTextEditor value={this.state.value} onChange={this.onChange} onBlur={() => this.props.onChange(this.state.value)} />
+    );
+  }
 }
 
 export default Editor;

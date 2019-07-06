@@ -1,12 +1,10 @@
 /* eslint-disable */
 
-import React, { Component } from 'react';
-import shortid from 'shortid';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon, Label, Table } from 'semantic-ui-react';
-import { uploadFile, removeFile, addNotification } from '../../actions/project';
-import Editor from './Editor';
-import RichTextEditor from 'react-rte';
 import moment from 'moment';
+import React, { Component } from 'react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
+import shortid from 'shortid';
+import { addNotification, removeFile, uploadFile } from '../../actions/project';
 
 class Files extends Component {
   

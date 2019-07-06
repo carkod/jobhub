@@ -3,63 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import { Dropdown, Pagination, Table } from 'semantic-ui-react';
 
-const columns = ['Company', 'Status', 'Role', 'Contact', 'Current Stage', 'Application', 'Location', 'Description', ''];
-const stages = [
-	// (1) Use default stages and (2) allow for adding additional stages
-	{ order: 0, type: 'First contact', dept: 'HR', startDate: new Date(), finishDate: new Date() },
-	{ order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() },
-	{ order: 2, type: 'Videocall', dept: 'Senior Developer', startDate: new Date(), finishDate: new Date() },
-	{ order: 3, type: 'Face2Face', dept: 'Developer', startDate: new Date(), finishDate: new Date() },
-	{ order: 3, type: 'Test', dept: 'Technical', startDate: new Date(), finishDate: new Date() },
-];
-const role = ['Front-end developer', 'JavaScript developer', 'Business analyst', 'Project manager', 'Full stack Javascript Developer'];
-const status = [
-	{ value: 0, name: "Not started" },
-	{ value: 1, name: "In progress" },
-	{ value: 2, name: "Rejected" },
-	{ value: 3, name: "Success" },
-]
-// const roleSeniority = ['Junior', 'Mid-level', 'Senior'];
-const appliedCompanies = [
-	{
-		company: "Capgemini",
-		status: { value: 0, name: "Not started" },
-		role: "Front-end developer",
-		contact: {
-			name: "Maria Zambrano",
-			email: "maria@recruitment.com",
-
-		},
-		stage: { order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() },
-		applicationUrl: "https://www.linkedin.com/jobs/view/1331562981/",
-		location: "Madrid",
-		description: "Angular 6, Spanish. Needed knowledge in JIRA and agile methodologies",
-		files: null
-	},
-	{
-		company: "Indra",
-		status: { value: 0, name: "Not started" },
-		role: "Front-end developer",
-		contact: {
-			name: "Maria Zambrano",
-			email: "maria@recruitment.com",
-
-		},
-		stage: { order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() },
-		applicationUrl: "https://www.linkedin.com/jobs/view/1331562981/",
-		location: "Madrid",
-		description: "Angular 6, Spanish. Needed knowledge in JIRA and agile methodologies",
-		files: null
-	}
-]
-const actions = [
-	{ key: 0, icon: 'eye', text: 'View more', value: 'view' },
-	{ key: 1, icon: 'play', text: 'Next stage', value: 'next' },
-	{ key: 2, icon: 'edit', text: 'Edit', value: 'edit' },
-	{ key: 3, icon: 'delete', text: 'Remove', value: 'delete' },
-	{ key: 4, icon: 'hide', text: 'Close status', value: 'close' },
-]
-
+import { appliedCompanies, columns, role, status, stages, actions } from './Tracker.data'
 
 
 class TrackingTable extends Component {

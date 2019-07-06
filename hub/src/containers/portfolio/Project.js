@@ -10,7 +10,7 @@ import { saveProject, fetchPortfolio, uploadFile, fetchCats } from '../../action
 
 import Metainfo from './Metainfo'; 
 import Files from './Files'; 
-import Editor from './Editor'; 
+import Editor from '../../components/Editor'; 
 import Links from './Links'; 
 import PrevImage from './PrevImage';
 

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
-import Editor from './Editor';
+import Editor from '../../components/Editor';
 import RichTextEditor from 'react-rte';
 
 class Summary extends Component {
