@@ -3,26 +3,24 @@ import 'draft-js/dist/Draft.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import './index.css';
 import Reducer from './Reducer';
 import AppRouter from './routers/AppRouters';
-import PublicRouter from './routers/PublicRouter';
-import Login from './containers/Login';
 
 
 /*import { loadState, saveState } from './localStorage';
 const persistedStore = loadState();*/
 
 const store = createStore(
-    Reducer,
-    //persistedStore,
-    composeWithDevTools(
-      applyMiddleware(thunk)
-    )
+  Reducer,
+  //persistedStore,
+  composeWithDevTools(
+    applyMiddleware(thunk)
+  )
 );
 
 // store.subscribe(() => {
@@ -33,8 +31,8 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-    <AppRouter />
-      
+      <AppRouter />
+
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

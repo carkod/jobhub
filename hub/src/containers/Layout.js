@@ -1,11 +1,9 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
-import { Sidebar, Button, Header, Segment, Menu } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
 import Nav from './Nav';
 import Notifications from './Notification';
-import 'semantic-ui-css/semantic.min.css';
 
 class Layout extends Component {
   

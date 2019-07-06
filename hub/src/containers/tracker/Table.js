@@ -52,7 +52,7 @@ const appliedCompanies = [
 		files: null
 	}
 ]
-const options = [
+const actions = [
 	{ key: 0, icon: 'eye', text: 'View more', value: 'view' },
 	{ key: 1, icon: 'play', text: 'Next stage', value: 'next' },
 	{ key: 2, icon: 'edit', text: 'Edit', value: 'edit' },
@@ -72,7 +72,7 @@ class TrackingTable extends Component {
 	}
 	render() {
 		return (
-			<Table compact celled definition>
+			<Table compact celled>
 				<Table.Header>
 					<Table.Row>
 						{columns.map((col, i) =>
@@ -93,7 +93,7 @@ class TrackingTable extends Component {
 							<Table.Cell>{application.location}</Table.Cell>
 							<Table.Cell>{application.description}</Table.Cell>
 							<Table.Cell>
-								<Dropdown options={options} direction='left' floating className='button icon' trigger={<React.Fragment />} />
+								<Dropdown options={actions} direction='left' floating className='button icon' trigger={<React.Fragment />} />
 							</Table.Cell>
 						</Table.Row>
 					)}

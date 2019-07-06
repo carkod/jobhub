@@ -25,12 +25,6 @@ class Editor extends Component {
   onChange = (e) => {
       const {value} = this.state;
       this.setState({ value: e });
-      
-      const currentVal = value.getEditorState().getCurrentContent();
-      const newVal = e.getEditorState().getCurrentContent();
-      /*if (currentVal !== newVal && !this.state.focus) {
-        this.props.update(e)
-      }*/ 
   }
  
   render() {
