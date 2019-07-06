@@ -1,7 +1,7 @@
 /* eslint-disable */
 import PropTypes from 'prop-types';
 import React, { Component } from "react";
-import { Table, Button, Icon } from 'semantic-ui-react'
+import { Dropdown, Pagination, Table } from 'semantic-ui-react';
 
 const columns = ['Company', 'Status', 'Role', 'Contact', 'Current Stage', 'Application', 'Location', 'Description', ''];
 const stages = [
@@ -52,6 +52,14 @@ const appliedCompanies = [
 		files: null
 	}
 ]
+const options = [
+	{ key: 0, icon: 'eye', text: 'View more', value: 'view' },
+	{ key: 1, icon: 'play', text: 'Next stage', value: 'next' },
+	{ key: 2, icon: 'edit', text: 'Edit', value: 'edit' },
+	{ key: 3, icon: 'delete', text: 'Remove', value: 'delete' },
+	{ key: 4, icon: 'hide', text: 'Close status', value: 'close' },
+]
+
 
 
 class TrackingTable extends Component {
@@ -74,7 +82,7 @@ class TrackingTable extends Component {
 				</Table.Header>
 
 				<Table.Body>
-					{appliedCompanies.map((application, i) => 
+					{appliedCompanies.map((application, i) =>
 						<Table.Row key={i}>
 							<Table.Cell>{application.company}</Table.Cell>
 							<Table.Cell>{application.status.value}</Table.Cell>
@@ -85,7 +93,7 @@ class TrackingTable extends Component {
 							<Table.Cell>{application.location}</Table.Cell>
 							<Table.Cell>{application.description}</Table.Cell>
 							<Table.Cell>
-								<Button size="small">View more</Button>
+								<Dropdown options={options} direction='left' floating className='button icon' trigger={<React.Fragment />} />
 							</Table.Cell>
 						</Table.Row>
 					)}
@@ -94,14 +102,15 @@ class TrackingTable extends Component {
 
 				<Table.Footer fullWidth>
 					<Table.Row>
-						<Table.HeaderCell />
-						<Table.HeaderCell colSpan="4">
-							<Button labelPosition="left" size="small">
-								<Icon name="user" /> Add new
-							</Button>
-							<Button size="small">Edit</Button>
-							<Button size="small">Remove</Button>
-							<Button size="small">Close</Button>
+						<Table.HeaderCell colSpan={columns.length}>
+							<Pagination
+								defaultActivePage={1}
+								firstItem={null}
+								lastItem={null}
+								pointing
+								secondary
+								totalPages={3}
+							/>
 						</Table.HeaderCell>
 					</Table.Row>
 				</Table.Footer>

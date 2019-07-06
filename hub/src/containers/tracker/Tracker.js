@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import TrackingTable from './Table.js';
-import { Pagination } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 
 class Tracker extends Component {
   constructor(props) {
@@ -22,16 +22,12 @@ class Tracker extends Component {
     return (
       <div id="tracker">
         <h1>Application tracking</h1>
+        <Button labelPosition="left" size="small">
+								<Icon name="user" /> Add new
+							</Button>
         {/*Three tabs: tracking table, add stage, contact book*/}
         <TrackingTable />
-        <Pagination
-          defaultActivePage={1}
-          firstItem={null}
-          lastItem={null}
-          pointing
-          secondary
-          totalPages={3}
-        />
+        
       </div>
     );
   }
