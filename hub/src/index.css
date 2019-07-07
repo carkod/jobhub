@@ -31,6 +31,12 @@ body {
   border-top:1px dashed #ccc;
 }
 
+.editor__minHeight {
+  min-height: 300px;
+}
+
+/* Element styling */
+
 #detail input, #detail textarea {
   border:none;
   outline:none;

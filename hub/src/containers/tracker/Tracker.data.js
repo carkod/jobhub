@@ -1,9 +1,10 @@
 import shortid from 'shortid'
+import moment from 'moment';
 
 export const columns = ['Company', 'Status', 'Role', 'Contact', 'Current Stage', 'Application', 'Location', 'Description', ''];
 export const stages = [
 	// (1) Use default stages and (2) allow for adding additional stages
-	{ order: 0, complete: false, name: 'First contact', dept: 'HR', startDate: new Date(), endDate: '' },
+	{ order: 0, complete: false, name: 'First contact', dept: 'HR', startDate: moment().format('DD MMMM YYYY'), endDate: '' },
 	{ order: 1, complete: false, name: 'Telephone', dept: 'HR', startDate: '', endDate: '' },
 	{ order: 2, complete: false, name: 'Videocall', dept: 'Senior Developer', startDate: '', endDate: '' },
 	{ order: 3, complete: false, name: 'Face2Face', dept: 'Developer', startDate: '', endDate: '' },

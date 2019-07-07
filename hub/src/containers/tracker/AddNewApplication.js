@@ -9,10 +9,11 @@ import shortid from 'shortid';
 import { addNotification, fetchApplications, uploadFile } from '../../actions/tracker';
 import Editor from '../../components/Editor';
 import { status } from './Tracker.data';
+import update from 'react-addons-update';
 
 
 const emptyStages = [
-	{ order: 0, completed: false, name: 'First contact', dept: 'Recruitment', startDate: new Date(), endDate: '' },
+	{ order: 0, completed: false, action: 'First contact', dept: 'Recruitment', startDate: moment().format('DD MMMM YYYY'), endDate: '' },
 ]
 
 class AddNewApplication extends Component {
@@ -31,7 +32,7 @@ class AddNewApplication extends Component {
 	}
 
 
-	handleChange = (e) => {
+	inputChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
@@ -50,16 +51,23 @@ class AddNewApplication extends Component {
 		})
 	}
 
+	stagesInputChange = i => e => {
+		const { name, value } = e.target;
+		const newData = update(this.state.stages, 
+			{ [i]: { [name]: { $set: value } } }
+		)
+		this.setState({ stages: newData })
+	}
+
 	stagesChange = (e, i) => {
 		console.log(e, i)
 	}
 
 	removeStage = i => e => {
-		const oldStages = this.state.stages
-		console.log(oldStages.slice(0, i))
-		// this.setState({
-		// 	stages: oldStages.slice(0, this.state.stages.indexOf(i))
-		// })
+		const oldStages = this.state.stages.slice(0, i)
+		this.setState({
+			stages: [...oldStages]
+		})
 	}
 
 	handleFileChange = (e) => {
@@ -137,7 +145,6 @@ class AddNewApplication extends Component {
 	}
 
 	render() {
-
 		const backBtn =
 			<button className="btn__add-new" >
 				<Link to={`/tracker`} >
@@ -148,7 +155,7 @@ class AddNewApplication extends Component {
 		const removeStageBtn = (i) => {
 			if (i > 0) {
 				return <Button type='button' onClick={this.removeStage(i)} width={'1'} className="btn">
-					<Icon name='minus squared' />
+					<Icon name='minus square' />
 				</Button>
 			}
 		}
@@ -172,12 +179,6 @@ class AddNewApplication extends Component {
 					</Form.Group>
 
 					<br />
-					{/* <Divider>
-						<Header as='h3' hortizontal>
-							Stages 
-								<Icon name='plus square' onClick={this.addNewStage}/>
-						</Header>
-					</Divider> */}
 					<Divider horizontal>
 						<Header as='h3'>
 							Stages
@@ -188,16 +189,16 @@ class AddNewApplication extends Component {
 
 					{this.state.stages.map((stage, i) =>
 						<Form.Group key={i}>
-							<Form.Input width={'1'} fluid label='Order' name='order' value={stage.order} onChange={this.inputChange} />
+							<Form.Input width={'1'} fluid label='Order' name='order' value={this.state.stages[i].order} onChange={this.stagesInputChange(i)} />
 							<Form.Field width={'1'}>
 								<label>Completed?</label>
-								<Checkbox toggle checked={stage.completed} onChange={this.stagesChange(i)}></Checkbox>
+								<Checkbox toggle checked={this.state.stages[i].completed} onChange={this.stagesInputChange(i)}></Checkbox>
 							</Form.Field>
 
-							<Form.Input width={'3'} fluid label='Action' name='action' placeholder='Action' value={stage.name} onChange={this.inputChange} />
-							<Form.Input width={'4'} fluid label='Type' name='type' placeholder='Type' value={stage.dept} onChange={this.inputChange} />
-							<Form.Input width={'3'} fluid label='Start date' name='startDate' value={moment().format('DD MMMM YYYY')} value={stage.startDate} onChange={this.inputChange} />
-							<Form.Input width={'3'} fluid label='End date' name='endDate' disabled value={stage.endDate} onChange={this.inputChange} />
+							<Form.Input width={'3'} fluid label='Action' name='action' placeholder='Action' value={this.state.stages[i].action} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'4'} fluid label='Type' name='dept' placeholder='Type' value={this.state.stages[i].dept} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'3'} fluid label='Start date' name='startDate' value={moment().format('DD MMMM YYYY')} value={this.state.stages[i].startDate} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'3'} fluid label='End date' name='endDate' disabled value={this.state.stages[i].endDate} onChange={this.stagesInputChange(i)} />
 							{removeStageBtn(i)}
 						</Form.Group>
 					)}

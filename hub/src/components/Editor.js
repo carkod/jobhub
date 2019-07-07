@@ -29,7 +29,7 @@ class Editor extends Component {
 
   render() {
     return (
-      <RichTextEditor value={this.state.value} onChange={this.onChange} onBlur={() => this.props.onChange(this.state.value)} />
+      <RichTextEditor value={this.state.value} onChange={this.onChange} onBlur={() => this.props.onChange(this.state.value)} className="editor__minHeight"/>
     );
   }
 }
