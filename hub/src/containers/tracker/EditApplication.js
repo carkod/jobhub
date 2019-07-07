@@ -28,7 +28,6 @@ class EditApplication extends Component {
 		super(props)
 		console.log(props)
 		this.state = {
-			savedID: null,
 			description: '',
 			stages: [],
 		}

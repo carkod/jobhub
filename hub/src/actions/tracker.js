@@ -160,7 +160,7 @@ export function copyApplication(data) {
 
 export function saveApplication(data) {
     return dispatch => {
-        return fetch(`${API_URL}/portfolio/application`, {
+        return fetch(`${API_URL}/application`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: {

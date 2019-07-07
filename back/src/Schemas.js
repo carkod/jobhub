@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
+import { stringLiteral } from '@babel/types';
 
 mongoose.plugin(slug);
 const Schema = mongoose.Schema;
@@ -82,6 +83,23 @@ const UserSchema = new Schema({
     role: []
 }, {timestamps: true}, {strict: false});
 
+// Applications
+const ApplicationsSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    company: { type: String },
+    contact: { 
+        contactName: { type: String },
+        contactEmail: { type: String },
+        contactPhone: { type: String },
+    },
+    description: { type: Schema.Types.Mixed },
+    files: [],
+    stages: [],
+    status: {
+        value:  { type: Number },
+        name: { type: String }
+     }
+},{timestamps: true}, {strict: false} );
 
 // CVSchema.pre('update', function(next){
 //     const slugger = slug(this._update.$set.name.toLowerCase());
@@ -97,4 +115,4 @@ const UserSchema = new Schema({
 //     //next(err, doc);
 // });
 
-export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema };
+export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationsSchema };

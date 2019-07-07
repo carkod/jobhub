@@ -11,7 +11,6 @@ import Editor from '../../components/Editor';
 import { status } from './Tracker.data';
 import update from 'react-addons-update';
 
-
 const emptyStages = [
 	{ order: 0, completed: false, action: 'First contact', dept: 'Recruitment', startDate: moment().format('DD MMMM YYYY'), endDate: '' },
 ]
@@ -145,6 +144,7 @@ class AddNewApplication extends Component {
 	}
 
 	onSave = () => {
+		this.props.saveApplication()
 		console.log(this.state);
 	}
 
@@ -243,4 +243,4 @@ function mapStateToProps(state, ownProps) {
 	}
 }
 
-export default connect(mapStateToProps, { uploadFile, addNotification, fetchApplications })(AddNewApplication);
+export default connect(mapStateToProps, { uploadFile, addNotification, fetchApplications, saveApplication })(AddNewApplication);

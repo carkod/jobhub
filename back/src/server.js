@@ -11,6 +11,7 @@ import CVs from './CVs.js';
 import Login from './Login.js';
 import Pdf from './Pdf';
 import Portfolio from './Portfolio.js';
+import Tracker from './Tracker.js'
 
 dotenv.config();
 const app = express();
@@ -56,6 +57,7 @@ promise.then((db) => {
     Portfolio(app, db);
     Categories(app, db);
     Login(app, db);
+    Tracker(app, db);
     
     //Other applications    
     Pdf(app, db);
