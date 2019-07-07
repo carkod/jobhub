@@ -2,13 +2,13 @@
 
 import moment from 'moment';
 import React, { Component } from 'react';
-import { Button, Form, Header, Icon, Modal, Checkbox, Label } from 'semantic-ui-react';
-import shortid from 'shortid';
-import { addNotification, uploadFile, fetchApplications } from '../../actions/tracker';
-import { stages, status } from './Tracker.data';
-import Editor from '../../components/Editor';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Button, Checkbox, Divider, Form, Icon, Header } from 'semantic-ui-react';
+import shortid from 'shortid';
+import { addNotification, fetchApplications, uploadFile } from '../../actions/tracker';
+import Editor from '../../components/Editor';
+import { status } from './Tracker.data';
 
 
 const emptyStages = [
@@ -145,6 +145,14 @@ class AddNewApplication extends Component {
 				</Link>
 			</button>
 
+		const removeStageBtn = (i) => {
+			if (i > 0) {
+				return <Button type='button' onClick={this.removeStage(i)} width={'1'} className="btn">
+					<Icon name='minus squared' />
+				</Button>
+			}
+		}
+
 		return (
 			<div id="new-application">
 				<h1>New Application {backBtn}</h1>
@@ -153,19 +161,34 @@ class AddNewApplication extends Component {
 						<Form.Input fluid label='Company name' name='company' placeholder='Company name' required onChange={this.inputChange} />
 						<Form.Select fluid label='Status' options={status} placeholder='Select application status' />
 						<Form.Input fluid label='Role' placeholder='Enter role' onChange={this.inputChange} />
+						<Form.Input fluid label='Salary' placeholder='Enter role salary' onChange={this.inputChange} />
 					</Form.Group>
 
 					<Form.Group widths='equal'>
-
+						<Form.Input fluid label='Application url' name='applicationUrl' placeholder='Source website' onChange={this.inputChange} />
 						<Form.Input fluid label='Contact name' name='contactName' placeholder='Contact name' onChange={this.inputChange} />
 						<Form.Input fluid label='Contact email' name='contactEmail' placeholder='Contact email' onChange={this.inputChange} />
 						<Form.Input fluid label='Contact phone' name='phone' placeholder='Contact phone' onChange={this.inputChange} />
 					</Form.Group>
 
-					<label>Stages <Button icon='plus' type='button' onClick={this.addNewStage} /></label>
+					<br />
+					{/* <Divider>
+						<Header as='h3' hortizontal>
+							Stages 
+								<Icon name='plus square' onClick={this.addNewStage}/>
+						</Header>
+					</Divider> */}
+					<Divider horizontal>
+						<Header as='h3'>
+							Stages
+						<button className="btn"><Icon name='plus square' onClick={this.addNewStage} /></button>
+						</Header>
+					</Divider>
+					<br />
+
 					{this.state.stages.map((stage, i) =>
 						<Form.Group key={i}>
-							<Form.Input width={'1'} fluid label='Order' name='order' value={stage.order} onChange={this.inputChange} disabled />
+							<Form.Input width={'1'} fluid label='Order' name='order' value={stage.order} onChange={this.inputChange} />
 							<Form.Field width={'1'}>
 								<label>Completed?</label>
 								<Checkbox toggle checked={stage.completed} onChange={this.stagesChange(i)}></Checkbox>
@@ -175,13 +198,13 @@ class AddNewApplication extends Component {
 							<Form.Input width={'4'} fluid label='Type' name='type' placeholder='Type' value={stage.dept} onChange={this.inputChange} />
 							<Form.Input width={'3'} fluid label='Start date' name='startDate' value={moment().format('DD MMMM YYYY')} value={stage.startDate} onChange={this.inputChange} />
 							<Form.Input width={'3'} fluid label='End date' name='endDate' disabled value={stage.endDate} onChange={this.inputChange} />
-							<Button type='button' onClick={this.removeStage(i)} width={'1'}>
-								<Icon name='minus' />
-							</Button>
+							{removeStageBtn(i)}
 						</Form.Group>
 					)}
 
-
+					<br />
+					<Divider />
+					<br />
 					<Form.Group widths='equal'>
 						<Form.Input fluid label='Location' name='location' placeholder='London' onChange={this.inputChange} />
 						<Form.Field>
@@ -196,6 +219,11 @@ class AddNewApplication extends Component {
 					<Editor value={this.state.description} onChange={this.descChange} />
 
 				</Form>
+
+				<br />
+				<Divider />
+				<br />
+
 				<Button form="newcv" type="submit" color='green'>
 					<Icon name='save' /> Save
               </Button>
