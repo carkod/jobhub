@@ -53,7 +53,7 @@ class AddNewApplication extends Component {
 
 	stagesInputChange = i => e => {
 		const { name, value } = e.target;
-		const newData = update(this.state.stages, 
+		const newData = update(this.state.stages,
 			{ [i]: { [name]: { $set: value } } }
 		)
 		this.setState({ stages: newData })
@@ -144,6 +144,10 @@ class AddNewApplication extends Component {
 		})
 	}
 
+	onSave = () => {
+		console.log(this.state);
+	}
+
 	render() {
 		const backBtn =
 			<button className="btn__add-new" >
@@ -225,7 +229,7 @@ class AddNewApplication extends Component {
 				<Divider />
 				<br />
 
-				<Button form="newcv" type="submit" color='green'>
+				<Button form="newcv" type="submit" color='green' onClick={this.onSave}>
 					<Icon name='save' /> Save
               </Button>
 			</div>
