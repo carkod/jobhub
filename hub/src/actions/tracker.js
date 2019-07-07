@@ -174,35 +174,14 @@ export function saveApplication(data) {
     }
 }
 
-export function fetchPortfolio() {
-    return dispatch => {
-        fetch(`${API_URL}/portfolio`)
-        .then(res => res.json())
-        .then(data => {
-            dispatch(setApplications(data))
-            dispatch(addNotification(setApplications(data)))
-        })
-    }
-}
 
-export function fetchApplication(id) {
+export function fetchApplications(id) {
     return dispatch => {
         fetch(`${API_URL}/application/${id}`)
         .then(res => res.json())
         .then(data => {
             dispatch(setApplications(data))
             dispatch(addNotification(setApplications(data)))
-        })
-    }
-}
-
-export function fetchCats() {
-    return dispatch => {
-        fetch(`${API_URL}/cats`)
-        .then(res => res.json())
-        .then(data => {
-            dispatch(setCats(data))
-            dispatch(addNotification(setCats(data)))
         })
     }
 }

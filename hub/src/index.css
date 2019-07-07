@@ -223,3 +223,12 @@ body {
   align-items: center;
   height: 100vh;
 }
+
+/* Add New button */
+
+.btn__add-new {
+  background-color: '#fff';
+	border: none;
+	cursor: pointer;
+	outline: none;
+}

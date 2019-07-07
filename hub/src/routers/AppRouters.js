@@ -16,6 +16,8 @@ import PublicRouter from './PublicRouter';
 import Tracker from '../containers/tracker/Tracker'
 
 import { Switch } from 'react-router-dom';
+import AddNewApplication from '../containers/tracker/AddNewApplication';
+import EditApplication from '../containers/tracker/EditApplication';
 
 const AppRouter = () => (
 	<Switch>
@@ -33,6 +35,8 @@ const AppRouter = () => (
 			<PrivateRouter exact path="/coverletters" component={CoverLetters} />
 			<PrivateRouter exact path="/coverletters/id=:id" component={Letter} />
 			<PrivateRouter exact path="/tracker/" component={Tracker} />
+			<PrivateRouter exact path="/tracker/new" component={AddNewApplication} />
+			<PrivateRouter exact path="/tracker/:id" component={EditApplication} />
 		</Layout>
 	</Switch>
 );

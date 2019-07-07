@@ -1,11 +1,9 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react';
 import TrackingTable from './Table.js';
-import { Button, Icon } from 'semantic-ui-react'
-import AddNewApplication from '../../components/AddNewApplication';
-import { formFields } from './Tracker.data'
+
 
 class Tracker extends Component {
   constructor(props) {
@@ -21,12 +19,19 @@ class Tracker extends Component {
   }
 
   render() {
+    const addNewBtn =
+      <button className="btn__add-new" >
+        <Link to={`/tracker/new`} >
+          <Icon name="plus square" color="green" />
+        </Link>
+      </button>
+
     return (
       <div id="tracker">
-        <h1>Application tracking <AddNewApplication /></h1>
+        <h1>Application tracking {addNewBtn}</h1>
         {/*Three tabs: tracking table, add stage, contact book*/}
         <TrackingTable />
-        
+
       </div>
     );
   }

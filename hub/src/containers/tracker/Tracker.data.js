@@ -3,11 +3,11 @@ import shortid from 'shortid'
 export const columns = ['Company', 'Status', 'Role', 'Contact', 'Current Stage', 'Application', 'Location', 'Description', ''];
 export const stages = [
 	// (1) Use default stages and (2) allow for adding additional stages
-	{ order: 0, name: 'First contact', dept: 'HR', startDate: new Date(), endDate: '' },
-	{ order: 1, name: 'Telephone', dept: 'HR', startDate: '', endDate: '' },
-	{ order: 2, name: 'Videocall', dept: 'Senior Developer', startDate: '', endDate: '' },
-	{ order: 3, name: 'Face2Face', dept: 'Developer', startDate: '', endDate: '' },
-	{ order: 3, name: 'Test', dept: 'Technical', startDate: '', endDate: '' },
+	{ order: 0, complete: false, name: 'First contact', dept: 'HR', startDate: new Date(), endDate: '' },
+	{ order: 1, complete: false, name: 'Telephone', dept: 'HR', startDate: '', endDate: '' },
+	{ order: 2, complete: false, name: 'Videocall', dept: 'Senior Developer', startDate: '', endDate: '' },
+	{ order: 3, complete: false, name: 'Face2Face', dept: 'Developer', startDate: '', endDate: '' },
+	{ order: 3, complete: false, name: 'Test', dept: 'Technical', startDate: '', endDate: '' },
 ];
 export const roles = [
 	'Front-end developer', 'JavaScript developer', 'Business analyst', 'Project manager', 'Full stack Javascript Developer'];

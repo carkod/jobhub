@@ -1,11 +1,15 @@
 /* eslint-disable */
 
-import React, { Component } from 'react';
-import { Button, Header, Icon, Modal, Form, Input } from 'semantic-ui-react';
-import shortid from 'shortid';
-import { roles, status, stages } from '../containers/tracker/Tracker.data'
-import { uploadFile, addNotification } from '../actions/tracker'
 import moment from 'moment';
+import React, { Component } from 'react';
+import { Button, Form, Header, Icon, Modal, Checkbox, Label } from 'semantic-ui-react';
+import shortid from 'shortid';
+import { addNotification, uploadFile, fetchApplications } from '../../actions/tracker';
+import { stages, status } from './Tracker.data';
+import Editor from '../../components/Editor';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 
 const buttonDefaultStyles = {
 	backgroundColor: '#fff',
@@ -14,15 +18,24 @@ const buttonDefaultStyles = {
 	outline: 'none',
 }
 
+const emptyStages = [
+	{ order: 0, completed: false, name: 'First contact', dept: 'Recruitment', startDate: new Date(), endDate: '' },
+]
 
-class AddNewApplication extends Component {
+class EditApplication extends Component {
 
 	constructor(props) {
 		super(props)
 		console.log(props)
 		this.state = {
 			savedID: null,
+			description: '',
+			stages: [],
 		}
+	}
+
+	componentDidMount() {
+		this.resetForm()
 	}
 
 
@@ -34,11 +47,35 @@ class AddNewApplication extends Component {
 		console.log(this.state)
 	}
 
-	handleChange = (e) => {
+	descChange = (e) => {
+		console.log(e)
+	}
+
+	addNewStage = () => {
+		const oldStages = Object.assign([], this.state.stages)
+		this.setState({
+			stages: oldStages.concat(emptyStages)
+		})
+	}
+
+	stagesChange = (e, i) => {
+		console.log(e, i)
+	}
+
+	removeStage = i => e => {
+		const oldStages = this.state.stages
+		console.log(oldStages.slice(0, i))
+		// this.setState({
+		// 	stages: oldStages.slice(0, this.state.stages.indexOf(i))
+		// })
+	}
+
+	handleFileChange = (e) => {
 		let data = new FormData();
 		data.append('fieldname', e.target.files[0]);
 		this.data = data;
 	}
+
 
 	handleUpload = e => {
 		e.preventDefault();
@@ -90,6 +127,23 @@ class AddNewApplication extends Component {
 
 	}
 
+	resetForm() {
+		const contact = {
+			contactName: '',
+			contactEmail: '',
+			contactPhone: ''
+		}
+		this.setState({
+			company: '',
+			status: 0,
+			role: '',
+			contact: Object.assign({}, this.state.contact, contact),
+			stages: Object.assign([], this.state.stages, emptyStages),
+			files: '',
+			description: '',
+		})
+	}
+
 	render() {
 
 		const addNewButton =
@@ -98,6 +152,7 @@ class AddNewApplication extends Component {
 			</button>;
 
 		const title = this.state.editMode ? 'Edit appliaction' : 'New application';
+		const stagesList = this.state.editMode ? this.props.stages : this.state.stages;
 
 		return (
 			<Modal trigger={addNewButton} size={'fullscreen'} open={this.state.modalOpen} onClose={() => this.setState({ modalOpen: false })} closeIcon style={{ left: "auto !important" }}>
@@ -110,7 +165,6 @@ class AddNewApplication extends Component {
 							<Form.Input fluid label='Role' placeholder='Enter role' onChange={this.inputChange} />
 						</Form.Group>
 
-						<label>Contact details</label>
 						<Form.Group widths='equal'>
 
 							<Form.Input fluid label='Contact name' name='contactName' placeholder='Contact name' onChange={this.inputChange} />
@@ -118,19 +172,26 @@ class AddNewApplication extends Component {
 							<Form.Input fluid label='Contact phone' name='phone' placeholder='Contact phone' onChange={this.inputChange} />
 						</Form.Group>
 
-						<label>Stages</label>
-						{stages.map((stage, i) =>
-							<Form.Group widths='equal' key={i}>
-								<Form.Input fluid label='Order' name='Order' value={stage.order} onChange={this.inputChange} disabled />
-								<Form.Input fluid label='Status name' name='statusName' placeholder='Action' value={stage.name} onChange={this.inputChange} />
-								<Form.Input fluid label='Status department' name='statusDept' placeholder='Contact type' value={stage.dept} onChange={this.inputChange} />
-								<Form.Input fluid label='Start date' name='startDate' value={moment().format('DD MMMM YYYY')} value={stage.startDate} onChange={this.inputChange} />
-								<Form.Input fluid label='End date' name='endDate' disabled value={stage.endDate} onChange={this.inputChange} />
+						<label>Stages <Button icon='plus' type='button' onClick={this.addNewStage} /></label>
+						{stagesList.map((stage, i) =>
+							<Form.Group key={i}>
+								<Form.Input width={'1'} fluid label='Order' name='order' value={stage.order} onChange={this.inputChange} disabled />
+								<Form.Field width={'1'}>
+									<label>Completed?</label>
+									<Checkbox toggle  checked={stage.completed} onChange={this.stagesChange(i)}></Checkbox>
+								</Form.Field>
+								
+								<Form.Input width={'3'} fluid label='Action' name='action' placeholder='Action' value={stage.name} onChange={this.inputChange} />
+								<Form.Input width={'4'} fluid label='Type' name='type' placeholder='Type' value={stage.dept} onChange={this.inputChange} />
+								<Form.Input width={'3'} fluid label='Start date' name='startDate' value={moment().format('DD MMMM YYYY')} value={stage.startDate} onChange={this.inputChange} />
+								<Form.Input width={'3'} fluid label='End date' name='endDate' disabled value={stage.endDate} onChange={this.inputChange} />
+								<Button type='button' onClick={this.removeStage(i)} width={'1'}>
+									<Icon name='minus' />
+								</Button>
 							</Form.Group>
 						)}
 
 
-						<label>Other details</label>
 						<Form.Group widths='equal'>
 							<Form.Input fluid label='Location' name='location' placeholder='London' onChange={this.inputChange} />
 							<Form.Field>
@@ -141,9 +202,8 @@ class AddNewApplication extends Component {
 							</Form.Field>
 							<Button content="Choose File" labelPosition="left" icon="file" onClick={() => this.fileInputRef.current.click()} />
 							<input ref={this.fileInputRef} type="file" hidden onChange={this.fileChange} />
-
-							<Form.Input fluid label='Description' name='description' placeholder='Comments' onChange={this.inputChange} />
 						</Form.Group>
+						<Editor value={this.state.description} onChange={this.descChange()} />
 
 					</Form>
 				</Modal.Content>
@@ -159,8 +219,8 @@ class AddNewApplication extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		cvs: state.cvs
+		applications: state.applications
 	}
 }
 
-export default AddNewApplication;
+export default connect(mapStateToProps, { uploadFile, addNotification, fetchApplications })(EditApplication);

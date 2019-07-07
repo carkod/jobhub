@@ -8,6 +8,8 @@ import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED, SET_CATS } from './actions
 import { SAVED_CATS } from './actions/cats';
 import { ADD_NOTIFICATION, REMOVE_NOTIFICATION } from './actions/notification';
 import { IS_AUTH, NOT_AUTH } from './actions/login';
+import { SET_APPLICATIONS, APPLICATION_DELETED, APPLICATION_FETCHED } from './actions/tracker';
+
 
 import RichTextEditor from 'react-rte';
 
@@ -236,6 +238,22 @@ const authentication = (state = {}, action) => {
             return noAuth;
         default:
             return {}
+    }
+}
+
+
+function applications (state = {}, action = {} ){
+    switch(action.type) {
+        case SET_APPLICATIONS:
+            return [...state];
+        case APPLICATION_DELETED:
+            const deleted = state.filter((item) => item._id !== action.cvs);
+            return deleted;
+        case APPLICATION_FETCHED:
+            return state;
+       
+        default: 
+            return state;
     }
 }
 
