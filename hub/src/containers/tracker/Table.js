@@ -41,7 +41,7 @@ class TrackingTable extends Component {
 							<Table.Cell>{application.company}</Table.Cell>
 							{/* <Table.Cell>{application.status.name}</Table.Cell> */}
 							<Table.Cell>{application.role}</Table.Cell>
-							<Table.Cell>{application.contact.contactName + ' <' + application.contact.contactEmail + '>'}</Table.Cell>
+							<Table.Cell>{application.contacts[0].contactName + ' <' + application.contacts[0].contactEmail + '>'}</Table.Cell>
 							<Table.Cell>{this.getCurrentStage(application.stages).action + " (" + this.getCurrentStage(application.stages).dept + ")"}</Table.Cell>
 							<Table.Cell>{application.applicationUrl}</Table.Cell>
 							<Table.Cell>{application.location}</Table.Cell>

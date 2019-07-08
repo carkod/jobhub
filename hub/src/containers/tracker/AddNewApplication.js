@@ -15,6 +15,15 @@ const emptyStages = [
 	{ order: 0, completed: false, action: 'First contact', dept: 'Recruitment', startDate: moment().format('DD MMMM YYYY'), endDate: '' },
 ]
 
+const emptyContact = [
+	{
+		contactId: shortid.generate(),
+		contactName: '',
+		contactEmail: '',
+		contactPhone: '',
+	}
+]
+
 class AddNewApplication extends Component {
 
 	constructor(props) {
@@ -22,11 +31,12 @@ class AddNewApplication extends Component {
 		this.state = {
 			company: '',
 			role: 'Front End Developer',
-			contact: {
+			contacts: [{
+				contactId: shortid.generate(),
 				contactName: '',
 				contactEmail: '',
 				contactPhone: '',
-			},
+			}],
 			description: '',
 			stages: emptyStages,
 			status: {
@@ -50,7 +60,7 @@ class AddNewApplication extends Component {
 	}
 
 	descChange = (e) => {
-		console.log(e)
+		this.setState({ description: e.toString('html') });
 	}
 
 	addNewStage = () => {
@@ -60,9 +70,18 @@ class AddNewApplication extends Component {
 		})
 	}
 
+	addNewContact = () => {
+		console.log(this.state.contacts)
+		const oldData = Object.assign([], this.state.contacts)
+		this.setState({
+			contacts: oldData.concat(emptyContact)
+		})
+		console.log(this.state)
+	}
+
 	statusChange = (e) => {
 		const { name, value } = e.target;
-		const newData = update(this.state.stages,
+		const newData = update(this.state.status,
 			{ name: { $set: name } },
 			{ value: { $set: value } },
 		)
@@ -77,6 +96,14 @@ class AddNewApplication extends Component {
 		this.setState({ stages: newData })
 	}
 
+	contactInputChange = i => e => {
+		const { name, value } = e.target;
+		const newData = update(this.state.contacts,
+			{ [i]: { [name]: { $set: value } } }
+		)
+		this.setState({ contacts: newData })
+	}
+
 	stagesChange = (e, i) => {
 		console.log(e, i)
 	}
@@ -85,6 +112,13 @@ class AddNewApplication extends Component {
 		const oldStages = this.state.stages.slice(0, i)
 		this.setState({
 			stages: [...oldStages]
+		})
+	}
+
+	removeContact = i => e => {
+		const oldStages = this.state.contacts.slice(0, i)
+		this.setState({
+			contacts: [...oldStages]
 		})
 	}
 
@@ -158,7 +192,7 @@ class AddNewApplication extends Component {
 				value: 0
 			},
 			role: '',
-			contact: Object.assign({}, this.state.contact, contact),
+			contact: [Object.assign({}, this.state.contact, contact)],
 			stages: Object.assign([], this.state.stages, emptyStages),
 			files: '',
 			description: '',
@@ -166,6 +200,7 @@ class AddNewApplication extends Component {
 	}
 
 	onSave = () => {
+		console.log('saving...', this.state)
 		this.props.saveApplication(this.state).then(res => {
 			console.log('saved application', res);
 		})
@@ -178,6 +213,12 @@ class AddNewApplication extends Component {
 					<Icon name='backward' color="green" />
 				</Link>
 			</button>
+
+		const removeContactBtn = (i) => {
+			return <Button type='button' onClick={this.removeContact(i)} width={'1'} className="btn">
+				<Icon name='minus square' />
+			</Button>
+		}
 
 		const removeStageBtn = (i) => {
 			if (i > 0) {
@@ -200,16 +241,32 @@ class AddNewApplication extends Component {
 
 					<Form.Group widths='equal'>
 						<Form.Input fluid label='Application url' name='applicationUrl' placeholder='Source website' onChange={this.inputChange} />
-						<Form.Input fluid label='Contact name' name='contactName' placeholder='Contact name' onChange={this.inputChange} />
-						<Form.Input fluid label='Contact email' name='contactEmail' placeholder='Contact email' onChange={this.inputChange} />
-						<Form.Input fluid label='Contact phone' name='phone' placeholder='Contact phone' onChange={this.inputChange} />
+						<Form.Input fluid label='Location' name='location' placeholder='London' onChange={this.inputChange} />
 					</Form.Group>
 
 					<br />
 					<Divider horizontal>
 						<Header as='h3'>
+							Contacts
+						<button type="button" className="btn"><Icon name='plus square' onClick={this.addNewContact} /></button>
+						</Header>
+					</Divider>
+					<br />
+
+					{this.state.contacts.map((contact, i) =>
+						<Form.Group key={i}>
+							<Form.Input width={'5'} fluid label='Contact name' name='contactName' placeholder='Contact name' value={this.state.contacts[i].contactName} onChange={this.contactInputChange(i)} />
+							<Form.Input width={'5'} fluid label='Contact email' name='contactEmail' placeholder='Contact email' value={this.state.contacts[i].contactEmail} onChange={this.contactInputChange(i)} />
+							<Form.Input width={'6'} fluid label='Contact phone' name='contactPhone' placeholder='Contact phone' value={this.state.contacts[i].contactPhone} onChange={this.contactInputChange(i)} />
+							{removeContactBtn(i)}
+						</Form.Group>
+					)}
+
+					<br />
+					<Divider horizontal>
+						<Header as='h3'>
 							Stages
-						<button className="btn"><Icon name='plus square' onClick={this.addNewStage} /></button>
+						<button type="button" className="btn"><Icon name='plus square' onClick={this.addNewStage} /></button>
 						</Header>
 					</Divider>
 					<br />
@@ -234,16 +291,20 @@ class AddNewApplication extends Component {
 					<Divider />
 					<br />
 					<Form.Group widths='equal'>
-						<Form.Input fluid label='Location' name='location' placeholder='London' onChange={this.inputChange} />
+
 						<Form.Field>
 							<label>Files:</label>
 							{/* {this.props.files.map(file => 
 									<a href={file.url}>{file.name}</a>
 								)} */}
 						</Form.Field>
-						<Button content="Choose File" labelPosition="left" icon="file" onClick={() => this.fileInputRef.current.click()} />
-						<input ref={this.fileInputRef} type="file" hidden onChange={this.fileChange} />
+
+						<Form.Field>
+							<Button content="Choose File" labelPosition="left" icon="file" onClick={() => this.fileInputRef.current.click()} />
+							<input ref={this.fileInputRef} type="file" hidden onChange={this.fileChange} />
+						</Form.Field>
 					</Form.Group>
+					<label>Job description</label>
 					<Editor value={this.state.description} onChange={this.descChange} />
 
 				</Form>

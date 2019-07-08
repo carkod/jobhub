@@ -5,7 +5,7 @@ import { stringLiteral } from '@babel/types';
 mongoose.plugin(slug);
 const Schema = mongoose.Schema;
 
- 
+
 // CV
 const CVSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
@@ -23,11 +23,11 @@ const CVSchema = new Schema({
     workExp: { type: Schema.Types.Mixed },
     educ: { type: Schema.Types.Mixed },
     langSkills: { type: Schema.Types.Mixed },
-    webdevSkills: { type: Schema.Types.Mixed },  
+    webdevSkills: { type: Schema.Types.Mixed },
     itSkills: { type: Schema.Types.Mixed },
     other: { type: Schema.Types.Mixed },
-    
-},{timestamps: true}, {strict: false} );
+
+}, { timestamps: true }, { strict: false });
 
 // Cover Letters
 const CLSchema = new Schema({
@@ -43,8 +43,8 @@ const CLSchema = new Schema({
     image: { type: String },
     desc: { type: Schema.Types.Mixed },
     other: { type: Schema.Types.Mixed },
-    
-},{timestamps: true}, {strict: false} );
+
+}, { timestamps: true }, { strict: false });
 
 // Projects
 const ProjectSchema = new Schema({
@@ -62,8 +62,8 @@ const ProjectSchema = new Schema({
     documents: [],
     links: [],
     other: { type: Schema.Types.Mixed },
-    
-},{timestamps: true}, {strict: false} );
+
+}, { timestamps: true }, { strict: false });
 
 
 const CategoriesSchema = new Schema({
@@ -72,7 +72,7 @@ const CategoriesSchema = new Schema({
     label: { type: String },
     singLabel: { type: String },
     children: [],
-},{timestamps: true}, {strict: false} );
+}, { timestamps: true }, { strict: false });
 
 const UserSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
@@ -81,26 +81,41 @@ const UserSchema = new Schema({
     email: { type: String },
     updatedAt: { type: Date, default: Date.now },
     role: []
-}, {timestamps: true}, {strict: false});
+}, { timestamps: true }, { strict: false });
 
 // Applications
 const ApplicationSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
-    company: { type: String },
-    contact: { 
-        contactName: { type: String },
-        contactEmail: { type: String },
-        contactPhone: { type: String },
-    },
+    company: { type: String, required: true },
+    contacts: { type: [ContactsSchema], required: true },
     description: { type: Schema.Types.Mixed },
     files: [],
     stages: [],
     status: {
-        value:  { type: Number },
+        value: { type: Number },
         name: { type: String }
-     }
-},{timestamps: true}, {strict: false} );
+    },
+    updatedAt: { type: Date, default: Date.now },
+}, { timestamps: true }, { strict: false });
 
+ApplicationSchema.pre('save', function (next) {
+    if (this.contacts.length === 0) {
+        
+      this.contacts.push({
+          contactId: '',
+          contactName: '',
+          contactPhone: ''
+      })
+    }
+    next();
+  });
+
+const ContactsSchema = new Schema({
+    contactId: { type: String },
+    contactName: { type: String },
+    contactEmail: { type: String },
+    contactPhone: { type: String },
+}, { timestamps: true }, { strict: false })
 // CVSchema.pre('update', function(next){
 //     const slugger = slug(this._update.$set.name.toLowerCase());
 //     // this._findOne({id: '5a2b3658c54dd20bd20ee3f9'},function(err, doc) {
@@ -110,7 +125,7 @@ const ApplicationSchema = new Schema({
 //     //     // } else {
 //     //     //     console.log('slug already exists')
 //     //     // }
-        
+
 //     // });
 //     //next(err, doc);
 // });

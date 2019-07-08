@@ -24,11 +24,14 @@ export const APPLIED_COMPANIES = [
 		company: "Capgemini",
 		status: { value: 0, name: "Applied" },
 		role: "Front End developer",
-		contact: {
-			contactName: "Maria Zambrano",
-			contactEmail: "maria@recruitment.com",
-
-		},
+		contacts: [
+			{
+				contactId: shortid.generate(),
+				contactName: "Maria Zambrano",
+				contactEmail: "maria@recruitment.com",
+				contactPhone: '',
+			}
+		],
 		stages: [{ order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() }],
 		applicationUrl: "https://www.linkedin.com/jobs/view/1331562981/",
 		location: "Madrid",

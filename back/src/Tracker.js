@@ -64,10 +64,11 @@ export default function Tracker(app, db) {
                 // Create new || Update
                 _id: r._id || mongoose.Types.ObjectId(),
                 company: r.company,
-                contact: {
-                    contactName: r.contact.contactName,
-                    contactEmail: r.contact.contactEmail,
-                    contactPhone: r.contact.contactPhone,
+                contacts: {
+                    contactId: r.contactId || mongoose.Types.ObjectId(),
+                    contactName: r.contacts.contactName,
+                    contactEmail: r.contacts.contactEmail,
+                    contactPhone: r.contacts.contactPhone,
                 },
                 description: r.description,
                 files: r.files,
