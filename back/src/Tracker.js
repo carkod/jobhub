@@ -75,7 +75,8 @@ export default function Tracker(app, db) {
                 status: {
                     value: r.status.value,
                     name: r.status.name
-                }
+                },
+                location: r.location
             });
         const id = r._id || applications._id;
         delete r._id;

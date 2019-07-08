@@ -10,17 +10,21 @@ import { connect } from 'react-redux';
 class TrackingTable extends Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			applications: []
-		};
 	}
 
 	componentDidMount = () => {
 		this.props.getApplications()
 	}
 
+	getCurrentStage = (allStages) => {
+		const maxVal = Math.max.apply(Math, allStages.map((o, i) => +o.order))
+		const maxObj = allStages.filter(x => maxVal == x.order)
+		return maxObj[0]
+	}
+
 	render() {
+		const applications = this.props.applications.length > 0 ? this.props.applications : this.state.applications
+
 		return (
 			<Table compact celled>
 				<Table.Header>
@@ -32,13 +36,13 @@ class TrackingTable extends Component {
 				</Table.Header>
 
 				<Table.Body>
-					{this.state.applications.map((application, i) =>
+					{applications.map((application, i) =>
 						<Table.Row key={i}>
 							<Table.Cell>{application.company}</Table.Cell>
-							<Table.Cell>{application.status.value}</Table.Cell>
+							{/* <Table.Cell>{application.status.name}</Table.Cell> */}
 							<Table.Cell>{application.role}</Table.Cell>
-							<Table.Cell>{application.contact.name + ' <' + application.contact.email + '>'}</Table.Cell>
-							<Table.Cell>{application.stage.type + " (" + application.stage.dept + ")"}</Table.Cell>
+							<Table.Cell>{application.contact.contactName + ' <' + application.contact.contactEmail + '>'}</Table.Cell>
+							<Table.Cell>{this.getCurrentStage(application.stages).action + " (" + this.getCurrentStage(application.stages).dept + ")"}</Table.Cell>
 							<Table.Cell>{application.applicationUrl}</Table.Cell>
 							<Table.Cell>{application.location}</Table.Cell>
 							<Table.Cell>{application.description}</Table.Cell>
@@ -78,9 +82,17 @@ TrackingTable.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-	return {
-		applications: state.applications
+	if (state.applications.length > 0) {
+		return {
+			applications: state.applications,
+		}
+	} else {
+		return {
+			applications: APPLIED_COMPANIES
+		}
+
 	}
+
 }
 
 export default connect(mapStateToProps, { addNotification, getApplications })(TrackingTable);

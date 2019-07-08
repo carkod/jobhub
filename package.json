@@ -6,7 +6,7 @@
     "scripts": {
         "start": "npm-run-all -p back hub web",
         "back": "npm-run-all -p back:watch-sass back:start-js",
-        "back:start-js": "nodemon --exec babel-node --ignore hub,web -- back/src/server.js",
+        "back:start-js": "nodemon --exec babel-node --ignore hub -- back/src/server.js",
         "back:watch-sass": "node-sass --watch back/src/pdf/styles/ -o back/src/pdf/assets/ back/src/pdf/styles/",
         "back:build-js": "babel back/src --copy-files --extensions .js --ignore pdf/styles --out-dir dist  --presets es2015",
         "back:build-sass": "node-sass -o back/dist/pdf/assets -x --output-style compressed back/src/pdf/styles/",

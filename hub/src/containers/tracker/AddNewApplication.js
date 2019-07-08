@@ -20,11 +20,18 @@ class AddNewApplication extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			company: '',
+			role: 'Front End Developer',
+			contact: {
+				contactName: '',
+				contactEmail: '',
+				contactPhone: '',
+			},
 			description: '',
 			stages: emptyStages,
 			status: {
-				value: '',
-				name: '',
+				value: 0,
+				name: 'Applied',
 			}
 		}
 	}
@@ -146,7 +153,10 @@ class AddNewApplication extends Component {
 		}
 		this.setState({
 			company: '',
-			status: 0,
+			status: {
+				name: '',
+				value: 0
+			},
 			role: '',
 			contact: Object.assign({}, this.state.contact, contact),
 			stages: Object.assign([], this.state.stages, emptyStages),

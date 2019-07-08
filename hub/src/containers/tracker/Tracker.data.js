@@ -22,34 +22,20 @@ export const status = [
 export const APPLIED_COMPANIES = [
 	{
 		company: "Capgemini",
-		status: { value: 0, name: "Not started" },
-		role: "Front-end developer",
+		status: { value: 0, name: "Applied" },
+		role: "Front End developer",
 		contact: {
-			name: "Maria Zambrano",
-			email: "maria@recruitment.com",
+			contactName: "Maria Zambrano",
+			contactEmail: "maria@recruitment.com",
 
 		},
-		stage: { order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() },
+		stages: [{ order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() }],
 		applicationUrl: "https://www.linkedin.com/jobs/view/1331562981/",
 		location: "Madrid",
 		description: "Angular 6, Spanish. Needed knowledge in JIRA and agile methodologies",
 		files: null
 	},
-	{
-		company: "Indra",
-		status: { value: 0, name: "Not started" },
-		role: "Front-end developer",
-		contact: {
-			name: "Maria Zambrano",
-			email: "maria@recruitment.com",
 
-		},
-		stage: { order: 1, type: 'Telephone', dept: 'HR', startDate: new Date(), finishDate: new Date() },
-		applicationUrl: "https://www.linkedin.com/jobs/view/1331562981/",
-		location: "Madrid",
-		description: "Angular 6, Spanish. Needed knowledge in JIRA and agile methodologies",
-		files: null
-	}
 ]
 export const actions = [
 	{ key: 0, icon: 'eye', text: 'View more', value: 'view' },
