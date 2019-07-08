@@ -2,8 +2,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import { Dropdown, Pagination, Table } from 'semantic-ui-react';
-
-import { appliedCompanies, columns, role, status, stages, actions } from './Tracker.data'
+import { addNotification, getApplications } from '../../actions/tracker';
+import { APPLIED_COMPANIES, columns, role, status, stages, actions } from './Tracker.data'
+import { connect } from 'react-redux';
 
 
 class TrackingTable extends Component {
@@ -11,9 +12,14 @@ class TrackingTable extends Component {
 		super(props);
 
 		this.state = {
+			applications: []
 		};
-
 	}
+
+	componentDidMount = () => {
+		this.props.getApplications()
+	}
+
 	render() {
 		return (
 			<Table compact celled>
@@ -26,7 +32,7 @@ class TrackingTable extends Component {
 				</Table.Header>
 
 				<Table.Body>
-					{appliedCompanies.map((application, i) =>
+					{this.state.applications.map((application, i) =>
 						<Table.Row key={i}>
 							<Table.Cell>{application.company}</Table.Cell>
 							<Table.Cell>{application.status.value}</Table.Cell>
@@ -71,5 +77,10 @@ TrackingTable.propTypes = {
 
 }
 
+function mapStateToProps(state, ownProps) {
+	return {
+		applications: state.applications
+	}
+}
 
-export default TrackingTable
+export default connect(mapStateToProps, { addNotification, getApplications })(TrackingTable);

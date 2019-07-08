@@ -4,15 +4,12 @@ import {API_URL} from './dev';
 export const SET_APPLICATIONS  = 'SET_APPLICATIONS';
 export const ADD_APPLICATION  = 'ADD_APPLICATION';
 export const APPLICATION_FETCHED = 'APPLICATION_FETCHED';
-export const SET_FIELDS = 'SET_FIELDS';
-export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_APPLICATION = 'RETRIEVED_APPLICATION';
 //export const APPLICATION_UPDATED = 'APPLICATION_UPDATED';
 export const APPLICATION_DELETED = 'APPLICATION_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
-export const SET_CATS  = 'SET_CATS';
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 
 function handleResponse(response) {
@@ -178,6 +175,17 @@ export function saveApplication(data) {
 export function fetchApplications(id) {
     return dispatch => {
         fetch(`${API_URL}/application/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            dispatch(applicationFetched(data))
+            dispatch(addNotification(applicationFetched(data)))
+        })
+    }
+}
+
+export function getApplications() {
+    return dispatch => {
+        fetch(`${API_URL}/applications/`)
         .then(res => res.json())
         .then(data => {
             dispatch(setApplications(data))

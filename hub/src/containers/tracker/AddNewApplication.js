@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Checkbox, Divider, Form, Icon, Header } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { addNotification, fetchApplications, uploadFile } from '../../actions/tracker';
+import { addNotification, getApplications, uploadFile, saveApplication } from '../../actions/tracker';
 import Editor from '../../components/Editor';
 import { status } from './Tracker.data';
 import update from 'react-addons-update';
@@ -20,9 +20,12 @@ class AddNewApplication extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			savedID: null,
 			description: '',
 			stages: emptyStages,
+			status: {
+				value: '',
+				name: '',
+			}
 		}
 	}
 
@@ -48,6 +51,15 @@ class AddNewApplication extends Component {
 		this.setState({
 			stages: oldStages.concat(emptyStages)
 		})
+	}
+
+	statusChange = (e) => {
+		const { name, value } = e.target;
+		const newData = update(this.state.stages,
+			{ name: { $set: name } },
+			{ value: { $set: value } },
+		)
+		this.setState({ status: newData })
 	}
 
 	stagesInputChange = i => e => {
@@ -144,8 +156,9 @@ class AddNewApplication extends Component {
 	}
 
 	onSave = () => {
-		this.props.saveApplication()
-		console.log(this.state);
+		this.props.saveApplication(this.state).then(res => {
+			console.log('saved application', res);
+		})
 	}
 
 	render() {
@@ -170,7 +183,7 @@ class AddNewApplication extends Component {
 				<Form className="addNew-modal" onSubmit={this.handleSubmit}>
 					<Form.Group widths='equal'>
 						<Form.Input fluid label='Company name' name='company' placeholder='Company name' required onChange={this.inputChange} />
-						<Form.Select fluid label='Status' options={status} placeholder='Select application status' />
+						<Form.Select fluid label='Status' options={status} placeholder='Select application status' onChange={this.statusChange} />
 						<Form.Input fluid label='Role' placeholder='Enter role' onChange={this.inputChange} />
 						<Form.Input fluid label='Salary' placeholder='Enter role salary' onChange={this.inputChange} />
 					</Form.Group>
@@ -239,8 +252,8 @@ class AddNewApplication extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		cvs: state.cvs
+		applications: state.applications
 	}
 }
 
-export default connect(mapStateToProps, { uploadFile, addNotification, fetchApplications, saveApplication })(AddNewApplication);
+export default connect(mapStateToProps, { uploadFile, addNotification, saveApplication })(AddNewApplication);

@@ -24,7 +24,6 @@ const fileUpload = upload.single('fieldname');
 export default function Tracker(app, db) {
 
     app.get('/api/applications', (req, res) => {
-
         ApplicationModel.find({}, null, { sort: { updatedDate: -1 }, new: true }, function (err, content) {
             if (err) throw err;
             res.json(content)
@@ -61,17 +60,9 @@ export default function Tracker(app, db) {
 
     app.post('/api/application', (req, res) => {
         let r = req.body,
-            applications;
-        if (!r._id) {
-            // Create New
             applications = new ApplicationModel({
-                _id: mongoose.Types.ObjectId(),
-                name: r.name || 'Enter name',
-            });
-        } else {
-            // Update
-            applications = new ApplicationModel({
-                _id: r._id,
+                // Create new || Update
+                _id: r._id || mongoose.Types.ObjectId(),
                 company: r.company,
                 contact: {
                     contactName: r.contact.contactName,
@@ -82,16 +73,14 @@ export default function Tracker(app, db) {
                 files: r.files,
                 stages: r.stages,
                 status: {
-                    value: status.value,
-                    name: status.name
+                    value: r.status.value,
+                    name: r.status.name
                 }
             });
-
-        }
         const id = r._id || applications._id;
         delete r._id;
-        ApplicationModel.update({ _id: id }, applications, { upsert: true }, (err, msg) => {
-
+        ApplicationModel.updateOne({ _id: id }, applications, { upsert: true }, (err, msg) => {
+            console.log('upsert', msg, applications)
             if (err) {
                 throw err;
 

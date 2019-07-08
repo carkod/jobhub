@@ -84,7 +84,7 @@ const UserSchema = new Schema({
 }, {timestamps: true}, {strict: false});
 
 // Applications
-const ApplicationsSchema = new Schema({
+const ApplicationSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     company: { type: String },
     contact: { 
@@ -115,4 +115,4 @@ const ApplicationsSchema = new Schema({
 //     //next(err, doc);
 // });
 
-export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationsSchema };
+export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema };

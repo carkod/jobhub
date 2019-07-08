@@ -242,10 +242,10 @@ const authentication = (state = {}, action) => {
 }
 
 
-function applications (state = {}, action = {} ){
+function applications (state = [], action = {} ){
     switch(action.type) {
         case SET_APPLICATIONS:
-            return [...state];
+            return [...action.applications];
         case APPLICATION_DELETED:
             const deleted = state.filter((item) => item._id !== action.cvs);
             return deleted;
@@ -257,5 +257,5 @@ function applications (state = {}, action = {} ){
     }
 }
 
-export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication });
+export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication, applications });
 

@@ -19,7 +19,7 @@ export const status = [
 	{ key: 3, value: 3, text: "Success" },
 ]
 // export const roleSeniority = ['Junior', 'Mid-level', 'Senior'];
-export const appliedCompanies = [
+export const APPLIED_COMPANIES = [
 	{
 		company: "Capgemini",
 		status: { value: 0, name: "Not started" },
