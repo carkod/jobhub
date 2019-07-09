@@ -120,7 +120,7 @@ export default function Tracker(app, db) {
     });
 
     // Copy action
-    app.post('/api/applications/:_id', (req, res) => {
+    app.post('/api/application/:_id', (req, res) => {
         let r = req.body,
             id = req.params._id,
             applications;
@@ -166,10 +166,11 @@ export default function Tracker(app, db) {
 
     });
 
-    app.delete('/api/applications/:_id', (req, res) => {
+    app.delete('/api/application/:_id', (req, res) => {
         //console.log(req.params)
         if (req.params._id) {
             ApplicationModel.findByIdAndRemove(req.params._id, (err, applications) => {
+                console.log()
                 if (!err) {
                     const deletedID = req.params._id;
                     res.json({ _id: deletedID })

@@ -2,15 +2,17 @@
 
 import moment from 'moment';
 import React, { Component } from 'react';
+import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, Divider, Form, Icon, Header } from 'semantic-ui-react';
+import { Button, Checkbox, Divider, Form, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { addNotification, getApplications, uploadFile, saveApplication } from '../../actions/tracker';
+import { removeFile } from '../../actions/project';
+import { addNotification, saveApplication, uploadFile } from '../../actions/tracker';
 import Editor from '../../components/Editor';
+import AddNewApplicationConfig from './AddNewApplication.config';
 import { status } from './Tracker.data';
-import update from 'react-addons-update';
-import AddNewApplicationConfig from './AddNewApplication.config'
+
 
 class AddNewApplication extends Component {
 
@@ -60,7 +62,7 @@ class AddNewApplication extends Component {
 		const newData = this.state.contacts.concat(this.contacts.emptyContact)
 		console.log(newData, this.state)
 		this.setState({ contacts: newData })
-		
+
 	}
 
 	statusChange = (e, data) => {
@@ -84,79 +86,37 @@ class AddNewApplication extends Component {
 		this.setState({ contacts: newData })
 	}
 
+	fileInputChange = i => e => {
+		const { name, value } = e.target;
+		const newData = update(this.state.contacts,
+			{ [i]: { [name]: { $set: value } } }
+		)
+		this.setState({ contacts: newData })
+	}
+
 	stagesChange = (e, i) => {
 		console.log(e, i)
 	}
 
 	removeStage = i => e => {
-		const oldStages = this.state.stages.slice(0, i)
+		const oldData = this.state.stages.slice(0, i)
 		this.setState({
-			stages: [...oldStages]
+			stages: [...oldData]
 		})
 	}
 
 	removeContact = i => e => {
-		const oldStages = this.state.contacts.slice(0, i)
+		const oldData = this.state.contacts.slice(0, i)
 		this.setState({
-			contacts: [...oldStages]
+			contacts: [...oldData]
 		})
 	}
 
-	handleFileChange = (e) => {
-		let data = new FormData();
-		data.append('fieldname', e.target.files[0]);
-		this.data = data;
-	}
-
-
-	handleUpload = e => {
-		e.preventDefault();
-		const { documents } = this.state;
-		const data = this.data;
-		const parseSize = (bytes) => parseFloat(Math.round(bytes / 1024)).toFixed(2);
-		if (this.fieldname === undefined || this.fieldname.files.length < 1) {
-
-			addNotification({ type: 'NO_FILE' })
-			//handle error no file uploaded
-		} else {
-			console.log('file found')
-			//Loading icon
-			this.setState({ uploading: true });
-
-			uploadFile(data)
-				.then(file => {
-					addNotification({ type: 'UPLODED_FILE' })
-					const newFile = {
-						fileId: shortid.generate(),
-						fileName: file.fieldname,
-						fileSize: parseSize(file.size),
-						fileDate: Date.now(),
-						fileURL: file.url,
-						fileRawName: file.originalname,
-						fileDir: file.destination
-					}
-					documents.push(newFile);
-
-					this.setState({ documents, uploading: false }, () => {
-						this.props.onUpload({ documents });
-					});
-
-				})
-		}
-
-	}
-
-	deleteDoc = (doc) => (e) => {
-		e.preventDefault();
-		const { documents } = this.state;
-		removeFile(doc)
-			.then(file => {
-				const i = documents.findIndex(x => x.fileId === doc.fileId)
-				documents.splice(i, 1);
-				this.setState({ documents });
-				this.props.onDeupload({ documents });
-			})
-
+	removeFile = i => e => {
+		const oldData = this.state.files.slice(0, i)
+		this.setState({
+			files: [...oldData]
+		})
 	}
 
 	resetForm() {
@@ -195,6 +155,7 @@ class AddNewApplication extends Component {
 				</Link>
 			</button>
 
+		
 		const removeContactBtn = (i) => {
 			return <Button type='button' onClick={this.removeContact(i)} width={'1'} className="btn">
 				<Icon name='minus square' />
@@ -207,6 +168,12 @@ class AddNewApplication extends Component {
 					<Icon name='minus square' />
 				</Button>
 			}
+		}
+
+		const removeFileBtn = (i) => {
+			return <Button type='button' onClick={this.removeFile(i)} width={'1'} className="btn">
+				<Icon name='minus square' />
+			</Button>
 		}
 
 		return (
@@ -268,24 +235,28 @@ class AddNewApplication extends Component {
 						</Form.Group>
 					)}
 
+<br />
+					<Divider horizontal>
+						<Header as='h3'>
+							Files
+						<button type="button" className="btn"><Icon name='plus square' onClick={this.addNewFile} /></button>
+						</Header>
+					</Divider>
+					<br />
+
+					{this.state.files.map((file, i) =>
+						<Form.Group key={i} widths='equal'>
+							<Form.Input fluid label='File name' name='fileName' value={this.state.files[i].fileName} onChange={this.fileInputChange(i)} />
+							<Form.Input fluid label='File url' name='fileUrl' value={this.state.files[i].fileUrl} onChange={this.fileInputChange(i)} />
+							{removeFileBtn(i)}
+						</Form.Group>
+					)}
+
 					<br />
 					<Divider />
 					<br />
-					<Form.Group widths='equal'>
 
-						<Form.Field>
-							<label>Files:</label>
-							{/* {this.props.files.map(file => 
-									<a href={file.url}>{file.name}</a>
-								)} */}
-						</Form.Field>
-
-						<Form.Field>
-							<Button content="Choose File" labelPosition="left" icon="file" onClick={() => this.fileInputRef.current.click()} />
-							<input ref={this.fileInputRef} type="file" hidden onChange={this.fileChange} />
-						</Form.Field>
-					</Form.Group>
-					<label>Job description</label>
+					<h3>Job description</h3>
 					<Editor value={this.state.description} onChange={this.descChange} />
 
 				</Form>

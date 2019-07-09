@@ -67,10 +67,8 @@ class Files extends Component {
       this.setState({ documents, uploading:false }, () => {
         this.props.onUpload({documents});
       });
-      
     })
     }
-    
   }
   
   deleteDoc = (doc) => (e) => {
