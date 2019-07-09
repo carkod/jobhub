@@ -10,44 +10,30 @@ import { addNotification, getApplications, uploadFile, saveApplication } from '.
 import Editor from '../../components/Editor';
 import { status } from './Tracker.data';
 import update from 'react-addons-update';
-
-const emptyStages = [
-	{ order: 0, completed: false, action: 'First contact', dept: 'Recruitment', startDate: moment().format('DD MMMM YYYY'), endDate: '' },
-]
-
-const emptyContact = [
-	{
-		contactId: shortid.generate(),
-		contactName: '',
-		contactEmail: '',
-		contactPhone: '',
-	}
-]
+import AddNewApplicationConfig from './AddNewApplication.config'
 
 class AddNewApplication extends Component {
 
 	constructor(props) {
 		super(props)
+		this.contacts = new AddNewApplicationConfig()
 		this.state = {
-			company: '',
-			role: 'Front End Developer',
-			contacts: [{
-				contactId: shortid.generate(),
-				contactName: '',
-				contactEmail: '',
-				contactPhone: '',
-			}],
-			description: '',
-			stages: emptyStages,
 			status: {
 				value: 0,
-				name: 'Applied',
-			}
+				text: 'Applied',
+			},
+			company: '',
+			role: 'Front End Developer',
+			salary: '',
+			contacts: this.contacts.emptyContact,
+			stages: this.contacts.emptyStages,
+			files: [""],
+			description: '',
+
 		}
 	}
 
 	componentDidMount() {
-		this.resetForm()
 	}
 
 
@@ -66,26 +52,20 @@ class AddNewApplication extends Component {
 	addNewStage = () => {
 		const oldStages = Object.assign([], this.state.stages)
 		this.setState({
-			stages: oldStages.concat(emptyStages)
+			stages: oldStages.concat(this.contacts.emptyStages)
 		})
 	}
 
 	addNewContact = () => {
-		console.log(this.state.contacts)
-		const oldData = Object.assign([], this.state.contacts)
-		this.setState({
-			contacts: oldData.concat(emptyContact)
-		})
-		console.log(this.state)
+		const newData = this.state.contacts.concat(this.contacts.emptyContact)
+		console.log(newData, this.state)
+		this.setState({ contacts: newData })
+		
 	}
 
-	statusChange = (e) => {
-		const { name, value } = e.target;
-		const newData = update(this.state.status,
-			{ name: { $set: name } },
-			{ value: { $set: value } },
-		)
-		this.setState({ status: newData })
+	statusChange = (e, data) => {
+		const findObj = status.find(x => x.key === data.value)
+		this.setState({ status: findObj })
 	}
 
 	stagesInputChange = i => e => {
@@ -188,13 +168,14 @@ class AddNewApplication extends Component {
 		this.setState({
 			company: '',
 			status: {
-				name: '',
+				text: '',
 				value: 0
 			},
 			role: '',
-			contact: [Object.assign({}, this.state.contact, contact)],
-			stages: Object.assign([], this.state.stages, emptyStages),
-			files: '',
+			salary: '',
+			contacts: this.contacts.emptyContact,
+			stages: this.contacts.emptyStages,
+			files: [''],
 			description: '',
 		})
 	}
@@ -234,9 +215,9 @@ class AddNewApplication extends Component {
 				<Form className="addNew-modal" onSubmit={this.handleSubmit}>
 					<Form.Group widths='equal'>
 						<Form.Input fluid label='Company name' name='company' placeholder='Company name' required onChange={this.inputChange} />
-						<Form.Select fluid label='Status' options={status} placeholder='Select application status' onChange={this.statusChange} />
-						<Form.Input fluid label='Role' placeholder='Enter role' onChange={this.inputChange} />
-						<Form.Input fluid label='Salary' placeholder='Enter role salary' onChange={this.inputChange} />
+						<Form.Dropdown fluid selection label='Status' options={status} placeholder='Select application status' required onChange={this.statusChange} />
+						<Form.Input fluid name='role' label='Role' placeholder='Enter role' onChange={this.inputChange} />
+						<Form.Input fluid name='salary' label='Salary' placeholder='Enter role salary' onChange={this.inputChange} />
 					</Form.Group>
 
 					<Form.Group widths='equal'>

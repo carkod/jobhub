@@ -6,6 +6,13 @@ mongoose.plugin(slug);
 const Schema = mongoose.Schema;
 
 
+const ContactsSchema = new Schema({
+    contactId: mongoose.Schema.ObjectId,
+    contactName: { type: String },
+    contactEmail: { type: String },
+    contactPhone: { type: String },
+}, { timestamps: true }, { strict: false })
+
 // CV
 const CVSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
@@ -87,14 +94,16 @@ const UserSchema = new Schema({
 const ApplicationSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     company: { type: String, required: true },
-    contacts: { type: [ContactsSchema], required: true },
-    description: { type: Schema.Types.Mixed },
-    files: [],
-    stages: [],
     status: {
-        value: { type: Number },
-        name: { type: String }
+        value: { type: Number, required: true },
+        text: { type: String, required: true }
     },
+    role: { type: String },
+    salary: { type: String },
+    contacts: [ContactsSchema],
+    description: { type: Schema.Types.Mixed },
+    files: { type: Array },
+    stages: { type: Array },
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true }, { strict: false });
 
@@ -110,12 +119,6 @@ ApplicationSchema.pre('save', function (next) {
     next();
   });
 
-const ContactsSchema = new Schema({
-    contactId: { type: String },
-    contactName: { type: String },
-    contactEmail: { type: String },
-    contactPhone: { type: String },
-}, { timestamps: true }, { strict: false })
 // CVSchema.pre('update', function(next){
 //     const slugger = slug(this._update.$set.name.toLowerCase());
 //     // this._findOne({id: '5a2b3658c54dd20bd20ee3f9'},function(err, doc) {

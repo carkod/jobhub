@@ -64,19 +64,16 @@ export default function Tracker(app, db) {
                 // Create new || Update
                 _id: r._id || mongoose.Types.ObjectId(),
                 company: r.company,
-                contacts: {
-                    contactId: r.contactId || mongoose.Types.ObjectId(),
-                    contactName: r.contacts.contactName,
-                    contactEmail: r.contacts.contactEmail,
-                    contactPhone: r.contacts.contactPhone,
+                status: {
+                    value: r.status.value,
+                    text: r.status.text
                 },
+                role: r.role,
+                salary: r.salary,
+                contacts: r.contacts,
                 description: r.description,
                 files: r.files,
                 stages: r.stages,
-                status: {
-                    value: r.status.value,
-                    name: r.status.name
-                },
                 location: r.location
             });
         const id = r._id || applications._id;

@@ -36,12 +36,13 @@ class TrackingTable extends Component {
 				</Table.Header>
 
 				<Table.Body>
-					{applications.map((application, i) =>
+					{applications.length > 0 ? applications.map((application, i) =>
 						<Table.Row key={i}>
+							{console.log('application', application)}
 							<Table.Cell>{application.company}</Table.Cell>
-							{/* <Table.Cell>{application.status.name}</Table.Cell> */}
-							<Table.Cell>{application.role}</Table.Cell>
-							<Table.Cell>{application.contacts[0].contactName + ' <' + application.contacts[0].contactEmail + '>'}</Table.Cell>
+							<Table.Cell>{application.status.text}</Table.Cell>
+							<Table.Cell>{application.role || ''}</Table.Cell>
+							<Table.Cell>{application.contacts.length > 0 ? application.contacts[0].contactName + ' <' + application.contacts[0].contactEmail + '>' : ''}</Table.Cell>
 							<Table.Cell>{this.getCurrentStage(application.stages).action + " (" + this.getCurrentStage(application.stages).dept + ")"}</Table.Cell>
 							<Table.Cell>{application.applicationUrl}</Table.Cell>
 							<Table.Cell>{application.location}</Table.Cell>
@@ -50,7 +51,11 @@ class TrackingTable extends Component {
 								<Dropdown options={actions} direction='left' floating className='button icon' trigger={<React.Fragment />} />
 							</Table.Cell>
 						</Table.Row>
-					)}
+					) : 
+						<Table.Row>
+							No Applications
+						</Table.Row>
+					}
 
 				</Table.Body>
 

@@ -22,6 +22,11 @@ function handleResponse(response) {
     }
 }
 
+const headers = {
+    'Content-Type': 'application/json',
+    "Authorization": `Bearer ${JSON.parse(localStorage.getItem('hubToken'))}`,
+}
+
 export function addNotification(status) {
     return {
         type: ADD_NOTIFICATION,
@@ -102,12 +107,9 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
-    console.log(file)
     return fetch(`${API_URL}/portfolio/deupload`, {
        method: 'post',
-       headers: {
-           "Content-Type" : "application/json"
-       },
+       headers: headers,
        body: JSON.stringify(file),
     }).then(res => res.json())
 }
@@ -124,9 +126,7 @@ export function deleteApplication(id) {
     return dispatch => {
         return fetch(`${API_URL}/application/${id}`, {
            method: 'delete',
-           headers: {
-               "Content-Type" : "application/json"
-           }
+           headers: headers
         }) 
         .then(handleResponse)
         .then(data => {
@@ -142,9 +142,7 @@ export function copyApplication(data) {
         return fetch(`${API_URL}/portfolio/${data._id}`, {
            method: 'post',
            body: JSON.stringify(data),
-           headers: {
-               "Content-Type" : "application/json"
-           }
+           headers: headers
         })
         .then(handleResponse)
         .then(data => {
@@ -160,9 +158,7 @@ export function saveApplication(data) {
         return fetch(`${API_URL}/application`, {
            method: 'post',
            body: JSON.stringify(data),
-           headers: {
-               "Content-Type" : "application/json"
-           }
+           headers: headers
         }).then(handleResponse)
         .then(data => {
             dispatch(addApplication(data))
@@ -174,7 +170,9 @@ export function saveApplication(data) {
 
 export function fetchApplications(id) {
     return dispatch => {
-        fetch(`${API_URL}/application/${id}`)
+        fetch(`${API_URL}/application/${id}`, {
+            headers: headers
+        })
         .then(res => res.json())
         .then(data => {
             dispatch(applicationFetched(data))
