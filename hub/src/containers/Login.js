@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Checkbox, Form, Header, Input, Segment } from 'semantic-ui-react';
 import { auth } from '../actions/login';
-import Notifications from './Notification';
+import Notifications from '../components/Notification';
 import { Redirect } from 'react-router-dom';
 
 class Login extends Component {

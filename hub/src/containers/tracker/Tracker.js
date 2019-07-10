@@ -15,7 +15,7 @@ class Tracker extends Component {
   }
 
   componentDidMount = () => {
-    
+
   }
 
   render() {
@@ -30,7 +30,7 @@ class Tracker extends Component {
       <div id="tracker">
         <h1>Application tracking {addNewBtn}</h1>
         {/*Three tabs: tracking table, add stage, contact book*/}
-        <TrackingTable />
+        <TrackingTable {...this.props} />
 
       </div>
     );

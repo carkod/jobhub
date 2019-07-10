@@ -64,6 +64,16 @@ class Notification extends Component {
                 return 'File not found';
             case 'UPLODED_FILE':
                 return 'File was uploaded';
+            case 'SET_APPLICATIONS':
+                return 'Applications loaded';
+            case 'ADD_APPLICATION':
+                return 'Application added';
+            case 'APPLICATION_FETCHED' || 'RETRIEVED_APPLICATION':
+                return 'Application fetched';
+            case 'APPLICATION_DELETED':
+                return 'Application deleted';
+            case 'APPLICATION_UPDATED':
+                return 'Application updated';
             case 'IS_AUTH':
                 return 'Login successful!';
             case 'NOT_AUTH':

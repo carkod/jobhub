@@ -26,9 +26,7 @@ class TrackingTable extends Component {
 	}
 
 	openDetailPage(id) {
-		console.log(this)
-		return <Redirect to={`/tracker/${id}`} />
-		// this.props.history.push(`/tracker/${id}`)
+		this.props.history.push(`/tracker/${id}`)
 	}
 
 	deleteApplication = id => {
@@ -40,6 +38,10 @@ class TrackingTable extends Component {
 
 	moveNextStage = i => {
 		console.log('move next stage', i)
+		const newData = update(this.state.stages,
+			{ [i]: { [name]: { $set: value } } }
+		)
+		this.setState({ stages: newData })
 	}
 
 	closeStatus = i => {
@@ -72,7 +74,7 @@ class TrackingTable extends Component {
 							<Table.Cell>
 								<Dropdown direction='left' floating className='button icon' trigger={<React.Fragment />} >
 									<Dropdown.Menu>
-										<Dropdown.Item text='View/Edit' icon='eye' onClick={() => <Redirect to={`/tracker/${application._id}`} />} />
+										<Dropdown.Item text='View/Edit' icon='eye' onClick={() => this.openDetailPage(application._id)} />
 										<Dropdown.Item text='Delete' icon='delete' onClick={() => this.deleteApplication(application._id)} />
 										<Dropdown.Item text='Next Stage' icon='play' onClick={() => this.moveNextStage(i)} />
 										<Dropdown.Item text='Close status' icon='close' onClick={() => this.closeStatus(i)} />

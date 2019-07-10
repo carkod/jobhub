@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import Nav from './Nav';
-import Notifications from './Notification';
+import Notifications from '../components/Notification';
 
 class Layout extends Component {
   
