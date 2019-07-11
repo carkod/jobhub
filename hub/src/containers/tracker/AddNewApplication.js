@@ -221,7 +221,7 @@ class AddNewApplication extends Component {
 
 					{this.state.stages.map((stage, i) =>
 						<Form.Group key={i}>
-							<Form.Input width={'1'} fluid label='Order' name='order' value={this.state.stages[i].order} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'1'} fluid label='Order' name='order' type='number' value={this.state.stages[i].order} onChange={this.stagesInputChange(i)} />
 							<Form.Field width={'1'}>
 								<label>Completed?</label>
 								<Checkbox toggle checked={this.state.stages[i].completed} onChange={this.stagesInputChange(i)}></Checkbox>

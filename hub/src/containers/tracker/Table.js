@@ -4,12 +4,14 @@ import React, { Component } from "react";
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import { Dropdown, Pagination, Table } from 'semantic-ui-react';
-import { addNotification, deleteApplication, getApplications } from '../../actions/tracker';
+import { addNotification, deleteApplication, getApplications, moveNextStage } from '../../actions/tracker';
 import { APPLIED_COMPANIES, columns } from './Tracker.data';
+import AddNewApplicationConfig from './AddNewApplication.config'
 
 class TrackingTable extends Component {
 	constructor(props) {
 		super(props);
+		this.stages = new AddNewApplicationConfig()
 		this.state = {
 			applications: APPLIED_COMPANIES
 		}
@@ -26,15 +28,12 @@ class TrackingTable extends Component {
 	}
 
 	getCurrentStage = (allStages) => {
-		const sortedStages = allStages.sort(({ order: a }, { order: b }) => {
-			if (+a > +b) {
-				return 1
-			} else {
-				return -1
-			}
-		})
-		const filterCompleted = sortedStages.filter(x => !x.completed)
-		return filterCompleted[0]
+		const filterCompleted = allStages.filter(x => !x.completed)
+		if (filterCompleted.length > 0) {
+			return filterCompleted[0]
+		}
+		return this.stages.emptyStages[0]
+		
 	}
 
 	openDetailPage(id) {
@@ -48,22 +47,22 @@ class TrackingTable extends Component {
 	}
 
 	moveNextStage = i => {
-		console.log('move next stage', i, this.state)
-		const { stages } = this.state.applications[i]
-		const orderedStages = stages.sort(({order: a}, {order: b}) => {
-			if (a > b) {
-				return 1
-			} else {
-				return -1
+		const { stages } = this.state.applications[i];
+		const findStageIndex = stages.findIndex(x => !x.completed)
+		if (findStageIndex === -1) {
+			const action = {
+				type: 'NO_MORE_STAGES',
 			}
-		})
-		const findStageIndex = orderedStages.findIndex(x => x.completed)
+			addNotification(action)
+			return false
+		}
 		const newData = update(this.state.applications,
 			{ 
-				[i]: { stages: { completed: { $set: true } } }
+				[i]: { stages: { [findStageIndex]: { completed: { $set: true } } } }
 			}
 		)
 		this.setState({ applications: newData })
+		this.props.moveNextStage(this.state.applications)
 	}
 
 	closeStatus = i => {
@@ -98,7 +97,7 @@ class TrackingTable extends Component {
 										<Dropdown.Item text='View/Edit' icon='eye' onClick={() => this.openDetailPage(application._id)} />
 										<Dropdown.Item text='Delete' icon='delete' onClick={() => this.deleteApplication(application._id)} />
 										<Dropdown.Item text='Next Stage' icon='play' onClick={() => this.moveNextStage(i)} />
-										<Dropdown.Item text='Close status' icon='close' onClick={() => this.closeStatus(i)} />
+										{/* <Dropdown.Item text='Close status' icon='close' onClick={() => this.closeStatus(i)} /> */}
 									</Dropdown.Menu>
 								</Dropdown>
 							</Table.Cell>
@@ -145,4 +144,4 @@ function mapStateToProps(state, ownProps) {
 
 }
 
-export default connect(mapStateToProps, { addNotification, getApplications, deleteApplication })(TrackingTable);
+export default connect(mapStateToProps, { addNotification, getApplications, deleteApplication, moveNextStage })(TrackingTable);

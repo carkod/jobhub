@@ -33,7 +33,11 @@ function fillModel(r) {
         startDate: r.startDate,
         endDate: r.endDate,
     })
-    console.log(r)
+    const sortStages = (stages) => {
+        stages.sort(({order: a}, {order: b}) => {
+            return a - b
+        })
+    }
     return {
         // Create new || Update
         _id: r._id || mongoose.Types.ObjectId(),
@@ -47,7 +51,7 @@ function fillModel(r) {
         contacts: r.contacts,
         description: r.description,
         files: r.files,
-        stages: r.stages,
+        stages: sortStages(r.stages),
         location: r.location
     }
 }

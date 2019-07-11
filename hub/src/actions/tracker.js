@@ -5,7 +5,8 @@ export const SET_APPLICATIONS  = 'SET_APPLICATIONS';
 export const ADD_APPLICATION  = 'ADD_APPLICATION';
 export const APPLICATION_FETCHED = 'APPLICATION_FETCHED';
 export const RETRIEVED_APPLICATION = 'RETRIEVED_APPLICATION';
-//export const APPLICATION_UPDATED = 'APPLICATION_UPDATED';
+export const APPLICATION_UPDATED = 'APPLICATION_UPDATED';
+export const APPLICATION_MOVED_STAGE = 'APPLICATION_MOVED_STAGE';
 export const APPLICATION_DELETED = 'APPLICATION_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
@@ -26,6 +27,14 @@ const headers = {
     'Content-Type': 'application/json',
     "Authorization": `Bearer ${JSON.parse(localStorage.getItem('hubToken'))}`,
 }
+
+export function moveStage(status) {
+    return {
+        type: APPLICATION_MOVED_STAGE,
+        status
+    }
+}
+
 
 export function addNotification(status) {
     return {
@@ -188,6 +197,20 @@ export function getApplications() {
         .then(data => {
             dispatch(setApplications(data))
             dispatch(addNotification(setApplications(data)))
+        })
+    }
+}
+
+export function moveNextStage(data) {
+    return dispatch => {
+        return fetch(`${API_URL}/application`, {
+           method: 'post',
+           body: JSON.stringify(data),
+           headers: headers
+        }).then(handleResponse)
+        .then(data => {
+            dispatch(moveStage(data))
+            dispatch(addNotification(moveStage(data)))
         })
     }
 }

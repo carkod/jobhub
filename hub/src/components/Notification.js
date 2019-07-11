@@ -76,6 +76,11 @@ class Notification extends Component {
                 return 'Application updated';
             case 'IS_AUTH':
                 return 'Login successful!';
+            case 'NO_MORE_STAGES':
+                return 'No more stages to move forward';
+            case 'APPLICATION_MOVED_STAGE':
+                return 'Application stage moved forward';
+
             case 'NOT_AUTH':
                 this.setState({ error: true });
                 return 'Login error';
