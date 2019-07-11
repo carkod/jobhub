@@ -2,10 +2,12 @@
 import mongoose from 'mongoose';
 import multer from 'multer';
 import fs from 'fs';
-import { ApplicationSchema } from './Schemas';
+import { ApplicationSchema, ContactsSchema, StagesSchema } from './Schemas';
 
 // Compile model from schema
 let ApplicationModel = mongoose.model('ApplicationModel', ApplicationSchema);
+let ContactsModel = mongoose.model('ContactsModel', ContactsSchema);
+let StagesModel = mongoose.model('StagesModel', StagesSchema);
 
 
 const fileDir = 'uploads/applications'
@@ -20,6 +22,35 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const fileUpload = upload.single('fieldname');
+
+function fillModel(r) {
+    const stages = new StagesModel({
+        _id: r._id || mongoose.Types.ObjectId(),
+        order: r.order,
+        completed: r.completed,
+        action: r.action,
+        dept: r.dept,
+        startDate: r.startDate,
+        endDate: r.endDate,
+    })
+    console.log(r)
+    return {
+        // Create new || Update
+        _id: r._id || mongoose.Types.ObjectId(),
+        company: r.company,
+        status: {
+            value: r.status.value,
+            text: r.status.text
+        },
+        role: r.role,
+        salary: r.salary,
+        contacts: r.contacts,
+        description: r.description,
+        files: r.files,
+        stages: r.stages,
+        location: r.location
+    }
+}
 
 export default function Tracker(app, db) {
 
@@ -60,22 +91,7 @@ export default function Tracker(app, db) {
 
     app.post('/api/application', (req, res) => {
         let r = req.body,
-            applications = new ApplicationModel({
-                // Create new || Update
-                _id: r._id || mongoose.Types.ObjectId(),
-                company: r.company,
-                status: {
-                    value: r.status.value,
-                    text: r.status.text
-                },
-                role: r.role,
-                salary: r.salary,
-                contacts: r.contacts,
-                description: r.description,
-                files: r.files,
-                stages: r.stages,
-                location: r.location
-            });
+            applications = new ApplicationModel(fillModel(r));
         const id = r._id || applications._id;
         delete r._id;
         ApplicationModel.updateOne({ _id: id }, applications, { upsert: true }, (err, msg) => {
@@ -88,10 +104,10 @@ export default function Tracker(app, db) {
                 if (msg.ok) {
                     const savedID = id;
                     res.json({ _id: savedID, status: !!msg.ok });
-                    console.log('changes saved!')  
+                    console.log('changes saved!')
                 } else {
                     res.json({ status: !!msg.ok });
-                    console.log('No changes')  
+                    console.log('No changes')
                 }
             }
         });
@@ -120,26 +136,13 @@ export default function Tracker(app, db) {
     });
 
     // Copy action
-    app.post('/api/application/:_id', (req, res) => {
+    app.post('/api/applications/:_id', (req, res) => {
         let r = req.body,
             id = req.params._id,
             applications;
 
         if (id) {
-            applications = new ApplicationModel({
-                _id: mongoose.Types.ObjectId(),
-                name: r.name,
-                slug: r.slug,
-                cats: {
-                    position: r.cats.position,
-                    locale: r.cats.locale,
-                    cvCountry: r.cats.cvCountry,
-                },
-                image: r.image,
-                desc: r.desc,
-                documents: r.documents,
-                links: r.links,
-            });
+            applications = new ApplicationModel(fillModel(r));
             ApplicationModel.create(applications, (err, msg) => {
 
                 if (err) {
@@ -167,10 +170,9 @@ export default function Tracker(app, db) {
     });
 
     app.delete('/api/application/:_id', (req, res) => {
-        //console.log(req.params)
+        console.log(req.params)
         if (req.params._id) {
             ApplicationModel.findByIdAndRemove(req.params._id, (err, applications) => {
-                console.log()
                 if (!err) {
                     const deletedID = req.params._id;
                     res.json({ _id: deletedID })

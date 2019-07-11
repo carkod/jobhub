@@ -130,8 +130,8 @@ export function deleteApplication(id) {
         }) 
         .then(handleResponse)
         .then(data => {
-            dispatch(applicationDeleted(id))
-            dispatch(addNotification(applicationDeleted(id)))
+            dispatch(applicationDeleted(data))
+            dispatch(addNotification(applicationDeleted(data)))
         });   
     }
 }

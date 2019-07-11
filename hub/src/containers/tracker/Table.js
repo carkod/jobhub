@@ -1,17 +1,17 @@
 /* eslint-disable */
 import PropTypes from 'prop-types';
 import React, { Component } from "react";
-import { Dropdown, Pagination, Table } from 'semantic-ui-react';
-import { addNotification, getApplications, deleteApplication } from '../../actions/tracker';
-import { APPLIED_COMPANIES, columns, role, status, stages, actions } from './Tracker.data'
+import update from 'react-addons-update';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom'
+import { Dropdown, Pagination, Table } from 'semantic-ui-react';
+import { addNotification, deleteApplication, getApplications } from '../../actions/tracker';
+import { APPLIED_COMPANIES, columns } from './Tracker.data';
 
 class TrackingTable extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			applications: APPLIED_COMPANIES
 		}
 	}
 
@@ -19,10 +19,22 @@ class TrackingTable extends Component {
 		this.props.getApplications()
 	}
 
+	componentWillReceiveProps = (nextProps) => {
+		this.setState({
+			applications: nextProps.applications
+		})
+	}
+
 	getCurrentStage = (allStages) => {
-		const maxVal = Math.max.apply(Math, allStages.map((o, i) => +o.order))
-		const maxObj = allStages.filter(x => maxVal == x.order)
-		return maxObj[0]
+		const sortedStages = allStages.sort(({ order: a }, { order: b }) => {
+			if (+a > +b) {
+				return 1
+			} else {
+				return -1
+			}
+		})
+		const filterCompleted = sortedStages.filter(x => !x.completed)
+		return filterCompleted[0]
 	}
 
 	openDetailPage(id) {
@@ -30,26 +42,35 @@ class TrackingTable extends Component {
 	}
 
 	deleteApplication = id => {
-		console.log('delete application')
 		this.props.deleteApplication(id).then(res => {
 			this.props.getApplications()
 		})
 	}
 
 	moveNextStage = i => {
-		console.log('move next stage', i)
-		const newData = update(this.state.stages,
-			{ [i]: { [name]: { $set: value } } }
+		console.log('move next stage', i, this.state)
+		const { stages } = this.state.applications[i]
+		const orderedStages = stages.sort(({order: a}, {order: b}) => {
+			if (a > b) {
+				return 1
+			} else {
+				return -1
+			}
+		})
+		const findStageIndex = orderedStages.findIndex(x => x.completed)
+		const newData = update(this.state.applications,
+			{ 
+				[i]: { stages: { completed: { $set: true } } }
+			}
 		)
-		this.setState({ stages: newData })
+		this.setState({ applications: newData })
 	}
 
 	closeStatus = i => {
 		console.log('close status', i)
 	}
 	render() {
-		const applications = this.props.applications.length > 0 ? this.props.applications : this.state.applications
-
+		const { applications } = this.state
 		return (
 			<Table compact celled>
 				<Table.Header>
@@ -84,7 +105,7 @@ class TrackingTable extends Component {
 						</Table.Row>
 					) :
 						<Table.Row>
-							No Applications
+							<Table.Cell colSpan={columns.length}>No Applications</Table.Cell>
 						</Table.Row>
 					}
 
@@ -118,15 +139,8 @@ TrackingTable.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-	if (state.applications.length > 0) {
-		return {
-			applications: state.applications,
-		}
-	} else {
-		return {
-			applications: APPLIED_COMPANIES
-		}
-
+	return {
+		applications: state.applications
 	}
 
 }

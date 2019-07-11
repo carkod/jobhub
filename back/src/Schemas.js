@@ -5,13 +5,24 @@ import { stringLiteral } from '@babel/types';
 mongoose.plugin(slug);
 const Schema = mongoose.Schema;
 
-
+// Primitive Schemas
 const ContactsSchema = new Schema({
     contactId: mongoose.Schema.ObjectId,
     contactName: { type: String },
     contactEmail: { type: String },
     contactPhone: { type: String },
 }, { timestamps: true }, { strict: false })
+
+const StagesSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    order: { type: Number },
+    completed: { type: Boolean },
+    action: { type: String },
+    dept: { type: String },
+    startDate: { type: String },
+    endDate: { type: String },
+}, { timestamps: true }, { strict: false })
+
 
 // CV
 const CVSchema = new Schema({
@@ -103,21 +114,21 @@ const ApplicationSchema = new Schema({
     contacts: [ContactsSchema],
     description: { type: Schema.Types.Mixed },
     files: { type: Array },
-    stages: { type: Array },
+    stages: [StagesSchema],
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true }, { strict: false });
 
 ApplicationSchema.pre('save', function (next) {
     if (this.contacts.length === 0) {
-        
-      this.contacts.push({
-          contactId: '',
-          contactName: '',
-          contactPhone: ''
-      })
+
+        this.contacts.push({
+            contactId: '',
+            contactName: '',
+            contactPhone: ''
+        })
     }
     next();
-  });
+});
 
 // CVSchema.pre('update', function(next){
 //     const slugger = slug(this._update.$set.name.toLowerCase());
@@ -133,4 +144,4 @@ ApplicationSchema.pre('save', function (next) {
 //     //next(err, doc);
 // });
 
-export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema };
+export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema };
