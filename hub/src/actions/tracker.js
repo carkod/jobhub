@@ -177,9 +177,10 @@ export function saveApplication(data) {
 }
 
 
-export function fetchApplications(id) {
+export function fetchApplication(id) {
     return dispatch => {
         fetch(`${API_URL}/application/${id}`, {
+            method: 'get',
             headers: headers
         })
         .then(res => res.json())

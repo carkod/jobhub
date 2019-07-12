@@ -1,17 +1,17 @@
 /* eslint-disable */
 
-import { combineReducers } from 'redux';
-
-import { SET_CV, CV_DELETED, SYNC_PERSDETAILS, CV_FETCHED, PDF_GENERATED } from './actions/cv';
-import { SET_CLS, CL_DELETED } from './actions/cl';
-import { SET_PROJECTS, PROJECT_DELETED, FILE_REMOVED, SET_CATS } from './actions/project';
-import { SAVED_CATS } from './actions/cats';
-import { ADD_NOTIFICATION, REMOVE_NOTIFICATION } from './actions/notification';
-import { IS_AUTH, NOT_AUTH } from './actions/login';
-import { SET_APPLICATIONS, APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE } from './actions/tracker';
-
-
 import RichTextEditor from 'react-rte';
+import { combineReducers } from 'redux';
+import { SAVED_CATS } from './actions/cats';
+import { CL_DELETED, SET_CLS } from './actions/cl';
+import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV } from './actions/cv';
+import { IS_AUTH, NOT_AUTH } from './actions/login';
+import { ADD_NOTIFICATION } from './actions/notification';
+import { FILE_REMOVED, PROJECT_DELETED, SET_CATS, SET_PROJECTS } from './actions/project';
+import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS } from './actions/tracker';
+
+
+
 
 const cvInitial =
     [
@@ -249,8 +249,7 @@ function applications(state = [], action = {}) {
         case APPLICATION_DELETED:
             const deleted = state.filter((item) => item._id !== action.cvs);
             return deleted;
-        case APPLICATION_FETCHED:
-            return state;
+
 
         case APPLICATION_MOVED_STAGE:
             return [...state];
@@ -260,5 +259,15 @@ function applications(state = [], action = {}) {
     }
 }
 
-export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication, applications });
+function applicationDetail(state = {}, action = {}) {
+    switch (action.type) {
+        case APPLICATION_FETCHED:
+            return { ...action.application };
+        default:
+            return state
+    }
+
+}
+
+export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication, applications, applicationDetail });
 

@@ -34,7 +34,7 @@ function fillModel(r) {
         endDate: r.endDate,
     })
     const sortStages = (stages) => {
-        stages.sort(({order: a}, {order: b}) => {
+        stages.sort(({ order: a }, { order: b }) => {
             return a - b
         })
     }
@@ -48,6 +48,7 @@ function fillModel(r) {
         },
         role: r.role,
         salary: r.salary,
+        applicationUrl: r.applicationUrl,
         contacts: r.contacts,
         description: r.description,
         files: r.files,
@@ -99,7 +100,6 @@ export default function Tracker(app, db) {
         const id = r._id || applications._id;
         delete r._id;
         ApplicationModel.updateOne({ _id: id }, applications, { upsert: true }, (err, msg) => {
-            console.log('upsert', msg, applications)
             if (err) {
                 throw err;
 
@@ -118,22 +118,18 @@ export default function Tracker(app, db) {
 
     });
 
-    app.get('/api/applications/:_id', (req, res) => {
-        if (req.params._id) {
-            ApplicationModel.findById(req.params._id, (err, applications) => {
-                if (!err) {
-                    throw err;
-                } else {
-                    res.json({ message: err })
-                }
+    app.get('/api/application/:_id', (req, res) => {
+        const { _id } = req.params
+        if (_id) {
+            ApplicationModel.findById(_id, (err, application) => {
+                console.log('hola', application)
+                if (err) throw err;
+                
+                res.json({ _id: _id, status: true, data: application});
             });
         } else {
 
-            let response = {
-                message: "Item could not be found",
-            };
-
-            res.send(response)
+            res.status(200).json({ _id: null, status: !!msg.ok, description: 'Item not found' });
 
         }
 
@@ -174,7 +170,6 @@ export default function Tracker(app, db) {
     });
 
     app.delete('/api/application/:_id', (req, res) => {
-        console.log(req.params)
         if (req.params._id) {
             ApplicationModel.findByIdAndRemove(req.params._id, (err, applications) => {
                 if (!err) {

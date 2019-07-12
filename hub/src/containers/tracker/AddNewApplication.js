@@ -6,8 +6,6 @@ import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Checkbox, Divider, Form, Header, Icon } from 'semantic-ui-react';
-import shortid from 'shortid';
-import { removeFile } from '../../actions/project';
 import { addNotification, saveApplication, uploadFile } from '../../actions/tracker';
 import Editor from '../../components/Editor';
 import AddNewApplicationConfig from './AddNewApplication.config';
@@ -27,6 +25,8 @@ class AddNewApplication extends Component {
 			company: '',
 			role: 'Front End Developer',
 			salary: '',
+			applicationUrl: '',
+			location: '',
 			contacts: this.contacts.emptyContact,
 			stages: this.contacts.emptyStages,
 			files: [""],

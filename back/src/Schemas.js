@@ -111,6 +111,8 @@ const ApplicationSchema = new Schema({
     },
     role: { type: String },
     salary: { type: String },
+    applicationUrl: { type: String },
+    location: { type: String },
     contacts: [ContactsSchema],
     description: { type: Schema.Types.Mixed },
     files: { type: Array },
