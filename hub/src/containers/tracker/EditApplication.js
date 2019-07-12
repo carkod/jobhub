@@ -203,9 +203,9 @@ class EditApplication extends Component {
 
 					{contacts.map((contact, i) =>
 						<Form.Group key={i}>
-							<Form.Input width={'5'} fluid label='Contact name' name='contactName' placeholder='Contact name' value={contacts[i].contactName} onChange={this.contactInputChange(i)} />
-							<Form.Input width={'5'} fluid label='Contact email' name='contactEmail' placeholder='Contact email' value={contacts[i].contactEmail} onChange={this.contactInputChange(i)} />
-							<Form.Input width={'6'} fluid label='Contact phone' name='contactPhone' placeholder='Contact phone' value={contacts[i].contactPhone} onChange={this.contactInputChange(i)} />
+							<Form.Input width={'5'} fluid name='contactName' placeholder='Contact name' value={contacts[i].contactName} onChange={this.contactInputChange(i)} />
+							<Form.Input width={'5'} fluid name='contactEmail' placeholder='Contact email' value={contacts[i].contactEmail} onChange={this.contactInputChange(i)} />
+							<Form.Input width={'6'} fluid name='contactPhone' placeholder='Contact phone' value={contacts[i].contactPhone} onChange={this.contactInputChange(i)} />
 							{removeContactBtn(i)}
 						</Form.Group>
 					)}
@@ -221,16 +221,16 @@ class EditApplication extends Component {
 
 					{stages.map((stage, i) =>
 						<Form.Group key={i}>
-							<Form.Input width={'1'} fluid label='Order' name='order' type='number' value={stages[i].order} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'1'} fluid placeholder='Order' name='order' type='number' value={stages[i].order} onChange={this.stagesInputChange(i)} />
 							<Form.Field width={'1'}>
 								<label>Completed?</label>
 								<Checkbox toggle checked={stages[i].completed} onChange={this.stagesInputChange(i)}></Checkbox>
 							</Form.Field>
 
-							<Form.Input width={'3'} fluid label='Action' name='action' placeholder='Action' value={stages[i].action} onChange={this.stagesInputChange(i)} />
-							<Form.Input width={'4'} fluid label='Type' name='dept' placeholder='Type' value={stages[i].dept} onChange={this.stagesInputChange(i)} />
-							<Form.Input width={'3'} fluid label='Start date' name='startDate' value={moment().format('DD MMMM YYYY')} value={stages[i].startDate} onChange={this.stagesInputChange(i)} />
-							<Form.Input width={'3'} fluid label='End date' name='endDate' disabled value={stages[i].endDate} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'3'} fluid name='action' placeholder='Action' value={stages[i].action} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'4'} fluid name='dept' placeholder='Type' value={stages[i].dept} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'3'} fluid name='startDate' value={moment().format('DD MMMM YYYY')} value={stages[i].startDate} onChange={this.stagesInputChange(i)} />
+							<Form.Input width={'3'} fluid name='endDate' disabled value={stages[i].endDate} onChange={this.stagesInputChange(i)} />
 							{removeStageBtn(i)}
 						</Form.Group>
 					)}
