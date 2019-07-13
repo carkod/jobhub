@@ -3,22 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import TrackingTable from './Table.js';
-import shortid from 'shortid'
-
-const showArchiveOptions = [
-  {
-    key: shortid.generate(),
-    text: 'Show active applications',
-    value: false,
-    placeholder: 'Active or closed',
-  },
-  {
-    key: shortid.generate(),
-    text: 'Show all applications',
-    value: true,
-    placeholder: 'Active or closed',
-  },
-]
+import { showArchiveOptions, filterRoleOptions }  from './Tracker.data';
 
 class Tracker extends Component {
   constructor(props) {
@@ -50,6 +35,7 @@ class Tracker extends Component {
         <h1>Application tracking {addNewBtn}</h1>
         {/*Three tabs: tracking table, add stage, contact book*/}
         <Dropdown name='showArchive' options={showArchiveOptions} onChange={this.handleChangeFilter} defaultValue={this.state.showArchive}/>
+        {/* <Dropdown name='filterRoles' options={filterRoleOptions} onChange={this.handleChangeFilter} defaultValue={this.state.filterRoleOptions}/> */}
         <TrackingTable {...this.props} showArchive={this.state.showArchive} />
 
       </div>

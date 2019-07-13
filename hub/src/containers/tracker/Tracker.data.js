@@ -1,7 +1,7 @@
 import shortid from 'shortid'
 import moment from 'moment';
 
-export const columns = ['Company', 'Status', 'Role', 'Contact', 'Current Stage', 'Application', 'Location', 'Salary', ''];
+export const columns = ['Company', 'Status', 'Role', 'Contact', 'Current Stage', 'Stage date', 'Location', 'Salary', ''];
 export const stages = [
 	// (1) Use default stages and (2) allow for adding additional stages
 	{ order: 0, complete: false, name: 'First contact', dept: 'HR', startDate: moment().format('DD MMMM YYYY'), endDate: '' },
@@ -68,4 +68,34 @@ export const formFields = [
 		id: shortid.generate(), key: 0, name: 'Application url', value: 'application', placeholder: 'Enter application url', fieldType: 'text'
 	},
 	
+]
+
+export const showArchiveOptions = [
+  {
+    key: shortid.generate(),
+    text: 'Show active applications',
+    value: false,
+    placeholder: 'Active or closed',
+  },
+  {
+    key: shortid.generate(),
+    text: 'Show all applications',
+    value: true,
+    placeholder: 'Active or closed',
+  },
+]
+
+export const filterRoleOptions = [
+  {
+    key: shortid.generate(),
+    text: 'Front End Developer',
+    value: false,
+    placeholder: 'Active or closed',
+  },
+  {
+    key: shortid.generate(),
+    text: 'Javascript Developer',
+    value: true,
+    placeholder: 'Active or closed',
+  },
 ]

@@ -22,8 +22,10 @@ class TrackingTable extends Component {
 			totalPages: 1,
 			showArchive: false,
 			applications: APPLIED_COMPANIES,
+			pagedApplications: APPLIED_COMPANIES
 		}
 	}
+
 
 	componentDidMount = () => {
 		this.props.getApplications();
@@ -36,9 +38,23 @@ class TrackingTable extends Component {
 		}
 		this.setState({
 			applications: filterRejected,
-			totalPages: this.totalPages(),
-			showArchive: nextProps.showArchive
-		})
+			showArchive: nextProps.showArchive,
+			pagedApplications: this.paginatePages(nextProps.applications, nextProps.activePage)
+		})		
+	}
+
+	componentDidUpdate = (prevProps, prevState, snapshot) => {
+		console.log(prevState, this.state)
+		if (prevState.applications !== this.state.applications) {
+			this.totalPages()
+			this.setState({
+				pagedApplications: this.paginatePages(prevState.applications, prevState.activePage)
+			})
+		}
+		if (prevState.totalPages !== this.state.totalPages) {
+			this.setState({ pagedApplications: this.paginatePages(prevState.applications, prevState.activePage) })
+		}
+		
 	}
 
 	getCurrentStage = (allStages) => {
@@ -101,31 +117,39 @@ class TrackingTable extends Component {
 		})
 	}
 
-	handlePaginationChange = (e, { activePage }) => {
-		this.setState({ activePage, totalPages: this.totalPages() })
+	handlePaginationChange = (e, p) => {
+		console.log(p)
+		this.setState({ activePage: p.activePage, pagedApplications: this.paginatePages(this.state.applications, p.activePage) })
+		
 		// this.props.getApplications(this.state.activePage, this.state.activePageSize)
 	}
 
 	totalPages() {
 		const { applications, activePageSize } = this.state
 		if (applications.length < activePageSize) {
-			// this.setState({ totalPages: 1})
+			this.setState({ totalPages: 1 })
 			return 1
 		} else {
 			// Is there a remainder?
 			const remainder = (applications.length % activePageSize) === 0
 			const calculatePages = applications.length / activePageSize
 			const result = remainder ? calculatePages : Math.floor(calculatePages) + 1
-			// this.setState({ totalPages: result })
+			this.setState({ totalPages: result })
 			return result
 		}
 	}
 
+	paginatePages(applications, activePage) {
+		const { activePageSize } = this.state
+		const pagedApplications = applications.slice((activePage - 1) * activePageSize, activePageSize * activePage);
+		console.log(pagedApplications, activePage - 1, activePageSize)
+		return pagedApplications
+	}
+
 	render() {
-		const { applications, activeColumn, direction, activePage, activePageSize, totalPages } = this.state
+		const { applications, activeColumn, direction, activePage, activePageSize, totalPages, pagedApplications } = this.state
 		const firstItem = { 'aria-label': 'First item', content: 1 }
 		const lastItem = { 'aria-label': 'Last item', content: totalPages }
-		console.log(totalPages)
 		return (
 			<Table sortable compact celled color='blue'>
 				<Table.Header>
@@ -139,7 +163,7 @@ class TrackingTable extends Component {
 				</Table.Header>
 
 				<Table.Body>
-					{applications.length > 0 ? applications.map((application, i) =>
+					{pagedApplications.length > 0 ? pagedApplications.map((application, i) =>
 						<Table.Row key={i}>
 							<Table.Cell>{application.company}</Table.Cell>
 							<Table.Cell>{application.status.text}</Table.Cell>
@@ -175,7 +199,7 @@ class TrackingTable extends Component {
 						<Table.HeaderCell colSpan={columns.length}>
 							<Pagination
 								boundaryRange={3}
-								siblingRange={activePageSize}
+								siblingRange={1}
 								ellipsisItem={null}
 								firstItem={firstItem}
 								lastItem={lastItem}
