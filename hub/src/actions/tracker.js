@@ -116,7 +116,7 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
-    return fetch(`${API_URL}/portfolio/deupload`, {
+    return fetch(`${API_URL}/application-deupload`, {
        method: 'post',
        headers: headers,
        body: JSON.stringify(file),
@@ -124,7 +124,7 @@ export function removeFile(file) {
 }
 
 export function uploadFile(file) {
-    return fetch(`${API_URL}/portfolio/upload`, {
+    return fetch(`${API_URL}/application-upload`, {
        method: 'post',
        body: file
     })
@@ -148,7 +148,7 @@ export function deleteApplication(id) {
 export function copyApplication(data) {
 
     return dispatch => {
-        return fetch(`${API_URL}/portfolio/${data._id}`, {
+        return fetch(`${API_URL}/application/${data._id}`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: headers
@@ -191,9 +191,9 @@ export function fetchApplication(id) {
     }
 }
 
-export function getApplications() {
+export function getApplications(page, pagesize) {
     return dispatch => {
-        fetch(`${API_URL}/applications/`)
+        fetch(`${API_URL}/applications/${page}/${pagesize}`)
         .then(res => res.json())
         .then(data => {
             dispatch(setApplications(data))

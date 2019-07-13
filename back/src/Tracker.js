@@ -59,14 +59,17 @@ function fillModel(r) {
 
 export default function Tracker(app, db) {
 
-    app.get('/api/applications', (req, res) => {
+    app.get('/api/applications/:page/:pagesize', (req, res) => {
+        const page = +req.params.page || 0
+        const pagesize = +req.params.pagesize || 0
+        const skip = (pagesize * page) - pagesize
         ApplicationModel.find({}, null, { sort: { updatedDate: -1 }, new: true }, function (err, content) {
             if (err) throw err;
-            res.json(content)
-        });
+            res.status(200).json(content)
+        }).skip(skip).limit(pagesize);
     });
 
-    app.post('/api/applications/upload', (req, res) => {
+    app.post('/api/applications-upload', (req, res) => {
         let f = req.file;
         // file upload
         fileUpload(req, res, (err) => {
@@ -80,7 +83,7 @@ export default function Tracker(app, db) {
         })
     });
 
-    app.post('/api/applications/deupload', (req, res) => {
+    app.post('/api/applications-deupload', (req, res) => {
         let doc = req.body;
         const fileDir = __dirname + '/' + fileDir + doc.fileRawName;
         fs.unlink(fileDir, (err) => {
@@ -122,7 +125,6 @@ export default function Tracker(app, db) {
         const { _id } = req.params
         if (_id) {
             ApplicationModel.findById(_id, (err, application) => {
-                console.log('hola', application)
                 if (err) throw err;
                 
                 res.json({ _id: _id, status: true, data: application});

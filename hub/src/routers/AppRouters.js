@@ -35,8 +35,8 @@ const AppRouter = () => (
 			<PrivateRouter exact path="/coverletters" component={CoverLetters} />
 			<PrivateRouter exact path="/coverletters/id=:id" component={Letter} />
 			<PrivateRouter exact path="/tracker/" component={Tracker} />
-			<PrivateRouter exact path="/tracker/new" component={AddNewApplication} />
-			<PrivateRouter exact path="/tracker/:id" component={EditApplication} />
+			<PrivateRouter exact path="/new-tracker" component={AddNewApplication} />
+			<PrivateRouter exact path="/tracker/:id(^[a-f\d]{24}$)" component={EditApplication} />
 		</Layout>
 	</Switch>
 );

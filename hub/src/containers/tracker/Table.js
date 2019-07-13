@@ -1,29 +1,43 @@
 /* eslint-disable */
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import { Dropdown, Pagination, Table } from 'semantic-ui-react';
 import { addNotification, deleteApplication, getApplications, moveNextStage } from '../../actions/tracker';
+import AddNewApplicationConfig from './AddNewApplication.config';
 import { APPLIED_COMPANIES, columns } from './Tracker.data';
-import AddNewApplicationConfig from './AddNewApplication.config'
+import moment from 'moment';
 
 class TrackingTable extends Component {
 	constructor(props) {
 		super(props);
 		this.stages = new AddNewApplicationConfig()
 		this.state = {
-			applications: APPLIED_COMPANIES
+			activeColumn: null,
+			direction: null,
+			activePage: 1,
+			activePageSize: 10,
+			totalPages: 1,
+			showArchive: false,
+			applications: APPLIED_COMPANIES,
 		}
 	}
 
 	componentDidMount = () => {
-		this.props.getApplications()
+		this.props.getApplications();
 	}
 
 	componentWillReceiveProps = (nextProps) => {
+		let filterRejected = nextProps.applications.filter(x => x.status.value !== 2)
+		if (nextProps.showArchive) {
+			filterRejected = nextProps.applications;
+		}
 		this.setState({
-			applications: nextProps.applications
+			applications: filterRejected,
+			totalPages: this.totalPages(),
+			showArchive: nextProps.showArchive
 		})
 	}
 
@@ -33,7 +47,6 @@ class TrackingTable extends Component {
 			return filterCompleted[0]
 		}
 		return this.stages.emptyStages[0]
-		
 	}
 
 	openDetailPage(id) {
@@ -57,7 +70,7 @@ class TrackingTable extends Component {
 			return false
 		}
 		const newData = update(this.state.applications,
-			{ 
+			{
 				[i]: { stages: { [findStageIndex]: { completed: { $set: true } } } }
 			}
 		)
@@ -68,14 +81,59 @@ class TrackingTable extends Component {
 	closeStatus = i => {
 		console.log('close status', i)
 	}
+
+	handleSort = clickedColumn => () => {
+		const { activeColumn, applications, direction } = this.state
+
+		if (activeColumn !== clickedColumn) {
+			this.setState({
+				activeColumn: clickedColumn,
+				applications: _.sortBy(applications, [clickedColumn]),
+				direction: 'ascending',
+			})
+
+			return
+		}
+
+		this.setState({
+			applications: applications.reverse(),
+			direction: direction === 'ascending' ? 'descending' : 'ascending',
+		})
+	}
+
+	handlePaginationChange = (e, { activePage }) => {
+		this.setState({ activePage, totalPages: this.totalPages() })
+		// this.props.getApplications(this.state.activePage, this.state.activePageSize)
+	}
+
+	totalPages() {
+		const { applications, activePageSize } = this.state
+		if (applications.length < activePageSize) {
+			// this.setState({ totalPages: 1})
+			return 1
+		} else {
+			// Is there a remainder?
+			const remainder = (applications.length % activePageSize) === 0
+			const calculatePages = applications.length / activePageSize
+			const result = remainder ? calculatePages : Math.floor(calculatePages) + 1
+			// this.setState({ totalPages: result })
+			return result
+		}
+	}
+
 	render() {
-		const { applications } = this.state
+		const { applications, activeColumn, direction, activePage, activePageSize, totalPages } = this.state
+		const firstItem = { 'aria-label': 'First item', content: 1 }
+		const lastItem = { 'aria-label': 'Last item', content: totalPages }
+		console.log(totalPages)
 		return (
-			<Table compact celled>
+			<Table sortable compact celled color='blue'>
 				<Table.Header>
 					<Table.Row>
 						{columns.map((col, i) =>
-							<Table.HeaderCell key={i} >{col}</Table.HeaderCell>
+							<Table.HeaderCell key={i} sorted={activeColumn === col ? direction : null} onClick={this.handleSort(col)}>
+								{col}
+							</Table.HeaderCell>
 						)}
 					</Table.Row>
 				</Table.Header>
@@ -88,9 +146,11 @@ class TrackingTable extends Component {
 							<Table.Cell>{application.role || ''}</Table.Cell>
 							<Table.Cell>{application.contacts.length > 0 ? application.contacts[0].contactName + ' <' + application.contacts[0].contactEmail + '>' : ''}</Table.Cell>
 							<Table.Cell>{this.getCurrentStage(application.stages).action + " (" + this.getCurrentStage(application.stages).dept + ")"}</Table.Cell>
-							<Table.Cell>{application.applicationUrl}</Table.Cell>
+							<Table.Cell>
+								{moment(new Date(this.getCurrentStage(application.stages).startDate)).format('DD MMMM YYYY')}
+							</Table.Cell>
 							<Table.Cell>{application.location}</Table.Cell>
-							<Table.Cell>{application.description}</Table.Cell>
+							<Table.Cell>{application.salary}</Table.Cell>
 							<Table.Cell>
 								<Dropdown direction='left' floating className='button icon' trigger={<React.Fragment />} >
 									<Dropdown.Menu>
@@ -114,12 +174,16 @@ class TrackingTable extends Component {
 					<Table.Row>
 						<Table.HeaderCell colSpan={columns.length}>
 							<Pagination
-								defaultActivePage={1}
-								firstItem={null}
-								lastItem={null}
+								boundaryRange={3}
+								siblingRange={activePageSize}
+								ellipsisItem={null}
+								firstItem={firstItem}
+								lastItem={lastItem}
 								pointing
 								secondary
-								totalPages={3}
+								totalPages={totalPages}
+								activePage={activePage}
+								onPageChange={this.handlePaginationChange}
 							/>
 						</Table.HeaderCell>
 					</Table.Row>

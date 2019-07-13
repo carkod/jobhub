@@ -43,7 +43,6 @@ class EditApplication extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log('component will receive', nextProps)
 		const newObj = this.applicationModel.fillInApplicationModel(nextProps.application)
 		this.setState(newObj)
 	}
@@ -70,7 +69,7 @@ class EditApplication extends Component {
 	}
 
 	statusChange = (e, data) => {
-		const findObj = status.find(x => x.key === data.value)
+		const findObj = statusOptions.find(x => x.key === data.value)
 		this.setState({ status: findObj })
 	}
 
@@ -174,7 +173,6 @@ class EditApplication extends Component {
 		}
 
 		const { company, status, role, salary, applicationUrl, stages, files, description, location, contacts } = this.state
-		console.log('render', this.state)
 
 		return (
 			<div id="new-application">
@@ -274,7 +272,6 @@ class EditApplication extends Component {
 }
 
 function mapStateToProps(state) {
-	console.log(state.applicationDetail.data)
 	return {
 		application: state.applicationDetail.data
 	}
