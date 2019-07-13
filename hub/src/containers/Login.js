@@ -4,36 +4,37 @@ import { connect } from 'react-redux';
 import { Button, Checkbox, Form, Header, Input, Segment } from 'semantic-ui-react';
 import { auth } from '../actions/login';
 import Notifications from '../components/Notification';
-import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
+
+  
 
   constructor(props) {
     super(props);
     this.state = {
-      redirectToReferrer: false,
       isAuthenticated: false,
+      token: ''
     };
   }
 
   login = (e) => {
-    this.props.auth(this.state)
+    auth(this.state)
       .then((d) => {
-        debugger;
         if (d.payload.token) {
-          const token = JSON.stringify(d.payload.token);
-          this.setState({ isAuthenticated: true, redirectToReferrer: true, token: token });
-
+          const token = localStorage.setItem('hubToken', JSON.stringify(d.payload.token));
+          this.setState({ isAuthenticated: true, token: token });
+          const { pathname } = this.props.location.state.from
+          this.props.history.push('/')
+          console.log(this.state, this.props)
         }
-        return false;
       })
       .catch(e => console.log(e));
   }
 
   handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+      this.setState({
+        [e.target.name]: e.target.value
+      })
   }
 
   checkboxChange = (e, data) => {
@@ -42,19 +43,14 @@ class Login extends Component {
     })
   }
 
+
   render() {
-    console.log(this.props)
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-debugger
-    if (this.state.redirectToReferrer === true) {
-      return <Redirect to='/' />
-    }
     return (
       <div className="login-centerer">
         <Notifications notifications={this.props.notifications} />
         <Segment id='login' compact>
           <Header as='h2'>Log in to access this application</Header>
-          <Form>
+          <Form onSubmit={this.login}>
             <Form.Field>
               <Input type='text' name='email' placeholder='Email' onChange={this.handleChange} />
               {/* <Label color='red' pointing active={false}>Email is incorrect</Label> */}
@@ -66,7 +62,7 @@ debugger
             <Form.Field>
               <Checkbox name="remember" label='Remember me' onChange={this.checkboxChange} />
             </Form.Field>
-            <Button onClick={this.login} name="login">Log in</Button>
+            <Button type='submit' name="login">Log in</Button>
           </Form>
         </Segment>
       </div>
@@ -85,4 +81,4 @@ function mapStateToProps(state, props) {
   }
 }
 
-export default connect(mapStateToProps, { auth })(Login);
+export default connect(mapStateToProps)(Login);

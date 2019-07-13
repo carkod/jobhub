@@ -58,7 +58,7 @@ function fillModel(r) {
 }
 
 export default function Tracker(app, db) {
-
+console.log('accessing tracker endpoint')
     app.get('/api/applications/:page/:pagesize', (req, res) => {
         const page = +req.params.page || 0
         const pagesize = +req.params.pagesize || 0

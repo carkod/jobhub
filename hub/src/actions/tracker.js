@@ -193,7 +193,10 @@ export function fetchApplication(id) {
 
 export function getApplications(page, pagesize) {
     return dispatch => {
-        fetch(`${API_URL}/applications/${page}/${pagesize}`)
+        fetch(`${API_URL}/applications/${page}/${pagesize}`, {
+            method: 'get',
+            headers: headers
+        })
         .then(res => res.json())
         .then(data => {
             dispatch(setApplications(data))
