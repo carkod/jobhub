@@ -25,7 +25,6 @@ class Login extends Component {
           this.setState({ isAuthenticated: true, token: token });
           const { pathname } = this.props.location.state.from
           this.props.history.push('/')
-          console.log(this.state, this.props)
         }
       })
       .catch(e => console.log(e));

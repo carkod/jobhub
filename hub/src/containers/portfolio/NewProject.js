@@ -23,7 +23,6 @@ class NewProject extends Component {
   }
   
   handleSubmit = () => {
-    //console.log(this.state)
     this.props.saveProject({ _id:'', name: this.state.name })
     .then(project => { 
       this.setState({ modalOpen: false });

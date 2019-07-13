@@ -14,7 +14,6 @@ export const PrivateRouter = ({ isAuthenticated, component: Component, ...rest }
 };
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         isAuthenticated: JSON.parse(localStorage.getItem('hubToken')) ? true : false,
     }

@@ -56,11 +56,9 @@ promise.then((db) => {
 	Login(app, db);
 
 	app.use((req, res, next) => {
-		console.log('entering', req.headers)
 		try {
 			const token = req.headers.authorization.split(" ")[1]
 			jwt.verify(token, '48295620-j', function (err, payload) {
-				console.log(payload)
 				if (payload) {
 					//CRUD
 					next()

@@ -9,7 +9,6 @@ export const SAVED_CATS = 'SAVED_CATS';
 */
 function handleResponse(response) {
     if (response.status === 200) {
-        console.log(response.data)
         return response.data;
     } else {
         let error = new Error(response.statusText);

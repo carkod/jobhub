@@ -39,7 +39,6 @@ export function auth(data) {
     })
         .then(handleResponse)
         .then(data => {
-            console.log(data)
             if (data.status) {
                 addNotification(isAuthenticated(data));
                 localStorage.setItem('hubToken', data.token)

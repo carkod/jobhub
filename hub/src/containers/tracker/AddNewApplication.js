@@ -43,9 +43,9 @@ class AddNewApplication extends Component {
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
-	handleSubmit = () => {
-		console.log(this.state)
-	}
+	// handleSubmit = () => {
+	// 	console.log(this.state)
+	// }
 
 	descChange = (e) => {
 		this.setState({ description: e.toString('html') });
@@ -60,7 +60,6 @@ class AddNewApplication extends Component {
 
 	addNewContact = () => {
 		const newData = this.state.contacts.concat(this.contacts.emptyContact)
-		console.log(newData, this.state)
 		this.setState({ contacts: newData })
 
 	}
@@ -92,10 +91,6 @@ class AddNewApplication extends Component {
 			{ [i]: { [name]: { $set: value } } }
 		)
 		this.setState({ contacts: newData })
-	}
-
-	stagesChange = (e, i) => {
-		console.log(e, i)
 	}
 
 	removeStage = i => e => {
@@ -141,7 +136,6 @@ class AddNewApplication extends Component {
 	}
 
 	onSave = () => {
-		console.log('saving...', this.state)
 		this.props.saveApplication(this.state).then(res => {
 			console.log('saved application', res);
 		})

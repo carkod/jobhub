@@ -44,7 +44,6 @@ class TrackingTable extends Component {
 	}
 
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
-		console.log(prevState, this.state)
 		if (prevState.applications !== this.state.applications) {
 			this.totalPages()
 			this.setState({
@@ -94,10 +93,6 @@ class TrackingTable extends Component {
 		this.props.moveNextStage(this.state.applications)
 	}
 
-	closeStatus = i => {
-		console.log('close status', i)
-	}
-
 	handleSort = clickedColumn => () => {
 		const { activeColumn, applications, direction } = this.state
 
@@ -118,10 +113,7 @@ class TrackingTable extends Component {
 	}
 
 	handlePaginationChange = (e, p) => {
-		console.log(p)
 		this.setState({ activePage: p.activePage, pagedApplications: this.paginatePages(this.state.applications, p.activePage) })
-		
-		// this.props.getApplications(this.state.activePage, this.state.activePageSize)
 	}
 
 	totalPages() {
@@ -142,7 +134,6 @@ class TrackingTable extends Component {
 	paginatePages(applications, activePage) {
 		const { activePageSize } = this.state
 		const pagedApplications = applications.slice((activePage - 1) * activePageSize, activePageSize * activePage);
-		console.log(pagedApplications, activePage - 1, activePageSize)
 		return pagedApplications
 	}
 

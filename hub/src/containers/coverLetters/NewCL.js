@@ -23,7 +23,6 @@ class NewCL extends Component {
   }
   
   handleSubmit = () => {
-    //console.log(this.state)
     this.props.saveCL({ _id:'', name: this.state.name })
     .then(cl => { 
       this.setState({ savedID: cl.data._id, modalOpen: false });

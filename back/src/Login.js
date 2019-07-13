@@ -28,12 +28,10 @@ export default function Login(app, db) {
 						const savedID = user._id;
 						const secret = bcrypt.hash(r.password, 10);
 						const token = jwt.sign({ email: r.email }, r.password, { expiresIn: '10h' });
-						console.log('correct pass', same);
 						res.status(200).cookie('hubToken', token, { httpOnly: true }).json({ _id: savedID, status: true, token: token })
 
 						//   callback(err, same);
 					} else {
-						console.log('error pass');
 						res.status(400).json({ _id: user._id, status: false, error: 'Login credentials are not correct.' })
 					}
 				});
