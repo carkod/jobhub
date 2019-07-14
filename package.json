@@ -49,7 +49,7 @@
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
         "dotenv": "^8.0.0",
-        "draft-js": "^0.10.5",
+        "draft-js": "^0.11.0",
         "draft-js-export-html": "^1.3.3",
         "express": "^4.17.1",
         "express-react-views": "^0.11.0",
