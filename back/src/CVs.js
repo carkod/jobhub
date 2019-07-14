@@ -16,17 +16,16 @@ const compare = (a,b) => {
 }
 
 export default function CVs (app, db) {
-    
     app.get('/api/cvs', (req, res) => {
        
        CVModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
            if (err) throw err;
-           console.log(content)
-           res.json(content)
+           res.status(200).json(content)
        });
     });
         
     app.post('/api/cvs', (req, res) => {
+        console.log('hola')
         let r = req.body,
             cv,
             slugger;
@@ -49,6 +48,7 @@ export default function CVs (app, db) {
             
             
         } else {
+
             // Update
             cv = new CVModel({
                 name: r.name,

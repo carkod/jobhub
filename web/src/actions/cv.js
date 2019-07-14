@@ -1,5 +1,5 @@
 /* eslint-disable */
-import API_URL from './dev';
+import {API_URL} from './actions.config';
 
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
@@ -21,7 +21,6 @@ function handleResponse(response) {
 }
 
 export function setFormFields (data) {
-    console.log(data)
     return {
         type: SET_FIELDS,
         data

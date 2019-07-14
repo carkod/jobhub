@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import PD from './PD(esp)';
-import Work from './Work(esp)';
-import Education from './Education(esp)';
-import Languages from './Languages(esp)';
-import WebDev from './WebDev(esp)';
-import IT from './IT(esp)';
+import PD from './PD.esp';
+import Work from './Work.esp';
+import Education from './Education.esp';
+import Languages from './Languages.esp';
+import WebDev from './WebDev.esp';
+import IT from './IT.esp';
 
-class FullPrint extends Component {
+class QuickPrint extends Component {
   
   render() {
     const cv = this.props;
@@ -16,7 +16,7 @@ class FullPrint extends Component {
          <link rel="stylesheet" href="/pdf/assets/index.css" />
       </head>
       <body>
-      <div id="fullprint" className="container">
+      <div id="quickprint" className="container">
         <main className="cvContent">
             <h1>Carlos Wu - <small>{cv.name}</small></h1>
             <section id="summary">
@@ -40,4 +40,4 @@ class FullPrint extends Component {
   }
 }
 
-export default FullPrint;
+export default QuickPrint;

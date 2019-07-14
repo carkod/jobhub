@@ -43,7 +43,7 @@ export default function Pdf (app,db) {
         const {id} = req.params;
         CVModel.findOne({_id: id}, (findErr, content) => {
         if (findErr) throw findErr;
-            res.render('FullPrint(esp).jsx', content, (err, html) => {
+            res.render('FullPrint.esp.jsx', content, (err, html) => {
                 if (err) throw err;
                 res.send(html)
             })    
@@ -55,7 +55,7 @@ export default function Pdf (app,db) {
         const {id} = req.params;
         CVModel.findOne({_id: id}, (findErr, content) => {
         if (findErr) throw findErr;
-            res.render('QuickPrint(esp).jsx', content, (err, html) => {
+            res.render('QuickPrint.esp.jsx', content, (err, html) => {
                 if (err) throw err;
                 res.send(html)
             })    
@@ -64,6 +64,7 @@ export default function Pdf (app,db) {
     })
     
     app.get('/pdf/generate/:id', (req, res, next) => {
+        
         const {id} = req.params;
         
         CVModel.findOne({_id: id}, function(err, content) {
@@ -75,6 +76,7 @@ export default function Pdf (app,db) {
             headerText = 'Currilum Vitae';
            
             Promise.all([generatePDF(req, content, printType, headerText), generatePDF(req, content, printType2, headerText)]).then(links => {
+                console.log('hola')
                 content.pdf = links;
                 res.send(content)
             })

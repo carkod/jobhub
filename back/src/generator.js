@@ -123,9 +123,10 @@ if (printType === 'f' && locale === 'es-ES') {
     return new Promise((ok,fail) => {
         wkhtmltopdf(url, options, (err) => {
             if (err) {
-                
+                console.log('err', err)
                 fail(err);
             } else {
+                console.log('ok')
                 ok(pdfURL);        
             }
             

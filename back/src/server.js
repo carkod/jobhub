@@ -54,6 +54,7 @@ promise.then((db) => {
 
 	// Unprotected route
 	Login(app, db);
+	Pdf(app, db);
 
 	app.use((req, res, next) => {
 		try {
@@ -84,9 +85,6 @@ promise.then((db) => {
 	Categories(app, db);
 	Tracker(app, db);
 
-
-	//Other applications    
-	Pdf(app, db);
 });
 
 
