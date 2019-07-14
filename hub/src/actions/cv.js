@@ -1,6 +1,6 @@
 /* eslint-disable */
-import {API_URL, PDF_URL} from './dev';
-import {addNotification, removeNotification} from './notification';
+import { API_URL, handleResponse, headers, PDF_URL } from './actions.config';
+import { addNotification } from './notification';
 
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
@@ -12,19 +12,6 @@ export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
 export const PDF_GENERATED = 'PDF_GENERATED';
 
-const headers = {
-    "Content-Type" : "application/json"
-}
-
-function handleResponse(response) {
-    if (response.ok) {
-        return response.json();
-    } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-    }
-}
 
 export function setFormFields (data) {
     return {
@@ -34,6 +21,7 @@ export function setFormFields (data) {
 }
 
 export function setCVs(cvs) {
+    console.log(cvs)
     return {
         type: SET_CV,
         cvs
@@ -124,9 +112,7 @@ export function generatePDF(id) {
     return dispatch => {
         return fetch(`${PDF_URL}/generate/${id}`, {
             method:'GET',
-            headers : { 
-            "Content-Type": "application/json",
-           },
+            headers : headers,
         })
         .then(handleResponse)
         .then(data => {
@@ -138,8 +124,9 @@ export function generatePDF(id) {
 
 export function fetchCVs() {
     return dispatch => {
-        fetch(`${API_URL}/cvs`)
-        //.then(res => res.json())
+        fetch(`${API_URL}/cvs`, {
+            headers: headers
+        })
         .then(handleResponse)
         .then(data => {
             dispatch(setCVs(data));
@@ -150,7 +137,9 @@ export function fetchCVs() {
 
 export function fetchCV(id) {
     return dispatch => {
-        fetch(`${API_URL}/cvs/${id}`)
+        fetch(`${API_URL}/cvs/${id}`, {
+            headers: headers
+        })
         .then(res => res.json())
         .then(data => dispatch(setCVs(data)))
     }

@@ -1,21 +1,13 @@
 /* eslint-disable */
-import {API_URL} from '../../actions/dev';
 import axios from 'axios';
+import { API_URL, handleResponse } from '../../actions/actions.config';
 
 export const SET_CATS = 'SET_CATS';
 /*export const DELETED_CATS = 'DELETED_CATS';
 export const COPIED_CATS = 'COPIED_CATS';
 export const SAVED_CATS = 'SAVED_CATS';
 */
-function handleResponse(response) {
-    if (response.status === 200) {
-        return response.data;
-    } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-    }
-}
+
 
 /*export function deletedCats(cats) {
     return {
@@ -49,10 +41,10 @@ export function setCats(cats) {
 export function fetchCats() {
     return dispatch => {
         axios.get(`${API_URL}/cats`)
-        .then(res => {
-            handleResponse(res)
-            dispatch(setCats(res.data))
-        });    
+            .then(res => {
+                handleResponse(res)
+                dispatch(setCats(res.data))
+            });
     }
 }
 
@@ -64,9 +56,9 @@ export function fetchCats() {
            headers: {
                "Content-Type" : "application/json"
            }
-        }) 
+        })
         .then(handleResponse)
-        .then(data => dispatch(deletedCats(id)));   
+        .then(data => dispatch(deletedCats(id)));
     }
 }
 
@@ -82,7 +74,7 @@ export function copyCats(data) {
         .then(handleResponse)
         .then(data => dispatch(copiedCats(data.CV)));
     }
-    
+
 }
 
 export function saveCats(data) {
@@ -93,6 +85,6 @@ export function saveCats(data) {
            headers: {
                "Content-Type" : "application/json"
            }
-        }).then(handleResponse).then(data => dispatch(savedCV(data))).then(data);   
+        }).then(handleResponse).then(data => dispatch(savedCV(data))).then(data);
     }
 }*/

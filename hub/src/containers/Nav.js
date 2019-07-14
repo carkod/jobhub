@@ -30,9 +30,9 @@ class Nav extends Component {
 					<div className="item">
 						<NavLink to="/cv" activeClassName="current" >CV</NavLink>
 						<div className="level-2 menu">
-							<div className="item">
+							{/* <div className="item">
 								<NavLink to="/cv/positions" activeClassName="current" >Positions</NavLink>
-							</div>
+							</div> */}
 							<div className="item">
 								<NavLink to="/cv/languages" activeClassName="current" >Languages</NavLink>
 							</div>
@@ -52,11 +52,12 @@ class Nav extends Component {
 						</div>
 					</div>
 					<div className="item">
-						<NavLink to="/relationships" activeClassName="current" >Relationships</NavLink>
-					</div>
-					<div className="item">
 						<NavLink to="/coverletters" activeClassName="current" >Cover Letters</NavLink>
 					</div>
+					<div className="item">
+						<NavLink to="/relationships" activeClassName="current" >Relationships</NavLink>
+					</div>
+					
 					<div className="item">
 						<NavLink to="/portfolio" activeClassName="current" >Portfolio</NavLink>
 					</div>
