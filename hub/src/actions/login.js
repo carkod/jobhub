@@ -1,19 +1,9 @@
 /* eslint-disable */
-import { API_URL } from './dev';
+import { API_URL, handleResponse, headers } from './actions.config';
 import { addNotification } from './notification';
 
 export const IS_AUTH = 'IS_AUTH';
 export const NOT_AUTH = 'NOT_AUTH';
-
-function handleResponse(response) {
-    if (response.ok) {
-        return response.json();
-    } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        return response.json();
-    }
-}
 
 export function isAuthenticated(payload) {
     return {

@@ -1,8 +1,9 @@
 /* eslint-disable */
-import {API_URL} from './dev';
+import { API_URL, handleResponse, headers } from './actions.config';
 
-export const SET_APPLICATIONS  = 'SET_APPLICATIONS';
-export const ADD_APPLICATION  = 'ADD_APPLICATION';
+
+export const SET_APPLICATIONS = 'SET_APPLICATIONS';
+export const ADD_APPLICATION = 'ADD_APPLICATION';
 export const APPLICATION_FETCHED = 'APPLICATION_FETCHED';
 export const RETRIEVED_APPLICATION = 'RETRIEVED_APPLICATION';
 export const APPLICATION_UPDATED = 'APPLICATION_UPDATED';
@@ -13,20 +14,6 @@ export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 
-function handleResponse(response) {
-    if (response.ok) {
-        return response.json();
-    } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-    }
-}
-
-const headers = {
-    'Content-Type': 'application/json',
-    "Authorization": `Bearer ${JSON.parse(localStorage.getItem('hubToken'))}`,
-}
 
 export function moveStage(status) {
     return {
@@ -59,10 +46,10 @@ export function applicationDeleted(application) {
 
 
 export function applicationFetched(application) {
-  return {
-    type: APPLICATION_FETCHED,
-    application
-  }
+    return {
+        type: APPLICATION_FETCHED,
+        application
+    }
 }
 
 
@@ -117,31 +104,31 @@ export function fileRemoved(file) {
 
 export function removeFile(file) {
     return fetch(`${API_URL}/application-deupload`, {
-       method: 'post',
-       headers: headers,
-       body: JSON.stringify(file),
+        method: 'post',
+        headers: headers,
+        body: JSON.stringify(file),
     }).then(res => res.json())
 }
 
 export function uploadFile(file) {
     return fetch(`${API_URL}/application-upload`, {
-       method: 'post',
-       body: file
+        method: 'post',
+        body: file
     })
-    .then(res => res.json());
+        .then(res => res.json());
 }
 
 export function deleteApplication(id) {
     return dispatch => {
         return fetch(`${API_URL}/application/${id}`, {
-           method: 'delete',
-           headers: headers
-        }) 
-        .then(handleResponse)
-        .then(data => {
-            dispatch(applicationDeleted(data))
-            dispatch(addNotification(applicationDeleted(data)))
-        });   
+            method: 'delete',
+            headers: headers
+        })
+            .then(handleResponse)
+            .then(data => {
+                dispatch(applicationDeleted(data))
+                dispatch(addNotification(applicationDeleted(data)))
+            });
     }
 }
 
@@ -149,30 +136,30 @@ export function copyApplication(data) {
 
     return dispatch => {
         return fetch(`${API_URL}/application/${data._id}`, {
-           method: 'post',
-           body: JSON.stringify(data),
-           headers: headers
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: headers
         })
-        .then(handleResponse)
-        .then(data => {
-            dispatch(pastedApplication(data.Application))
-            dispatch(addNotification(pastedApplication(data.Application)))
-        });
+            .then(handleResponse)
+            .then(data => {
+                dispatch(pastedApplication(data.Application))
+                dispatch(addNotification(pastedApplication(data.Application)))
+            });
     }
-    
+
 }
 
 export function saveApplication(data) {
     return dispatch => {
         return fetch(`${API_URL}/application`, {
-           method: 'post',
-           body: JSON.stringify(data),
-           headers: headers
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: headers
         }).then(handleResponse)
-        .then(data => {
-            dispatch(addApplication(data))
-            dispatch(addNotification(addApplication(data)))
-        })
+            .then(data => {
+                dispatch(addApplication(data))
+                dispatch(addNotification(addApplication(data)))
+            })
     }
 }
 
@@ -183,11 +170,11 @@ export function fetchApplication(id) {
             method: 'get',
             headers: headers
         })
-        .then(res => res.json())
-        .then(data => {
-            dispatch(applicationFetched(data))
-            dispatch(addNotification(applicationFetched(data)))
-        })
+            .then(res => res.json())
+            .then(data => {
+                dispatch(applicationFetched(data))
+                dispatch(addNotification(applicationFetched(data)))
+            })
     }
 }
 
@@ -197,24 +184,24 @@ export function getApplications(page, pagesize) {
             method: 'get',
             headers: headers
         })
-        .then(res => res.json())
-        .then(data => {
-            dispatch(setApplications(data))
-            dispatch(addNotification(setApplications(data)))
-        })
+            .then(res => res.json())
+            .then(data => {
+                dispatch(setApplications(data))
+                dispatch(addNotification(setApplications(data)))
+            })
     }
 }
 
 export function moveNextStage(data) {
     return dispatch => {
         return fetch(`${API_URL}/application`, {
-           method: 'post',
-           body: JSON.stringify(data),
-           headers: headers
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: headers
         }).then(handleResponse)
-        .then(data => {
-            dispatch(moveStage(data))
-            dispatch(addNotification(moveStage(data)))
-        })
+            .then(data => {
+                dispatch(moveStage(data))
+                dispatch(addNotification(moveStage(data)))
+            })
     }
 }

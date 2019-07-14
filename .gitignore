@@ -17,7 +17,7 @@ back/package-lock.json
 
 # WEB
 web/src/*.css
-web/build
+web/build/
 
 # HUB
 hub/build/
