@@ -1,7 +1,8 @@
 module.exports = {
   apps : [
       {
-        name: "JobHub Back-end",
+        name: "jobhub",
+        version: "0.9.3",
         script: "back/dist/server.js",
         //watch: true,
         env_production: {
