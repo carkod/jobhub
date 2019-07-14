@@ -36,7 +36,6 @@ class TrackingTable extends Component {
 		if (nextProps.showArchive) {
 			filterInactive = nextProps.applications;
 		}
-		console.log(this.state.showArchive, nextProps.showArchive)
 		this.setState({
 			applications: filterInactive,
 			showArchive: nextProps.showArchive,

@@ -31,7 +31,6 @@ class Tracker extends Component {
           <Icon name="plus square" color="green" />
         </Link>
       </button>
-    console.log(this.state.showArchive)
     return (
       <div id="tracker">
         <h1>Application tracking {addNewBtn}</h1>
