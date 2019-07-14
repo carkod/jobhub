@@ -141,7 +141,6 @@ function cvs(state = cvInitial, action = {}) {
     switch (action.type) {
         case SET_CV:
             let combined = [];
-            console.log(action.cvs)
             for (let i of action.cvs) {
                 const merge = Object.assign({}, cvInitial[0], i);
                 combined.push(merge)
