@@ -5,6 +5,8 @@
 #Back-end exceptions
 back/uploads/*
 back/dist/
+back/docs
+back/package-lock.json
 
 # WEB
 web/src/*.css
