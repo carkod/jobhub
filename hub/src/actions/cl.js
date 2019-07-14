@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { API_URL, handleResponse, PDF_URL } from './actions.config';
+import { API_URL, handleResponse, PDF_URL, headers } from './actions.config';
 export const SET_CLS = 'SET_CLS';
 export const ADD_CL = 'ADD_CL';
 export const CL_FETCHED = 'CL_FETCHED';
@@ -78,9 +78,7 @@ export function deleteCL(id) {
     return dispatch => {
         return fetch(`${API_URL}/cls/${id}`, {
             method: 'delete',
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: headers
         })
             .then(handleResponse)
             .then(data => dispatch(CLDeleted(id)));
@@ -92,9 +90,7 @@ export function copyCL(data) {
         return fetch(`${API_URL}/cls/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: headers
         })
             .then(handleResponse)
             .then(data => dispatch(CLPasted(data.CL)));
@@ -107,9 +103,7 @@ export function saveCL(data) {
         return fetch(`${API_URL}/cls`, {
             method: 'post',
             body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: headers
         }).then(handleResponse)
             .then(data => {
                 dispatch(addCL(data))
@@ -120,8 +114,10 @@ export function saveCL(data) {
 
 export function fetchCLs() {
     return dispatch => {
-        fetch(`${API_URL}/cls`)
-            .then(res => res.json())
+        fetch(`${API_URL}/cls`, {
+            headers: headers
+        })
+            .then(handleResponse)
             .then(data => {
                 dispatch(setCLs(data))
                 dispatch(addNotification(setCLs(data)));
@@ -131,8 +127,10 @@ export function fetchCLs() {
 
 export function fetchCL(id) {
     return dispatch => {
-        return fetch(`${API_URL}/CL/${id}`)
-            .then(res => res.json())
+        return fetch(`${API_URL}/cl/${id}`, {
+            headers: headers
+        })
+            .then(handleResponse)
             .then(data => {
                 dispatch(setCLs(data))
                 dispatch(addNotification(setCLs(data)));
@@ -143,9 +141,7 @@ export function fetchCL(id) {
 export function generatePDF(id) {
     return fetch(`${PDF_URL}/generateCl/${id}`, {
         method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: headers
     })
         .then(handleResponse)
 

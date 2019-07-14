@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { API_URL, handleResponse } from './actions.config';
+import { API_URL, handleResponse, headers } from './actions.config';
 
 export const SET_PROJECTS = 'SET_PROJECTS';
 export const ADD_PROJECT = 'ADD_PROJECT';
@@ -106,9 +106,7 @@ export function fileRemoved(file) {
 export function removeFile(file) {
     return fetch(`${API_URL}/portfolio/deupload`, {
         method: 'post',
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: headers,
         body: JSON.stringify(file),
     }).then(res => res.json())
 }
@@ -116,6 +114,7 @@ export function removeFile(file) {
 export function uploadFile(file) {
     return fetch(`${API_URL}/portfolio/upload`, {
         method: 'post',
+        headers: headers,
         body: file
     })
         .then(res => res.json());
@@ -125,9 +124,7 @@ export function deleteProject(id) {
     return dispatch => {
         return fetch(`${API_URL}/project/${id}`, {
             method: 'delete',
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: headers
         })
             .then(handleResponse)
             .then(data => {
@@ -143,9 +140,7 @@ export function copyProject(data) {
         return fetch(`${API_URL}/portfolio/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: headers
         })
             .then(handleResponse)
             .then(data => {
@@ -161,9 +156,7 @@ export function saveProject(data) {
         return fetch(`${API_URL}/portfolio/project`, {
             method: 'post',
             body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: headers
         }).then(handleResponse)
             .then(data => {
                 dispatch(addProject(data))
@@ -174,8 +167,10 @@ export function saveProject(data) {
 
 export function fetchPortfolio() {
     return dispatch => {
-        fetch(`${API_URL}/portfolio`)
-            .then(res => res.json())
+        fetch(`${API_URL}/portfolio`, {
+            headers: headers
+        })
+            .then(handleResponse)
             .then(data => {
                 dispatch(setProjects(data))
                 dispatch(addNotification(setProjects(data)))
@@ -185,8 +180,10 @@ export function fetchPortfolio() {
 
 export function fetchProject(id) {
     return dispatch => {
-        fetch(`${API_URL}/project/${id}`)
-            .then(res => res.json())
+        fetch(`${API_URL}/project/${id}`, {
+            headers: headers
+        })
+            .then(handleResponse)
             .then(data => {
                 dispatch(setProjects(data))
                 dispatch(addNotification(setProjects(data)))
@@ -196,8 +193,10 @@ export function fetchProject(id) {
 
 export function fetchCats() {
     return dispatch => {
-        fetch(`${API_URL}/cats`)
-            .then(res => res.json())
+        fetch(`${API_URL}/cats`, {
+            headers: headers
+        })
+            .then(handleResponse)
             .then(data => {
                 dispatch(setCats(data))
                 dispatch(addNotification(setCats(data)))

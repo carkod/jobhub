@@ -21,6 +21,7 @@ export function setFormFields (data) {
 }
 
 export function setCVs(cvs) {
+    console.log(cvs)
     return {
         type: SET_CV,
         cvs
@@ -126,7 +127,6 @@ export function fetchCVs() {
         fetch(`${API_URL}/cvs`, {
             headers: headers
         })
-        //.then(res => res.json())
         .then(handleResponse)
         .then(data => {
             dispatch(setCVs(data));

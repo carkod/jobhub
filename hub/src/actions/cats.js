@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
-import { API_URL, handleResponse } from './actions.config';
+import { API_URL, handleResponse, headers } from './actions.config';
 
 export const SET_CATS = 'SET_CATS';
 export const SAVED_CATS = 'SAVED_CATS';
@@ -50,7 +50,9 @@ export function setCats(cats) {
 
 export function fetchCats() {
     return dispatch => {
-        axios.get(`${API_URL}/cats`)
+        axios.get(`${API_URL}/cats`,{
+            headers: headers
+        })
             .then(res => {
                 handleResponse(res)
                 dispatch(setCats(res.data))
@@ -64,9 +66,7 @@ export function saveCats(data) {
         return fetch(`${API_URL}/cats`, {
             method: 'post',
             body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: headers
         }).then(handleResponse).then(data => {
             dispatch(savedCats(data));
             dispatch(addNotification(savedCats(data)))

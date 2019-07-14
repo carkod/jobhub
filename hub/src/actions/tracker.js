@@ -170,7 +170,7 @@ export function fetchApplication(id) {
             method: 'get',
             headers: headers
         })
-            .then(res => res.json())
+            .then(handleResponse)
             .then(data => {
                 dispatch(applicationFetched(data))
                 dispatch(addNotification(applicationFetched(data)))
@@ -184,7 +184,7 @@ export function getApplications(page, pagesize) {
             method: 'get',
             headers: headers
         })
-            .then(res => res.json())
+            .then(handleResponse)
             .then(data => {
                 dispatch(setApplications(data))
                 dispatch(addNotification(setApplications(data)))
