@@ -2,14 +2,16 @@
 #files
 *.pdf
 
-#DB Credentials
-back/credentials.js
+#Back-end exceptions
+back/uploads/*
+back/dist/
 
 # WEB
 web/src/*.css
+web/build
 
-# Server
-back/uploads/*
+# HUB
+hub/build/
 
 # Logs
 logs
