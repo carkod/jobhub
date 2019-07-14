@@ -1,5 +1,6 @@
 /* eslint-disable */
 import _ from 'lodash';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import update from 'react-addons-update';
@@ -8,7 +9,6 @@ import { Dropdown, Pagination, Table } from 'semantic-ui-react';
 import { addNotification, deleteApplication, getApplications, moveNextStage } from '../../actions/tracker';
 import AddNewApplicationConfig from './AddNewApplication.config';
 import { APPLIED_COMPANIES, columns } from './Tracker.data';
-import moment from 'moment';
 
 class TrackingTable extends Component {
 	constructor(props) {
@@ -32,28 +32,34 @@ class TrackingTable extends Component {
 	}
 
 	componentWillReceiveProps = (nextProps) => {
-		let filterRejected = nextProps.applications.filter(x => x.status.value !== 2)
+		let filterInactive = nextProps.applications.filter(x => x.status.value !== 2 && x.status.value !== 3)
 		if (nextProps.showArchive) {
-			filterRejected = nextProps.applications;
+			filterInactive = nextProps.applications;
 		}
+		console.log(this.state.showArchive, nextProps.showArchive)
 		this.setState({
-			applications: filterRejected,
+			applications: filterInactive,
 			showArchive: nextProps.showArchive,
-			pagedApplications: this.paginatePages(nextProps.applications, nextProps.activePage)
-		})		
+			pagedApplications: this.paginatePages(filterInactive, nextProps.activePage)
+		})
 	}
 
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
+		const { applications, totalPages, showArchive, activePage } = this.state 
 		if (prevState.applications !== this.state.applications) {
 			this.totalPages()
 			this.setState({
-				pagedApplications: this.paginatePages(prevState.applications, prevState.activePage)
+				pagedApplications: this.paginatePages(applications, activePage)
 			})
 		}
 		if (prevState.totalPages !== this.state.totalPages) {
-			this.setState({ pagedApplications: this.paginatePages(prevState.applications, prevState.activePage) })
+			this.setState({ pagedApplications: this.paginatePages(applications, activePage) })
 		}
-		
+
+		if (prevState.showArchive !== this.state.showArchive) {
+			this.setState({ showArchive: showArchive})
+		}
+
 	}
 
 	getCurrentStage = (allStages) => {

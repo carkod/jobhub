@@ -18,6 +18,8 @@ class Tracker extends Component {
   componentDidMount = () => {
   }
 
+
+
   handleChangeFilter = (e, data) => {
     this.setState({ [data.name]: data.value })
   }
@@ -29,14 +31,14 @@ class Tracker extends Component {
           <Icon name="plus square" color="green" />
         </Link>
       </button>
-
+    console.log(this.state.showArchive)
     return (
       <div id="tracker">
         <h1>Application tracking {addNewBtn}</h1>
         {/*Three tabs: tracking table, add stage, contact book*/}
         <Dropdown name='showArchive' options={showArchiveOptions} onChange={this.handleChangeFilter} defaultValue={this.state.showArchive}/>
         {/* <Dropdown name='filterRoles' options={filterRoleOptions} onChange={this.handleChangeFilter} defaultValue={this.state.filterRoleOptions}/> */}
-        <TrackingTable {...this.props} showArchive={this.state.showArchive} />
+        <TrackingTable {...this.props} showArchive={this.state.showArchive}/>
 
       </div>
     );
