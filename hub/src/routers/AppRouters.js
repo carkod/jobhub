@@ -13,26 +13,32 @@ import Project from '../containers/portfolio/Project';
 import Relationships from '../containers/relationships/Relationships';
 import PrivateRouter from './PrivateRouter';
 import PublicRouter from './PublicRouter';
+import Tracker from '../containers/tracker/Tracker'
+
 import { Switch } from 'react-router-dom';
+import AddNewApplication from '../containers/tracker/AddNewApplication';
+import EditApplication from '../containers/tracker/EditApplication';
 
 const AppRouter = () => (
-    <Switch>
-        <PublicRouter path="/login" component={Login} />
-        <Layout>
-            <PrivateRouter exact path="/" component={Home} />
-            <PrivateRouter path="/cv" component={Listing} />
-            <PrivateRouter path="/cv/positions" component={Positions} />
-            <PrivateRouter path="/relationships" component={Relationships} />
-            {/*<PrivateRouter path="/cv/languages" component={Cats} />*/}
-            <PrivateRouter path="/cv/id=:id" component={Detail} />
+	<Switch>
+		<PublicRouter path="/login" component={Login} />
+		<Layout>
+			<PrivateRouter exact path="/" component={Home} />
+			<PrivateRouter exact path="/cv" component={Listing} />
+			<PrivateRouter exact path="/cv/positions" component={Positions} />
+			<PrivateRouter exact path="/relationships" component={Relationships} />
+			{/*<PrivateRouter path="/cv/languages" component={Cats} />*/}
+			<PrivateRouter exact path="/cv/id=:id" component={Detail} />
 
-            <PrivateRouter path="/portfolio" component={Portfolio} />
-            <PrivateRouter path="/portfolio/project/id=:id" component={Project} />
-            <PrivateRouter path="/coverletters" component={CoverLetters} />
-            <PrivateRouter path="/coverletters/id=:id" component={Letter} />
-            {/* <PrivateRoute path="/tracker/" component={Tracker} /> */}
-        </Layout>
-    </Switch>
+			<PrivateRouter exact path="/portfolio" component={Portfolio} />
+			<PrivateRouter exact path="/portfolio/project/id=:id" component={Project} />
+			<PrivateRouter exact path="/coverletters" component={CoverLetters} />
+			<PrivateRouter exact path="/coverletters/id=:id" component={Letter} />
+			<PrivateRouter exact path="/tracker/" component={Tracker} />
+			<PrivateRouter exact path="/new-tracker" component={AddNewApplication} />
+			<PrivateRouter exact path="/tracker/:id(^[a-f\d]{24}$)" component={EditApplication} />
+		</Layout>
+	</Switch>
 );
 
 export default AppRouter;

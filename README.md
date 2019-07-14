@@ -1,31 +1,32 @@
-TO-DO
+# JOBHUB
 ======
 
-- Push array to beggining workExp and Educ with unshift.
+JobHub is career management tool made for professional career tracking. 
 
-***
-NEXT VERSION:
+It is made with candidates in mind, it is a recruirtment tool on the side of the candidate, as opposed to most tools on Internet that are made for recruiters tracking candidates. It comes from years of training and experience from dealing with all the requests coming from recruitment. This tool basically has the following features:
 
-- Consider uploading files to Google Drive API or Dropbox API to save server storage space.
-- Component state actions (e.g. removeWork, pushSkill...) should pass through reducer? Currently mutating component data state (as oppossed to UI state) -> Immutable component data state
-- Better vectorized favicon
-- Build sitemap (check google console)
+- CV section. Handling multiple CVs for different roles and different jobs, is often quite demanding. Different companies have different requirements, recruiters teaches us to shape our CV to the role, so here we manage different CVs using multiple categories, different versions (short or long format by demand from the recruiter) printed in PDF (no word support)
 
-### Actions.js
+- Cover letter section. One area I missed from LinkedIn, is the possibility of writing your own Cover letters per request from the applied company. This application allows management of Cover letters, copying and keeping a registration of the Cover letter, with a PDF printing option.
 
-- Change fetch to Axios, fetch API not supported by IE (support available in Edge)
+- Portfolio section. Higher flexibility for uploading work, with an area describing project details and technologies used. As this application, as of now, it is focused more on Development work, it is fitted to include simple pictures and links for project work for showcase. There are plans to include permissions, to give temporary accounts for recruiters or proseptive employers to see private project work.
 
-***
+- Job application tracking. A table that keeps tracking on all active applications, which are previously added by the candidate. Also it features a system of stages (which also comes from recruiters most common stages), a stage can be a "Initial call" or a "Technical test". Keeping track of this will help the candidate get the most out of the selection processes, collecting data on probabilities and reasons of success/failure, to keep improving job matching odds.
 
-Log
+....
+
+And more coming. If you like this application, please star it and let me know what you think. Upcoming plans: 
+
+- Graphic section to keep track of rates of success and indicators of possible reasons of rejection (time, skills).
+- Master contact registration, to create a database of recruiter contact data.
+- Possibility of integration with some API to automatically apply and keep track of jobs, inside of the application
+
+
+## TECHNICAL DETAILS
 ======
-- Homogenize language URL structure (smallcase All for URL pathname)
-- Live Mongodb configure authorization
-- Refactor SysMessage component. Use Redux actions {type: actionName, data: ...} to pass notification messages, reducer format (switch and return) - single component for all sysmessages
-- Restrict creat-react-app apps /* URLs
-- Production Build back
-- Create slug for CVModel - used external package mongoose-slug-generator
-- Download files /uploads with spaces in filename - removed all spaces
-- Known vulnerability back app -> slug package - fixed
-- Add link to Web CV
-- Add favicon
+
+This is a full stack application made with:
+
+- Back-end: MongoDB, as the database, Mongoose as the ODM. Expressjs for rest management, Jwt and bcrypt for authentication.
+- Front-end website: Reactjs, Redux. This is a showcase website, available for public access to show restricted content to recruiters, prospective employers and google search.
+- Front-end admin panel: Reactjs, Redux. This is an internal application, made for managing all the recruitment data and the professional profile showed in the website.

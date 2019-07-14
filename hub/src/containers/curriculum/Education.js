@@ -1,11 +1,10 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import shortid from 'shortid';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
-import { fetchCVs } from '../../actions/cv';
-import Editor from './Editor';
 import RichTextEditor from 'react-rte';
+import { Grid, Header, Icon } from 'semantic-ui-react';
+import shortid from 'shortid';
+import Editor from '../../components/Editor';
 
 class Education extends Component {
   

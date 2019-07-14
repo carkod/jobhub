@@ -112,7 +112,6 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
-    console.log(file)
     return fetch(`${API_URL}/portfolio/deupload`, {
        method: 'post',
        headers: {

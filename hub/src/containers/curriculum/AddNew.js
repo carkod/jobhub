@@ -23,7 +23,6 @@ class AddNew extends Component {
   }
   
   handleSubmit = () => {
-    //console.log(this.state)
     this.props.saveCV({ _id:'', name: this.state.name })
     .then(cv => { 
       this.setState({ savedID: cv.data._id, modalOpen: false });
