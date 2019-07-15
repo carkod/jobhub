@@ -63,6 +63,7 @@ promise.then((db) => {
 			}
 			const token = req.headers.authorization.split(" ")[1]
 			jwt.verify(token, '48295620-j', function (err, payload) {
+				
 				if (payload) {
 					//CRUD
 					next()
@@ -74,7 +75,7 @@ promise.then((db) => {
 		} catch (e) {
 			res.status(401).json({ message: 'Not authorized', ok: false })
 			console.log('catch error', e)
-			next()
+			// next()
 		}
 	})
 

@@ -3,8 +3,8 @@ import moment from 'moment';
 import path from 'path';
 import fs from 'fs';
 
-var dir = path.join(__dirname, '../', '/docs');;
-
+// CRITIAL!! If no folder, wkhtmltopdf will fail
+const dir = path.join(__dirname, '../', '/docs');;
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
 }
