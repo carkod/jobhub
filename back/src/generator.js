@@ -1,12 +1,20 @@
 import wkhtmltopdf from 'wkhtmltopdf';
 import moment from 'moment';
 import path from 'path';
+import fs from 'fs';
+
+var dir = path.join(__dirname, '../', '/docs');;
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
 
 export default function generatePDF (req, data, printType, headerText) {
 let options, pdfURL, url;
 let locale = data.cats.locale;
 
 if (printType === 'f' && locale === 'es-ES') {
+    
     url = req.protocol + '://' + req.get('host') + '/pdf/fullprint-esp/' + data._id;
 } else if (printType === 'q' && locale === 'es-ES') {
     url = req.protocol + '://' + req.get('host') + '/pdf/quickprint-esp/' + data._id;
@@ -121,6 +129,7 @@ if (printType === 'f' && locale === 'es-ES') {
 }
    
     return new Promise((ok,fail) => {
+        console.log(pdfURL)
         wkhtmltopdf(url, options, (err) => {
             if (err) {
                 console.log('err', err)
