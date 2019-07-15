@@ -25,7 +25,6 @@ export default function CVs (app, db) {
     });
         
     app.post('/api/cvs', (req, res) => {
-        console.log('hola')
         let r = req.body,
             cv,
             slugger;

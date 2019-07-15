@@ -62,13 +62,13 @@ promise.then((db) => {
 				res.status(401).json({ message: 'No authorization bearer in request headers', ok: false })
 			}
 			const token = req.headers.authorization.split(" ")[1]
-			jwt.verify(token, '48295620-j', function (err, payload) {
-				
+			const secret = process.env.JWT_SECRET
+			jwt.verify(token, secret, function (err, payload) {
+				if (err) {
+					res.status(401).json({ name: err.name, message: err.message, ok: false })
+				}
 				if (payload) {
 					//CRUD
-					next()
-				} else {
-					res.status(401).json({ message: 'Token expired', ok: false })
 					next()
 				}
 			})

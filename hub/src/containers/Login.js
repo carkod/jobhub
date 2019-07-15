@@ -21,7 +21,8 @@ class Login extends Component {
     auth(this.state)
       .then((d) => {
         if (d.payload.token) {
-          const token = localStorage.setItem('hubToken', JSON.stringify(d.payload.token));
+          const token = JSON.stringify(d.payload.token)
+          localStorage.setItem('hubToken', token);
           this.setState({ isAuthenticated: true, token: token });
           const { pathname } = this.props.location.state.from
           this.props.history.push('/')

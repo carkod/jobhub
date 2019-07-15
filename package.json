@@ -95,6 +95,7 @@
         "babel-preset-es2016": "^6.24.1",
         "babel-preset-es2017": "^6.24.1",
         "babel-preset-react": "^6.24.1",
+        "eslint": "^6.0.1",
         "nodemon": "^1.19.1",
         "redux-devtools-extension": "^2.13.8"
     },

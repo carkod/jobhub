@@ -6,6 +6,9 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserSchema } from './Schemas';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 let UserModel = mongoose.model('HubUsers', UserSchema);
 
@@ -26,9 +29,9 @@ export default function Login(app, db) {
 						throw err;
 					if (same) {
 						const savedID = user._id;
-						const secret = bcrypt.hash(r.password, 10);
-						const token = jwt.sign({ email: r.email }, r.password, { expiresIn: '10h' });
-						res.status(200).cookie('hubToken', token, { httpOnly: true }).json({ _id: savedID, status: true, token: token })
+						const secret = process.env.JWT_SECRET
+						const token = jwt.sign({ email: r.email }, secret, { expiresIn: '10h' });
+						res.status(200).json({ _id: savedID, status: true, token: token })
 
 						//   callback(err, same);
 					} else {
