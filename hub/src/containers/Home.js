@@ -8,7 +8,8 @@ import 'semantic-ui-css/semantic.min.css';
 export default class Home extends Component {
   
   logout() {
-    console.log('clicked logout')
+    localStorage.removeItem('hubToken')
+    window.location.reload()
   }
 
   render() {

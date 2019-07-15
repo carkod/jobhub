@@ -3,10 +3,6 @@ function handleResponse(response) {
   if (response.ok) {
       return response.json();
   } else {
-    // Restart single app to get new token
-    if (response.status === 401) {
-      window.location.reload()
-    }
       let error = new Error(response.statusText);
       error.response = response;
       throw error;
