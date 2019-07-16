@@ -18,17 +18,11 @@ class Login extends Component {
   }
 
   login = (e) => {
-    console.log(this.props, this.state)
     const { email, password } = this.state
     this.props.auth({ email, password })
       .then((d) => {
-        if (d.payload.token) {
-          const token = JSON.stringify(d.payload.token)
-          localStorage.setItem('hubToken', token);
-          this.setState({ isAuthenticated: true, token: token });
-          const { pathname } = this.props.location.state.from
-          this.props.history.push('/')
-        }
+        const { pathname } = this.props.location.state.from
+          this.props.history.push(pathname)
       })
       .catch(e => console.log(e));
   }

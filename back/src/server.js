@@ -56,28 +56,29 @@ promise.then((db) => {
 	Login(app, db);
 	Pdf(app, db);
 
-	app.use((req, res, next) => {
-		try {
-			if (!req.headers.authorization) {
-				res.status(401).json({ message: 'No authorization bearer in request headers', ok: false })
-			}
-			const token = req.headers.authorization.split(" ")[1]
-			const secret = process.env.JWT_SECRET
-			jwt.verify(token, secret, function (err, payload) {
-				if (err) {
-					res.status(401).json({ name: err.name, message: err.message, ok: false })
-				}
-				if (payload) {
-					//CRUD
-					next()
-				}
-			})
-		} catch (e) {
-			res.status(401).json({ message: 'Not authorized', ok: false })
-			console.log('catch error', e)
-			// next()
-		}
-	})
+	// app.use((req, res, next) => {
+	// 	try {
+	// 		if (!req.headers.authorization) {
+	// 			res.status(401).json({ message: 'No authorization bearer in request headers', ok: false })
+	// 		}
+	// 		const token = req.headers.authorization.split(" ")[1]
+	// 		const secret = process.env.JWT_SECRET
+	// 		jwt.verify(token, secret, function (err, payload) {
+	// 			console.log(token)
+	// 			if (err) {
+	// 				res.status(401).json({ name: err.name, message: err.message, ok: false })
+	// 			}
+	// 			if (payload) {
+	// 				//CRUD
+	// 				next()
+	// 			}
+	// 		})
+	// 	} catch (e) {
+	// 		res.status(401).json({ message: 'Not authorized', ok: false })
+	// 		console.log('catch error', e)
+	// 		// next()
+	// 	}
+	// })
 
 	//CRUD
 	CVs(app, db);

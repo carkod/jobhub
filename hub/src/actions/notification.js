@@ -18,6 +18,14 @@ export function notAuthNotification(msg) {
     }
 }
 
+export function isAuthNotification(msg) {
+    return {
+        type: NOTIFICATION,
+        message: msg,
+        error: false
+    }
+}
+
 export function removeNotification(status) {
     return {
         type: REMOVE_NOTIFICATION,

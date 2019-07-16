@@ -11,7 +11,7 @@ function handleResponse(response) {
 
 const headers = {
   'Content-Type': 'application/json',
-  "Authorization": `Bearer ${JSON.parse(localStorage.getItem('hubToken'))}`,
+  "Authorization": `Bearer ${localStorage.getItem('hubToken')}`,
 }
 
 let API_URL, PDF_URL;

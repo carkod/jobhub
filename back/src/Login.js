@@ -31,11 +31,12 @@ export default function Login(app, db) {
 						const savedID = user._id;
 						const secret = process.env.JWT_SECRET
 						const token = jwt.sign({ email: r.email }, secret, { expiresIn: '10h' });
-						res.status(200).json({ _id: savedID, status: true, token: token })
+						console.log(secret, token)
+						res.status(200).json({ _id: savedID, status: true, token: token, message: 'Login successful!' })
 
 						//   callback(err, same);
 					} else {
-						res.status(400).json({ _id: user._id, status: false, error: 'Login credentials are not correct.' })
+						res.status(400).json({ _id: user._id, status: false, message: 'Login credentials are not correct.' })
 					}
 				});
 				// Found user with same username and password

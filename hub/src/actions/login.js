@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { API_URL, handleResponse, headers } from './actions.config';
-import { addNotification, notAuthNotification } from './notification';
+import { addNotification, notAuthNotification, isAuthNotification } from './notification';
 import axios from 'axios';
 
 export const IS_AUTH = 'IS_AUTH';
@@ -26,18 +26,17 @@ export function auth(data) {
         axios.post(`${API_URL}/login`, data, { "Content-Type": "application/json" })
             .then(res => {
                 console.log(res)
-                if (res.status) {
-                    dispatch(addNotification(isAuthenticated(res)))
-                    localStorage.setItem('hubToken', res.token)
+                if (res.data.status) {
+                    const { message } = res.data;
+                    dispatch(isAuthNotification(message))
+                    dispatch(isAuthenticated(res.data))
+                    localStorage.setItem('hubToken', JSON.stringify(res.data.token))
                     window.location.reload()
-                } else {
-
                 }
-
             })
             .catch(e => {
-                const { error } = e.response.data;
-                dispatch(notAuthNotification(error))
+                const { message } = e.response.data;
+                dispatch(notAuthNotification(message))
                 dispatch(isNotAuthenticated(e.response.data))
                 console.log(e)
             }
