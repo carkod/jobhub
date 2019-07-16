@@ -18,14 +18,11 @@ class Login extends Component {
   }
 
   login = (e) => {
-    auth(this.state)
+    const { email, password } = this.state
+    this.props.auth({ email, password })
       .then((d) => {
-        if (d.payload.token) {
-          const token = localStorage.setItem('hubToken', JSON.stringify(d.payload.token));
-          this.setState({ isAuthenticated: true, token: token });
-          const { pathname } = this.props.location.state.from
-          this.props.history.push('/')
-        }
+        const { pathname } = this.props.location.state.from
+          this.props.history.push(pathname)
       })
       .catch(e => console.log(e));
   }
@@ -46,9 +43,9 @@ class Login extends Component {
   render() {
     return (
       <div className="login-centerer">
-        <Notifications notifications={this.props.notifications} />
+        <Notifications notifications={this.props.notifications} authNotification={this.state.isAuthenticated} />
         <Segment id='login' compact>
-          <Header as='h2'>Log in to access this application</Header>
+          <Header as='h2'>LOGIN FOR ACCESS</Header>
           <Form onSubmit={this.login}>
             <Form.Field>
               <Input type='text' name='email' placeholder='Email' onChange={this.handleChange} />
@@ -80,4 +77,4 @@ function mapStateToProps(state, props) {
   }
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, { auth })(Login);

@@ -43,8 +43,19 @@ class EditApplication extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const newObj = this.applicationModel.fillInApplicationModel(nextProps.application)
-		this.setState(newObj)
+		const { status, id, company, role, salary, applicationUrl, location, contacts, stages, files, description } = nextProps.application
+		console.log(stages)
+		const newObj = Object.assign(this.state, this.applicationModel.fillInApplicationModel(nextProps.application))
+		this.setState(prevState => ({
+			status: {
+				...prevState.status,
+				value: status.value, 
+				text: status.text 
+			},
+			stages: update(this.state.stages, {$set: stages} ),
+			contacts: contacts
+
+		}))
 	}
 
 	inputChange = (e) => {
@@ -56,10 +67,13 @@ class EditApplication extends Component {
 	}
 
 	addNewStage = () => {
-		const oldStages = Object.assign([], this.state.stages)
-		this.setState({
-			stages: oldStages.concat(this.applicationModel.emptyStages)
-		})
+		const oldStages = this.state.stages
+		const lastIndex = this.state.stages.length - 1
+		const newOrder = this.state.stages[lastIndex].order + 1
+		let applicationModel = new AddNewApplicationConfig()
+		applicationModel.emptyStages[0].order = newOrder;
+		const newStages = oldStages.concat(applicationModel.emptyStages);
+		this.setState({ stages: newStages })
 	}
 
 	addNewContact = () => {
@@ -77,6 +91,14 @@ class EditApplication extends Component {
 		const { name, value } = e.target;
 		const newData = update(this.state.stages,
 			{ [i]: { [name]: { $set: value } } }
+		)
+		this.setState({ stages: newData })
+	}
+
+	completedStage = i => (e, data) => {
+		const { name, checked } = data;
+		const newData = update(this.state.stages,
+			{ [i]: { [name]: { $set: checked } } }
 		)
 		this.setState({ stages: newData })
 	}
@@ -139,11 +161,12 @@ class EditApplication extends Component {
 
 	onSave = () => {
 		this.props.saveApplication(this.state).then(res => {
-			console.log('saved application', res);
+			console.log('saved application', res, this.state);
 		})
 	}
 
 	render() {
+		console.log(this.state)
 		const backBtn =
 			<button className="btn__add-new" >
 				<Link to={`/tracker`} >
@@ -222,7 +245,7 @@ class EditApplication extends Component {
 							<Form.Input width={'1'} fluid placeholder='Order' name='order' type='number' value={stages[i].order} onChange={this.stagesInputChange(i)} />
 							<Form.Field width={'1'}>
 								<label>Completed?</label>
-								<Checkbox toggle checked={stages[i].completed} onChange={this.stagesInputChange(i)}></Checkbox>
+								<Checkbox toggle name="completed" checked={stages[i].completed} onChange={this.completedStage(i)}></Checkbox>
 							</Form.Field>
 
 							<Form.Input width={'3'} fluid name='action' placeholder='Action' value={stages[i].action} onChange={this.stagesInputChange(i)} />

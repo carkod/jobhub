@@ -34,7 +34,7 @@ function fillModel(r) {
         endDate: r.endDate,
     })
     const sortStages = (stages) => {
-        stages.sort(({ order: a }, { order: b }) => {
+        return stages.sort(({ order: a }, { order: b }) => {
             return a - b
         })
     }
@@ -100,6 +100,7 @@ export default function Tracker(app, db) {
     app.post('/api/application', (req, res) => {
         let r = req.body,
             applications = new ApplicationModel(fillModel(r));
+            console.log(applications.stages)
         const id = r._id || applications._id;
         delete r._id;
         ApplicationModel.updateOne({ _id: id }, applications, { upsert: true }, (err, msg) => {

@@ -24,6 +24,13 @@ class Notification extends Component {
         if (msg) {
             this.setState({ message: msg, pop: true }, () => window.setTimeout(this.removeNotification, 3000))
         }
+        if (Object.keys(p.snackBar).length !== 0) {
+            this.setState({
+                message: p.snackBar.message,
+                error: true,
+                pop: true
+            }, () => window.setTimeout(this.removeNotification, 3000))
+        }
     }
 
     removeNotification() {
@@ -107,11 +114,10 @@ class Notification extends Component {
 
 
 const mapStateToProps = (s, p) => {
-    const getState = s.notification;
-    const newState = Object.assign({}, p, {
-        notification: getState
-    });
-    return newState;
+    return {
+        notification: s.notification,
+        snackBar: s.snackBar
+    }
 }
 
 export default connect(mapStateToProps)(Notification);

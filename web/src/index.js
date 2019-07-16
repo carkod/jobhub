@@ -14,7 +14,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 
 import Reducer from './Reducer';
-import App from './containers/App';
+import App from './components/App';
 //import { loadState, saveState } from './localStorage';
 
 //const persistedStore = loadState();

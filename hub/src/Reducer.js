@@ -6,7 +6,7 @@ import { SAVED_CATS } from './actions/cats';
 import { CL_DELETED, SET_CLS } from './actions/cl';
 import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV } from './actions/cv';
 import { IS_AUTH, NOT_AUTH } from './actions/login';
-import { ADD_NOTIFICATION } from './actions/notification';
+import { ADD_NOTIFICATION, NOTIFICATION } from './actions/notification';
 import { FILE_REMOVED, PROJECT_DELETED, SET_CATS, SET_PROJECTS } from './actions/project';
 import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS } from './actions/tracker';
 
@@ -269,5 +269,19 @@ function applicationDetail(state = {}, action = {}) {
 
 }
 
-export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication, applications, applicationDetail });
+function snackBar(state = {}, action) {
+    switch (action.type) {
+        case NOTIFICATION:
+            return {
+                ...state,
+                message: action.message,
+                error: action.error
+            }
+    
+        default:
+            return state
+    }
+}
+
+export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication, applications, applicationDetail, snackBar });
 
