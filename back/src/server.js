@@ -56,6 +56,16 @@ promise.then((db) => {
 	Login(app, db);
 	Pdf(app, db);
 
+
+
+	//CRUD
+	CVs(app, db);
+	CoverLetters(app, db);
+	Portfolio(app, db);
+	Categories(app, db);
+	Tracker(app, db);
+
+	
 	// app.use((req, res, next) => {
 	// 	try {
 	// 		if (!req.headers.authorization) {
@@ -80,12 +90,6 @@ promise.then((db) => {
 	// 	}
 	// })
 
-	//CRUD
-	CVs(app, db);
-	CoverLetters(app, db);
-	Portfolio(app, db);
-	Categories(app, db);
-	Tracker(app, db);
 
 });
 

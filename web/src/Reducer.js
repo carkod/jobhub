@@ -91,11 +91,8 @@ const pfInit = [
 const cvs = (state = cvInitial, action = {}) =>  {
     switch (action.type) {
         case SET_CV:
-            let combined = [];
-            for (let i of action.cvs) {
-                const merge = Object.assign({}, cvInitial[0], i);
-                combined.push(merge)
-            }
+            let combined = state.concat(action.cvs)
+            
             //Find immutable way of doing this
             return combined;
         
