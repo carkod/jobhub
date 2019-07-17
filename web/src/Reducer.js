@@ -102,8 +102,11 @@ const cvs = (state = cvInitial, action = {}) => {
 
 function singleCV(state = { ...cvInitial[0] }, action) {
     switch (action.type) {
-        case SET_SINGLE_CV:
+        case SET_SINGLE_CV: 
+        console.log(state, action)
             return Object.assign({}, state, action.cv)
+        
+            
         default:
             return state
     }

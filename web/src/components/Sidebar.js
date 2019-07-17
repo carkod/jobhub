@@ -23,7 +23,7 @@ class Sidebar extends Component {
   
   componentDidMount = () => {
     this.props.fetchCats();
-    this.props.fetchCVs();
+    this.props.fetchCVs()
     this.props.fetchProjects();
   }
   
@@ -101,6 +101,7 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('cv')} >CV</button>
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
+              {console.log(cvs)}
               {cvs.map(cv => 
                 <li key={cv._id} className="item" >
                   <NavLink to={`cv/${cv.cats.locale}/${cv._id}`} activeClassName="active">
@@ -137,11 +138,6 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = (s,p) => {
-  // Receive list of CVs
-    // Check if there is a CV with status public
-    // Check if this CV matches the Position
-  // If all positive show CV
-  // if one of them fails tell sidebar not to show this position on the sidebar
   const filterCVs = s.cvs.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
   return {
     cats: s.cats.data,
