@@ -37,7 +37,6 @@ lib-cov
 #c9 directory
 data/
 mongod
-.*
 !/.gitignore
 web/*.css
 
@@ -84,4 +83,4 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.*
