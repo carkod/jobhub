@@ -91,10 +91,8 @@ const pfInit = [
 const cvs = (state = cvInitial, action = {}) =>  {
     switch (action.type) {
         case SET_CV:
-            if (action.cvs.length > 0) {
-                return action.cvs;
-            }
-            return state
+            
+            return action.cvs
         default:
             return state
     }
