@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { API_URL, handleResponse, headers, PDF_URL } from './actions.config';
-import { addNotification } from './notification';
+import { addNotification, setCVNotification, pdfGeneratedNotification, savedNotification } from './notification';
 
 export const SET_CV  = 'SET_CV';
 export const ADD_CV  = 'ADD_CV';
@@ -21,7 +21,6 @@ export function setFormFields (data) {
 }
 
 export function setCVs(cvs) {
-    console.log(cvs)
     return {
         type: SET_CV,
         cvs
@@ -117,30 +116,33 @@ export function generatePDF(id) {
         .then(handleResponse)
         .then(data => {
             dispatch(pdfReady(data));
-            dispatch(addNotification(pdfReady(data)))
+            dispatch(pdfGeneratedNotification(data))
         })
     }
 }
 
 export function fetchCVs() {
     return dispatch => {
-        fetch(`${API_URL}/cvs`, {
+        return fetch(`${API_URL}/cvs`, {
             headers: headers
         })
         .then(handleResponse)
         .then(data => {
             dispatch(setCVs(data));
-            dispatch(addNotification(setCVs(data)));
+            dispatch(setCVNotification(data));
         })
     }
 }
 
 export function fetchCV(id) {
     return dispatch => {
-        fetch(`${API_URL}/cvs/${id}`, {
+        return fetch(`${API_URL}/cvs/${id}`, {
             headers: headers
         })
-        .then(res => res.json())
-        .then(data => dispatch(setCVs(data)))
+        .then(handleResponse)
+        .then(data => {
+            dispatch(setCVs(data))
+            dispatch(setCVNotification(data));
+        })
     }
 }

@@ -28,8 +28,6 @@ export function setCVs(cvs) {
 }
 
 export function setSingleCV(payload) {
-    console.log(payload)
-    debugger
     return {
         type: SET_SINGLE_CV,
         cv: payload.cv

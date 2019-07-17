@@ -147,7 +147,6 @@ export default function CVs(app, db) {
         if (req.params._id) {
             CVModel.findById(req.params._id, (err, cv) => {
                 if (!err) {
-                    console.log(cv)
                     res.status(200).json({ cv })
                 } else {
                     res.status(200).json({ message: err })

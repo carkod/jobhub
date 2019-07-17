@@ -101,7 +101,6 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('cv')} >CV</button>
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
-              {console.log(cvs)}
               {cvs.map(cv => 
                 <li key={cv._id} className="item" >
                   <NavLink to={`cv/${cv.cats.locale}/${cv._id}`} activeClassName="active">

@@ -27,7 +27,7 @@ class Notification extends Component {
         if (Object.keys(p.snackBar).length !== 0) {
             this.setState({
                 message: p.snackBar.message,
-                error: true,
+                error: p.snackBar.error,
                 pop: true
             }, () => window.setTimeout(this.removeNotification, 3000))
         }
