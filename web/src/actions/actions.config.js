@@ -1,12 +1,11 @@
 
 function handleResponse(response) {
   if (response.statusText === 'OK') {
-      return response.data;
-  } else {
-      let error = new Error(response.statusText);
-      error.response = response;
-      throw error;
+    return response.data;
   }
+  const error = new Error(response.statusText);
+  error.response = response;
+  throw error;
 }
 
 const headers = {
