@@ -12,8 +12,6 @@ export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
 export const SET_SINGLE_CV = 'SET_SINGLE_CV';
 
-
-
 // Action creators
 export function setFormFields (data) {
     return {
@@ -25,7 +23,7 @@ export function setFormFields (data) {
 export function setCVs(cvs) {
     return {
         type: SET_CV,
-        cvs
+        cvs: cvs.data
     }
 }
 
