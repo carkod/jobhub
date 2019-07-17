@@ -11,21 +11,22 @@ if (!fs.existsSync(dir)){
 
 export default function generatePDF (req, data, printType, headerText) {
 let options, pdfURL, url;
-let locale = data.cats.locale;
+let { locale } = data.cats;
+const { _id } = data;
 
 if (printType === 'f' && locale === 'es-ES') {
     
-    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint-esp/' + data._id;
+    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint-esp/' + _id;
 } else if (printType === 'q' && locale === 'es-ES') {
-    url = req.protocol + '://' + req.get('host') + '/pdf/quickprint-esp/' + data._id;
+    url = req.protocol + '://' + req.get('host') + '/pdf/quickprint-esp/' + _id;
 } else if (printType === 'f' && locale !== 'es-ES') {
-    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + data._id;
+    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + _id;
 } else if (printType === 'q' && locale !== 'es-ES') {
-    url = req.protocol + '://' + req.get('host') + '/pdf/quickprint/' + data._id;
+    url = req.protocol + '://' + req.get('host') + '/pdf/quickprint/' + _id;
 } else if (printType === 'cl') {
-    url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + data._id;
+    url = req.protocol + '://' + req.get('host') + '/pdf/coverletter/' + _id;
 } else {
-    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + data._id;
+    url = req.protocol + '://' + req.get('host') + '/pdf/fullprint/' + _id;
 }
 
     if (printType === 'q' || printType === 'f') {
@@ -36,7 +37,7 @@ if (printType === 'f' && locale === 'es-ES') {
             const position = data.cats.position;
             const updated = 'Actualizado ' + moment(data.updatedAt).year();
             const folder = path.join(__dirname, '../', '/docs');
-            const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
+            const uri = folder + `/CarlosWu-${name}-${printType}-${_id}.pdf`;
             options = {
               output : uri,
               ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
@@ -59,7 +60,7 @@ if (printType === 'f' && locale === 'es-ES') {
             pdfURL = {
                 name: printType === 'q' ? 'Quick Version' : 'Full Version',
                 value: printType,
-                link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
+                link: req.protocol + '://' + req.get('host') + uri,
                 
             }  
     
@@ -69,7 +70,7 @@ if (printType === 'f' && locale === 'es-ES') {
             const position = data.cats.position;
             const updated = 'Updated ' + moment(data.updatedAt).year();
             const folder = path.join(__dirname, '../', '/docs');
-            const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
+            const uri = folder + `/CarlosWu-${name}-${printType}-${_id}.pdf`;
             options = {
               output : uri,
               ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
@@ -93,7 +94,7 @@ if (printType === 'f' && locale === 'es-ES') {
             pdfURL = {
                 name: printType === 'q' ? 'Quick Version' : 'Full Version',
                 value: printType,
-                link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
+                link: req.protocol + '://' + req.get('host') + uri,
                 
             }
         }
@@ -101,7 +102,7 @@ if (printType === 'f' && locale === 'es-ES') {
         const footerURL = 'www.carloswu.xyz';
         const name = data.name.replace(/\s/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         const folder = path.join(__dirname, '../', '/docs');
-        const uri = folder + `/CarlosWu-${name}(${printType}).pdf`;
+        const uri = folder + `/CarlosWu-${name}-${printType}-${_id}.pdf`;
         options = {
           output : uri,
           ignore: ['QFont::setPixelSize: Pixel size <= 0 (0)', 'QPainter::begin():'],
@@ -124,7 +125,7 @@ if (printType === 'f' && locale === 'es-ES') {
         pdfURL = {
             name: 'Cover Letter default version',
             value: printType,
-            link: req.protocol + '://' + req.get('host') + `/docs/CarlosWu-${name}(${printType}).pdf`,
+            link: req.protocol + '://' + req.get('host') + uri,
         }    
 }
    

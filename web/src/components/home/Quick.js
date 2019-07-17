@@ -14,29 +14,6 @@ class Quick extends Component {
       this.setState({quickOpen: props.quickOpen})
     }
     
-    /*listing(positions, cvs) {
-      const host = window.location.origin;
-      let renderList;
-      if (positions) {
-      const getPDF = (role) => { 
-        console.log(role)
-        const getCV = cvs.find(i => { i.cats.position.toLowerCase() === role.value});
-        
-        console.log(role.value)
-        const Qpdf = getCV.pdf.find(pdf => pdf.value === 'q');
-        return Qpdf.link;
-      }
-        renderList = positions.map((p, i) => 
-          <div className="menutem" key={p.key} >
-            <a href={`${getPDF(p)}`}>{p.text}</a>
-          </div>
-        )
-        
-      } else {
-        renderList = <div className="menutem"/>;
-      }
-      return renderList;
-    }*/
     
     getPDF (p, cvs) {
       const getCV = cvs.find(i => {

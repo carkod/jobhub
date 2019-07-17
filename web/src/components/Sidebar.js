@@ -12,7 +12,6 @@ class Sidebar extends Component {
   
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       openmenu: false,
       active: false,
@@ -41,7 +40,6 @@ class Sidebar extends Component {
   
   render() {
     const {cats, cvs, projects} = this.props;
-    console.log(this.props)
     let renderPositions, renderLanguages, renderResources, matchCatsCVs, matchProjectCVs;
     if (cats !== undefined) {
       //Positions

@@ -33,7 +33,6 @@ class Layout extends Component {
   }
   
   render() {
-    console.log(this.state, this.props)
     return (
       <div className="layout">
         <main id="main" className="container">

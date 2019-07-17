@@ -31,6 +31,7 @@ class MainCV extends Component {
   render() {
     const {cv} = this.props;
     let fullCV;
+    console.log(cv.pdf);
     if (!!cv.pdf) {
       fullCV = cv.pdf.find(i => i.value === 'f');
     }
@@ -70,19 +71,9 @@ class MainCV extends Component {
 
 const mapStateToProps = (state, props) => {
   
-  // Receive list of CVs
-    // Check if there is a CV with status public
-    // Check if this CV matches the Position
-  // If all positive show CV
-  // if one of them fails tell sidebar not to show this position on the sidebar
-  
-  console.log(state, props)
-  
   return {
     cv: state.singleCV
   }
-  
-  
 }
 
 
