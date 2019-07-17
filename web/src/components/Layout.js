@@ -27,10 +27,6 @@ class Layout extends Component {
       active: false,
     }
   }
-
-  componentWillReceiveProps = (n) => {
-    console.log(n)
-  }
   
   render() {
     return (

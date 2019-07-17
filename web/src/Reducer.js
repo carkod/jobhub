@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-
-import { SET_CV, SET_SINGLE_CV } from './actions/cv';
 import { SET_CATS } from './actions/cats';
+import { SET_CV, SET_SINGLE_CV } from './actions/cv';
 import { SET_PROJECTS } from './actions/res';
+
 
 const cvInitial = 
     [
@@ -91,7 +91,9 @@ const pfInit = [
 const cvs = (state = cvInitial, action = {}) =>  {
     switch (action.type) {
         case SET_CV:
-            
+            if (!action.cvs) {
+                return state
+            }
             return action.cvs
         default:
             return state

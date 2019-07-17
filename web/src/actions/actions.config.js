@@ -3,8 +3,6 @@ function handleResponse(response) {
   if (response.statusText === 'OK') {
       return response.data;
   } else {
-    console.log(response)
-    debugger
       let error = new Error(response.statusText);
       error.response = response;
       throw error;
