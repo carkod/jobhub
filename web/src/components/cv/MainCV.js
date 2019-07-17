@@ -31,7 +31,6 @@ class MainCV extends Component {
   render() {
     const {cv} = this.props;
     let fullCV;
-    console.log(cv.pdf);
     if (!!cv.pdf) {
       fullCV = cv.pdf.find(i => i.value === 'f');
     }

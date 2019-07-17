@@ -102,11 +102,8 @@ const cvs = (state = cvInitial, action = {}) => {
 
 function singleCV(state = { ...cvInitial[0] }, action) {
     switch (action.type) {
-        case SET_SINGLE_CV: 
-        console.log(state, action)
+        case SET_SINGLE_CV:
             return Object.assign({}, state, action.cv)
-        
-            
         default:
             return state
     }
@@ -128,7 +125,7 @@ const cats = (state = {}, action = {}) => {
 const portfolio = (state = pfInit, action = {}) => {
     switch (action.type) {
         case SET_PROJECTS:
-            if (!action.cvs) {
+            if (!action.project) {
                 return state[0]
             }
             return action.project

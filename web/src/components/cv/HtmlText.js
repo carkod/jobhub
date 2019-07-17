@@ -1,26 +1,27 @@
 /* eslint-disable */
 
-import { ContentState, convertFromHTML, Editor, EditorState } from 'draft-js';
 import React, { Component } from 'react';
+import ReactHtmlParser from 'react-html-parser'
 
 class HtmlText extends Component {
     constructor(props) {
         super(props);
     }
-    
+
     componentWillReceiveProps = (props) => {
-        const {text} = props;
+        const { text } = props;
     }
 
-    render () {
+    render() {
         return (
-            <div className="HtmlText">
-              {this.props.text}
+            <div className="rte-text">
+                {ReactHtmlParser(this.props.text)}
+                {/* <Editor editorState={blocksFromHTML} readOnly={true} /> */}
             </div>
-        )    
+        )
     }
-    
-    
+
+
 }
 
 export default HtmlText;

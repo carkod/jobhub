@@ -103,7 +103,7 @@ class Sidebar extends Component {
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
               {cvs.map(cv => 
                 <li key={cv._id} className="item" >
-                  <NavLink to={`cv/${cv.cats.locale}/${cv._id}`} activeClassName="active">
+                  <NavLink to={`/cv/${cv.cats.locale}/${cv._id}`} activeClassName="active">
                     {cv.name}
                   </NavLink>
                 </li>
@@ -137,12 +137,16 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = (s,p) => {
-  const filterCVs = s.cvs.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
-  return {
-    cats: s.cats.data,
-    cvs: filterCVs,
-    projects: s.portfolio
-  }  
+  const { cats, cvs, portfolio } = s
+  const filterCVs = cvs.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
+  if (s !== p) {
+    return {
+      cats: s.cats.data,
+      cvs: filterCVs,
+      projects: s.portfolio
+    }  
+  }
+  
   
 }
 

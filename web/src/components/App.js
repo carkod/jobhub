@@ -26,9 +26,9 @@ const App = (props) => {
     <CSSTransition key={currentKey} timeout={timeout} classNames="slide" appear>
       <Switch location={props.location}>
         <RenderRoute layout={Layout} exact path="/" component={Home} />
-        <RenderRoute layout={Layout} path="about" component={About} />
-        <RenderRoute layout={Layout} exact path="/cv/:language/:id/" component={MainCV} />
-        <RenderRoute layout={Layout} exact path="/resources/:language/:id/" component={MainResources} />
+        <RenderRoute layout={Layout} exact path="/about" component={About} />
+        <RenderRoute layout={Layout} exact path="/cv/:language/:id" component={MainCV} />
+        <RenderRoute layout={Layout} exact path="/resources/:language/:id" component={MainResources} />
         <Route component={FourOFour} />
       </Switch>
     </CSSTransition>

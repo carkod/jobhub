@@ -34,7 +34,7 @@ class Layout extends Component {
         <main id="main" className="container">
           <button id="burger" className="mobile only" onClick={() => this.setState({navigation: !this.state.navigation})} ><i className="cube icon" /></button>
           <div className={this.state.navigation ? "lefty open" : "lefty close"}>
-            <Sidebar {...this.props.children} unavailable={() => this.setState({dimmer:true})}/>
+            <Sidebar unavailable={() => this.setState({dimmer:true})}/>
           </div>
           
           <div className="righty">
