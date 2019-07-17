@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
-import { handleResponse, API_URL } from './actions.config';
+import { handleResponse, API_URL, headers } from './actions.config';
 
 export const SET_PROJECTS = 'SET_PROJECTS';
 

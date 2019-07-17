@@ -1,4 +1,3 @@
-/* eslint-disable */
 import 'draft-js/dist/Draft.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -32,7 +31,6 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <AppRouter />
-
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')
