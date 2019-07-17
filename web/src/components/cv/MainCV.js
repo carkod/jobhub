@@ -1,17 +1,15 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
-import { saveCV, fetchCVs } from '../../actions/cv';
-import PD from './PD';
-import HtmlText from './HtmlText';
-import Work from './Work';
+import { fetchCV } from '../../actions/cv';
 import Education from './Education';
-import Languages from './Languages';
-import WebDev from './WebDev';
 import IT from './IT';
-import Others from './Others';
+import Languages from './Languages';
+import PD from './PD';
+import WebDev from './WebDev';
+import Work from './Work';
 
 class MainCV extends Component {
     
@@ -26,7 +24,8 @@ class MainCV extends Component {
   }
 
   componentDidMount = () => {
-    this.props.fetchCVs();
+    const { id } = this.props.match.params;
+    this.props.fetchCV(id);
   }
   
   render() {
@@ -49,7 +48,7 @@ class MainCV extends Component {
             <h1>Carlos Wu - <small>{cv.name}</small>{fullCV !== undefined ? <a href={fullCV.link} className="download"><i className="file pdf outline icon" /></a> : ''}</h1>
             <section id="summary">
               <h2>Summary and professional goals </h2>
-              <HtmlText text={cv.summary} />
+              {/* <HtmlText text={cv.summary} /> */}
             </section>
             
             <PD persdetails={cv.persdetails}/>
@@ -77,36 +76,14 @@ const mapStateToProps = (state, props) => {
   // If all positive show CV
   // if one of them fails tell sidebar not to show this position on the sidebar
   
+  console.log(state, props)
   
-  if (!!state.cvs[0]._id) {
-    //const cv = state.cvs.find(item => item._id === props.match.params.id);
-    
-    let cv = state.cvs.find(item => {
-      // try {
-      //   if (item.cats.status !== 'public') throw new Error("Could not find status:Public CV");
-      //   if (item.cats.position.toLowerCase() !== props.match.params.position.toLowerCase()) throw "Could not find CV that matches position in the URL"
-      // } catch (e) {
-      //   console.log(e)
-      // }
-      
-        return item.cats.status === 'public' && item.cats.position.toLowerCase() === props.match.params.position.toLowerCase();
-    });
-    
-    if (cv !== undefined) {
-      return {
-        cv: cv,
-      }
-    } else {
-     return {} 
-    }
-    
-  } else {
-    return { 
-      cv: state.cvs[0],
-    }    
+  return {
+    cv: state.singleCV
   }
+  
   
 }
 
 
-export default connect(mapStateToProps, { saveCV, fetchCVs })(MainCV);
+export default connect(mapStateToProps, { fetchCV })(MainCV);

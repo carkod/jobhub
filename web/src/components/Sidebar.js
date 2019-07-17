@@ -12,9 +12,13 @@ class Sidebar extends Component {
   
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       openmenu: false,
       active: false,
+      cats: [],
+      cvs: [],
+      projects: []
     }
   }
   
@@ -22,9 +26,6 @@ class Sidebar extends Component {
     this.props.fetchCats();
     this.props.fetchCVs();
     this.props.fetchProjects();
-  }
-  
-  componentWillReceiveProps = (props) => {
   }
   
   toggleMenu = (parent) => (e) => {
@@ -36,9 +37,11 @@ class Sidebar extends Component {
       this.setState({openmenu: parent})  
     }
   }
+
   
   render() {
     const {cats, cvs, projects} = this.props;
+    console.log(this.props)
     let renderPositions, renderLanguages, renderResources, matchCatsCVs, matchProjectCVs;
     if (cats !== undefined) {
       //Positions
@@ -100,7 +103,13 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('cv')} >CV</button>
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
-              {renderPositions !== undefined ? renderPositions('cv') : ''}
+              {cvs.map(cv => 
+                <li key={cv._id} className="item" >
+                  <NavLink to={`cv/${cv.cats.locale}/${cv._id}`} activeClassName="active">
+                    {cv.name}
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </li>
           <li className="item dropdown">
@@ -135,16 +144,12 @@ const mapStateToProps = (s,p) => {
     // Check if this CV matches the Position
   // If all positive show CV
   // if one of them fails tell sidebar not to show this position on the sidebar
-  
-  if (s.cats.data !== undefined) {
-    return {
-      cats: s.cats.data,
-      cvs: s.cvs,
-      projects: s.portfolio
-    }  
-  } else {
-    return {}
-  }
+  const filterCVs = s.cvs.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
+  return {
+    cats: s.cats.data,
+    cvs: filterCVs,
+    projects: s.portfolio
+  }  
   
 }
 

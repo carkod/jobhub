@@ -1,11 +1,9 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
-
-import Sidebar from './Sidebar';
 import Footer from './Footer';
-import CSSTransition from 'react-transition-group';
+import Sidebar from './Sidebar';
+
 
 const duration = 300;
 
@@ -29,18 +27,23 @@ class Layout extends Component {
       active: false,
     }
   }
+
+  componentWillReceiveProps = (n) => {
+    console.log(n)
+  }
   
   render() {
+    console.log(this.state, this.props)
     return (
       <div className="layout">
         <main id="main" className="container">
           <button id="burger" className="mobile only" onClick={() => this.setState({navigation: !this.state.navigation})} ><i className="cube icon" /></button>
           <div className={this.state.navigation ? "lefty open" : "lefty close"}>
-            <Sidebar {...this.props} unavailable={() => this.setState({dimmer:true})}/>
+            <Sidebar {...this.props.children} unavailable={() => this.setState({dimmer:true})}/>
           </div>
           
           <div className="righty">
-            {this.props.children}  
+            {this.props.children}
             <Footer />
           </div>
             

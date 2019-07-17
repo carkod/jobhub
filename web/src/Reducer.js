@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_CV } from './actions/cv';
+import { SET_CV, SET_SINGLE_CV } from './actions/cv';
 import { SET_CATS } from './actions/cats';
 import { SET_PROJECTS } from './actions/res';
 
@@ -91,14 +91,20 @@ const pfInit = [
 const cvs = (state = cvInitial, action = {}) =>  {
     switch (action.type) {
         case SET_CV:
-            let combined = [];
-            for (let i of action.cvs) {
-                const merge = Object.assign({}, cvInitial[0], i);
-                combined.push(merge)
+            if (action.cvs.length > 0) {
+                return action.cvs;
             }
-            //Find immutable way of doing this
-            return combined;
-        
+            return state
+        default:
+            return state
+    }
+}
+
+function singleCV(state = {...cvInitial[0]}, action) {
+    switch (action.type) {
+        case SET_SINGLE_CV:
+            const reducedState = Object.assign({}, state, action.cv)
+            return reducedState
         default:
             return state
     }
@@ -130,5 +136,5 @@ const portfolio = (state = pfInit, action = {}) => {
     }
 }
 
-export default combineReducers({ cvs, cats, portfolio });
+export default combineReducers({ cvs, cats, portfolio, singleCV });
 

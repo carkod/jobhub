@@ -21,10 +21,7 @@ class Home extends Component {
     this.props.fetchCVs();
     this.props.fetchCats();
   }
-  
-  componentWillReceiveProps = (props) => {
-  }
-  
+
   render() {
     const {cvs, cats} = this.props;
     let positions;

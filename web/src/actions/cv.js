@@ -10,7 +10,11 @@ export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
+export const SET_SINGLE_CV = 'SET_SINGLE_CV';
 
+
+
+// Action creators
 export function setFormFields (data) {
     return {
         type: SET_FIELDS,
@@ -22,6 +26,13 @@ export function setCVs(cvs) {
     return {
         type: SET_CV,
         cvs
+    }
+}
+
+export function setSingleCV(payload) {
+    return {
+        type: SET_SINGLE_CV,
+        cv: payload.cv
     }
 }
 
@@ -76,6 +87,8 @@ export function cvPasted(cv) {
   }
 }
 
+
+// Action binders
 export function deleteCV(id) {
     return dispatch => {
         return axios.delete(`${API_URL}/cvs/${id}`, {
@@ -119,6 +132,6 @@ export function fetchCV(id) {
     return dispatch => {
         return axios.get(`${API_URL}/cvs/${id}`)
         .then(handleResponse)
-        .then(data => dispatch(setCVs(data)))
+        .then(data => dispatch(setSingleCV(data)))
     }
 }
