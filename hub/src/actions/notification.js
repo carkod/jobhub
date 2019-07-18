@@ -16,8 +16,8 @@ export function setCVNotification(data) {
 
     return {
         type: NOTIFICATION,
-        error: true,
-        message: 'CV was not loaded correctly',
+        error: false,
+        message: 'CV was loaded',
         data
     }
 }

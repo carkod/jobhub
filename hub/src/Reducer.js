@@ -9,8 +9,7 @@ import { IS_AUTH, NOT_AUTH } from './actions/login';
 import { ADD_NOTIFICATION, NOTIFICATION } from './actions/notification';
 import { FILE_REMOVED, PROJECT_DELETED, SET_CATS, SET_PROJECTS } from './actions/project';
 import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS } from './actions/tracker';
-
-
+import update from 'react-addons-update'
 
 
 const cvInitial =
@@ -153,9 +152,21 @@ function cvs(state = cvInitial, action = {}) {
         case CV_FETCHED:
             return state;
         case PDF_GENERATED:
-            const oldIndex = state.findIndex(i => i._id === action.pdf._id);
-            state[oldIndex].pdf = action.pdf.pdf;
-            return state;
+            const oldIndex = state.findIndex(element => element._id === action.cv._id);
+            const filter = update(state,
+                { [oldIndex]: { pdf: { $merge: action.cv.pdf } } }
+            )
+            console.log(oldIndex, filter)
+            debugger
+            const newState = [
+                ...state.slice(0, oldIndex), // everything before current post
+                {
+                   ...state[oldIndex],
+                   pdf: action.pdf,
+                },
+                ...state.slice(oldIndex + 1), // everything after current post
+             ]
+            return newState;
         default:
             return state;
     }

@@ -85,11 +85,9 @@ class Detail extends Component {
       if (e.key === 's') {
         e.preventDefault();
         e.stopPropagation();
-        this.props.saveCV(cv).then(status => {
-          console.log('keyboard save')
-          //this.state.detail.messages.savedID = status.data._id;
-          //this.setState({ messages })
-        });
+        this.props.generatePDF(cv._id).then(url => {
+        this.props.saveCV(cv)
+        })
       }
     }
   }
@@ -101,6 +99,7 @@ class Detail extends Component {
     
           
     this.props.generatePDF(cv._id).then(url => {
+      debugger
       this.props.saveCV(cv);      
     })  
     

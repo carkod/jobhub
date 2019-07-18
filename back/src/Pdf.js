@@ -76,9 +76,8 @@ export default function Pdf(app, db) {
             headerText = 'Currilum Vitae';
 
             Promise.all([generatePDF(req, content, printType, headerText), generatePDF(req, content, printType2, headerText)]).then(links => {
-                console.log('hola')
                 content.pdf = links;
-                res.send(content)
+                res.status(200).send(content)
             })
                 .catch((e) => {
                     console.log('hello Error', e)

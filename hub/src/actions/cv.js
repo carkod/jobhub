@@ -55,10 +55,11 @@ export function cvPasted(id) {
   }
 }
 
-export function pdfReady(pdf) {
+// Returns saved CV
+export function pdfReady(cv) {
     return {
         type: PDF_GENERATED,
-        pdf
+        cv
     }
 }
 
