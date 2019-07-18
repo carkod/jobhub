@@ -3,7 +3,7 @@ module.exports = {
       {
         name: "jobhub",
         version: "0.9.3",
-        script: "back/dist/server.js",
+        script: "npm run prod",
         //watch: true,
         env_production: {
             "PORT": 8081,
