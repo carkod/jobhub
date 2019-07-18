@@ -4,6 +4,7 @@
     "description": "Full Stack application for Jobhub",
     "main": "server.js",
     "scripts": {
+        "prod": "npm run hub:build && npm run web:build && npm run back:build && npm run back:production",
         "start": "npm-run-all -p back hub web",
         "back": "npm-run-all -p back:watch-sass back:start-js",
         "back:start-js": "nodemon --exec babel-node --ignore hub,web -- back/src/server.js",
