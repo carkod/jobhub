@@ -1,5 +1,4 @@
 # JOBHUB
-======
 
 JobHub is career management tool made for professional career tracking. 
 
@@ -23,7 +22,6 @@ And more coming. If you like this application, please star it and let me know wh
 
 
 ## TECHNICAL DETAILS
-======
 
 This is a full stack application made with:
 
