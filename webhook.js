@@ -11,7 +11,7 @@ http.createServer(function (req, res) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
 
         if (req.headers['x-hub-signature'] == secret) {
-            exec('cd ' + repo + '&& git reset --hard && git pull origin master && npm run build && pm2 restart');
+            exec('cd ' + repo + '&& git reset --hard && git pull origin master && npm run build && pm2 restart ' + appName);
         }
     });
 
