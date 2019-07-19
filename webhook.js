@@ -1,8 +1,12 @@
-var secret = "48295620-J";
-var repo = "/var/www/carloswu.xyz";
-const appName = "jobhub"
 let http = require('http');
 let crypto = require('crypto');
+const dotenv = require('dotenv')
+
+dotenv.config()
+
+var secret = process.env.JWT_SECRET;
+var repo = "/var/www/carloswu.xyz";
+const appName = "jobhub"
 
 const exec = require('child_process').exec;
 
