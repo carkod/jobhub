@@ -7,13 +7,11 @@ import Notifications from '../components/Notification';
 
 class Login extends Component {
 
-  
 
   constructor(props) {
     super(props);
     this.state = {
       isAuthenticated: false,
-      token: ''
     };
   }
 
@@ -22,21 +20,17 @@ class Login extends Component {
     this.props.auth({ email, password })
       .then((d) => {
         const { pathname } = this.props.location.state.from
-          this.props.history.push(pathname)
+        this.props.history.push(pathname)
       })
       .catch(e => console.log(e));
   }
 
   handleChange = (e) => {
-      this.setState({
-        [e.target.name]: e.target.value
-      })
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   checkboxChange = (e, data) => {
-    this.setState({
-      [data.name]: data.checked
-    })
+    this.setState({ [data.name]: data.checked })
   }
 
 
@@ -71,7 +65,6 @@ class Login extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    // notification: state.notification,
     isAuthenticated: state.authentication.isAuthenticated,
     token: state.authentication.token || null
   }

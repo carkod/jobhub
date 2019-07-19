@@ -5,36 +5,45 @@ import { connect } from 'react-redux';
 import { Message, Transition } from 'semantic-ui-react';
 
 class Notification extends Component {
+
     constructor(p) {
         super(p);
+        this._unMount = false
         this.state = {
             pop: false,
             error: false,
         }
         this.removeNotification = this.removeNotification.bind(this);
-        this.message = this.message.bind(this);
-    }
-
-    componentDidMount = () => {
-
     }
 
     componentWillReceiveProps(p) {
         const msg = this.message(p.notification.type);
-        if (msg) {
-            this.setState({ message: msg, pop: true }, () => window.setTimeout(this.removeNotification, 3000))
-        }
-        if (Object.keys(p.snackBar).length !== 0) {
-            this.setState({
-                message: p.snackBar.message,
-                error: p.snackBar.error,
-                pop: true
-            }, () => window.setTimeout(this.removeNotification, 3000))
+        if (!this._unMount) {
+            if (msg) {
+                this.setState({ message: msg, pop: true }, () => window.setTimeout(this.removeNotification, 3000))
+            }
+            if (Object.keys(p.snackBar).length !== 0) {
+                this.setState({
+                    message: p.snackBar.message,
+                    error: p.snackBar.error,
+                    pop: true
+                }, () => window.setTimeout(this.removeNotification, 3000))
+            }
         }
     }
 
+    componentDidMount = () => {
+        this._unMount = false
+    }
+
+    componentWillUnmount = () => {
+        this._unMount = true
+    }
+
     removeNotification() {
-        this.setState({ pop: false })
+        if (!this._unMount) {
+            this.setState({ pop: false })
+        }
     }
 
     message = action => {

@@ -31,7 +31,6 @@ export default function Login(app, db) {
 						const savedID = user._id;
 						const secret = process.env.JWT_SECRET
 						const token = jwt.sign({ email: r.email }, secret, { expiresIn: '10h' });
-						console.log(secret, token)
 						res.status(200).json({ _id: savedID, status: true, token: token, message: 'Login successful!' })
 
 						//   callback(err, same);

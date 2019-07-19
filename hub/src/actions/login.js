@@ -25,13 +25,11 @@ export function auth(data) {
     return (dispatch) =>
         axios.post(`${API_URL}/login`, data, { "Content-Type": "application/json" })
             .then(res => {
-                console.log(res)
                 if (res.data.status) {
                     const { message } = res.data;
                     dispatch(isAuthNotification(message))
                     dispatch(isAuthenticated(res.data))
                     localStorage.setItem('hubToken', JSON.stringify(res.data.token))
-                    window.location.reload()
                 }
             })
             .catch(e => {
