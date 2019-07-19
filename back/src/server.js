@@ -16,7 +16,7 @@ import jwt from 'jsonwebtoken'
 
 dotenv.config();
 const app = express();
-const PORT = 8081;
+const PORT = 9000;
 const dbUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
 let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
 let db = mongoose.connection;
