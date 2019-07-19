@@ -16,11 +16,11 @@ const headers = {
 
 let API_URL, PDF_URL;
 if (process.env.NODE_ENV === "development") {
-  API_URL = `${process.env.ENV_DEV}:${process.env.BACK_PORT}/api`;
-  PDF_URL = `${process.env.ENV_DEV}:${process.env.BACK_PORT}/pdf`;
+  API_URL = `http://localhost:9000/api`;
+  PDF_URL = `http://localhost:9000/pdf`;
 } else {
-  API_URL = `${process.env.ENV_PROD}:${process.env.BACK_PORT}/api`;
-  PDF_URL = `${process.env.ENV_PROD}:${process.env.BACK_PORT}/pdf`;
+  API_URL = `http://api.carloswu.com/api`;
+  PDF_URL = `http://api.carloswu.com/pdf`;
 }
 
 export { API_URL, PDF_URL, headers, handleResponse };
