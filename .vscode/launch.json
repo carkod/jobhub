@@ -1,6 +1,15 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.2",
   "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Back",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/babel-node",
+      "program": "${workspaceFolder}/back/src/server.js",
+      "console": "internalConsole",
+      "runtimeArgs": ["--nolazy"]
+    },
     {
       "name": "Web",
       "type": "chrome",
