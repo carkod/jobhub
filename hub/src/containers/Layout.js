@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import Nav from './Nav';
 import Notifications from '../components/Notification';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 class Layout extends Component {
   
@@ -48,6 +49,7 @@ class Layout extends Component {
           {this.props.children}
         </div>
         <Notifications {...this.props}/>
+        <Dimmer active={this.props.children.loading}><Loader /></ Dimmer>
       </div>
     );
   }
