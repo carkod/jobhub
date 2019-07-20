@@ -1,0 +1,3 @@
+// test local != undefined
+
+//

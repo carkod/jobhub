@@ -157,16 +157,7 @@ function cvs(state = cvInitial, action = {}) {
                 { [oldIndex]: { pdf: { $merge: action.cv.pdf } } }
             )
             console.log(oldIndex, filter)
-            debugger
-            const newState = [
-                ...state.slice(0, oldIndex), // everything before current post
-                {
-                   ...state[oldIndex],
-                   pdf: action.pdf,
-                },
-                ...state.slice(oldIndex + 1), // everything after current post
-             ]
-            return newState;
+            return filter;
         default:
             return state;
     }

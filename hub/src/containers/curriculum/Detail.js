@@ -99,7 +99,6 @@ class Detail extends Component {
     
           
     this.props.generatePDF(cv._id).then(url => {
-      debugger
       this.props.saveCV(cv);      
     })  
     

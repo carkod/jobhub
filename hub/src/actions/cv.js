@@ -57,6 +57,7 @@ export function cvPasted(id) {
 
 // Returns saved CV
 export function pdfReady(cv) {
+    debugger
     return {
         type: PDF_GENERATED,
         cv

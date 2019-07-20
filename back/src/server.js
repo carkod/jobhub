@@ -11,8 +11,7 @@ import CVs from './CVs.js';
 import Login from './Login.js';
 import Pdf from './Pdf';
 import Portfolio from './Portfolio.js';
-import Tracker from './Tracker.js'
-import jwt from 'jsonwebtoken'
+import Tracker from './Tracker.js';
 
 dotenv.config();
 const app = express();
