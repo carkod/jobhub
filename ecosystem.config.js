@@ -14,9 +14,9 @@ module.exports = {
         name: "jobhub-webhook",
         version: "0.0.1",
         script: "webhook.js",
-        watch: true,
+        watch: "webhook.js",
         env_production: {
-          "PORT": 8082,
+          "PORT": 7000,
           "NODE_ENV": "production"
         }
       }

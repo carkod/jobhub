@@ -1,6 +1,6 @@
-let http = require('http');
-let crypto = require('crypto');
-const dotenv = require('dotenv')
+var http = require('http');
+var crypto = require('crypto');
+var dotenv = require('dotenv')
 
 dotenv.config()
 
