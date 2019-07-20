@@ -44,7 +44,6 @@ class Layout extends Component {
         <Nav />
         <div className={'pusher ' + (this.state.navVisible ? 'navVisible' : '')} style={style}>
         <div className="dimmer" />
-        
           <i className={'icon toggle large ' + (this.state.navVisible ? 'on inverted green' : 'off')} onClick={this.navVisibility} />
           {this.props.children}
         </div>
