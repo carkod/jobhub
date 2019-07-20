@@ -16,7 +16,7 @@ http.createServer(function (req, res) {
 
         if (req.headers['x-hub-signature'] === sig) {
             console.log('executing git commands in server...')
-            exec('cd ' + repo + '&& git reset --hard && git pull origin master && npm run prod && pm2 restart ' + appName);
+            exec('cd ' + repo + '&& git reset --cached && git pull origin master && npm run prod && pm2 restart ' + appName);
         }
     });
 

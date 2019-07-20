@@ -1,6 +1,6 @@
 {
     "name": "jobhub",
-    "version": "0.9.5",
+    "version": "0.9.6",
     "description": "Full Stack application for Jobhub",
     "main": "server.js",
     "scripts": {
