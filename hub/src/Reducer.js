@@ -152,11 +152,14 @@ function cvs(state = cvInitial, action = {}) {
         case CV_FETCHED:
             return state;
         case PDF_GENERATED:
+            console.log(action)
             const oldIndex = state.findIndex(element => element._id === action.cv._id);
+            if (!action.cv) {
+                action.cv = {}
+            }
             const filter = update(state,
                 { [oldIndex]: { pdf: { $merge: action.cv.pdf } } }
             )
-            console.log(oldIndex, filter)
             return filter;
         default:
             return state;
