@@ -2,10 +2,15 @@ import wkhtmltopdf from 'wkhtmltopdf';
 import moment from 'moment';
 import path from 'path';
 import fs from 'fs';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 // CRITIAL!! If no folder, wkhtmltopdf will fail
 const dir = path.join(__dirname, '../', '/docs');
 
+// remote host api.carloswu.com (not application host localhost:9000)
+const host = process.env.NODE_ENV === "development" ? process.env.ENV_DEV : process.env.ENV_PROD
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -64,7 +69,7 @@ export default function generatePDF(req, data, printType, headerText) {
             pdfURL = {
                 name: printType === 'q' ? 'Quick Version' : 'Full Version',
                 value: printType,
-                link: req.protocol + '://' + req.get('host') + relativeUri,
+                link: req.protocol + '://' + host + relativeUri,
 
             }
 
@@ -99,7 +104,7 @@ export default function generatePDF(req, data, printType, headerText) {
             pdfURL = {
                 name: printType === 'q' ? 'Quick Version' : 'Full Version',
                 value: printType,
-                link: req.protocol + '://' + req.get('host') + relativeUri,
+                link: req.protocol + '://' + host + relativeUri,
 
             }
         }
@@ -131,7 +136,7 @@ export default function generatePDF(req, data, printType, headerText) {
         pdfURL = {
             name: 'Cover Letter default version',
             value: printType,
-            link: req.protocol + '://' + req.get('host') + relativeUri,
+            link: req.protocol + '://' + host + relativeUri,
         }
     }
 
