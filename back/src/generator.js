@@ -69,7 +69,7 @@ export default function generatePDF(req, data, printType, headerText) {
             pdfURL = {
                 name: printType === 'q' ? 'Quick Version' : 'Full Version',
                 value: printType,
-                link: req.protocol + '://' + host + relativeUri,
+                link: host + relativeUri,
 
             }
 
@@ -104,7 +104,7 @@ export default function generatePDF(req, data, printType, headerText) {
             pdfURL = {
                 name: printType === 'q' ? 'Quick Version' : 'Full Version',
                 value: printType,
-                link: req.protocol + '://' + host + relativeUri,
+                link: host + relativeUri,
 
             }
         }
@@ -136,7 +136,7 @@ export default function generatePDF(req, data, printType, headerText) {
         pdfURL = {
             name: 'Cover Letter default version',
             value: printType,
-            link: req.protocol + '://' + host + relativeUri,
+            link: host + relativeUri,
         }
     }
 
