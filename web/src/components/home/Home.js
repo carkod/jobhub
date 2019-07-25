@@ -22,9 +22,12 @@ class Home extends Component {
     this.props.fetchCats();
   }
 
+  componentWillReceiveProps = (props) => {
+    this.setState({ cvs: props.value })
+  }
+
   render() {
-    const { cvs, cats, positions, location } = this.props;
-    debugger
+    const { cvs, positions, location } = this.props;
     return (
       <div id="home" className="container">
         <Helmet>
@@ -36,7 +39,7 @@ class Home extends Component {
 
         <div className="ui grid">
           <div className="sixteen wide mobile eight wide computer column ">
-            {/* <Quick cvs={cvs} location={location} positions={positions} /> */}
+            <Quick cvs={cvs} location={location} positions={positions} />
           </div>
           <div className="eight wide computer column sixteen wide mobile">
             <Explore cvs={cvs} positions={positions} />
@@ -100,28 +103,23 @@ const mapStateToProps = (state, props) => {
   const { cvs, cats } = state;
   if (cvs) {
     const cvsExplore = [];
-    const newArray = cvs.map(e => {
+    const newArray = cvs.filter(e => {
 
-      debugger
       if (e.cats.status === 'public') {
         cvsExplore.push({
           key: e._id,
           text: e.name,
           value: e.slug,
+          quickUrl: e.pdf.find(x => x.value === 'q').link
         })
-
+        return true
       }
+      return false
     });
-    console.log(cvsExplore)
     return {
       cvs: newArray,
       cats: cats.data,
       positions: cvsExplore
-    }
-  } else {
-    return {
-      cvs: null,
-      cats: null,
     }
   }
 }

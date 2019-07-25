@@ -16,7 +16,7 @@ class Explore extends Component {
       this.setState({fullOpen: props.fullOpen})
     }
     
-    listing(positions, location, cvs) {
+    listing(positions) {
       const host = window.location.origin;
       let renderList;
 
@@ -34,8 +34,7 @@ class Explore extends Component {
     }
     
     render() {
-        let {cvs, positions} = this.props;
-        console.log(positions)
+        const {cvs, positions} = this.props;
         return (
             <div id="explore">
               <div className="box-title">
