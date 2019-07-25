@@ -19,10 +19,11 @@ class Explore extends Component {
     listing(positions, location, cvs) {
       const host = window.location.origin;
       let renderList;
+
       if (positions) {
         renderList = positions.map((p, i) => 
           <div className="menutem" key={p.key} >
-            <a href={`${host}/en_GB/${p.value}/cv`}>{p.text}</a>
+            <a href={`${host}/cv/en-GB/${p.key}`}>{p.text}</a>
           </div>
         )
         
@@ -34,6 +35,7 @@ class Explore extends Component {
     
     render() {
         let {cvs, positions} = this.props;
+        console.log(positions)
         return (
             <div id="explore">
               <div className="box-title">
