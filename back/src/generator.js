@@ -10,7 +10,7 @@ dotenv.config()
 const dir = path.join(__dirname, '../', '/docs');
 
 // remote host api.carloswu.com (not application host localhost:9000)
-const host = process.env.NODE_ENV === "development" ? process.env.ENV_DEV : process.env.ENV_PROD
+const host = process.env.ENV_PROD
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
