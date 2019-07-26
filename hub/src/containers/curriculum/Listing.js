@@ -2,9 +2,10 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Accordion, Button, Icon, Segment } from 'semantic-ui-react';
+import { Accordion, Button, Icon, Segment, Grid } from 'semantic-ui-react';
 import { copyCV, deleteCV, fetchCVs, saveCV } from '../../actions/cv';
 import AddNew from './AddNew';
+import IconText from '../../components/IconText'
 
 class Listing extends Component {
 
@@ -54,7 +55,14 @@ class Listing extends Component {
         this.props.cvs.map((cv, i) => ({
           key: `panel-${cv._id}`,
           title: {
-            content: <span>{cv.name !== undefined ? cv.name : 'Enter name'}</span>,
+            content: <Grid columns='equal'>
+              <Grid.Column>
+                {cv.name !== undefined ? cv.name : 'Enter name'}
+              </Grid.Column>
+              <Grid.Column>
+                {cv.cats.status ? <IconText text={cv.cats.status} iconName='privacy' /> : ''}
+              </Grid.Column>
+            </Grid >,
           },
           content: {
             content: (
@@ -63,41 +71,16 @@ class Listing extends Component {
                   <Segment.Group>
                     <Segment.Group horizontal>
                       <Segment>
-                        <Icon fitted name='id card' />{cv._id || 'N/A'}
+                        <Icon fitted name='checked calendar' /> {moment(cv.updatedAt).format('Do MMMM YYYY') || 'N/A'}
                       </Segment>
 
                       <Segment>
-                        <Icon fitted name='checked calendar' /> {moment(cv.updateDate).format('Do MMMM YYYY') || 'N/A'}
-                      </Segment>
-
-                      <Segment>
-                        <Icon fitted name='clock' /> {moment(cv.createdDate).format('Do MMMM YYYY') || 'N/A'}
+                        <Icon fitted name='clock' /> {moment(cv.createdAt).format('Do MMMM YYYY') || 'N/A'}
                       </Segment>
 
                       <Segment>
                         <Icon fitted name='briefcase' /> {cv.cats ? cv.cats.position : 'N/A'}
                       </Segment>
-
-                      <Segment><Icon fitted name='talk' /> {cv.cats ? cv.cats.cvLang : 'N/A'}</Segment>
-
-
-
-                    </Segment.Group>
-
-                    <Segment.Group horizontal>
-
-                      <Segment>
-                        <Icon fitted name='globe' /> {cv.cats ? cv.cats.cvCountry : 'N/A'}
-                      </Segment>
-
-                      <Segment>
-                        <Icon fitted name='linkify' /> {cv.slug || ''}
-                      </Segment>
-
-                      <Segment>
-                        Status: {cv.cats.status}
-                      </Segment>
-
                     </Segment.Group>
                   </Segment.Group>
                 </div>
