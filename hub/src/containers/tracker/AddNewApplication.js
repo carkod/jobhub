@@ -43,10 +43,6 @@ class AddNewApplication extends Component {
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
-	// handleSubmit = () => {
-	// 	console.log(this.state)
-	// }
-
 	descChange = (e) => {
 		this.setState({ description: e.toString('html') });
 	}
@@ -138,6 +134,7 @@ class AddNewApplication extends Component {
 	onSave = () => {
 		this.props.saveApplication(this.state).then(res => {
 			console.log('saved application', res);
+			this.props.history.push('/tracker');
 		})
 	}
 

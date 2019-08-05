@@ -96,8 +96,6 @@ class Detail extends Component {
     e.preventDefault();
     clearTimeout();
     const {cv, notification} = this.state;
-    
-          
     this.props.generatePDF(cv._id).then(url => {
       this.props.saveCV(cv);      
     })  

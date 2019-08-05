@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 import { saveCV } from '../../actions/cv';
 
 const buttonDefaultStyles = {
-        backgroundColor: '#fff',
-        border: 'none',
-        cursor: 'pointer',
-        outline: 'none',
-      }
+  backgroundColor: '#fff',
+  border: 'none',
+  cursor: 'pointer',
+  outline: 'none',
+}
 
 class AddNew extends Component {
-  
+
   state = {
     savedID: null,
   }
@@ -21,46 +21,46 @@ class AddNew extends Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
-  
+
   handleSubmit = () => {
-    this.props.saveCV({ _id:'', name: this.state.name })
-    .then(cv => { 
-      this.setState({ savedID: cv.data._id, modalOpen: false });
-      
-    })
-    
+    this.props.saveCV({ _id: '', name: this.state.name })
+      .then(cv => {
+        this.setState({ savedID: cv.data._id, modalOpen: false });
+
+      })
+
   }
-  
+
   render() {
-  
-    const addNewButton = 
-      <button onClick={ () => this.setState({ modalOpen: true }) } style={buttonDefaultStyles} >
+
+    const addNewButton =
+      <button onClick={() => this.setState({ modalOpen: true })} style={buttonDefaultStyles} >
         <Icon name="plus square" color="green" />
       </button>;
-    
+
     return (
       <Transition duration={500}>
         <Modal trigger={addNewButton} size={'tiny'} open={this.state.modalOpen} onClose={() => this.setState({ modalOpen: false })} closeIcon basic>
-            <Header icon='file text outline' content='New CV' />
-            <Modal.Content>
+          <Header icon='file text outline' content='New CV' />
+          <Modal.Content>
             <Form id="newcv" onSubmit={this.handleSubmit}>
               <Form.Field>
                 <Input autoFocus type="text" name="name" placeholder="Name or title of the new CV" onChange={this.handleChange} />
               </Form.Field>
             </Form>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button form="newcv" type="submit" color='green'>
-                <Icon name='save' /> Save
+          </Modal.Content>
+          <Modal.Actions>
+            <Button form="newcv" type="submit" color='green'>
+              <Icon name='save' /> Save
               </Button>
-            </Modal.Actions>
+          </Modal.Actions>
         </Modal>
       </Transition>
     )
   }
 }
 
-function mapStateToProps (state, ownProps) {
+function mapStateToProps(state, ownProps) {
   return {
     cvs: state.cvs
   }
