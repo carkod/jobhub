@@ -141,7 +141,7 @@ export function fetchCVs() {
         .then(handleResponse)
         .then(data => {
             dispatch(setCVs(data));
-            dispatch(setCVNotification(data));
+            dispatch(addNotification(setCVs(data), 'CVs loaded'));
         })
     }
 }
