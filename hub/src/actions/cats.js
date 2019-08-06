@@ -4,7 +4,7 @@ import { API_URL, handleResponse, headers } from './actions.config';
 
 export const SET_CATS = 'SET_CATS';
 export const SAVED_CATS = 'SAVED_CATS';
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const NOTIFICATION = 'NOTIFICATION';
 /*export const DELETED_CATS = 'DELETED_CATS';
 export const COPIED_CATS = 'COPIED_CATS';
 
@@ -12,7 +12,7 @@ export const COPIED_CATS = 'COPIED_CATS';
 
 export function addNotification(status) {
     return {
-        type: ADD_NOTIFICATION,
+        type: NOTIFICATION,
         status
     }
 }

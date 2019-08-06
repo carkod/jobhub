@@ -10,6 +10,7 @@ class Notification extends Component {
         super(p);
         this._unMount = false
         this.state = {
+            message: '',
             pop: false,
             error: false,
         }
@@ -17,18 +18,11 @@ class Notification extends Component {
     }
 
     componentWillReceiveProps(p) {
-        const msg = this.message(p.notification.type);
-        if (!this._unMount) {
-            if (msg) {
-                this.setState({ message: msg, pop: true }, () => window.setTimeout(this.removeNotification, 3000))
-            }
-            if (Object.keys(p.snackBar).length !== 0) {
-                this.setState({
-                    message: p.snackBar.message,
-                    error: p.snackBar.error,
-                    pop: true
-                }, () => window.setTimeout(this.removeNotification, 3000))
-            }
+        debugger
+        if (Object.keys(p.snackBar).length !== 0 && (p.snackBar.message !== this.state.message)) {
+            this.setState({
+                pop: true
+            }, () => window.setTimeout(this.removeNotification, 3000))
         }
     }
 
@@ -90,13 +84,10 @@ class Notification extends Component {
                 return 'Application deleted';
             case 'APPLICATION_UPDATED':
                 return 'Application updated';
-            case 'IS_AUTH':
-                return 'Login successful!';
             case 'NO_MORE_STAGES':
                 return 'No more stages to move forward';
             case 'APPLICATION_MOVED_STAGE':
                 return 'Application stage moved forward';
-
             case 'NOT_AUTH':
                 this.setState({ error: true });
                 return 'Login error';
@@ -106,7 +97,8 @@ class Notification extends Component {
     }
 
     render() {
-        const { pop, error, message } = this.state;
+        const { pop } = this.state;
+        const { error, message } = this.props.snackBar;
         return (
             <div id="notification">
                 <Transition visible={pop} animation='scale' duration={500}>

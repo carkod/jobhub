@@ -5,7 +5,7 @@ export const ADD_CL = 'ADD_CL';
 export const CL_FETCHED = 'CL_FETCHED';
 export const RETRIEVED_CL = 'RETRIEVED_CL';
 export const CL_DELETED = 'CL_DELETED';
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const NOTIFICATION = 'NOTIFICATION';
 export const PDF_GENERATED = 'PDF_GENERATED';
 
 
@@ -18,7 +18,7 @@ export function pdfGenerated(status) {
 
 export function addNotification(status) {
     return {
-        type: ADD_NOTIFICATION,
+        type: NOTIFICATION,
         status
     }
 }

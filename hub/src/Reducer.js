@@ -4,9 +4,9 @@ import RichTextEditor from 'react-rte';
 import { combineReducers } from 'redux';
 import { SAVED_CATS } from './actions/cats';
 import { CL_DELETED, SET_CLS } from './actions/cl';
-import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV } from './actions/cv';
+import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV, LOADING } from './actions/cv';
 import { IS_AUTH, NOT_AUTH } from './actions/login';
-import { ADD_NOTIFICATION, NOTIFICATION } from './actions/notification';
+import { NOTIFICATION } from './actions/notification';
 import { FILE_REMOVED, PROJECT_DELETED, SET_CATS, SET_PROJECTS } from './actions/project';
 import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS } from './actions/tracker';
 import update from 'react-addons-update'
@@ -216,16 +216,6 @@ const cats = (state = catInit, action = {}) => {
     }
 }
 
-const notification = (state = [], action) => {
-    switch (action.type) {
-        case ADD_NOTIFICATION:
-            const newState = Object.assign({}, state, action.status);
-            return newState;
-        default:
-            return []
-    }
-}
-
 const authentication = (state = {}, action) => {
     switch (action.type) {
         case IS_AUTH:
@@ -276,16 +266,44 @@ function applicationDetail(state = {}, action = {}) {
 function snackBar(state = {}, action) {
     switch (action.type) {
         case NOTIFICATION:
+            debugger
             return {
                 ...state,
                 message: action.message,
                 error: action.error
             }
-    
+
         default:
             return state
     }
 }
 
-export default combineReducers({ cvs, portfolio, coverLetters, cats, notification, authentication, applications, applicationDetail, snackBar });
+const isFetching = (state = false, action) => {
+    switch (action.type) {
+        case LOADING:
+            return true
+        case SET_CV:
+            return false
+        case CV_FETCHED:
+            return false
+        case CV_DELETED:
+            return false
+        case APPLICATION_FETCHED:
+            return false
+        default:
+            return false
+    }
+}
+
+export default combineReducers({ 
+    cvs, 
+    portfolio, 
+    coverLetters, 
+    cats, 
+    authentication, 
+    applications, 
+    applicationDetail, 
+    snackBar, 
+    isFetching 
+});
 

@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { API_URL, handleResponse, headers } from './actions.config';
+import { addNotification } from '../actions/notification'
 
 export const SET_PROJECTS = 'SET_PROJECTS';
 export const ADD_PROJECT = 'ADD_PROJECT';
@@ -13,16 +14,7 @@ export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
 export const SET_CATS = 'SET_CATS';
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 
-
-
-export function addNotification(status) {
-    return {
-        type: ADD_NOTIFICATION,
-        status
-    }
-}
 
 export function setCats(cats) {
     return {

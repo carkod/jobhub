@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
 import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon, Label, Table } from 'semantic-ui-react';
-import { uploadFile, removeFile, addNotification } from '../../actions/project';
+import { uploadFile, removeFile } from '../../actions/project';
+import { addNotification } from '../../actions/notification';
 import moment from 'moment';
 
 class PrevImage extends Component {

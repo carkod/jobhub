@@ -6,7 +6,8 @@ import React, { Component } from "react";
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import { Dropdown, Pagination, Table } from 'semantic-ui-react';
-import { addNotification, deleteApplication, getApplications, moveNextStage } from '../../actions/tracker';
+import { deleteApplication, getApplications, moveNextStage } from '../../actions/tracker';
+import { addNotification } from '../../actions/notification';
 import AddNewApplicationConfig from './AddNewApplication.config';
 import { APPLIED_COMPANIES, columns } from './Tracker.data';
 

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { API_URL, handleResponse, headers } from './actions.config';
-
+import { addNotification } from './notification'
 
 export const SET_APPLICATIONS = 'SET_APPLICATIONS';
 export const ADD_APPLICATION = 'ADD_APPLICATION';
@@ -12,7 +12,7 @@ export const APPLICATION_DELETED = 'APPLICATION_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const NOTIFICATION = 'NOTIFICATION';
 
 
 export function moveStage(status) {
@@ -23,12 +23,6 @@ export function moveStage(status) {
 }
 
 
-export function addNotification(status) {
-    return {
-        type: ADD_NOTIFICATION,
-        status
-    }
-}
 
 export function setApplications(applications) {
     return {

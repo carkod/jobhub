@@ -4,7 +4,8 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { addNotification, removeFile, uploadFile } from '../../actions/project';
+import { removeFile, uploadFile } from '../../actions/project';
+import { addNotification } from '../../actions/notification';
 
 class Files extends Component {
   

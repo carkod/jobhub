@@ -11,7 +11,14 @@ export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
 export const PDF_GENERATED = 'PDF_GENERATED';
+export const LOADING = 'LOADING';
 
+export const loading = (data) => {
+    return {
+        type: LOADING,
+        isFetching: true
+    }
+}
 
 export function setFormFields (data) {
     return {
@@ -64,6 +71,7 @@ export function pdfReady(cv) {
 }
 
 export function deleteCV(id) {
+    loading()
     return dispatch => {
         return fetch(`${API_URL}/cvs/${id}`, {
            method: 'delete',
@@ -78,6 +86,7 @@ export function deleteCV(id) {
 }
 
 export function copyCV(data) {
+    loading()
     return dispatch => {
         return fetch(`${API_URL}/cvs/${data._id}`, {
            method: 'post',
@@ -94,6 +103,7 @@ export function copyCV(data) {
 }
 
 export function saveCV(data) {
+    loading()
     return dispatch => {
         return fetch(`${API_URL}/cvs`, {
            method: 'post',
@@ -123,6 +133,7 @@ export function generatePDF(id) {
 }
 
 export function fetchCVs() {
+    loading()
     return dispatch => {
         return fetch(`${API_URL}/cvs`, {
             headers: headers
@@ -136,6 +147,7 @@ export function fetchCVs() {
 }
 
 export function fetchCV(id) {
+    loading()
     return dispatch => {
         return fetch(`${API_URL}/cvs/${id}`, {
             headers: headers
