@@ -1,11 +1,11 @@
 export const NOTIFICATION = 'NOTIFICATION';
 export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 
-export function addNotification(data) {
+export function addNotification(data, msg) {
     return {
         type: NOTIFICATION,
         error: false,
-        message: 'CV saved successfully',
+        message: msg,
         data
     }
 }

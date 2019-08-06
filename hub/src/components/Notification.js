@@ -18,7 +18,6 @@ class Notification extends Component {
     }
 
     componentWillReceiveProps(p) {
-        debugger
         if (Object.keys(p.snackBar).length !== 0 && (p.snackBar.message !== this.state.message)) {
             this.setState({
                 pop: true
@@ -37,62 +36,6 @@ class Notification extends Component {
     removeNotification() {
         if (!this._unMount) {
             this.setState({ pop: false })
-        }
-    }
-
-    message = action => {
-        switch (action) {
-            case 'SET_CV':
-                return 'CV fetched';
-            case 'ADD_CV':
-                return 'CV saved';
-            case 'CV_DELETED':
-                return 'CV deleted';
-            case 'CV_FETCHED':
-                return 'CV copied';
-            case 'PDF_GENERATED':
-                return 'PDFs generated';
-            case 'SET_CLS':
-                return 'Cover Letter fetched';
-            case 'ADD_CL':
-                return 'Cover Letter saved';
-            case 'CL_DELETED':
-                return 'Cover Letter deleted';
-            case 'CL_FETCHED':
-                return 'Cover Letter copied';
-            case 'FILE_REMOVED':
-                return 'File has been removed';
-            case 'SET_PROJECTS':
-                return 'Projects have been loaded';
-            case 'PROJECT_DELETED':
-                return 'Project deleted';
-            case 'ADD_PROJECT':
-                return 'Project saved';
-            case 'SAVED_CATS':
-                return 'Categories saved';
-            case 'NO_FILE':
-                return 'File not found';
-            case 'UPLODED_FILE':
-                return 'File was uploaded';
-            case 'SET_APPLICATIONS':
-                return 'Applications loaded';
-            case 'ADD_APPLICATION':
-                return 'Application added';
-            case 'APPLICATION_FETCHED' || 'RETRIEVED_APPLICATION':
-                return 'Application fetched';
-            case 'APPLICATION_DELETED':
-                return 'Application deleted';
-            case 'APPLICATION_UPDATED':
-                return 'Application updated';
-            case 'NO_MORE_STAGES':
-                return 'No more stages to move forward';
-            case 'APPLICATION_MOVED_STAGE':
-                return 'Application stage moved forward';
-            case 'NOT_AUTH':
-                this.setState({ error: true });
-                return 'Login error';
-            default:
-                return false;
         }
     }
 

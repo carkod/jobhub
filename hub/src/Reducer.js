@@ -266,7 +266,6 @@ function applicationDetail(state = {}, action = {}) {
 function snackBar(state = {}, action) {
     switch (action.type) {
         case NOTIFICATION:
-            debugger
             return {
                 ...state,
                 message: action.message,

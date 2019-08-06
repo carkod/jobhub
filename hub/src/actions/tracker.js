@@ -121,7 +121,7 @@ export function deleteApplication(id) {
             .then(handleResponse)
             .then(data => {
                 dispatch(applicationDeleted(data))
-                dispatch(addNotification(applicationDeleted(data)))
+                dispatch(addNotification(applicationDeleted(data), 'Application Deleted'))
             });
     }
 }
@@ -137,7 +137,7 @@ export function copyApplication(data) {
             .then(handleResponse)
             .then(data => {
                 dispatch(pastedApplication(data.Application))
-                dispatch(addNotification(pastedApplication(data.Application)))
+                dispatch(addNotification(pastedApplication(data.Application), 'Application copied'))
             });
     }
 
@@ -152,7 +152,7 @@ export function saveApplication(data) {
         }).then(handleResponse)
             .then(data => {
                 dispatch(addApplication(data))
-                dispatch(addNotification(addApplication(data)))
+                dispatch(addNotification(addApplication(data), 'Application saved'))
             })
     }
 }
@@ -167,7 +167,7 @@ export function fetchApplication(id) {
             .then(handleResponse)
             .then(data => {
                 dispatch(applicationFetched(data))
-                dispatch(addNotification(applicationFetched(data)))
+                dispatch(addNotification(applicationFetched(data), 'Application fetched'))
             })
     }
 }
@@ -181,7 +181,7 @@ export function getApplications(page, pagesize) {
             .then(handleResponse)
             .then(data => {
                 dispatch(setApplications(data))
-                dispatch(addNotification(setApplications(data)))
+                dispatch(addNotification(setApplications(data), 'Applications loaded'))
             })
     }
 }
@@ -195,7 +195,7 @@ export function moveNextStage(data) {
         }).then(handleResponse)
             .then(data => {
                 dispatch(moveStage(data))
-                dispatch(addNotification(moveStage(data)))
+                dispatch(addNotification(moveStage(data), 'Staged moved'))
             })
     }
 }
