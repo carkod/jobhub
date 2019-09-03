@@ -14,6 +14,7 @@ import Relationships from '../containers/relationships/Relationships';
 import PrivateRouter from './PrivateRouter';
 import PublicRouter from './PublicRouter';
 import Tracker from '../containers/tracker/Tracker'
+import Jobs from '../containers/tracker/Jobs'
 
 import { Switch } from 'react-router-dom';
 import AddNewApplication from '../containers/tracker/AddNewApplication';
@@ -34,7 +35,8 @@ const AppRouter = () => (
 			<PrivateRouter exact path="/portfolio/project/id=:id" component={Project} />
 			<PrivateRouter exact path="/coverletters" component={CoverLetters} />
 			<PrivateRouter exact path="/coverletters/id=:id" component={Letter} />
-			<PrivateRouter exact path="/tracker/" component={Tracker} />
+			<PrivateRouter exact path="/jobs" component={Jobs} />
+			<PrivateRouter exact path="/tracker" component={Tracker} />
 			<PrivateRouter exact path="/new-tracker" component={AddNewApplication} />
 			<PrivateRouter exact path="/tracker/:id" component={EditApplication} />
 		</Layout>
