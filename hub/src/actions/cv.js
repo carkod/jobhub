@@ -103,7 +103,6 @@ export function copyCV(data) {
 }
 
 export function saveCV(data) {
-    loading()
     return dispatch => {
         return fetch(`${API_URL}/cvs`, {
            method: 'post',
