@@ -66,6 +66,7 @@ export function cvPasted(id) {
 export function pdfReady(cv) {
     return {
         type: PDF_GENERATED,
+        isFetching: false,
         cv
     }
 }
@@ -80,7 +81,7 @@ export function deleteCV(id) {
         .then(handleResponse)
         .then(data => {
             dispatch(cvDeleted(id))
-            dispatch(addNotification(cvDeleted(data)))
+            dispatch(addNotification(cvDeleted(data), 'CV deleted'))
         });   
     }
 }
@@ -96,7 +97,7 @@ export function copyCV(data) {
         .then(handleResponse)
         .then(id => {
             dispatch(cvPasted(id))
-            dispatch(addNotification(cvPasted(id)));
+            dispatch(addNotification(cvPasted(id)), 'CV copied');
         });
     }
     
@@ -112,7 +113,7 @@ export function saveCV(data) {
         .then(handleResponse)
         .then(data => {
             dispatch(addCV(data));
-            dispatch(addNotification(addCV(data)));
+            dispatch(addNotification(addCV(data), 'Saved CV'));
         });   
     }
 }

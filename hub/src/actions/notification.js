@@ -43,7 +43,7 @@ export function savedNotification(data) {
 export function pdfGeneratedNotification(data) {
     return {
         type: NOTIFICATION,
-        message: data.msg,
+        message: data.msg || 'Pdf Generated',
         error: false
     }
 }
