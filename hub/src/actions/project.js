@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { API_URL, handleResponse, headers } from './actions.config';
+import { API_URL, handleResponse, headers, formdataHeaders } from './actions.config';
 import { addNotification } from '../actions/notification'
 
 export const SET_PROJECTS = 'SET_PROJECTS';
@@ -106,10 +106,9 @@ export function removeFile(file) {
 export function uploadFile(file) {
     return fetch(`${API_URL}/portfolio/upload`, {
         method: 'post',
-        headers: headers,
-        body: file
-    })
-        .then(res => res.json());
+        headers: formdataHeaders,
+        body: file,
+    }).then(res => res.json());
 }
 
 export function deleteProject(id) {
