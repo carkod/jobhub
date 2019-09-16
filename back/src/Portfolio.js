@@ -33,14 +33,16 @@ export default function Portfolio (app, db) {
     
     app.post('/api/portfolio/upload', (req, res) => {
         let f = req.file;
+        console.log('file', f)
         // file upload
         fileUpload(req, res, (err) => {
+            console.log('file', f)
             if (err) throw err;
-            if (req.file) {
+            if (f) {
                 
-                const {path} = req.file;
-                req.file.url = req.protocol + '://' + req.get('host') + '/' + path;
-                res.json(req.file)                    
+                const {path} = f;
+                f.url = req.protocol + '://' + req.get('host') + '/' + path;
+                res.json(f)                    
             }
         }) 
     });
