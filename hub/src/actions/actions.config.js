@@ -14,6 +14,10 @@ const headers = {
   "Authorization": `Bearer ${localStorage.getItem('hubToken')}`,
 }
 
+const formdataHeaders = {
+  "Authorization": `Bearer ${localStorage.getItem('hubToken')}`,
+}
+
 let API_URL, PDF_URL;
 if (process.env.NODE_ENV === "development") {
   API_URL = `http://localhost:9000/api`;
@@ -23,4 +27,4 @@ if (process.env.NODE_ENV === "development") {
   PDF_URL = `http://api.carloswu.com/pdf`;
 }
 
-export { API_URL, PDF_URL, headers, handleResponse };
+export { API_URL, PDF_URL, headers, handleResponse, formdataHeaders };
