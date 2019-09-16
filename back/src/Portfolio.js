@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ filesize: 500000, storage: storage });
 const fileUpload = upload.single('fieldname');
 
 export default function Portfolio (app, db) {
