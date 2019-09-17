@@ -34,14 +34,8 @@ class ProjectDetail extends Component {
     const {portfolio} = !!Object.keys(this.state).length ? this.state : this.props;
     const {position, id} = this.props.match.params;
     const {positions} = this.props;
-    const matchPos = pos => {
-      if (positions) {
-        return positions.find(i => i.value === pos)
-      } else {
-        return false;
-      }
-    }
-    const title = positions ? matchPos(position).text : 'Professional Profile';
+
+    const title = position || 'Professional Profile';
     return (
       <div id="mainportfolio" className="container">
         <Helmet>
