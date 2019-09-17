@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import {Helmet} from "react-helmet";
-import HtmlText from './HtmlText';
+import HtmlText from '../../components/HtmlText';
 
 class Education extends Component {
     

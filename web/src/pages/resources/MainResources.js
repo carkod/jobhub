@@ -1,15 +1,14 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
-import {stateToHTML} from 'draft-js-export-html';
 import shortid from 'shortid';
-import { fetchProjects } from '../../actions/res';
 import { fetchCats } from '../../actions/cats';
-import HtmlText from './HtmlText';
-import Links from './Links';
+import { fetchProjects } from '../../actions/res';
+import HtmlText from '../../components/HtmlText';
 import Documents from './Documents';
+import Links from './Links';
 
 class MainResources extends Component {
     

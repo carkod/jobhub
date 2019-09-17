@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {stateToHTML} from 'draft-js-export-html';
 import { fetchProjects } from '../../actions/res';
 import { fetchCats } from '../../actions/cats';
-import HtmlText from './HtmlText';
+import HtmlText from '../../components/HtmlText';
 
 class Links extends Component {
     

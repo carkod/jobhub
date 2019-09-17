@@ -9,7 +9,7 @@ import Layout from './Layout';
 import MainCV from './cv/MainCV';
 import MainResources from './resources/MainResources';
 import FourOFour from './FourOFour';
-import ProjectDetail from '../pages/portfolio/ProjectDetail';
+import ProjectDetail from './portfolio/ProjectDetail';
 
 const RenderRoute = ({ component: Component, layout: Layout, ...rest }) => (
   <Route {...rest} render={props => (

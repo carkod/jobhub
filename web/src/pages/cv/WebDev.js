@@ -1,8 +1,6 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
-import HtmlText from './HtmlText';
 
 
 class WebDev extends Component {
