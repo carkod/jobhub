@@ -42,7 +42,7 @@ class ProjectDetail extends Component {
       <div id="mainportfolio" className="container">
         <Helmet>
           <title>{`Carlos Wu - ${title}`}</title>
-          <meta charSet="utf-8" />
+          <meta charSet="utf-8" /> 
           <meta name="description" content={`Portfolio and projects by Carlos Wu - ${title}`}/>
           <link rel="canonical" href={`http://carloswu.xyz/en-GB/${position}/resources`} />
         </Helmet>
@@ -82,8 +82,6 @@ const mapStateToProps = (state, props) => {
   const {position, language} = props.match.params;
   let cats = state.cats.data, urlCategory = [], positions;
   if (portfolio[0]._id !== '') {
-    // positions = cats.find(it => it.label === 'positions').children;
-    
     urlCategory = portfolio.filter(cv => {
       const matchPos = cv.cats.position.toLowerCase() === position;
       const matchStatus = cv.cats.status !== undefined ? cv.cats.status.toLowerCase() === 'public' : false;
@@ -93,12 +91,10 @@ const mapStateToProps = (state, props) => {
   
     return {
       portfolio: urlCategory,
-      // positions: positions,
     }
   } else {
     return {
       portfolio: portfolio,
-      // positions: null,
     }
   }
   

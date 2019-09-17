@@ -29,7 +29,7 @@ const Metainfo = props => {
     return (
         <div id="metainfo">
             <Header as='h1'>
-                <input type="text" name="name" value={meta.name} onChange={props.name} />
+                <input className="fullwidth_input" type="text" name="name" value={meta.name} onChange={props.name} />
                 <Header.Subheader>{meta._id}</Header.Subheader>
             </Header>
             <div className="section">
@@ -39,15 +39,8 @@ const Metainfo = props => {
                 <Segment.Group>
                     <Segment.Group horizontal>
                         <Segment><b>Created</b>: {moment(meta.createdAt).calendar()}</Segment>
-                  
                           <Segment><b>Updated</b>: {moment(meta.updatedAt).calendar()}</Segment>
-                          
-                          <Segment><b>Slug</b>: {meta.slug}</Segment>
-                        <Segment><b>PDF</b>:
-                        {meta.pdf !== undefined ? meta.pdf.map((el,i) => 
-                             <a key={shortid.generate()} href={el.link}>{'\u00A0' + el.name + '\u00A0'}</a>
-                        ) : ''}
-                        </Segment>
+                                                 
                     </Segment.Group>
                     
                     {!!categories[0]._id ? 

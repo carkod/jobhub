@@ -35,6 +35,10 @@ body {
   min-height: 300px;
 }
 
+.fullwidth__input {
+  width: 100%;
+}
+
 /* Element styling */
 
 #detail input, #detail textarea {
