@@ -9,6 +9,8 @@ import { fetchProjects } from '../../actions/res';
 import HtmlText from '../../components/HtmlText';
 import Documents from './Documents';
 import Links from './Links';
+import { Header } from 'semantic-ui-react';
+
 
 class ProjectDetail extends Component {
     
@@ -46,11 +48,11 @@ class ProjectDetail extends Component {
         </Helmet>
         
         <main className="portfolioContent ui grid">
-        <h1>{`You are viewing ${title} projects`}</h1>
+        <Header as='h1'>{`You are viewing ${title} projects`}</Header>
           {portfolio.map((project, i) =>
           <div key={project.id || shortid.generate()} className="row one column wide">
             <section id="project" className="column ui grid">
-              <h2>{project.name}</h2>
+            <Header as='h2' dividing>{project.name}</Header>
                 <div className="row two column wide">
                   <div className="left column" style={{backgroundImage: project.imgURL}}>
                     <HtmlText text={project.desc} />
