@@ -111,9 +111,15 @@ class Sidebar extends Component {
             </ul>
           </li>
           <li className="item dropdown">
-            <button className="btn" onClick={this.props.unavailable} >Portfolio</button>
+            <button className="btn" onClick={this.toggleMenu('portfolio')} >Portfolio</button>
             <ul id="portfolio" className={this.state.openmenu === 'portfolio' ? 'openMenu' : 'closeMenu' }>
-              {renderResources !== undefined ? renderResources('resources') : ''}
+              {projects.map(p => 
+                <li key={p._id} className="item" >
+                  <NavLink to={`/portfolio/${p.cats.locale}/${p._id}`} activeClassName="active">
+                    {p.name}
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </li>
           {/* <li className="item dropdown">
@@ -140,6 +146,10 @@ class Sidebar extends Component {
 const mapStateToProps = (s,p) => {
   const { cats, cvs, portfolio } = s
   const filterCVs = cvs.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
+  const filterProjects = portfolio.filter(x => {
+    console.log(x)
+    return x.cats.locale === 'en-GB' && x.cats.status === 'public'
+  })
   if (s !== p) {
     return {
       cats: s.cats.data,

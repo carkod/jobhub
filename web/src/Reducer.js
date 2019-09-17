@@ -77,7 +77,7 @@ const pfInit = [
         cats: {
             position: '',
             locale: '',
-            cvCountry: '',
+            status: '',
         },
         image: '',
         desc: '',
