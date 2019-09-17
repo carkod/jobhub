@@ -111,17 +111,18 @@ class Sidebar extends Component {
             </ul>
           </li>
           <li className="item dropdown">
-            <button className="btn" onClick={this.toggleMenu('resources')}>Resources</button>
-            <ul id="resources" className={this.state.openmenu === 'resources' ? 'openMenu' : 'closeMenu' }>
+            <button className="btn" onClick={this.props.unavailable} >Portfolio</button>
+            <ul id="portfolio" className={this.state.openmenu === 'portfolio' ? 'openMenu' : 'closeMenu' }>
               {renderResources !== undefined ? renderResources('resources') : ''}
             </ul>
           </li>
-          {<li className="item dropdown">
-            <button className="btn" onClick={this.props.unavailable} >Cover Letters</button>
-            {/*<ul id="cl" className={this.state.openmenu === 'cl' ? 'openMenu' : 'closeMenu' >
-            renderPositions !== undefined ? renderPositions('cl') : ''
-            </ul>*/}
-          </li>}
+          {/* <li className="item dropdown">
+            <button className="btn" onClick={this.toggleMenu('resources')}>Portfolio/Resources</button>
+            <ul id="resources" className={this.state.openmenu === 'resources' ? 'openMenu' : 'closeMenu' }>
+              {renderResources !== undefined ? renderResources('resources') : ''}
+            </ul>
+          </li> */}
+          
           <li className="item dropdown">
             <button className="btn" onClick={this.props.unavailable} >Site and CV language</button>
             {/*<ul id="lang" className={this.state.openmenu === 'lang' ? 'openMenu' : 'closeMenu' }>

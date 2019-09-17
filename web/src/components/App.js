@@ -9,6 +9,7 @@ import Layout from './Layout';
 import MainCV from './cv/MainCV';
 import MainResources from './resources/MainResources';
 import FourOFour from './FourOFour';
+import ProjectDetail from '../pages/portfolio/ProjectDetail';
 
 const RenderRoute = ({ component: Component, layout: Layout, ...rest }) => (
   <Route {...rest} render={props => (
@@ -28,6 +29,7 @@ const App = (props) => {
         <RenderRoute layout={Layout} exact path="/" component={Home} />
         <RenderRoute layout={Layout} exact path="/about" component={About} />
         <RenderRoute layout={Layout} exact path="/cv/:language/:id" component={MainCV} />
+        <RenderRoute layout={Layout} exact path="/portfolio/:language/:id" component={ProjectDetail} />
         <RenderRoute layout={Layout} exact path="/resources/:language/:id" component={MainResources} />
         <Route component={FourOFour} />
       </Switch>
