@@ -30,10 +30,12 @@ promise.then((db) => {
 	app.use(helmet())
 
 	//Parser Middlewares
-	app.use(bodyParser.urlencoded({ extended: true }));
-	app.use(bodyParser.json());
-	// app.use(expressValidator());
 	app.use(cors());
+	app.use(bodyParser.json({limit: '50mb'}));
+	app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+	
+	// app.use(expressValidator());
+	
 
 
 	//Download static files in uploads folder

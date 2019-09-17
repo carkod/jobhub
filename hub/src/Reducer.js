@@ -266,6 +266,7 @@ function applicationDetail(state = {}, action = {}) {
 function snackBar(state = {}, action) {
     switch (action.type) {
         case NOTIFICATION:
+            console.log(state, action)
             return {
                 ...state,
                 message: action.message,

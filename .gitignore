@@ -13,6 +13,7 @@ pids
 back/uploads/*
 back/dist/
 back/docs
+back/uploads
 back/package-lock.json
 
 # WEB

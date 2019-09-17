@@ -80,14 +80,9 @@ class Detail extends Component {
   }
   
   keySave = e => {
-    const {cv} = this.state;
     if (e.ctrlKey || e.metaKey) {
       if (e.key === 's') {
-        e.preventDefault();
-        e.stopPropagation();
-        this.props.generatePDF(cv._id).then(url => {
-        this.props.saveCV(cv)
-        })
+        this.onSubmit(e);
       }
     }
   }
@@ -96,9 +91,12 @@ class Detail extends Component {
     e.preventDefault();
     clearTimeout();
     const {cv, notification} = this.state;
-    this.props.generatePDF(cv._id).then(url => {
-      this.props.saveCV(cv);      
-    })  
+    this.props.saveCV(cv).then(res => {
+      this.props.generatePDF(cv._id).then(url => {
+        this.props.saveCV(cv).then(res => console.log('second save'));
+      })
+    });
+    
     
   }
   
