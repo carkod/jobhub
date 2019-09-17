@@ -39,7 +39,7 @@ class Sidebar extends Component {
 
   
   render() {
-    const {cats, cvs, projects} = this.props;
+    const {cats, cvs, projects, projectCats} = this.props;
     let renderPositions, renderLanguages, renderResources, matchCatsCVs, matchProjectCVs;
     if (cats !== undefined) {
       //Positions
@@ -113,10 +113,10 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('portfolio')} >Portfolio</button>
             <ul id="portfolio" className={this.state.openmenu === 'portfolio' ? 'openMenu' : 'closeMenu' }>
-              {projects.map(p => 
+              {projectCats.map(p => 
                 <li key={p._id} className="item" >
                   <NavLink to={`/portfolio/${p.cats.locale}/${p._id}`} activeClassName="active">
-                    {p.name}
+                    {p.cats.position}
                   </NavLink>
                 </li>
               )}
@@ -146,15 +146,18 @@ class Sidebar extends Component {
 const mapStateToProps = (s,p) => {
   const { cats, cvs, portfolio } = s
   const filterCVs = cvs.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
-  const filterProjects = portfolio.filter(x => {
-    console.log(x)
-    return x.cats.locale === 'en-GB' && x.cats.status === 'public'
+  const filterProjects = portfolio.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
+  const projectsMenu = filterProjects.filter((el, i, self) => {
+    return i === self.findIndex(j => {
+      return el.cats.position === j.cats.position
+    })
   })
   if (s !== p) {
     return {
       cats: s.cats.data,
       cvs: filterCVs,
-      projects: s.portfolio
+      projects: filterProjects,
+      projectCats: projectsMenu
     }  
   }
   

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react';
-import GenericTable from '../../components/GenericTable';
 
 class Jobs extends Component {
 
@@ -28,7 +27,6 @@ class Jobs extends Component {
     return (
       <div id="job-board" className="page">
         <h1>Job board</h1>
-        {/* <GenericTable /> */}
       </div>
     );
 
