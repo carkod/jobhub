@@ -32,7 +32,7 @@ class ProjectDetail extends Component {
   
   render() {
     const {portfolio} = !!Object.keys(this.state).length ? this.state : this.props;
-    const {position} = this.props.match.params;
+    const {position, id} = this.props.match.params;
     const {positions} = this.props;
     const matchPos = pos => {
       if (positions) {
@@ -42,7 +42,6 @@ class ProjectDetail extends Component {
       }
     }
     const title = positions ? matchPos(position).text : 'Professional Profile';
-    console.log(this.props)
     return (
       <div id="mainportfolio" className="container">
         <Helmet>
@@ -86,9 +85,8 @@ const mapStateToProps = (state, props) => {
   const {portfolio} = state;
   const {position, language} = props.match.params;
   let cats = state.cats.data, urlCategory = [], positions;
-  
-  if (portfolio[0]._id !== '' && cats) {
-    positions = cats.find(it => it.label === 'positions').children;
+  if (portfolio[0]._id !== '') {
+    // positions = cats.find(it => it.label === 'positions').children;
     
     urlCategory = portfolio.filter(cv => {
       const matchPos = cv.cats.position.toLowerCase() === position;
@@ -99,12 +97,12 @@ const mapStateToProps = (state, props) => {
   
     return {
       portfolio: urlCategory,
-      positions: positions
+      // positions: positions,
     }
   } else {
     return {
       portfolio: portfolio,
-      positions: null
+      // positions: null,
     }
   }
   

@@ -29,7 +29,7 @@ const App = (props) => {
         <RenderRoute layout={Layout} exact path="/" component={Home} />
         <RenderRoute layout={Layout} exact path="/about" component={About} />
         <RenderRoute layout={Layout} exact path="/cv/:language/:id" component={MainCV} />
-        <RenderRoute layout={Layout} exact path="/portfolio/:language/:id" component={ProjectDetail} />
+        <RenderRoute layout={Layout} exact path="/portfolio/:language/:position/:id" component={ProjectDetail} />
         <RenderRoute layout={Layout} exact path="/resources/:language/:id" component={MainResources} />
         <Route component={FourOFour} />
       </Switch>

@@ -115,7 +115,7 @@ class Sidebar extends Component {
             <ul id="portfolio" className={this.state.openmenu === 'portfolio' ? 'openMenu' : 'closeMenu' }>
               {projectCats.map(p => 
                 <li key={p._id} className="item" >
-                  <NavLink to={`/portfolio/${p.cats.locale}/${p._id}`} activeClassName="active">
+                  <NavLink to={`/portfolio/${p.cats.locale}/${p.cats.position}/${p._id}`} activeClassName="active">
                     {p.cats.position}
                   </NavLink>
                 </li>
