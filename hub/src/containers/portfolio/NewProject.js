@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Modal, Header, Button, Icon, Transition, Form, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { saveProject, fetchPortfolio } from '../../actions/project';
+import { createProject, fetchPortfolio } from '../../actions/project';
 
 const buttonDefaultStyles = {
         backgroundColor: '#fff',
@@ -23,7 +23,7 @@ class NewProject extends Component {
   }
   
   handleSubmit = () => {
-    this.props.saveProject({ _id:'', name: this.state.name })
+    this.props.createProject({ _id:'', name: this.state.name })
     .then(project => { 
       this.setState({ modalOpen: false });
     })
@@ -65,4 +65,4 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, { saveProject, fetchPortfolio })(NewProject);
+export default connect(mapStateToProps, { createProject, fetchPortfolio })(NewProject);

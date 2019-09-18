@@ -66,16 +66,34 @@ export default function Portfolio(app, db) {
 
     app.post('/api/portfolio/project', (req, res) => {
         let r = req.body,
-            project;
-        if (!r._id) {
-            // Create New
             project = new ProjectModel({
                 _id: mongoose.Types.ObjectId(),
                 name: r.name || 'Enter name',
             });
-        } else {
+        ProjectModel.create(project, (err, msg) => {
+
+            if (err) {
+                throw err;
+
+            } else {
+
+                if (msg.ok) {
+                    const savedID = id;
+                    res.json({ _id: savedID, status: !!msg.ok });
+                    //console.log('changes saved!')  
+                } else {
+                    res.json({ status: !!msg.ok });
+                    //console.log('No changes')  
+                }
+            }
+        });
+
+    });
+
+    app.put('/api/portfolio/project', (req, res) => {
+        let r = req.body;
             // Update
-            project = new ProjectModel({
+        const project = new ProjectModel({
                 _id: r._id,
                 name: r.name,
                 slug: r.slug,
@@ -91,19 +109,15 @@ export default function Portfolio(app, db) {
                 links: r.links,
             });
 
-        }
-        const id = r._id || project._id;
-        delete r._id;
-        ProjectModel.update({ _id: id }, project, { upsert: true }, (err, msg) => {
+        ProjectModel.findByIdAndUpdate(r._id, project, (err, msg) => {
 
             if (err) {
-                throw err;
-
+                const newError = new Error(err)
+                res.json({ status: false, message: newError });
             } else {
 
                 if (msg.ok) {
-                    const savedID = id;
-                    res.json({ _id: savedID, status: !!msg.ok });
+                    res.status(200).json({ _id: msg.id, status: !!msg.ok });
                     //console.log('changes saved!')  
                 } else {
                     res.json({ status: !!msg.ok });

@@ -65,7 +65,7 @@ class Project extends Component {
     const { project } = this.state;
     this.state.project.documents = docs.documents;
     this.setState({ project });
-    this.props.saveProject();
+    this.props.saveProject(project)
   }
 
   handlePrevImg = ({ image }) => {
@@ -82,10 +82,7 @@ class Project extends Component {
       if (e.key === 's') {
         e.preventDefault();
         e.stopPropagation();
-        this.props.saveProject(project).then(status => {
-          //this.state.detail.messages.savedID = status.data._id;
-          //this.setState({ messages })
-        });
+        this.onSubmit(e)
       }
     }
   }

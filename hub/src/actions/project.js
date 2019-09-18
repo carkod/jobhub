@@ -4,6 +4,7 @@ import { addNotification } from '../actions/notification'
 
 export const SET_PROJECTS = 'SET_PROJECTS';
 export const ADD_PROJECT = 'ADD_PROJECT';
+export const SAVED_PROJECT = 'SAVED_PROJECT';
 export const PROJECT_FETCHED = 'PROJECT_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
@@ -49,6 +50,13 @@ export function projectFetched(project) {
 export function addProject(data) {
     return {
         type: ADD_PROJECT,
+        data
+    }
+}
+
+export function savedProject(data) {
+    return {
+        type: SAVED_PROJECT,
         data
     }
 }
@@ -142,10 +150,24 @@ export function copyProject(data) {
 
 }
 
-export function saveProject(data) {
+export function createProject(data) {
     return dispatch => {
         return fetch(`${API_URL}/portfolio/project`, {
             method: 'post',
+            body: JSON.stringify(data),
+            headers: headers
+        }).then(handleResponse)
+            .then(data => {
+                dispatch(addProject(data))
+                dispatch(addNotification(addProject(data)))
+            })
+    }
+}
+
+export function saveProject(data) {
+    return dispatch => {
+        return fetch(`${API_URL}/portfolio/project`, {
+            method: 'put',
             body: JSON.stringify(data),
             headers: headers
         }).then(handleResponse)
