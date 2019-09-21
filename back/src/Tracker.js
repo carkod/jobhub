@@ -100,7 +100,6 @@ export default function Tracker(app, db) {
     app.post('/api/application', (req, res) => {
         let r = req.body,
             applications = new ApplicationModel(fillModel(r));
-            console.log(applications.stages)
         const id = r._id || applications._id;
         delete r._id;
         ApplicationModel.updateOne({ _id: id }, applications, { upsert: true }, (err, msg) => {
@@ -114,6 +113,43 @@ export default function Tracker(app, db) {
                     res.json({ _id: savedID, status: !!msg.ok });
                 } else {
                     res.json({ status: !!msg.ok });
+                }
+            }
+        });
+
+    });
+
+    app.put('/api/application', (req, res) => {
+        const r = req.body;
+        const applications = {
+                company: r.company,
+                status: {
+                    value: r.status.value,
+                    text: r.status.text
+                },
+                role: r.role,
+                salary: r.salary,
+                applicationUrl: r.applicationUrl,
+                contacts: r.contacts,
+                description: r.description,
+                files: r.files,
+                stages: r.stages,
+                location: r.location
+              };
+              console.log(applications)
+        ApplicationModel.findByIdAndUpdate(r._id, applications, (err, msg) => {
+
+            if (err) {
+                const newError = new Error(err)
+                res.json({ status: false, message: newError });
+            } else {
+                console.log(err, msg)
+                if (msg.ok) {
+                    res.status(200).json({ _id: msg.id, status: !!msg.ok });
+                    console.log('changes saved!')  
+                } else {
+                    res.json({ status: !!msg.ok });
+                    console.log('No changes')  
                 }
             }
         });

@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import { Dropdown, Pagination, Table } from 'semantic-ui-react';
-import { deleteApplication, getApplications, moveNextStage } from '../../actions/tracker';
+import { deleteApplication, getApplications, moveNextStage, editApplication } from '../../actions/tracker';
 import { addNotification } from '../../actions/notification';
 import AddNewApplicationConfig from './AddNewApplication.config';
 import { APPLIED_COMPANIES, columns } from './Tracker.data';
@@ -143,16 +143,17 @@ class TrackingTable extends Component {
 		return pagedApplications
 	}
 
-	handleReject(index) {
-		const { applications } = this.state
+	handleReject = (index) => {
 		this.setState({
 			applications: update(this.state.applications,
 				{
 					[index]: { status: { text: { $set: "Rejected" }, value: { $set: 2 } } }
 				}
 			)
-		})
+		}, () => this.props.editApplication(this.state.applications[index]))
+		
 }
+
 
 render() {
 	const { applications, activeColumn, direction, activePage, activePageSize, totalPages, pagedApplications } = this.state
@@ -241,4 +242,4 @@ function mapStateToProps(state, ownProps) {
 
 }
 
-export default connect(mapStateToProps, { addNotification, getApplications, deleteApplication, moveNextStage })(TrackingTable);
+export default connect(mapStateToProps, { addNotification, getApplications, deleteApplication, moveNextStage, editApplication })(TrackingTable);

@@ -8,7 +8,7 @@ import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV, LOADING } from './action
 import { IS_AUTH, NOT_AUTH } from './actions/login';
 import { NOTIFICATION } from './actions/notification';
 import { FILE_REMOVED, PROJECT_DELETED, SET_CATS, SET_PROJECTS } from './actions/project';
-import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS } from './actions/tracker';
+import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS, EDIT_APPLICATION } from './actions/tracker';
 import update from 'react-addons-update'
 
 
@@ -244,7 +244,9 @@ function applications(state = [], action = {}) {
         case APPLICATION_DELETED:
             const deleted = state.filter((item) => item._id !== action.cvs);
             return deleted;
-
+        case EDIT_APPLICATION:
+            const edited = state;
+            return edited;
 
         case APPLICATION_MOVED_STAGE:
             return [...state];
@@ -296,15 +298,15 @@ const isFetching = (state = false, action) => {
     }
 }
 
-export default combineReducers({ 
-    cvs, 
-    portfolio, 
-    coverLetters, 
-    cats, 
-    authentication, 
-    applications, 
-    applicationDetail, 
-    snackBar, 
-    isFetching 
+export default combineReducers({
+    cvs,
+    portfolio,
+    coverLetters,
+    cats,
+    authentication,
+    applications,
+    applicationDetail,
+    snackBar,
+    isFetching
 });
 

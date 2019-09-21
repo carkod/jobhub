@@ -9,6 +9,7 @@ export const RETRIEVED_APPLICATION = 'RETRIEVED_APPLICATION';
 export const APPLICATION_UPDATED = 'APPLICATION_UPDATED';
 export const APPLICATION_MOVED_STAGE = 'APPLICATION_MOVED_STAGE';
 export const APPLICATION_DELETED = 'APPLICATION_DELETED';
+export const EDIT_APPLICATION = 'EDIT_APPLICATION';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const FILE_REMOVED = 'FILE_REMOVED';
@@ -50,6 +51,13 @@ export function applicationFetched(application) {
 export function addApplication(data) {
     return {
         type: ADD_APPLICATION,
+        data
+    }
+}
+
+export function applicationEdited(data) {
+    return {
+        type: EDIT_APPLICATION,
         data
     }
 }
@@ -153,6 +161,20 @@ export function saveApplication(data) {
             .then(data => {
                 dispatch(addApplication(data))
                 dispatch(addNotification(addApplication(data), 'Application saved'))
+            })
+    }
+}
+
+export function editApplication(data) {
+    return dispatch => {
+        return fetch(`${API_URL}/application`, {
+            method: 'put',
+            body: JSON.stringify(data),
+            headers: headers
+        }).then(handleResponse)
+            .then(data => {
+                dispatch(applicationEdited(data))
+                dispatch(addNotification(applicationEdited(data), 'Application edited'))
             })
     }
 }
