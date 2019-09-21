@@ -9,7 +9,6 @@ body {
 }
 
 .section {
-  
   padding: 1.5em 0;
   border-bottom:1px solid #eeeeee;
 }
@@ -37,6 +36,15 @@ body {
 
 .fullwidth__input {
   width: 100%;
+}
+
+.menu__reset-space {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 /* Element styling */

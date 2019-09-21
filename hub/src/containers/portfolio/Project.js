@@ -44,11 +44,15 @@ class Project extends Component {
   }
 
   metaChange = (e, props) => {
+    debugger
     const { project } = this.state;
-    const { value } = props;
-    const { name } = props;
+    const { value, name } = props;
     project.cats[name] = value;
     this.setState({ project })
+  }
+
+  getProjectDate = (value)  => {
+    console.log(value)
   }
 
   descChange = (v) => {

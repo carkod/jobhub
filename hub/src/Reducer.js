@@ -87,6 +87,7 @@ const pfInit = [
             locale: '',
             cvCountry: '',
             status: '',
+            projectDate: '',
         },
         image: '',
         desc: '<p></p>',
