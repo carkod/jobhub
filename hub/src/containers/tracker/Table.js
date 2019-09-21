@@ -45,7 +45,7 @@ class TrackingTable extends Component {
 	}
 
 	componentDidUpdate = (prevProps, prevState, snapshot) => {
-		const { applications, totalPages, showArchive, activePage } = this.state 
+		const { applications, totalPages, showArchive, activePage } = this.state
 		if (prevState.applications !== this.state.applications) {
 			this.totalPages()
 			this.setState({
@@ -57,7 +57,7 @@ class TrackingTable extends Component {
 		}
 
 		if (prevState.showArchive !== this.state.showArchive) {
-			this.setState({ showArchive: showArchive})
+			this.setState({ showArchive: showArchive })
 		}
 
 	}
@@ -143,75 +143,87 @@ class TrackingTable extends Component {
 		return pagedApplications
 	}
 
-	render() {
-		const { applications, activeColumn, direction, activePage, activePageSize, totalPages, pagedApplications } = this.state
-		const firstItem = { 'aria-label': 'First item', content: 1 }
-		const lastItem = { 'aria-label': 'Last item', content: totalPages }
-		return (
-			<Table sortable compact celled color='blue'>
-				<Table.Header>
-					<Table.Row>
-						{columns.map((col, i) =>
-							<Table.HeaderCell key={i} sorted={activeColumn === col ? direction : null} onClick={this.handleSort(col)}>
-								{col}
-							</Table.HeaderCell>
-						)}
-					</Table.Row>
-				</Table.Header>
+	handleReject(index) {
+		const { applications } = this.state
+		this.setState({
+			applications: update(this.state.applications,
+				{
+					[index]: { status: { text: { $set: "Rejected" }, value: { $set: 2 } } }
+				}
+			)
+		})
+}
 
-				<Table.Body>
-					{pagedApplications.length > 0 ? pagedApplications.map((application, i) =>
-						<Table.Row key={i}>
-							<Table.Cell>{application.company}</Table.Cell>
-							<Table.Cell>{application.status.text}</Table.Cell>
-							<Table.Cell>{application.role || ''}</Table.Cell>
-							<Table.Cell>{application.contacts.length > 0 ? application.contacts[0].contactName + ' <' + application.contacts[0].contactEmail + '>' : ''}</Table.Cell>
-							<Table.Cell>{this.getCurrentStage(application.stages).action + " (" + this.getCurrentStage(application.stages).dept + ")"}</Table.Cell>
-							<Table.Cell>
-								{moment(new Date(this.getCurrentStage(application.stages).startDate)).format('DD MMMM YYYY')}
-							</Table.Cell>
-							<Table.Cell>{application.location}</Table.Cell>
-							<Table.Cell>{application.salary}</Table.Cell>
-							<Table.Cell>
-								<Dropdown direction='left' floating className='button icon' trigger={<React.Fragment />} >
-									<Dropdown.Menu>
-										<Dropdown.Item text='View/Edit' icon='eye' onClick={() => this.openDetailPage(application._id)} />
-										<Dropdown.Item text='Delete' icon='delete' onClick={() => this.deleteApplication(application._id)} />
-										<Dropdown.Item text='Next Stage' icon='play' onClick={() => this.moveNextStage(i)} />
-										{/* <Dropdown.Item text='Close status' icon='close' onClick={() => this.closeStatus(i)} /> */}
-									</Dropdown.Menu>
-								</Dropdown>
-							</Table.Cell>
-						</Table.Row>
-					) :
-						<Table.Row>
-							<Table.Cell colSpan={columns.length}>No Applications</Table.Cell>
-						</Table.Row>
-					}
-
-				</Table.Body>
-
-				<Table.Footer fullWidth>
-					<Table.Row>
-						<Table.HeaderCell colSpan={columns.length}>
-							<Pagination
-								boundaryRange={3}
-								siblingRange={1}
-								ellipsisItem={null}
-								firstItem={firstItem}
-								lastItem={lastItem}
-								pointing
-								secondary
-								totalPages={totalPages}
-								activePage={activePage}
-								onPageChange={this.handlePaginationChange}
-							/>
+render() {
+	const { applications, activeColumn, direction, activePage, activePageSize, totalPages, pagedApplications } = this.state
+	const firstItem = { 'aria-label': 'First item', content: 1 }
+	const lastItem = { 'aria-label': 'Last item', content: totalPages }
+	return (
+		<Table sortable compact celled color='blue'>
+			<Table.Header>
+				<Table.Row>
+					{columns.map((col, i) =>
+						<Table.HeaderCell key={i} sorted={activeColumn === col ? direction : null} onClick={this.handleSort(col)}>
+							{col}
 						</Table.HeaderCell>
+					)}
+				</Table.Row>
+			</Table.Header>
+
+			<Table.Body>
+				{pagedApplications.length > 0 ? pagedApplications.map((application, i) =>
+					<Table.Row key={i}>
+						<Table.Cell>{application.company}</Table.Cell>
+						<Table.Cell>{application.status.text}</Table.Cell>
+						<Table.Cell>{application.role || ''}</Table.Cell>
+						<Table.Cell>{application.contacts.length > 0 ? application.contacts[0].contactName + ' <' + application.contacts[0].contactEmail + '>' : ''}</Table.Cell>
+						<Table.Cell>{this.getCurrentStage(application.stages).action + " (" + this.getCurrentStage(application.stages).dept + ")"}</Table.Cell>
+						<Table.Cell>
+							{moment(new Date(this.getCurrentStage(application.stages).startDate)).format('DD MMMM YYYY')}
+						</Table.Cell>
+						<Table.Cell>{application.location}</Table.Cell>
+						<Table.Cell>{application.salary}</Table.Cell>
+						<Table.Cell>
+							<Dropdown direction='left' floating className='button icon' trigger={<React.Fragment />} >
+								<Dropdown.Menu>
+									<Dropdown.Item text='View/Edit' icon='eye' onClick={() => this.openDetailPage(application._id)} />
+									<Dropdown.Item text='Delete' icon='delete' onClick={() => this.deleteApplication(application._id)} />
+									<Dropdown.Item text='Next Stage' icon='play' onClick={() => this.moveNextStage(i)} />
+									<Dropdown.Item text='Rejected' icon='user close' onClick={() => this.handleReject(i)} />
+									{/* <Dropdown.Item text='Close status' icon='close' onClick={() => this.closeStatus(i)} /> */}
+								</Dropdown.Menu>
+							</Dropdown>
+						</Table.Cell>
 					</Table.Row>
-				</Table.Footer>
-			</Table>
-		)
-	}
+				) :
+					<Table.Row>
+						<Table.Cell colSpan={columns.length}>No Applications</Table.Cell>
+					</Table.Row>
+				}
+
+			</Table.Body>
+
+			<Table.Footer fullWidth>
+				<Table.Row>
+					<Table.HeaderCell colSpan={columns.length}>
+						<Pagination
+							boundaryRange={3}
+							siblingRange={1}
+							ellipsisItem={null}
+							firstItem={firstItem}
+							lastItem={lastItem}
+							pointing
+							secondary
+							totalPages={totalPages}
+							activePage={activePage}
+							onPageChange={this.handlePaginationChange}
+						/>
+					</Table.HeaderCell>
+				</Table.Row>
+			</Table.Footer>
+		</Table>
+	)
+}
 }
 
 
