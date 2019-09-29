@@ -3,7 +3,7 @@
 import RichTextEditor from 'react-rte';
 import { combineReducers } from 'redux';
 import { SAVED_CATS } from './actions/cats';
-import { CL_DELETED, SET_CLS } from './actions/cl';
+import { CL_DELETED, SET_CLS, CL_PDF_GENERATED } from './actions/cl';
 import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV, LOADING } from './actions/cv';
 import { IS_AUTH, NOT_AUTH } from './actions/login';
 import { NOTIFICATION } from './actions/notification';
@@ -201,6 +201,15 @@ const coverLetters = (state = clInit, action = {}) => {
         case CL_DELETED:
             const deleted = state.filter((item) => item._id !== action.cls);
             return deleted;
+        case CL_PDF_GENERATED:
+            const oldIndex = state.findIndex(element => element._id === action.cl._id);
+            if (!action.cl) {
+                action.cl = {}
+            }
+            const filter = update(state,
+                { [oldIndex]: { pdf: { $merge: action.cl.pdf } } }
+            )
+            return filter;
         default:
             return state
     }

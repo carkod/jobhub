@@ -4,13 +4,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { fetchCats } from '../../actions/cats';
-import { addNotification, fetchCLs, generatePDF, saveCL } from '../../actions/cl';
+import { fetchCLs, generatePDF, editCL } from '../../actions/cl';
 import Metainfo from '../Metainfo';
 import Editor from '../../components/Editor';
 import update from 'react-addons-update';
-
-
-
 
 class Letter extends Component {
 
@@ -54,7 +51,6 @@ class Letter extends Component {
       }
     )
     this.setState({ cl: updatedDesc })
-    console.log(this.state)
   }
 
   handleName = e => {
@@ -79,8 +75,7 @@ class Letter extends Component {
       if (e.key === 's') {
         e.preventDefault();
         e.stopPropagation();
-        this.props.saveCL(cl).then(status => {
-        });
+        this.onSubmit(e);
       }
     }
   }
@@ -89,12 +84,12 @@ class Letter extends Component {
     e.preventDefault();
     clearTimeout();
     const { cl } = this.state;
-
-    generatePDF(cl._id).then(p => {
-      this.state.cl.pdf = p;
-      addNotification({ type: 'PDF_GENERATED', p })
-      this.props.saveCL(cl)
+    this.props.editCL(cl).then(res => {
+      this.props.generatePDF(cl._id).then(url => {
+        this.props.editCL(cl).then(res => console.log('second save'));
+      })
     })
+    
   }
 
 
@@ -106,7 +101,6 @@ class Letter extends Component {
         <form onSubmit={this.onSubmit} name="cl" >
           <Metainfo meta={cl} onChange={this.metaChange} categories={cats} name={this.handleName} />
           <div className="container">
-            {console.log(cl.desc)}
             <Editor value={cl.desc} onChange={this.descChange} />
 
             <Button type="submit" value="Save">
@@ -138,5 +132,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { saveCL, fetchCLs, fetchCats })(Letter);
+export default connect(mapStateToProps, { editCL, fetchCLs, fetchCats, generatePDF })(Letter);
 

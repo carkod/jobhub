@@ -6,15 +6,9 @@ export const CL_FETCHED = 'CL_FETCHED';
 export const RETRIEVED_CL = 'RETRIEVED_CL';
 export const CL_DELETED = 'CL_DELETED';
 export const NOTIFICATION = 'NOTIFICATION';
-export const PDF_GENERATED = 'PDF_GENERATED';
+export const CL_PDF_GENERATED = 'CL_PDF_GENERATED';
 
 
-export function pdfGenerated(status) {
-    return {
-        type: PDF_GENERATED,
-        status
-    }
-}
 
 export function addNotification(status) {
     return {
@@ -74,6 +68,24 @@ export function CLPasted(data) {
     }
 }
 
+// Returns saved Cover letter
+export function clpdfReady(cl) {
+    return {
+        type: CL_PDF_GENERATED,
+        isFetching: false,
+        cl
+    }
+}
+
+
+export function pdfGeneratedNotification(data) {
+    return {
+        type: NOTIFICATION,
+        message: data.msg || 'Pdf Generated',
+        error: false
+    }
+}
+
 export function deleteCL(id) {
     return dispatch => {
         return fetch(`${API_URL}/cls/${id}`, {
@@ -105,11 +117,27 @@ export function saveCL(data) {
             body: JSON.stringify(data),
             headers: headers
         })
-        .then(handleResponse)
-        .then(data => {
-            dispatch(addCL(data))
-            dispatch(addNotification(addCL(data), 'Cover letter saved'))
+            .then(handleResponse)
+            .then(data => {
+                dispatch(addCL(data))
+                dispatch(addNotification(addCL(data), 'Cover letter created'))
+            })
+    }
+}
+
+
+export function editCL(data) {
+    return dispatch => {
+        return fetch(`${API_URL}/cls`, {
+            method: 'put',
+            body: JSON.stringify(data),
+            headers: headers
         })
+            .then(handleResponse)
+            .then(data => {
+                dispatch(addCL(data))
+                dispatch(addNotification(addCL(data), 'Cover letter saved'))
+            })
     }
 }
 
@@ -140,10 +168,15 @@ export function fetchCL(id) {
 }
 
 export function generatePDF(id) {
-    return fetch(`${PDF_URL}/generateCl/${id}`, {
+    return dispatch => 
+    fetch(`${PDF_URL}/generateCl/${id}`, {
         method: 'GET',
         headers: headers
     })
         .then(handleResponse)
+        .then(data => {
+            dispatch(clpdfReady(data));
+            dispatch(pdfGeneratedNotification(data))
+        })
 
 }

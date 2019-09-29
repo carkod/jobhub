@@ -107,7 +107,13 @@ export default function Pdf(app, db) {
             console.log(content)
             const printType = 'cl';
             const headerText = 'Cover Letter';
-            Promise.all([generatePDF(req, content, printType, headerText)]).then(links => res.send(links))
+            Promise.all([generatePDF(req, content, printType, headerText)]).then(links => {
+                content.pdf = links[0].link;
+                res.status(200).send(content)
+            })
+            .catch((e) => {
+                console.log('hello Error', e)
+            })
         })
     });
 }

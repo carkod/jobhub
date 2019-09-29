@@ -19,17 +19,35 @@ export default function CLs (app, db) {
         
     app.post('/api/cls', (req, res) => {
         var r = req.body,
-            cv;
-            
-        if (!r._id) {
-            // Create New
-            cv = new CLModel({
+            cl = new CLModel({
                 _id: mongoose.Types.ObjectId(),
                 name: r.name || 'Enter name',
-            });    
-        } else {
+            });   
+
+        CLModel.update({_id: r._id}, cl, {upsert: true }, (err, msg) => {
+            
+          if (err) {
+              throw err;
+              
+          } else {
+              
+              if (msg.ok) {
+                const savedID = id;   
+                res.json({ _id: msg.id, status: !!msg.ok });
+                //console.log('changes saved!')  
+              } else {
+                  res.json({ status: !!msg.ok });
+                  //console.log('No changes')  
+              }
+          }
+        });
+
+    });
+
+    app.put('/api/cls', (req, res) => {
+        let r = req.body,
             // Update
-            cv = new CLModel({
+            cl = new CLModel({
                 _id: r._id,
                 name: r.name,
                 pdf: r.pdf,
@@ -41,27 +59,22 @@ export default function CLs (app, db) {
                 image: r.image,
                 desc: r.desc,
             });
-            
-        }
-        console.log(r)
-        const id = r._id || cv._id;
-        delete r._id;
-        CLModel.update({_id: id}, cv, {upsert: true }, (err, msg) => {
-            
-          if (err) {
-              throw err;
-              
-          } else {
-              
-              if (msg.ok) {
-                const savedID = id;   
-                res.json({ _id: savedID, status: !!msg.ok });
-                //console.log('changes saved!')  
-              } else {
-                  res.json({ status: !!msg.ok });
-                  //console.log('No changes')  
-              }
-          }
+
+        CLModel.findByIdAndUpdate(r._id, cl, (err, msg) => {
+
+            if (err) {
+                const newError = new Error(err)
+                res.json({ status: false, message: newError });
+            } else {
+
+                if (msg.ok) {
+                    res.status(200).json({ _id: msg.id, status: !!msg.ok });
+                    //console.log('changes saved!')  
+                } else {
+                    res.json({ status: !!msg.ok });
+                    //console.log('No changes')  
+                }
+            }
         });
 
     });
