@@ -54,7 +54,6 @@ export function fetchCats() {
             headers: headers
         })
             .then(res => {
-                handleResponse(res)
                 dispatch(setCats(res.data))
                 dispatch(addNotification(setCats(res.data)))
             });
@@ -67,10 +66,12 @@ export function saveCats(data) {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
-        }).then(handleResponse).then(data => {
+        })
+        .then(handleResponse)
+        .then(data => {
             dispatch(savedCats(data));
             dispatch(addNotification(savedCats(data)))
-        }).then(data);
+        });
     }
 }
 

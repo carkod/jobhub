@@ -104,11 +104,12 @@ export function saveCL(data) {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
-        }).then(handleResponse)
-            .then(data => {
-                dispatch(addCL(data))
-                dispatch(addNotification(addCL(data)))
-            })
+        })
+        .then(handleResponse)
+        .then(data => {
+            dispatch(addCL(data))
+            dispatch(addNotification(addCL(data), 'Cover letter saved'))
+        })
     }
 }
 

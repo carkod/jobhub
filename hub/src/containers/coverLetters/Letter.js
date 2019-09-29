@@ -7,6 +7,8 @@ import { fetchCats } from '../../actions/cats';
 import { addNotification, fetchCLs, generatePDF, saveCL } from '../../actions/cl';
 import Metainfo from '../Metainfo';
 import Editor from '../../components/Editor';
+import update from 'react-addons-update';
+
 
 
 
@@ -46,9 +48,13 @@ class Letter extends Component {
   }
 
   descChange = (v) => {
-    const { desc } = this.state.cl;
-    this.state.cl.desc = v;
-    this.setState({ desc })
+    const updatedDesc = update(this.state.cl,
+      {
+        desc: { $set: v.toString('html') }
+      }
+    )
+    this.setState({ cl: updatedDesc })
+    console.log(this.state)
   }
 
   handleName = e => {
@@ -81,6 +87,7 @@ class Letter extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    clearTimeout();
     const { cl } = this.state;
 
     generatePDF(cl._id).then(p => {
@@ -88,8 +95,6 @@ class Letter extends Component {
       addNotification({ type: 'PDF_GENERATED', p })
       this.props.saveCL(cl)
     })
-
-
   }
 
 
@@ -101,7 +106,8 @@ class Letter extends Component {
         <form onSubmit={this.onSubmit} name="cl" >
           <Metainfo meta={cl} onChange={this.metaChange} categories={cats} name={this.handleName} />
           <div className="container">
-            <Editor value={cl.desc} onChange={v => this.descChange(v)} />
+            {console.log(cl.desc)}
+            <Editor value={cl.desc} onChange={this.descChange} />
 
             <Button type="submit" value="Save">
               <Icon name="save" />Save

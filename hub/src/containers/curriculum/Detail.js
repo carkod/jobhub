@@ -96,8 +96,6 @@ class Detail extends Component {
         this.props.saveCV(cv).then(res => console.log('second save'));
       })
     });
-    
-    
   }
   
   render() {
