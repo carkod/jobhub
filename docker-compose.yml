@@ -1,0 +1,42 @@
+version: "3.1"
+services:
+    web:
+        image: carloswufei/jobhub-web
+        restart: unless-stopped
+        container_name: jobhub-back
+        volumes:
+            - ./web:/web
+            - /web/node_modules
+        links:
+            - back
+        networks:
+            webappnetwork
+    hub:
+      image: carloswufei/jobhub-hub
+      restart: unless-stopped
+      container_name: jobhub-hub
+      build: 
+        context: hub
+        dockerfile: hub/Dockerfile
+      ports: 
+            - 1337:80
+    back:
+        image: carloswufei/jobhub-back
+        restart: unless-stopped
+        container_name: jobhub-back
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./api:/api
+            - /api/node_modules
+        depends_on:
+            - mongodb
+        networks:
+            webappnetwork
+    db:
+      restart: unless-stopped
+      image: mongo:3.6.4
+      volumes:
+        - mongo_data:/data/db
+      ports:
+        - 27017:27017
