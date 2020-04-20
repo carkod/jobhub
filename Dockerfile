@@ -3,50 +3,28 @@ ADD back back
 WORKDIR /back
 RUN npm i && npm run build
 
+FROM node:11-slim as build-hub
+ADD . .
+RUN npm i && npm i react-scripts -g
+WORKDIR /hub/
+RUN react-scripts build
 
-# FROM node:12-slim as build-hub
-# WORKDIR /app
-# COPY /web/package.json /app/
-# RUN yarn install
-# COPY /web/ /app/
-# RUN yarn run build
+FROM node:11-slim as build-web
+ADD . .
+RUN npm i && npm i react-scripts -g
+WORKDIR /web/
+RUN react-scripts build
 
-# FROM python:3.6-slim
-# RUN apt-get clean \
-#     && apt-get -y update
-# RUN apt-get -y install nginx \
-#     && apt-get -y install python3-dev \
-#     && apt-get -y install build-essential
-# WORKDIR /app
-# COPY --from=build-stage /app/ /app/web/build
-# COPY ./nginx.conf /etc/nginx/sites-enabled/default
-# ADD . .
-# RUN pip install --upgrade pip
-# RUN pip3 install -r requirements.txt
-# RUN chmod +x ./start
-
-# pull official base image
-FROM node:13.10-alpine
-
-# set working directory
-WORKDIR /app
-
-# add `/app/node_modules/.bin` to $PATH
-# ENV PATH /app/node_modules/.bin:$PATH
-
-# # install app dependencies
-# COPY package.json ./
-# COPY package-lock.json ./
-# RUN npm install --silent
-# RUN npm install react-scripts@3.4.1 -g --silent
-
-
-RUN rm -rf package.json
-WORKDIR /back/
+# production environment
+FROM nginx:stable-alpine
 COPY --from=build-back back back
-# COPY --from=build-css /srv/static/css static/css
+COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
+COPY --from=build-web /web/build /usr/share/nginx/html/web
+RUN rm -rf package.json
+
+
 
 STOPSIGNAL SIGTERM
-EXPOSE 80
-
-CMD ["node", "/back/dist/server.js"]
+EXPOSE 80 9000
+ENTRYPOINT ["node", "/back/dist/server.js"]
+CMD ["nginx", "-g", "daemon off;"]
