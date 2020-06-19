@@ -15,11 +15,6 @@ class Tracker extends Component {
 
   }
 
-  componentDidMount = () => {
-  }
-
-
-
   handleChangeFilter = (e, data) => {
     this.setState({ [data.name]: data.value })
   }

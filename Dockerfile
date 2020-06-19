@@ -4,22 +4,21 @@ WORKDIR /back
 RUN npm i && npm run build
 
 FROM node:11-slim as build-hub
-ADD . .
-RUN npm i && npm i react-scripts -g
+COPY hub hub
 WORKDIR /hub/
-RUN react-scripts build
+RUN npm i && npm i react-scripts && react-scripts build
 
-FROM node:11-slim as build-web
-ADD . .
-RUN npm i && npm i react-scripts -g
-WORKDIR /web/
-RUN react-scripts build
+# FROM node:11-slim as build-web
+# ADD . .
+# WORKDIR /web/
+# RUN npm i --production && npm i react-scripts -g
+# RUN react-scripts build
 
 # production environment
 FROM nginx:stable-alpine
 COPY --from=build-back back back
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
-COPY --from=build-web /web/build /usr/share/nginx/html/web
+# COPY --from=build-web /web/build /usr/share/nginx/html/web
 RUN rm -rf package.json
 
 

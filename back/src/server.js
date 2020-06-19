@@ -12,6 +12,7 @@ import Login from './Login.js';
 import Pdf from './Pdf';
 import Portfolio from './Portfolio.js';
 import Tracker from './Tracker.js';
+import Api from './Api';
 
 dotenv.config();
 const app = express();
@@ -50,16 +51,12 @@ promise.then((db) => {
 		res.download(path.join(__dirname, '../', req.url));
 	});
 
-	//3rd party APIs
-	//IN(app);
-
 	// Unprotected route
 	Login(app, db);
 	Pdf(app, db);
 
-
-
 	//CRUD
+	Api(app);
 	CVs(app, db);
 	CoverLetters(app, db);
 	Portfolio(app, db);

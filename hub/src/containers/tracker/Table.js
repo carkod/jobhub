@@ -96,7 +96,7 @@ class TrackingTable extends Component {
 			}
 		)
 		this.setState({ applications: newData })
-		this.props.moveNextStage(this.state.applications)
+		this.props.moveNextStage(this.state.applications[i])
 	}
 
 	handleSort = clickedColumn => () => {
