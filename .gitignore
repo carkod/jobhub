@@ -16,6 +16,7 @@ back/docs
 back/uploads
 back/package-lock.json
 mongo_db/
+restore/
 
 # WEB
 web/src/*.css

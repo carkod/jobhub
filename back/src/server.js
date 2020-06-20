@@ -17,7 +17,7 @@ import Api from './Api';
 dotenv.config();
 const app = express();
 const PORT = 9000;
-const dbUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
+const dbUrl = process.env.MONGO_CONNECTION_STRING
 let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
 let db = mongoose.connection;
 

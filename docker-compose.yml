@@ -1,31 +1,28 @@
-version: "3.1"
+version: "3.8"
 services:
-    # front:
-    #   image: carloswufei/jobhub-front
-    #   restart: unless-stopped
-    #   container_name: jobhub-front
-    #   ports: 
-    #         - 1337:80
-    # back:
-    #     image: carloswufei/jobhub-back
-    #     restart: unless-stopped
-    #     container_name: jobhub-back
-    #     ports:
-    #         - 9000:9000
-    #     volumes:
-    #         - ./api:/api
-    #         - /api/node_modules
-    #     depends_on:
-    #         - db
-    db:
-      restart: unless-stopped
-      image: mongo:latest
-      volumes:
-        - ./mongo_db:mongo_db
-      ports:
-        - 27017:27017
-      environment:
-        ME_CONFIG_MONGODB_ADMINUSERNAME: root
-        ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+  app:
+    image: carloswufei/jobhub
+    restart: on-failure
+    container_name: jobhub_app
+    depends_on:
+      - db
+    env_file:
+      - ./back/.env
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://db/cv_generator
+    # network_mode: host
+    ports:
+      - "9001:9000"
+    command: ["./wait-for-it.sh", "db:27017", "--", "node", "/home/back/dist/server.js"]
+
+  db:
+    image: mongo:latest
+    container_name: jobhub_db
+    restart: always
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./mongo_db:/data/db
+
 volumes:
-    mongo_data:
+  mongo_data:

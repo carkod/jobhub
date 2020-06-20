@@ -1,29 +1,32 @@
-FROM node:13-slim as build-back
-ADD back back
-WORKDIR /back
-RUN npm i && npm run build
+FROM node:12.18-buster-slim as build-back
+COPY back back
+COPY .env back/.env
+WORKDIR /back/
+RUN yarn install
+RUN yarn run build-js
+RUN yarn run build-sass
 
-FROM node:11-slim as build-hub
+FROM node:12.18-buster-slim as build-hub
 COPY hub hub
 WORKDIR /hub/
-RUN npm i && npm i react-scripts && react-scripts build
+RUN yarn install && yarn global add react-scripts
+RUN react-scripts build
 
-# FROM node:11-slim as build-web
-# ADD . .
-# WORKDIR /web/
-# RUN npm i --production && npm i react-scripts -g
-# RUN react-scripts build
+FROM node:12.18-buster-slim as build-web
+COPY web web
+WORKDIR /web/
+RUN yarn install && yarn global add react-scripts
+RUN react-scripts build
 
 # production environment
-FROM nginx:stable-alpine
-COPY --from=build-back back back
+FROM smebberson/alpine-nginx-nodejs:4.4.0
+COPY --chown=root:root wait-for-it.sh wait-for-it.sh
+RUN chmod +x wait-for-it.sh && apk add --no-cache bash
+COPY --from=build-back back /home/back
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
-# COPY --from=build-web /web/build /usr/share/nginx/html/web
+COPY --from=build-web /web/build /usr/share/nginx/html/web
 RUN rm -rf package.json
 
-
-
 STOPSIGNAL SIGTERM
-EXPOSE 80 9000
-ENTRYPOINT ["node", "/back/dist/server.js"]
+EXPOSE 9000
 CMD ["nginx", "-g", "daemon off;"]
