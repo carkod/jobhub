@@ -21,6 +21,7 @@ RUN react-scripts build
 # production environment
 FROM smebberson/alpine-nginx-nodejs:4.4.0
 COPY --chown=root:root wait-for-it.sh wait-for-it.sh
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN chmod +x wait-for-it.sh && apk add --no-cache bash
 COPY --from=build-back back /home/back
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
@@ -28,5 +29,5 @@ COPY --from=build-web /web/build /usr/share/nginx/html/web
 RUN rm -rf package.json
 
 STOPSIGNAL SIGTERM
-EXPOSE 9000
+EXPOSE 80 81 9000
 CMD ["nginx", "-g", "daemon off;"]
