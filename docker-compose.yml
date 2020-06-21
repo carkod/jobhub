@@ -7,7 +7,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ./back/.env
+      - .env
     environment:
       - MONGO_CONNECTION_STRING=mongodb://db/cv_generator
     ports:

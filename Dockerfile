@@ -1,6 +1,6 @@
 FROM node:12.18-buster-slim as build-back
 COPY back back
-COPY .env back/.env
+COPY .env back/
 WORKDIR /back/
 RUN yarn install
 RUN yarn run build-js

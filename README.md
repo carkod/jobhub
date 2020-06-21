@@ -32,8 +32,9 @@ This is a full stack application made with:
 ## DEVELOPMENT AND DEBUGGING
 
 - Execute debugger in .vscode F5
+- Edit `.env` and `docker-compose.yml` files and adjust to each environment
 
-## DEPOYMENT
+## DEPLOYMENT
 
 - Try docker make sure the image works:
 `docker build --tag jobhub . && docker compose up`
