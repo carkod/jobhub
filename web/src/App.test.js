@@ -2,13 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './containers/App';
 import axios from 'axios';
-import API_URL from './actions/dev';
-
-
 
 it('connect to back application API endpoint', async () => {
   // expect.assertions(1);
-  const data = await axios.get(API_URL + '/cvs');
+  const data = await axios.get(process.env.REACT_APP_API_URL + '/cvs');
   expect(data).toBeDefined();
   expect(data.status).toEqual(200)
 })

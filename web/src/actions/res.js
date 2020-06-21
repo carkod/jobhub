@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
-import { handleResponse, API_URL, headers } from './actions.config';
+import { handleResponse } from './actions.config';
 
 export const SET_PROJECTS = 'SET_PROJECTS';
 
@@ -15,7 +15,7 @@ export function setProjects(project) {
 
 export function fetchProjects() {
     return dispatch => {
-        return axios.get(`${API_URL}/portfolio`)
+        return axios.get(`${process.env.REACT_APP_API_URL}/portfolio`)
         .catch(handleResponse)
         .then(res => dispatch(setProjects(res)));    
     }

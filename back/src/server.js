@@ -16,11 +16,9 @@ import Api from './Api';
 
 dotenv.config();
 const app = express();
-const PORT = 9000;
 const dbUrl = process.env.MONGO_CONNECTION_STRING
 let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
 let db = mongoose.connection;
-
 
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -93,4 +91,4 @@ promise.then((db) => {
 
 
 
-app.listen(PORT, () => console.log('Server is running on localhost:' + PORT));
+app.listen(process.env.BACK_PORT, () => console.log('Server is running on localhost:' + process.env.BACK_PORT));

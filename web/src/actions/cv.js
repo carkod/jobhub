@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { API_URL, handleResponse, headers } from './actions.config';
+import { handleResponse, headers } from './actions.config';
 import axios from 'axios'
 
 export const SET_CV = 'SET_CV';
@@ -89,7 +89,7 @@ export function cvPasted(cv) {
 // Action binders
 export function deleteCV(id) {
     return dispatch => {
-        return axios.delete(`${API_URL}/cvs/${id}`, {
+        return axios.delete(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
             headers: headers
         })
             .then(handleResponse)
@@ -99,7 +99,7 @@ export function deleteCV(id) {
 
 export function copyCV(data) {
     return dispatch => {
-        return axios.post(`${API_URL}/cvs/${data._id}`, {
+        return axios.post(`${process.env.REACT_APP_API_URL}/cvs/${data._id}`, {
             data: data,
             headers: headers
         })
@@ -111,7 +111,7 @@ export function copyCV(data) {
 
 export function saveCV(data) {
     return dispatch => {
-        return axios.post(`${API_URL}/cvs`, {
+        return axios.post(`${process.env.REACT_APP_API_URL}/cvs`, {
             data: data,
             headers: headers
         }).then(handleResponse).then(data => dispatch(addCV(data))).then(data);
@@ -120,7 +120,7 @@ export function saveCV(data) {
 
 export function fetchCVs() {
     return dispatch => {
-        return axios.get(`${API_URL}/cvs`)
+        return axios.get(`${process.env.REACT_APP_API_URL}/cvs`)
             .then(handleResponse)
             .then(data => dispatch(setCVs(data)))
     }
@@ -128,7 +128,7 @@ export function fetchCVs() {
 
 export function fetchCV(id) {
     return dispatch => {
-        return axios.get(`${API_URL}/cvs/${id}`)
+        return axios.get(`${process.env.REACT_APP_API_URL}/cvs/${id}`)
             .then(handleResponse)
             .then(data => dispatch(setSingleCV(data)))
     }

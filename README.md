@@ -46,6 +46,6 @@ This is a full stack application made with:
 
 ## PORTS
 
-- Hub :80
-- Web :81
-- Back :9000
+- Hub :80 and 8080 for container
+- Web :81 and 8081 for container
+- Back :9000 and :82 for container

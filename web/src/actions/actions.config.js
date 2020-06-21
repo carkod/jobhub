@@ -16,7 +16,4 @@ const headers = {
   "Authorization": `Bearer ${JSON.parse(localStorage.getItem('hubToken'))}`,
 }
 
-const API_URL = `http://localhost:9000/api`;
-const PDF_URL = `http://localhost:9000/pdf`;
-
-export { API_URL, PDF_URL, headers, handleResponse };
+export { headers, handleResponse };

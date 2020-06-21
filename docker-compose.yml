@@ -11,9 +11,9 @@ services:
     environment:
       - MONGO_CONNECTION_STRING=mongodb://db/cv_generator
     ports:
-      - "9001:9000"
-      - "81:81"
-      - "80:80"
+      - "8082:82"
+      - "8081:81"
+      - "8080:80"
     command: ["./wait-for-it.sh", "db:27017", "--", "node", "/home/back/dist/server.js"]
 
   db:
@@ -24,6 +24,9 @@ services:
       - "27017:27017"
     volumes:
       - ./mongo_db:/data/db
+      - ./back/docs:/home/back/docs
+      - ./back/uploads:/home/back/uploads
 
 volumes:
-  mongo_data:
+  mongo_db:
+  docs:

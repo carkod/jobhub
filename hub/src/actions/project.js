@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { API_URL, handleResponse, headers, formdataHeaders } from './actions.config';
+import { handleResponse, headers, formdataHeaders } from './actions.config';
 import { addNotification } from '../actions/notification'
 
 export const SET_PROJECTS = 'SET_PROJECTS';
@@ -104,7 +104,7 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
-    return fetch(`${API_URL}/portfolio/deupload`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/deupload`, {
         method: 'post',
         headers: headers,
         body: JSON.stringify(file),
@@ -112,7 +112,7 @@ export function removeFile(file) {
 }
 
 export function uploadFile(file) {
-    return fetch(`${API_URL}/portfolio/upload`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/upload`, {
         method: 'post',
         headers: formdataHeaders,
         body: file,
@@ -121,7 +121,7 @@ export function uploadFile(file) {
 
 export function deleteProject(id) {
     return dispatch => {
-        return fetch(`${API_URL}/project/${id}`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
             method: 'delete',
             headers: headers
         })
@@ -136,7 +136,7 @@ export function deleteProject(id) {
 export function copyProject(data) {
 
     return dispatch => {
-        return fetch(`${API_URL}/portfolio/${data._id}`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -152,7 +152,7 @@ export function copyProject(data) {
 
 export function createProject(data) {
     return dispatch => {
-        return fetch(`${API_URL}/portfolio/project`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -166,7 +166,7 @@ export function createProject(data) {
 
 export function saveProject(data) {
     return dispatch => {
-        return fetch(`${API_URL}/portfolio/project`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
             method: 'put',
             body: JSON.stringify(data),
             headers: headers
@@ -180,7 +180,7 @@ export function saveProject(data) {
 
 export function fetchPortfolio() {
     return dispatch => {
-        fetch(`${API_URL}/portfolio`, {
+        fetch(`${process.env.REACT_APP_API_URL}/portfolio`, {
             headers: headers
         })
             .then(handleResponse)
@@ -193,7 +193,7 @@ export function fetchPortfolio() {
 
 export function fetchProject(id) {
     return dispatch => {
-        fetch(`${API_URL}/project/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
             headers: headers
         })
             .then(handleResponse)
@@ -206,7 +206,7 @@ export function fetchProject(id) {
 
 export function fetchCats() {
     return dispatch => {
-        fetch(`${API_URL}/cats`, {
+        fetch(`${process.env.REACT_APP_API_URL}/cats`, {
             headers: headers
         })
             .then(handleResponse)

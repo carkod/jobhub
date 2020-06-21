@@ -8,12 +8,14 @@ RUN yarn run build-sass
 
 FROM node:12.18-buster-slim as build-hub
 COPY hub hub
+COPY .env hub/
 WORKDIR /hub/
 RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
 FROM node:12.18-buster-slim as build-web
 COPY web web
+COPY .env web/
 WORKDIR /web/
 RUN yarn install && yarn global add react-scripts
 RUN react-scripts build

@@ -1,6 +1,5 @@
 /* eslint-disable */
-import { API_URL, handleResponse, headers } from './actions.config';
-import { addNotification, notAuthNotification, isAuthNotification } from './notification';
+import { notAuthNotification, isAuthNotification } from './notification';
 import axios from 'axios';
 
 export const IS_AUTH = 'IS_AUTH';
@@ -23,7 +22,7 @@ export function isNotAuthenticated(payload) {
 export function auth(data) {
 
     return (dispatch) =>
-        axios.post(`${API_URL}/login`, data, { "Content-Type": "application/json" })
+        axios.post(`${process.env.REACT_APP_API_URL}/login`, data, { "Content-Type": "application/json" })
             .then(res => {
                 if (res.data.status) {
                     const { message } = res.data;

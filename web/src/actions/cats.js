@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
-import { API_URL, handleResponse, headers } from './actions.config'
+import { handleResponse } from './actions.config'
 
 export const SET_CATS = 'SET_CATS';
 
@@ -15,7 +15,7 @@ export function setCats(cats) {
 
 export function fetchCats() {
     return dispatch => {
-        return axios.get(`${API_URL}/cats`)
+        return axios.get(`${process.env.REACT_APP_API_URL}/cats`)
         .then(handleResponse)
         .then(cats => dispatch(setCats(cats)));    
     }
