@@ -120,10 +120,8 @@ export default function Portfolio(app, db) {
 
                 if (msg.ok) {
                     res.status(200).json({ _id: msg.id, status: !!msg.ok });
-                    //console.log('changes saved!')  
                 } else {
                     res.json({ status: !!msg.ok });
-                    //console.log('No changes')  
                 }
             }
         });

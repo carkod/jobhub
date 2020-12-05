@@ -28,3 +28,24 @@ This is a full stack application made with:
 - Back-end: MongoDB, as the database, Mongoose as the ODM. Expressjs for rest management, Jwt and bcrypt for authentication.
 - Front-end website: Reactjs, Redux. This is a showcase website, available for public access to show restricted content to recruiters, prospective employers and google search.
 - Front-end admin panel: Reactjs, Redux. This is an internal application, made for managing all the recruitment data and the professional profile showed in the website.
+
+## DEVELOPMENT AND DEBUGGING
+
+- Execute debugger in .vscode F5
+- Edit `.env` and `docker-compose.yml` files and adjust to each environment
+
+## DEPLOYMENT
+
+- Try docker make sure the image works:
+`docker build --tag jobhub . && docker compose up`
+
+- Build and deploy image to hub.docker and test docker-compose
+`docker build --tag jobhub . && docker tag jobhub carloswufei/jobhub:latest && docker push carloswufei/jobhub && docker-compose up`
+
+- Go to the server and `docker-compose up -d`
+
+## PORTS
+
+- Hub :80 and 8080 for container
+- Web :81 and 8081 for container
+- Back :9000 and :82 for container

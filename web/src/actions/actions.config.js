@@ -16,13 +16,4 @@ const headers = {
   "Authorization": `Bearer ${JSON.parse(localStorage.getItem('hubToken'))}`,
 }
 
-let API_URL, PDF_URL;
-if (process.env.NODE_ENV === "development") {
-  API_URL = `http://localhost:9000/api`;
-  PDF_URL = `http://localhost:9000/pdf`;
-} else {
-  API_URL = `http://api.carloswu.com/api`;
-  PDF_URL = `http://api.carloswu.com/pdf`;
-}
-
-export { API_URL, PDF_URL, headers, handleResponse };
+export { headers, handleResponse };

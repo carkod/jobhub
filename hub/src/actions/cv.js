@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { API_URL, handleResponse, headers, PDF_URL } from './actions.config';
+import { handleResponse, headers } from './actions.config';
 import { addNotification, setCVNotification, pdfGeneratedNotification, savedNotification } from './notification';
 
 export const SET_CV  = 'SET_CV';
@@ -74,7 +74,7 @@ export function pdfReady(cv) {
 export function deleteCV(id) {
     loading()
     return dispatch => {
-        return fetch(`${API_URL}/cvs/${id}`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
            method: 'delete',
            headers: headers
         }) 
@@ -89,7 +89,7 @@ export function deleteCV(id) {
 export function copyCV(data) {
     loading()
     return dispatch => {
-        return fetch(`${API_URL}/cvs/${data._id}`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/cvs/${data._id}`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: headers
@@ -105,7 +105,7 @@ export function copyCV(data) {
 
 export function saveCV(data) {
     return dispatch => {
-        return fetch(`${API_URL}/cvs`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
            method: 'post',
            body: JSON.stringify(data),
            headers: headers
@@ -120,7 +120,7 @@ export function saveCV(data) {
 
 export function generatePDF(id) {
     return dispatch => {
-        return fetch(`${PDF_URL}/generate/${id}`, {
+        return fetch(`${process.env.REACT_APP_PDF_URL}/generate/${id}`, {
             method:'GET',
             headers : headers,
         })
@@ -135,7 +135,7 @@ export function generatePDF(id) {
 export function fetchCVs() {
     loading()
     return dispatch => {
-        return fetch(`${API_URL}/cvs`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
             headers: headers
         })
         .then(handleResponse)
@@ -149,7 +149,7 @@ export function fetchCVs() {
 export function fetchCV(id) {
     loading()
     return dispatch => {
-        return fetch(`${API_URL}/cvs/${id}`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
             headers: headers
         })
         .then(handleResponse)

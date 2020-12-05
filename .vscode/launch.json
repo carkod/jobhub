@@ -5,8 +5,13 @@
       "type": "node",
       "request": "launch",
       "name": "Back",
-      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/babel-node",
+      "runtimeExecutable": "${workspaceFolder}/back/node_modules/.bin/babel-node",
       "program": "${workspaceFolder}/back/src/server.js",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "HOST": "localhost",
+        "NODE_ENV": "development"
+      },
       "console": "internalConsole",
       "runtimeArgs": ["--nolazy"]
     },

@@ -12,14 +12,13 @@ import Login from './Login.js';
 import Pdf from './Pdf';
 import Portfolio from './Portfolio.js';
 import Tracker from './Tracker.js';
+import Api from './Api';
 
 dotenv.config();
 const app = express();
-const PORT = 9000;
-const dbUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
+const dbUrl = process.env.MONGO_CONNECTION_STRING
 let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
 let db = mongoose.connection;
-
 
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -50,16 +49,12 @@ promise.then((db) => {
 		res.download(path.join(__dirname, '../', req.url));
 	});
 
-	//3rd party APIs
-	//IN(app);
-
 	// Unprotected route
 	Login(app, db);
 	Pdf(app, db);
 
-
-
 	//CRUD
+	Api(app);
 	CVs(app, db);
 	CoverLetters(app, db);
 	Portfolio(app, db);
@@ -96,4 +91,4 @@ promise.then((db) => {
 
 
 
-app.listen(PORT, () => console.log('Server is running on localhost:' + PORT));
+app.listen(process.env.BACK_PORT, () => console.log('Server is running on localhost:' + process.env.BACK_PORT));

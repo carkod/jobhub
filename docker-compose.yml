@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  app:
+    image: carloswufei/jobhub
+    restart: on-failure
+    container_name: jobhub_app
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://db/cv_generator
+    ports:
+      - "8082:82"
+      - "8081:81"
+      - "8080:80"
+    command: ["./wait-for-it.sh", "db:27017", "--", "node", "/home/back/dist/server.js"]
+
+  db:
+    image: mongo:latest
+    container_name: jobhub_db
+    restart: always
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./mongo_db:/data/db
+      - ./back/docs:/home/back/docs
+      - ./back/uploads:/home/back/uploads
+
+volumes:
+  mongo_db:
+  docs:

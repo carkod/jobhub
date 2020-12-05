@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
 import { fetchCVs } from '../../actions/cv';
 import { fetchCats } from '../../actions/cats';
-import { matchCV } from './functions';
 import Quick from './Quick';
 import Explore from './Explore';
 
