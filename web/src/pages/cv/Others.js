@@ -1,22 +1,20 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 
 class Work extends Component {
     
-    constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
     };
     
   }
-
-  componentDidMount = () => {
-  }
   
-  componentWillReceiveProps = (props) => {
-    const {others} = props;
-    this.setState({ others })
+  componentDidUpdate = (props) => {
+    if (this.props.others !== props.others) {
+      const {others} = props;
+      this.setState({ others });
+    }
+    
   }
   
   render() {

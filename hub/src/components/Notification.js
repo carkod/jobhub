@@ -17,7 +17,7 @@ class Notification extends Component {
         this.removeNotification = this.removeNotification.bind(this);
     }
 
-    componentWillReceiveProps(p) {
+    componentDidUpdate(p) {
         if (Object.keys(p.snackBar).length !== 0 && (p.snackBar.message !== this.state.message)) {
             this.setState({
                 pop: true

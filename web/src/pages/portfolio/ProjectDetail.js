@@ -3,23 +3,20 @@
 import React, { Component } from 'react';
 import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
+import { Header } from 'semantic-ui-react';
 import shortid from 'shortid';
 import { fetchCats } from '../../actions/cats';
 import { fetchProjects } from '../../actions/res';
 import HtmlText from '../../components/HtmlText';
 import Documents from './Documents';
 import Links from './Links';
-import { Header } from 'semantic-ui-react';
 
 
 class ProjectDetail extends Component {
     
     constructor(props) {
-    super(props);
-    const {portfolio} = this.props;
-    
-    this.state = {
-    };
+    super(props);    
+    this.state = {};
     
   }
 
@@ -27,15 +24,16 @@ class ProjectDetail extends Component {
     this.props.fetchProjects();
   }
   
-  componentWillReceiveProps = (props) => {
-    const {portfolio} = props;
-    this.setState({portfolio: portfolio});
+  componentDidUpdate = (props) => {
+    if (this.props.portfolio !== props.portfolio) {
+      const {portfolio} = props;
+      this.setState({portfolio: portfolio});
+    }
   }
   
   render() {
     const {portfolio} = !!Object.keys(this.state).length ? this.state : this.props;
-    const {position, id} = this.props.match.params;
-    const {positions} = this.props;
+    const {position} = this.props.match.params;
 
     const title = position || 'Professional Profile';
     return (

@@ -21,7 +21,7 @@ class Files extends Component {
     this.setState({ documents: this.props.documents })
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ documents: props.documents })
   }
 

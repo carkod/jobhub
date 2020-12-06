@@ -29,7 +29,7 @@ class Letter extends Component {
     document.addEventListener('keydown', this.keySave, false);
   }
 
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     const { cl, cats } = props;
     this.setState({ cl, cats })
   }

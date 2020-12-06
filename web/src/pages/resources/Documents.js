@@ -10,19 +10,13 @@ import HtmlText from '../../components/HtmlText';
 
 class Documents extends Component {
     
-    constructor(props) {
+  constructor(props) {
     super(props);
     const {portfolio} = this.props;
     
     this.state = {
     };
     
-  }
-
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
   }
   
   render() {

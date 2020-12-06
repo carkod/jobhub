@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchCats } from '../../actions/cats';
@@ -7,21 +5,12 @@ import { fetchProjects } from '../../actions/res';
 
 class Documents extends Component {
     
-    constructor(props) {
-    super(props);
-    const {portfolio} = this.props;
-    
-    this.state = {
-    };
+  constructor(props) {
+    super(props);    
+    this.state = {};
     
   }
 
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-  }
-  
   render() {
     const {documents} = !!Object.keys(this.state).length ? this.state : this.props;
     return (

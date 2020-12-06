@@ -18,7 +18,7 @@ class WebdevSkills extends Component {
     this.setState({ webdevSkills: this.props.webdevSkills })
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ webdevSkills: props.webdevSkills })
   }
 

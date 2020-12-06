@@ -10,8 +10,10 @@ class Quick extends Component {
     this.getPDF = this.getPDF.bind(this)
   }
 
-  componentWillReceiveProps = props => {
-    this.setState({ quickOpen: props.quickOpen })
+  componentDidUpdate = props => {
+    if (this.props.quickOpen !== props.quickOpen) {
+      this.setState({ quickOpen: this.props.quickOpen })
+    }
   }
 
 

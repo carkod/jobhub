@@ -1,38 +1,15 @@
-/* eslint-disable */
+import React from 'react';
+import { Helmet } from "react-helmet";
 
-import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
-import { connect } from 'react-redux';
-import {stateToHTML} from 'draft-js-export-html';
-//import { saveCV, fetchCVs } from '../../actions/cv';
-
-class About extends Component {
+export default function About() {
     
-    constructor(props) {
-    super(props);
-    const {cv} = this.props;
-    
-    this.state = {
-      cv: cv,
-    };
-    
-  }
-
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
-    
-  }
-  
-  render() {
     return (
       <div id="mainCV" className="container">
         <Helmet>
           <title>{`Carlos Wu - About`}</title>
           <meta charSet="utf-8" />
           <meta name="description" content={`Carlos Wu - Professional Profile | About carloswu.xyz`}/>
-          <link rel="canonical" href="http://carloswu.xyz/" />
+          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
         </Helmet>
         
         <main className="about">
@@ -106,13 +83,3 @@ class About extends Component {
       </div>
     );
   }
-}
-
-
-const mapStateToProps = (state, props) => {
-  
-  return {}
-}
-
-
-export default connect(mapStateToProps, {})(About);

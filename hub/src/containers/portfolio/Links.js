@@ -21,7 +21,7 @@ class Links extends Component {
     const {links} = this.state;
   }
 
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({links: props.links})
   }
 

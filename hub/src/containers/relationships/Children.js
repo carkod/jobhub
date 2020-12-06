@@ -20,7 +20,7 @@ class Children extends Component {
   componentDidMount = () => {
   }
 
-  componentWillReceiveProps = (p) => {
+  componentDidUpdate = (p) => {
     this.setState({ p })
   }
 

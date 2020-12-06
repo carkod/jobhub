@@ -41,7 +41,7 @@ class Detail extends Component {
     document.removeEventListener('keydown', this.keySave, false);
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     const {cv, categories} = props;
     this.setState({ cv, categories })
   }

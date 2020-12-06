@@ -18,7 +18,7 @@ class ItSkills extends Component {
     this.setState({ itSkills: this.props.itSkills })
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ itSkills: props.itSkills })
   }
 

@@ -14,7 +14,7 @@ import Portfolio from './Portfolio.js';
 import Tracker from './Tracker.js';
 import Api from './Api';
 
-dotenv.config();
+dotenv.config({path:__dirname+'./.env'});
 const app = express();
 const dbUrl = process.env.MONGO_CONNECTION_STRING
 let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });

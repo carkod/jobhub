@@ -21,7 +21,7 @@ class PrevImage extends Component {
     this.setState({ image: this.props.image })
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ image: props.image })
   }
 

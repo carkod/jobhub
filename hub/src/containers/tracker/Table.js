@@ -32,7 +32,7 @@ class TrackingTable extends Component {
 		this.props.getApplications();
 	}
 
-	componentWillReceiveProps = (nextProps) => {
+	componentDidUpdate = (nextProps) => {
 		let filterInactive = nextProps.applications.filter(x => x.status.value !== 2 && x.status.value !== 3)
 		if (nextProps.showArchive) {
 			filterInactive = nextProps.applications;

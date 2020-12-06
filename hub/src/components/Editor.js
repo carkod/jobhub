@@ -17,7 +17,7 @@ class Editor extends Component {
   }
 
 
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     const value = RichTextEditor.createValueFromString(props.value.toString('html'), 'html');
     this.setState({ value: value })
   }

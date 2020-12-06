@@ -14,7 +14,6 @@ back/uploads/*
 back/dist/
 back/docs
 back/uploads
-back/package-lock.json
 mongo_db/
 restore/
 

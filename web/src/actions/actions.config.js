@@ -1,7 +1,3 @@
-import dotenv from 'dotenv'
-
-dotenv.config()
-
 function handleResponse(response) {
   if (response.statusText === 'OK') {
     return response.data;

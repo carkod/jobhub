@@ -20,7 +20,7 @@ class Listing extends Component {
     this.props.fetchCVs()
   }
 
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ cvs: props.cvs })
   }
 

@@ -21,8 +21,11 @@ class Home extends Component {
     this.props.fetchCats();
   }
 
-  componentWillReceiveProps = (props) => {
-    this.setState({ cvs: props.value })
+  componentDidUpdate = (props) => {
+    if (this.props.value !== props.value) {
+      this.setState({ cvs: this.props.value })
+    }
+    
   }
 
   render() {
@@ -33,7 +36,7 @@ class Home extends Component {
           <title>Carlos Wu - Professional Profile</title>
           <meta charSet="utf-8" />
           <meta name="description" content="Web developer, Business analyst, Project Manager" />
-          <link rel="canonical" href="http://carloswu.xyz/" />
+          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
         </Helmet>
 
         <div className="ui grid">

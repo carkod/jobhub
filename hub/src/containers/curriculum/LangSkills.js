@@ -18,7 +18,7 @@ class LangSkills extends Component {
     this.setState({ langSkills: this.props.langSkills })
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ langSkills: props.langSkills })
   }
 

@@ -22,7 +22,7 @@ class Positions extends Component {
     this.props.fetchCats()
   }
   
-  componentWillReceiveProps = (p) => {
+  componentDidUpdate = (p) => {
      this.setState({
        cats: p.cats
      })

@@ -24,7 +24,7 @@ class Portfolio extends Component {
     this.props.fetchPortfolio();
   }
 
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ portfolio: props.portfolio })
   }
 

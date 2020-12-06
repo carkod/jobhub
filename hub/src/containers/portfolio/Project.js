@@ -32,7 +32,7 @@ class Project extends Component {
     document.addEventListener('keydown', this.keySave, false);
   }
 
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     const { project, categories } = props;
     this.setState({ project, categories })
   }

@@ -41,7 +41,7 @@ class MainCV extends Component {
           <title>{`Carlos Wu - ${cv.name}`}</title>
           <meta charSet="utf-8" />
           <meta name="description" content={`Carlos Wu - Professional Profile | ${cv.name}`}/>
-          <link rel="canonical" href="http://carloswu.xyz/" />
+          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
         </Helmet>
         
         <main className="cvContent">

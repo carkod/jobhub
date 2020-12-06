@@ -19,7 +19,7 @@ class WorkRepeater extends Component {
     this.setState({ workExp: this.props.workExp })
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ workExp: props.workExp })
   }
   

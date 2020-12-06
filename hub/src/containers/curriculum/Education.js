@@ -18,7 +18,7 @@ class Education extends Component {
     this.setState({ educ: this.props.educ })
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({ educ: props.educ })
   }
   

@@ -23,7 +23,7 @@ class LinkedIn extends Component {
   componentDidMount = () => {
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
   }
   
   linkedin = (e) => {

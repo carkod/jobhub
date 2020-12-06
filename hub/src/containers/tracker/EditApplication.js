@@ -43,7 +43,7 @@ class EditApplication extends Component {
 		this.props.fetchApplication(id)
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		const { status, id, company, role, salary, applicationUrl, location, contacts, stages, files, description } = nextProps.application
 		console.log(stages)
 		const newObj = Object.assign(this.state, this.applicationModel.fillInApplicationModel(nextProps.application))

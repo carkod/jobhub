@@ -24,7 +24,7 @@ class CoverLetters extends Component {
     this.props.fetchCLs();
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     this.setState({cls: props.cls})    
   }
  
