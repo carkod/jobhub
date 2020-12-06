@@ -25,6 +25,7 @@ class Sidebar extends Component {
     this.props.fetchCats();
     this.props.fetchCVs()
     this.props.fetchProjects();
+    
   }
   
   toggleMenu = (parent) => (e) => {
@@ -95,9 +96,6 @@ class Sidebar extends Component {
           <li className="item">
             <NavLink exact to="/" activeClassName="active">Home</NavLink>
           </li>
-          <li className="item">
-            <NavLink exact to="/about" activeClassName="active" className="" >About</NavLink>
-          </li>
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('cv')} >CV</button>
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
@@ -111,6 +109,21 @@ class Sidebar extends Component {
             </ul>
           </li>
           <li className="item dropdown">
+            <button className="btn" onClick={this.toggleMenu('faqs')} >FAQs</button>
+            <ul id="faqs" className={this.state.openmenu === 'faqs' ? 'openMenu' : 'closeMenu'}>
+              <li className="item" >
+                <NavLink to={`/about/me`} activeClassName="active">
+                  About me
+                </NavLink>
+              </li>
+              <li className="item" >
+                <NavLink to={`/about/site`} activeClassName="active">
+                  About site
+                </NavLink>
+              </li>
+            </ul>
+          </li>
+          <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('portfolio')} >Portfolio</button>
             <ul id="portfolio" className={this.state.openmenu === 'portfolio' ? 'openMenu' : 'closeMenu' }>
               {projectCats.map(p => 
@@ -121,19 +134,6 @@ class Sidebar extends Component {
                 </li>
               )}
             </ul>
-          </li>
-          {/* <li className="item dropdown">
-            <button className="btn" onClick={this.toggleMenu('resources')}>Portfolio/Resources</button>
-            <ul id="resources" className={this.state.openmenu === 'resources' ? 'openMenu' : 'closeMenu' }>
-              {renderResources !== undefined ? renderResources('resources') : ''}
-            </ul>
-          </li> */}
-          
-          <li className="item dropdown">
-            <button className="btn" onClick={this.props.unavailable} >Site and CV language</button>
-            {/*<ul id="lang" className={this.state.openmenu === 'lang' ? 'openMenu' : 'closeMenu' }>
-              {renderLanguages !== undefined ? renderLanguages : ''}
-            </ul>*/}
           </li>
         </ul>
             

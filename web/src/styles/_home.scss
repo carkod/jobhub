@@ -125,43 +125,7 @@
         }
         
         #revealer {position:relative;}
-        .cover {
-            
-            &::before {
-                @media (min-width:48rem) {
-                content: '\00a0';
-                cursor: pointer;
-                background-color:$blue;
-                position:absolute;
-                width:70%;
-                height:100%;
-                top:0;
-                left:0;
-                z-index:2;
-                transform:translateX(147%);
-                transition: transform 1s ease-in-out;
-                }
-                @media (max-width:66rem) {
-                    width:80%;
-                    transform:translateX(130%);
-                }
-            }
-            
-            /*&::after {
-                content: '\00a0';
-                position:absolute;
-                top:-4px;
-                left:0;
-                background-color:$blue;
-                width:70%;
-                height:10px;
-                transform: rotate(2deg);
-                z-index:1;
-                transform:translateX(0);
-                transition: transform 1s ease-in-out;
-            }*/
-            
-        }
+
         .revealed {
             @media (min-width:48rem) {
                 &::before {

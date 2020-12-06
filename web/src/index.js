@@ -15,22 +15,13 @@ import './index.css';
 
 import Reducer from './Reducer';
 import App from './pages/App';
-//import { loadState, saveState } from './localStorage';
 
-//const persistedStore = loadState();
 const store = createStore(
     Reducer,
-    //persistedStore,
     composeWithDevTools(
       applyMiddleware(thunk)
     )
 );
-
-/*store.subscribe(() => {
-  saveState(store.getState())
-})*/
-
-
 
 ReactDOM.render(
   <Provider store={store}>

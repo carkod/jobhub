@@ -40,19 +40,17 @@ class Home extends Component {
         </Helmet>
 
         <div className="ui grid">
-          <div className="sixteen wide mobile eight wide computer column ">
-            <Quick cvs={cvs} location={location} positions={positions} />
-          </div>
-          <div className="eight wide computer column sixteen wide mobile">
-            <Explore cvs={cvs} positions={positions} />
-          </div>
+          
         </div>
         <div className="home-details">
           <div className="ui grid equal width stackable">
             <div id="revealer" className="equal width row">
 
 
-              <div className={this.state.revealDetail ? "pad-left column cover revealed" : "pad-left column cover"} onClick={() => this.setState({ revealDetail: !this.state.revealDetail })} >
+              <div 
+                className={this.state.revealDetail ? "pad-left column cover revealed" : "pad-left column cover"}
+                onClick={() => this.setState({ revealDetail: !this.state.revealDetail })}
+              >
                 <div className="ui list">
                   <div className="item">
                     <i className="id card icon" />
@@ -60,11 +58,11 @@ class Home extends Component {
                   </div>
                   <div className="item">
                     <i className="briefcase icon" />
-                    <div className="content">Minsait, Indra Sistemas</div>
+                    <div className="content">Canonical UK Ltd.</div>
                   </div>
                   <div className="item">
                     <i className="marker icon" />
-                    <div className="content">Madrid, Spain</div>
+                    <div className="content">London, UK</div>
                   </div>
                 </div>
               </div>
@@ -78,15 +76,17 @@ class Home extends Component {
                   </div>
                   <div className="item">
                     <i className="linkedin square icon" />
-                    <div className="content"><a href="https://www.linkedin.com/in/carkod/" title="https://www.linkedin.com/in/carkod/" target="_blank">LinkedIn</a></div>
+                    <div className="content"><a href="https://www.linkedin.com/in/carloswufei/" title="https://www.linkedin.com/in/carloswufei/" target="_blank">https://www.linkedin.com/in/carloswufei/</a></div>
                   </div>
                   <div className="item">
                     <i className="github icon" />
-                    <div className="content"><a href="http://github.com/carkod/jobhub" title="http://github.com/carkod/jobhub" target="_blank">Github</a></div>
+                    <div className="content"><a href="http://github.com/carkod/" title="http://github.com/carkod/" target="_blank">http://github.com/carkod/</a></div>
                   </div>
                   <div className="item">
                     <i className="stack overflow icon" />
-                    <div className="content"><a href="https://stackoverflow.com/users/2454059/carkod" title="https://stackoverflow.com/users/2454059/carkod" target="_blank">StackOverflow</a></div>
+                    <div className="content">
+                      <a href="https://stackoverflow.com/users/2454059/carkod" title="https://stackoverflow.com/users/2454059/carkod" target="_blank">https://stackoverflow.com/users/2454059/carkod</a>
+                    </div>
                   </div>
                 </div>
               </div>
