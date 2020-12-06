@@ -17,16 +17,14 @@ export default function Login(app, db) {
 	app.post('/api/login', (req, res) => {
 		let r = req.body;
 		UserModel.findOne({ email: r.email }, (err, user) => {
-			if (err)
-				throw err;
+			if (err) throw err;
 			if (user === null) {
-				// Not found user (either user or pass is wrong)
+				// Not found user (either user or pass is wrong) 
 				const notfound = new Error('Either user or pass is wrong');
 				res.json({ _id: null, status: false, error: notfound })
 			} else {
 				bcrypt.compare(r.password, user.password, function (err, same) {
-					if (err)
-						throw err;
+					if (err) throw err;
 					if (same) {
 						const savedID = user._id;
 						const secret = process.env.JWT_SECRET

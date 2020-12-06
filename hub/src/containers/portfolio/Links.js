@@ -22,7 +22,7 @@ class Links extends Component {
   }
 
   componentDidUpdate = (props) => {
-    this.setState({links: props.links})
+    if (this.props.links !== props.links) this.setState({links: this.props.links})
   }
 
   handleChange = (i) => (e) => {

@@ -6,7 +6,7 @@ import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
 import Editor from '../../components/Editor';
 
-class Education extends Component {
+export default class Education extends Component {
   
   constructor(props) {
     super(props);
@@ -19,7 +19,9 @@ class Education extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({ educ: props.educ })
+    if (this.props.educ !== props.educ) {
+      this.setState({ educ: this.props.educ });
+    }
   }
   
 
@@ -106,5 +108,3 @@ class Education extends Component {
       
   }
 }
-
-export default Education;

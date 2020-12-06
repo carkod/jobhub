@@ -23,9 +23,7 @@ class Positions extends Component {
   }
   
   componentDidUpdate = (p) => {
-     this.setState({
-       cats: p.cats
-     })
+     if (this.props.cats !== p.cats) this.setState({ cats: this.props.cats })
   }
   
   handleChange = (e) => {

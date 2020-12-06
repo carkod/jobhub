@@ -19,7 +19,7 @@ class ItSkills extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({ itSkills: props.itSkills })
+    if (this.props.itSkills !== props.itSkills) this.setState({ itSkills: this.props.itSkills })
   }
 
   pushSkill = (e) => {

@@ -42,10 +42,12 @@ class Detail extends Component {
   }
   
   componentDidUpdate = (props) => {
-    const {cv, categories} = props;
-    this.setState({ cv, categories })
+    if (this.props.cv !== props.cv || this.props.categories !== props.categories) {
+      const {cv, categories} = props;
+      this.setState({ cv, categories })
+    }
+    
   }
-  
  
   summaryChange = (e) => {
     const {summary} = this.state.cv;
@@ -115,12 +117,6 @@ class Detail extends Component {
           <LangSkills langSkills={cv.langSkills} update={this.skillsChange} />
           <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
           <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
-          
-          {/*<div className="section">
-          <Checkbox type="checkbox" label={<label><i className="blue linkedin square large icon"/></label>} toggle checked={this.state.linkedin} onChange={() => this.setState({ linkedin: !this.state.linkedin})} fitted/>
-          
-          <Checkbox type="checkbox" label='Push to Jobbio' toggle checked={this.state.jobbio} onChange={() => this.setState({ jobbio: !this.state.jobbio})} />
-          </div>*/}
           
           <br />          
           

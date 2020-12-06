@@ -25,7 +25,9 @@ class CoverLetters extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({cls: props.cls})    
+    if (this.props.cls !== props.cls) {
+      this.setState({cls: props.cls})
+    }
   }
  
   handleCopy = i => e => {

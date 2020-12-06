@@ -7,7 +7,7 @@ import { fetchCVs } from '../../actions/cv';
 import Editor from '../../components/Editor';
 import RichTextEditor from 'react-rte';
 
-class WebdevSkills extends Component {
+export default class WebdevSkills extends Component {
   
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class WebdevSkills extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({ webdevSkills: props.webdevSkills })
+    if (props.webdevSkills !== this.props.webdevSkills) this.setState({ webdevSkills: this.props.webdevSkills })
   }
 
   pushSkill = (e) => {
@@ -94,6 +94,3 @@ class WebdevSkills extends Component {
   }
   
 }
-
-
-export default WebdevSkills;

@@ -22,7 +22,7 @@ class Files extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({ documents: props.documents })
+    if (this.props.documents !== props.documents) this.setState({ documents: this.props.documents })
   }
 
   fileNameChange = (i) => (e) => {

@@ -30,8 +30,11 @@ class Letter extends Component {
   }
 
   componentDidUpdate = (props) => {
-    const { cl, cats } = props;
-    this.setState({ cl, cats })
+    if (this.props.cl !== props.cl || this.props.cats !== props.cats) {
+      const { cl, cats } = this.props;
+      this.setState({ cl, cats })
+    }
+    
   }
 
   metaChange = (e, value) => {

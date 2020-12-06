@@ -22,7 +22,7 @@ class PrevImage extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({ image: props.image })
+    if (this.props.image !== props.image) this.setState({ image: this.props.image })
   }
 
   fileNameChange = (i) => (e) => {

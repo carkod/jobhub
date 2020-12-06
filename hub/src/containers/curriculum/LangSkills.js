@@ -1,13 +1,10 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
-import { fetchCVs } from '../../actions/cv';
-import Editor from '../../components/Editor';
-import RichTextEditor from 'react-rte';
 
-class LangSkills extends Component {
+export default class LangSkills extends Component {
   
   constructor(props) {
     super(props);
@@ -19,7 +16,7 @@ class LangSkills extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({ langSkills: props.langSkills })
+    if (this.props.langSkills !== props.langSkills) this.setState({ langSkills: this.props.langSkills })
   }
 
   pushSkill = (e) => {
@@ -90,10 +87,5 @@ class LangSkills extends Component {
               )}
         </div>
     );
-
   }
-  
 }
-
-
-export default LangSkills;

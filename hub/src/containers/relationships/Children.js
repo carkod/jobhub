@@ -21,7 +21,7 @@ class Children extends Component {
   }
 
   componentDidUpdate = (p) => {
-    this.setState({ p })
+    if (this.props !== p) this.setState({ ...this.props })
   }
 
   handleChange = i => (e) => {

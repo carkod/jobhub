@@ -21,7 +21,7 @@ class Listing extends Component {
   }
 
   componentDidUpdate = (props) => {
-    this.setState({ cvs: props.cvs })
+    if (this.props.cvs !== props.cvs) this.setState({ cvs: this.props.cvs })
   }
 
   handleCopy = i => e => {

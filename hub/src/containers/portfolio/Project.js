@@ -33,8 +33,10 @@ class Project extends Component {
   }
 
   componentDidUpdate = (props) => {
-    const { project, categories } = props;
-    this.setState({ project, categories })
+    if (this.props.project !== props.project || this.props.categories !== props.categories) {
+      const { project, categories } = this.props;
+      this.setState({ project, categories })
+    }
   }
 
   projectName = e => {

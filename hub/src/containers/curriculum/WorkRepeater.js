@@ -20,7 +20,7 @@ class WorkRepeater extends Component {
   }
   
   componentDidUpdate = (props) => {
-    this.setState({ workExp: props.workExp })
+    if (this.props.workExp !== props.workExp) this.setState({ workExp: this.props.workExp })
   }
   
 

@@ -28,9 +28,7 @@ const AppRouter = () => (
 			<PrivateRouter exact path="/cv" component={Listing} />
 			<PrivateRouter exact path="/cv/positions" component={Positions} />
 			<PrivateRouter exact path="/relationships" component={Relationships} />
-			{/*<PrivateRouter path="/cv/languages" component={Cats} />*/}
 			<PrivateRouter exact path="/cv/id=:id" component={Detail} />
-
 			<PrivateRouter exact path="/portfolio" component={Portfolio} />
 			<PrivateRouter exact path="/portfolio/project/id=:id" component={Project} />
 			<PrivateRouter exact path="/coverletters" component={CoverLetters} />

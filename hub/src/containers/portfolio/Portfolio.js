@@ -25,7 +25,7 @@ class Portfolio extends Component {
   }
 
   componentDidUpdate = (props) => {
-    this.setState({ portfolio: props.portfolio })
+    if (this.props.portfolio !== props.portfolio) this.setState({ portfolio: this.props.portfolio })
   }
 
   handleCopy = i => e => {
