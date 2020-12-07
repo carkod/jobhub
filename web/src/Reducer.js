@@ -87,17 +87,6 @@ const pfInit = [
 ]
 
 
-
-const cvs = (state = cvInitial, action = {}) => {
-    switch (action.type) {
-        case SET_CV:
-            const newState = Object.assign([], state, action.cvs)
-            return newState
-        default:
-            return state
-    }
-}
-
 function singleCV(state = { ...cvInitial[0] }, action) {
     switch (action.type) {
         case SET_SINGLE_CV:

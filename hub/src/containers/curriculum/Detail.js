@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import { fetchCVs, generatePDF, saveCV } from '../../actions/cv';
+import { fetchCVs, fetchCV, generatePDF, saveCV } from '../../actions/cv';
 import { fetchCats } from '../../actions/project';
 import Metainfo from '../Metainfo';
 import Education from './Education';
@@ -15,24 +15,14 @@ import WebdevSkills from './WebdevSkills';
 import WorkRepeater from './WorkRepeater';
 
 
-
 class Detail extends Component {
 
   constructor(props) {
     super(props);
-    let {cv, detail, categories} = this.props;
-    this.state = {
-      cv: cv,
-      detail: detail,
-      categories: categories,
-    };
-    this.pdChange = this.pdChange.bind(this);
-    this.metaChange = this.metaChange.bind(this);
-    this.skillsChange = this.skillsChange.bind(this);
   }
 
   componentDidMount = () => {
-    this.props.fetchCVs();
+    this.props.fetchCV(this.props.match.params.id);
     this.props.fetchCats();
     document.addEventListener('keydown', this.keySave, false);
   }
@@ -42,9 +32,14 @@ class Detail extends Component {
   }
   
   componentDidUpdate = (props) => {
-    if (this.props.cv !== props.cv || this.props.categories !== props.categories) {
-      const {cv, categories} = props;
-      this.setState({ cv, categories })
+    if (this.props.cv !== props.cv) {
+      this.setState({ cv: this.props.cv })
+    }
+    if (this.props.categories !== props.categories) {
+      this.setState({ categories: this.props.categories })
+    }
+    if (this.props.notification !== props.notification) {
+      this.setState({ notification: this.props.notification })
     }
     
   }
@@ -101,12 +96,16 @@ class Detail extends Component {
   }
   
   render() {
-    const {cv, categories} = this.state;
-    // console.log(this.props)
+    console.log(this.props)
     return (
       <div id="detail">
-      <form onSubmit={this.onSubmit} >
-        <Metainfo meta={cv} onChange={this.metaChange} categories={categories} name={this.cvName}/>
+      {this.props.cv && <form onSubmit={this.onSubmit} >
+        <Metainfo 
+          meta={cv} 
+          onChange={this.metaChange}
+          categories={categories}
+          name={this.cvName}
+        />
         <div className="container">
           <Summary summary={cv.summary} onChange={this.summaryChange} />
           <PD persdetails={cv.persdetails} onChange={this.pdChange} />
@@ -125,31 +124,39 @@ class Detail extends Component {
           </Button>
           
           </div>
-        </form>
+        </form>}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, props) => {
-  if (state.cvs[0]._id && state.cats[0]._id) {
-    const cv = state.cvs.find(item => item._id === props.match.params.id);
-    
-    return {
-      cv: cv,
-      categories: state.cats,
-      notification: state.notification
-    }
-  } else {
-    return { 
-      cv: state.cvs[0],
-      categories: state.cats,
-      notification: state.notification
-    }    
+
+  // const cv = state.cvs.find(item => item._id === props.match.params.id);
+  const { cvReducer, catsReducer } = state;
+
+  return {
+    ...cvReducer,
+    ...catsReducer
   }
+  // if (state.cvs[0]._id && state.cats[0]._id) {
+  //   const cv = state.cvs.find(item => item._id === props.match.params.id);
+    
+  //   return {
+  //     cv: cv,
+  //     categories: state.cats,
+  //     notification: state.notification
+  //   }
+  // } else {
+  //   return { 
+  //     cv: state.cvs[0],
+  //     categories: state.cats,
+  //     notification: state.notification
+  //   }    
+  // }
   
 }
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats, generatePDF })(Detail);
+export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCV, fetchCats, generatePDF })(Detail);
 
 

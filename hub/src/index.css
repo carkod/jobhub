@@ -4,6 +4,12 @@ body {
   font-family: sans-serif;
 }
 
+.u-space-text {
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+
 .ButtonWrap__root___1EO_R {
   z-index: 1;
 }

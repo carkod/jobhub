@@ -12,6 +12,7 @@ export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
 export const PDF_GENERATED = 'PDF_GENERATED';
 export const LOADING = 'LOADING';
+export const SET_ONE_CV  = 'SET_ONE_CV';
 
 export const loading = (data) => {
     return {
@@ -31,6 +32,13 @@ export function setCVs(cvs) {
     return {
         type: SET_CV,
         cvs
+    }
+}
+
+export function setCV(payload) {
+    return {
+        type: SET_ONE_CV,
+        ...payload
     }
 }
 
@@ -154,7 +162,7 @@ export function fetchCV(id) {
         })
         .then(handleResponse)
         .then(data => {
-            dispatch(setCVs(data))
+            dispatch(setCV(data))
             dispatch(setCVNotification(data));
         })
     }
