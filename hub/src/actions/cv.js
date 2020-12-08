@@ -12,7 +12,46 @@ export const RETRIEVED_CV = 'RETRIEVED_CV';
 export const CV_DELETED = 'CV_DELETED';
 export const PDF_GENERATED = 'PDF_GENERATED';
 export const LOADING = 'LOADING';
+
 export const SET_ONE_CV  = 'SET_ONE_CV';
+export const GET_ALL_CVS_SUCCESS = 'GET_ALL_CVS_SUCCESS';
+export const COPY_CV_SUCCESS  = 'COPY_CV_SUCCESS';
+export const DELETE_CV_SUCCESS  = 'DELETE_CV_SUCCESS';
+
+
+/**
+ * New action creators
+ * 2 states instead of three:
+ *  - Fetch action directly no state
+ *  - Action successful state
+ */
+
+export function fetchCVsSuccess(cvs) {
+    return {
+        type: GET_ALL_CVS_SUCCESS,
+        cvs
+    }
+}
+
+export function copyCVSuccess(payload) {
+    return {
+        type: COPY_CV_SUCCESS,
+        payload
+    }
+}
+
+export function deleteCVSuccess(payload) {
+    return {
+        type: DELETE_CV_SUCCESS,
+        payload
+    }
+}
+
+
+
+/**
+ * End New actions
+ */
 
 export const loading = (data) => {
     return {
@@ -88,7 +127,7 @@ export function deleteCV(id) {
         }) 
         .then(handleResponse)
         .then(data => {
-            dispatch(cvDeleted(id))
+            dispatch(deleteCVSuccess(id))
             dispatch(addNotification(cvDeleted(data), 'CV deleted'))
         });   
     }
@@ -103,9 +142,8 @@ export function copyCV(data) {
            headers: headers
         })
         .then(handleResponse)
-        .then(id => {
-            dispatch(cvPasted(id))
-            dispatch(addNotification(cvPasted(id)), 'CV copied');
+        .then(payload => {
+            dispatch(copyCVSuccess(payload))
         });
     }
     
@@ -141,14 +179,13 @@ export function generatePDF(id) {
 }
 
 export function fetchCVs() {
-    loading()
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
             headers: headers
         })
         .then(handleResponse)
         .then(data => {
-            dispatch(setCVs(data));
+            dispatch(fetchCVsSuccess(data));
             dispatch(addNotification(setCVs(data), 'CVs loaded'));
         })
     }

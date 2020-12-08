@@ -19,7 +19,7 @@ services:
   db:
     image: mongo:4.4-bionic
     container_name: jobhub_db
-    restart: always
+    restart: on-failure
     ports: 
       - "27017:27017"
     volumes:

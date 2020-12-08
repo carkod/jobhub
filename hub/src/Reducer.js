@@ -12,7 +12,7 @@ import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_
 import update from 'react-addons-update'
 
 import catsReducer from "./reducers/categories";
-import cvReducer from "./reducers/cv";
+import { cvReducer, getCvsReducer } from "./reducers/cv";
 
 const pfInit = [
     {
@@ -154,7 +154,6 @@ function applicationDetail(state = {}, action = {}) {
 function snackBar(state = {}, action) {
     switch (action.type) {
         case NOTIFICATION:
-            console.log(state, action)
             return {
                 ...state,
                 message: action.message,
@@ -185,6 +184,7 @@ const isFetching = (state = false, action) => {
 
 export default combineReducers({
     cvReducer,
+    getCvsReducer,
     portfolio,
     coverLetters,
     catsReducer,

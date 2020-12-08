@@ -10,8 +10,6 @@ class Listing extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.handleCopy = this.handleCopy.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount = () => {
@@ -22,36 +20,33 @@ class Listing extends Component {
     if (this.props.cvs !== props.cvs) this.setState({ cvs: this.props.cvs })
   }
 
-  handleCopy = i => e => {
+  handleCopy = (i) => e => {
     e.preventDefault();
-    const { cvs } = this.state;
+    const { cvs } = this.props;
     let newCV = cvs[i];
     delete newCV._id;
     if (cvs) {
-      this.props.copyCV(newCV).then((status) => {
+      this.props.copyCV(newCV).then(() => {
         this.props.fetchCVs();
-        //this.state.detail.messages.savedID = status.data._id;
-        //this.setState({ messages })
       });
     }
   }
 
-  handleDelete = () => {
-    const getItem = this.props.cvs[this.state.activeIndex], getID = getItem._id;
-    this.props.deleteCV(getID).then(cv => {
-      this.setState({ openAccordion: false });
+  handleDelete = (i) => e => {
+    e.preventDefault();
+    const { _id } = this.props.cvs[i];
+    this.props.deleteCV(_id).then(cv => {
       this.props.fetchCVs();
-    })
+    });
   }
 
 
   render() {
-
     return (
       <div id="list">
         <h1>Section - CV <AddNew /></h1>
         <Card.Group>
-          {this.props.cvs.length > 0 && this.props.cvs.map((cv, i) =>
+          {this.props.cvs && this.props.cvs.map((cv, i) =>
             <Card key={`panel-${cv._id}`} color={cv.cats.position === "front-end" ? "blue" : null} href={`/cv/id=${cv._id}`}>
               <Card.Content>
                 <Card.Header>{cv.name}</Card.Header>
@@ -72,8 +67,15 @@ class Listing extends Component {
               </Card.Content>
               <Card.Content extra>
                 <div className='ui two buttons'>
-                  <Button onClick={this.handleCopy(i)} primary>Copy</Button>
-                  <Button onClick={this.handleDelete} negative>Delete</Button>
+                  <Button
+                    type="button"
+                    onClick={this.handleCopy(i)}
+                    primary >
+                      Copy
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={this.handleDelete(i)} negative>Delete</Button>
                 </div>
               </Card.Content>
             </Card>
@@ -87,7 +89,7 @@ class Listing extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    cvs: state.cvs
+    cvs: state.getCvsReducer
   }
 }
 
