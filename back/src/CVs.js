@@ -1,7 +1,7 @@
 import moment from 'moment';
 import mongoose from 'mongoose';
+import { generatePDF } from './generator';
 import { CVSchema } from './Schemas';
-// import mongooseSlugPlugin from 'mongoose-slug-plugin';
 
 // Compile model from schema
 const CVModel = mongoose.model('CVModel', CVSchema);
@@ -22,64 +22,55 @@ export default function CVs(app, db) {
         });
     });
 
-    app.post('/api/cvs', (req, res) => {
-        let r = req.body, cv;
+    app.post('/api/cvs', async (req, res) => {
+        let r = req.body;
+        let pdfPreview;
 
         // Sort by date            
         const workExp = r.workExp.sort(compare)
         const educ = r.educ.sort(compare)
 
-        // TODO if slug exists change it add "name-1"
-        // if slug number exists, increment it "name-2"
-        // if slug does not exist, create normal slug (below)
-
+        // Upsert model
+        const cv = new CVModel({
+            name: r.name,
+            summary: r.summary,
+            pdf: r.pdf,
+            fullprint: {
+                previewUrl: pdfPreview,
+                file: file.toString(),
+            },
+            cats: {
+                position: r.cats.position,
+                locale: r.cats.locale,
+                cvCountry: r.cats.cvCountry,
+                status: r.cats.status,
+            },
+            image: r.image,
+            persdetails: r.persdetails,
+            workExp: workExp,
+            educ: educ,
+            langSkills: r.langSkills,
+            webdevSkills: r.webdevSkills,
+            itSkills: r.itSkills,
+            other: r.other,
+        });
         if (!r._id) {
             // Create New
-
-            cv = new CVModel({
-                _id: mongoose.Types.ObjectId(),
-                name: r.name,
-            });
-
-
-        } else {
-
-            // Update
-            cv = new CVModel({
-                name: r.name,
-                summary: r.summary,
-                pdf: r.pdf,
-                cats: {
-                    position: r.cats.position,
-                    locale: r.cats.locale,
-                    cvCountry: r.cats.cvCountry,
-                    status: r.cats.status,
-                },
-                image: r.image,
-                persdetails: r.persdetails,
-                workExp: workExp,
-                educ: educ,
-                langSkills: r.langSkills,
-                webdevSkills: r.webdevSkills,
-                itSkills: r.itSkills,
-                other: r.other,
-            });
-
+            cv._id = mongoose.Types.ObjectId()
         }
 
         const id = r._id || cv._id;
         delete r._id;
 
 
-        CVModel.update({ _id: id }, cv, { upsert: true }, (err, msg) => {
+        await CVModel.update({ _id: id }, cv, { upsert: true }, (err, msg) => {
             if (err) {
                 throw err;
 
             } else {
                 if (msg.ok) {
                     const savedID = id;
-                    res.json({ _id: savedID, status: !!msg.ok });
-                    console.log('changes saved!')
+                    res.json({ status: !!msg.ok, message: "CV changes saved!" });
                 } else {
                     res.json({ status: !!msg.ok });
                     console.log('No changes')

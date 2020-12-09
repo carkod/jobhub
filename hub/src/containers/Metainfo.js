@@ -1,10 +1,12 @@
 import React from 'react';
 import { Dropdown, Header, Segment } from 'semantic-ui-react';
-import shortid from 'shortid';
 import { formatDate, checkValue } from "../utils";
 
 const Metainfo = props => {
-	
+
+	const parseBuffer = props.pdf.file;
+	const blob = new Blob([parseBuffer], {type: "application/pdf"})
+	const pdfLink = URL.createObjectURL(blob);
 
 	return (
 		<div id="metainfo" className="u-top-margin-title">
@@ -16,11 +18,8 @@ const Metainfo = props => {
 				<Segment.Group horizontal>
 					<Segment><strong>Created</strong>: {formatDate(props.createdAt)}</Segment>
 					<Segment><strong>Updated</strong>: {formatDate(props.updatedAt)}</Segment>
-					<Segment><strong>PDF</strong>:
-							{props.pdf !== undefined ? props.pdf.map((el, i) =>
-						<a key={shortid.generate()} href={el.link}>{'\u00A0' + el.name + '\u00A0'}</a>
-					) : ''}
-					</Segment>
+					<Segment><strong>PDF preview</strong>: {props.pdf.previewUrl}</Segment>
+					<Segment><a href={pdfLink} target="_blank" rel="noopener noreferrer">Download PDF</a></Segment>
 				</Segment.Group>
 							
 							{ checkValue(props.locales) && <Dropdown onChange={props.onChange} name='locale' selection options={props.locales} value={props.meta.locale} /> }

@@ -14,8 +14,13 @@ const headers = {
   "Authorization": `Bearer ${localStorage.getItem('hubToken')}`,
 }
 
+const bufferHeaders = {
+  'Accept': 'application/pdf',
+  "Authorization": `Bearer ${localStorage.getItem('hubToken')}`,
+}
+
 const formdataHeaders = {
   "Authorization": `Bearer ${localStorage.getItem('hubToken')}`,
 }
 
-export { headers, handleResponse, formdataHeaders };
+export { headers, handleResponse, formdataHeaders, bufferHeaders };

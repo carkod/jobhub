@@ -12,15 +12,6 @@ export function cvReducer(state = initial, action = {}) {
       return deleted;
     case CV_FETCHED:
       return state;
-    case PDF_GENERATED:
-      const oldIndex = state.findIndex(element => element._id === action.cv._id);
-      if (!action.cv) {
-        action.cv = {}
-      }
-      const filter = update(state,
-        { [oldIndex]: { pdf: { $merge: action.cv.pdf } } }
-      )
-      return filter;
     default:
       return state;
   }

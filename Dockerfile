@@ -6,6 +6,7 @@ RUN yarn install
 RUN yarn run build-js
 RUN yarn run build-sass
 
+
 FROM node:14 as build-hub
 COPY hub hub
 COPY .env hub/
@@ -21,6 +22,7 @@ RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
 # production environment
+# Change for pupeteer https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-puppeteer-in-docker
 FROM smebberson/alpine-nginx-nodejs:4.4.0
 COPY --chown=root:root wait-for-it.sh wait-for-it.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf

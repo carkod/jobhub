@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+import { Buffer } from 'buffer';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
@@ -19,35 +18,37 @@ class Detail extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      cats: null,
+      locales: null,
+      positions: null,
+      statuses: null,
+      name: null,
+      fullprint: null,
+      summary: null,
+      workExp: null,
+      persdetails: null,
+      educ: null,
+      langSkills: null,
+      webdevSkills: null,
+      itSkills: null,
+    }
   }
 
   componentDidMount = () => {
     this.props.fetchCV(this.props.match.params.id);
     this.props.fetchCats();
-    document.addEventListener('keydown', this.keySave, false);
-  }
-  
-  componentWillUnmount = () => {
-    document.removeEventListener('keydown', this.keySave, false);
   }
   
   componentDidUpdate = (props) => {
-    if (this.props.cv !== props.cv) {
-      this.setState({ cv: this.props.cv })
-    }
-    if (this.props.categories !== props.categories) {
-      this.setState({ categories: this.props.categories })
-    }
-    if (this.props.notification !== props.notification) {
-      this.setState({ notification: this.props.notification })
+    if (this.props !== props) {
+      this.setState({ ...this.props })
     }
     
   }
  
   summaryChange = (e) => {
-    const {summary} = this.state.cv;
-    this.state.cv.summary = e;
-    this.setState({ summary })
+    this.setState({ summary: e });
   }
   
   metaChange = (e, value) => {
@@ -61,38 +62,44 @@ class Detail extends Component {
   }
   
   pdChange = (e) => {
-    const {persdetails} = this.state.cv;
-    persdetails[e.target.name] = e.target.value;
-    this.setState({ persdetails })
+    this.setState({ 
+      persdetails: {
+        ...this.state.persdetails,
+        [e.target.name]: e.target.value
+      } 
+    })
   }
   
   skillsChange = ({langSkills, webdevSkills, itSkills, workExp, educ}) => {
-    this.setState({langSkills, webdevSkills, itSkills, workExp, educ})
+    this.setState({
+      langSkills, webdevSkills, itSkills, workExp, educ
+    })
   }
   
   cvName = e => {
-    const {cv} = this.state;
-    cv[e.target.name] = e.target.value
-    this.setState({ cv })
-  }
-  
-  keySave = e => {
-    if (e.ctrlKey || e.metaKey) {
-      if (e.key === 's') {
-        this.onSubmit(e);
-      }
-    }
+    this.setState({ name: e.target.value })
   }
   
   onSubmit = (e) => {
     e.preventDefault();
-    clearTimeout();
-    const {cv, notification} = this.props;
-    this.props.saveCV(cv).then(res => {
-      this.props.generatePDF(cv._id).then(url => {
-        this.props.saveCV(cv).then(res => console.log('second save'));
-      })
+    this.props.saveCV(this.state).then(res => {
+      console.log(res);
     });
+  }
+
+  savePdf = (id) => async (e) => {
+    e.preventDefault();
+    try {
+      const response = await generatePDF(id);
+      const blob = new Blob([response], {type: 'application/pdf'})
+       const link = document.createElement('a')
+       link.href = window.URL.createObjectURL(blob)
+       link.download = `Carlos-Wu-${this.state.name}.pdf`
+       link.click()
+    } catch (e) {
+      console.log("error generating pdf" + e)
+    }
+    
   }
   
   render() {
@@ -100,29 +107,34 @@ class Detail extends Component {
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >
-        { this.props.cats && <Metainfo 
-          meta={this.props.cats}
-          name={this.props.name}
-          locales={this.props.locales}
-          positions={this.props.positions}
-          statuses={this.props.statuses}
+        { this.state.cats && <Metainfo 
+          meta={this.state.cats}
+          name={this.state.name}
+          pdf={this.state.fullprint}
+          locales={this.state.locales}
+          positions={this.state.positions}
+          statuses={this.state.statuses}
           onChange={this.metaChange}
         /> }
         <div className="container">
-          { this.props.summary && <Summary summary={this.props.summary} onChange={this.summaryChange} /> }
-          { this.props.persdetails && <PD persdetails={this.props.persdetails} onChange={this.pdChange} /> }
+          { this.state.summary && <Summary summary={this.state.summary} onChange={this.summaryChange} /> }
+          { this.state.persdetails && <PD persdetails={this.state.persdetails} onChange={this.pdChange} /> }
             
-          { this.props.workExp && <WorkRepeater workExp={this.props.workExp} update={this.skillsChange} /> }
-          { this.props.educ && <Education educ={this.props.educ} update={this.skillsChange} /> }
+          { this.state.workExp && <WorkRepeater workExp={this.state.workExp} update={this.skillsChange} /> }
+          { this.state.educ && <Education educ={this.state.educ} update={this.skillsChange} /> }
           
-          { this.props.langSkills && <LangSkills langSkills={this.props.langSkills} update={this.skillsChange} /> }
-          { this.props.webdevSkills && <WebdevSkills webdevSkills={this.props.webdevSkills} update={this.skillsChange} /> }
-          { this.props.itSkills && <ItSkills itSkills={this.props.itSkills} update={this.skillsChange} /> }
+          { this.state.langSkills && <LangSkills langSkills={this.state.langSkills} update={this.skillsChange} /> }
+          { this.state.webdevSkills && <WebdevSkills webdevSkills={this.state.webdevSkills} update={this.skillsChange} /> }
+          { this.state.itSkills && <ItSkills itSkills={this.state.itSkills} update={this.skillsChange} /> }
           
           <br />          
           
-          <Button type="submit" value="Save">
+          <Button type="submit">
             <Icon name="save" />Save
+          </Button>
+
+          <Button type="button" onClick={this.savePdf(this.props.match.params.id)}>
+            <Icon name="save" />Generate PDF
           </Button>
           
           </div>
@@ -139,24 +151,9 @@ const mapStateToProps = (state, props) => {
     ...cvReducer,
     ...catsReducer
   }
-  // if (state.cvs[0]._id && state.cats[0]._id) {
-  //   const cv = state.cvs.find(item => item._id === props.match.params.id);
-    
-  //   return {
-  //     cv: cv,
-  //     categories: state.cats,
-  //     notification: state.notification
-  //   }
-  // } else {
-  //   return { 
-  //     cv: state.cvs[0],
-  //     categories: state.cats,
-  //     notification: state.notification
-  //   }    
-  // }
   
 }
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCV, fetchCats, generatePDF })(Detail);
+export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCV, fetchCats })(Detail);
 
 

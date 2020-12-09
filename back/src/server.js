@@ -34,8 +34,6 @@ promise.then((db) => {
 	app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 	
 	// app.use(expressValidator());
-	
-
 
 	//Download static files in uploads folder
 	app.use(express.static(path.join(__dirname, '../', '/uploads')));

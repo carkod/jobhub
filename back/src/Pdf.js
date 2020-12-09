@@ -1,4 +1,11 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import { CVSchema, CLSchema } from './Schemas';
+import { generatePDF } from './generator';
 
+// Compile model from schema
+let CVModel = mongoose.model('CVModel', CVSchema);
+let CLModel = mongoose.model('CLModel', CLSchema);
 
 export default function Pdf(app, db) {
   app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
@@ -59,24 +66,26 @@ export default function Pdf(app, db) {
 
         const { id } = req.params;
 
-        CVModel.findOne({ _id: id }, function (err, content) {
+        CVModel.findOne({ _id: id }, async (err, content) => {
             if (err) throw err;
             let printType, printType2, headerText;
+            let pdfPreview;
 
-            printType = 'f';
-            printType2 = 'q';
-            headerText = 'Currilum Vitae';
+            // printType = 'f';
+            // printType2 = 'q';
+            // headerText = 'Currilum Vitae';
 
-            Promise.all([generatePDF(req, content, printType, headerText), generatePDF(req, content, printType2, headerText)]).then(links => {
-                content.pdf = links;
-                res.status(200).send(content)
-            })
-                .catch((e) => {
-                    console.log('hello Error', e)
-                })
+            if (content.locale === 'es-ES') {
+                pdfPreview = `${req.protocol}://${req.get('host')}/pdf/fullprint-esp/${content._id}`
+            }
+            pdfPreview = `${req.protocol}://${req.get('host')}/pdf/fullprint/${content._id}`
+            const file = await generatePDF(pdfPreview)
 
+            res.set({
+                'Content-Type': 'application/pdf', 'Content-Length': file.length
+            });
+            res.status(200).send(file);
         })
-        //return next();
     });
 
     app.get('/pdf/coverletter/:id', (req, res, next) => {

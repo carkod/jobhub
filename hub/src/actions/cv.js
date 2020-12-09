@@ -1,9 +1,8 @@
-/* eslint-disable */
-import { handleResponse, headers } from './actions.config';
-import { addNotification, setCVNotification, pdfGeneratedNotification, savedNotification } from './notification';
+import { bufferHeaders, handleResponse, headers } from './actions.config';
+import { addNotification, setCVNotification } from './notification';
 
-export const SET_CV  = 'SET_CV';
-export const ADD_CV  = 'ADD_CV';
+export const SET_CV = 'SET_CV';
+export const ADD_CV = 'ADD_CV';
 export const CV_PASTED = 'CV_PASTED';
 export const CV_FETCHED = 'CV_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
@@ -13,10 +12,10 @@ export const CV_DELETED = 'CV_DELETED';
 export const PDF_GENERATED = 'PDF_GENERATED';
 export const LOADING = 'LOADING';
 
-export const SET_ONE_CV  = 'SET_ONE_CV';
+export const SET_ONE_CV = 'SET_ONE_CV';
 export const GET_ALL_CVS_SUCCESS = 'GET_ALL_CVS_SUCCESS';
-export const COPY_CV_SUCCESS  = 'COPY_CV_SUCCESS';
-export const DELETE_CV_SUCCESS  = 'DELETE_CV_SUCCESS';
+export const COPY_CV_SUCCESS = 'COPY_CV_SUCCESS';
+export const DELETE_CV_SUCCESS = 'DELETE_CV_SUCCESS';
 
 
 /**
@@ -60,7 +59,7 @@ export const loading = (data) => {
     }
 }
 
-export function setFormFields (data) {
+export function setFormFields(data) {
     return {
         type: SET_FIELDS,
         data
@@ -103,18 +102,17 @@ export function retrievedCV(data) {
 }
 
 export function cvPasted(id) {
-  return {
-    type: CV_FETCHED,
-    id
-  }
+    return {
+        type: CV_FETCHED,
+        id
+    }
 }
 
 // Returns saved CV
-export function pdfReady(cv) {
+export function pdfReady(pdf) {
     return {
         type: PDF_GENERATED,
-        isFetching: false,
-        cv
+        pdf
     }
 }
 
@@ -122,14 +120,14 @@ export function deleteCV(id) {
     loading()
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
-           method: 'delete',
-           headers: headers
-        }) 
-        .then(handleResponse)
-        .then(data => {
-            dispatch(deleteCVSuccess(id))
-            dispatch(addNotification(cvDeleted(data), 'CV deleted'))
-        });   
+            method: 'delete',
+            headers: headers
+        })
+            .then(handleResponse)
+            .then(data => {
+                dispatch(deleteCVSuccess(id))
+                dispatch(addNotification(cvDeleted(data), 'CV deleted'))
+            });
     }
 }
 
@@ -137,45 +135,39 @@ export function copyCV(data) {
     loading()
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs/${data._id}`, {
-           method: 'post',
-           body: JSON.stringify(data),
-           headers: headers
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: headers
         })
-        .then(handleResponse)
-        .then(payload => {
-            dispatch(copyCVSuccess(payload))
-        });
+            .then(handleResponse)
+            .then(payload => {
+                dispatch(copyCVSuccess(payload))
+            });
     }
-    
+
 }
 
 export function saveCV(data) {
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
-           method: 'post',
-           body: JSON.stringify(data),
-           headers: headers
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: headers
         })
-        .then(handleResponse)
-        .then(data => {
-            dispatch(addCV(data));
-            dispatch(addNotification(addCV(data), 'Saved CV'));
-        });   
+            .then(handleResponse)
+            .then(data => {
+                dispatch(addCV(data));
+                dispatch(addNotification(addCV(data), 'Saved CV'));
+            });
     }
 }
 
 export function generatePDF(id) {
-    return dispatch => {
-        return fetch(`${process.env.REACT_APP_PDF_URL}/generate/${id}`, {
-            method:'GET',
-            headers : headers,
-        })
-        .then(handleResponse)
-        .then(data => {
-            dispatch(pdfReady(data));
-            dispatch(pdfGeneratedNotification(data))
-        })
-    }
+    return fetch(`${REACT_APP_PDF_URL}/generate/${id}`, {
+        method: 'GET',
+        headers: bufferHeaders,
+    })
+    .then((response) => response.arrayBuffer())
 }
 
 export function fetchCVs() {
@@ -183,11 +175,11 @@ export function fetchCVs() {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
             headers: headers
         })
-        .then(handleResponse)
-        .then(data => {
-            dispatch(fetchCVsSuccess(data));
-            dispatch(addNotification(setCVs(data), 'CVs loaded'));
-        })
+            .then(handleResponse)
+            .then(data => {
+                dispatch(fetchCVsSuccess(data));
+                dispatch(addNotification(setCVs(data), 'CVs loaded'));
+            })
     }
 }
 
@@ -195,12 +187,12 @@ export function fetchCV(id) {
     loading()
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
-            headers: headers
+            headers: bufferHeaders
         })
-        .then(handleResponse)
-        .then(data => {
-            dispatch(setCV(data))
-            dispatch(setCVNotification(data));
-        })
+            .then(handleResponse)
+            .then(data => {
+                dispatch(setCV(data))
+                dispatch(setCVNotification(data));
+            })
     }
 }
