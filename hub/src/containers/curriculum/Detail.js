@@ -87,7 +87,7 @@ class Detail extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     clearTimeout();
-    const {cv, notification} = this.state;
+    const {cv, notification} = this.props;
     this.props.saveCV(cv).then(res => {
       this.props.generatePDF(cv._id).then(url => {
         this.props.saveCV(cv).then(res => console.log('second save'));

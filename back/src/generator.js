@@ -154,3 +154,28 @@ export default function generatePDF(req, data, printType, headerText) {
     });
 
 }
+
+const puppeteer = require('puppeteer')
+
+async function GeneratePdf(db) {
+    // launch a new chrome instance
+    const browser = await puppeteer.launch({
+      headless: true
+    })
+  
+    // create a new page
+    const page = await browser.newPage()
+  
+    // set your html as the pages content
+    await page.goto("http://localhost:8001/pdf/fullprint/5fd027c2d7b60b5abf7e8c31")
+  
+    // create a pdf buffer
+    const pdfBuffer = await page.pdf({
+      format: 'A4'
+    })
+
+    // save to Mongodb
+  
+    // close the browser
+    await browser.close()
+}
