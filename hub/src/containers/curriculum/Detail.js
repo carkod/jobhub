@@ -96,26 +96,28 @@ class Detail extends Component {
   }
   
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div id="detail">
-      {this.props.cv && <form onSubmit={this.onSubmit} >
-        <Metainfo 
-          meta={cv} 
+      <form onSubmit={this.onSubmit} >
+        { this.props.cats && <Metainfo 
+          meta={this.props.cats}
+          name={this.props.name}
+          locales={this.props.locales}
+          positions={this.props.positions}
+          statuses={this.props.statuses}
           onChange={this.metaChange}
-          categories={categories}
-          name={this.cvName}
-        />
+        /> }
         <div className="container">
-          <Summary summary={cv.summary} onChange={this.summaryChange} />
-          <PD persdetails={cv.persdetails} onChange={this.pdChange} />
+          { this.props.summary && <Summary summary={this.props.summary} onChange={this.summaryChange} /> }
+          { this.props.persdetails && <PD persdetails={this.props.persdetails} onChange={this.pdChange} /> }
+            
+          { this.props.workExp && <WorkRepeater workExp={this.props.workExp} update={this.skillsChange} /> }
+          { this.props.educ && <Education educ={this.props.educ} update={this.skillsChange} /> }
           
-          <WorkRepeater workExp={cv.workExp} update={this.skillsChange} />
-          <Education educ={cv.educ} update={this.skillsChange} />
-          
-          <LangSkills langSkills={cv.langSkills} update={this.skillsChange} />
-          <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
-          <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
+          { this.props.langSkills && <LangSkills langSkills={this.props.langSkills} update={this.skillsChange} /> }
+          { this.props.webdevSkills && <WebdevSkills webdevSkills={this.props.webdevSkills} update={this.skillsChange} /> }
+          { this.props.itSkills && <ItSkills itSkills={this.props.itSkills} update={this.skillsChange} /> }
           
           <br />          
           
@@ -124,7 +126,7 @@ class Detail extends Component {
           </Button>
           
           </div>
-        </form>}
+        </form>
       </div>
     );
   }
@@ -132,9 +134,7 @@ class Detail extends Component {
 
 const mapStateToProps = (state, props) => {
 
-  // const cv = state.cvs.find(item => item._id === props.match.params.id);
   const { cvReducer, catsReducer } = state;
-
   return {
     ...cvReducer,
     ...catsReducer

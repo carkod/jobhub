@@ -9,6 +9,9 @@ body {
   margin-bottom: 0.5em;
 }
 
+.u-top-margin-title {
+  margin-top: 1em;
+}
 
 .ButtonWrap__root___1EO_R {
   z-index: 1;
@@ -255,4 +258,14 @@ body {
 	border: none;
 	cursor: pointer;
 	outline: none;
+}
+
+
+
+
+/* Overrides */
+
+/* Override z-index */
+.ui.selection.dropdown.active, .ui.selection.dropdown.visible {
+  z-index: 99 !important;
 }
