@@ -103,7 +103,6 @@ class Detail extends Component {
   }
   
   render() {
-    console.log(this.props);
     return (
       <div id="detail">
       <form onSubmit={this.onSubmit} >

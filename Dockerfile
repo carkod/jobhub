@@ -22,8 +22,20 @@ RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
 # production environment
-# Change for pupeteer https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-puppeteer-in-docker
 FROM smebberson/alpine-nginx-nodejs:4.4.0
+
+# Installs latest Chromium (85) package.
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      freetype-dev \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont \
+      nodejs \
+      yarn
+
 COPY --chown=root:root wait-for-it.sh wait-for-it.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN chmod +x wait-for-it.sh && apk add --no-cache bash
@@ -31,6 +43,22 @@ COPY --from=build-back back /home/back
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
 COPY --from=build-web /web/build /usr/share/nginx/html/web
 RUN rm -rf package.json
+
+# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Puppeteer v5.2.1 works with Chromium 85.
+RUN yarn add puppeteer@5.2.1
+
+# Add user so we don't need --no-sandbox.
+RUN addgroup -S pptruser && adduser -S -g pptruser pptruser \
+    && mkdir -p /home/pptruser/Downloads /app \
+    && chown -R pptruser:pptruser /home/pptruser \
+    && chown -R pptruser:pptruser /app
+
+# Run everything after as non-privileged user.
+USER pptruser
 
 STOPSIGNAL SIGTERM
 EXPOSE 80 81 9000
