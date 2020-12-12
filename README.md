@@ -29,6 +29,10 @@ This is a full stack application made with:
 - Front-end website: Reactjs, Redux. This is a showcase website, available for public access to show restricted content to recruiters, prospective employers and google search.
 - Front-end admin panel: Reactjs, Redux. This is an internal application, made for managing all the recruitment data and the professional profile showed in the website.
 
+## INSTALLATION
+- `yarn install && yarn start`
+- Npm does not work with Docker setup. 
+
 ## DEVELOPMENT AND DEBUGGING
 
 - Execute debugger in .vscode F5
@@ -46,6 +50,7 @@ This is a full stack application made with:
 
 ## PORTS
 
-- Hub :80 and 8080 for container
-- Web :81 and 8081 for container
-- Back :9000 and :82 for container
+Both prod and dev:
+- Hub 8081
+- Web 8080
+- Back 8082

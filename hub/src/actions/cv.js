@@ -163,7 +163,7 @@ export function saveCV(data) {
 }
 
 export function generatePDF(id) {
-    return fetch(`${REACT_APP_PDF_URL}/generate/${id}`, {
+    return fetch(`${process.env.REACT_APP_PDF_URL}/generate/${id}`, {
         method: 'GET',
         headers: bufferHeaders,
     })

@@ -1,15 +1,13 @@
-FROM node:14 as build-back
-COPY back back
-COPY .env back/
-WORKDIR /back/
-RUN yarn install
-RUN yarn run build-js
-RUN yarn run build-sass
+# FROM node:14 as build-back
+# COPY back back
+# WORKDIR /back/
+# RUN yarn install
+# RUN yarn run build-js
+# RUN yarn run build-sass
 
 
 FROM node:14 as build-hub
 COPY hub hub
-COPY .env hub/
 WORKDIR /hub/
 RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
@@ -22,44 +20,33 @@ RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
 # production environment
-FROM smebberson/alpine-nginx-nodejs:4.4.0
-
+FROM node:14
 # Installs latest Chromium (85) package.
-RUN apk add --no-cache \
-      chromium \
-      nss \
-      freetype \
-      freetype-dev \
-      harfbuzz \
-      ca-certificates \
-      ttf-freefont \
-      nodejs \
-      yarn
+RUN apt-get update && apt-get install -y wget gnupg nginx yarn \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY --chown=root:root wait-for-it.sh wait-for-it.sh
+COPY wait-for-it.sh /home/wait-for-it.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN chmod +x wait-for-it.sh && apk add --no-cache bash
-COPY --from=build-back back /home/back
+RUN chmod +x /home/wait-for-it.sh
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
 COPY --from=build-web /web/build /usr/share/nginx/html/web
-RUN rm -rf package.json
+# Install back
+COPY ./.env /home/
+WORKDIR /home/back
+COPY back .
+RUN yarn install && yarn global add pm2 && yarn run build
 
-# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
+#     && mkdir -p /home/pptruser/Downloads \
+#     && chown -R pptruser:pptruser /home/pptruser \
+#     && chown -R pptruser:pptruser /node_modules
 
-# Puppeteer v5.2.1 works with Chromium 85.
-RUN yarn add puppeteer@5.2.1
-
-# Add user so we don't need --no-sandbox.
-RUN addgroup -S pptruser && adduser -S -g pptruser pptruser \
-    && mkdir -p /home/pptruser/Downloads /app \
-    && chown -R pptruser:pptruser /home/pptruser \
-    && chown -R pptruser:pptruser /app
-
-# Run everything after as non-privileged user.
-USER pptruser
+# # Run everything after as non-privileged user.
+# USER pptruser
 
 STOPSIGNAL SIGTERM
-EXPOSE 80 81 9000
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080 8081 8082
+CMD ["google-chrome-stable"]

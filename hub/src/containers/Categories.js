@@ -1,6 +1,4 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-import moment from 'moment';
 import shortid from 'shortid';
 
 const positions = [
