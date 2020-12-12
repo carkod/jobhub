@@ -106,7 +106,7 @@ class Letter extends Component {
           <div className="container">
             <Editor value={cl.desc} onChange={this.descChange} />
 
-            <Button type="submit" value="Save">
+            <Button type="submit" color='green'>
               <Icon name="save" />Save
           </Button>
 

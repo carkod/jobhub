@@ -128,7 +128,7 @@ class Detail extends Component {
           
           <br />          
           
-          <Button type="submit">
+          <Button type="submit" color='green'>
             <Icon name="save" />Save
           </Button>
 

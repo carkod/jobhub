@@ -116,7 +116,7 @@ class Project extends Component {
           <div className="section">
             <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles} />
             <Links links={project.links} onChange={l => this.handleChange(l)} />
-            <Button type="submit" value="Save">
+            <Button type="submit" type="submit" color='green'>
               <Icon name="save" />Save
             </Button>
           </div>

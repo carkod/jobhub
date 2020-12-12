@@ -74,7 +74,7 @@ class Relationships extends Component {
             </div>
             <br />
             <div className="buttons">
-              <Button onClick={this.save} primary>Save</Button>
+              <Button onClick={this.save} type="submit" color='green'>Save</Button>
             </div>
           </div>
           )
