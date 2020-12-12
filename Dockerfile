@@ -35,17 +35,21 @@ COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
 COPY --from=build-web /web/build /usr/share/nginx/html/web
 # Install back
 COPY ./.env /home/
+COPY ./chrome.json /home/
 WORKDIR /home/back
 COPY back .
-RUN yarn install && yarn global add pm2 && yarn run build
+RUN yarn install && yarn run build
 
-# RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
-#     && mkdir -p /home/pptruser/Downloads \
-#     && chown -R pptruser:pptruser /home/pptruser \
-#     && chown -R pptruser:pptruser /node_modules
+RUN yarn add puppeteer \
+    # Add user so we don't need --no-sandbox.
+    # same layer as npm install to keep re-chowned files from using up several hundred MBs more space
+    && groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
+    && mkdir -p /home/back/pptruser/Downloads \
+    && chown -R pptruser:pptruser /home/back/pptruser \
+    && chown -R pptruser:pptruser /home/back/node_modules
 
-# # Run everything after as non-privileged user.
-# USER pptruser
+# Run everything after as non-privileged user.
+USER pptruser
 
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082

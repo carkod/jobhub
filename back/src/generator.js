@@ -10,10 +10,10 @@ dotenv.config()
 export async function generatePDF(url) {
     // launch a new chrome instance
     const browser = await puppeteer.launch({
+      executablePath: 'google-chrome-stable',
       headless: true,
-    //   args: ['--disable-dev-shm-usage']
     })
-  
+
     // create a new page
     const page = await browser.newPage()
   
