@@ -95,7 +95,6 @@ class Letter extends Component {
     
   }
 
-
   render() {
     const { cl } = !!Object.keys(this.state).length ? this.state : this.props;
     const { cats } = this.props;
@@ -108,7 +107,7 @@ class Letter extends Component {
 
             <Button type="submit" color='green'>
               <Icon name="save" />Save
-          </Button>
+            </Button>
 
           </div>
         </form>
