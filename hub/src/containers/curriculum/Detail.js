@@ -1,8 +1,7 @@
-import { Buffer } from 'buffer';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import { fetchCVs, fetchCV, generatePDF, saveCV } from '../../actions/cv';
+import { fetchCV, fetchCVs, generatePDF, saveCV } from '../../actions/cv';
 import { fetchCats } from '../../actions/project';
 import { checkValue } from '../../utils';
 import Metainfo from '../Metainfo';
@@ -40,32 +39,32 @@ class Detail extends Component {
     this.props.fetchCV(this.props.match.params.id);
     this.props.fetchCats();
   }
-  
+
   componentDidUpdate = (props) => {
     if (this.props !== props) {
       this.setState({ ...this.props })
     }
-    
+
   }
- 
+
   summaryChange = (e) => {
     this.setState({ summary: e });
   }
-  
+
   metaChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
-  
+
   pdChange = (e) => {
-    this.setState({ 
+    this.setState({
       persdetails: {
         ...this.state.persdetails,
         [e.target.name]: e.target.value
-      } 
+      }
     })
   }
-  
-  skillsChange = ({langSkills, webdevSkills, itSkills, workExp, educ}) => {
+
+  skillsChange = ({ langSkills, webdevSkills, itSkills, workExp, educ }) => {
     if (checkValue(langSkills)) {
       this.setState({ langSkills: langSkills })
     }
@@ -82,11 +81,11 @@ class Detail extends Component {
       this.setState({ educ: educ })
     }
   }
-  
+
   cvName = e => {
     this.setState({ name: e.target.value })
   }
-  
+
   onSubmit = (e) => {
     e.preventDefault();
     this.props.saveCV(this.state).then(res => {
@@ -98,52 +97,52 @@ class Detail extends Component {
     e.preventDefault();
     try {
       const response = await generatePDF(id);
-      const blob = new Blob([response], {type: 'application/pdf'})
-       const link = document.createElement('a')
-       link.href = window.URL.createObjectURL(blob)
-       link.download = `Carlos-Wu-${this.state.name}.pdf`
-       link.click()
+      const blob = new Blob([response], { type: 'application/pdf' })
+      const link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = `Carlos-Wu-${this.state.name}.pdf`
+      link.click()
     } catch (e) {
       console.log("error generating pdf" + e)
     }
-    
+
   }
-  
+
   render() {
     return (
       <div id="detail">
-      <form onSubmit={this.onSubmit} >
-        { this.state.cats && <Metainfo 
-          meta={this.state.cats}
-          name={this.state.name}
-          navName={this.state.navName}
-          previewPdf={this.state.previewPdf}
-          locales={this.state.locales}
-          positions={this.state.positions}
-          statuses={this.state.statuses}
-          onChange={this.metaChange}
-        /> }
-        <div className="container">
-          { this.state.summary && <Summary summary={this.state.summary} onChange={this.summaryChange} /> }
-          { this.state.persdetails && <PD persdetails={this.state.persdetails} onChange={this.pdChange} /> }
-            
-          { this.state.workExp && <WorkRepeater workExp={this.state.workExp} update={this.skillsChange} /> }
-          { this.state.educ && <Education educ={this.state.educ} update={this.skillsChange} /> }
+        <form onSubmit={this.onSubmit} >
+          {this.state.cats && <Metainfo
+            meta={this.state.cats}
+            name={this.state.name}
+            navName={this.state.navName}
+            previewPdf={this.state.previewPdf}
+            locales={this.state.locales}
+            positions={this.state.positions}
+            statuses={this.state.statuses}
+            onChange={this.metaChange}
+          />}
+          <div className="container">
+            {this.state.summary && <Summary summary={this.state.summary} onChange={this.summaryChange} />}
+            {this.state.persdetails && <PD persdetails={this.state.persdetails} onChange={this.pdChange} />}
 
-          { this.state.langSkills && <LangSkills langSkills={this.state.langSkills} update={this.skillsChange} /> }
-          { this.state.webdevSkills && <WebdevSkills webdevSkills={this.state.webdevSkills} update={this.skillsChange} /> }
-          { this.state.itSkills && <ItSkills itSkills={this.state.itSkills} update={this.skillsChange} /> }
+            {this.state.workExp && <WorkRepeater workExp={this.state.workExp} update={this.skillsChange} />}
+            {this.state.educ && <Education educ={this.state.educ} update={this.skillsChange} />}
 
-          <br />
-          
-          <Button type="submit" color='green'>
-            <Icon name="save" />Save
+            {this.state.langSkills && <LangSkills langSkills={this.state.langSkills} update={this.skillsChange} />}
+            {this.state.webdevSkills && <WebdevSkills webdevSkills={this.state.webdevSkills} update={this.skillsChange} />}
+            {this.state.itSkills && <ItSkills itSkills={this.state.itSkills} update={this.skillsChange} />}
+
+            <br />
+
+            <Button type="submit" color='green'>
+              <Icon name="save" />Save
           </Button>
 
-          <Button type="button" onClick={this.savePdf(this.props.match.params.id)}>
-            <Icon name="save" />Generate PDF
+            <Button type="button" onClick={this.savePdf(this.props.match.params.id)}>
+              <Icon name="file pdf" />Generate
           </Button>
-          
+
           </div>
         </form>
       </div>
@@ -158,7 +157,7 @@ const mapStateToProps = (state, props) => {
     ...cvReducer,
     ...catsReducer
   }
-  
+
 }
 
 export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCV, fetchCats })(Detail);

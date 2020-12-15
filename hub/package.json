@@ -14,7 +14,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "draft-js": "^0.11.5",
+    "draft-js": "^0.11.7",
     "express": "^4.17.1",
     "express-react-views": "^0.11.0",
     "express-validator": "^6.4.0",

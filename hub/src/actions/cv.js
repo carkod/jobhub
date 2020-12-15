@@ -167,7 +167,7 @@ export function generatePDF(id) {
         method: 'GET',
         headers: bufferHeaders,
     })
-    .then((response) => response.arrayBuffer())
+        .then((response) => response.arrayBuffer())
 }
 
 export function fetchCVs() {
