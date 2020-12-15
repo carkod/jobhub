@@ -29,14 +29,6 @@ class Nav extends Component {
 					</div>
 					<div className="item uppercase">
 						<NavLink to="/cv" activeClassName="current" >CV</NavLink>
-						<div className="level-2 menu menu__reset-space">
-							{/* <div className="item uppercase">
-								<NavLink to="/cv/positions" activeClassName="current" >Positions</NavLink>
-							</div> */}
-							<div className="item uppercase">
-								<NavLink to="/cv/languages" activeClassName="current" >Languages</NavLink>
-							</div>
-						</div>
 					</div>
 					<div className="item uppercase">
 						<NavLink to="/jobs" activeClassName="current" >Job board</NavLink>
@@ -66,18 +58,6 @@ class Nav extends Component {
 					<div className="item uppercase">
 						<NavLink to="/portfolio" activeClassName="current" >Portfolio</NavLink>
 					</div>
-
-					{/* <div className="item uppercase">
-						<NavLink to="/jobs" activeClassName="current" >Job Board</NavLink>
-						<div className="level-2 menu">
-							<div className="item uppercase">
-								<NavLink to="/jobs/linkedin" activeClassName="current" >LinkedIn</NavLink>
-							</div>
-							<div className="item uppercase">
-								<NavLink to="/jobs/jobbio" activeClassName="current" >Jobbio</NavLink>
-							</div>
-						</div>
-					</div> */}
 				</div>
 			</nav>
 		);
