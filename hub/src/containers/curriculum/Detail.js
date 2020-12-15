@@ -81,9 +81,6 @@ class Detail extends Component {
     if (checkValue(educ)) {
       this.setState({ educ: educ })
     }
-    // this.setState({
-    //   langSkills, webdevSkills, itSkills, workExp, educ
-    // })
   }
   
   cvName = e => {

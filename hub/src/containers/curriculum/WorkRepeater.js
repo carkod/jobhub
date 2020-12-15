@@ -1,17 +1,16 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
-import shortid from 'shortid';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
-import { fetchCVs } from '../../actions/cv';
-import Editor from '../../components/Editor';
 import RichTextEditor from 'react-rte';
+import { Grid, Header, Icon } from 'semantic-ui-react';
+import shortid from 'shortid';
+import Editor from '../../components/Editor';
 
 class WorkRepeater extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      toggle: false,
+    };
     
   }
 
@@ -65,12 +64,19 @@ class WorkRepeater extends Component {
     const {workExp} = !!Object.keys(this.state).length ? this.state : this.props;
       return(
         <div className="workRepeater section">
-            <Header sub>
-              <span>WORK EXPERIENCE</span>
-              <button className="btn" onClick={this.pushExp}><Icon className="green" name="add square"></Icon></button>
+            <Header sub className="u-space-between u-align-baseline">
+              <div>
+                <span>WORK EXPERIENCE</span>
+                <button className="btn" onClick={this.pushExp}><Icon className="green" name="add square"></Icon></button>
+              </div>
+              <div>
+                <button className="btn" type="button" onClick={() => this.setState({ toggle: !this.state.toggle})}>
+                  <Icon className="blue large" fitted name='caret square down' />
+                </button>
+              </div>
             </Header>
 
-            {workExp.map((work, i) => 
+            {this.state.toggle && workExp ? workExp.map((work, i) => 
                 <div className="single" key={work.id}>
                 { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeExp(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
                 <Grid columns={12}>
@@ -100,7 +106,7 @@ class WorkRepeater extends Component {
                   </Grid>
                 </div>
               
-            )}
+            ) : ""}
         </div>
         
         )

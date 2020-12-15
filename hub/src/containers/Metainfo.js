@@ -18,12 +18,13 @@ const Metainfo = props => {
 					<Segment><strong>Updated</strong>: {formatDate(props.updatedAt)}</Segment>
 					<Segment><strong>PDF preview</strong>: {props.previewPdf}</Segment>
 				</Segment.Group>
-							
-							{ checkValue(props.locales) && <Dropdown onChange={props.onChange} name='locale' selection options={props.locales} value={props.meta.locale} /> }
-				
-							{ checkValue(props.statuses) && <Dropdown value={props.meta.status} onChange={props.onChange} name='status' selection options={props.statuses} /> }
-				
-							{ checkValue(props.positions) && <Dropdown value={props.meta.position} onChange={props.onChange} name='position' selection options={props.positions}/> }
+				<div className="u-space-between">
+					{ checkValue(props.locales) && <Dropdown onChange={props.onChange} name='locale' selection options={props.locales} value={props.meta.locale} /> }
+		
+					{ checkValue(props.statuses) && <Dropdown value={props.meta.status} onChange={props.onChange} name='status' selection options={props.statuses} /> }
+		
+					{ checkValue(props.positions) && <Dropdown value={props.meta.position} onChange={props.onChange} name='position' selection options={props.positions}/> }
+				</div>
 			</div>
 		</div>
 	)

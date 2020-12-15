@@ -32,14 +32,16 @@ class FullPrint extends Component {
               )
               }
             </section>
+
+            {/* Mandatory fields */}
             <PD persdetails={cv.persdetails}/>
             <Work workExp={cv.workExp} />            
             <Education educ={cv.educ} />
-            <Languages langSkills={cv.langSkills} />
             
-            {/*Optional fields*/}
-            {cv.webdevSkills.length > 0 && cv.webdevSkills[0].name !== '' ? <WebDev webdevSkills={cv.webdevSkills} /> : ''}
-            {cv.itSkills.length > 0 && cv.itSkills[0].name !== '' ? <IT itSkills={cv.itSkills} /> : ''}
+            {/* Optional fields */}
+            { cv.langSkills.length > 0 && <Languages langSkills={cv.langSkills} /> }
+            { cv.webdevSkills.length > 0 && <WebDev webdevSkills={cv.webdevSkills} /> }
+            { cv.itSkills.length > 0 && <IT itSkills={cv.itSkills} /> }
 
         </main>
       </div>

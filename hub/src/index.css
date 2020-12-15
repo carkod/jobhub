@@ -13,6 +13,16 @@ body {
   margin-top: 1em;
 }
 
+.u-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.u-align-baseline {
+  display: flex;
+  align-items: baseline;
+}
+
 .ButtonWrap__root___1EO_R {
   z-index: 1;
 }

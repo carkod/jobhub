@@ -10,7 +10,9 @@ export default class Education extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      toggle: false,
+    };
     
   }
 
@@ -66,12 +68,20 @@ export default class Education extends Component {
     const {educ} = !!Object.keys(this.state).length ? this.state : this.props;
       return(
         <div className="courseRepeater section">
-            <Header sub>
+            <Header sub className="u-space-between u-align-baseline">
+              <div>
               <span>EDUCATION</span>
               <button className="btn" onClick={this.pushExp}><Icon className="green" name="add square"></Icon></button>
+              </div>
+              <div>
+                <button className="btn" type="button" onClick={() => this.setState({ toggle: !this.state.toggle})}>
+                  <Icon className="blue large" fitted name='caret square down' />
+                </button>
+              </div>
+
             </Header>
 
-            {educ.map((course, i) => 
+            {this.state.toggle && educ ? educ.map((course, i) => 
                 <div className="single" key={course.id}>
                 { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeExp(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
                 <Grid columns={12}>
@@ -101,7 +111,7 @@ export default class Education extends Component {
                   </Grid>
                 </div>
               
-            )}
+            ) : ""}
         </div>
         
         )
