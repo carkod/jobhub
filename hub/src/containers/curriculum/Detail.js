@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { fetchCVs, fetchCV, generatePDF, saveCV } from '../../actions/cv';
 import { fetchCats } from '../../actions/project';
+import { checkValue } from '../../utils';
 import Metainfo from '../Metainfo';
 import Education from './Education';
 import ItSkills from './ItSkills';
@@ -24,7 +25,6 @@ class Detail extends Component {
       positions: null,
       statuses: null,
       name: null,
-      fullprint: null,
       summary: null,
       workExp: null,
       persdetails: null,
@@ -32,6 +32,7 @@ class Detail extends Component {
       langSkills: null,
       webdevSkills: null,
       itSkills: null,
+      previewPdf: `${process.env.REACT_APP_PDF_URL}/fullprint/${props.match.params.id}`
     }
   }
 
@@ -51,14 +52,8 @@ class Detail extends Component {
     this.setState({ summary: e });
   }
   
-  metaChange = (e, value) => {
-    const {cv} = this.state;
-    if (e.target.name) {
-      cv[e.target.name] = e.target.value;
-    } else {
-      cv.cats[value.name] = value.value;
-    }
-    this.setState({ cv })
+  metaChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
   }
   
   pdChange = (e) => {
@@ -71,9 +66,24 @@ class Detail extends Component {
   }
   
   skillsChange = ({langSkills, webdevSkills, itSkills, workExp, educ}) => {
-    this.setState({
-      langSkills, webdevSkills, itSkills, workExp, educ
-    })
+    if (checkValue(langSkills)) {
+      this.setState({ langSkills: langSkills })
+    }
+    if (checkValue(webdevSkills)) {
+      this.setState({ webdevSkills: webdevSkills })
+    }
+    if (checkValue(itSkills)) {
+      this.setState({ itSkills: itSkills })
+    }
+    if (checkValue(workExp)) {
+      this.setState({ workExp: workExp })
+    }
+    if (checkValue(educ)) {
+      this.setState({ educ: educ })
+    }
+    // this.setState({
+    //   langSkills, webdevSkills, itSkills, workExp, educ
+    // })
   }
   
   cvName = e => {
@@ -109,7 +119,8 @@ class Detail extends Component {
         { this.state.cats && <Metainfo 
           meta={this.state.cats}
           name={this.state.name}
-          pdf={this.state.fullprint}
+          navName={this.state.navName}
+          previewPdf={this.state.previewPdf}
           locales={this.state.locales}
           positions={this.state.positions}
           statuses={this.state.statuses}
@@ -121,12 +132,12 @@ class Detail extends Component {
             
           { this.state.workExp && <WorkRepeater workExp={this.state.workExp} update={this.skillsChange} /> }
           { this.state.educ && <Education educ={this.state.educ} update={this.skillsChange} /> }
-          
+
           { this.state.langSkills && <LangSkills langSkills={this.state.langSkills} update={this.skillsChange} /> }
           { this.state.webdevSkills && <WebdevSkills webdevSkills={this.state.webdevSkills} update={this.skillsChange} /> }
           { this.state.itSkills && <ItSkills itSkills={this.state.itSkills} update={this.skillsChange} /> }
-          
-          <br />          
+
+          <br />
           
           <Button type="submit" color='green'>
             <Icon name="save" />Save

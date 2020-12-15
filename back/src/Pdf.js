@@ -8,23 +8,23 @@ let CVModel = mongoose.model('CVModel', CVSchema);
 let CLModel = mongoose.model('CLModel', CLSchema);
 
 export default function Pdf(app, db) {
-  app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
-  app.use('/pdf/assets/vendor', express.static(__dirname + '/node_modules/semantic-ui-css'));
-  app.set('views', __dirname + '/pdf/views');
-  app.set('view engine', 'jsx');
-  app.engine('jsx', require('express-react-views').createEngine());
+    app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
+    app.use('/pdf/assets/vendor', express.static(__dirname + '/node_modules/semantic-ui-css'));
+    app.set('views', __dirname + '/pdf/views');
+    app.set('view engine', 'jsx');
+    app.engine('jsx', require('express-react-views').createEngine());
 
-  app.get('/pdf/fullprint/:id', (req, res, next) => {
-      const { id } = req.params;
-      CVModel.findOne({ _id: id }, (findErr, content) => {
-          if (findErr) throw findErr;
-          res.render('FullPrint.jsx', content, (err, html) => {
-              if (err) throw err;
-              res.send(html)
-          })
+    app.get('/pdf/fullprint/:id', (req, res, next) => {
+        const { id } = req.params;
+        CVModel.findOne({ _id: id }, (findErr, content) => {
+            if (findErr) throw findErr;
+            res.render('FullPrint.jsx', content, (err, html) => {
+                if (err) throw err;
+                res.send(html)
+            })
 
-      })
-  })
+        })
+    })
 
     app.get('/pdf/quickprint/:id', (req, res, next) => {
         const { id } = req.params;

@@ -1,11 +1,6 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
-import { fetchCVs } from '../../actions/cv';
-import Editor from '../../components/Editor';
-import RichTextEditor from 'react-rte';
 
 class ItSkills extends Component {
   
@@ -62,7 +57,9 @@ class ItSkills extends Component {
 
         {itSkills.map((it, i) => 
             <div className="single" key={it.id}>
-            { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeSkill(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
+            <button className="btn btn-close-repeat" onClick={this.removeSkill(i)}>
+              <Icon className="red large" name="window close" ></Icon>
+            </button>
             <Grid columns={12}>
                 <Grid.Row columns={2}>
                   <Grid.Column>

@@ -30,11 +30,7 @@ const CVSchema = new Schema({
     name: { type: String },
     summary: { type: String },
     slug: { type: String, slug: "name", lowercase: true, unique: true },
-    fullprint: {
-        previewUrl: { type: String },
-        file: { type: Buffer }
-    },
-    pdf: { type: Array },
+    navName: { type: String },
     cats: {
         position: { type: String },
         locale: { type: String },

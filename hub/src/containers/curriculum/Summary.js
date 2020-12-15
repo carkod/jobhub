@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Checkbox } from 'semantic-ui-react';
 import Editor from '../../components/Editor';
 
 class Summary extends Component {
@@ -10,12 +10,10 @@ class Summary extends Component {
         super(props);
         this.state = {
         };
-        //this.pdChange = this.pdChange.bind(this);
     }
-   
     
     onChange = (e) => {
-        this.props.onChange(e.toString('html'))
+        this.props.onChange(e.toString('html'));
     }
   
     render() {

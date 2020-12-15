@@ -34,11 +34,7 @@ export default function CVs(app, db) {
         const cv = new CVModel({
             name: r.name,
             summary: r.summary,
-            pdf: r.pdf,
-            fullprint: {
-                previewUrl: pdfPreview,
-                file: file.toString(),
-            },
+            navName: r.navName ? r.navName : r.name,
             cats: {
                 position: r.cats.position,
                 locale: r.cats.locale,

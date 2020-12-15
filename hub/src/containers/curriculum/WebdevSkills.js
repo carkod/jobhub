@@ -62,7 +62,9 @@ export default class WebdevSkills extends Component {
 
         {webdevSkills.map((webdev, i) => 
             <div className="single" key={webdev.id}>
-            { i > 0 ? <button className="btn btn-close-repeat" onClick={this.removeSkill(i)}><Icon className="red large" name="window close" ></Icon></button> : ''}
+              <button className="btn btn-close-repeat" onClick={this.removeSkill(i)}>
+                <Icon className="red large" name="window close" />
+              </button>
             <Grid columns={12}>
                 <Grid.Row columns={2}>
                   <Grid.Column>
