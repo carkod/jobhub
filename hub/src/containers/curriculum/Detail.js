@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import { fetchCV, fetchCVs, generatePDF, saveCV } from '../../actions/cv';
+import { fetchCV, fetchCVs, generatePdfApi, saveCV } from '../../actions/cv';
 import { fetchCats } from '../../actions/project';
 import { checkValue } from '../../utils';
 import Metainfo from '../Metainfo';
@@ -96,12 +96,15 @@ class Detail extends Component {
   savePdf = (id) => async (e) => {
     e.preventDefault();
     try {
-      const response = await generatePDF(id);
-      const blob = new Blob([response], { type: 'application/pdf' })
-      const link = document.createElement('a')
-      link.href = window.URL.createObjectURL(blob)
-      link.download = `Carlos-Wu-${this.state.name}.pdf`
-      link.click()
+      const response = await this.props.generatePdfApi(id);
+      if (response) {
+        const blob = new Blob([response], { type: 'application/pdf' })
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = `Carlos-Wu-${this.state.name}.pdf`
+        link.click()
+      }
+      
     } catch (e) {
       console.log("error generating pdf" + e)
     }
@@ -160,6 +163,6 @@ const mapStateToProps = (state, props) => {
 
 }
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCV, fetchCats })(Detail);
+export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCV, fetchCats, generatePdfApi })(Detail);
 
 

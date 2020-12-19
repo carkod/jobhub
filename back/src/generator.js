@@ -6,7 +6,6 @@ dotenv.config()
 export async function generatePDF(url) {
     // launch a new chrome instance
     const browser = await puppeteer.launch({
-      executablePath: 'google-chrome-stable',
       args: ['--no-sandbox'],
       headless: true,
     })

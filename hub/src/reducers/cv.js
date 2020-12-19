@@ -1,5 +1,4 @@
-import update from 'react-addons-update';
-import { COPY_CV_SUCCESS, CV_DELETED, CV_FETCHED, DELETE_CV_SUCCESS, GET_ALL_CVS_SUCCESS, PDF_GENERATED, SET_ONE_CV } from "../actions/cv";
+import { COPY_CV_SUCCESS, CV_DELETED, CV_FETCHED, DELETE_CV_SUCCESS, GET_ALL_CVS_SUCCESS, SET_ONE_CV } from "../actions/cv";
 
 const initial = null
 

@@ -6,13 +6,13 @@ import { combineReducers } from 'redux';
 import { CL_DELETED, SET_CLS, CL_PDF_GENERATED } from './actions/cl';
 import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV, LOADING } from './actions/cv';
 import { IS_AUTH, NOT_AUTH } from './actions/login';
-import { NOTIFICATION } from './actions/notification';
 import { FILE_REMOVED, PROJECT_DELETED, SET_PROJECTS } from './actions/project';
 import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS, EDIT_APPLICATION } from './actions/tracker';
 import update from 'react-addons-update'
 
 import catsReducer from "./reducers/categories";
 import { cvReducer, getCvsReducer } from "./reducers/cv";
+import { snackBarReducer } from "./reducers/snackBar";
 
 const pfInit = [
     {
@@ -151,20 +151,6 @@ function applicationDetail(state = {}, action = {}) {
 
 }
 
-function snackBar(state = {}, action) {
-    switch (action.type) {
-        case NOTIFICATION:
-            return {
-                ...state,
-                message: action.message,
-                error: action.error
-            }
-
-        default:
-            return state
-    }
-}
-
 const isFetching = (state = false, action) => {
     switch (action.type) {
         case LOADING:
@@ -191,7 +177,7 @@ export default combineReducers({
     authentication,
     applications,
     applicationDetail,
-    snackBar,
+    snackBarReducer,
     isFetching
 });
 

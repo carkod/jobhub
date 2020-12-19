@@ -60,9 +60,9 @@ class Notification extends Component {
 
 
 const mapStateToProps = (s, p) => {
+	const { snackBarReducer } = s;
 	return {
-		notification: s.notification,
-		snackBar: s.snackBar
+		snackBar: snackBarReducer
 	}
 }
 

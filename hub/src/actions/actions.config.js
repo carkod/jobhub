@@ -23,4 +23,14 @@ const formdataHeaders = {
   "Authorization": `Bearer ${localStorage.getItem('hubToken')}`,
 }
 
-export { headers, handleResponse, formdataHeaders, bufferHeaders };
+function handlePdfResponse(response) {
+  if (response.ok) {
+      return response;
+  } else {
+      let error = new Error(response.statusText);
+      error.response = response;
+      throw error;
+  }
+}
+
+export { headers, handleResponse, formdataHeaders, bufferHeaders, handlePdfResponse };

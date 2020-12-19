@@ -68,17 +68,11 @@ export default function Pdf(app, db) {
 
         CVModel.findOne({ _id: id }, async (err, content) => {
             if (err) throw err;
-            let printType, printType2, headerText;
-            let pdfPreview;
-
-            // printType = 'f';
-            // printType2 = 'q';
-            // headerText = 'Currilum Vitae';
+            let pdfPreview = `${req.protocol}://${req.get('host')}/pdf/fullprint/${content._id}`;
 
             if (content.locale === 'es-ES') {
                 pdfPreview = `${req.protocol}://${req.get('host')}/pdf/fullprint-esp/${content._id}`
             }
-            pdfPreview = `${req.protocol}://${req.get('host')}/pdf/fullprint/${content._id}`
             const file = await generatePDF(pdfPreview)
 
             res.set({
