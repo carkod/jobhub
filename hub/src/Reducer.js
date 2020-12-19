@@ -171,13 +171,13 @@ const isFetching = (state = false, action) => {
 export default combineReducers({
     cvReducer,
     getCvsReducer,
+    snackBarReducer,
+    catsReducer,
     portfolio,
     coverLetters,
-    catsReducer,
     authentication,
     applications,
     applicationDetail,
-    snackBarReducer,
     isFetching
 });
 

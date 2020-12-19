@@ -1,4 +1,4 @@
-import { GENERATE_PDF, GENERATE_PDF_FAILED, GENERATE_PDF_SUCCESS } from "../actions/cv";
+import { COPY_CV_SUCCESS, DELETE_CV_SUCCESS, GENERATE_PDF, GENERATE_PDF_FAILED, GENERATE_PDF_SUCCESS, GET_ALL_CVS_SUCCESS, SAVE_CV, SAVE_CV_SUCCESS } from "../actions/cv";
 
 export function snackBarReducer(state = { loading: false, message: null, error: false }, action = {}) {
   switch (action.type) {
@@ -19,7 +19,37 @@ export function snackBarReducer(state = { loading: false, message: null, error: 
         loading: false,
         message: action.message,
         error: false
-      };;
+      };
+    case GET_ALL_CVS_SUCCESS:
+      return {
+        loading: false,
+        message: action.message,
+        error: false
+      };
+    case COPY_CV_SUCCESS:
+      return {
+        loading: false,
+        message: action.message,
+        error: false
+      };
+    case DELETE_CV_SUCCESS:
+      return {
+        loading: false,
+        message: action.message,
+        error: false
+      };
+    case SAVE_CV:
+      return {
+        loading: false,
+        message: action.message,
+        error: false
+      };
+    case SAVE_CV_SUCCESS:
+      return {
+        loading: false,
+        message: action.message,
+        error: false
+      };
     default:
       return state;
   }

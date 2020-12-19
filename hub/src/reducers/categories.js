@@ -8,15 +8,7 @@ export default function catsReducer (state = catInit, action = {}) {
       case SET_CATS:
         const {cats} = action;
         const categories = cats.map(x => {
-          if (x.label === "positions") {
-            return x.children
-          }
-          if (x.label === "locales") {
-            return x.children
-          }
-          if (x.label === "statuses") {
-            return x.children
-          }
+          return x.children
         })
         return {
           positions: categories[0],

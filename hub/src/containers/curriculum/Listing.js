@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Card, Icon } from 'semantic-ui-react';
-import { copyCV, deleteCV, fetchCVs, saveCV } from '../../actions/cv';
+import { copyCV, deleteCV, fetchCVs, saveCvApi } from '../../actions/cv';
 import { formatDate } from "../../utils";
 import AddNew from './AddNew';
 
@@ -93,4 +93,4 @@ function mapStateToProps(state, props) {
   }
 }
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, deleteCV, copyCV })(Listing);
+export default connect(mapStateToProps, { saveCvApi, fetchCVs, deleteCV, copyCV })(Listing);

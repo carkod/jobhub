@@ -1,4 +1,4 @@
-import { bufferHeaders, handleResponse, headers, handlePdfResponse } from './actions.config';
+import { bufferHeaders, handlePdfResponse, handleResponse, headers } from './actions.config';
 import { addNotification, setCVNotification } from './notification';
 
 export const SET_CV = 'SET_CV';
@@ -16,6 +16,8 @@ export const SET_ONE_CV = 'SET_ONE_CV';
 export const GET_ALL_CVS_SUCCESS = 'GET_ALL_CVS_SUCCESS';
 export const COPY_CV_SUCCESS = 'COPY_CV_SUCCESS';
 export const DELETE_CV_SUCCESS = 'DELETE_CV_SUCCESS';
+export const SAVE_CV = 'SAVE_CV';
+export const SAVE_CV_SUCCESS = 'SAVE_CV_SUCCESS';
 
 export const GENERATE_PDF = 'GENERATE_PDF';
 export const GENERATE_PDF_SUCCESS = 'GENERATE_PDF_SUCCESS';
@@ -31,6 +33,26 @@ export const GENERATE_PDF_FAILED = 'GENERATE_PDF_FAILED';
 export function fetchCVsSuccess(cvs) {
     return {
         type: GET_ALL_CVS_SUCCESS,
+        error: false,
+        message: GET_ALL_CVS_SUCCESS,
+        cvs
+    }
+}
+
+export function saveCv(cvs) {
+    return {
+        type: SAVE_CV,
+        error: false,
+        message: SAVE_CV,
+        cvs
+    }
+}
+
+export function saveCvSuccess(cvs) {
+    return {
+        type: SAVE_CV_SUCCESS,
+        error: false,
+        message: SAVE_CV_SUCCESS,
         cvs
     }
 }
@@ -38,6 +60,8 @@ export function fetchCVsSuccess(cvs) {
 export function copyCVSuccess(payload) {
     return {
         type: COPY_CV_SUCCESS,
+        error: false,
+        message: COPY_CV_SUCCESS,
         payload
     }
 }
@@ -53,7 +77,7 @@ export function generatePdf() {
     return {
         type: GENERATE_PDF,
         error: false,
-        message: "Generating PDF...",
+        message: GENERATE_PDF,
     }
 }
 
@@ -61,13 +85,15 @@ export function generatePdfSuccess() {
     return {
         type: GENERATE_PDF_SUCCESS,
         error: false,
-        message: "PDF generated Successfully"
+        message: GENERATE_PDF_SUCCESS
     }
 }
 
 export function generatePdfFailed(payload) {
     return {
         type: GENERATE_PDF_FAILED,
+        error: true,
+        message: GENERATE_PDF_FAILED,
         payload
     }
 }
@@ -75,12 +101,6 @@ export function generatePdfFailed(payload) {
  * End New actions
  */
 
-export const loading = (data) => {
-    return {
-        type: LOADING,
-        isFetching: true
-    }
-}
 
 export function setFormFields(data) {
     return {
@@ -117,45 +137,19 @@ export function addCV(data) {
     }
 }
 
-export function retrievedCV(data) {
-    return {
-        type: RETRIEVED_CV,
-        data
-    }
-}
-
-export function cvPasted(id) {
-    return {
-        type: CV_FETCHED,
-        id
-    }
-}
-
-// Returns saved CV
-export function pdfReady(pdf) {
-    return {
-        type: PDF_GENERATED,
-        pdf
-    }
-}
 
 export function deleteCV(id) {
-    loading()
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
             method: 'delete',
             headers: headers
         })
             .then(handleResponse)
-            .then(data => {
-                dispatch(deleteCVSuccess(id))
-                dispatch(addNotification(cvDeleted(data), 'CV deleted'))
-            });
+            .then(data => dispatch(deleteCVSuccess(id)));
     }
 }
 
 export function copyCV(data) {
-    loading()
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs/${data._id}`, {
             method: 'post',
@@ -170,18 +164,16 @@ export function copyCV(data) {
 
 }
 
-export function saveCV(data) {
+export function saveCvApi(data) {
     return dispatch => {
+        dispatch(saveCv(data));
         return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
         })
             .then(handleResponse)
-            .then(data => {
-                dispatch(addCV(data));
-                dispatch(addNotification(addCV(data), 'Saved CV'));
-            });
+            .then(data => dispatch(saveCvSuccess(data)));
     }
 }
 
@@ -216,7 +208,6 @@ export function fetchCVs() {
 }
 
 export function fetchCV(id) {
-    loading()
     return dispatch => {
         return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
             headers: bufferHeaders

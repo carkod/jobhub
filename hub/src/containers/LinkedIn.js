@@ -32,6 +32,6 @@ const mapStateToProps = (state, props) => {
 }
 
 
-//export default connect(mapStateToProps, { saveCV, fetchCVs })(Detail);
+//export default connect(mapStateToProps, { saveCvApi, fetchCVs })(Detail);
 export default LinkedIn;
 
