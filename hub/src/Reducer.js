@@ -4,15 +4,15 @@ import RichTextEditor from 'react-rte';
 import { combineReducers } from 'redux';
 
 import { CL_DELETED, SET_CLS, CL_PDF_GENERATED } from './actions/cl';
-import { CV_DELETED, CV_FETCHED, PDF_GENERATED, SET_CV, LOADING } from './actions/cv';
+import { CV_DELETED, CV_FETCHED, SET_CV, LOADING } from './actions/cv';
 import { IS_AUTH, NOT_AUTH } from './actions/login';
 import { FILE_REMOVED, PROJECT_DELETED, SET_PROJECTS } from './actions/project';
 import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS, EDIT_APPLICATION } from './actions/tracker';
 import update from 'react-addons-update'
 
-import catsReducer from "./reducers/categories";
 import { cvReducer, getCvsReducer } from "./reducers/cv";
 import { snackBarReducer } from "./reducers/snackBar";
+import { relationsReducer, catsReducer } from "./reducers/relations";
 
 const pfInit = [
     {
@@ -172,7 +172,10 @@ export default combineReducers({
     cvReducer,
     getCvsReducer,
     snackBarReducer,
+    relationsReducer,
     catsReducer,
+
+    // Old
     portfolio,
     coverLetters,
     authentication,

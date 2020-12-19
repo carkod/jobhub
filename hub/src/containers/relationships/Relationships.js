@@ -1,29 +1,26 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, List, Icon, Accordion } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { Accordion, Button, Header, Input, List } from 'semantic-ui-react';
 import shortid from 'shortid';
-import moment from 'moment';
-import { fetchCats, saveCats } from '../../actions/cats';
 import Children from './Children';
+import { fetchRelationsApi } from "../../actions/relations";
 
 class Relationships extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      cats: props.cats
+      relations: []
     };
   }
 
   
   componentDidMount = () => {
-    this.props.fetchCats()
+    this.props.fetchRelationsApi()
   }
   
   componentDidUpdate = (p) => {
-    if (this.props.cats !== p.cats) this.setState({ cats: this.props.cats })
+    if (this.props.relations !== p.relations) this.setState({ relations: this.props.relations })
   }
   
   handleChange = (e) => {
@@ -49,11 +46,10 @@ class Relationships extends Component {
   }
 
   render() {
-    const {cats} = this.state || this.props;
     let renderList;
-    if (cats.length > 0) {
+    if (this.state.relations.length > 0) {
       const arrayList =
-      cats.map((cv, i) => ({
+      this.state.relations.map((cv, i) => ({
         key: cv._id || shortid.generate(),
         title: {
           content: <span color={this.state.savedID === cv._id ? 'red' : 'inherit' }>{cv.title}</span>,
@@ -90,7 +86,7 @@ class Relationships extends Component {
     
     return (
       <div id="list" className="">
-        <Header as="h1">Positions</Header>
+        <Header as="h1" className="u-section-title">Section - Relationships</Header>
         {renderList}
         
       </div>
@@ -99,10 +95,10 @@ class Relationships extends Component {
 }
 
 function mapStateToProps (state, props) {
+  const { relationsReducer } = state;
   return {
-    cats: state.cats
+    relations: relationsReducer
   }
 }
 
-
-export default connect(mapStateToProps, { fetchCats, saveCats })(Relationships);
+export default connect(mapStateToProps, { fetchRelationsApi })(Relationships);

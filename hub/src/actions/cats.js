@@ -6,6 +6,7 @@ export const SET_CATS = 'SET_CATS';
 export const SAVED_CATS = 'SAVED_CATS';
 export const NOTIFICATION = 'NOTIFICATION';
 
+// Old 
 
 export function addNotification(status) {
     return {
@@ -13,7 +14,6 @@ export function addNotification(status) {
         status
     }
 }
-
 
 export function savedCats(cats) {
     return {

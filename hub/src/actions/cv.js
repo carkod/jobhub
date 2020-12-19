@@ -28,6 +28,9 @@ export const GENERATE_PDF_FAILED = 'GENERATE_PDF_FAILED';
  * 2 states instead of three:
  *  - Fetch action directly no state
  *  - Action successful state
+ *  - Notification (snackBar) states 
+ *  these are listened by the snackBar reducer
+ *  and do not have additional ACTIONS
  */
 
 export function fetchCVsSuccess(cvs) {

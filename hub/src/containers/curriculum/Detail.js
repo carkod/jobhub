@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { fetchCV, fetchCVs, generatePdfApi, saveCvApi } from '../../actions/cv';
-import { fetchCats } from '../../actions/project';
+import { fetchRelationsApi } from '../../actions/relations';
 import { checkValue } from '../../utils';
 import Metainfo from '../Metainfo';
 import Education from './Education';
@@ -37,7 +37,7 @@ class Detail extends Component {
 
   componentDidMount = () => {
     this.props.fetchCV(this.props.match.params.id);
-    this.props.fetchCats();
+    this.props.fetchRelationsApi();
   }
 
   componentDidUpdate = (props) => {
@@ -153,6 +153,6 @@ const mapStateToProps = (state, props) => {
 
 }
 
-export default connect(mapStateToProps, { saveCvApi, fetchCVs, fetchCV, fetchCats, generatePdfApi })(Detail);
+export default connect(mapStateToProps, { saveCvApi, fetchCVs, fetchCV, fetchRelationsApi, generatePdfApi })(Detail);
 
 
