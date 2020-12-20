@@ -4,7 +4,7 @@ import { Button, Icon } from 'semantic-ui-react';
 import { fetchCV, fetchCVs, generatePdfApi, saveCvApi } from '../../actions/cv';
 import { fetchRelationsApi } from '../../actions/relations';
 import { checkValue } from '../../utils';
-import Metainfo from '../Metainfo';
+import Metainfo from '../../components/Metainfo';
 import Education from './Education';
 import ItSkills from './ItSkills';
 import LangSkills from './LangSkills';
@@ -51,8 +51,12 @@ class Detail extends Component {
     this.setState({ summary: e });
   }
 
-  metaChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
+  metaChange = (e, element) => {
+    if (checkValue(e.target.name)) {
+      this.setState({ [e.target.name]: e.target.value })
+    } else {
+      this.setState(produce(draft => { draft.cats[element.name] = element.value }))
+    }
   }
 
   pdChange = (e) => {
@@ -130,11 +134,11 @@ class Detail extends Component {
 
             <Button type="submit" color='green'>
               <Icon name="save" />Save
-          </Button>
+            </Button>
 
             <Button type="button" onClick={this.savePdf(this.props.match.params.id)}>
               <Icon name="file pdf" />Generate
-          </Button>
+            </Button>
 
           </div>
         </form>

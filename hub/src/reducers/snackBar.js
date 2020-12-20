@@ -1,3 +1,4 @@
+import { EDIT_CL, EDIT_CL_SUCCESS } from "../actions/cover-letter";
 import { COPY_CV_SUCCESS, DELETE_CV_SUCCESS, GENERATE_PDF, GENERATE_PDF_FAILED, GENERATE_PDF_SUCCESS, GET_ALL_CVS_SUCCESS, SAVE_CV, SAVE_CV_SUCCESS } from "../actions/cv";
 import { DELETE_RELATION, DELETE_RELATION_FAILED, DELETE_RELATION_SUCCESS, SAVE_RELATION, SAVE_RELATION_FAILED, SAVE_RELATION_SUCCESS } from "../actions/relations";
 
@@ -85,6 +86,20 @@ export function snackBarReducer(state = { loading: false, message: null, error: 
       return {
         ...state,
         action
+      };
+    case EDIT_CL:
+      return {
+        ...state,
+        message: action.message,
+        error: action.error,
+        loading: false
+      };
+    case EDIT_CL_SUCCESS:
+      return {
+        ...state,
+        message: action.cvs.message,
+        error: action.error,
+        loading: false
       };
     default:
       return state;

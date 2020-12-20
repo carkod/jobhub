@@ -3,7 +3,7 @@ import { COPY_CL_SUCCESS, DELETE_CL_SUCCESS, GET_CLS_SUCCESS, GET_CL_SUCCESS } f
 export function clsListReducer(state = {}, action = {}) {
   switch (action.type) {
     case GET_CLS_SUCCESS:
-      return action.cv;
+      return action.payload;
     case COPY_CL_SUCCESS:
       const deleted = state.filter((item) => item._id !== action.cvs);
       return deleted;

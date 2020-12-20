@@ -13,7 +13,7 @@ const compare = (a, b) => {
     return B.diff(A);
 }
 
-export default function CVs(app, db) {
+export default function CVs(app) {
     app.get('/api/cvs', (req, res) => {
 
         CVModel.find({}, null, { sort: { updatedDate: -1 }, new: true }, function (err, content) {
@@ -22,9 +22,8 @@ export default function CVs(app, db) {
         });
     });
 
-    app.post('/api/cvs', async (req, res) => {
+    app.post('/api/cvs', (req, res) => {
         let r = req.body;
-        let pdfPreview;
 
         // Sort by date            
         const workExp = r.workExp.sort(compare)
@@ -38,7 +37,6 @@ export default function CVs(app, db) {
             cats: {
                 position: r.cats.position,
                 locale: r.cats.locale,
-                cvCountry: r.cats.cvCountry,
                 status: r.cats.status,
             },
             image: r.image,
@@ -59,7 +57,7 @@ export default function CVs(app, db) {
         delete r._id;
 
 
-        await CVModel.update({ _id: id }, cv, { upsert: true }, (err, msg) => {
+        CVModel.update({ _id: id }, cv, { upsert: true }, (err, msg) => {
             if (err) {
                 throw err;
 

@@ -45,35 +45,29 @@ export default function CLs (app, db) {
     });
 
     app.put('/api/cls', (req, res) => {
-        let r = req.body,
-            // Update
-            cl = new CLModel({
-                _id: r._id,
-                name: r.name,
-                pdf: r.pdf,
-                cats: {
-                    position: r.cats.position,
-                    locale: r.cats.locale,
-                    cvCountry: r.cats.cvCountry,
-                },
-                image: r.image,
-                desc: r.desc,
-            });
+        let r = req.body;
+        // Update
+        const cl = new CLModel({
+            _id: r._id,
+            name: r.name,
+            navName: r.navName ? r.navName : r.name,
+            cats: {
+                position: r.cats.position,
+                locale: r.cats.locale,
+                status: r.cats.status,
+            },
+            image: r.image,
+            desc: r.desc,
+        });
 
-        CLModel.findByIdAndUpdate(r._id, cl, (err, msg) => {
+        CLModel.updateOne({_id: r._id}, cl, {}, (err, msg) => {
 
-            if (err) {
-                const newError = new Error(err)
-                res.json({ status: false, message: newError });
+            if (err) res.json({ message: err, error: true });
+
+            if (msg.ok) {
+                res.status(200).json({ _id: msg.id, message: "Cover letter Updated!" });
             } else {
-
-                if (msg.ok) {
-                    res.status(200).json({ _id: msg.id, status: !!msg.ok });
-                    //console.log('changes saved!')  
-                } else {
-                    res.json({ status: !!msg.ok });
-                    //console.log('No changes')  
-                }
+                res.json({ message: "No changes upadated" });
             }
         });
 

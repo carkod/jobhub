@@ -1,58 +1,54 @@
-import Metainfo from '../Metainfo';
-import Editor from '../../components/Editor';
-import update from 'react-addons-update';
 import produce from "immer";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import { fetchCats } from '../../actions/cats';
-import { fetchClApi } from '../../actions/cover-letter';
+import { editClApi, fetchClApi } from '../../actions/cover-letter';
+import { fetchRelationsApi } from '../../actions/relations';
+import Editor from '../../components/Editor';
+import Metainfo from '../../components/Metainfo';
+import { checkValue } from "../../utils";
 
 class Letter extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      cats: null,
+      locales: null,
+      positions: null,
+      statuses: null,
+      name: null,
+      previewPdf: `${process.env.REACT_APP_PDF_URL}/fullprint/${props.match.params.id}`
     };
   }
 
   componentDidMount = () => {
     this.props.fetchClApi(this.props.match.params.id);
-    // this.props.fetchCats();
+    this.props.fetchRelationsApi();
   }
 
   componentDidUpdate = (props) => {
-    if (this.props.name !== props.name) {
-      this.setState(produce(draft => {
-        draft = this.props
-      }))
+    if (this.props !== props) {
+      this.setState({ ...this.props })
     }
-    
   }
 
-  metaChange = (e, value) => {
-    const { cl } = this.state;
-    if (e.target.name) {
-      cl[e.target.name] = e.target.value;
+  metaChange = (e, element) => {
+    if (checkValue(e.target.name)) {
+      this.setState({ [e.target.name]: e.target.value })
     } else {
-      cl.cats[value.name] = value.value;
+      this.setState(produce(draft => { draft.cats[element.name] = element.value }))
     }
-    this.setState({ cl })
   }
 
   descChange = (v) => {
-    const updatedDesc = update(this.state.cl,
-      {
-        desc: { $set: v.toString('html') }
-      }
-    )
-    this.setState({ cl: updatedDesc })
+    this.setState({ desc: v.toString('html') })
   }
 
-  handleName = e => {
-    const { cl } = this.state;
-    cl[e.target.name] = e.target.value
-    this.setState({ cl })
+  handleName = e => {    
+    this.setState(produce(draft => {
+      draft[e.target.name] = e.target.value
+    }))
   }
 
   handleChange = ({ links }) => {
@@ -65,37 +61,31 @@ class Letter extends Component {
     this.setState({ cl })
   }
 
-  keySave = e => {
-    const { cl } = this.state;
-    if (e.ctrlKey || e.metaKey) {
-      if (e.key === 's') {
-        e.preventDefault();
-        e.stopPropagation();
-        this.onSubmit(e);
-      }
-    }
-  }
-
   onSubmit = (e) => {
     e.preventDefault();
-    clearTimeout();
-    const { cl } = this.state;
-    this.props.editCL(cl).then(res => {
-      this.props.generatePDF(cl._id).then(url => {
-        this.props.editCL(cl).then(res => console.log('second save'));
-      })
-    })
-    
+    this.props.editClApi(this.state);
   }
 
   render() {
-    // const { cats } = this.props;
     return (
       <div id="cl">
-        { this.state.name && <form onSubmit={this.onSubmit} name="cl" >
-          <Metainfo name={this.state.name} meta={this.state.cats} onChange={this.metaChange} />
+        <form onSubmit={this.onSubmit} name="cl" >
+        { this.state.name && 
+          <Metainfo 
+            name={this.state.name} 
+            meta={this.state.cats} 
+            navName={this.state.navName}
+            previewPdf={this.state.previewPdf}
+            locales={this.state.locales}
+            positions={this.state.positions}
+            statuses={this.state.statuses}
+            onChange={this.metaChange} 
+          />
+        }
           <div className="container">
-            <Editor value={this.state.desc} onChange={this.descChange} />
+            { this.state.desc && <Editor value={this.state.desc} onChange={this.descChange} />}
+
+            <br />
 
             <Button type="submit" color='green'>
               <Icon name="save" />Save
@@ -103,20 +93,20 @@ class Letter extends Component {
 
           </div>
         </form>
-        }
+        
       </div> 
     );
   }
 }
 
 const mapStateToProps = (state, props) => {
-  const { clReducer } = state;
+  const { clReducer, catsReducer } = state;
   return {
-    ...state,
-    clReducer
+    ...clReducer,
+    ...catsReducer,
   }
 }
 
 
-export default connect(mapStateToProps, { fetchClApi, fetchCats })(Letter);
+export default connect(mapStateToProps, { fetchClApi, fetchRelationsApi, editClApi })(Letter);
 

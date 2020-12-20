@@ -63,18 +63,36 @@ export function getClSuccess(payload) {
 
 export function saveCl(payload) {
   return {
-    type: SAVE_CV,
+    type: SAVE_CL,
     error: false,
-    message: SAVE_CV,
+    message: SAVE_CL,
     payload
   }
 }
 
 export function saveClSuccess(cvs) {
   return {
-    type: SAVE_CV_SUCCESS,
+    type: SAVE_CL_SUCCESS,
     error: false,
-    message: SAVE_CV_SUCCESS,
+    message: SAVE_CL_SUCCESS,
+    cvs
+  }
+}
+
+export function editCl(cvs) {
+  return {
+    type: EDIT_CL,
+    error: false,
+    message: EDIT_CL,
+    cvs
+  }
+}
+
+export function editClSuccess(cvs) {
+  return {
+    type: EDIT_CL_SUCCESS,
+    error: false,
+    message: EDIT_CL_SUCCESS,
     cvs
   }
 }
@@ -169,7 +187,7 @@ export function copyClApi(data) {
 
 }
 
-export function saveCL(data) {
+export function saveClApi(data) {
   return dispatch => {
     return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
       method: 'post',
@@ -184,8 +202,9 @@ export function saveCL(data) {
 }
 
 
-export function editCL(data) {
+export function editClApi(data) {
   return dispatch => {
+    dispatch(editCl())
     return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
       method: 'put',
       body: JSON.stringify(data),
