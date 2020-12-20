@@ -10,7 +10,7 @@ export default function CLs (app, db) {
     
     app.get('/api/cls', (req, res) => {
        
-       CLModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
+       CLModel.find({}, null, {sort: {updatedDate: -1}, new: true} , (err, content) => {
            if (err) throw err;
            //console.log(content)
            res.json(content)
@@ -18,13 +18,17 @@ export default function CLs (app, db) {
     });
         
     app.post('/api/cls', (req, res) => {
-        var r = req.body,
-            cl = new CLModel({
-                _id: mongoose.Types.ObjectId(),
-                name: r.name || 'Enter name',
-            });   
+        const r = req.body;
+        const cl = new CLModel({
+            _id: mongoose.Types.ObjectId(),
+            name: r.name ? r.name : "Enter name",
+            navName: r.navName ? r.navName : r.name,
+            cats: r.cats,
+            image: r.image,
+            desc: r.desc,
+        });
 
-        CLModel.update({_id: r._id}, cl, {upsert: true }, (err, msg) => {
+        CLModel.create(cl, (err, msg) => {
             
           if (err) {
               throw err;
@@ -32,12 +36,9 @@ export default function CLs (app, db) {
           } else {
               
               if (msg.ok) {
-                const savedID = id;   
-                res.json({ _id: msg.id, status: !!msg.ok });
-                //console.log('changes saved!')  
+                res.json({ _id: msg.id, message: "Created new cover letter!" });
               } else {
-                  res.json({ status: !!msg.ok });
-                  //console.log('No changes')  
+                res.json({ message: "No changes to cover letter", error: true });
               }
           }
         });
@@ -143,22 +144,20 @@ export default function CLs (app, db) {
     });
     
     app.delete('/api/cls/:_id', (req, res) => {
-       if (req.params._id) {
-            CLModel.findByIdAndRemove(req.params._id, (err, cv) => {  
-                if(!err) {
-                    const deletedID = req.params._id;
-                    res.json({ _id: deletedID })
+        const { _id } = req.params;
+
+       if (_id) {
+            CLModel.deleteOne({_id: _id}, (err, result) => {  
+                if (err) {
+                    res.json({ data: result, message: err, error: true })
+                } else if(result === null ) {
+                    res.json({ message: "Cover letter not found", error: true })
                 } else {
-                    
-                    res.json({ message: err })
+                    res.json({ data: result, message: "Deleted cover letter successfully!", error: false })
                 }
             });
         } else {
-            
-            let response = {
-                message: "Todo could not be deleted deleted",
-            };
-            res.send(response)
+            res.send({ message: "_id incorrect", error: true})
         }
     });
 }

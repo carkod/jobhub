@@ -14,66 +14,44 @@ export default function Pdf(app, db) {
     app.set('view engine', 'jsx');
     app.engine('jsx', require('express-react-views').createEngine());
 
-    app.get('/pdf/fullprint/:id', (req, res, next) => {
-        const { id } = req.params;
-        CVModel.findOne({ _id: id }, (findErr, content) => {
-            if (findErr) throw findErr;
-            res.render('FullPrint.jsx', content, (err, html) => {
-                if (err) throw err;
-                res.send(html)
-            })
-
-        })
-    })
-
-    app.get('/pdf/quickprint/:id', (req, res, next) => {
-        const { id } = req.params;
-        CVModel.findOne({ _id: id }, (findErr, content) => {
-            if (findErr) throw findErr;
-            res.render('QuickPrint.jsx', content, (err, html) => {
-                if (err) throw err;
-                res.send(html)
-            })
-
-        })
-    })
-
-    app.get('/pdf/fullprint-esp/:id', (req, res, next) => {
-        const { id } = req.params;
-        CVModel.findOne({ _id: id }, (findErr, content) => {
-            if (findErr) throw findErr;
-            res.render('FullPrint.esp.jsx', content, (err, html) => {
-                if (err) throw err;
-                res.send(html)
-            })
-
-        })
-    })
-
-    app.get('/pdf/quickprint-esp/:id', (req, res, next) => {
-        const { id } = req.params;
-        CVModel.findOne({ _id: id }, (findErr, content) => {
-            if (findErr) throw findErr;
-            res.render('QuickPrint.esp.jsx', content, (err, html) => {
-                if (err) throw err;
-                res.send(html)
-            })
-
-        })
-    })
-
-    app.get('/pdf/generate/:id', (req, res, next) => {
-
-        const { id } = req.params;
-
-        CVModel.findOne({ _id: id }, async (err, content) => {
-            if (err) throw err;
-            let pdfPreview = `${req.protocol}://${req.get('host')}/pdf/fullprint/${content._id}`;
-
-            if (content.locale === 'es-ES') {
-                pdfPreview = `${req.protocol}://${req.get('host')}/pdf/fullprint-esp/${content._id}`
+    app.get('/pdf/view/:type/:id/:locale?', (req, res, next) => {
+        const { type, locale, id } = req.params;
+        let Model = CVModel;
+        let template = 'FullPrint.jsx';
+        if (type === "cl") {
+            Model = CLModel
+            template = "CoverLetter.jsx"
+        }
+        if (locale === "es-ES") {
+            template = "es-ES/CV.jsx"
+        }
+        Model.findOne({ _id: id }, (findErr, content) => {
+            if (findErr) {
+                res.send(`Error: ${findErr}`)
+            } else if (content === null) {
+                res.send(`No item found`)
+            } else {
+                res.render(template, content, (err, html) => {
+                    if (err) res.send(`Error: ${err}`)
+                    res.send(html)
+                })
             }
-            const file = await generatePDF(pdfPreview)
+            
+        })
+    })
+
+    app.get('/pdf/generate/:type/:id', (req, res, next) => {
+
+        const { type, id } = req.params;
+        let Model = CVModel;
+        if (type === "cl") {
+            Model = CLModel
+        }
+        Model.findOne({ _id: id }, async (err, content) => {
+            if (err) throw err;
+            const url = `${req.protocol}://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`
+
+            const file = await generatePDF(url)
 
             res.set({
                 'Content-Type': 'application/pdf', 'Content-Length': file.length
@@ -82,34 +60,5 @@ export default function Pdf(app, db) {
         })
     });
 
-    app.get('/pdf/coverletter/:id', (req, res, next) => {
-        const { id } = req.params;
-        CLModel.findOne({ _id: id }, function (findErr, content) {
-            if (findErr) throw findErr;
-            res.render('CoverLetter.jsx', content, (err, html) => {
-                if (err) throw err;
-                res.send(html)
-            })
-
-        })
-    })
-
-    app.get('/pdf/generateCl/:id', (req, res, next) => {
-        const { id } = req.params;
-
-        CLModel.findOne({ _id: id }, function (err, content) {
-            if (err) throw err;
-            console.log(content)
-            const printType = 'cl';
-            const headerText = 'Cover Letter';
-            Promise.all([generatePDF(req, content, printType, headerText)]).then(links => {
-                content.pdf = links[0].link;
-                res.status(200).send(content)
-            })
-            .catch((e) => {
-                console.log('hello Error', e)
-            })
-        })
-    });
 }
     

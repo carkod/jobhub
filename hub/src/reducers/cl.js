@@ -5,8 +5,7 @@ export function clsListReducer(state = {}, action = {}) {
     case GET_CLS_SUCCESS:
       return action.payload;
     case COPY_CL_SUCCESS:
-      const deleted = state.filter((item) => item._id !== action.cvs);
-      return deleted;
+      return state;
     default:
       return state;
   }

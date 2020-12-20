@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Accordion, Button, Icon, Segment } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { copyCL, deleteCL, fetchCLs, saveCL } from '../../actions/cl';
-import { fetchClsApi } from "../../actions/cover-letter";
+import { copyCL } from '../../actions/cl';
+import { deleteClApi, fetchClsApi, saveClApi } from "../../actions/cover-letter";
 import NewCL from './NewCL';
+
 
 class CoverLetters extends Component {
 
@@ -29,33 +30,17 @@ class CoverLetters extends Component {
 
   handleCopy = i => e => {
     e.preventDefault();
-    const { cls } = this.state;
-    let newCL = cls[i];
-    delete newCL._id;
-    if (cls) {
-      this.props.copyCL(newCL).then(status => {
-        this.props.fetchClsApi();
-        //this.state.detail.messages.savedID = status.data._id;
-        //this.setState({ messages })
-      });
-    }
+    this.props.saveClApi(this.state.cls[i]).then(() => this.props.fetchClsApi())
   }
 
-  handleDelete = () => {
-    const getItem = this.props.cls[this.state.activeIndex],
-      getID = getItem._id,
-      getName = getItem.name;
-    this.props.deleteCL(getID).then(cv => {
-      this.setState({ openAccordion: false });
+  handleDelete = (i) => e => {
+    this.props.deleteClApi(this.state.cls[i]._id).then(cv => {
       this.props.fetchClsApi();
-    })
-
+    });
   }
 
 
   render() {
-    const { cls } = this.state;
-
     return (
       <div id="cls" className="">
         <h1>Section - All Cover Letters <NewCL /></h1>
@@ -86,7 +71,7 @@ class CoverLetters extends Component {
                   <div className="buttons">
                     <Link className="ui primary button" to={`/coverletters/id=${letter._id}`}>Edit/View</Link>
                     <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
-                    <Button onClick={this.handleDelete} negative>Delete</Button>
+                    <Button onClick={this.handleDelete(i)} negative>Delete</Button>
                   </div>
                 </div>
               ),
@@ -107,8 +92,4 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-export default connect(mapStateToProps, { saveCL, fetchClsApi, deleteCL, copyCL })(CoverLetters);
-
-
-
-
+export default connect(mapStateToProps, { saveClApi, fetchClsApi, deleteClApi, copyCL })(CoverLetters);

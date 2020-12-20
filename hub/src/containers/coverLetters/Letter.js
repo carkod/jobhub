@@ -7,6 +7,7 @@ import { fetchRelationsApi } from '../../actions/relations';
 import Editor from '../../components/Editor';
 import Metainfo from '../../components/Metainfo';
 import { checkValue } from "../../utils";
+import { generatePdfApi } from "../../actions/generate-pdf";
 
 class Letter extends Component {
 
@@ -18,7 +19,7 @@ class Letter extends Component {
       positions: null,
       statuses: null,
       name: null,
-      previewPdf: `${process.env.REACT_APP_PDF_URL}/fullprint/${props.match.params.id}`
+      previewPdf: `${process.env.REACT_APP_PDF_URL}/view/cl/${props.match.params.id}`
     };
   }
 
@@ -66,6 +67,16 @@ class Letter extends Component {
     this.props.editClApi(this.state);
   }
 
+  savePdf = (id) => async (e) => {
+    e.preventDefault();
+    const response = await this.props.generatePdfApi("cl", id);
+    const blob = new Blob([response], { type: 'application/pdf' })
+    const link = document.createElement('a')
+    link.href = window.URL.createObjectURL(blob)
+    link.download = `Carlos-Wu-${this.state.name}-CoverLetter.pdf`
+    link.click()
+  }
+
   render() {
     return (
       <div id="cl">
@@ -90,6 +101,9 @@ class Letter extends Component {
             <Button type="submit" color='green'>
               <Icon name="save" />Save
             </Button>
+            <Button type="button" onClick={this.savePdf(this.props.match.params.id)}>
+              <Icon name="file pdf" />Generate
+            </Button>
 
           </div>
         </form>
@@ -108,5 +122,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { fetchClApi, fetchRelationsApi, editClApi })(Letter);
+export default connect(mapStateToProps, { fetchClApi, fetchRelationsApi, editClApi, generatePdfApi })(Letter);
 

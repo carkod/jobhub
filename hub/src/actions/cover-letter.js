@@ -8,9 +8,9 @@ export const GET_CL = 'GET_CL';
 export const GET_CL_SUCCESS = 'GET_CL_SUCCESS';
 export const GET_CL_FAILED = 'GET_CL_FAILED';
 
-export const ADD_CL = 'ADD_CL';
-export const ADD_CL_SUCCESS = 'ADD_CL_SUCCESS';
-export const ADD_CL_FAILED = 'ADD_CL_FAILED';
+export const SAVE_CL = 'SAVE_CL';
+export const SAVE_CL_SUCCESS = 'SAVE_CL_SUCCESS';
+export const SAVE_CL_FAILED = 'SAVE_CL_FAILED';
 
 export const COPY_CL = 'COPY_CL';
 export const COPY_CL_SUCCESS = 'COPY_CL_SUCCESS';
@@ -127,13 +127,11 @@ export function deleteClSuccess(payload) {
 export function fetchClsApi() {
   return dispatch => {
     dispatch(getCls())
-    fetch(`${process.env.REACT_APP_API_URL}/cls`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
       headers: headers
     })
       .then(handleResponse)
-      .then(data => {
-        dispatch(getClsSuccess(data))
-      })
+      .then(data => dispatch(getClsSuccess(data)))
   }
 }
 
@@ -149,19 +147,6 @@ export function fetchClApi(id) {
   }
 }
 
-export function generateClPdfApi(id) {
-  return dispatch =>
-    fetch(`${process.env.REACT_APP_PDF_URL}/generateCl/${id}`, {
-      method: 'GET',
-      headers: headers
-    })
-      .then(handleResponse)
-      .then(data => {
-        dispatch(clpdfReady(data));
-        dispatch(pdfGeneratedNotification(data))
-      })
-
-}
 
 export function deleteClApi(id) {
   return dispatch => {

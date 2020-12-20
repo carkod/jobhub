@@ -1,4 +1,4 @@
-import { bufferHeaders, handlePdfResponse, handleResponse, headers } from './actions.config';
+import { bufferHeaders, handleResponse, headers } from './actions.config';
 import { addNotification, setCVNotification } from './notification';
 
 export const SET_CV = 'SET_CV';
@@ -19,9 +19,6 @@ export const DELETE_CV_SUCCESS = 'DELETE_CV_SUCCESS';
 export const SAVE_CV = 'SAVE_CV';
 export const SAVE_CV_SUCCESS = 'SAVE_CV_SUCCESS';
 
-export const GENERATE_PDF = 'GENERATE_PDF';
-export const GENERATE_PDF_SUCCESS = 'GENERATE_PDF_SUCCESS';
-export const GENERATE_PDF_FAILED = 'GENERATE_PDF_FAILED';
 
 /**
  * New action creators
@@ -76,30 +73,6 @@ export function deleteCVSuccess(payload) {
     }
 }
 
-export function generatePdf() {
-    return {
-        type: GENERATE_PDF,
-        error: false,
-        message: GENERATE_PDF,
-    }
-}
-
-export function generatePdfSuccess() {
-    return {
-        type: GENERATE_PDF_SUCCESS,
-        error: false,
-        message: GENERATE_PDF_SUCCESS
-    }
-}
-
-export function generatePdfFailed(payload) {
-    return {
-        type: GENERATE_PDF_FAILED,
-        error: true,
-        message: GENERATE_PDF_FAILED,
-        payload
-    }
-}
 /**
  * End New actions
  */
@@ -178,23 +151,6 @@ export function saveCvApi(data) {
             .then(handleResponse)
             .then(data => dispatch(saveCvSuccess(data)));
     }
-}
-
-export function generatePdfApi(id) {
-    return dispatch => {
-        dispatch(generatePdf());
-        return fetch(`${process.env.REACT_APP_PDF_URL}/generate/${id}`, {
-            method: 'GET',
-            headers: bufferHeaders,
-        })
-        .then(handlePdfResponse)
-        .then((response) => {
-            dispatch(generatePdfSuccess());
-            return response.arrayBuffer();
-        })
-        .catch(e => dispatch(generatePdfFailed(e)))
-    }
-    
 }
 
 export function fetchCVs() {

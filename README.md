@@ -54,3 +54,12 @@ Both prod and dev:
 - Hub 8081
 - Web 8080
 - Back 8082
+
+
+## PDF generator
+Uses puppeeter to render an HTML page and then generate PDF from it
+- `type` field supports currently only `"cv" or "cl"` (Curriculum Vitae or Cover Letter). Any other type will fallback to CV
+- To add new types
+  1 Add new endpoint that supports the new type
+  2 Create template with styling as `type.jsx`
+  3 Modify `/generate/pdf` function to add this new type

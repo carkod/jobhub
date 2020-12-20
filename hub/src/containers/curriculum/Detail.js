@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import { fetchCV, fetchCVs, generatePdfApi, saveCvApi } from '../../actions/cv';
+import { fetchCV, fetchCVs, saveCvApi } from '../../actions/cv';
+import { generatePdfApi } from "../../actions/generate-pdf";
 import { fetchRelationsApi } from '../../actions/relations';
 import { checkValue } from '../../utils';
 import Metainfo from '../../components/Metainfo';
@@ -31,7 +32,7 @@ class Detail extends Component {
       langSkills: null,
       webdevSkills: null,
       itSkills: null,
-      previewPdf: `${process.env.REACT_APP_PDF_URL}/fullprint/${props.match.params.id}`
+      previewPdf: `${process.env.REACT_APP_PDF_URL}/view/cv/${props.match.params.id}`
     }
   }
 
@@ -97,7 +98,7 @@ class Detail extends Component {
 
   savePdf = (id) => async (e) => {
     e.preventDefault();
-    const response = await this.props.generatePdfApi(id);
+    const response = await this.props.generatePdfApi("cv", id);
     const blob = new Blob([response], { type: 'application/pdf' })
     const link = document.createElement('a')
     link.href = window.URL.createObjectURL(blob)
