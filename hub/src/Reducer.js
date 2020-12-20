@@ -13,6 +13,7 @@ import update from 'react-addons-update'
 import { cvReducer, getCvsReducer } from "./reducers/cv";
 import { snackBarReducer } from "./reducers/snackBar";
 import { relationsReducer, catsReducer } from "./reducers/relations";
+import { clsListReducer, clReducer } from "./reducers/cl";
 
 const pfInit = [
     {
@@ -174,6 +175,8 @@ export default combineReducers({
     snackBarReducer,
     relationsReducer,
     catsReducer,
+    clsListReducer,
+    clReducer,
 
     // Old
     portfolio,

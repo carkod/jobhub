@@ -1,38 +1,31 @@
-/* eslint-disable */
-
+import Metainfo from '../Metainfo';
+import Editor from '../../components/Editor';
+import update from 'react-addons-update';
+import produce from "immer";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { fetchCats } from '../../actions/cats';
-import { fetchCLs, generatePDF, editCL } from '../../actions/cl';
-import Metainfo from '../Metainfo';
-import Editor from '../../components/Editor';
-import update from 'react-addons-update';
+import { fetchClApi } from '../../actions/cover-letter';
 
 class Letter extends Component {
 
   constructor(props) {
     super(props);
-    let { cl, detail } = this.props;
     this.state = {
-      cl: props.cl,
     };
-    this.metaChange = this.metaChange.bind(this);
-    this.descChange = this.descChange.bind(this);
-    this.handleFiles = this.handleFiles.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount = () => {
-    this.props.fetchCLs();
-    this.props.fetchCats();
-    document.addEventListener('keydown', this.keySave, false);
+    this.props.fetchClApi(this.props.match.params.id);
+    // this.props.fetchCats();
   }
 
   componentDidUpdate = (props) => {
-    if (this.props.cl !== props.cl || this.props.cats !== props.cats) {
-      const { cl, cats } = this.props;
-      this.setState({ cl, cats })
+    if (this.props.name !== props.name) {
+      this.setState(produce(draft => {
+        draft = this.props
+      }))
     }
     
   }
@@ -96,14 +89,13 @@ class Letter extends Component {
   }
 
   render() {
-    const { cl } = !!Object.keys(this.state).length ? this.state : this.props;
-    const { cats } = this.props;
+    // const { cats } = this.props;
     return (
       <div id="cl">
-        <form onSubmit={this.onSubmit} name="cl" >
-          <Metainfo meta={cl} onChange={this.metaChange} categories={cats} name={this.handleName} />
+        { this.state.name && <form onSubmit={this.onSubmit} name="cl" >
+          <Metainfo name={this.state.name} meta={this.state.cats} onChange={this.metaChange} />
           <div className="container">
-            <Editor value={cl.desc} onChange={this.descChange} />
+            <Editor value={this.state.desc} onChange={this.descChange} />
 
             <Button type="submit" color='green'>
               <Icon name="save" />Save
@@ -111,28 +103,20 @@ class Letter extends Component {
 
           </div>
         </form>
-      </div>
+        }
+      </div> 
     );
   }
 }
 
 const mapStateToProps = (state, props) => {
-
-  if (state.coverLetters[0]._id && state.cats[0]._id) {
-    const cl = state.coverLetters.find(item => item._id === props.match.params.id);
-    return {
-      cl: cl,
-      cats: state.cats,
-    }
-  } else {
-    return {
-      cl: state.coverLetters[0],
-      cats: state.cats
-    }
+  const { clReducer } = state;
+  return {
+    ...state,
+    clReducer
   }
-
 }
 
 
-export default connect(mapStateToProps, { editCL, fetchCLs, fetchCats, generatePDF })(Letter);
+export default connect(mapStateToProps, { fetchClApi, fetchCats })(Letter);
 

@@ -168,15 +168,15 @@ export function fetchCL(id) {
 }
 
 export function generatePDF(id) {
-    return dispatch => 
-    fetch(`${process.env.REACT_APP_PDF_URL}/generateCl/${id}`, {
-        method: 'GET',
-        headers: headers
-    })
-        .then(handleResponse)
-        .then(data => {
-            dispatch(clpdfReady(data));
-            dispatch(pdfGeneratedNotification(data))
+    return dispatch =>
+        fetch(`${process.env.REACT_APP_PDF_URL}/generateCl/${id}`, {
+            method: 'GET',
+            headers: headers
         })
+            .then(handleResponse)
+            .then(data => {
+                dispatch(clpdfReady(data));
+                dispatch(pdfGeneratedNotification(data))
+            })
 
 }

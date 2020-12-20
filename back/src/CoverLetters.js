@@ -81,9 +81,9 @@ export default function CLs (app, db) {
     
     app.get('/api/cls/:_id', (req, res) => {
        if (req.params._id) {
-            CLModel.findById(req.params._id, (err, cv) => {  
+            CLModel.findById(req.params._id, (err, result) => {  
                 if(!err) {
-                    res.json({ cv })
+                    res.json({ data: result, message: "Retrieved Cover letter successfully!" })
                 } else {
                     res.json({ message: err })
                 }

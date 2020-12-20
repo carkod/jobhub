@@ -1,12 +1,10 @@
-/* eslint-disable */
-
-import React, { Component } from 'react';
-import { Item, Header, Accordion, Button, Icon, List, Label, Message, Segment } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import moment from 'moment';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Accordion, Button, Icon, Segment } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { fetchCLs, saveCL, deleteCL, copyCL } from '../../actions/cl';
+import { copyCL, deleteCL, fetchCLs, saveCL } from '../../actions/cl';
 import NewCL from './NewCL';
 
 class CoverLetters extends Component {
