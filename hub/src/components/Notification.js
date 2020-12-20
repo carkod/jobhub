@@ -27,14 +27,6 @@ class Notification extends Component {
 		}
 	}
 
-	componentDidMount = () => {
-		this._unMount = false
-	}
-
-	componentWillUnmount = () => {
-		this._unMount = true
-	}
-
 	removeNotification() {
 		if (!this._unMount) {
 			this.setState({ pop: false })

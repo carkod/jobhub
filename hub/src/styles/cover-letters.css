@@ -1,0 +1,66 @@
+/*
+ --- Cover Letters page
+*/
+
+#cl input, #cl textarea {
+  border:none;
+  outline:none;
+  border-bottom:1px solid #00bfff;
+  padding: 0.5em;
+}
+
+#cl .ui.header input {
+  width:100%;
+}
+
+#cl label {
+  font-size:1.2em;
+}
+
+#cl .sub.header, #project .sub.header  {
+  font-size: 1rem;
+}
+
+#cl .single label {
+  margin: 0 0.5em;
+}
+
+#cl .block input {
+  margin: 0 0.5em;
+  padding: 0 0.5em;
+}
+
+#cl .single {
+  background-color: #eee;
+  padding: 3em;
+  margin: 1.5em 0;
+  position: relative;
+}
+
+#cl .single .btn-close-repeat {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0;
+    display: table;
+}
+
+#cl .workExp-space {
+  padding:1.5em 0;
+}
+
+#cl .personal .sub.header {
+  margin-bottom: 1.5em;
+}
+
+#cl .public-DraftEditor-content {
+  min-height: 150px;
+}
+
+#metainfo.section {
+  margin-top: 1.5em;
+}
+
+#metainfo .ui.header input {
+  padding:0;
+}

@@ -1,0 +1,34 @@
+/* Overrides */
+
+/* Override z-index */
+.ui.selection.dropdown.active, .ui.selection.dropdown.visible {
+  z-index: 99 !important;
+}
+
+.u-space-text {
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.u-top-margin-title {
+  margin-top: 1em;
+}
+
+.u-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.u-align-baseline {
+  display: flex;
+  align-items: baseline;
+}
+
+.u-section-title {
+  margin-top: 1em !important;
+  margin-bottom: 1em !important;
+}
+
+.u-fields-spacing {
+  margin-right: 1em;
+}

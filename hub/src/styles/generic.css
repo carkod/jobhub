@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.ButtonWrap__root___1EO_R {
+  z-index: 1;
+}
+
+.section {
+  padding: 1.5em 0;
+  border-bottom:1px solid #eeeeee;
+}
+
+.btn {
+  border:none;
+  background:none;
+  outline:none;
+  cursor:pointer;
+}
+
+.pos-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+}
+
+.borderTopDashed {
+  border-top:1px dashed #ccc;
+}
+
+.editor__minHeight {
+  min-height: 300px;
+}
+
+.fullwidth__input {
+  width: 100%;
+}
+
+.menu__reset-space {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* Add New button */
+
+.btn__add-new {
+  background-color: '#fff';
+	border: none;
+	cursor: pointer;
+	outline: none;
+}

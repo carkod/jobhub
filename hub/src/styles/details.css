@@ -1,0 +1,58 @@
+#detail input, #detail textarea {
+  border:none;
+  outline:none;
+  border-bottom:1px solid #00bfff;
+  padding: 0.5em;
+}
+
+#detail label {
+  font-size:1.2em;
+}
+
+#detail .sub.header, #project .sub.header  {
+  font-size: 1rem;
+}
+
+#detail .single label {
+  margin: 0 0.5em;
+}
+
+#detail .block input {
+  margin: 0 0.5em;
+  padding: 0 0.5em;
+}
+
+#detail .single {
+  background-color: #eee;
+  padding: 3em;
+  margin: 1.5em 0;
+  position: relative;
+}
+
+#detail .single .btn-close-repeat {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0;
+    display: table;
+}
+
+#detail .workExp-space {
+  padding:1.5em 0;
+}
+
+#detail .personal .sub.header {
+  margin-bottom: 1.5em;
+}
+
+#detail .public-DraftEditor-content {
+  min-height: 150px;
+}
+
+#metainfo.section {
+  margin-top: 1.5em;
+}
+
+#metainfo .ui.header input {
+  padding:0;
+}
