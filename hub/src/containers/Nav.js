@@ -1,14 +1,10 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
 
 class Nav extends Component {
-
-	state = {
-	}
-
 
 	render() {
 
@@ -24,39 +20,34 @@ class Nav extends Component {
 		return (
 			<nav className="sidenav" style={style}>
 				<div className="ui inverted vertical pointed menu">
-					<div className="item uppercase">
-						<NavLink to="/" activeClassName="current" >Home</NavLink>
+					<div className="item">
+						<NavLink to="/" activeClassName="current" className="u-section-title">HOME</NavLink>
 					</div>
-					<div className="item uppercase">
-						<NavLink to="/cv" activeClassName="current" >CV</NavLink>
+					<div className="item">
+						<NavLink to="/cv" activeClassName="current" className="u-section-title">CV</NavLink>
 					</div>
-					<div className="item uppercase">
-						<NavLink to="/jobs" activeClassName="current" >Job board</NavLink>
+					<div className="item">
+						<a>JOB BOARD</a>
 						<div className="level-2 menu menu__reset-space">
-							<div className="item uppercase">
-								<NavLink to="/tracker" activeClassName="current" >Applications tracker</NavLink>
+							<div className="item">
+								<NavLink to="/tracker" activeClassName="current" className="u-section-title">APPLICATION TRACKER</NavLink>
 							</div>
 						</div>
 						<div className="level-2 menu menu__reset-space">
-							<div className="item uppercase">
-								<NavLink to="/new-tracker" activeClassName="current" >New application</NavLink>
-							</div>
-						</div>
-						<div className="level-2 menu menu__reset-space">
-							<div className="item uppercase">
-								<NavLink to="/new-tracker" activeClassName="current" >Contacts</NavLink>
+							<div className="item">
+								<NavLink to="/new-tracker" activeClassName="current" className="u-section-title">NEW APPLICATION</NavLink>
 							</div>
 						</div>
 					</div>
-					<div className="item uppercase">
-						<NavLink to="/coverletters" activeClassName="current" >Cover Letters</NavLink>
+					<div className="item">
+						<NavLink to="/coverletters" activeClassName="current" className="u-section-title">COVER LETTERS</NavLink>
 					</div>
-					<div className="item uppercase">
-						<NavLink to="/relationships" activeClassName="current" >Relationships</NavLink>
+					<div className="item">
+						<NavLink to="/relationships" activeClassName="current" className="u-section-title">RELATIONSHIPS</NavLink>
 					</div>
 					
-					<div className="item uppercase">
-						<NavLink to="/portfolio" activeClassName="current" >Portfolio</NavLink>
+					<div className="item">
+						<NavLink to="/portfolio" activeClassName="current" className="u-section-title">PORTFOLIO</NavLink>
 					</div>
 				</div>
 			</nav>
