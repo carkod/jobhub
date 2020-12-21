@@ -16,7 +16,7 @@ const compare = (a, b) => {
 export default function CVs(app) {
     app.get('/api/cvs', (req, res) => {
 
-        CVModel.find({}, null, { sort: { updatedDate: -1 }, new: true }, function (err, content) {
+        CVModel.find({}, null, { sort: { updatedAt: -1 }, new: true }, (err, content) => {
             if (err) throw err;
             res.status(200).json(content)
         });

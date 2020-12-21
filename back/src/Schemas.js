@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
-import { stringLiteral } from '@babel/types';
 
 mongoose.plugin(slug);
 const Schema = mongoose.Schema;
@@ -133,19 +132,5 @@ ApplicationSchema.pre('save', function (next) {
     }
     next();
 });
-
-// CVSchema.pre('update', function(next){
-//     const slugger = slug(this._update.$set.name.toLowerCase());
-//     // this._findOne({id: '5a2b3658c54dd20bd20ee3f9'},function(err, doc) {
-//     //     console.log(doc)
-//     //     // if (err) {
-//     //     //     this._update.$set.slug = slugger;
-//     //     // } else {
-//     //     //     console.log('slug already exists')
-//     //     // }
-
-//     // });
-//     //next(err, doc);
-// });
 
 export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema };

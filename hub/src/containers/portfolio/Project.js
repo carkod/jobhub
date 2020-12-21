@@ -1,41 +1,37 @@
-/* eslint-disable */
-
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Grid, Header, Icon } from 'semantic-ui-react';
-import { fetchCats, fetchPortfolio, saveProject, uploadFile } from '../../actions/project';
-import Editor from '../../components/Editor';
+import Metainfo from '../../components/Metainfo';
 import Files from './Files';
 import Links from './Links';
-import Metainfo from './Metainfo';
 import PrevImage from './PrevImage';
 import ProjectDesc from './ProjectDesc';
-
+import produce from 'immer';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Button, Icon } from 'semantic-ui-react';
+import { fetchPortfolio, saveProject, uploadFile } from '../../actions/project';
+import { fetchRelationsApi } from '../../actions/relations';
+import { fetchProjectApi } from '../../actions/portfolio';
 
 class Project extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      project: props.project,
-      categories: props.categories
+      project: null,
+      categories: null,
     };
-    this.metaChange = this.metaChange.bind(this);
-    this.descChange = this.descChange.bind(this);
-    this.handleFiles = this.handleFiles.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount = () => {
-    this.props.fetchPortfolio();
-    this.props.fetchCats();
-    document.addEventListener('keydown', this.keySave, false);
+    this.props.fetchProjectApi(this.props.match.params.id);
+    this.props.fetchRelationsApi();
   }
 
   componentDidUpdate = (props) => {
     if (this.props.project !== props.project || this.props.categories !== props.categories) {
-      const { project, categories } = this.props;
-      this.setState({ project, categories })
+      this.setState(produce(draft => {
+        draft.project = this.props.project;
+        draft.categories = this.props.categories;
+      }))
     }
   }
 
@@ -46,19 +42,14 @@ class Project extends Component {
   }
 
   metaChange = (e, props) => {
-    debugger
     const { project } = this.state;
     const { value, name } = props;
     project.cats[name] = value;
     this.setState({ project })
   }
 
-  getProjectDate = (value)  => {
-    console.log(value)
-  }
-
   descChange = (v) => {
-    const {desc} = this.state.project;
+    const { desc } = this.state.project;
     this.state.project.desc = v;
     this.setState({ desc })
   }
@@ -82,17 +73,6 @@ class Project extends Component {
     this.setState({ project: newState });
   }
 
-  keySave = e => {
-    const { project } = this.state;
-    if (e.ctrlKey || e.metaKey) {
-      if (e.key === 's') {
-        e.preventDefault();
-        e.stopPropagation();
-        this.onSubmit(e)
-      }
-    }
-  }
-
   onSubmit = (e) => {
     e.preventDefault();
     const { project } = this.state;
@@ -100,26 +80,43 @@ class Project extends Component {
   }
 
   render() {
-    const { project } = !!Object.keys(this.state).length ? this.state : this.props;
-    const { categories } = this.state;
+    const { project } = this.state;
     return (
       <div id="project">
+        <h1 className="u-section-title">Section - Projects</h1>
         <form onSubmit={this.onSubmit} name="project" >
-          <Metainfo meta={project} onChange={this.metaChange} categories={categories} name={this.projectName} />
-          <div className="container">
-            <PrevImage image={project.image} onUpload={this.handlePrevImg} />
+          {this.state.name && <Metainfo
+            name={this.state.name}
+            meta={this.state.cats}
+            navName={this.state.navName}
+            previewPdf={this.state.previewPdf}
+            locales={this.state.locales}
+            positions={this.state.positions}
+            statuses={this.state.statuses}
+            onChange={this.metaChange}
+          />
+          }
+          {this.state.project &&
+            <>
+              <div className="container">
+                <PrevImage image={project.image} onUpload={this.handlePrevImg} />
 
-          </div>
-          <div className="personal section">
-            <ProjectDesc desc={project.desc} onChange={this.descChange}/>
-          </div>
-          <div className="section">
-            <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles} />
-            <Links links={project.links} onChange={l => this.handleChange(l)} />
-            <Button type="submit" type="submit" color='green'>
-              <Icon name="save" />Save
-            </Button>
-          </div>
+              </div>
+              <div className="personal">
+                <ProjectDesc desc={project.desc} onChange={this.descChange} />
+              </div>
+              <div className="">
+                <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles} />
+                <Links links={project.links} onChange={l => this.handleChange(l)} />
+              </div>
+
+              <br />
+
+              <Button type="submit" type="submit" color='green'>
+                  <Icon name="save" />Save
+                </Button>
+            </>
+          }
         </form>
       </div>
     );
@@ -127,23 +124,14 @@ class Project extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  if (state.portfolio[0]._id) {
-    const project = state.portfolio.find(item => item._id === props.match.params.id);
-    return {
-      project: project,
-      projUI: state.projUI,
-      categories: state.cats
-    }
-  } else {
-    return {
-      project: state.portfolio[0],
-      detail: state.detail,
-      categories: state.cats,
-    }
+  const { catsReducer, projectReducer } = state;
+  return {
+    categories: catsReducer,
+    project: projectReducer
   }
 
 }
 
 
-export default connect(mapStateToProps, { saveProject, fetchPortfolio, uploadFile, fetchCats })(Project);
+export default connect(mapStateToProps, { saveProject, fetchProjectApi, uploadFile, fetchRelationsApi })(Project);
 

@@ -1,19 +1,15 @@
 /* eslint-disable */
 
-import RichTextEditor from 'react-rte';
 import { combineReducers } from 'redux';
-
-import { CL_DELETED, SET_CLS, CL_PDF_GENERATED } from './actions/cl';
-import { CV_DELETED, CV_FETCHED, SET_CV, LOADING } from './actions/cv';
+import { CV_DELETED, CV_FETCHED, LOADING, SET_CV } from './actions/cv';
 import { IS_AUTH, NOT_AUTH } from './actions/login';
 import { FILE_REMOVED, PROJECT_DELETED, SET_PROJECTS } from './actions/project';
-import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, SET_APPLICATIONS, EDIT_APPLICATION } from './actions/tracker';
-import update from 'react-addons-update'
-
+import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, EDIT_APPLICATION, SET_APPLICATIONS } from './actions/tracker';
+import { clReducer, clsListReducer } from "./reducers/cl";
 import { cvReducer, getCvsReducer } from "./reducers/cv";
+import { catsReducer, relationsReducer } from "./reducers/relations";
 import { snackBarReducer } from "./reducers/snackBar";
-import { relationsReducer, catsReducer } from "./reducers/relations";
-import { clsListReducer, clReducer } from "./reducers/cl";
+import { listProjectsReducer, projectReducer } from "./reducers/portfolio";
 
 const pfInit = [
     {
@@ -34,24 +30,6 @@ const pfInit = [
     }
 ]
 
-const clInit = [
-    {
-        _id: '',
-        name: '',
-        slug: '',
-        pdf: [],
-        cats: {
-            position: '',
-            locale: '',
-            cvCountry: '',
-            status: '',
-        },
-        image: '',
-        desc: RichTextEditor.createEmptyValue(),
-    }
-]
-
-
 
 // ++correct here, always return the state then the data
 const portfolio = (state = pfInit, action = {}) => {
@@ -70,33 +48,6 @@ const portfolio = (state = pfInit, action = {}) => {
             const deleted = state.filter((item) => item._id !== action.cvs);
             return deleted;
 
-        default:
-            return state
-    }
-}
-
-const coverLetters = (state = clInit, action = {}) => {
-    switch (action.type) {
-        case SET_CLS:
-            let combined = [];
-            for (let i of action.CLs) {
-                const merge = Object.assign({}, clInit[0], i);
-                combined.push(merge)
-            }
-            //Find immutable way of doing this
-            return combined;
-        case CL_DELETED:
-            const deleted = state.filter((item) => item._id !== action.cls);
-            return deleted;
-        case CL_PDF_GENERATED:
-            const oldIndex = state.findIndex(element => element._id === action.cl._id);
-            if (!action.cl) {
-                action.cl = {}
-            }
-            const filter = update(state,
-                { [oldIndex]: { pdf: { $merge: action.cl.pdf } } }
-            )
-            return filter;
         default:
             return state
     }
@@ -177,10 +128,10 @@ export default combineReducers({
     catsReducer,
     clsListReducer,
     clReducer,
-
+    listProjectsReducer,
+    projectReducer,
     // Old
     portfolio,
-    coverLetters,
     authentication,
     applications,
     applicationDetail,

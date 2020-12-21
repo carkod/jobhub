@@ -71,6 +71,15 @@ export default function Portfolio(app, db) {
             project = new ProjectModel({
                 _id: mongoose.Types.ObjectId(),
                 name: r.name || 'Enter name',
+                cats: {
+                    position: "",
+                    locale: "en-GB",
+                    status: "draft"
+                },
+                image: "",
+                desc: "",
+                documents: [],
+                links: [],
             });
         ProjectModel.create(project, (err, msg) => {
 
@@ -130,11 +139,13 @@ export default function Portfolio(app, db) {
 
     app.get('/api/project/:_id', (req, res) => {
         if (req.params._id) {
-            ProjectModel.findById(req.params._id, (err, project) => {
-                if (!err) {
-                    throw err;
+            ProjectModel.findById(req.params._id, (err, result) => {
+                if (err) {
+                    res.json({ message: err, error: true})
+                } else if (result === null) {
+                    res.json({ message: "Project not found!", error: true})
                 } else {
-                    res.json({ message: err })
+                    res.json({ data: result, message: "Project retrieved successfully!" })
                 }
             });
         } else {

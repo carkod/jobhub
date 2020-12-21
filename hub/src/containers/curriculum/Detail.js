@@ -13,6 +13,7 @@ import PD from './PD';
 import Summary from './Summary';
 import WebdevSkills from './WebdevSkills';
 import WorkRepeater from './WorkRepeater';
+import produce from 'immer';
 
 
 class Detail extends Component {

@@ -10,9 +10,8 @@ export default function CLs (app, db) {
     
     app.get('/api/cls', (req, res) => {
        
-       CLModel.find({}, null, {sort: {updatedDate: -1}, new: true} , (err, content) => {
+       CLModel.find({}, null, {sort: {updatedAt: -1}, new: true} , (err, content) => {
            if (err) throw err;
-           //console.log(content)
            res.json(content)
        });
     });

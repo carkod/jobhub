@@ -12,15 +12,10 @@ class Files extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      documents: props.documents,
+      documents: [],
       uploading: false,
     }
   }
-
-  componentDidMount = () => {
-    this.setState({ documents: this.props.documents })
-  }
-  
   componentDidUpdate = (props) => {
     if (this.props.documents !== props.documents) this.setState({ documents: this.props.documents })
   }
@@ -86,7 +81,6 @@ class Files extends Component {
   }
   
   render() {
-    const {documents} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
       <div className="fileUpload section">
         <Header sub>
@@ -105,7 +99,7 @@ class Files extends Component {
                 Number of files
               </Grid.Column>
             </Grid.Row>
-            {documents.map((doc, i) => 
+            {this.state.documents > 0 && documents.map((doc, i) => 
               <Grid.Row columns={4} key={doc.fileId}>
                 <Grid.Column textAlign="center" width={4}>
                   <button className="btn" onClick={this.deleteDoc(doc)}><Icon name="delete" className="red large"/></button>
