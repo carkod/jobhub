@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+import produce from 'immer';
 import React, { Component } from 'react';
 import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
@@ -14,36 +15,43 @@ class Links extends Component {
   }
 
   componentDidMount = () => {
+    this.setState(produce(draft => {
+      draft.links = this.props.links
+    }))
   }
 
   componentDidUpdate = (props) => {
-    if (this.props.links !== props.links) this.setState({ links: this.props.links })
+    if (this.props.links !== props.links) {
+      this.setState(produce(draft => {
+        draft.links = this.props.links
+      }))
+    }
   }
 
   handleChange = (i) => (e) => {
-    const { links } = this.state;
-    links[i][e.target.name] = e.target.value;
-    this.setState({ [e.target.name]: e.target.value });
-    this.props.onChange(this.state)
+    e.preventDefault();
+    this.setState(produce(draft => {
+      draft.links[i][e.target.name] = e.target.value;
+    }), () => this.props.onChange(this.state.links));
   }
 
   pushLink = (e) => {
     e.preventDefault();
-    let { links } = this.state;
     const newLinkState = {
       id: 'link-' + shortid.generate(),
       title: '',
       url: '',
     }
-    links.push(newLinkState);
-    this.setState({ links })
+    this.setState(produce(draft => {
+      draft.links.push(newLinkState)
+    }))
   }
 
   removeLink = (i) => (e) => {
     e.preventDefault();
-    const { links } = this.state;
-    links.splice(i, 1)
-    this.setState({ links });
+    this.setState(produce(draft => {
+      draft.links.splice(i, 1)
+    }))
   }
 
   render() {
@@ -63,12 +71,11 @@ class Links extends Component {
       </Grid.Row>
     );
 
-    const renderEmpty =
-
+    const renderEmpty = 
       <Grid.Row columns={1} >
         <Grid.Column>
           No links were created
-            </Grid.Column>
+        </Grid.Column>
       </Grid.Row>
       ;
 
@@ -81,7 +88,7 @@ class Links extends Component {
         </Header>
         <br />
         <Grid>
-          {this.state.links ? renderList : renderEmpty}
+          {this.state.links && this.state.links.length > 0 ? renderList : renderEmpty}
         </Grid>
       </div>
     );

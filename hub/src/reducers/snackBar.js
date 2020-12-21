@@ -1,6 +1,8 @@
 import { COPY_CL_FAILED, COPY_CL_SUCCESS, DELETE_CL_FAILED, DELETE_CL_SUCCESS, EDIT_CL, EDIT_CL_SUCCESS } from "../actions/cover-letter";
 import { COPY_CV_SUCCESS, DELETE_CV_SUCCESS, GET_ALL_CVS_SUCCESS, SAVE_CV, SAVE_CV_SUCCESS } from "../actions/cv";
+import { FILE_NOT_FOUND, UPLOAD_SUCCESS, UPLOAD_FAILED  } from "../actions/files";
 import { GENERATE_PDF, GENERATE_PDF_FAILED, GENERATE_PDF_SUCCESS } from "../actions/generate-pdf";
+import { SAVE_PROJECT_SUCCESFUL, GET_PROJECT_SUCCESFUL } from "../actions/portfolio";
 import { DELETE_RELATION, DELETE_RELATION_FAILED, DELETE_RELATION_SUCCESS, SAVE_RELATION, SAVE_RELATION_FAILED, SAVE_RELATION_SUCCESS } from "../actions/relations";
 
 export function snackBarReducer(state = { loading: false, message: null, error: false }, action = {}) {
@@ -130,6 +132,36 @@ export function snackBarReducer(state = { loading: false, message: null, error: 
         error: action.error,
         loading: false
       };
+    case GET_PROJECT_SUCCESFUL:
+      return {
+        message: action.payload.message,
+        error: action.payload.error,
+        loading: false
+      };
+    case SAVE_PROJECT_SUCCESFUL:
+      return {
+        message: action.payload.message,
+        error: action.payload.error,
+        loading: false,
+      };
+    case FILE_NOT_FOUND:
+      return {
+        message: action.message,
+        error: action.error,
+        loading: action.loading,
+      };
+    case UPLOAD_SUCCESS:
+      return {
+        message: action.payload.message,
+        error: action.payload.error,
+        loading: action.loading,
+      };
+    case UPLOAD_FAILED:
+        return {
+          message: action.payload.message,
+          error: action.payload.error,
+          loading: action.loading,
+        };
     default:
       return state;
   }

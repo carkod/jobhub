@@ -1,11 +1,8 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon, Label, Table } from 'semantic-ui-react';
-import { uploadFile, removeFile } from '../../actions/project';
 import { addNotification } from '../../actions/notification';
-import moment from 'moment';
+import { uploadFile } from '../../actions/project';
 
 class PrevImage extends Component {
   
@@ -90,7 +87,10 @@ class PrevImage extends Component {
                 <input name="files" type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.fieldname = fieldname}} />
               </Grid.Column>
               <Grid.Column>
-                <a href={image.imageURL} target="_blank">{image.imageRawName}</a>
+                <a href={image.imageURL} target="_blank">
+                  <img src={image.imageURL} />
+                  <span>{image.imageRawName}</span>
+                </a>
               </Grid.Column>
             </Grid.Row>
           </Grid>

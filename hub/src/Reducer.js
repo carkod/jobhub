@@ -10,6 +10,7 @@ import { cvReducer, getCvsReducer } from "./reducers/cv";
 import { catsReducer, relationsReducer } from "./reducers/relations";
 import { snackBarReducer } from "./reducers/snackBar";
 import { listProjectsReducer, projectReducer } from "./reducers/portfolio";
+import { filesReducer } from "./reducers/files";
 
 const pfInit = [
     {
@@ -130,6 +131,7 @@ export default combineReducers({
     clReducer,
     listProjectsReducer,
     projectReducer,
+    filesReducer,
     // Old
     portfolio,
     authentication,

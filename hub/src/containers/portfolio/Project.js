@@ -1,15 +1,15 @@
+import produce from 'immer';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Button, Icon } from 'semantic-ui-react';
+import { fetchProjectApi, saveProjectApi } from '../../actions/portfolio';
+import { uploadFile } from '../../actions/project';
+import { fetchRelationsApi } from '../../actions/relations';
 import Metainfo from '../../components/Metainfo';
 import Files from './Files';
 import Links from './Links';
 import PrevImage from './PrevImage';
 import ProjectDesc from './ProjectDesc';
-import produce from 'immer';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
-import { fetchPortfolio, saveProject, uploadFile } from '../../actions/project';
-import { fetchRelationsApi } from '../../actions/relations';
-import { fetchProjectApi } from '../../actions/portfolio';
 
 class Project extends Component {
 
@@ -36,47 +36,53 @@ class Project extends Component {
   }
 
   projectName = e => {
-    const { project } = this.state;
-    project[e.target.name] = e.target.value
-    this.setState({ project })
+    this.setState(produce(draft => {
+      draft.project[e.target.name] = e.target.value
+    }));
   }
 
   metaChange = (e, props) => {
-    const { project } = this.state;
     const { value, name } = props;
-    project.cats[name] = value;
-    this.setState({ project })
+    this.setState(produce(draft => {
+      draft.project.cats[name] = value
+    }));
   }
 
   descChange = (v) => {
-    const { desc } = this.state.project;
-    this.state.project.desc = v;
-    this.setState({ desc })
+    this.setState(produce(draft => {
+      draft.project.desc = v
+    }));
   }
 
-  handleChange = ({ links }) => {
-    this.setState({ links: links })
+  handleChange = (links) => {
+    this.setState(produce(draft => {
+      draft.project.links = links;
+    }));
   }
 
   handleFiles = (docs) => {
-    const { project } = this.state;
-    this.state.project.documents = docs.documents;
-    this.setState({ project });
-    this.props.saveProject(project)
+    this.setState(produce(draft => {
+      draft.project.documents.push(docs);
+    }));
+  }
+
+  removeDocs = (docs) => {
+    this.setState(produce(draft => {
+      const index = this.state.project.documents.findIndex(x => x.fileId === docs.fileId);
+      draft.project.documents.splice(index, 1);
+    }));
   }
 
   handlePrevImg = ({ image }) => {
-    const { project } = this.state;
-    const newState = Object.assign({}, project, {
-      image: image
-    })
-    this.setState({ project: newState });
+    this.setState(produce(draft => {
+      draft.project.image = image
+    }));
   }
 
   onSubmit = (e) => {
     e.preventDefault();
     const { project } = this.state;
-    this.props.saveProject(project)
+    this.props.saveProjectApi(project)
   }
 
   render() {
@@ -106,8 +112,8 @@ class Project extends Component {
                 <ProjectDesc desc={project.desc} onChange={this.descChange} />
               </div>
               <div className="">
-                <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.handleFiles} />
-                <Links links={project.links} onChange={l => this.handleChange(l)} />
+                <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.removeDocs} />
+                <Links links={project.links} onChange={this.handleChange} />
               </div>
 
               <br />
@@ -133,5 +139,5 @@ const mapStateToProps = (state, props) => {
 }
 
 
-export default connect(mapStateToProps, { saveProject, fetchProjectApi, uploadFile, fetchRelationsApi })(Project);
+export default connect(mapStateToProps, { saveProjectApi, fetchProjectApi, uploadFile, fetchRelationsApi })(Project);
 

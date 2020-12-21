@@ -43,23 +43,37 @@ export default function Portfolio(app, db) {
     app.post('/api/portfolio/upload', fileUpload, (req, res) => {
         let f = req.file;
         if (!f) {
-            const error = new Error('Please upload a file')
-            error.httpStatusCode = 400
-            res.status(400).json(error)
+            res.json({
+                message: "Upload failed! Please upload a file",
+                error: true
+            })
+        } else {
+            f.url = `${req.protocol}://${req.get('host')}/uploads/${f.filename}`;
+            res.json({
+                message: "Upload successful!",
+                error: false,
+                data: f.url
+            })
         }
-        const { path } = f;
-        f.url = host + '/uploads/' + f.filename;
-        res.json(f)
+        
     });
 
     app.post('/api/portfolio/deupload', (req, res) => {
         let doc = req.body;
-        const foundDir = __dirname + '/' + fileDir + doc.fileRawName;
+        const foundDir = `${fileDir}/${doc.fileName}`;
         fs.unlink(foundDir, (err) => {
             if (err) {
-                res.status(400).json(err)
+                res.json({
+                    message: `${err}`,
+                    error: true,
+                    data: doc
+                })
             } else {
-                res.status(200).json(doc)
+                res.json({
+                    message: `File removed successfully!`,
+                    error: false,
+                    data: doc
+                })
             }
 
         });
@@ -120,18 +134,15 @@ export default function Portfolio(app, db) {
                 links: r.links,
             });
 
-        ProjectModel.findByIdAndUpdate(r._id, project, (err, msg) => {
+        ProjectModel.updateOne({_id: r._id}, project, (err, msg) => {
 
             if (err) {
                 const newError = new Error(err)
-                res.json({ status: false, message: newError });
+                res.json({ error: false, message: newError });
+            } else if (msg === null) {
+                res.json({ error: false, message: "Project not found!" });
             } else {
-
-                if (msg.ok) {
-                    res.status(200).json({ _id: msg.id, status: !!msg.ok });
-                } else {
-                    res.json({ status: !!msg.ok });
-                }
+                res.status(200).json({ data: msg.id, error: false, message: "Project saved successfully!" });
             }
         });
 

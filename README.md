@@ -1,3 +1,5 @@
+Version 1.1.0
+
 # JOBHUB
 
 JobHub is career management tool made for professional career tracking. 

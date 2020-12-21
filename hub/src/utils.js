@@ -10,4 +10,6 @@ export function checkValue(value) {
     return true;
   }
   return false;
-} 
+}
+
+export const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2);

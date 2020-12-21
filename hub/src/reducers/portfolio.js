@@ -22,10 +22,6 @@ export function projectReducer(state = null, action = {}) {
         ...state,
         ...action.payload.data
       }
-    case SAVE_PROJECT_SUCCESFUL:
-      return state
-    case DELETE_PROJECT_SUCCESFUL:
-      return state
     default:
       return state
   }
