@@ -51,6 +51,14 @@ class Detail extends Component {
       this.setState({ ...this.props })
     }
 
+    if (this.props.cats !== props.cats) {
+      if (this.props.cats.locale !== "en-GB") {
+        this.setState(produce(draft => {
+          draft.previewPdf = `${draft.previewPdf}/${this.props.cats.locale}`
+        }))
+      }
+    }
+
   }
 
   summaryChange = (e) => {

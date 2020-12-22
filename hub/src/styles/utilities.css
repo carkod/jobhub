@@ -33,3 +33,8 @@
 .u-fields-spacing {
   margin-right: 1em;
 }
+
+.u-display-block {
+  display: block;
+  width: 100%;
+}

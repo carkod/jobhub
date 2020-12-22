@@ -7,7 +7,7 @@ const Metainfo = props => {
 	return (
 		<div id="metainfo" className="u-top-margin-title">
 			<Header as='h1'>
-				<input type="text" name="name" value={props.name} onChange={props.onChange} />
+				<input className="u-display-block" type="text" name="name" value={props.name} onChange={props.onChange} />
 			</Header>
 			<label htmlFor="navName">Navigation name:</label>
 			<input type="text" name="navName" value={props.navName} onChange={props.onChange} />
