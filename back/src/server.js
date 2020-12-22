@@ -17,7 +17,7 @@ import Api from './Api';
 dotenv.config({path:'../.env'});
 const app = express();
 const dbUrl = process.env.MONGO_CONNECTION_STRING
-let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
+let promise = mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 let db = mongoose.connection;
 
 //Bind connection to error event (to get notification of connection errors)
