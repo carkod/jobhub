@@ -121,6 +121,7 @@ const ApplicationSchema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true }, { strict: false });
 
+
 ApplicationSchema.pre('save', function (next) {
     if (this.contacts.length === 0) {
 
@@ -133,4 +134,12 @@ ApplicationSchema.pre('save', function (next) {
     next();
 });
 
-export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema };
+// Site content (homepage for now)
+const SiteSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    view: { type: String },
+    content: { type: Object },
+    updatedAt: { type: Date, default: Date.now },
+}, { strict: false });
+
+export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema, SiteSchema };

@@ -1,4 +1,3 @@
-//import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 import { CategoriesSchema } from './Schemas';
 

@@ -160,5 +160,3 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps, { saveCvApi, fetchCVs, fetchCV, fetchRelationsApi, generatePdfApi })(Detail);
-
-

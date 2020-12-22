@@ -13,6 +13,7 @@ import Pdf from './Pdf';
 import Portfolio from './Portfolio.js';
 import Tracker from './Tracker.js';
 import Api from './Api';
+import Site from './Site';
 
 dotenv.config({path:'../.env'});
 const app = express();
@@ -58,7 +59,7 @@ promise.then((db) => {
 	Portfolio(app, db);
 	Categories(app, db);
 	Tracker(app, db);
-
+	Site(app, db);
 });
 
 

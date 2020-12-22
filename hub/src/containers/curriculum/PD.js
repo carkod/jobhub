@@ -1,7 +1,5 @@
-/* eslint-disable */
-
-import React, { Component } from 'react';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon } from 'semantic-ui-react';
+import React from 'react';
+import { Grid, Header } from 'semantic-ui-react';
 
 const PD = (props) => {
     const {persdetails} = props;
