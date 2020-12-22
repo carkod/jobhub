@@ -17545,15 +17545,33 @@ html, body, #root, .layout {
 body {
   background: #fff; }
 
+h1 {
+  font-size: 2.2em; }
+
+h2 {
+  font-size: 2em; }
+
+h3 {
+  font-size: 1.8em; }
+
+h4 {
+  font-size: 1.4em; }
+
+h5 {
+  font-size: 1.2em; }
+
+h6 {
+  font-size: 1.1em; }
+
 a, a:link {
   color: #F6AE1B; }
 
 ul li, dl, ol li {
-  font-size: 1.3em;
+  font-size: 1.1em;
   font-weight: 400; }
 
 p {
-  font-size: 1.3em;
+  font-size: 1.1em;
   font-weight: 400; }
 
 table tr {

@@ -17529,6 +17529,15 @@ html.ios {
 .ui.video.active .embed {
   display: inline; }
 
+/**
+* Colors
+**/
+/**
+* Font sizes
+**/
+/**
+* Spacing
+**/
 .serif, h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Serif Pro', serif; }
 
@@ -17540,21 +17549,45 @@ html.ios {
   background: none;
   outline: none; }
 
+.u-standard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(10px, 1fr));
+  grid-row-gap: 1em;
+  grid-column-gap: 1em; }
+
 html, body, #root, .layout {
   height: 100%; }
 
 body {
   background: #fff; }
 
+h1 {
+  font-size: 2.2em; }
+
+h2 {
+  font-size: 2em; }
+
+h3 {
+  font-size: 1.8em; }
+
+h4 {
+  font-size: 1.4em; }
+
+h5 {
+  font-size: 1.2em; }
+
+h6 {
+  font-size: 1.1em; }
+
 a, a:link {
   color: #F6AE1B; }
 
 ul li, dl, ol li {
-  font-size: 1.3em;
+  font-size: 1.1em;
   font-weight: 400; }
 
 p {
-  font-size: 1.3em;
+  font-size: 1.1em;
   font-weight: 400; }
 
 table tr {
@@ -17656,61 +17689,63 @@ p {
 /*-------------
     <MainCV>
 --------------*/
-#fullprint {
-  margin: 5em; }
-  #fullprint h1 {
-    font-weight: 600;
-    font-size: 2em;
-    margin-bottom: 1.5rem; }
-    #fullprint h1 small {
-      color: #868e96;
-      font-weight: 300;
-      font-size: 1em; }
-  #fullprint h2 {
-    font-weight: 200;
-    font-size: 1.5em;
-    margin-bottom: 1.5em; }
-  #fullprint h3 {
-    font-weight: 600;
-    font-size: 1.3em; }
-  #fullprint h4 {
-    font-weight: 400;
+#fullprint h1 {
+  font-weight: 600; }
+  #fullprint h1 small {
+    color: #868e96;
+    font-weight: 300;
     font-size: 1em; }
-    #fullprint h4 small {
-      font-size: 1em;
-      font-weight: 600;
-      color: #868e96; }
-  #fullprint p {
-    font-size: 1.3em; }
-  #fullprint strong {
+
+#fullprint h2 {
+  font-weight: 200; }
+
+#fullprint h3 {
+  font-weight: 600; }
+
+#fullprint h4 {
+  font-weight: 400; }
+  #fullprint h4 small {
+    font-size: 1em;
     font-weight: 600;
-    font-size: 1.3em; }
-  #fullprint section {
-    margin: 1rem 0; }
-  #fullprint .row {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem; }
-  #fullprint .field {
-    font-weight: 400;
-    font-size: 1.3em;
-    padding: 0.5rem 1rem; }
-    #fullprint .field strong {
-      font-weight: 600; }
-  #fullprint .ui.dividing.header {
-    border-top: 1px solid rgba(34, 36, 38, 0.15);
-    margin: 2rem 0;
-    padding: 0.5rem 0; }
-  #fullprint .workplace,
-  #fullprint .position {
-    padding-bottom: 0px; }
-  #fullprint .work-date {
-    font-weight: 400;
-    font-size: 1.3em; }
-  #fullprint .skills .bar {
-    transition: width 2s, background-color 2s; }
-  #fullprint .skills small {
-    margin-left: 0.3rem;
-    opacity: 1; }
+    color: #868e96; }
+
+#fullprint strong {
+  font-weight: 600;
+  font-size: 1.1em; }
+
+#fullprint section {
+  margin: 1rem 0; }
+
+#fullprint .row {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; }
+
+#fullprint .field {
+  font-weight: 400;
+  font-size: 1.1em;
+  padding: 0.5rem 1rem; }
+  #fullprint .field strong {
+    font-weight: 600; }
+
+#fullprint .ui.dividing.header {
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  margin: 2rem 0;
+  padding: 0.5rem 0; }
+
+#fullprint .workplace,
+#fullprint .position {
+  padding-bottom: 0px; }
+
+#fullprint .work-date {
+  font-weight: 400;
+  font-size: 1.1em; }
+
+#fullprint .skills .bar {
+  transition: width 2s, background-color 2s; }
+
+#fullprint .skills small {
+  margin-left: 0.3rem;
+  opacity: 1; }
 
 #quickprint h1 {
   font-weight: 600;
@@ -17732,18 +17767,18 @@ p {
 
 #quickprint h4 {
   font-weight: 400;
-  font-size: 1.3em; }
+  font-size: 1.1em; }
   #quickprint h4 small {
     font-size: 1rem;
     font-weight: 200;
     color: #868e96; }
 
 #quickprint p {
-  font-size: 1.3em; }
+  font-size: 1.1em; }
 
 #quickprint strong {
   font-weight: 600;
-  font-size: 1.3em; }
+  font-size: 1.1em; }
 
 #quickprint section {
   margin: 1rem 0; }
@@ -17757,7 +17792,7 @@ p {
 
 #quickprint .field {
   font-weight: 400;
-  font-size: 1.3em;
+  font-size: 1.1em;
   padding: 0.5rem 1rem; }
   #quickprint .field strong {
     font-weight: 600; }

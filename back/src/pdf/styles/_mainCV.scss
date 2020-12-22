@@ -3,13 +3,10 @@
 --------------*/
 
 #fullprint {
-  margin: $layout-space;
-
   h1 {
     @extend .sans-serif;
     font-weight: 600;
-    font-size: $heading-1;
-    margin-bottom: 1.5rem;
+    
     small {
       color: $dark-grey;
       font-weight: 300;
@@ -19,19 +16,14 @@
   h2 {
     @extend .sans-serif;
     font-weight: 200;
-    font-size: $heading-2;
-    margin-bottom: $heading-2;
   }
   h3 {
     @extend .sans-serif;
     font-weight: 600;
-    font-size: $heading-3;
   }
   h4 {
     @extend .sans-serif;
     font-weight: 400;
-    font-size: $heading-4;
-
     small {
       font-size: $print-small;
       font-weight: 600;
@@ -39,14 +31,12 @@
     }
   }
 
-  p {
-    font-size: $print-font;
-  }
 
   strong {
     font-weight: 600;
     font-size: $print-font;
   }
+  
   section {
     margin: 1rem 0;
   }

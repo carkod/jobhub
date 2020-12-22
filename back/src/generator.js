@@ -17,7 +17,18 @@ export async function generatePDF(url) {
     await page.goto(url)
   
     // create a pdf buffer
-    const pdfBuffer = await page.pdf({ format: 'A4' });
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      displayHeaderFooter: true,
+      footerTemplate: '<div><div class="pageNumber"></div></div>',
+      headerTemplate: 'Curriculum vitae - Updated: <div class="date"></div>',
+      margin: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20
+      }
+    });
 
     // close the browser
     await browser.close()

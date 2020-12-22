@@ -8,6 +8,8 @@ pids
 *.seed
 *.pid.lock
 
+*.css.map
+*.scss.map
 
 #Back-end exceptions
 back/uploads/*
