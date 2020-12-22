@@ -1,11 +1,11 @@
 import produce from 'immer';
 import moment from 'moment';
-import Upload from "../../components/Upload";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { fileNotFound, uploadFileApi, removeFileApi } from '../../actions/files';
+import { fileNotFound, removeFileApi, uploadFileApi } from '../../actions/files';
+import Upload from "../../components/Upload";
 import { parseSize } from "../../utils";
 
 class Files extends Component {
@@ -21,27 +21,8 @@ class Files extends Component {
   componentDidUpdate = (props) => {
 
     if (this.props.file !== props.file) {
-      this.setState(produce(draft => {
-        const file = this.state.file[0];
-        draft.file = file
-        const newFile = {
-          fileId: shortid.generate(),
-          fileName : file.name,
-          fileSize : parseSize(file.size),
-          fileDate : Date.now(),
-          fileURL : this.props.file.data,
-        }
-        this.props.onUpload(newFile);
-        this.uploadRef.value = "";
-        draft.active = false
-      }))
+      
     }
-  }
-
-  fileNameChange = (i) => (e) => {
-    this.setState(produce(draft => {
-      draft.documents[i].name = e.target.value
-    }))
   }
 
   handleChange = (e) => {
@@ -65,7 +46,22 @@ class Files extends Component {
     } else {
       let data = new FormData();
       data.append('fieldname', this.state.file[0]);
-      this.props.uploadFileApi(data)
+      this.props.uploadFileApi(data).then(x => {
+        this.setState(produce(draft => {
+          const file = this.state.file[0];
+          draft.file = file
+          const newFile = {
+            fileId: shortid.generate(),
+            fileName : file.name,
+            fileSize : parseSize(file.size),
+            fileDate : Date.now(),
+            fileURL : x.payload.data,
+          }
+          this.props.onUpload(newFile);
+          this.uploadRef.value = "";
+          draft.active = false
+        }))
+      })
     }
   }
   
@@ -74,8 +70,6 @@ class Files extends Component {
     this.props.removeFileApi(doc).then(x => {
       this.props.onDeupload(doc);
     });
-        
-    
   }
 
   handleUploadRef = (ref) => {
@@ -110,7 +104,7 @@ class Files extends Component {
                   <button className="btn" onClick={this.deleteDoc(doc)}><Icon name="delete" className="red large"/></button>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  <input id="fileName" value={doc.fileName} onChange={this.fileNameChange(i)}/>
+                  <input id="fileName" value={doc.fileName} onChange={this.props.fileNameChange(i)}/>
                 </Grid.Column>
                 <Grid.Column width={4}>
                   {moment(doc.fileDate).format('D-M-Y')}
@@ -139,7 +133,6 @@ const mapStateToProps = (s, p) => {
     active: snackBarReducer.loading ? false : true,
     loading: snackBarReducer.loading,
     file: filesReducer,
-    documents: p.documents
   }
 }
 

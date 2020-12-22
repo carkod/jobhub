@@ -7,10 +7,9 @@ import { FILE_REMOVED, PROJECT_DELETED, SET_PROJECTS } from './actions/project';
 import { APPLICATION_DELETED, APPLICATION_FETCHED, APPLICATION_MOVED_STAGE, EDIT_APPLICATION, SET_APPLICATIONS } from './actions/tracker';
 import { clReducer, clsListReducer } from "./reducers/cl";
 import { cvReducer, getCvsReducer } from "./reducers/cv";
+import { listProjectsReducer, projectReducer } from "./reducers/portfolio";
 import { catsReducer, relationsReducer } from "./reducers/relations";
 import { snackBarReducer } from "./reducers/snackBar";
-import { listProjectsReducer, projectReducer } from "./reducers/portfolio";
-import { filesReducer } from "./reducers/files";
 
 const pfInit = [
     {
@@ -131,7 +130,6 @@ export default combineReducers({
     clReducer,
     listProjectsReducer,
     projectReducer,
-    filesReducer,
     // Old
     portfolio,
     authentication,

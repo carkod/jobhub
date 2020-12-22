@@ -66,6 +66,12 @@ class Project extends Component {
     }));
   }
 
+  handleFileNames = (i) => (e) => {
+    this.setState(produce(draft => {
+      draft.project.documents[i].fileName = e.target.value
+    }));
+  }
+
   removeDocs = (docs) => {
     this.setState(produce(draft => {
       const index = this.state.project.documents.findIndex(x => x.fileId === docs.fileId);
@@ -73,7 +79,7 @@ class Project extends Component {
     }));
   }
 
-  handlePrevImg = ({ image }) => {
+  handlePrevImg = (image) => {
     this.setState(produce(draft => {
       draft.project.image = image
     }));
@@ -102,17 +108,17 @@ class Project extends Component {
             onChange={this.metaChange}
           />
           }
-          {this.state.project &&
+          {project &&
             <>
               <div className="container">
-                <PrevImage image={project.image} onUpload={this.handlePrevImg} />
+                <PrevImage file={project.image} onUpload={this.handlePrevImg} />
 
               </div>
               <div className="personal">
                 <ProjectDesc desc={project.desc} onChange={this.descChange} />
               </div>
               <div className="">
-                <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.removeDocs} />
+                <Files documents={project.documents} onUpload={this.handleFiles} onDeupload={this.removeDocs} fileNameChange={this.handleFileNames}/>
                 <Links links={project.links} onChange={this.handleChange} />
               </div>
 
