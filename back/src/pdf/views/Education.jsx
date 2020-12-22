@@ -4,12 +4,12 @@ import React, { Component } from "react";
 
 class Education extends Component {
   render() {
-    const { educ } = this.props;
+    const { educ, title } = this.props;
     return (
       <section id="education">
-        <h2 className="ui dividing header">Education</h2>
+        <h2 className="ui dividing header">{title}</h2>
         {educ.map((ed, i) => (
-          <div key={i} className="ui grid">
+          <div key={i} className="ui grid" style={{"pageBreakInside": "avoid", "pageBreakInside": "always"}}>
             <div className="row">
               <div className="workplace eight wide column">
                 <h4>{ed.institution}</h4>

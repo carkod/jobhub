@@ -9,6 +9,8 @@ import Metainfo from '../../components/Metainfo';
 import { checkValue } from "../../utils";
 import { generatePdfApi } from "../../actions/generate-pdf";
 
+const pdfType = "cover-letter"
+
 class Letter extends Component {
 
   constructor(props) {
@@ -19,7 +21,7 @@ class Letter extends Component {
       positions: null,
       statuses: null,
       name: null,
-      previewPdf: `${process.env.REACT_APP_PDF_URL}/view/cl/${props.match.params.id}`
+      previewPdf: `${process.env.REACT_APP_PDF_URL}/view/${pdfType}/${props.match.params.id}`
     };
   }
 
@@ -69,7 +71,7 @@ class Letter extends Component {
 
   savePdf = (id) => async (e) => {
     e.preventDefault();
-    const response = await this.props.generatePdfApi("cl", id);
+    const response = await this.props.generatePdfApi(pdfType, id);
     const blob = new Blob([response], { type: 'application/pdf' })
     const link = document.createElement('a')
     link.href = window.URL.createObjectURL(blob)

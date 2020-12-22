@@ -5,12 +5,12 @@ import React, { Component } from 'react';
 class WebDev extends Component {
   
   render() {
-    const {webdevSkills} = this.props;
+    const {webdevSkills, title} = this.props;
     
     return (
       <section id="webdev" className="skills">
                 
-        <h2 className="ui dividing header">Web Development</h2>
+        <h2 className="ui dividing header">{title}</h2>
           <div className="ui grid">
           {webdevSkills.map((ed, i) => 
             <div key={i} className="row">  

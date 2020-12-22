@@ -18,13 +18,17 @@ export default function Pdf(app, db) {
         const { type, locale, id } = req.params;
         let Model = CVModel;
         let template = 'FullPrint.jsx';
-        if (type === "cl") {
+        if (locale === "es-ES") {
+            template = `${locale}/CV.jsx`
+        }
+        if (type === "cover-letter") {
             Model = CLModel
             template = "CoverLetter.jsx"
+            if (locale === "es-ES") {
+                template = "Carta.jsx"
+            }
         }
-        if (locale === "es-ES") {
-            template = "es-ES/CV.jsx"
-        }
+        
         Model.findOne({ _id: id }, (findErr, content) => {
             if (findErr) {
                 res.send(`Error: ${findErr}`)
@@ -44,17 +48,21 @@ export default function Pdf(app, db) {
 
         const { type, id } = req.params;
         let Model = CVModel;
-        if (type === "cl") {
+        let title = type.replace("-", " ")
+        if (type === "cover-letter") {
             Model = CLModel
         }
         Model.findOne({ _id: id }, async (err, content) => {
             if (err) throw err;
-            const url = `${req.protocol}://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`
+            const url = `${req.protocol}://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`;
+            var updatedDate = new Date(content.updatedAt)
+            updatedDate = `${updatedDate.getDate()}/${updatedDate.getMonth()}/${updatedDate.getFullYear()}`
 
-            const file = await generatePDF(url)
+            const file = await generatePDF(url, title, updatedDate)
 
             res.set({
-                'Content-Type': 'application/pdf', 'Content-Length': file.length
+                'Content-Type': 'application/pdf', 
+                'Content-Length': file.length
             });
             res.status(200).send(file);
         })

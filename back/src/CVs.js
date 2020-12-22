@@ -1,6 +1,5 @@
 import moment from 'moment';
 import mongoose from 'mongoose';
-import { generatePDF } from './generator';
 import { CVSchema } from './Schemas';
 
 // Compile model from schema
