@@ -85,11 +85,10 @@ export default function CVs(app) {
                 _id: mongoose.Types.ObjectId(),
                 name: r.name,
                 summary: r.summary,
-                pdf: r.pdf,
+                navName: r.navName ? r.navName : r.name,
                 cats: {
                     position: r.cats.position,
                     locale: r.cats.locale,
-                    cvCountry: r.cats.cvCountry,
                     status: r.cats.status,
                 },
                 image: r.image,

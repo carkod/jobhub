@@ -3,163 +3,231 @@
 --------------*/
 
 #fullprint {
-    
-    h1 {@extend .sans-serif; font-weight: 600; font-size: 2.4rem; margin-bottom:1.5rem;
-        small {color:$dark-grey; font-weight:300; font-size: 2.2rem;}
+  margin: $layout-space;
+
+  h1 {
+    @extend .sans-serif;
+    font-weight: 600;
+    font-size: $heading-1;
+    margin-bottom: 1.5rem;
+    small {
+      color: $dark-grey;
+      font-weight: 300;
+      font-size: $print-small;
     }
-    h2 {@extend .sans-serif; font-weight: 200; font-size: 2rem; margin-bottom: 0.5rem;}
-    h3 {@extend .sans-serif; font-weight: 600; font-size:1.55rem; }
-    h4 {
-        @extend .sans-serif; font-weight:400;font-size: 1.4rem;
-        
-        small {
-            font-size:1.2rem;
-            font-weight:600; 
-            color:$dark-grey;
-        }
+  }
+  h2 {
+    @extend .sans-serif;
+    font-weight: 200;
+    font-size: $heading-2;
+    margin-bottom: $heading-2;
+  }
+  h3 {
+    @extend .sans-serif;
+    font-weight: 600;
+    font-size: $heading-3;
+  }
+  h4 {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: $heading-4;
+
+    small {
+      font-size: $print-small;
+      font-weight: 600;
+      color: $dark-grey;
     }
-    
-    p {font-size:1.3rem;}
-    
-    strong {font-weight:600; font-size:$print-font;}
-    section {
-        margin: 1rem 0;
+  }
+
+  p {
+    font-size: $print-font;
+  }
+
+  strong {
+    font-weight: 600;
+    font-size: $print-font;
+  }
+  section {
+    margin: 1rem 0;
+  }
+
+  .row {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .field {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: $print-font;
+    padding: 0.5rem 1rem;
+
+    strong {
+      font-weight: 600;
     }
-    
-    .row {padding-top:0.5rem; padding-bottom: 0.5rem;}
-    
-    .field {
-        @extend .sans-serif; 
-        font-weight: 400; 
-        font-size: $print-font; 
-        padding:0.5rem 1rem;
-        
-        strong {font-weight: 600;}
+  }
+
+  .ui.dividing.header {
+    border-top: 1px solid rgba(34, 36, 38, 0.15);
+    margin: 2rem 0;
+    padding: 0.5rem 0;
+  }
+
+  .workplace,
+  .position {
+    padding-bottom: 0px;
+  }
+
+  .work-date {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: $print-font;
+  }
+  .skills {
+    .bar {
+      transition: width 2s, background-color 2s;
     }
-    
-    .ui.dividing.header {
-        border-top: 1px solid rgba(34,36,38,.15);
-        margin: 2rem 0;
-        padding: 0.5rem 0;
+    small {
+      margin-left: 0.3rem;
+      opacity: 1;
     }
-    
-    .workplace, .position {
-        padding-bottom:0px;
-    }
-    
-    .work-date {
-        @extend .sans-serif; font-weight: 400; font-size: $print-font;
-    }
-    .skills {
-        .bar {
-            transition: width 2s, background-color 2s;
-        }
-        small {
-            margin-left:0.3rem;
-            opacity:1;
-        }
-        
-    }
-    
-    
+  }
 }
 
 #quickprint {
-    
-    h1 {@extend .sans-serif; font-weight: 600; font-size: 2.2rem; margin-bottom:1.5rem;
-        small {color:$dark-grey; font-weight:300; font-size: 2rem;}
+  h1 {
+    @extend .sans-serif;
+    font-weight: 600;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    small {
+      color: $dark-grey;
+      font-weight: 300;
+      font-size: 2rem;
     }
-    h2 {@extend .sans-serif; font-weight: 200; font-size: 1.7rem; margin-bottom: 0.5rem;}
-    h3 {@extend .sans-serif; font-weight: 600; font-size: 1.5rem; }
-    h4 {
-        @extend .sans-serif; font-weight:400; font-size: 1.3rem;
-        
-        small {
-            font-size:1rem;
-            font-weight:200; 
-            color:$dark-grey;
-        }
+  }
+  h2 {
+    @extend .sans-serif;
+    font-weight: 200;
+    font-size: 1.7rem;
+    margin-bottom: 0.5rem;
+  }
+  h3 {
+    @extend .sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+  h4 {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: $print-font;
+
+    small {
+      font-size: 1rem;
+      font-weight: 200;
+      color: $dark-grey;
     }
-    
-    p {
-        font-size: 1.2rem;
+  }
+
+  p {
+    font-size: $print-font;
+  }
+
+  strong {
+    font-weight: 600;
+    font-size: $print-font;
+  }
+  section {
+    margin: 1rem 0;
+  }
+
+  .row {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .field {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: $print-font;
+    padding: 0.5rem 1rem;
+
+    strong {
+      font-weight: 600;
     }
-    
-    strong {font-weight:600; font-size:$print-font;}
-    section {
-        margin: 1rem 0;
+  }
+
+  .ui.dividing.header {
+    margin: 1rem 0;
+    padding: 0.5rem 0;
+  }
+
+  .workplace,
+  .position {
+    padding-bottom: 0px;
+  }
+  .work-date,
+  .work-desc {
+    padding-top: 10px;
+  }
+
+  .work-date {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+  }
+
+  #education .desc {
+    display: none;
+  }
+
+  #country,
+  #passport,
+  #city,
+  #pob,
+  #dob {
+    display: none;
+  }
+
+  table tr {
+    page-break-inside: avoid;
+  }
+  .row {
+    page-break-inside: avoid;
+  }
+
+  .skills {
+    float: left;
+    margin: 0px;
+    width: 33%;
+    display: inline-table;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    .level {
+      display: none;
     }
-    
-    .row {padding-top:0.5rem; padding-bottom: 0.5rem;}
-    
-    .hide {
-        display:none;
+    small {
+      display: none;
     }
-    
-    .field {
-        @extend .sans-serif; 
-        font-weight: 400; 
-        font-size: $print-font; 
-        padding:0.5rem 1rem;
-        
-        strong {font-weight: 600;}
+    .ui.grid {
+      display: inline-table;
     }
-    
     .ui.dividing.header {
-        margin: 1rem 0;
-        padding: 0.5rem 0;
+      border-image-width: 0;
+      outline: 0;
+      border-color: #fff;
+      border-bottom-color: $grey;
     }
-    
-    .workplace, .position, {
-        padding-bottom:0px;
+  }
+
+  #languages {
+    .level.six.wide.column {
+      display: none;
     }
-    .work-date, .work-desc {
-        padding-top:10px;
-    }
-    
-    .work-date {
-        @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
-    }
-    
-    #education .desc {
-        display:none;
-    }
-    
-    
-    #country, #passport, #city, #pob, #dob {
-        display:none;
-    }
-    
-    table tr {page-break-inside: avoid}
-    .row {page-break-inside: avoid}
-    
-    .skills {
-        float:left;
-        margin:0px;
-        width:33%;
-        display:inline-table;
-        border-top:0px;
-        border-left:0px;
-        border-right:0px;
-        .level {
-            display:none;
-        }
-        small {
-            display:none;
-        }
-        .ui.grid {
-            display:inline-table;
-        }
-        .ui.dividing.header {
-            border-image-width:0;
-            outline:0;
-            border-color:#fff;
-            border-bottom-color: $grey;
-        }
-    }
-    
-    #languages {
-        .label.ten.wide.column {}
-        .level.six.wide.column {display:none;}
-    }
+  }
 }

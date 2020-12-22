@@ -92,11 +92,6 @@ class Detail extends Component {
     this.setState({ name: e.target.value })
   }
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.props.saveCvApi(this.state);
-  }
-
   savePdf = (id) => async (e) => {
     e.preventDefault();
     const response = await this.props.generatePdfApi("cv", id);
@@ -105,6 +100,11 @@ class Detail extends Component {
     link.href = window.URL.createObjectURL(blob)
     link.download = `Carlos-Wu-${this.state.name}.pdf`
     link.click()
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.saveCvApi(this.state);
   }
 
   render() {

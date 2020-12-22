@@ -6,8 +6,16 @@ $orange: #F6AE1B;
 $dark: #414143;
 $dark-grey:#868e96;
 
-$preset-font: 1.3rem;
-$print-font: 1.3rem;
+$preset-font: 1.3em;
+$print-font: 1.3em;
+$print-small: 1em;
+$heading-1: 2em;
+$heading-2: 1.5em;
+$heading-3: 1.3em;
+$heading-4: 1em;
+$heading-5: 0.8em;
+
+$layout-space: 5em;
 
 .serif {
   font-family: 'Source Serif Pro', serif;
@@ -25,10 +33,6 @@ $print-font: 1.3rem;
 
 html, body, #root, .layout {
   height:100%;
-}
-
-html {
-  font-size: 16px;
 }
 
 body {
@@ -56,6 +60,3 @@ p {
 }
 
 table tr {page-break-inside: avoid}
-
-.container {
-}

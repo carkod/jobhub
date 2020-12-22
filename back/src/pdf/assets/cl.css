@@ -17542,9 +17542,6 @@ html.ios {
 html, body, #root, .layout {
   height: 100%; }
 
-html {
-  font-size: 16px; }
-
 body {
   background: #fff; }
 
@@ -17552,11 +17549,11 @@ a, a:link {
   color: #F6AE1B; }
 
 ul li, dl, ol li {
-  font-size: 1.3rem;
+  font-size: 1.3em;
   font-weight: 400; }
 
 p {
-  font-size: 1.3rem;
+  font-size: 1.3em;
   font-weight: 400; }
 
 table tr {

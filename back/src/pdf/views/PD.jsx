@@ -12,8 +12,12 @@ class PD extends Component {
       <h2 className="ui dividing header">Personal Details</h2>
         <div className="ui grid">
           <div className="text twelve wide column">
-          <div className="ui two column grid">
-            {persdetails.name ? <div id="firstname" className="field two column wide"><strong><span className="label">First name: </span></strong>{persdetails.name}</div> : ''}
+            {persdetails.name ? 
+              <div id="firstname" className="">
+                <strong><span className="label">First name: </span></strong>
+                {persdetails.name}
+              </div>
+            : ''}
             
             {persdetails.lastname ? <div id="lastname" className="field two column wide"><strong><span className="label">Surname: </span></strong>{persdetails.lastname}</div> : ''}
             
@@ -38,7 +42,6 @@ class PD extends Component {
             
             {persdetails.PoB ? <div id="pob" className="additional field two column wide"><strong><span className="label">Place of Birth: </span></strong>{persdetails.PoB}</div> : ''}
             
-            </div>
           </div>
           <div className="photo four wide column">{persdetails.photo}</div>  
       </div>
