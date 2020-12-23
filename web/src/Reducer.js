@@ -121,5 +121,5 @@ const portfolio = (state = pfInit, action = {}) => {
     }
 }
 
-export default combineReducers({ cvs, cats, portfolio, singleCV });
+export default combineReducers({ cats, portfolio, singleCV });
 

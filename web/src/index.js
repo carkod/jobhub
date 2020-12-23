@@ -1,20 +1,17 @@
-
-/* eslint-disable */
-let regeneratorRuntime =  require("regenerator-runtime");
-import React, {Component} from 'react';
-import registerServiceWorker from './registerServiceWorker';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import { Link, Route, IndexRoute, Router, Switch, BrowserRouter } from 'react-router-dom';
-
+import { BrowserRouter } from 'react-router-dom';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
-
-import Reducer from './Reducer';
 import App from './pages/App';
+import Reducer from './Reducer';
+import registerServiceWorker from './registerServiceWorker';
+
+
 
 const store = createStore(
     Reducer,

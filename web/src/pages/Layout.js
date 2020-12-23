@@ -1,9 +1,5 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
-import Footer from './Footer';
 import Sidebar from './Sidebar';
-
 
 const duration = 300;
 
@@ -39,7 +35,6 @@ class Layout extends Component {
           
           <div className="righty">
             {this.props.children}
-            <Footer />
           </div>
             
         </main>

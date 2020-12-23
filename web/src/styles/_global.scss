@@ -5,8 +5,21 @@ $grey: #eee;
 $orange: #F6AE1B;
 $dark: #414143;
 $dark-grey:#868e96;
+$main-blue:#44b0ee;
 
-$preset-font: 1.3rem;
+$preset-font: 1.3em;
+$medium-p: 1.4em;
+$large-p: 1.5em;
+
+$standard-space: 1.5em;
+
+// indeces
+$index-base: 3; // On top of sidebar
+$index-primary: 5;
+$index-secondary: 10;
+$index-third: 15;
+
+$index-top: 100; // Modal
 
 .serif {
   font-family: 'Source Serif Pro', serif;

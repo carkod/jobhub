@@ -1,95 +1,105 @@
 @keyframes bounce {
-  0% { transform: translateY(0px); }
-  33% { transform: translateY(2px); }
-  100% { transform: translateY(-2px); }
+  0% {
+    transform: translateY(0px);
+  }
+  33% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(-2px);
+  }
 }
 
 @keyframes revealer {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @mixin dropdown() {
-.cv-dropdown {
+  .cv-dropdown {
     @extend .sans-serif;
-    font-weight:200;
+    font-weight: 200;
     font-size: $preset-font;
-    border:1px solid $blue;    
-    outline:none;
-    border-radius:0px;
+    border: 1px solid $blue;
+    outline: none;
+    border-radius: 0px;
     background-color: $blue;
-    box-shadow:none;
-    padding-right:1.3rem;
-    
-    @media (max-width:66rem) {
-        padding:1rem;
-        font-size:$preset-font*0.8;
+    box-shadow: none;
+    padding-right: 1.3rem;
+
+    @media (max-width: 66rem) {
+      padding: 1rem;
+      font-size: $preset-font * 0.8;
     }
-    
+
     .default.text {
-        color: #fff;
+      color: #fff;
     }
-    .icon{
-        float:right; color:#fff;
-            &.cloud {
-                animation: bounce 1s infinite;
-                transition: animation 1s ease-in-out;
-            }
+    .icon {
+      float: right;
+      color: #fff;
+      &.cloud {
+        animation: bounce 1s infinite;
+        transition: animation 1s ease-in-out;
+      }
     }
-    
+
     .menu {
-        border-radius:0px;
-        border-color:$blue;
-        box-shadow:none;
-        
-        .menutem {
-            a {
-                display:block;
-                @extend .sans-serif;
-                color:$blue;
-                padding:1rem 1.25rem;
-                
-                @media (max-width:66rem) {
-                    padding:1rem;
-                    font-size:$preset-font*0.8;
-                }
-                
-                &:hover {
-                    color:#fff;
-                    background-color:$blue;
-                }
-            }
-            
+      border-radius: 0px;
+      border-color: $blue;
+      box-shadow: none;
+
+      .menutem {
+        a {
+          display: block;
+          @extend .sans-serif;
+          color: $blue;
+          padding: 1rem 1.25rem;
+
+          @media (max-width: 66rem) {
+            padding: 1rem;
+            font-size: $preset-font * 0.8;
+          }
+
+          &:hover {
+            color: #fff;
+            background-color: $blue;
+          }
         }
+      }
     }
-}
+  }
 }
 
 @mixin box {
-    .box-title {
-    display:block;
-    text-transform:uppercase;
-    text-align:center;
-    margin:0.3rem 0;
-    padding:0;
-    line-height:1.1;
-    
-        .title {
-            @extend .sans-serif;
-            font-size:1.55rem;
-            font-weight:600;
-            margin-bottom:0.2rem;
-            
-            @media (max-width:66rem) {
-                font-size:1.2rem;
-            }
-        }
-        .text {
-            @extend .sans-serif;
-            font-size:1.06rem;
-            color:$blue;
-        }
+  .box-title {
+    display: block;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0.3rem 0;
+    padding: 0;
+    line-height: 1.1;
+
+    .title {
+      @extend .sans-serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+
+      @media (max-width: 66rem) {
+        font-size: 1.2rem;
+      }
     }
+    .text {
+      @extend .sans-serif;
+      font-size: 1.06rem;
+      color: $blue;
+    }
+  }
 }
 
 /*-------------
@@ -97,62 +107,34 @@
 --------------*/
 
 #home {
-    position:relative;
-    width:100%;
-    margin-right:5%;
-    @media (max-width: 44rem) {
-        margin-right:0px;
-    }
-    #quick {
-        @include box;
-        @include dropdown;
-    }
-    
-    
-    #explore {
-        @include box;
-        @include dropdown;
-    
-    }
-    
-    .home-details {
-        z-index: 3;
-        font-size: 1.2rem;
-        margin: 4rem 0;
-        
-        @media (max-width:66rem) {
-            font-size:1rem;
-        }
-        
-        #revealer {position:relative;}
+  position: relative;
+  width: 100%;
+  margin-right: 5%;
+  @media (max-width: 44rem) {
+    margin-right: 0px;
+  }
+  #quick {
+    @include box;
+    @include dropdown;
+  }
 
-        .revealed {
-            @media (min-width:48rem) {
-                &::before {
-                    
-                    transform:translateX(0);
-                    transition: transform 1s ease-in-out;
-                }
-            }
-            /*&::after {
-                content: '\00a0';
-                position:absolute;
-                top:-4px;
-                left:0;
-                background-color:$blue;
-                width:70%;
-                height:10px;
-                transform: rotate(2deg);
-                z-index:1;
-                transform:translateX(0);
-                transition: transform 1s ease-in-out;
-            }*/
-        }
+  #explore {
+    @include box;
+    @include dropdown;
+  }
+
+  .home-details {
+    z-index: $index-base;
+    font-size: $preset-font;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__container {
+        max-width: 40em;
     }
-    
-    .copyright {
-        padding: 2.5rem 4rem;
-        font-size: 1.2rem;
+    &__container-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
-    
+  }
 }
