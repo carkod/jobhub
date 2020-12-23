@@ -40,6 +40,8 @@ This is a full stack application made with:
 - Execute debugger in .vscode F5
 - Edit `.env` and `docker-compose.yml` files and adjust to each environment
 
+> Actions and reducers should be exactly the same for both web and hub
+
 ## DEPLOYMENT
 
 - Try docker make sure the image works:

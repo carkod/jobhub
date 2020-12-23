@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-import { connect } from "react-redux";
-import { fetchCats } from "../../actions/cats";
-import { fetchCVs } from "../../actions/cv";
+import { Card, Icon, Image } from "semantic-ui-react";
 import profilePic from "../../carlos.jpg";
-import { Card, Image, Icon } from "semantic-ui-react";
 
 class Home extends Component {
   constructor(props) {
@@ -15,8 +12,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCVs();
-    this.props.fetchCats();
     document.addEventListener("scroll", this.listenToScroll);
   }
 
@@ -60,7 +55,7 @@ class Home extends Component {
         >
           <div className="home-details__container">
             <div className="home-details__container-top">
-              <Card wrapped ui={false}>
+              <Card ui={false}>
                 <Image
                   src={profilePic}
                   alt="Carlos Wu" />
@@ -156,9 +151,4 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const { cvs, cats } = state;
-  return {};
-};
-
-export default connect(mapStateToProps, { fetchCVs, fetchCats })(Home);
+export default Home;

@@ -1,10 +1,7 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import shortid from 'shortid';
-import {fetchCats} from '../actions/cats';
+import { fetchCats } from '../actions/cats';
 import { fetchCVs } from '../actions/cv';
 import { fetchProjects } from '../actions/res';
 
@@ -22,9 +19,8 @@ class Sidebar extends Component {
   }
   
   componentDidMount = () => {
-    this.props.fetchCats();
     this.props.fetchCVs()
-    this.props.fetchProjects();
+    // this.props.fetchProjects();
     
   }
   
