@@ -40,6 +40,30 @@ export default function Portfolio(app, db) {
         });
     });
 
+    /**
+   * Portfolio for navigation
+   * - Only public status
+   * - Grouped by category
+   * @returns { categoryname, _id, cats }
+   */
+  app.get("/api/portfolio/navigation", (req, res) => {
+    const query = {
+      $and: [{ "cats.status": "public" }],
+    };
+
+    ProjectModel.find(
+      query,
+      null,
+      { sort: { updatedAt: -1 } },
+      (err, content) => {
+        if (err) {
+          res.json({ message: err, error: true });
+        }
+        res.status(200).json(content);
+      }
+    );
+  });
+
     app.post('/api/portfolio/upload', fileUpload, (req, res) => {
         let f = req.file;
         if (!f) {

@@ -14,3 +14,9 @@
 .u-margin-right {
   margin-right: $standard-space;
 }
+
+.u-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: $standard-space;
+}

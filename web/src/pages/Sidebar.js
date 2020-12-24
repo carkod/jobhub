@@ -29,8 +29,21 @@ class Sidebar extends Component {
     } catch (e) {
       if (e) throw e;
     }
+    try {
+      const projects = await fetchProjects();
+      const filterProjects = projects.filter(x => x.cats.locale === 'en-GB' && x.cats.status === 'public')
+      const projectsMenu = filterProjects.filter((el, i, self) => {
+        return i === self.findIndex(j => {
+          return el.cats.position === j.cats.position
+        })
+      })
+      this.setState(produce(draft => {
+        draft.projects = projectsMenu
+      }));
+    } catch (e) {
+      if (e) throw e;
+    }
     
-    // this.props.fetchProjects();
     
   }
   
@@ -84,13 +97,13 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('portfolio')} >Portfolio</button>
             <ul id="portfolio" className={this.state.openmenu === 'portfolio' ? 'openMenu' : 'closeMenu' }>
-              {/* {projectCats.map(p => 
+              {this.state.projects.map(p => 
                 <li key={p._id} className="item" >
-                  <NavLink to={`/portfolio/${p.cats.locale}/${p.cats.position}/${p._id}`} activeClassName="active">
+                  <NavLink to={`/portfolio/${p.cats.locale}/${p.cats.position}`} activeClassName="active">
                     {p.cats.position}
                   </NavLink>
                 </li>
-              )} */}
+              )}
             </ul>
           </li>
         </ul>

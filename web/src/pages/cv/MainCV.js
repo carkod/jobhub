@@ -21,7 +21,7 @@ class MainCV extends Component {
       angle: -5,
       translatePosition: 3,
       lateralPosition: 10,
-      scroll: start
+      scroll: start,
     };
   }
 
@@ -34,11 +34,11 @@ class MainCV extends Component {
       })
     );
 
-    window.addEventListener("scroll", this.listenScroll, true)
-  };
+    window.addEventListener("scroll", this.listenScroll, true);
+  }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.listenScroll)
+    window.removeEventListener("scroll", this.listenScroll);
   }
 
   getPdf = async (e) => {
@@ -52,7 +52,6 @@ class MainCV extends Component {
       link.download = `Carlos-Wu-${this.state.name}.pdf`;
       link.click();
     }
-    
   };
 
   listenScroll = (e) => {
@@ -76,16 +75,14 @@ class MainCV extends Component {
     //     lateralPosition: lateralMovement
     //   })
     // }
-
-    
-  }
+  };
 
   render() {
     const { cv } = this.state;
     return (
       <div id="mainCV" className="container">
         {cv ? (
-          <div >
+          <div>
             <Helmet>
               <title>{`Carlos Wu - ${cv.name}`}</title>
               <meta charSet="utf-8" />
@@ -96,10 +93,15 @@ class MainCV extends Component {
               <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
             </Helmet>
 
-            <main className="cvContent" style={{
-              // transform: `rotate(${this.state.angle}deg) translate(${this.state.lateralPosition}em, ${this.state.translatePosition}em)`,
-              // width: `90%`
-            }}>
+            <main
+              className="cvContent"
+              style={
+                {
+                  // transform: `rotate(${this.state.angle}deg) translate(${this.state.lateralPosition}em, ${this.state.translatePosition}em)`,
+                  // width: `90%`
+                }
+              }
+            >
               <h1>
                 Carlos Wu - <small>{cv.name}</small>
                 <button
@@ -145,7 +147,7 @@ class MainCV extends Component {
 const map = (s) => {
   const { snackbarReducer } = s;
   return {
-    snackBar: snackbarReducer
-  }
-}
+    snackBar: snackbarReducer,
+  };
+};
 export default connect(map, { generatePdfApi })(MainCV);
