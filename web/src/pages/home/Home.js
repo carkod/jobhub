@@ -12,11 +12,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener("scroll", this.listenToScroll);
+    document.addEventListener("scroll", this.listenToScroll, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("scroll", () => null);
+    document.removeEventListener("scroll", () => null, true);
   }
 
   componentDidUpdate = (props) => {
@@ -33,7 +33,6 @@ class Home extends Component {
   };
 
   render() {
-    const { cvs, positions, location } = this.props;
     const yearsExp = new Date().getFullYear() - 2014;
     return (
       <div id="home" className="container">
@@ -50,12 +49,12 @@ class Home extends Component {
         <div
           className="home-details"
           style={{
-            transform: `rotate(${this.state.theposition}deg)`,
+            transform: `rotate(${this.state.theposition}deg) translate(0em, -1em)`,
           }}
         >
           <div className="home-details__container">
             <div className="home-details__container-top">
-              <Card ui={false}>
+              <Card>
                 <Image
                   src={profilePic}
                   alt="Carlos Wu" />

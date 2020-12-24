@@ -4,7 +4,7 @@ import { clReducer, clsListReducer } from "./reducers/cl";
 import { cvReducer, getCvsReducer } from "./reducers/cv";
 import { listProjectsReducer, projectReducer } from "./reducers/portfolio";
 import { catsReducer } from "./reducers/relations";
-
+import { snackBarReducer } from "./reducers/snack-bar";
 
 // ++correct here, always return the state then the data
 const portfolio = (state = null, action = {}) => {
@@ -38,6 +38,7 @@ export default combineReducers({
     clReducer,
     listProjectsReducer,
     projectReducer,
+    snackBarReducer,
     // Old
     portfolio,
 });

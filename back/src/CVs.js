@@ -1,174 +1,184 @@
-import moment from 'moment';
-import mongoose from 'mongoose';
-import { CVSchema } from './Schemas';
+import moment from "moment";
+import mongoose from "mongoose";
+import { CVSchema } from "./Schemas";
 
 // Compile model from schema
-const CVModel = mongoose.model('CVModel', CVSchema);
+const CVModel = mongoose.model("CVModel", CVSchema);
 const compare = (a, b) => {
-    const splitA = a.date.split('–')[0];
-    const A = moment(splitA.split('/').reverse());
-    const splitB = b.date.split('–')[0];
-    const B = moment(splitB.split('/').reverse());
-    return B.diff(A);
-}
+  const splitA = a.date.split("–")[0];
+  const A = moment(splitA.split("/").reverse());
+  const splitB = b.date.split("–")[0];
+  const B = moment(splitB.split("/").reverse());
+  return B.diff(A);
+};
 
 export default function CVs(app) {
-    app.get('/api/cvs', (req, res) => {
+  app.get("/api/cvs", (req, res) => {
+    CVModel.find(
+      {},
+      null,
+      { sort: { updatedAt: -1 }, new: true },
+      (err, content) => {
+        if (err) throw err;
+        res.status(200).json(content);
+      }
+    );
+  });
 
-        CVModel.find({}, null, { sort: { updatedAt: -1 }, new: true }, (err, content) => {
-            if (err) throw err;
-            res.status(200).json(content)
-        });
-    });
+  /**
+   * CVs for navigation
+   * - Only public status
+   * @returns { navName, _id }
+   */
+  app.get("/api/cvs/navigation", (req, res) => {
+    const query = {
+      $and: [{ "cats.status": "public" }, { navName: { $exists: true } }],
+    };
 
-    app.post('/api/cvs', (req, res) => {
-        let r = req.body;
-
-        // Sort by date            
-        const workExp = r.workExp.sort(compare)
-        const educ = r.educ.sort(compare)
-
-        // Upsert model
-        const cv = new CVModel({
-            name: r.name,
-            summary: r.summary,
-            navName: r.navName ? r.navName : r.name,
-            cats: {
-                position: r.cats.position,
-                locale: r.cats.locale,
-                status: r.cats.status,
-            },
-            image: r.image,
-            persdetails: r.persdetails,
-            workExp: workExp,
-            educ: educ,
-            langSkills: r.langSkills,
-            webdevSkills: r.webdevSkills,
-            itSkills: r.itSkills,
-            other: r.other,
-        });
-        if (!r._id) {
-            // Create New
-            cv._id = mongoose.Types.ObjectId()
+    CVModel.find(
+      query,
+      "navName _id cats",
+      { sort: { updatedAt: -1 } },
+      (err, content) => {
+        if (err) {
+          res.json({ message: err, error: true });
         }
+        res.status(200).json(content);
+      }
+    );
+  });
 
-        const id = r._id || cv._id;
-        delete r._id;
+  app.post("/api/cvs", (req, res) => {
+    let r = req.body;
 
+    // Sort by date
+    const workExp = r.workExp.sort(compare);
+    const educ = r.educ.sort(compare);
 
-        CVModel.update({ _id: id }, cv, { upsert: true }, (err, msg) => {
-            if (err) {
-                throw err;
-
-            } else {
-                if (msg.ok) {
-                    const savedID = id;
-                    res.json({ status: !!msg.ok, message: "CV changes saved!" });
-                } else {
-                    res.json({ status: !!msg.ok });
-                    console.log('No changes')
-                }
-            }
-        });
-
+    // Upsert model
+    const cv = new CVModel({
+      name: r.name,
+      summary: r.summary,
+      navName: r.navName ? r.navName : r.name,
+      cats: {
+        position: r.cats.position,
+        locale: r.cats.locale,
+        status: "draft",
+      },
+      image: r.image,
+      persdetails: r.persdetails,
+      workExp: workExp,
+      educ: educ,
+      langSkills: r.langSkills,
+      webdevSkills: r.webdevSkills,
+      itSkills: r.itSkills,
+      other: r.other,
     });
+    if (!r._id) {
+      // Create New
+      cv._id = mongoose.Types.ObjectId();
+    }
 
-    // Copy action
-    app.post('/api/cvs/:_id', (req, res) => {
-        let r = req.body,
-            cv;
+    const id = r._id || cv._id;
+    delete r._id;
 
-        if (req.params._id) {
-
-            cv = new CVModel({
-                _id: mongoose.Types.ObjectId(),
-                name: r.name,
-                summary: r.summary,
-                navName: r.navName ? r.navName : r.name,
-                cats: {
-                    position: r.cats.position,
-                    locale: r.cats.locale,
-                    status: r.cats.status,
-                },
-                image: r.image,
-                persdetails: r.persdetails,
-                workExp: r.workExp,
-                educ: r.educ,
-                langSkills: r.langSkills,
-                webdevSkills: r.webdevSkills,
-                itSkills: r.itSkills,
-                other: r.other,
-            });
-
-            const id = cv._id;
-            delete r._id;
-            CVModel.create(cv, (err, content) => {
-
-                if (err)
-                    throw err;
-
-                if (content !== undefined) {
-                    res.json({ _id: content._id, status: true });
-                    console.log('changes saved!')
-                } else {
-                    res.json({ status: false });
-                    console.log('No changes')
-                }
-            });
-
+    CVModel.update({ _id: id }, cv, { upsert: true }, (err, msg) => {
+      if (err) {
+        throw err;
+      } else {
+        if (msg.ok) {
+          const savedID = id;
+          res.json({ status: !!msg.ok, message: "CV changes saved!" });
         } else {
-            const response = {
-                message: "Todo could not be copied",
-            };
-
-            res.send(response)
+          res.json({ status: !!msg.ok });
+          console.log("No changes");
         }
-
+      }
     });
+  });
 
-    app.get('/api/cvs/:_id', (req, res) => {
-        if (req.params._id) {
-            CVModel.findById(req.params._id, (err, cv) => {
-                if (!err) {
-                    res.status(200).json({ cv })
-                } else {
-                    res.status(200).json({ message: err })
-                }
-            });
+  // Copy action
+  app.post("/api/cvs/:_id", (req, res) => {
+    let r = req.body,
+      cv;
+
+    if (req.params._id) {
+      cv = new CVModel({
+        _id: mongoose.Types.ObjectId(),
+        name: r.name,
+        summary: r.summary,
+        navName: r.navName ? r.navName : r.name,
+        cats: {
+          position: r.cats.position,
+          locale: r.cats.locale,
+          status: r.cats.status,
+        },
+        image: r.image,
+        persdetails: r.persdetails,
+        workExp: r.workExp,
+        educ: r.educ,
+        langSkills: r.langSkills,
+        webdevSkills: r.webdevSkills,
+        itSkills: r.itSkills,
+        other: r.other,
+      });
+
+      const id = cv._id;
+      delete r._id;
+      CVModel.create(cv, (err, content) => {
+        if (err) throw err;
+
+        if (content !== undefined) {
+          res.json({ _id: content._id, status: true });
+          console.log("changes saved!");
         } else {
-
-            const response = {
-                message: "CV could not be found",
-            };
-
-            res.send(response)
-
+          res.json({ status: false });
+          console.log("No changes");
         }
+      });
+    } else {
+      const response = {
+        message: "Todo could not be copied",
+      };
 
-    });
+      res.send(response);
+    }
+  });
 
-    app.delete('/api/cvs/:_id', (req, res) => {
-        if (req.params._id) {
-            CVModel.findByIdAndRemove(req.params._id, (err, cv) => {
-                if (!err) {
-                    const deletedID = req.params._id;
-                    res.json({ _id: deletedID })
-                } else {
-
-                    res.json({ message: err })
-                }
-            });
+  app.get("/api/cvs/:_id", (req, res) => {
+    if (req.params._id) {
+      CVModel.findById(req.params._id, (err, cv) => {
+        if (!err) {
+          res.status(200).json({ cv });
         } else {
-
-            const response = {
-                message: "Todo could not be deleted deleted",
-            };
-
-            res.send(response)
-
+          res.status(200).json({ message: err });
         }
+      });
+    } else {
+      const response = {
+        message: "CV could not be found",
+      };
 
-    });
+      res.send(response);
+    }
+  });
 
+  app.delete("/api/cvs/:_id", (req, res) => {
+    if (req.params._id) {
+      CVModel.findByIdAndRemove(req.params._id, (err, cv) => {
+        if (!err) {
+          const deletedID = req.params._id;
+          res.json({ _id: deletedID });
+        } else {
+          res.json({ message: err });
+        }
+      });
+    } else {
+      const response = {
+        message: "Todo could not be deleted deleted",
+      };
 
+      res.send(response);
+    }
+  });
 }

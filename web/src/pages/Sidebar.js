@@ -1,9 +1,11 @@
+import produce from 'immer';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { fetchCats } from '../actions/cats';
-import { fetchCVs } from '../actions/cv';
+import { fetchCVNav, fetchCVs } from '../actions/cv';
 import { fetchProjects } from '../actions/res';
+import { getCvsReducer } from '../reducers/cv';
 
 class Sidebar extends Component {
   
@@ -18,8 +20,16 @@ class Sidebar extends Component {
     }
   }
   
-  componentDidMount = () => {
-    this.props.fetchCVs()
+  componentDidMount = async () => {
+    try {
+      const navigationCvs = await fetchCVNav();
+      this.setState(produce(draft => {
+        draft.cvs = navigationCvs
+      }));
+    } catch (e) {
+      if (e) throw e;
+    }
+    
     // this.props.fetchProjects();
     
   }
@@ -36,55 +46,6 @@ class Sidebar extends Component {
 
   
   render() {
-    const {cats, cvs, projects, projectCats} = this.props;
-
-    // let renderPositions, renderLanguages, renderResources, matchCatsCVs, matchProjectCVs;
-    // if (cats !== undefined) {
-    //   //Positions
-      
-      
-    //   // const positionsIndex = cats.findIndex(e => e.label === 'positions');
-    //   const posIx = cats.findIndex(e => e.label === 'positions');
-    //   if (cvs) {
-    //     matchCatsCVs = cats[posIx].children.filter(i => {
-    //       for (let cv of cvs) {
-    //         if (cv.cats.position === i.value && cv.cats.status === 'public')
-    //         return true;
-    //       }
-                   
-    //     })
-    //   } else {
-    //     matchCatsCVs = cats[posIx].children;
-    //   }
-    //     renderPositions = parent => matchCatsCVs.map((el, i) =>
-    //       <li key={shortid.generate()} className="item" ><NavLink to={`/en-GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
-    //       )
-      
-    //   //Resources
-    //   if (cvs) {
-    //     matchProjectCVs = cats[posIx].children.filter(i => {
-    //       for (let cv of projects) {
-    //         if (cv.cats.position.toLowerCase() === i.value && cv.cats.status === 'public')
-    //         return true;
-    //       }
-                   
-    //     })
-    //   } else {
-    //     matchProjectCVs = cats[posIx].children;
-    //   }
-    //    renderResources = parent => matchProjectCVs.map((el, i) =>
-    //       <li key={shortid.generate()} className="item" ><NavLink to={`/en-GB/${el.value}/${parent}`} className="" activeClassName="active">{el.text}</NavLink></li>
-    //       )
-    //   //Languages    
-    //   const languagesIndex = cats.findIndex(e => e.label === 'locales');
-      
-    //     renderLanguages = cats[languagesIndex].children.map((el, i) =>
-      
-    //   <li key={shortid.generate()} className="item" ><NavLink to={`${el.value}`} activeClassName="active">{el.text}</NavLink></li>
-
-    //     )
-    // }
-    
     
     return (
     <nav id="nav" role="navigation">
@@ -96,10 +57,10 @@ class Sidebar extends Component {
           <li className="item dropdown">
             <button className="btn" onClick={this.toggleMenu('cv')} >CV</button>
             <ul id="cv" className={this.state.openmenu === 'cv' ? 'openMenu' : 'closeMenu'}>
-              {cvs && cvs.map(cv => 
+              {this.state.cvs.map(cv => 
                 <li key={cv._id} className="item" >
                   <NavLink to={`/cv/${cv.cats.locale}/${cv._id}`} activeClassName="active">
-                    {cv.name}
+                    {cv.navName}
                   </NavLink>
                 </li>
               )}
@@ -140,11 +101,4 @@ class Sidebar extends Component {
   }
 }
 
-const mapStateToProps = (s,p) => {
-  const { cats, cvs, portfolio } = s
-  return {}
-  
-  
-}
-
-export default connect(mapStateToProps, { fetchCVs, fetchCats, fetchProjects })(Sidebar);
+export default Sidebar;

@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Back",
-      "runtimeExecutable": "/usr/local/bin/npm",
+      "runtimeExecutable": "/usr/local/bin/yarn",
       "cwd": "${workspaceFolder}/back",
       "envFile": "${workspaceFolder}/.env",
       "env": {

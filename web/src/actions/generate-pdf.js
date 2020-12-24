@@ -9,7 +9,7 @@ export function generatePdf() {
   return {
       type: GENERATE_PDF,
       error: false,
-      message: GENERATE_PDF,
+      message: "Generating Pdf for you. Please wait...",
   }
 }
 
@@ -17,7 +17,7 @@ export function generatePdfSuccess() {
   return {
       type: GENERATE_PDF_SUCCESS,
       error: false,
-      message: GENERATE_PDF_SUCCESS
+      message: "Successfully generated! Your download already started"
   }
 }
 
@@ -25,7 +25,7 @@ export function generatePdfFailed(payload) {
   return {
       type: GENERATE_PDF_FAILED,
       error: true,
-      message: GENERATE_PDF_FAILED,
+      message: "Failed to generate this CV. Please contact Carlos or try another CV",
       payload
   }
 }
@@ -39,7 +39,7 @@ export function generatePdfApi(type, id) {
       })
       .then(handlePdfResponse)
       .then((response) => {
-          dispatch(generatePdfSuccess());
+          dispatch(generatePdfSuccess())
           return response.arrayBuffer();
       })
       .catch(e => dispatch(generatePdfFailed(e)))
