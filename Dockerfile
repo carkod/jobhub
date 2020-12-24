@@ -6,7 +6,6 @@ RUN react-scripts build
 
 FROM node:14 as build-web
 COPY web web
-COPY .env web/
 WORKDIR /web/
 RUN yarn install && yarn global add react-scripts
 RUN react-scripts build

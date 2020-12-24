@@ -58,7 +58,7 @@ class FullPrint extends Component {
               )}
               {/* { cv.webdevSkills.length > 0 && <WebDev webdevSkills={cv.webdevSkills} /> } */}
               {cv.itSkills.length > 0 && (
-                <IT itSkills={cv.itSkills} title={titles} />
+                <IT itSkills={cv.itSkills} title={titles.it} />
               )}
             </main>
           </div>
