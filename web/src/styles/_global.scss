@@ -120,19 +120,15 @@ a:link {
   color: $orange;
 }
 
-ul li,
+p, li,
 dl,
-ol li {
+li, blockquote {
   @extend .sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-p, li, ol, dl {
-  font-size: $preset-font;
+  font-size: $standard-font;
   font-weight: 200;
   line-height: $standard-line-height;
 }
+
 
 .container {
   padding-top: 2rem;
