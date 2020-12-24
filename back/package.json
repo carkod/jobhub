@@ -7,9 +7,10 @@
     "start": "yarn run watch-sass & nodemon --exec babel-node -- src/server.js",
     "watch-sass": "node-sass --watch src/pdf/styles/ -o src/pdf/assets/ src/pdf/styles/",
     "build-js": "babel src --copy-files --extensions .js --ignore pdf/styles --out-dir dist",
-    "build-sass": "node-sass -o dist/pdf/assets -x --output-style compressed src/pdf/styles/",
+    "build-sass": "node-sass -o dist/pdf/assets/ -x --output-style compressed src/pdf/styles/index.scss",
     "build": "yarn run build-js && yarn run build-sass",
-    "production": "node dist/server.js"
+    "production": "node dist/server.js",
+    "clean": "rm -rf docs node_modules dist src/pdf/assets"
   },
   "keywords": [
     "back-end",

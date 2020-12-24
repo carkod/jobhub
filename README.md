@@ -46,7 +46,7 @@ This is a full stack application made with:
 
 - Change hub/.env and web/.env APIs to production
 - Try docker make sure the image works:
-`docker build --tag jobhub . && docker compose up`
+`docker build --tag jobhub . && docker-compose up`
 
 - Build and deploy image to hub.docker and test docker-compose (this cannot be done in a GH action because of lack of .env with secrets)
 `docker build --tag jobhub . && docker tag jobhub carloswufei/jobhub:latest && docker push carloswufei/jobhub && docker-compose up`
