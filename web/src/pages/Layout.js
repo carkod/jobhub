@@ -1,9 +1,6 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
-import Footer from './Footer';
 import Sidebar from './Sidebar';
-
+import Notification from '../components/Notification';
 
 const duration = 300;
 
@@ -31,6 +28,7 @@ class Layout extends Component {
   render() {
     return (
       <div className="layout">
+        <Notification {...this.props}/>
         <main id="main" className="container">
           <button id="burger" className="mobile only" onClick={() => this.setState({navigation: !this.state.navigation})} ><i className="cube icon" /></button>
           <div className={this.state.navigation ? "lefty open" : "lefty close"}>
@@ -39,7 +37,6 @@ class Layout extends Component {
           
           <div className="righty">
             {this.props.children}
-            <Footer />
           </div>
             
         </main>

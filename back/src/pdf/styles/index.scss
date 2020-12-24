@@ -1,5 +1,15 @@
-@import './_semantic-ui-1.12.3.scss';
+@import './_variables.scss';
+@import './_semantic.min.scss';
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,900,900i|Source+Serif+Pro:400,600,700|Source+Serif+Pro:400,600,700');
+@import './_utilities.scss';
 @import './_global.scss';
 @import './_layout.scss';
 @import './_home.scss';
 @import './_mainCV.scss';
+
+#coverletter {
+  p, li, a { font-size: 1.3rem;}
+  p {
+      strong, em, b, .underline, .strikethrough { font-size: 1.3rem; }
+  }
+}

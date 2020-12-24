@@ -1,8 +1,5 @@
-/* eslint-disable */
-
-import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
-import { connect } from 'react-redux';
+import React from 'react';
+import { Helmet } from "react-helmet";
 
 const FourOFour = props => {
   
@@ -12,7 +9,7 @@ const FourOFour = props => {
           <title>{`Carlos Wu - About`}</title>
           <meta charSet="utf-8" />
           <meta name="description" content={`Carlos Wu - Professional Profile | 404 error`}/>
-          <link rel="canonical" href="http://carloswu.xyz/" />
+          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
         </Helmet>
         
         <main>

@@ -1,116 +1,87 @@
-import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Accordion, Button, Icon, Segment, Grid } from 'semantic-ui-react';
-import { copyCV, deleteCV, fetchCVs, saveCV } from '../../actions/cv';
+import { Button, Card, Icon } from 'semantic-ui-react';
+import { copyCV, deleteCV, fetchCVs, saveCvApi } from '../../actions/cv';
+import { formatDate } from "../../utils";
 import AddNew from './AddNew';
-import IconText from '../../components/IconText'
 
 class Listing extends Component {
 
   constructor(props) {
     super(props);
     this.state = {};
-    this.handleCopy = this.handleCopy.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount = () => {
     this.props.fetchCVs()
   }
 
-  componentWillReceiveProps = (props) => {
-    this.setState({ cvs: props.cvs })
+  componentDidUpdate = (props) => {
+    if (this.props.cvs !== props.cvs) this.setState({ cvs: this.props.cvs })
   }
 
-  handleCopy = i => e => {
+  handleCopy = (i) => e => {
     e.preventDefault();
-    const { cvs } = this.state;
+    const { cvs } = this.props;
     let newCV = cvs[i];
     delete newCV._id;
     if (cvs) {
-      this.props.copyCV(newCV).then((status) => {
+      this.props.copyCV(newCV).then(() => {
         this.props.fetchCVs();
-        //this.state.detail.messages.savedID = status.data._id;
-        //this.setState({ messages })
       });
     }
   }
 
-  handleDelete = () => {
-    const getItem = this.props.cvs[this.state.activeIndex], getID = getItem._id;
-    this.props.deleteCV(getID).then(cv => {
-      this.setState({ openAccordion: false });
+  handleDelete = (i) => e => {
+    e.preventDefault();
+    const { _id } = this.props.cvs[i];
+    this.props.deleteCV(_id).then(cv => {
       this.props.fetchCVs();
-    })
-
+    });
   }
 
 
   render() {
-    let renderList;
-    if (this.props.cvs.length > 0) {
-      const arrayList =
-        this.props.cvs.map((cv, i) => ({
-          key: `panel-${cv._id}`,
-          title: {
-            content: <Grid columns='equal'>
-              <Grid.Column>
-                {cv.name !== undefined ? cv.name : 'Enter name'}
-              </Grid.Column>
-              <Grid.Column>
-                {cv.cats.status ? <IconText text={cv.cats.status} iconName='privacy' /> : ''}
-              </Grid.Column>
-            </Grid >,
-          },
-          content: {
-            content: (
-              <div className="metadata">
-                <div className="meta-content">
-                  <Segment.Group>
-                    <Segment.Group horizontal>
-                      <Segment>
-                        <Icon fitted name='checked calendar' /> {moment(cv.updatedAt).format('Do MMMM YYYY') || 'N/A'}
-                      </Segment>
-
-                      <Segment>
-                        <Icon fitted name='clock' /> {moment(cv.createdAt).format('Do MMMM YYYY') || 'N/A'}
-                      </Segment>
-
-                      <Segment>
-                        <Icon fitted name='briefcase' /> {cv.cats ? cv.cats.position : 'N/A'}
-                      </Segment>
-                    </Segment.Group>
-                  </Segment.Group>
-                </div>
-
-                <br />
-
-                <div className="buttons">
-                  <Link className="ui primary button" to={`/cv/id=${cv._id}`}>Edit/View</Link>
-                  <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
-                  <Button onClick={this.handleDelete} negative>Delete</Button>
-                </div>
-              </div>
-            )
-          }
-
-        }));
-
-      renderList = <Accordion onTitleClick={(e, { index }) => this.setState({ activeIndex: this.state.activeIndex === index ? -1 : index })} panels={arrayList} styled fluid />
-
-    } else {
-      renderList = <p>No CVs found</p>
-    }
-
-
     return (
       <div id="list">
         <h1>Section - CV <AddNew /></h1>
-        <div className="listItem">
-          {renderList}
-        </div>
+        <Card.Group>
+          {this.props.cvs && this.props.cvs.map((cv, i) =>
+            <Card key={`panel-${cv._id}`} color={cv.cats.position === "front-end" ? "blue" : null} href={`/cv/id=${cv._id}`}>
+              <Card.Content>
+                <Card.Header>{cv.name}</Card.Header>
+                <Card.Meta>
+                  {formatDate(cv.updatedAt) || 'N/A'}{' '}
+                </Card.Meta>
+                <Card.Description>
+                  <div className="u-space-text">
+                    <Icon name='briefcase' /> {cv.cats ? cv.cats.position : 'N/A'}
+                  </div>
+                  <div className="u-space-text">
+                    <Icon name='privacy'/>  {cv.cats? cv.cats.status : 'N/A'}
+                  </div>
+                  <div className="u-space-text">
+                    <Icon name='clock' /> {formatDate(cv.createdAt) || 'N/A'}
+                  </div>
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className='ui two buttons'>
+                  <Button
+                    type="button"
+                    onClick={this.handleCopy(i)}
+                    primary >
+                      Copy
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={this.handleDelete(i)} negative>Delete</Button>
+                </div>
+              </Card.Content>
+            </Card>
+          )}
+
+        </Card.Group>
       </div>
     );
   }
@@ -118,8 +89,8 @@ class Listing extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    cvs: state.cvs
+    cvs: state.getCvsReducer
   }
 }
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, deleteCV, copyCV })(Listing);
+export default connect(mapStateToProps, { saveCvApi, fetchCVs, deleteCV, copyCV })(Listing);

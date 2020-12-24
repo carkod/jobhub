@@ -71,3 +71,16 @@ webhook.js
 
 # Databases
 restore
+
+
+#Back-end exceptions
+back/uploads/*
+back/dist/
+back/docs
+back/uploads
+
+# WEB
+web/build/
+
+# HUB
+hub/build/

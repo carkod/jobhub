@@ -1,28 +1,19 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
 import { connect } from 'react-redux';
-import {stateToHTML} from 'draft-js-export-html';
-import { fetchProjects } from '../../actions/res';
 import { fetchCats } from '../../actions/cats';
-import HtmlText from '../../components/HtmlText';
+import { fetchProjects } from '../../actions/res';
 
 class Documents extends Component {
     
-    constructor(props) {
+  constructor(props) {
     super(props);
     const {portfolio} = this.props;
     
     this.state = {
     };
     
-  }
-
-  componentDidMount = () => {
-  }
-  
-  componentWillReceiveProps = (props) => {
   }
   
   render() {

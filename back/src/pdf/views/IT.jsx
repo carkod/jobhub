@@ -5,11 +5,11 @@ import React, { Component } from 'react';
 class IT extends Component {
    
   render() {
-    const {itSkills} = this.props;
+    const {itSkills, title} = this.props;
     
     return (
       <section id="it" className="skills">
-        <h2 className="ui dividing header">IT software</h2>
+        <h2 className="ui dividing header">{title}</h2>
           <div className="ui grid">
           {itSkills.map((ed, i) => 
             <div key={i} className="row">  

@@ -1,19 +1,10 @@
-FROM node:12.18-buster-slim as build-back
-COPY back back
-COPY .env back/
-WORKDIR /back/
-RUN yarn install
-RUN yarn run build-js
-RUN yarn run build-sass
-
-FROM node:12.18-buster-slim as build-hub
+FROM node:14 as build-hub
 COPY hub hub
-COPY .env hub/
 WORKDIR /hub/
 RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
-FROM node:12.18-buster-slim as build-web
+FROM node:14 as build-web
 COPY web web
 COPY .env web/
 WORKDIR /web/
@@ -21,15 +12,28 @@ RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
 # production environment
-FROM smebberson/alpine-nginx-nodejs:4.4.0
-COPY --chown=root:root wait-for-it.sh wait-for-it.sh
+FROM node:14
+# Installs latest Chromium (85) package for puppeteer
+RUN apt-get update && apt-get install -y wget gnupg nginx yarn \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY wait-for-it.sh /home/wait-for-it.sh
+RUN chmod +x /home/wait-for-it.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN chmod +x wait-for-it.sh && apk add --no-cache bash
-COPY --from=build-back back /home/back
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
 COPY --from=build-web /web/build /usr/share/nginx/html/web
-RUN rm -rf package.json
+
+# Install back
+COPY ./.env /home/
+COPY ./chrome.json /home/
+WORKDIR /home/back
+COPY back .
+RUN yarn install && yarn run build
 
 STOPSIGNAL SIGTERM
-EXPOSE 80 81 9000
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080 8081 8082
+
+

@@ -8,13 +8,15 @@ pids
 *.seed
 *.pid.lock
 
+*.css.map
+*.scss.map
+.DS_Store
 
 #Back-end exceptions
 back/uploads/*
 back/dist/
 back/docs
 back/uploads
-back/package-lock.json
 mongo_db/
 restore/
 
@@ -85,5 +87,4 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
-.env.*
+/.env

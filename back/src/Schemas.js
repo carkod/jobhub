@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-generator';
-import { stringLiteral } from '@babel/types';
 
 mongoose.plugin(slug);
 const Schema = mongoose.Schema;
@@ -30,7 +29,7 @@ const CVSchema = new Schema({
     name: { type: String },
     summary: { type: String },
     slug: { type: String, slug: "name", lowercase: true, unique: true },
-    pdf: { type: Array },
+    navName: { type: String },
     cats: {
         position: { type: String },
         locale: { type: String },
@@ -52,11 +51,12 @@ const CLSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
     slug: { type: String, slug: "name", lowercase: true, unique: true },
-    pdf: { type: Array },
+    navName: { type: String },
     cats: {
         position: { type: String },
         locale: { type: String },
         cvCountry: { type: String },
+        status: { type: String },
     },
     image: { type: String },
     desc: { type: Schema.Types.Mixed },
@@ -74,6 +74,7 @@ const ProjectSchema = new Schema({
         position: { type: String },
         locale: { type: String },
         cvCountry: { type: String },
+        status: { type: String },
     },
     image: { type: Object },
     desc: { type: Schema.Types.Mixed },
@@ -131,19 +132,5 @@ ApplicationSchema.pre('save', function (next) {
     }
     next();
 });
-
-// CVSchema.pre('update', function(next){
-//     const slugger = slug(this._update.$set.name.toLowerCase());
-//     // this._findOne({id: '5a2b3658c54dd20bd20ee3f9'},function(err, doc) {
-//     //     console.log(doc)
-//     //     // if (err) {
-//     //     //     this._update.$set.slug = slugger;
-//     //     // } else {
-//     //     //     console.log('slug already exists')
-//     //     // }
-
-//     // });
-//     //next(err, doc);
-// });
 
 export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema };

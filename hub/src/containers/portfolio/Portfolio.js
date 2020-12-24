@@ -16,16 +16,14 @@ class Portfolio extends Component {
     this.state = {
       portfolio: props.portfolio
     };
-    this.handleCopy = this.handleCopy.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount = () => {
     this.props.fetchPortfolio();
   }
 
-  componentWillReceiveProps = (props) => {
-    this.setState({ portfolio: props.portfolio })
+  componentDidUpdate = (props) => {
+    if (this.props.portfolio !== props.portfolio) this.setState({ portfolio: this.props.portfolio })
   }
 
   handleCopy = i => e => {

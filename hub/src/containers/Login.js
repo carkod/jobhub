@@ -37,7 +37,7 @@ class Login extends Component {
   render() {
     return (
       <div className="login-centerer">
-        <Notifications notifications={this.props.notifications} authNotification={this.state.isAuthenticated} />
+        <Notifications notifications={this.props.snackBarReducer} authNotification={this.state.isAuthenticated} />
         <Segment id='login' compact>
           <Header as='h2'>LOGIN FOR ACCESS</Header>
           <Form onSubmit={this.login}>

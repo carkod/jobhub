@@ -1,0 +1,22 @@
+.u-emphasize-text {
+  color: $main-blue;
+  font-weight: 500;
+}
+
+.u-home-text {
+  font-size: 1em;
+}
+
+.u-image-responsive {
+  max-width: 100%;
+}
+
+.u-margin-right {
+  margin-right: $standard-space;
+}
+
+.u-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: $standard-space;
+}

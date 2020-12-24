@@ -1,9 +1,9 @@
+@import 'fomantic-ui-css/semantic.min.css';
 @import 'styles/_global.scss';
 @import 'styles/_layout.scss';
 @import 'styles/_navigation.scss'; // assuming a styles directory under src/
+@import 'styles/_notifications.scss';
 @import 'styles/_home.scss';
 @import 'styles/_mainCV.scss';
 @import 'styles/_mainResources.scss';
-@import 'styles/_print.scss';
-
-
+@import 'styles/_utilities.scss';

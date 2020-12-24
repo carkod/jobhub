@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import RichTextEditor from 'react-rte';
 
-class Editor extends Component {
+export default class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,9 +17,12 @@ class Editor extends Component {
   }
 
 
-  componentWillReceiveProps = (props) => {
-    const value = RichTextEditor.createValueFromString(props.value.toString('html'), 'html');
-    this.setState({ value: value })
+  componentDidUpdate = (props) => {
+    if (this.props.value !== props.value) {
+      const value = RichTextEditor.createValueFromString(this.props.value.toString('html'), 'html');
+      this.setState({ value: value })
+    }
+    
   }
 
   onChange = (e) => {
@@ -33,5 +36,3 @@ class Editor extends Component {
     );
   }
 }
-
-export default Editor;

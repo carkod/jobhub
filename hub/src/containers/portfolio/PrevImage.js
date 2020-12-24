@@ -1,80 +1,70 @@
-/* eslint-disable */
-
+import Upload from "../../components/Upload";
 import React, { Component } from 'react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, Divider, Grid, Icon, Label, Table } from 'semantic-ui-react';
-import { uploadFile, removeFile } from '../../actions/project';
-import { addNotification } from '../../actions/notification';
-import moment from 'moment';
+import { fileNotFound, removeFileApi, uploadFileApi } from '../../actions/files';
+import { parseSize } from "../../utils";
+import { connect } from "react-redux";
+import produce from "immer";
 
 class PrevImage extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      image: props,
-      uploading: false,
+      file: null,
+      active: false,
+      loading: false,
     }
   }
 
-  componentDidMount = () => {
-    this.setState({ image: this.props.image })
-  }
-  
-  componentWillReceiveProps = (props) => {
-    this.setState({ image: props.image })
-  }
-
-  fileNameChange = (i) => (e) => {
-    const {image} = this.state;
-    image[i].fileName = e.target.value;
-    this.setState({image})
-  }
 
   handleChange = (e) => {
-    let data = new FormData();
-    data.append('fieldname', e.target.files[0]);
-    this.data = data;
+    let active = false;
+    let file = undefined;
+    if (e.target.files.length > 0) {
+      file = e.target.files
+      active = true;
+    }
+    this.setState(produce(draft => {
+      draft.active = active
+      draft.file = file
+    }))
   }
   
   handleUpload = e => {
     e.preventDefault();
-    const {image} = this.state;
-    const data = this.data;
-    
-    if (this.fieldname === undefined || this.fieldname.files.length < 1) {
-      
-      addNotification({type: 'NO_FILE'})
-      //handle error no file uploaded
+    if (this.state.file === undefined || this.state.file.length < 1) {
+      //handle error no file attached
+      this.props.fileNotFound()
     } else {
-      console.log('file found')
-      //Loading icon
-    this.setState({ uploading:true }); 
-    
-    uploadFile(data)
-    .then(file => {
-      addNotification({type: 'UPLODED_FILE'})
-      const newFile = {
-        imageId: shortid.generate(),
-        imageName : file.fieldname,
-        imageDate : Date.now(),
-        imageURL : file.url,
-        imageRawName : file.originalname,
-        imageDir: file.destination
-      }
-    
-      this.setState({ image: newFile, uploading:false }, () => {
-        this.props.onUpload(this.state);
-      });
-      
-    })
+      let data = new FormData();
+      data.append('fieldname', this.state.file[0]);
+      this.props.uploadFileApi(data).then(x => {
+        this.setState(produce(draft => {
+          const file = this.state.file[0];
+          draft.file = file
+          const newFile = {
+            fileId: shortid.generate(),
+            fileName : file.name,
+            fileSize : parseSize(file.size),
+            fileDate : Date.now(),
+            fileURL : x.payload.data,
+          }
+          this.props.onUpload(newFile);
+          this.uploadRef.value = "";
+          draft.active = false
+        }))
+      })
     }
-    
+  }
+
+  handleUploadRef = (ref) => {
+    this.uploadRef = ref;
   }
   
   
   render() {
-    const {image} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
       <div className="fileUpload section">
         <Header sub>
@@ -84,13 +74,19 @@ class PrevImage extends Component {
           <Grid padded celled>
             <Grid.Row columns={2} className="headerRow">
               <Grid.Column>
-                <button className="btn btn-upload" name="append" onClick={this.handleUpload} disabled={this.state.uploading}>
-                  {this.state.uploading ? <Icon loading name="file archive outline" className="white" /> : <Icon name="upload" className="white" />}
-                </button>
-                <input name="files" type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.fieldname = fieldname}} />
+              <Upload 
+                  active={this.state.active}
+                  loading={this.state.loading}
+                  handleChange={this.handleChange}
+                  handleUpload={this.handleUpload}
+                  forwardedRef={this.handleUploadRef}
+                />
               </Grid.Column>
               <Grid.Column>
-                <a href={image.imageURL} target="_blank">{image.imageRawName}</a>
+                <a href={this.props.file.fileURL} target="_blank">
+                  <img src={this.props.file.fileURL} style={{"maxWidth": "100%"}}/>
+                  <span>{this.props.file.fileName}</span>
+                </a>
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -102,5 +98,13 @@ class PrevImage extends Component {
   
 }
 
+const mapStateToProps = (s, p) => {
+  const { snackBarReducer, filesReducer } = s;
+  return {
+    active: snackBarReducer.loading ? false : true,
+    loading: snackBarReducer.loading,
+  }
+}
 
-export default PrevImage;
+
+export default connect(mapStateToProps, { fileNotFound, uploadFileApi, removeFileApi })(PrevImage);;

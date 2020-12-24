@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import CoverLetters from '../containers/coverLetters/CoverLetters';
 import Letter from '../containers/coverLetters/Letter';
@@ -11,14 +12,13 @@ import Login from '../containers/Login';
 import Portfolio from '../containers/portfolio/Portfolio';
 import Project from '../containers/portfolio/Project';
 import Relationships from '../containers/relationships/Relationships';
-import PrivateRouter from './PrivateRouter';
-import PublicRouter from './PublicRouter';
-import Tracker from '../containers/tracker/Tracker'
-import Jobs from '../containers/tracker/Jobs'
-
-import { Switch } from 'react-router-dom';
 import AddNewApplication from '../containers/tracker/AddNewApplication';
 import EditApplication from '../containers/tracker/EditApplication';
+import Jobs from '../containers/tracker/Jobs';
+import Tracker from '../containers/tracker/Tracker';
+import PrivateRouter from './PrivateRouter';
+import PublicRouter from './PublicRouter';
+
 
 const AppRouter = () => (
 	<Switch>
@@ -28,9 +28,7 @@ const AppRouter = () => (
 			<PrivateRouter exact path="/cv" component={Listing} />
 			<PrivateRouter exact path="/cv/positions" component={Positions} />
 			<PrivateRouter exact path="/relationships" component={Relationships} />
-			{/*<PrivateRouter path="/cv/languages" component={Cats} />*/}
 			<PrivateRouter exact path="/cv/id=:id" component={Detail} />
-
 			<PrivateRouter exact path="/portfolio" component={Portfolio} />
 			<PrivateRouter exact path="/portfolio/project/id=:id" component={Project} />
 			<PrivateRouter exact path="/coverletters" component={CoverLetters} />

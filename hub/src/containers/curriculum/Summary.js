@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Icon } from 'semantic-ui-react';
 import Editor from '../../components/Editor';
 
 class Summary extends Component {
@@ -9,21 +9,25 @@ class Summary extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            toggle: true
         };
-        //this.pdChange = this.pdChange.bind(this);
     }
-   
     
     onChange = (e) => {
-        this.props.onChange(e.toString('html'))
+        this.props.onChange(e.toString('html'));
     }
   
     render() {
         const {summary} = this.props;
         return (
             <div className="personal section">
-                <Header sub>SUMMARY AND PROFESSIONAL GOALS</Header>
-                
+                <div className="u-space-between u-align-baseline">
+                    <Header sub>SUMMARY AND PROFESSIONAL GOALS</Header>
+                    <button className="btn" type="button" onClick={() => this.setState({ toggle: !this.state.toggle})}>
+                        <Icon className="blue large" fitted name='caret square down' />
+                    </button>
+                </div>
+                { this.state.toggle &&
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={16}>
@@ -31,6 +35,7 @@ class Summary extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
+                }
             </div>
         )  
     }

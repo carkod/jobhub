@@ -10,21 +10,24 @@ export default function CLs (app, db) {
     
     app.get('/api/cls', (req, res) => {
        
-       CLModel.find({}, null, {sort: {updatedDate: -1}, new: true} ,function(err, content) {
+       CLModel.find({}, null, {sort: {updatedAt: -1}, new: true} , (err, content) => {
            if (err) throw err;
-           //console.log(content)
            res.json(content)
        });
     });
         
     app.post('/api/cls', (req, res) => {
-        var r = req.body,
-            cl = new CLModel({
-                _id: mongoose.Types.ObjectId(),
-                name: r.name || 'Enter name',
-            });   
+        const r = req.body;
+        const cl = new CLModel({
+            _id: mongoose.Types.ObjectId(),
+            name: r.name ? r.name : "Enter name",
+            navName: r.navName ? r.navName : r.name,
+            cats: r.cats,
+            image: r.image,
+            desc: r.desc,
+        });
 
-        CLModel.update({_id: r._id}, cl, {upsert: true }, (err, msg) => {
+        CLModel.create(cl, (err, msg) => {
             
           if (err) {
               throw err;
@@ -32,12 +35,9 @@ export default function CLs (app, db) {
           } else {
               
               if (msg.ok) {
-                const savedID = id;   
-                res.json({ _id: msg.id, status: !!msg.ok });
-                //console.log('changes saved!')  
+                res.json({ _id: msg.id, message: "Created new cover letter!" });
               } else {
-                  res.json({ status: !!msg.ok });
-                  //console.log('No changes')  
+                res.json({ message: "No changes to cover letter", error: true });
               }
           }
         });
@@ -45,35 +45,29 @@ export default function CLs (app, db) {
     });
 
     app.put('/api/cls', (req, res) => {
-        let r = req.body,
-            // Update
-            cl = new CLModel({
-                _id: r._id,
-                name: r.name,
-                pdf: r.pdf,
-                cats: {
-                    position: r.cats.position,
-                    locale: r.cats.locale,
-                    cvCountry: r.cats.cvCountry,
-                },
-                image: r.image,
-                desc: r.desc,
-            });
+        let r = req.body;
+        // Update
+        const cl = new CLModel({
+            _id: r._id,
+            name: r.name,
+            navName: r.navName ? r.navName : r.name,
+            cats: {
+                position: r.cats.position,
+                locale: r.cats.locale,
+                status: r.cats.status,
+            },
+            image: r.image,
+            desc: r.desc,
+        });
 
-        CLModel.findByIdAndUpdate(r._id, cl, (err, msg) => {
+        CLModel.updateOne({_id: r._id}, cl, {}, (err, msg) => {
 
-            if (err) {
-                const newError = new Error(err)
-                res.json({ status: false, message: newError });
+            if (err) res.json({ message: err, error: true });
+
+            if (msg.ok) {
+                res.status(200).json({ _id: msg.id, message: "Cover letter Updated!" });
             } else {
-
-                if (msg.ok) {
-                    res.status(200).json({ _id: msg.id, status: !!msg.ok });
-                    //console.log('changes saved!')  
-                } else {
-                    res.json({ status: !!msg.ok });
-                    //console.log('No changes')  
-                }
+                res.json({ message: "No changes upadated" });
             }
         });
 
@@ -81,9 +75,9 @@ export default function CLs (app, db) {
     
     app.get('/api/cls/:_id', (req, res) => {
        if (req.params._id) {
-            CLModel.findById(req.params._id, (err, cv) => {  
+            CLModel.findById(req.params._id, (err, result) => {  
                 if(!err) {
-                    res.json({ cv })
+                    res.json({ data: result, message: "Retrieved Cover letter successfully!" })
                 } else {
                     res.json({ message: err })
                 }
@@ -149,22 +143,20 @@ export default function CLs (app, db) {
     });
     
     app.delete('/api/cls/:_id', (req, res) => {
-       if (req.params._id) {
-            CLModel.findByIdAndRemove(req.params._id, (err, cv) => {  
-                if(!err) {
-                    const deletedID = req.params._id;
-                    res.json({ _id: deletedID })
+        const { _id } = req.params;
+
+       if (_id) {
+            CLModel.deleteOne({_id: _id}, (err, result) => {  
+                if (err) {
+                    res.json({ data: result, message: err, error: true })
+                } else if(result === null ) {
+                    res.json({ message: "Cover letter not found", error: true })
                 } else {
-                    
-                    res.json({ message: err })
+                    res.json({ data: result, message: "Deleted cover letter successfully!", error: false })
                 }
             });
         } else {
-            
-            let response = {
-                message: "Todo could not be deleted deleted",
-            };
-            res.send(response)
+            res.send({ message: "_id incorrect", error: true})
         }
     });
 }

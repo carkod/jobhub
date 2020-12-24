@@ -1,61 +1,49 @@
-/* eslint-disable */
-
+import produce from "immer";
 import React, { Component } from 'react';
-import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, List, Icon, Accordion } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { Accordion, Button, Input, List } from 'semantic-ui-react';
 import shortid from 'shortid';
-import moment from 'moment';
-import { fetchCats, saveCats } from '../../actions/cats';
+import { fetchRelationsApi, saveRelationApi } from "../../actions/relations";
 import Children from './Children';
+
 
 class Relationships extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      cats: props.cats
+      relations: [],
+      activeIndex: 0
     };
   }
 
   
   componentDidMount = () => {
-    this.props.fetchCats()
+    this.props.fetchRelationsApi()
   }
   
-  componentWillReceiveProps = (p) => {
-     this.setState({
-       cats: p.cats
-     })
+  componentDidUpdate = (p) => {
+    if (this.props.relations !== p.relations) this.setState({ relations: this.props.relations })
   }
   
   handleChange = (e) => {
     e.preventDefault();
-    const {activeIndex, cats} = this.state;
-    cats[activeIndex][e.target.name] = e.target.value;
-    this.setState({cats})    
+    this.setState(produce(draft => {
+      draft.relations[this.state.activeIndex][e.target.name] = e.target.value
+    }))
   }
   
-  handleChildren = children => {
-    this.setState({children})
-  }
-  
-  changeChildren = i => e => {
-    const {activeIndex, cats} = this.state;
-    cats[activeIndex].children[i][e.target.name] = e.target.value
-    this.setState({cats})
-  }
-  
-  save = (e) => {
-    const {activeIndex, cats} = this.state;
-    this.props.saveCats({ cats }).then(res => console.log(res))
+  save = (children) => {
+    this.setState(produce(draft => {
+      draft.relations[this.state.activeIndex].children = children
+    }), () => this.props.saveRelationApi(this.state.relations[this.state.activeIndex]))
   }
 
   render() {
-    const {cats} = this.state || this.props;
     let renderList;
-    if (cats.length > 0) {
+    if (this.state.relations.length > 0) {
       const arrayList =
-      cats.map((cv, i) => ({
+      this.state.relations.map((cv, i) => ({
         key: cv._id || shortid.generate(),
         title: {
           content: <span color={this.state.savedID === cv._id ? 'red' : 'inherit' }>{cv.title}</span>,
@@ -65,26 +53,22 @@ class Relationships extends Component {
             <div className="metadata">
             <div className="meta-content">
               <List horizontal relaxed>
-                <List.Item>_id: {cv._id}</List.Item>
-                <List.Item>label: <Input value={cv.label} name="label" onChange={this.handleChange} /></List.Item>
-                <List.Item>singLabel: <Input value={cv.singLabel} name="singLabel" onChange={this.handleChange} /></List.Item>
-                <List.Item>title: <Input value={cv.title} name="title" /></List.Item>
+                <List.Item className="u-fields-spacing">label: <Input value={cv.label} name="label" onChange={this.handleChange} /></List.Item>
+                <List.Item className="u-fields-spacing">singLabel: <Input value={cv.singLabel} name="singLabel" onChange={this.handleChange} /></List.Item>
+                <List.Item className="u-fields-spacing">title: <Input value={cv.title} name="title" /></List.Item>
                 
               </List>
               
-                <Children singLabel={cv.singLabel} children={cv.children} newChild={this.handleChildren} onChange={this.changeChildren}/> 
+              <Children singLabel={cv.singLabel} children={cv.children} onSubmit={this.save}/> 
             </div>
-            <br />
-            <div className="buttons">
-              <Button onClick={this.save} primary>Save</Button>
-            </div>
+            
           </div>
           )
         }
        
       }));
       
-    renderList = <Accordion onTitleClick={(e, {index}) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={arrayList} styled fluid />
+    renderList = <Accordion defaultActiveIndex={this.state.activeIndex} onTitleClick={(e, {index}) => this.setState({ activeIndex:this.state.activeIndex === index ? -1 : index })} panels={arrayList} styled fluid />
     
     } else {
       renderList = <p>No categories found</p>
@@ -92,7 +76,7 @@ class Relationships extends Component {
     
     return (
       <div id="list" className="">
-        <Header as="h1">Positions</Header>
+        <h1 className="u-section-title">Section - Relationships</h1>
         {renderList}
         
       </div>
@@ -101,10 +85,10 @@ class Relationships extends Component {
 }
 
 function mapStateToProps (state, props) {
+  const { relationsReducer } = state;
   return {
-    cats: state.cats
+    relations: relationsReducer
   }
 }
 
-
-export default connect(mapStateToProps, { fetchCats, saveCats })(Relationships);
+export default connect(mapStateToProps, { fetchRelationsApi, saveRelationApi })(Relationships);

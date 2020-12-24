@@ -1,3 +1,5 @@
+Version 1.1.0
+
 # JOBHUB
 
 JobHub is career management tool made for professional career tracking. 
@@ -29,23 +31,40 @@ This is a full stack application made with:
 - Front-end website: Reactjs, Redux. This is a showcase website, available for public access to show restricted content to recruiters, prospective employers and google search.
 - Front-end admin panel: Reactjs, Redux. This is an internal application, made for managing all the recruitment data and the professional profile showed in the website.
 
+## INSTALLATION
+- `yarn install && yarn start`
+- Npm does not work with Docker setup. 
+
 ## DEVELOPMENT AND DEBUGGING
 
 - Execute debugger in .vscode F5
 - Edit `.env` and `docker-compose.yml` files and adjust to each environment
 
+> Actions and reducers should be exactly the same for both web and hub
+
 ## DEPLOYMENT
 
+- Change hub/.env and web/.env APIs to production
 - Try docker make sure the image works:
-`docker build --tag jobhub . && docker compose up`
+`docker build --tag jobhub . && docker-compose up`
 
-- Build and deploy image to hub.docker and test docker-compose
+- Build and deploy image to hub.docker and test docker-compose (this cannot be done in a GH action because of lack of .env with secrets)
 `docker build --tag jobhub . && docker tag jobhub carloswufei/jobhub:latest && docker push carloswufei/jobhub && docker-compose up`
 
-- Go to the server and `docker-compose up -d`
+- Go to the server and `docker-compose pull && docker-compose up -d`
 
 ## PORTS
 
-- Hub :80 and 8080 for container
-- Web :81 and 8081 for container
-- Back :9000 and :82 for container
+Both prod and dev:
+- Hub 8081
+- Web 8080
+- Back 8082
+
+
+## PDF generator
+Uses puppeeter to render an HTML page and then generate PDF from it
+- `type` field supports currently only `"cv" or "cl"` (Curriculum Vitae or Cover Letter). Any other type will fallback to CV
+- To add new types
+  1 Add new endpoint that supports the new type
+  2 Create template with styling as `type.jsx`
+  3 Modify `/generate/pdf` function to add this new type

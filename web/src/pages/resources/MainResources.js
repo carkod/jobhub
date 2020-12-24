@@ -27,9 +27,11 @@ class MainResources extends Component {
     this.props.fetchCats();
   }
   
-  componentWillReceiveProps = (props) => {
-    const {portfolio} = props;
-    this.setState({portfolio: portfolio});
+  componentDidUpdate = (props) => {
+    if (this.props.portfolio !== props.portfolio) {
+      const {portfolio} = props;
+      this.setState({portfolio: portfolio});
+    }
   }
   
   render() {

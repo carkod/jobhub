@@ -15,7 +15,7 @@ class Work extends Component {
   componentDidMount = () => {
   }
   
-  componentWillReceiveProps = (props) => {
+  componentDidUpdate = (props) => {
     const {others} = props;
     this.setState({ others })
   }

@@ -14,10 +14,10 @@ import Portfolio from './Portfolio.js';
 import Tracker from './Tracker.js';
 import Api from './Api';
 
-dotenv.config();
+dotenv.config({path:'../.env'});
 const app = express();
 const dbUrl = process.env.MONGO_CONNECTION_STRING
-let promise = mongoose.connect(dbUrl, { useNewUrlParser: true });
+let promise = mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 let db = mongoose.connection;
 
 //Bind connection to error event (to get notification of connection errors)
@@ -34,8 +34,6 @@ promise.then((db) => {
 	app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 	
 	// app.use(expressValidator());
-	
-
 
 	//Download static files in uploads folder
 	app.use(express.static(path.join(__dirname, '../', '/uploads')));
@@ -60,32 +58,6 @@ promise.then((db) => {
 	Portfolio(app, db);
 	Categories(app, db);
 	Tracker(app, db);
-
-	
-	// app.use((req, res, next) => {
-	// 	try {
-	// 		if (!req.headers.authorization) {
-	// 			res.status(401).json({ message: 'No authorization bearer in request headers', ok: false })
-	// 		}
-	// 		const token = req.headers.authorization.split(" ")[1]
-	// 		const secret = process.env.JWT_SECRET
-	// 		jwt.verify(token, secret, function (err, payload) {
-	// 			console.log(token)
-	// 			if (err) {
-	// 				res.status(401).json({ name: err.name, message: err.message, ok: false })
-	// 			}
-	// 			if (payload) {
-	// 				//CRUD
-	// 				next()
-	// 			}
-	// 		})
-	// 	} catch (e) {
-	// 		res.status(401).json({ message: 'Not authorized', ok: false })
-	// 		console.log('catch error', e)
-	// 		// next()
-	// 	}
-	// })
-
 
 });
 

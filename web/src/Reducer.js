@@ -1,136 +1,45 @@
 import { combineReducers } from 'redux';
-import { SET_CATS } from './actions/cats';
-import { SET_CV, SET_SINGLE_CV } from './actions/cv';
-import { SET_PROJECTS } from './actions/res';
+import { FILE_REMOVED, PROJECT_DELETED, SET_PROJECTS } from './actions/project';
+import { clReducer, clsListReducer } from "./reducers/cl";
+import { cvReducer, getCvsReducer } from "./reducers/cv";
+import { listProjectsReducer, projectReducer } from "./reducers/portfolio";
+import { catsReducer } from "./reducers/relations";
+import { snackBarReducer } from "./reducers/snack-bar";
 
-
-const cvInitial =
-    [
-        {
-            _id: '',
-            name: '',
-            createdAt: '',
-            updatedAt: '',
-            pdf: '',
-            cats: {
-                position: '',
-                locale: '',
-                cvCountry: '',
-            },
-            summary: '',
-            persdetails: {
-                name: '',
-                lastname: '',
-                DoB: '',
-                PoB: '',
-                nationality: '',
-                ID: '',
-                address: '',
-                PC: '',
-                city: '',
-                country: '',
-                email: '',
-                phone: '',
-
-            },
-            workExp: [{
-                id: 'workExp-0',
-                date: '',
-                position: '',
-                company: '',
-                desc: '',
-            }],
-            educ: [{
-                id: 'educ-0',
-                date: '',
-                diploma: '',
-                institution: '',
-                desc: '',
-            }],
-            langSkills: [{
-                id: 'langSkills-0',
-                name: '',
-                desc: '',
-                level: '',
-            }],
-            webdevSkills: [{
-                id: 'webdevSkills-0',
-                name: '',
-                desc: '',
-                level: '',
-            }],
-            itSkills: [{
-                id: 'itSkills-0',
-                name: '',
-                desc: '',
-                level: '',
-            }],
-        }
-    ]
-
-
-const pfInit = [
-    {
-        _id: '',
-        name: '',
-        slug: '',
-        cats: {
-            position: '',
-            locale: '',
-            status: '',
-        },
-        image: '',
-        desc: '',
-        documents: [],
-        links: [],
-    }
-]
-
-
-
-const cvs = (state = cvInitial, action = {}) => {
+// ++correct here, always return the state then the data
+const portfolio = (state = null, action = {}) => {
     switch (action.type) {
-        case SET_CV:
-            const newState = Object.assign([], state, action.cvs)
-            return newState
-        default:
-            return state
-    }
-}
-
-function singleCV(state = { ...cvInitial[0] }, action) {
-    switch (action.type) {
-        case SET_SINGLE_CV:
-            return Object.assign({}, state, action.cv)
-        default:
-            return state
-    }
-}
-
-const cats = (state = {}, action = {}) => {
-    switch (action.type) {
-        case SET_CATS: {
-            const data = action.cats;
-            return Object.assign({}, state, {
-                data
-            })
-        }
-        default:
-            return state
-    }
-}
-
-const portfolio = (state = pfInit, action = {}) => {
-    switch (action.type) {
+        case FILE_REMOVED:
+            const file = action.data
+            return file
         case SET_PROJECTS:
-            if (!action.project) {
-                return state[0]
+            let portfolio = [];
+            for (let i of action.projects) {
+                const merge = Object.assign({}, pfInit[0], i);
+                portfolio.push(merge)
             }
-            return action.project
+            return portfolio;
+        case PROJECT_DELETED:
+            const deleted = state.filter((item) => item._id !== action.cvs);
+            return deleted;
+
         default:
             return state
     }
 }
 
-export default combineReducers({ cvs, cats, portfolio, singleCV });
+
+
+export default combineReducers({
+    cvReducer,
+    getCvsReducer,
+    catsReducer,
+    clsListReducer,
+    clReducer,
+    listProjectsReducer,
+    projectReducer,
+    snackBarReducer,
+    // Old
+    portfolio,
+});
 

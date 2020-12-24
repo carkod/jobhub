@@ -1,41 +1,64 @@
-/* eslint-disable */
-import React, {Component} from 'react';
-import { Link, Route, IndexRoute, Router, Switch, BrowserRouter, withRouter } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-
-import Home from './home/Home';
-import About from './About';
-import Layout from './Layout';
-import MainCV from './cv/MainCV';
-import MainResources from './resources/MainResources';
-import FourOFour from './FourOFour';
-import ProjectDetail from './portfolio/ProjectDetail';
+import React from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { About, AboutMe, AboutSite } from "./About";
+import MainCV from "./cv/MainCV";
+import FourOFour from "./FourOFour";
+import Home from "./home/Home";
+import Layout from "./Layout";
+import ProjectDetail from "./portfolio/ProjectDetail";
+import MainResources from "./resources/MainResources";
 
 const RenderRoute = ({ component: Component, layout: Layout, ...rest }) => (
-  <Route {...rest} render={props => (
-    <Layout>
-      <Component {...props}/>
-    </Layout>
-  )}/>
+  <Route
+    {...rest}
+    render={(props) => (
+      <Layout>
+        <Component {...props} />
+      </Layout>
+    )}
+  />
 );
 
 const App = (props) => {
-  const timeout = { enter: 300, exit: 200 }
-  const currentKey = props.location.pathname || '/';
+  const timeout = { enter: 300, exit: 200 };
+  const currentKey = props.location.pathname || "/";
   return (
-  <TransitionGroup component="main">
-    <CSSTransition key={currentKey} timeout={timeout} classNames="slide" appear>
-      <Switch location={props.location}>
-        <RenderRoute layout={Layout} exact path="/" component={Home} />
-        <RenderRoute layout={Layout} exact path="/about" component={About} />
-        <RenderRoute layout={Layout} exact path="/cv/:language/:id" component={MainCV} />
-        <RenderRoute layout={Layout} exact path="/portfolio/:language/:position/:id" component={ProjectDetail} />
-        <RenderRoute layout={Layout} exact path="/resources/:language/:id" component={MainResources} />
-        <Route component={FourOFour} />
-      </Switch>
-    </CSSTransition>
-  </TransitionGroup>
-  )
-}
+    <TransitionGroup component="main">
+      <CSSTransition
+        key={currentKey}
+        timeout={timeout}
+        classNames="slide"
+        appear
+      >
+        <Switch location={props.location}>
+          <RenderRoute layout={Layout} exact path="/" component={Home} />
+          <RenderRoute layout={Layout} exact path="/about" component={About} />
+          <RenderRoute layout={Layout} exact path="/about/me" component={AboutMe} />
+          <RenderRoute layout={Layout} exact path="/about/site" component={AboutSite} />
+          <RenderRoute
+            layout={Layout}
+            exact
+            path="/cv/:language/:id"
+            component={MainCV}
+          />
+          <RenderRoute
+            layout={Layout}
+            exact
+            path="/portfolio/:language/:position"
+            component={ProjectDetail}
+          />
+          <RenderRoute
+            layout={Layout}
+            exact
+            path="/resources/:language/:id"
+            component={MainResources}
+          />
+          <Route component={FourOFour} />
+        </Switch>
+      </CSSTransition>
+    </TransitionGroup>
+  );
+};
 
 export default withRouter(App);

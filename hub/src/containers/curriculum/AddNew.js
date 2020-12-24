@@ -1,9 +1,7 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 import { Modal, Header, Button, Icon, Transition, Form, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { saveCV } from '../../actions/cv';
+import { saveCvApi } from '../../actions/cv';
 
 const buttonDefaultStyles = {
   backgroundColor: '#fff',
@@ -23,7 +21,7 @@ class AddNew extends Component {
   }
 
   handleSubmit = () => {
-    this.props.saveCV({ _id: '', name: this.state.name })
+    this.props.saveCvApi({ _id: '', name: this.state.name })
       .then(cv => {
         this.setState({ savedID: cv.data._id, modalOpen: false });
 
@@ -66,4 +64,4 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, { saveCV })(AddNew);
+export default connect(mapStateToProps, { saveCvApi })(AddNew);

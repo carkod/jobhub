@@ -1,0 +1,36 @@
+/*
+ --- Portfolio page
+*/
+
+
+.fileUpload .btn-upload {
+  display: inline;
+  border-radius:0.3em;
+  border: 1px solid #2185d0;
+  background-color: #2185d0;
+  padding: 0.3em;
+} 
+
+.fileUpload .btn-upload .icon {
+  color:#fff;
+  margin-right: 0;
+}
+
+.fileUpload #input {
+  border:none;
+}
+
+.fileUpload #fileName {
+  border:none;
+}
+
+.fileUpload .headerRow {
+  background-color: rgba(181,204,24,0.5);
+}
+
+#project input, #project textarea {
+  border:none;
+  outline:none;
+  border-bottom:1px solid #00bfff;
+  padding: 0.5em;
+}

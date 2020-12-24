@@ -32,19 +32,8 @@ class TrackingTable extends Component {
 		this.props.getApplications();
 	}
 
-	componentWillReceiveProps = (nextProps) => {
-		let filterInactive = nextProps.applications.filter(x => x.status.value !== 2 && x.status.value !== 3)
-		if (nextProps.showArchive) {
-			filterInactive = nextProps.applications;
-		}
-		this.setState({
-			applications: filterInactive,
-			showArchive: nextProps.showArchive,
-			pagedApplications: this.paginatePages(filterInactive, nextProps.activePage)
-		})
-	}
 
-	componentDidUpdate = (prevProps, prevState, snapshot) => {
+	componentDidUpdate = (prevProps, prevState) => {
 		const { applications, totalPages, showArchive, activePage } = this.state
 		if (prevState.applications !== this.state.applications) {
 			this.totalPages()

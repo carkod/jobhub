@@ -1,11 +1,11 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
-import { fetchCVs, generatePDF, saveCV } from '../../actions/cv';
-import { fetchCats } from '../../actions/project';
-import Metainfo from '../Metainfo';
+import { fetchCV, fetchCVs, saveCvApi } from '../../actions/cv';
+import { generatePdfApi } from "../../actions/generate-pdf";
+import { fetchRelationsApi } from '../../actions/relations';
+import { checkValue } from '../../utils';
+import Metainfo from '../../components/Metainfo';
 import Education from './Education';
 import ItSkills from './ItSkills';
 import LangSkills from './LangSkills';
@@ -13,121 +13,147 @@ import PD from './PD';
 import Summary from './Summary';
 import WebdevSkills from './WebdevSkills';
 import WorkRepeater from './WorkRepeater';
+import produce from 'immer';
 
-
+// Serves both as 
+// - title
+// - path param for conditions
+const pdfType = "curriculum-vitae"
 
 class Detail extends Component {
 
   constructor(props) {
     super(props);
-    let {cv, detail, categories} = this.props;
     this.state = {
-      cv: cv,
-      detail: detail,
-      categories: categories,
-    };
-    this.pdChange = this.pdChange.bind(this);
-    this.metaChange = this.metaChange.bind(this);
-    this.skillsChange = this.skillsChange.bind(this);
+      cats: null,
+      locales: null,
+      positions: null,
+      statuses: null,
+      name: null,
+      summary: null,
+      workExp: null,
+      persdetails: null,
+      educ: null,
+      langSkills: null,
+      webdevSkills: null,
+      itSkills: null,
+      previewPdf: `${process.env.REACT_APP_PDF_URL}/view/${pdfType}/${props.match.params.id}`
+    }
   }
 
   componentDidMount = () => {
-    this.props.fetchCVs();
-    this.props.fetchCats();
-    document.addEventListener('keydown', this.keySave, false);
+    this.props.fetchCV(this.props.match.params.id);
+    this.props.fetchRelationsApi();
   }
-  
-  componentWillUnmount = () => {
-    document.removeEventListener('keydown', this.keySave, false);
-  }
-  
-  componentWillReceiveProps = (props) => {
-    const {cv, categories} = props;
-    this.setState({ cv, categories })
-  }
-  
- 
-  summaryChange = (e) => {
-    const {summary} = this.state.cv;
-    this.state.cv.summary = e;
-    this.setState({ summary })
-  }
-  
-  metaChange = (e, value) => {
-    const {cv} = this.state;
-    if (e.target.name) {
-      cv[e.target.name] = e.target.value;
-    } else {
-      cv.cats[value.name] = value.value;
+
+  componentDidUpdate = (props) => {
+    if (this.props !== props) {
+      this.setState({ ...this.props })
     }
-    this.setState({ cv })
-  }
-  
-  pdChange = (e) => {
-    const {persdetails} = this.state.cv;
-    persdetails[e.target.name] = e.target.value;
-    this.setState({ persdetails })
-  }
-  
-  skillsChange = ({langSkills, webdevSkills, itSkills, workExp, educ}) => {
-    this.setState({langSkills, webdevSkills, itSkills, workExp, educ})
-  }
-  
-  cvName = e => {
-    const {cv} = this.state;
-    cv[e.target.name] = e.target.value
-    this.setState({ cv })
-  }
-  
-  keySave = e => {
-    if (e.ctrlKey || e.metaKey) {
-      if (e.key === 's') {
-        this.onSubmit(e);
+
+    if (this.props.cats !== props.cats) {
+      if (this.props.cats.locale !== "en-GB") {
+        this.setState(produce(draft => {
+          draft.previewPdf = `${draft.previewPdf}/${this.props.cats.locale}`
+        }))
       }
     }
+
   }
-  
+
+  summaryChange = (e) => {
+    this.setState({ summary: e });
+  }
+
+  metaChange = (e, element) => {
+    if (checkValue(e.target.name)) {
+      this.setState({ [e.target.name]: e.target.value })
+    } else {
+      this.setState(produce(draft => { draft.cats[element.name] = element.value }))
+    }
+  }
+
+  pdChange = (e) => {
+    this.setState({
+      persdetails: {
+        ...this.state.persdetails,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+
+  skillsChange = ({ langSkills, webdevSkills, itSkills, workExp, educ }) => {
+    if (checkValue(langSkills)) {
+      this.setState({ langSkills: langSkills })
+    }
+    if (checkValue(webdevSkills)) {
+      this.setState({ webdevSkills: webdevSkills })
+    }
+    if (checkValue(itSkills)) {
+      this.setState({ itSkills: itSkills })
+    }
+    if (checkValue(workExp)) {
+      this.setState({ workExp: workExp })
+    }
+    if (checkValue(educ)) {
+      this.setState({ educ: educ })
+    }
+  }
+
+  cvName = e => {
+    this.setState({ name: e.target.value })
+  }
+
+  savePdf = (id) => async (e) => {
+    e.preventDefault();
+    const response = await this.props.generatePdfApi(pdfType, id);
+    const blob = new Blob([response], { type: 'application/pdf' })
+    const link = document.createElement('a')
+    link.href = window.URL.createObjectURL(blob)
+    link.download = `Carlos-Wu-${this.state.name}.pdf`
+    link.click()
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
-    clearTimeout();
-    const {cv, notification} = this.state;
-    this.props.saveCV(cv).then(res => {
-      this.props.generatePDF(cv._id).then(url => {
-        this.props.saveCV(cv).then(res => console.log('second save'));
-      })
-    });
+    this.props.saveCvApi(this.state);
   }
-  
+
   render() {
-    const {cv, categories} = this.state;
-    // console.log(this.props)
     return (
       <div id="detail">
-      <form onSubmit={this.onSubmit} >
-        <Metainfo meta={cv} onChange={this.metaChange} categories={categories} name={this.cvName}/>
-        <div className="container">
-          <Summary summary={cv.summary} onChange={this.summaryChange} />
-          <PD persdetails={cv.persdetails} onChange={this.pdChange} />
-          
-          <WorkRepeater workExp={cv.workExp} update={this.skillsChange} />
-          <Education educ={cv.educ} update={this.skillsChange} />
-          
-          <LangSkills langSkills={cv.langSkills} update={this.skillsChange} />
-          <WebdevSkills webdevSkills={cv.webdevSkills} update={this.skillsChange} />
-          <ItSkills itSkills={cv.itSkills} update={this.skillsChange} />
-          
-          {/*<div className="section">
-          <Checkbox type="checkbox" label={<label><i className="blue linkedin square large icon"/></label>} toggle checked={this.state.linkedin} onChange={() => this.setState({ linkedin: !this.state.linkedin})} fitted/>
-          
-          <Checkbox type="checkbox" label='Push to Jobbio' toggle checked={this.state.jobbio} onChange={() => this.setState({ jobbio: !this.state.jobbio})} />
-          </div>*/}
-          
-          <br />          
-          
-          <Button type="submit" value="Save">
-            <Icon name="save" />Save
-          </Button>
-          
+        <form onSubmit={this.onSubmit} >
+          {this.state.cats && <Metainfo
+            meta={this.state.cats}
+            name={this.state.name}
+            navName={this.state.navName}
+            previewPdf={this.state.previewPdf}
+            locales={this.state.locales}
+            positions={this.state.positions}
+            statuses={this.state.statuses}
+            onChange={this.metaChange}
+          />}
+          <div className="container">
+            {this.state.summary && <Summary summary={this.state.summary} onChange={this.summaryChange} />}
+            {this.state.persdetails && <PD persdetails={this.state.persdetails} onChange={this.pdChange} />}
+
+            {this.state.workExp && <WorkRepeater workExp={this.state.workExp} update={this.skillsChange} />}
+            {this.state.educ && <Education educ={this.state.educ} update={this.skillsChange} />}
+
+            {this.state.langSkills && <LangSkills langSkills={this.state.langSkills} update={this.skillsChange} />}
+            {this.state.webdevSkills && <WebdevSkills webdevSkills={this.state.webdevSkills} update={this.skillsChange} />}
+            {this.state.itSkills && <ItSkills itSkills={this.state.itSkills} update={this.skillsChange} />}
+
+            <br />
+
+            <Button type="submit" color='green'>
+              <Icon name="save" />Save
+            </Button>
+
+            <Button type="button" onClick={this.savePdf(this.props.match.params.id)}>
+              <Icon name="file pdf" />Generate
+            </Button>
+
           </div>
         </form>
       </div>
@@ -136,24 +162,15 @@ class Detail extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  if (state.cvs[0]._id && state.cats[0]._id) {
-    const cv = state.cvs.find(item => item._id === props.match.params.id);
-    
-    return {
-      cv: cv,
-      categories: state.cats,
-      notification: state.notification
-    }
-  } else {
-    return { 
-      cv: state.cvs[0],
-      categories: state.cats,
-      notification: state.notification
-    }    
+
+  const { cvReducer, catsReducer } = state;
+  return {
+    ...cvReducer,
+    ...catsReducer
   }
-  
+
 }
 
-export default connect(mapStateToProps, { saveCV, fetchCVs, fetchCats, generatePDF })(Detail);
+export default connect(mapStateToProps, { saveCvApi, fetchCVs, fetchCV, fetchRelationsApi, generatePdfApi })(Detail);
 
 

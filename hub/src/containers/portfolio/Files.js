@@ -1,92 +1,82 @@
-/* eslint-disable */
-
+import produce from 'immer';
 import moment from 'moment';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Grid, Header, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
-import { removeFile, uploadFile } from '../../actions/project';
-import { addNotification } from '../../actions/notification';
+import { fileNotFound, removeFileApi, uploadFileApi } from '../../actions/files';
+import Upload from "../../components/Upload";
+import { parseSize } from "../../utils";
 
 class Files extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      documents: props.documents,
-      uploading: false,
+      file: null,
+      active: false,
+      loading: false,
+    }
+  }
+  componentDidUpdate = (props) => {
+
+    if (this.props.file !== props.file) {
+      
     }
   }
 
-  componentDidMount = () => {
-    this.setState({ documents: this.props.documents })
-  }
-  
-  componentWillReceiveProps = (props) => {
-    this.setState({ documents: props.documents })
-  }
-
-  fileNameChange = (i) => (e) => {
-    const {documents} = this.state;
-    documents[i].fileName = e.target.value;
-    this.setState({documents})
-  }
-
   handleChange = (e) => {
-    let data = new FormData();
-    data.append('fieldname', e.target.files[0]);
-    this.data = data;
+    let active = false;
+    let file = undefined;
+    if (e.target.files.length > 0) {
+      file = e.target.files
+      active = true;
+    }
+    this.setState(produce(draft => {
+      draft.active = active
+      draft.file = file
+    }))
   }
   
   handleUpload = e => {
     e.preventDefault();
-    const {documents} = this.state;
-    const data = this.data;
-    const parseSize = (bytes) => parseFloat(Math.round(bytes/1024)).toFixed(2);
-    if (this.fieldname === undefined || this.fieldname.files.length < 1) {
-      
-      addNotification({type: 'NO_FILE'})
-      //handle error no file uploaded
+    if (this.state.file === undefined || this.state.file.length < 1) {
+      //handle error no file attached
+      this.props.fileNotFound()
     } else {
-      console.log('file found')
-      //Loading icon
-    this.setState({ uploading:true }); 
-    
-    uploadFile(data)
-    .then(file => {
-      addNotification({type: 'UPLODED_FILE'})
-      const newFile = {
-        fileId: shortid.generate(),
-        fileName : file.fieldname,
-        fileSize : parseSize(file.size),
-        fileDate : Date.now(),
-        fileURL : file.url,
-        fileRawName : file.originalname,
-        fileDir: file.destination
-      }
-      documents.push(newFile);
-      
-      this.setState({ documents, uploading:false }, () => {
-        this.props.onUpload({documents});
-      });
-    })
+      let data = new FormData();
+      data.append('fieldname', this.state.file[0]);
+      this.props.uploadFileApi(data).then(x => {
+        this.setState(produce(draft => {
+          const file = this.state.file[0];
+          draft.file = file
+          const newFile = {
+            fileId: shortid.generate(),
+            fileName : file.name,
+            fileSize : parseSize(file.size),
+            fileDate : Date.now(),
+            fileURL : x.payload.data,
+          }
+          this.props.onUpload(newFile);
+          this.uploadRef.value = "";
+          draft.active = false
+        }))
+      })
     }
   }
   
   deleteDoc = (doc) => (e) => {
     e.preventDefault();
-    const {documents} = this.state;
-    removeFile(doc)
-      .then(file => {
-        const i = documents.findIndex(x => x.fileId === doc.fileId)
-        documents.splice(i,1);
-        this.setState({ documents });
-        this.props.onDeupload({documents});
-    })
-    
+    this.props.removeFileApi(doc).then(x => {
+      this.props.onDeupload(doc);
+    });
+  }
+
+  handleUploadRef = (ref) => {
+    this.uploadRef = ref;
   }
   
   render() {
-    const {documents} = !!Object.keys(this.state).length ? this.state : this.props;
     return (
       <div className="fileUpload section">
         <Header sub>
@@ -96,22 +86,25 @@ class Files extends Component {
           <Grid padded celled>
             <Grid.Row columns={2} className="headerRow">
               <Grid.Column>
-                <button className="btn btn-upload" name="append" onClick={this.handleUpload} disabled={this.state.uploading}>
-                  {this.state.uploading ? <Icon loading name="file archive outline" className="white" /> : <Icon name="upload" className="white" />}
-                </button>
-                <input name="files" type="file" id="input" onChange={this.handleChange} ref={fieldname => {this.fieldname = fieldname}} />
+                <Upload 
+                  active={this.state.active}
+                  loading={this.state.loading}
+                  handleChange={this.handleChange}
+                  handleUpload={this.handleUpload}
+                  forwardedRef={this.handleUploadRef}
+                />
               </Grid.Column>
               <Grid.Column>
                 Number of files
               </Grid.Column>
             </Grid.Row>
-            {documents.map((doc, i) => 
+            {this.props.documents && this.props.documents.map((doc, i) => 
               <Grid.Row columns={4} key={doc.fileId}>
                 <Grid.Column textAlign="center" width={4}>
                   <button className="btn" onClick={this.deleteDoc(doc)}><Icon name="delete" className="red large"/></button>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  <input id="fileName" value={doc.fileName} onChange={this.fileNameChange(i)}/>
+                  <input id="fileName" value={doc.fileName} onChange={this.props.fileNameChange(i)}/>
                 </Grid.Column>
                 <Grid.Column width={4}>
                   {moment(doc.fileDate).format('D-M-Y')}
@@ -134,5 +127,14 @@ class Files extends Component {
   
 }
 
+const mapStateToProps = (s, p) => {
+  const { snackBarReducer, filesReducer } = s;
+  return {
+    active: snackBarReducer.loading ? false : true,
+    loading: snackBarReducer.loading,
+    file: filesReducer,
+  }
+}
 
-export default Files;
+
+export default connect(mapStateToProps, { fileNotFound, uploadFileApi, removeFileApi })(Files);

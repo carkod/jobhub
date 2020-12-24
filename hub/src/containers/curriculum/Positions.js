@@ -22,10 +22,8 @@ class Positions extends Component {
     this.props.fetchCats()
   }
   
-  componentWillReceiveProps = (p) => {
-     this.setState({
-       cats: p.cats
-     })
+  componentDidUpdate = (p) => {
+     if (this.props.cats !== p.cats) this.setState({ cats: this.props.cats })
   }
   
   handleChange = (e) => {

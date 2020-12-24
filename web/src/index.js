@@ -1,36 +1,16 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import App from "./pages/App";
+import Reducer from "./Reducer";
+import registerServiceWorker from "./registerServiceWorker";
+import "./index.css";
 
-/* eslint-disable */
-let regeneratorRuntime =  require("regenerator-runtime");
-import React, {Component} from 'react';
-import registerServiceWorker from './registerServiceWorker';
-import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { Provider } from 'react-redux';
-import { Link, Route, IndexRoute, Router, Switch, BrowserRouter } from 'react-router-dom';
-
-import 'semantic-ui-css/semantic.min.css';
-import './index.css';
-
-import Reducer from './Reducer';
-import App from './pages/App';
-//import { loadState, saveState } from './localStorage';
-
-//const persistedStore = loadState();
-const store = createStore(
-    Reducer,
-    //persistedStore,
-    composeWithDevTools(
-      applyMiddleware(thunk)
-    )
-);
-
-/*store.subscribe(() => {
-  saveState(store.getState())
-})*/
-
-
+const store = createStore(Reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -38,6 +18,6 @@ ReactDOM.render(
       <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('web')
+  document.getElementById("web")
 );
 registerServiceWorker();

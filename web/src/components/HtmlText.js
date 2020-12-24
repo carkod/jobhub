@@ -8,8 +8,11 @@ class HtmlText extends Component {
         super(props);
     }
 
-    componentWillReceiveProps = (props) => {
-        const { text } = props;
+    componentDidUpdate = (props) => {
+        if (this.props.text) {
+            const { text } = props;
+        }
+
     }
 
     render() {

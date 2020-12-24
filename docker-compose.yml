@@ -1,25 +1,27 @@
 version: "3.8"
 services:
   app:
-    image: carloswufei/jobhub
+    build: .
     restart: on-failure
     container_name: jobhub_app
+    security_opt: 
+      - seccomp=chrome.json
     depends_on:
       - db
     env_file:
       - .env
     environment:
-      - MONGO_CONNECTION_STRING=mongodb://db/cv_generator
+      MONGO_CONNECTION_STRING: mongodb://jobhub_db:27017/cv_generator
     ports:
-      - "8082:82"
-      - "8081:81"
-      - "8080:80"
-    command: ["./wait-for-it.sh", "db:27017", "--", "node", "/home/back/dist/server.js"]
+      - "8082:8082"
+      - "8081:8081"
+      - "8080:8080"
+    command: bash -c "service nginx start && /home/wait-for-it.sh db:27017 -- node /home/back/dist/server.js"
 
   db:
-    image: mongo:latest
+    image: mongo:4.4-bionic
     container_name: jobhub_db
-    restart: always
+    restart: on-failure
     ports: 
       - "27017:27017"
     volumes:
