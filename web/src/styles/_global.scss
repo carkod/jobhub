@@ -7,8 +7,10 @@ $dark: #414143;
 $dark-grey: #868e96;
 $main-blue: #44b0ee;
 
+$preset-f: 1.3em;
 $standard-font: 1.2em;
 $preset-font: 1.3em;
+$preset-smaller: $preset-f / 1.55;
 $medium-p: 1.4em;
 $large-p: 1.5em;
 
@@ -25,6 +27,10 @@ $index-secondary: 10;
 $index-third: 15;
 
 $index-top: 100; // Modal
+
+// media queries
+$mobile-size: 44em;
+$small-screen: 54em; // Table portrait mode, small and older deivces
 
 .serif {
   font-family: "Source Serif Pro", serif;
@@ -45,10 +51,10 @@ html,
 body,
 #root,
 .layout {
-  @media (min-width: 45rem) {
+  @media (min-width: $mobile-size) {
     height: 100%;
   }
-  @media (max-width: 44rem) {
+  @media (max-width: $mobile-size) {
     height: auto;
   }
 }
@@ -66,14 +72,14 @@ h1 {
   font-weight: 600;
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  @media (max-width: 66rem) {
+  @media (max-width: $mobile-size) {
     font-size: 2.2rem;
   }
   small {
     color: $dark-grey;
     font-weight: 300;
     font-size: 2rem;
-    @media (max-width: 66rem) {
+    @media (max-width: $mobile-size) {
       font-size: 1.8rem;
     }
   }
@@ -83,7 +89,7 @@ h2 {
   font-weight: 200;
   font-size: 2rem;
   margin-bottom: 0.5rem;
-  @media (max-width: 66rem) {
+  @media (max-width: $mobile-size) {
     font-size: 1.8rem;
   }
   &.ui.dividing.header {
@@ -92,7 +98,7 @@ h2 {
     margin: 2rem 0;
     padding: 0.5rem 0;
     font-weight: 200;
-    @media (max-width: 66rem) {
+    @media (max-width: $mobile-size) {
       font-size: 1.5rem;
     }
   }
@@ -101,7 +107,7 @@ h3 {
   @extend .sans-serif;
   font-weight: 600;
   font-size: 1.3rem;
-  @media (max-width: 66rem) {
+  @media (max-width: $mobile-size) {
     font-size: 1.1rem;
   }
 }
@@ -132,6 +138,7 @@ li, blockquote {
 
 .container {
   padding-top: 2rem;
+  padding-right: 2rem;
 }
 
 .HtmlText {

@@ -28,9 +28,8 @@ class Layout extends Component {
   render() {
     return (
       <div className="layout">
-        <div className="background-letters">Carlos</div>
         <Notification {...this.props}/>
-        <main id="main">
+        <div id="main">
           <button id="burger" className="mobile only" onClick={() => this.setState({navigation: !this.state.navigation})} ><i className="cube icon" /></button>
           <div className={this.state.navigation ? "lefty open" : "lefty close"}>
             <div className="sidebar-container">
@@ -42,20 +41,6 @@ class Layout extends Component {
             {this.props.children}
           </div>
             
-        </main>
-        <div className={`ui dimmer transition ${this.state.dimmer ? 'visible active' : 'hidden'}`} onClick={() => this.setState({dimmer: !this.state.dimmer})}>
-          <div className="content">
-            <div className="center">
-              <h2 className="ui inverted icon header">
-                <i className="protect icon" />
-                <span>THIS CONTENT IS NOT AVAILABLE</span>
-                <hr />
-                <div className="sub header">
-                  It might be restricted or still under development, please contact me to get access.
-                </div>
-              </h2>
-            </div>
-          </div>
         </div>
       </div>
     );

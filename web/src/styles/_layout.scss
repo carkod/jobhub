@@ -30,51 +30,17 @@
   opacity: 0;
 }
 
-.background-letters {
-  font-size: 100em;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  z-index: -1;
-}
-
 #main {
   display: grid;
-  grid-template-columns: 20em auto auto;
+  grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr;
-  @media (min-width: 45rem) {
-    &::before {
-      top: 0;
-      content: "";
-      display: block;
-      height: 100%;
-      left: -30%;
-      right: 0;
-      position: absolute;
-      transform: skewX(9deg);
-      transform-origin: 0;
-      background-color: rgba($blue, 0.8);
-      z-index: -1;
-      width: 60%;
-    }
+  grid-gap: 5em;
 
-    &::after {
-      top: 0;
-      content: "";
-      display: block;
-      height: 100%;
-      right: -10%;
-      position: absolute;
-      transform: skewX(9deg);
-      transform-origin: 0;
-      background-color: #fff;
-      z-index: -1;
-      width: 79%;
-    }
-  }
+  @media (max-width: $mobile-size) {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+    height: 100vh;
 
-  @media (max-width: 44rem) {
     &::before {
       content: "";
       position: absolute;
@@ -93,17 +59,13 @@
   .lefty {
     grid-column: 1 / 2;
     grid-row: 1;
-      .sidebar-container {
-          position: sticky;
-          top: 0;
-          left: 0;
-      }
-    @media (min-width: 45rem) {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .sidebar-container {
+      position: sticky;
+      top: 0;
+      left: 0;
+      height: 100vh;
     }
-    @media (max-width: 44rem) {
+    @media (max-width: $mobile-size) {
       display: flex;
       flex-flow: column;
       align-items: center;
@@ -132,20 +94,13 @@
   }
 
   .righty {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: center;
     grid-column: 2 / 4;
-    @media (max-width: 75rem) {
-      align-items: center;
-    }
-    @media (max-width: 45rem) {
-      width: 100%;
-      max-width: 100%;
-      position: static;
-      display: block;
-      margin: 1.5rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    z-index: $index-base;
+    @media screen and (max-width: $mobile-size) {
+      padding: $large-space;
     }
   }
 }
@@ -154,10 +109,8 @@
   background: none;
   border: none;
   outline: none;
-  @media (min-width: 44rem) {
-    display: none;
-  }
-  @media (max-width: 43rem) {
+  display: none;
+  @media (max-width: $mobile-size) {
     display: block;
     position: absolute;
     top: 0.6rem;

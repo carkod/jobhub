@@ -3,17 +3,18 @@ import { Helmet } from "react-helmet";
 import { Card, Icon, Image } from "semantic-ui-react";
 import profilePic from "../../carlos.jpg";
 
-
-
 class Home extends Component {
   constructor(props) {
     super(props);
+    const mobileSize = window.innerWidth < "765" ? true :false
     this.state = {
       theposition: -10,
+      mobile: mobileSize
     };
   }
 
   componentDidMount() {
+
       // document.addEventListener("scroll", this.listenToScroll, true);
   }
 
