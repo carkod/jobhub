@@ -28,11 +28,14 @@ class Layout extends Component {
   render() {
     return (
       <div className="layout">
+        <div className="background-letters">Carlos</div>
         <Notification {...this.props}/>
-        <main id="main" className="container">
+        <main id="main">
           <button id="burger" className="mobile only" onClick={() => this.setState({navigation: !this.state.navigation})} ><i className="cube icon" /></button>
           <div className={this.state.navigation ? "lefty open" : "lefty close"}>
-            <Sidebar unavailable={() => this.setState({dimmer:true})}/>
+            <div className="sidebar-container">
+              <Sidebar unavailable={() => this.setState({dimmer:true})}/>
+            </div>
           </div>
           
           <div className="righty">

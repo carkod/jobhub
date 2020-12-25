@@ -135,6 +135,12 @@
     &__container-top {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        @media (max-width: 950px) {
+          grid-template-columns: 1fr;
+        }
+        @media (max-width: 44rem) {
+          transform: rotate(0deg);
+        }
     }
   }
 }

@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet";
 import { Card, Icon, Image } from "semantic-ui-react";
 import profilePic from "../../carlos.jpg";
 
+
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -12,11 +14,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener("scroll", this.listenToScroll, true);
+      // document.addEventListener("scroll", this.listenToScroll, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("scroll", () => null, true);
+    // document.removeEventListener("scroll", () => null, true);
   }
 
   componentDidUpdate = (props) => {
@@ -32,8 +34,13 @@ class Home extends Component {
     });
   };
 
+  
   render() {
     const yearsExp = new Date().getFullYear() - 2014;
+    const rotationStyles = {
+      transform: `rotate(${this.state.theposition}deg) translate(0em, -1em)`,
+    }
+  
     return (
       <div id="home" className="container">
         <Helmet>
@@ -48,12 +55,10 @@ class Home extends Component {
 
         <div
           className="home-details"
-          style={{
-            transform: `rotate(${this.state.theposition}deg) translate(0em, -1em)`,
-          }}
+          style={!this.state.mobile ? rotationStyles : {}}
         >
           <div className="home-details__container">
-            <div className="home-details__container-top">
+            <div className="home-details__container-top u-restore-home-layout">
               <Card>
                 <Image
                   src={profilePic}
