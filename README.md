@@ -48,10 +48,12 @@ This is a full stack application made with:
 - Try docker make sure the image works:
 `docker build --tag jobhub . && docker-compose up`
 
-- Build and deploy image to hub.docker and test docker-compose (this cannot be done in a GH action because of lack of .env with secrets)
-`docker build --tag jobhub . && docker tag jobhub carloswufei/jobhub:latest && docker push carloswufei/jobhub && docker-compose up`
+- Build and deploy image to hub.docker and test docker-compose (this cannot be done in a GH action because of lack of .env with secrets) `docker build --tag jobhub .`
+- Once it's tested and ready `docker tag jobhub carloswufei/jobhub:latest && docker push carloswufei/jobhub`
 
-- Go to the server and `docker-compose pull && docker-compose up -d`
+- Go to the server:
+1. If database has changed replace new database and `docker-compose stop` and `docker-compose rm` containers to clean up database
+2. Pull and start new containers `docker-compose pull && docker-compose up -d`
 
 ## PORTS
 

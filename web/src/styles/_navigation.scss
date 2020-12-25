@@ -1,76 +1,103 @@
 #nav {
-    display:flex;
-    flex-flow: column nowrap ;
-    align-content: center;
-    justify-content: center;
-    
-    #primary {
-        border:none;
-        width:100%;
-        margin: 10% 0;
-        flex-flow: column nowrap ;
-        align-content: center;
-        justify-content: center;
-        
-      ul {
-          list-style:none;
-          margin:0;
-          padding:0;
-              
-            ul { padding-bottom:.5rem; display:none;
-                &.openMenu {
-                    display:block;
-                }
-                &.closeMenu {
-                    display:none;
-                }
-            }  
-          
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #primary {
+    border: none;
+    width: 100%;
+
+    // trapezoid shape nav
+    @media (min-width: $mobile-size) {
+      &::before {
+        top: 0;
+        content: "";
+        display: block;
+        height: 100%;
+        left: -30%;
+        right: 0;
+        position: absolute;
+        transform: skewX(9deg);
+        transform-origin: 0;
+        background-color: rgba($blue, 0.8);
+        z-index: -1;
       }
-      .item, .btn {
-        @extend .sans-serif;
-        font-size:1rem;
-        font-weight:800;
-        text-transform:uppercase;
-        text-align:center;
-        color:#fff; 
-        border:none;
-        list-style:none;
-        padding:0px;
-        margin:0px;
-        
-       ul .item {
-           font-weight:100;
-       } 
-        a, button {
-            color:#fff;
-            position:relative;
-            display:inline-block;
-            padding:.3rem;
-            padding-top:0;
-            margin:0.5rem 0;
-        }
-        
-        
-            .active {
-                color:$blue;
-                background:#fff;
-                
-                &::before {
-                    content:"";
-                    width:100%;
-                    height:10px;
-                    background:#fff;
-                    position:absolute;
-                    transform:skew(5deg) rotate(2deg);
-                    top:-5px;
-                    left:0;
-                    z-index:-1;
-                }
-            }
-        
-        }
-        
+
+      &::after {
+        top: 0;
+        content: "";
+        display: block;
+        height: 100%;
+        right: -109%;
+        position: absolute;
+        transform: skewX(9deg);
+        transform-origin: 0;
+        background-color: white;
+        z-index: -2;
+        width: 110%;
+      }
     }
-   
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      ul {
+        padding-bottom: 0.5rem;
+        display: none;
+        &.openMenu {
+          display: block;
+        }
+        &.closeMenu {
+          display: none;
+        }
+      }
+    }
+    .item,
+    .btn {
+      @extend .sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: center;
+      color: #fff;
+      border: none;
+      list-style: none;
+      padding: 0px;
+      margin: 0px;
+
+      ul .item {
+        font-weight: 100;
+      }
+      a,
+      button {
+        color: #fff;
+        position: relative;
+        display: inline-block;
+        padding: 0.3rem;
+        padding-top: 0;
+        margin: 0.5rem 0;
+      }
+
+      .active {
+        color: $blue;
+        background: #fff;
+
+        &::before {
+          content: "";
+          width: 100%;
+          height: 10px;
+          background: #fff;
+          position: absolute;
+          transform: skew(5deg) rotate(2deg);
+          top: -5px;
+          left: 0;
+          z-index: -1;
+        }
+      }
+    }
+  }
 }

@@ -3,8 +3,7 @@
 --------------*/
 
 #mainCV {
-    padding-right:3rem;
-    @media (max-width:44rem) {
+    @media (max-width:$mobile-size) {
         padding-right:0px;
     }
     
@@ -53,7 +52,7 @@
     
     .work-date {
         @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
-        @media (max-width:66rem) {
+        @media (max-width:$mobile-size) {
             font-size: 1rem;
         }
     }
@@ -73,7 +72,7 @@
             }   
         }
         
-        @media (max-width: 44rem) {
+        @media (max-width: $mobile-size) {
             .level {
                 display:none;
             }
