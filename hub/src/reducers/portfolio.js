@@ -1,4 +1,4 @@
-import { DELETE_PROJECT_SUCCESFUL, GET_PROJECTS_SUCCESFUL, GET_PROJECT_SUCCESFUL, SAVE_PROJECT_SUCCESFUL } from '../actions/portfolio';
+import { DELETE_PROJECT_SUCCESFUL, GET_PROJECTS_SUCCESFUL, GET_PROJECT_SUCCESFUL } from '../actions/portfolio';
 
 // List project data
 export function listProjectsReducer(state = null, action = {}) {

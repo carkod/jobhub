@@ -1,4 +1,4 @@
-import { COPY_CL_SUCCESS, DELETE_CL_SUCCESS, GET_CLS_SUCCESS, GET_CL_SUCCESS } from "../actions/cover-letter";
+import { COPY_CL_SUCCESS, GET_CLS_SUCCESS, GET_CL_SUCCESS } from "../actions/cover-letter";
 
 export function clsListReducer(state = {}, action = {}) {
   switch (action.type) {
