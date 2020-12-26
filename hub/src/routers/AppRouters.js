@@ -1,6 +1,8 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
+import BlogList from '../containers/blog/BlogList';
+import Blog from '../containers/blog/Blog';
 import CoverLetters from '../containers/coverLetters/CoverLetters';
 import Letter from '../containers/coverLetters/Letter';
 import Detail from '../containers/curriculum/Detail';
@@ -37,6 +39,8 @@ const AppRouter = () => (
 			<PrivateRouter exact path="/tracker" component={Tracker} />
 			<PrivateRouter exact path="/new-tracker" component={AddNewApplication} />
 			<PrivateRouter exact path="/tracker/:id" component={EditApplication} />
+			<PrivateRouter exact path="/blog/" component={BlogList} />
+			<PrivateRouter exact path="/blog/:id" component={Blog} />
 		</Layout>
 	</Switch>
 );

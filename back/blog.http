@@ -1,0 +1,9 @@
+POST https://localhost:8082/api/blog HTTP/1.1
+content-type: application/json
+
+{
+    "title": "sample",
+    "categories": ["test"],
+    "tags": ["test-tag"],
+    "content" : ["<p>HTML content</p>"]
+}

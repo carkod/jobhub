@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { handleResponse, headers, formdataHeaders } from './actions.config';
 
 export const SET_PROJECTS = 'SET_PROJECTS';
@@ -8,7 +7,7 @@ export const PROJECT_FETCHED = 'PROJECT_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_PROJECT = 'RETRIEVED_PROJECT';
-//export const PROJECT_UPDATED = 'PROJECT_UPDATED';
+
 export const PROJECT_DELETED = 'PROJECT_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
@@ -145,34 +144,6 @@ export function copyProject(data) {
             });
     }
 
-}
-
-export function createProject(data) {
-    return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
-            method: 'post',
-            body: JSON.stringify(data),
-            headers: headers
-        }).then(handleResponse)
-            .then(data => {
-                dispatch(addProject(data))
-                dispatch(addNotification(addProject(data)))
-            })
-    }
-}
-
-export function saveProject(data) {
-    return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
-            method: 'put',
-            body: JSON.stringify(data),
-            headers: headers
-        }).then(handleResponse)
-            .then(data => {
-                dispatch(addProject(data))
-                dispatch(addNotification(addProject(data)))
-            })
-    }
 }
 
 export function fetchPortfolio() {

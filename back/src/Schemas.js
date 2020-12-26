@@ -133,4 +133,14 @@ ApplicationSchema.pre('save', function (next) {
     next();
 });
 
-export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema };
+// Applications
+const BlogSchema = new Schema({
+    _id: mongoose.Schema.ObjectId,
+    title: { type: String, required: true },
+    categories: { type: Array },
+    tags: { type: Array },
+    content: { type: String },
+    updatedAt: { type: Date, default: Date.now },
+}, { strict: false });
+
+export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema, BlogSchema };

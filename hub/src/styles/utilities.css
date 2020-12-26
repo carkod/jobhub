@@ -1,5 +1,14 @@
 /* Overrides */
 
+.section {
+  margin-top: 1.5em;
+}
+
+.ui.header input {
+  padding:0;
+}
+
+
 /* Override z-index */
 .ui.selection.dropdown.active, .ui.selection.dropdown.visible {
   z-index: 99 !important;
@@ -37,4 +46,10 @@
 .u-display-block {
   display: block;
   width: 100%;
+}
+
+.u-basic-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1em;
 }

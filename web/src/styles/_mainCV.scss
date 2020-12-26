@@ -3,82 +3,92 @@
 --------------*/
 
 #mainCV {
-    @media (max-width:$mobile-size) {
-        padding-right:0px;
+  @media (max-width: $mobile-size) {
+    padding-right: 0px;
+  }
+
+  strong {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  section {
+    margin: 1rem 0;
+  }
+
+  .row {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .field {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+
+    strong {
+      font-weight: 600;
     }
-    
-    strong {font-weight:600; font-size: 1rem;}
-    section {
-        margin: 1rem 0;
+  }
+
+  .visible {
+    overflow: hidden;
+    max-height: 99em;
+    transition: max-height 1s;
+  }
+
+  .hidden {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 1s;
+  }
+
+  .btn {
+    color: $orange;
+  }
+
+  .download {
+    float: right;
+    font-weight: 2rem;
+    &:disabled {
+      color: $dark-grey;
     }
-    
-    .row {padding-top:0.5rem; padding-bottom: 0.5rem;}
-    
-    
-    
-    .field {
-        @extend .sans-serif; 
-        font-weight: 400; 
-        font-size: 1rem; 
-        padding:0.5rem 1rem;
-        
-        strong {font-weight: 600;}
+  }
+
+  .workplace,
+  .position {
+    padding-bottom: 0;
+  }
+
+  .work-date {
+    @extend .sans-serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    @media (max-width: $mobile-size) {
+      font-size: 1rem;
     }
-    
-    
-    
-    .visible {
-        overflow:hidden;
-        max-height:99em;
-        transition:max-height 1s;
+  }
+  .skills {
+    .bar {
+      transition: width 2s, background-color 2s;
     }
-    
-    .hidden {
-        overflow:hidden;
-        max-height:0;
-        transition:max-height 1s;
+    small {
+      margin-left: 0.3rem;
+      opacity: 0;
     }
-    
-    .btn { color: $orange; }
-    
-    .download {
-        float:right;
-        font-weight:2rem;
+    h4:hover,
+    h4:active {
+      cursor: pointer;
+      small {
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+      }
     }
-    
-    .workplace, .position {
-        padding-bottom:0;
+
+    @media (max-width: $mobile-size) {
+      .level {
+        display: none;
+      }
     }
-    
-    .work-date {
-        @extend .sans-serif; font-weight: 400; font-size: 1.2rem;
-        @media (max-width:$mobile-size) {
-            font-size: 1rem;
-        }
-    }
-    .skills {
-        .bar {
-            transition: width 2s, background-color 2s;
-        }
-        small {
-            margin-left:0.3rem;
-            opacity:0;
-        }
-        h4:hover, h4:active {
-            cursor:pointer;
-            small { 
-                opacity:1;
-                transition:opacity 1s ease-in-out;
-            }   
-        }
-        
-        @media (max-width: $mobile-size) {
-            .level {
-                display:none;
-            }
-        }
-        
-    }
-    
-    
+  }
 }
