@@ -43,7 +43,7 @@ class Home extends Component {
     }
   
     return (
-      <div id="home" className="container">
+      <div id="home" className="home container">
         <Helmet>
           <title>Carlos Wu - Professional Profile</title>
           <meta charSet="utf-8" />
@@ -71,7 +71,7 @@ class Home extends Component {
                 </a>
               </Card.Content>
               </Card>
-              <div>
+              <div className="home-content">
                 <p className="u-home-text">
                   Hi, my name is{" "}
                   <span className="u-emphasize-text">Carlos Wu</span> and I work

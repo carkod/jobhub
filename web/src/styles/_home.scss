@@ -116,15 +116,16 @@
     justify-content: center;
     align-items: center;
     &__container-top {
-        display: grid;
-        grid-template-columns: 12em auto;
-        grid-gap: $large-space;
+      display: grid;
+      grid-template-columns: 12em 30em;
+      grid-gap: $large-space;
+      align-items: center;
 
-        @media screen and (max-width: $small-screen) {
-          grid-template-columns: 10em auto;
-          grid-gap: 1em;
-          font-size: $preset-smaller;
-        }
+      @media screen and (max-width: $small-screen) {
+        grid-template-columns: 10em auto;
+        grid-gap: 1em;
+        font-size: $preset-smaller;
+      }
     }
     .content {
       @media screen and (max-width: $small-screen) {

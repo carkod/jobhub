@@ -20,7 +20,7 @@ export default class BlogDetail extends Component {
     const { id } = this.props.match.params;
     try {
       const blog = await fetchBlogApi(id);
-      this.setState({ blog: blog });
+      this.setState({ blog: blog.data });
     } catch (e) {
       this.setState({ blog: {} });
     }
@@ -33,28 +33,28 @@ export default class BlogDetail extends Component {
     return (
       <div id="mainblog" className="container">
         <Helmet>
-          <title>{`Carlos Wu - ${this.state.blog.name}`}</title>
+          <title>{`Carlos Wu - ${blog.name}`}</title>
           <meta charSet="utf-8" />
           <meta
             name="description"
-            content={`blog by Carlos Wu - ${this.state.blog.name}`}
+            content={`blog by Carlos Wu - ${blog.name}`}
           />
           <link rel="canonical" href={`http://carloswu.xyz/blog/${id}`} />
         </Helmet>
 
         <main className="blogContent">
-          <h1>{this.state.blog.name}</h1>
-          {blog.map((blog, i) => (
-            <div key={blog.id} className="row one column wide">
+          <small>Category: {blog.category}</small>
+          <h1>{blog.name}</h1>
+            <div className="row one column wide">
               <section id="blog">
-                <ReactMarkdown
+                <ReactMarkdown 
                   plugins={[gfm]}
-                  children={this.state.content}
+                  children={blog.content.substring(0,50) + "[...]"}
                   allowDangerousHtml
+                  style={{ wordWrap: "break-word"}}
                 />
               </section>
             </div>
-          ))}
         </main>
       </div>
     );
