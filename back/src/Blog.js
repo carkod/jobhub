@@ -5,7 +5,10 @@ import { BlogSchema } from "./Schemas";
 const BlogModel = mongoose.model("BlogModel", BlogSchema);
 
 export default function Blog(app) {
-  app.get("/api/blogs/:page/:pagesize", (req, res) => {
+  app.get("/api/blogs/:page?/:pagesize?", (req, res) => {
+    const page = +req.params.page || 0;
+    const pagesize = +req.params.pagesize || 0;
+    const skip = pagesize * page - pagesize;
     BlogModel.find(
       {},
       null,
@@ -14,7 +17,9 @@ export default function Blog(app) {
         if (err) throw err;
         res.status(200).json(content);
       }
-    ).skip(skip).limit(pagesize);;
+    )
+      .skip(skip)
+      .limit(pagesize);
   });
 
   app.post("/api/blogs", (req, res) => {
@@ -38,9 +43,12 @@ export default function Blog(app) {
 
     BlogModel.update({ _id: id }, blog, { upsert: true }, (err, msg) => {
       if (err) {
-        res.json({ error: true, message: `Blog changes failed to save ${err}`});
+        res.json({
+          error: true,
+          message: `Blog changes failed to save ${err}`,
+        });
       } else {
-        res.json({ error: false, message: "Blog changes saved!"});
+        res.json({ error: false, message: "Blog changes saved!" });
       }
     });
   });
@@ -49,9 +57,17 @@ export default function Blog(app) {
     if (req.params._id) {
       BlogModel.findById(req.params._id, (err, blog) => {
         if (!err) {
-          res.status(200).json({ data: blog, message: "Blog successfully retrieved!", error: false });
+          res
+            .status(200)
+            .json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
         } else {
-          res.status(200).json({ message: `Failed to retrieve blog ${err}`, error: true });
+          res
+            .status(200)
+            .json({ message: `Failed to retrieve blog ${err}`, error: true });
         }
       });
     } else {
@@ -68,7 +84,7 @@ export default function Blog(app) {
       BlogModel.findByIdAndRemove(req.params._id, (err, blog) => {
         if (!err) {
           const deletedID = req.params._id;
-          res.json({ message: "Blog successfully deleted",  error: false });
+          res.json({ message: "Blog successfully deleted", error: false });
         } else {
           res.json({ message: err, error: true });
         }
@@ -81,11 +97,19 @@ export default function Blog(app) {
   // Find by title
   app.get("/api/blogs/name/:name", (req, res) => {
     if (req.params.name) {
-      BlogModel.findOne({name: req.params.name}, (err, blog) => {
+      BlogModel.findOne({ name: req.params.name }, (err, blog) => {
         if (!err) {
-          res.status(200).json({ data: blog, message: "Blog successfully retrieved!", error: false });
+          res
+            .status(200)
+            .json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
         } else {
-          res.status(200).json({ message: `Failed to retrieve blog ${err}`, error: true });
+          res
+            .status(200)
+            .json({ message: `Failed to retrieve blog ${err}`, error: true });
         }
       });
     } else {
@@ -100,11 +124,19 @@ export default function Blog(app) {
   // Find by topic
   app.get("/api/blogs/category/:category", (req, res) => {
     if (req.params.category) {
-      BlogModel.findOne({category: req.params.category}, (err, blog) => {
+      BlogModel.findOne({ category: req.params.category }, (err, blog) => {
         if (!err) {
-          res.status(200).json({ data: blog, message: "Blog successfully retrieved!", error: false });
+          res
+            .status(200)
+            .json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
         } else {
-          res.status(200).json({ message: `Failed to retrieve blog ${err}`, error: true });
+          res
+            .status(200)
+            .json({ message: `Failed to retrieve blog ${err}`, error: true });
         }
       });
     } else {

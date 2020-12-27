@@ -8,9 +8,12 @@ let cats = mongoose.model("categories", CategoriesSchema);
 export default function Categories(app, db) {
   app.get("/api/cats", (req, res) => {
     cats.find({}, function (err, content) {
-      if (err) throw err;
-      //console.log(content)
-      res.json(content);
+      if (err) {
+        res.json({error: true, message: `Failed to retrieve relationships ${err}` });
+      } else {
+        res.json(content);
+      }
+      
     });
   });
 

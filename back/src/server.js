@@ -65,4 +65,4 @@ promise.then((db) => {
 
 
 
-app.listen(process.env.BACK_PORT, () => console.log('Server is running on localhost:' + process.env.BACK_PORT));
+app.listen(process.env.BACK_PORT, () => console.warn('Server is running on localhost:' + process.env.BACK_PORT));

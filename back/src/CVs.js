@@ -90,8 +90,7 @@ export default function CVs(app) {
           const savedID = id;
           res.json({ status: !!msg.ok, message: "CV changes saved!" });
         } else {
-          res.json({ status: !!msg.ok });
-          console.log("No changes");
+          res.json({ status: !!msg.ok, message: "No changes" });
         }
       }
     });
@@ -129,11 +128,9 @@ export default function CVs(app) {
         if (err) throw err;
 
         if (content !== undefined) {
-          res.json({ _id: content._id, status: true });
-          console.log("changes saved!");
+          res.json({ _id: content._id, message: "Changes successfully saved!" });
         } else {
-          res.json({ status: false });
-          console.log("No changes");
+          res.json({ status: false, message: "No changes" });
         }
       });
     } else {
