@@ -20,7 +20,11 @@ export default class BlogDetail extends Component {
     const { id } = this.props.match.params;
     try {
       const blog = await fetchBlogApi(id);
+<<<<<<< HEAD
       this.setState({ blog: blog.data });
+=======
+      this.setState({ blog: blog });
+>>>>>>> Blog front site
     } catch (e) {
       this.setState({ blog: {} });
     }
