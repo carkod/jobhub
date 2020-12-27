@@ -66,3 +66,9 @@ GET http://localhost:8082/api/cats HTTP/1.1
 
 ###
 DELETE http://localhost:8082/api/cats/5fe7c35da0004018e7c6d8d0 HTTP/1.1
+
+### Search by title of blog (Name)
+GET http://localhost:8082/api/blogs/name/Test%20markdown HTTP/1.1
+
+### Search by topic (Filter)
+GET http://localhost:8082/api/blogs/category/dev HTTP/1.1

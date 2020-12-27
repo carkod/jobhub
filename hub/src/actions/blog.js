@@ -95,7 +95,7 @@ export function fetchBlogsApi() {
 
 export function fetchBlogApi(id) {
   return (dispatch) => {
-    return fetch(`${process.env.REACT_APP_API_URL}/blogs/${id}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/blog/${id}`, {
       headers: headers,
     })
       .then(handleResponse)

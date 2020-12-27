@@ -67,7 +67,7 @@ class Sidebar extends Component {
           <ul>
             <li className="item">
               <NavLink exact to="/" activeClassName="active">
-                Home heee
+                Home
               </NavLink>
             </li>
             <li className="item dropdown">
@@ -135,6 +135,11 @@ class Sidebar extends Component {
                   </li>
                 ))}
               </ul>
+            </li>
+            <li className="item dropdown">
+              <NavLink to={`/blog`} activeClassName="active">
+                Blog
+              </NavLink>
             </li>
           </ul>
         </div>

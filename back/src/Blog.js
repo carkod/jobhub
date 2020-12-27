@@ -5,7 +5,7 @@ import { BlogSchema } from "./Schemas";
 const BlogModel = mongoose.model("BlogModel", BlogSchema);
 
 export default function Blog(app) {
-  app.get("/api/blogs", (req, res) => {
+  app.get("/api/blogs/:page/:pagesize", (req, res) => {
     BlogModel.find(
       {},
       null,
@@ -14,7 +14,7 @@ export default function Blog(app) {
         if (err) throw err;
         res.status(200).json(content);
       }
-    );
+    ).skip(skip).limit(pagesize);;
   });
 
   app.post("/api/blogs", (req, res) => {
@@ -45,7 +45,7 @@ export default function Blog(app) {
     });
   });
 
-  app.get("/api/blogs/:_id", (req, res) => {
+  app.get("/api/blog/:_id", (req, res) => {
     if (req.params._id) {
       BlogModel.findById(req.params._id, (err, blog) => {
         if (!err) {
@@ -75,6 +75,44 @@ export default function Blog(app) {
       });
     } else {
       res.send({ message: `Id missing in the request`, error: true });
+    }
+  });
+
+  // Find by title
+  app.get("/api/blogs/name/:name", (req, res) => {
+    if (req.params.name) {
+      BlogModel.findOne({name: req.params.name}, (err, blog) => {
+        if (!err) {
+          res.status(200).json({ data: blog, message: "Blog successfully retrieved!", error: false });
+        } else {
+          res.status(200).json({ message: `Failed to retrieve blog ${err}`, error: true });
+        }
+      });
+    } else {
+      const response = {
+        message: "blog could not be found",
+      };
+
+      res.send(response);
+    }
+  });
+
+  // Find by topic
+  app.get("/api/blogs/category/:category", (req, res) => {
+    if (req.params.category) {
+      BlogModel.findOne({category: req.params.category}, (err, blog) => {
+        if (!err) {
+          res.status(200).json({ data: blog, message: "Blog successfully retrieved!", error: false });
+        } else {
+          res.status(200).json({ message: `Failed to retrieve blog ${err}`, error: true });
+        }
+      });
+    } else {
+      const response = {
+        message: "blog could not be found",
+      };
+
+      res.send(response);
     }
   });
 }
