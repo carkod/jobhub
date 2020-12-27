@@ -56,7 +56,7 @@ export default function CVs(app) {
     const educ = r.educ.sort(compare);
 
     // Upsert model
-    const cv = new CVModel({
+    let cv = new CVModel({
       name: r.name,
       summary: r.summary,
       navName: r.navName ? r.navName : r.name,
@@ -175,7 +175,7 @@ export default function CVs(app) {
       });
     } else {
       const response = {
-        message: "Todo could not be deleted deleted",
+        message: "CV could not be deleted",
       };
 
       res.send(response);

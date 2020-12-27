@@ -1,43 +1,72 @@
 import React, { Component } from "react";
+import produce from "immer";
 import ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
 import gfm from "remark-gfm";
-import { Dropdown, Header, Segment, Button, Icon, TextArea } from "semantic-ui-react";
-
+import {
+  Dropdown,
+  Header,
+  Segment,
+  Button,
+  Icon,
+  TextArea,
+} from "semantic-ui-react";
+import { fetchRelationsApi } from "../../actions/relations";
+import { saveBlogApi, fetchBlogApi } from "../../actions/blog";
+import { checkValue, formatDate } from "../../utils";
 
 class Blog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
+      name: "",
       content: "",
-      createdAt: "",
-      updatedAt: "",
-      categories: [],
-      tags: [],
+      category: "",
     };
   }
 
   componentDidMount = () => {
-    const { id } = this.props.match.params.id;
+    const { id } = this.props.match.params;
     if (id) {
-      // this.props.fetch();
+      this.props.fetchBlogApi(id);
     }
 
-    // this.props.fetchRelationsApi();
+    this.props.fetchRelationsApi();
   };
 
-  componentDidUpdate = (props) => {};
+  componentDidUpdate = (props) => {
+    if (this.props.category !== props.category) {
+      this.setState({ category: this.props.category });
+    }
+    if (this.props.name !== props.name) {
+      this.setState({ name: this.props.name });
+    }
+    if (this.props.content !== props.content) {
+      this.setState({ content: this.props.content });
+    }
+  };
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+  handleTitle = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  handleChange = (e, { name, value }) => {
+    this.setState(
+      produce((draft) => {
+        draft[name] = value;
+      })
+    );
+  };
+
+  handleContent = (e, { name, value }) => {
+    this.setState(
+      produce((draft) => {
+        draft[name] = value;
+      })
+    );
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.saveCvApi(this.state);
+    this.props.saveBlogApi(this.state);
   };
 
   render() {
@@ -50,23 +79,31 @@ class Blog extends Component {
                 className="u-display-block"
                 type="text"
                 name="name"
-                onChange={this.handleChange}
+                onChange={this.handleTitle}
+                value={this.state.name}
               />
             </Header>
             <div className="section">
               <Header sub>META</Header>
               <Segment.Group horizontal>
                 <Segment>
-                  {/* <strong>Created</strong>: {formatDate(this.props.createdAt)} */}
+                  <strong>Created</strong>: {formatDate(this.props.createdAt || new Date())}
                 </Segment>
                 <Segment>
-                  {/* <strong>Updated</strong>: {formatDate(this.props.updatedAt)} */}
+                  <strong>Updated</strong>: {formatDate(this.props.updatedAt || new Date())}
                 </Segment>
               </Segment.Group>
               <div className="u-space-between">
-                {/* {checkValue(props.locales) && <Dropdown onChange={this.handleChange} name='locale' selection options={props.locales} value={props.meta.locale} />}
-
-					{checkValue(props.positions) && <Dropdown value={props.meta.position} onChange={this.handleChange} name='position' selection options={props.positions} />} */}
+                {checkValue(this.props.categories) && (
+                  <Dropdown
+                    onChange={this.handleChange}
+                    name="category"
+                    selection
+                    search
+                    options={this.props.categories}
+                    value={this.state.category}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -74,22 +111,27 @@ class Blog extends Component {
           <div id="editor" className="u-basic-layout">
             <div className="write">
               <h2 className="title">Write</h2>
-              <TextArea placeholder='Tell us more' rows={20} onChange={this.handleChange}/>
+              <TextArea
+                name="content"
+                placeholder="Write blog content here"
+                rows={20}
+                onChange={this.handleContent}
+                value={this.state.content}
+              />
             </div>
-            
+
             <div className="preview">
               <h2 className="title">Preview</h2>
               <div className="md-renderer">
                 <ReactMarkdown
-                plugins={[gfm]}
-                children={this.state.content}
-            />
+                  plugins={[gfm]}
+                  children={this.state.content}
+                  allowDangerousHtml
+                />
+              </div>
             </div>
-            </div>
-            
-
           </div>
-          
+
           <Button type="submit" color="green">
             <Icon name="save" />
             Save
@@ -100,17 +142,16 @@ class Blog extends Component {
   }
 }
 
-// const mapStateToProps = (state, props) => {
-//   const { cvReducer, catsReducer } = state;
-//   return {
-//     ...cvReducer,
-//     ...catsReducer,
-//   };
-// };
+const mapStateToprops = (state, props) => {
+  const { blogReducer, catsReducer } = state;
+  return {
+    ...blogReducer,
+    ...catsReducer,
+  };
+};
 
-export default connect(null, {
-  // saveCvApi,
-  // fetchCVs,
-  // fetchCV,
-  // fetchRelationsApi,
+export default connect(mapStateToprops, {
+  fetchBlogApi,
+  saveBlogApi,
+  fetchRelationsApi,
 })(Blog);

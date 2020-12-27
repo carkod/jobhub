@@ -21,12 +21,13 @@ export default function Blog(app) {
     let r = req.body;
 
     // Upsert model
-    const blog = new BlogModel({
-      title: r.title,
-      categories: r.categories,
+    let blog = new BlogModel({
+      name: r.name,
+      category: r.category,
       tags: r.tags,
       content: r.content,
     });
+
     if (!r._id) {
       // Create New
       blog._id = mongoose.Types.ObjectId();
@@ -37,15 +38,9 @@ export default function Blog(app) {
 
     BlogModel.update({ _id: id }, blog, { upsert: true }, (err, msg) => {
       if (err) {
-        throw err;
+        res.json({ error: true, message: `Blog changes failed to save ${err}`});
       } else {
-        if (msg.ok) {
-          const savedID = id;
-          res.json({ status: !!msg.ok, message: "blog changes saved!" });
-        } else {
-          res.json({ status: !!msg.ok });
-          console.log("No changes");
-        }
+        res.json({ error: false, message: "Blog changes saved!"});
       }
     });
   });
@@ -54,9 +49,9 @@ export default function Blog(app) {
     if (req.params._id) {
       BlogModel.findById(req.params._id, (err, blog) => {
         if (!err) {
-          res.status(200).json({ blog });
+          res.status(200).json({ data: blog, message: "Blog successfully retrieved!", error: false });
         } else {
-          res.status(200).json({ message: err });
+          res.status(200).json({ message: `Failed to retrieve blog ${err}`, error: true });
         }
       });
     } else {
@@ -73,17 +68,13 @@ export default function Blog(app) {
       BlogModel.findByIdAndRemove(req.params._id, (err, blog) => {
         if (!err) {
           const deletedID = req.params._id;
-          res.json({ _id: deletedID });
+          res.json({ message: "Blog successfully deleted",  error: false });
         } else {
-          res.json({ message: err });
+          res.json({ message: err, error: true });
         }
       });
     } else {
-      const response = {
-        message: "Todo could not be deleted deleted",
-      };
-
-      res.send(response);
+      res.send({ message: `Id missing in the request`, error: true });
     }
   });
 }

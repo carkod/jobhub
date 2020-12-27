@@ -1,15 +1,9 @@
-import moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Accordion, Button, Icon, Segment } from "semantic-ui-react";
-import shortid from "shortid";
-import { copyCL } from "../../actions/cl";
-import {
-  deleteClApi,
-  fetchblogListApi,
-  saveClApi,
-} from "../../actions/cover-letter";
+import { fetchBlogsApi, deleteBlogApi } from "../../actions/blog";
+import { formatDate }  from "../../utils";
 
 const buttonDefaultStyles = {
   backgroundColor: "#fff",
@@ -21,8 +15,8 @@ const buttonDefaultStyles = {
 const AddNewBlog = ({ history }) => (
   <button
     onClick={() => {
-      history.push("/blog/null")
-  }}
+      history.push("/blog/null");
+    }}
     style={buttonDefaultStyles}
     className="btn"
   >
@@ -34,12 +28,13 @@ class CoverLetters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blogList: null,
+      blogList: [],
+      activeIndex: 0
     };
   }
 
   componentDidMount = () => {
-    // this.props.fetchblogListApi();
+    this.props.fetchBlogsApi();
   };
 
   componentDidUpdate = (props) => {
@@ -48,15 +43,10 @@ class CoverLetters extends Component {
     }
   };
 
-  handleCopy = (i) => (e) => {
-    e.preventDefault();
-    // this.props.saveClApi(this.state.blogList[i]).then(() => this.props.fetchblogListApi())
-  };
-
   handleDelete = (i) => (e) => {
-    // this.props.deleteClApi(this.state.blogList[i]._id).then(cv => {
-    //   this.props.fetchblogListApi();
-    // });
+    this.props.deleteBlogApi(this.state.blogList[i]._id).then(cv => {
+      this.props.fetchBlogsApi();
+    });
   };
 
   render() {
@@ -98,29 +88,17 @@ class CoverLetters extends Component {
                             </Segment>
                             <Segment>
                               <Icon fitted name="checked calendar" />{" "}
-                              {moment(letter.updateDate).format(
-                                "Do MMMM YYYY"
-                              ) || "N/A"}
+                              {formatDate(letter.updatedAt || new Date())}
                             </Segment>
                             <Segment>
                               <Icon fitted name="clock" />{" "}
-                              {moment(letter.createdDate).format(
-                                "Do MMMM YYYY"
-                              ) || "N/A"}
+                              {formatDate(letter.createdAt || new Date())}
                             </Segment>
                           </Segment.Group>
                           <Segment.Group horizontal>
                             <Segment>
                               <Icon fitted name="briefcase" />{" "}
-                              {letter.cats ? letter.cats.position : "N/A"}
-                            </Segment>
-                            <Segment>
-                              <Icon fitted name="talk" />
-                              {letter.cats ? letter.cats.locale : "N/A"}
-                            </Segment>
-                            <Segment>
-                              <Icon fitted name="globe" />
-                              {letter.cats ? letter.cats.cvCountry : "N/A"}
+                              {letter.category ? letter.category : "N/A"}
                             </Segment>
                           </Segment.Group>
                         </Segment.Group>
@@ -129,20 +107,17 @@ class CoverLetters extends Component {
                       <div className="buttons">
                         <Link
                           className="ui primary button"
-                          to={`/coverletters/id=${letter._id}`}
+                          to={`/blog/${letter._id}`}
                         >
                           Edit/View
                         </Link>
-                        <Button onClick={this.handleCopy(i)} secondary>
-                          Copy
-                        </Button>
                         <Button onClick={this.handleDelete(i)} negative>
                           Delete
                         </Button>
                       </div>
                     </div>
                   ),
-                  key: shortid.generate(),
+                  key: letter._id,
                 },
               }))}
               styled
@@ -155,12 +130,11 @@ class CoverLetters extends Component {
   }
 }
 
-// const mapStateToProps = (state, props) => {
-//   const { blogListListReducer } = state;
-//   return {
-//     blogList: blogListListReducer,
-//     cats: state.cats,
-//   }
-// }
+const mapStateToProps = (state, props) => {
+  const { blogsReducer } = state;
+  return {
+    blogList: blogsReducer,
+  };
+};
 
-export default connect(null, {})(CoverLetters);
+export default connect(mapStateToProps, { fetchBlogsApi, deleteBlogApi })(CoverLetters);

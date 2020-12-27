@@ -1,9 +1,68 @@
-POST https://localhost:8082/api/blog HTTP/1.1
+POST http://localhost:8082/api/blogs HTTP/1.1
 content-type: application/json
 
 {
     "title": "sample",
-    "categories": ["test"],
-    "tags": ["test-tag"],
-    "content" : ["<p>HTML content</p>"]
+    "categories": "test",
+    "content": "<p>HTML content</p>"
 }
+
+###
+GET http://localhost:8082/api/blogs HTTP/1.1
+
+###
+GET http://localhost:8082/api/blogs/5fe7e810793b6930b71cb6c0 HTTP/1.1
+
+###
+DELETE http://localhost:8082/api/blogs/5fe7e810793b6930b71cb6c0 HTTP/1.1
+
+
+### Categories and tags
+POST http://localhost:8082/api/cats HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Categories",
+    "label": "categories",
+    "singLabel": "category",
+    "children": [
+        {
+            "value": "dev",
+            "text": "Programming",
+            "rank": 0
+        },
+        {
+            "value": "travel",
+            "text": "Travel",
+            "rank": 0
+        },
+        {
+            "value": "biz",
+            "text": "Business",
+            "rank": 0
+        }
+    ]
+}
+
+### Tags
+POST http://localhost:8082/api/cats/tags HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Tags",
+    "label": "tags",
+    "singLabel": "tag",
+    "children": [
+        {
+            "value": "web",
+            "text": "web",
+            "rank": 0
+        }
+    ]
+}
+
+###
+GET http://localhost:8082/api/cats HTTP/1.1
+
+###
+DELETE http://localhost:8082/api/cats/5fe7c35da0004018e7c6d8d0 HTTP/1.1

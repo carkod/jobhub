@@ -133,7 +133,6 @@ class AddNewApplication extends Component {
 
   onSave = () => {
     this.props.saveApplication(this.state).then((res) => {
-      console.log("saved application", res);
       this.props.history.push("/tracker");
     });
   };

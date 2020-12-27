@@ -85,12 +85,19 @@ const ProjectSchema = new Schema({
 }, { timestamps: true }, { strict: false });
 
 
+const CategoryChildSchema = new Schema({
+    key: mongoose.Schema.ObjectId,
+    value: { type: String, required: true, lowercase: true, unique: true },
+    text: { type: String },
+    rank: { type: String || Number }
+})
+
 const CategoriesSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     title: { type: String },
-    label: { type: String },
+    label: { type: String, required: true, unique: true },
     singLabel: { type: String },
-    children: [],
+    children: [CategoryChildSchema],
 }, { timestamps: true }, { strict: false });
 
 const UserSchema = new Schema({
@@ -133,14 +140,14 @@ ApplicationSchema.pre('save', function (next) {
     next();
 });
 
-// Applications
+// Blog
 const BlogSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
-    title: { type: String, required: true },
-    categories: { type: Array },
+    name: { type: String, required: true },
+    category: { type: String },
     tags: { type: Array },
-    content: { type: String },
+    content: { type: String, required: true },
     updatedAt: { type: Date, default: Date.now },
-}, { strict: false });
+}, { timestamps: true }, { strict: false });
 
 export { CVSchema, CLSchema, ProjectSchema, CategoriesSchema, UserSchema, ApplicationSchema, StagesSchema, ContactsSchema, BlogSchema };
