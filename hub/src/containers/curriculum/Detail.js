@@ -137,9 +137,14 @@ class Detail extends Component {
     link.click();
   };
 
-  onSubmit = (e) => {
+  onSubmit = async (e) => {
     e.preventDefault();
-    this.props.saveCvApi(this.state);
+    if (this.props.match.params.id) {
+      this.setState({ _id: this.props.match.params.id }, () => this.props.saveCvApi(this.state));
+    } else {
+      this.props.saveCvApi(this.state);
+    }
+    
   };
 
   render() {

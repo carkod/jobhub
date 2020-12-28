@@ -74,15 +74,10 @@ export default function CVs(app) {
       itSkills: r.itSkills,
       other: r.other,
     });
-    if (!r._id) {
-      // Create New
-      cv._id = mongoose.Types.ObjectId();
-    }
 
-    const id = r._id || cv._id;
-    delete r._id;
+    const id = r._id || mongoose.Types.ObjectId();
 
-    CVModel.update({ _id: id }, cv, { upsert: true }, (err, msg) => {
+    CVModel.updateOne({_id: id}, cv, null, (err, msg) => {
       if (err) {
         throw err;
       } else {

@@ -144,7 +144,7 @@ export function saveCvApi(data) {
     return dispatch => {
         dispatch(saveCv(data));
         return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
-            method: 'post',
+            method: 'POST',
             body: JSON.stringify(data),
             headers: headers
         })
