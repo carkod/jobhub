@@ -152,9 +152,9 @@ class Detail extends Component {
               name={this.state.name}
               navName={this.state.navName}
               previewPdf={this.state.previewPdf}
-              locales={this.state.locales}
-              positions={this.state.positions}
-              statuses={this.state.statuses}
+              locales={this.props.locales || null}
+              positions={this.props.positions || null }
+              statuses={this.props.statuses || null}
               onChange={this.metaChange}
             />
           )}
