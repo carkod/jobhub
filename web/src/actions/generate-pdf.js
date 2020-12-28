@@ -9,7 +9,8 @@ export function generatePdf() {
   return {
       type: GENERATE_PDF,
       error: false,
-      message: "Generating Pdf for you. Please wait...",
+      message: "Generating PDF for you. Please wait...",
+      loading: true,
   }
 }
 
@@ -17,7 +18,8 @@ export function generatePdfSuccess() {
   return {
       type: GENERATE_PDF_SUCCESS,
       error: false,
-      message: "Successfully generated! Your download already started"
+      message: "Successfully generated! Downloading...",
+      loading: false,
   }
 }
 
@@ -26,6 +28,7 @@ export function generatePdfFailed(payload) {
       type: GENERATE_PDF_FAILED,
       error: true,
       message: "Failed to generate this CV. Please contact Carlos or try another CV",
+      loading: false,
       payload
   }
 }

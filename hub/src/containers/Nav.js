@@ -48,6 +48,9 @@ class Nav extends Component {
 					<div className="item">
 						<NavLink to="/portfolio" activeClassName="current" className="u-section-title">PORTFOLIO</NavLink>
 					</div>
+					<div className="item">
+						<NavLink to="/blog" activeClassName="current" className="u-section-title">BLOG</NavLink>
+					</div>
 				</div>
 			</nav>
 		);

@@ -23,6 +23,7 @@ export function catsReducer(state = null, action = {}) {
           positions: categories[0],
           locales: categories[1],
           statuses: categories[2],
+          categories: categories[4]
         }
       default:
           return state

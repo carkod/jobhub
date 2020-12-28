@@ -2,6 +2,8 @@ import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { About, AboutMe, AboutSite } from "./About";
+import BlogDetail from "./blog/BlogDetail";
+import BlogIndex from "./blog/BlogIndex";
 import MainCV from "./cv/MainCV";
 import FourOFour from "./FourOFour";
 import Home from "./home/Home";
@@ -34,8 +36,18 @@ const App = (props) => {
         <Switch location={props.location}>
           <RenderRoute layout={Layout} exact path="/" component={Home} />
           <RenderRoute layout={Layout} exact path="/about" component={About} />
-          <RenderRoute layout={Layout} exact path="/about/me" component={AboutMe} />
-          <RenderRoute layout={Layout} exact path="/about/site" component={AboutSite} />
+          <RenderRoute
+            layout={Layout}
+            exact
+            path="/about/me"
+            component={AboutMe}
+          />
+          <RenderRoute
+            layout={Layout}
+            exact
+            path="/about/site"
+            component={AboutSite}
+          />
           <RenderRoute
             layout={Layout}
             exact
@@ -53,6 +65,18 @@ const App = (props) => {
             exact
             path="/resources/:language/:id"
             component={MainResources}
+          />
+          <RenderRoute
+            layout={Layout}
+            exact
+            path="/blog"
+            component={BlogIndex}
+          />
+          <RenderRoute
+            layout={Layout}
+            exact
+            path="/blog/:id"
+            component={BlogDetail}
           />
           <Route component={FourOFour} />
         </Switch>

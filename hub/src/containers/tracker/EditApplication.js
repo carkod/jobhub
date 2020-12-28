@@ -45,7 +45,6 @@ class EditApplication extends Component {
 
 	componentDidUpdate(nextProps) {
 		const { status, id, company, role, salary, applicationUrl, location, contacts, stages, files, description } = nextProps.application
-		console.log(stages)
 		const newObj = Object.assign(this.state, this.applicationModel.fillInApplicationModel(nextProps.application))
 		this.setState(prevState => ({
 			status: {
@@ -167,7 +166,6 @@ class EditApplication extends Component {
 	}
 
 	render() {
-		console.log(this.state)
 		const backBtn =
 			<button className="btn__add-new" >
 				<Link to={`/tracker`} >

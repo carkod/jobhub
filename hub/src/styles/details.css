@@ -48,11 +48,3 @@
 #detail .public-DraftEditor-content {
   min-height: 150px;
 }
-
-#metainfo.section {
-  margin-top: 1.5em;
-}
-
-#metainfo .ui.header input {
-  padding:0;
-}

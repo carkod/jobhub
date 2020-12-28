@@ -94,11 +94,15 @@
   }
 
   .righty {
+    z-index: $index-base;
     grid-column: 2 / 4;
     background-color: #fff;
-    display: flex;
-    align-items: center;
-    z-index: $index-base;
+    .home {
+      display: flex;
+      align-items: center;
+      z-index: $index-base;
+      height: 100vh;
+    }
     @media screen and (max-width: $mobile-size) {
       padding: $large-space;
     }

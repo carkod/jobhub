@@ -1,63 +1,69 @@
-import moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Accordion, Button, Icon, Segment } from "semantic-ui-react";
-import shortid from "shortid";
-import { copyCL } from "../../actions/cl";
-import {
-  deleteClApi,
-  fetchClsApi,
-  saveClApi,
-} from "../../actions/cover-letter";
-import NewCL from "./NewCL";
+import { fetchBlogsApi, deleteBlogApi } from "../../actions/blog";
+import { formatDate }  from "../../utils";
+
+const buttonDefaultStyles = {
+  backgroundColor: "#fff",
+  border: "none",
+  cursor: "pointer",
+  outline: "none",
+};
+
+const AddNewBlog = ({ history }) => (
+  <button
+    onClick={() => {
+      history.push("/blog/null");
+    }}
+    style={buttonDefaultStyles}
+    className="btn"
+  >
+    <Icon name="plus square" color="green" />
+  </button>
+);
 
 class CoverLetters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cls: null,
+      blogList: [],
+      activeIndex: 0
     };
   }
 
   componentDidMount = () => {
-    this.props.fetchClsApi();
+    this.props.fetchBlogsApi();
   };
 
   componentDidUpdate = (props) => {
-    if (this.props.cls !== props.cls) {
-      this.setState({ cls: this.props.cls });
+    if (this.props.blogList !== props.blogList) {
+      this.setState({ blogList: this.props.blogList });
     }
   };
 
-  handleCopy = (i) => (e) => {
-    e.preventDefault();
-    this.props
-      .saveClApi(this.state.cls[i])
-      .then(() => this.props.fetchClsApi());
-  };
-
   handleDelete = (i) => (e) => {
-    this.props.deleteClApi(this.state.cls[i]._id).then((cv) => {
-      this.props.fetchClsApi();
+    this.props.deleteBlogApi(this.state.blogList[i]._id).then(cv => {
+      this.props.fetchBlogsApi();
     });
   };
 
   render() {
     return (
-      <div id="cls" className="">
+      <div id="blogList" className="">
         <h1>
-          Section - All Cover Letters <NewCL />
+          Blog <AddNewBlog history={this.props.history} />
         </h1>
         <div className="listItem">
-          {this.state.cls && (
+          {this.state.blogList && (
             <Accordion
               onTitleClick={(e, { index }) =>
                 this.setState({
                   activeIndex: this.state.activeIndex === index ? -1 : index,
                 })
               }
-              panels={this.state.cls.map((letter, i) => ({
+              panels={this.state.blogList.map((letter, i) => ({
                 key: `panel-${letter._id}`,
                 title: {
                   content: (
@@ -82,29 +88,17 @@ class CoverLetters extends Component {
                             </Segment>
                             <Segment>
                               <Icon fitted name="checked calendar" />{" "}
-                              {moment(letter.updateDate).format(
-                                "Do MMMM YYYY"
-                              ) || "N/A"}
+                              {formatDate(letter.updatedAt || new Date())}
                             </Segment>
                             <Segment>
                               <Icon fitted name="clock" />{" "}
-                              {moment(letter.createdDate).format(
-                                "Do MMMM YYYY"
-                              ) || "N/A"}
+                              {formatDate(letter.createdAt || new Date())}
                             </Segment>
                           </Segment.Group>
                           <Segment.Group horizontal>
                             <Segment>
                               <Icon fitted name="briefcase" />{" "}
-                              {letter.cats ? letter.cats.position : "N/A"}
-                            </Segment>
-                            <Segment>
-                              <Icon fitted name="talk" />
-                              {letter.cats ? letter.cats.locale : "N/A"}
-                            </Segment>
-                            <Segment>
-                              <Icon fitted name="globe" />
-                              {letter.cats ? letter.cats.cvCountry : "N/A"}
+                              {letter.category ? letter.category : "N/A"}
                             </Segment>
                           </Segment.Group>
                         </Segment.Group>
@@ -113,20 +107,17 @@ class CoverLetters extends Component {
                       <div className="buttons">
                         <Link
                           className="ui primary button"
-                          to={`/coverletters/id=${letter._id}`}
+                          to={`/blog/${letter._id}`}
                         >
                           Edit/View
                         </Link>
-                        <Button onClick={this.handleCopy(i)} secondary>
-                          Copy
-                        </Button>
                         <Button onClick={this.handleDelete(i)} negative>
                           Delete
                         </Button>
                       </div>
                     </div>
                   ),
-                  key: shortid.generate(),
+                  key: letter._id,
                 },
               }))}
               styled
@@ -140,16 +131,10 @@ class CoverLetters extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const { clsListReducer } = state;
+  const { blogsReducer } = state;
   return {
-    cls: clsListReducer,
-    cats: state.cats,
+    blogList: blogsReducer,
   };
 };
 
-export default connect(mapStateToProps, {
-  saveClApi,
-  fetchClsApi,
-  deleteClApi,
-  copyCL,
-})(CoverLetters);
+export default connect(mapStateToProps, { fetchBlogsApi, deleteBlogApi })(CoverLetters);

@@ -17,6 +17,7 @@ class MainCV extends Component {
     super(props);
     const start = window.pageYOffset || document.documentElement.scrollTop;
     this.state = {
+      snackBar: null,
       cv: undefined,
       angle: -5,
       translatePosition: 3,
@@ -45,7 +46,7 @@ class MainCV extends Component {
     e.preventDefault();
     const { id } = this.props.match.params;
     const response = await this.props.generatePdfApi("curriculum-vitae", id);
-    if (response) {
+    if (!this.state.loading) {
       const blob = new Blob([response], { type: "application/pdf" });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
@@ -108,6 +109,7 @@ class MainCV extends Component {
                   type="button"
                   onClick={(e) => this.getPdf(e)}
                   className="btn download"
+                  disabled={this.state.snackBar ? this.state.snackBar.loading : false}
                 >
                   <i className="file pdf outline icon" />
                 </button>

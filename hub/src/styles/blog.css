@@ -1,0 +1,72 @@
+#blog #editor {
+  grid-gap: 3em;
+  grid-template-rows: 1fr;
+}
+
+#blog title {
+  grid-row: 1 / 2;
+}
+
+#blog .u-display-block {
+  border:none;
+  outline:none;
+  border-bottom:1px solid #00bfff;
+  width: 100%;
+  padding: 0em;
+}
+#blog textarea {
+  grid-row: 2 / 2;
+  border:none;
+  outline:none;
+  border:1px solid #00bfff;
+  width: 100%;
+  padding: 0.5em;
+}
+
+#blog .md-renderer {
+  grid-row: 2 / 2;
+}
+
+#blog label {
+  font-size:1.2em;
+}
+
+#blog .sub.header, #project .sub.header  {
+  font-size: 1rem;
+}
+
+#blog .single label {
+  margin: 0 0.5em;
+}
+
+#blog .block input {
+  margin: 0 0.5em;
+  padding: 0 0.5em;
+}
+
+#blog .single {
+  background-color: #eee;
+  padding: 3em;
+  margin: 1.5em 0;
+  position: relative;
+}
+
+#blog .single .btn-close-repeat {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0;
+    display: table;
+}
+
+#blog .workExp-space {
+  padding:1.5em 0;
+}
+
+#blog .personal .sub.header {
+  margin-bottom: 1.5em;
+}
+
+#blog .public-DraftEditor-content {
+  min-height: 150px;
+}

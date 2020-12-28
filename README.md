@@ -44,7 +44,6 @@ This is a full stack application made with:
 
 ## DEPLOYMENT
 
-- Change hub/.env and web/.env APIs to production
 - Try docker make sure the image works:
 `docker build --tag jobhub . && docker-compose up`
 
