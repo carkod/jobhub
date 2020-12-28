@@ -81,6 +81,7 @@ back/uploads
 
 # WEB
 web/build/
-
+web/.env.local
 # HUB
 hub/build/
+hub/.env.local

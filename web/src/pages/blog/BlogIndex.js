@@ -35,7 +35,7 @@ export default class BlogIndex extends Component {
           <h1>
             {`B-Logging`}
           </h1>
-          {this.state.blogs.length > 0 &&
+          {this.state.blogs.length > 0 ?
             this.state.blogs.map((b) => (
               <div key={b._id} className="row one column wide">
                 <section id="blogs">
@@ -56,7 +56,7 @@ export default class BlogIndex extends Component {
                   <a className="btn" href={`/blog/${b._id}`}>Read more </a>
                 </section>
               </div>
-            ))}
+            )) : "No blogs yet"}
         </main>
       </Fragment>
     );
