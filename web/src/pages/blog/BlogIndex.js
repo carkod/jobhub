@@ -10,12 +10,9 @@ export default class BlogIndex extends Component {
     };
   }
   async componentDidMount() {
-    try {
-      const blogs = await fetchBlogsApi();
-      this.setState({ blogs: blogs });
-    } catch (e) {
-      throw e;
-    }
+    const blogs = await fetchBlogsApi();
+    blogs.filter((x) => x.status === "public");
+    this.setState({ blogs: blogs });
   }
   render() {
     return (
@@ -30,20 +27,19 @@ export default class BlogIndex extends Component {
           <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
         </Helmet>
         <main className="container">
-          <h1>
-            {`B-Log`}
-          </h1>
-          {this.state.blogs.length > 0 ?
-            this.state.blogs.map((b) => (
-              <div key={b._id} className="row one column wide">
-                <section id="blogs" class="u-blog-header-section ">
-                  <h3 className="u-blog-index-header">
-                    <a href={`/blog/${b._id}`}>{b.name}</a>
-                  </h3>
-                  <small>Category: {b.category}</small>
-                </section>
-              </div>
-            )) : "No blogs yet"}
+          <h1>{`B-Log`}</h1>
+          {this.state.blogs.length > 0
+            ? this.state.blogs.map((b) => (
+                <div key={b._id} className="row one column wide">
+                  <section id="blogs" class="u-blog-header-section ">
+                    <h3 className="u-blog-index-header">
+                      <a href={`/blog/${b._id}`}>{b.name}</a>
+                    </h3>
+                    <small>Category: {b.category}</small>
+                  </section>
+                </div>
+              ))
+            : "No blogs yet"}
         </main>
       </Fragment>
     );
