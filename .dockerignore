@@ -78,6 +78,7 @@ back/uploads/*
 back/dist/
 back/docs
 back/uploads
+*.http
 
 # WEB
 web/build/

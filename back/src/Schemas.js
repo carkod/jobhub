@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import slug from 'mongoose-slug-generator';
+import slug from 'mongoose-slug-updater';
 
 mongoose.plugin(slug);
 const Schema = mongoose.Schema;
@@ -28,7 +28,7 @@ const CVSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String },
     summary: { type: String },
-    slug: { type: String, slug: "name", lowercase: true, unique: true },
+    slug: { type: String, slug: "name", unique: true },
     navName: { type: String },
     cats: {
         position: { type: String },
@@ -140,11 +140,18 @@ ApplicationSchema.pre('save', function (next) {
     next();
 });
 
+// CVSchema.pre('update', function (next) {
+//     const title = this._update.name;
+//     this._update.$setOnInsert("slug")
+//     console.log(this)
+// })
+
 // Blog
 const BlogSchema = new Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String, required: true },
     category: { type: String },
+    status: { type: String },
     tags: { type: Array },
     content: { type: String, required: true },
     updatedAt: { type: Date, default: Date.now },

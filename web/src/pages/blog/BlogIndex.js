@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
 import { fetchBlogsApi } from "../../actions/blog";
 
 export default class BlogIndex extends Component {
@@ -12,12 +10,9 @@ export default class BlogIndex extends Component {
     };
   }
   async componentDidMount() {
-    try {
-      const blogs = await fetchBlogsApi();
-      this.setState({ blogs: blogs });
-    } catch (e) {
-      throw e;
-    }
+    const blogs = await fetchBlogsApi();
+    blogs.filter((x) => x.status === "public");
+    this.setState({ blogs: blogs });
   }
   render() {
     return (
@@ -32,31 +27,19 @@ export default class BlogIndex extends Component {
           <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
         </Helmet>
         <main className="container">
-          <h1>
-            {`B-Logging`}
-          </h1>
-          {this.state.blogs.length > 0 ?
-            this.state.blogs.map((b) => (
-              <div key={b._id} className="row one column wide">
-                <section id="blogs">
-                  <h2 className="ui dividing header">
-                    <a href={`/blog/${b._id}`}>{b.name}</a>
-                  </h2>
-                  <small>{b.category}</small>
-                  <div>
-                    <div className="description">
-                      <ReactMarkdown
-                        plugins={[gfm]}
-                        children={b.content}
-                        allowDangerousHtml
-                      />
-                    </div>
-                    
-                  </div>
-                  <a className="btn" href={`/blog/${b._id}`}>Read more </a>
-                </section>
-              </div>
-            )) : "No blogs yet"}
+          <h1>{`B-Log`}</h1>
+          {this.state.blogs.length > 0
+            ? this.state.blogs.map((b) => (
+                <div key={b._id} className="row one column wide">
+                  <section id="blogs" class="u-blog-header-section ">
+                    <h3 className="u-blog-index-header">
+                      <a href={`/blog/${b._id}`}>{b.name}</a>
+                    </h3>
+                    <small>Category: {b.category}</small>
+                  </section>
+                </div>
+              ))
+            : "No blogs yet"}
         </main>
       </Fragment>
     );

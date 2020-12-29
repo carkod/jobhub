@@ -27,7 +27,6 @@ COPY --from=build-web /web/build /usr/share/nginx/html/web
 
 # Install back
 COPY ./.env /home/
-COPY ./chrome.json /home/
 WORKDIR /home/back
 COPY back .
 RUN yarn install && yarn run build

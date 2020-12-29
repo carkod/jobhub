@@ -20,3 +20,16 @@
   grid-template-columns: 1fr 1fr;
   grid-gap: $standard-space;
 }
+
+.u-blog-index-header {
+  margin-bottom: 0;
+}
+
+.u-blog-header-section {
+  border-bottom: 1px dashed $dark-grey;
+  padding-bottom: 0.5em;
+}
+
+.u-blog-header-divider {
+  border-bottom: 1px dashed $dark-grey;
+}

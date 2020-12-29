@@ -31,6 +31,7 @@ export default function Blog(app) {
       category: r.category,
       tags: r.tags,
       content: r.content,
+      status: r.status
     });
 
     if (!r._id) {
@@ -41,7 +42,7 @@ export default function Blog(app) {
     const id = r._id || blog._id;
     delete r._id;
 
-    BlogModel.update({ _id: id }, blog, { upsert: true }, (err, msg) => {
+    BlogModel.updateOne({ _id: id }, blog, { upsert: true }, (err, msg) => {
       if (err) {
         res.json({
           error: true,
@@ -55,7 +56,7 @@ export default function Blog(app) {
 
   app.get("/api/blog/:_id", (req, res) => {
     if (req.params._id) {
-      BlogModel.findById(req.params._id, (err, blog) => {
+      BlogModel.findOne({ _id: req.params._id }, (err, blog) => {
         if (!err) {
           res
             .status(200)
@@ -81,9 +82,8 @@ export default function Blog(app) {
 
   app.delete("/api/blogs/:_id", (req, res) => {
     if (req.params._id) {
-      BlogModel.findByIdAndRemove(req.params._id, (err, blog) => {
+      BlogModel.deleteOne({ _id: req.params._id }, (err, blog) => {
         if (!err) {
-          const deletedID = req.params._id;
           res.json({ message: "Blog successfully deleted", error: false });
         } else {
           res.json({ message: err, error: true });

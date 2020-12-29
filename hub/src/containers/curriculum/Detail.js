@@ -48,7 +48,6 @@ class Detail extends Component {
 
   componentDidUpdate = (props) => {
     if (
-      this.props.cats !== props.cats ||
       this.props.navName !== props.navName
     ) {
       this.setState({
@@ -137,9 +136,14 @@ class Detail extends Component {
     link.click();
   };
 
-  onSubmit = (e) => {
+  onSubmit = async (e) => {
     e.preventDefault();
-    this.props.saveCvApi(this.state);
+    if (this.props.match.params.id) {
+      this.setState({ _id: this.props.match.params.id }, () => this.props.saveCvApi(this.state));
+    } else {
+      this.props.saveCvApi(this.state);
+    }
+    
   };
 
   render() {
@@ -152,9 +156,9 @@ class Detail extends Component {
               name={this.state.name}
               navName={this.state.navName}
               previewPdf={this.state.previewPdf}
-              locales={this.state.locales}
-              positions={this.state.positions}
-              statuses={this.state.statuses}
+              locales={this.props.locales || null}
+              positions={this.props.positions || null }
+              statuses={this.props.statuses || null}
               onChange={this.metaChange}
             />
           )}
