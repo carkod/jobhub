@@ -48,7 +48,6 @@ class Detail extends Component {
 
   componentDidUpdate = (props) => {
     if (
-      this.props.cats !== props.cats ||
       this.props.navName !== props.navName
     ) {
       this.setState({

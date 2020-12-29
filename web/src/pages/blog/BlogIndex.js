@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
 import ReactMarkdown from "react-markdown";
+import { Link } from "react-router-dom";
 import gfm from "remark-gfm";
 import { fetchBlogsApi } from "../../actions/blog";
 
@@ -53,7 +54,7 @@ export default class BlogIndex extends Component {
                     </div>
                     
                   </div>
-                  <a className="btn" href={`/blog/${b._id}`}>Read more </a>
+                  <Link className="btn" href={`/blog/${b._id}`}>Read more </Link>
                 </section>
               </div>
             )) : "No blogs yet"}

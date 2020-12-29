@@ -35,13 +35,13 @@ class Blog extends Component {
   };
 
   componentDidUpdate = (props) => {
-    if (this.props.category !== props.category) {
+    if (this.props.category !== props.category|| this.props.category !== this.state.category) {
       this.setState({ category: this.props.category });
     }
-    if (this.props.name !== props.name) {
+    if (this.props.name !== props.name || this.props.name !== this.state.name) {
       this.setState({ name: this.props.name });
     }
-    if (this.props.content !== props.content) {
+    if (this.props.content !== props.content || this.props.content !== this.state.content) {
       this.setState({ content: this.props.content });
     }
   };
@@ -66,7 +66,11 @@ class Blog extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.saveBlogApi(this.state);
+    if (this.props.match.params.id) {
+      this.setState({ _id: this.props.match.params.id}, () => this.props.saveBlogApi(this.state))
+    } else {
+      this.props.saveBlogApi(this.state);
+    }
   };
 
   render() {
