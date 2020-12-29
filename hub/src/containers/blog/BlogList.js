@@ -100,6 +100,10 @@ class CoverLetters extends Component {
                               <Icon fitted name="briefcase" />{" "}
                               {letter.category ? letter.category : "N/A"}
                             </Segment>
+                            <Segment>
+                              <Icon fitted name="briefcase" />{" "}
+                              {letter.status ? letter.status : "N/A"}
+                            </Segment>
                           </Segment.Group>
                         </Segment.Group>
                       </div>
