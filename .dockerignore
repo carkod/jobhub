@@ -41,8 +41,11 @@ bower_containers
 build/Release
 
 # Dependency directories
-node_modules/
+node_modules
 jspm_packages/
+web/node_modules
+back/node_modules
+hub/node_modules
 
 # Typescript v1 declaration files
 typings/
