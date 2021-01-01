@@ -36,10 +36,10 @@ class Blog extends Component {
   };
 
   componentDidUpdate = (props) => {
-    if (this.props.category !== props.category) {
+    if (this.props.category !== props.category|| this.props.category !== this.state.category) {
       this.setState({ category: this.props.category });
     }
-    if (this.props.name !== props.name) {
+    if (this.props.name !== props.name || this.props.name !== this.state.name) {
       this.setState({ name: this.props.name });
     }
     if (checkValue(this.props.content) && (this.props.content !== props.content || this.props.content !== this.state.content)) {
