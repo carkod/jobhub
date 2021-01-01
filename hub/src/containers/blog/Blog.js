@@ -28,7 +28,7 @@ class Blog extends Component {
 
   componentDidMount = () => {
     const { id } = this.props.match.params;
-    if (id) {
+    if (checkValue(id)) {
       this.props.fetchBlogApi(id);
     }
 
@@ -42,15 +42,17 @@ class Blog extends Component {
     if (this.props.name !== props.name || this.props.name !== this.state.name) {
       this.setState({ name: this.props.name });
     }
-    if (this.props.content !== props.content || this.props.content !== this.state.content) {
+    if (checkValue(this.props.content) && (this.props.content !== props.content || this.props.content !== this.state.content)) {
       this.setState({ content: this.props.content });
     }
-    if (this.props.status !== props.status|| this.props.status !== this.state.status) {
+    if (this.props.status !== props.status) {
       this.setState({ status: this.props.status });
     }
   };
 
-  handleTitle = (e) => this.setState({ [e.target.name]: e.target.value });
+  handleTitle = (e) => {
+    this.setState({ name: e.target.value });
+  }
 
   handleChange = (e, { name, value }) => {
     this.setState(
@@ -70,7 +72,7 @@ class Blog extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.props.match.params.id) {
+    if (checkValue(this.props.match.params.id)) {
       this.setState({ _id: this.props.match.params.id}, () => this.props.saveBlogApi(this.state))
     } else {
       this.props.saveBlogApi(this.state);
