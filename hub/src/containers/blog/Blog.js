@@ -18,12 +18,22 @@ import { checkValue, formatDate } from "../../utils";
 class Blog extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "",
-      content: "",
-      category: "",
-      status: "draft",
-    };
+    if (checkValue(props.match.params.id)) {
+      this.state = {
+        name: props.name,
+        content: props.content,
+        category: props.category,
+        status: props.status,
+      };
+    } else {
+      this.state = {
+        name: "",
+        content:  "",
+        category: "",
+        status: "draft",
+      };
+    }
+    
   }
 
   componentDidMount = () => {
@@ -35,11 +45,11 @@ class Blog extends Component {
     this.props.fetchRelationsApi();
   };
 
-  componentDidUpdate = (props) => {
-    if (this.props.category !== props.category|| this.props.category !== this.state.category) {
+  componentDidUpdate = (props, state) => {
+    if (this.props.category !== props.category) {
       this.setState({ category: this.props.category });
     }
-    if (this.props.name !== props.name || this.props.name !== this.state.name) {
+    if (this.props.name !== props.name) {
       this.setState({ name: this.props.name });
     }
     if (checkValue(this.props.content) && (this.props.content !== props.content || this.props.content !== this.state.content)) {
@@ -72,8 +82,9 @@ class Blog extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (checkValue(this.props.match.params.id)) {
-      this.setState({ _id: this.props.match.params.id}, () => this.props.saveBlogApi(this.state))
+    const { id } = this.props.match.params;
+    if (checkValue(id)) {
+      this.setState({ _id: id}, () => this.props.saveBlogApi(this.state))
     } else {
       this.props.saveBlogApi(this.state);
     }
@@ -136,7 +147,7 @@ class Blog extends Component {
                 placeholder="Write blog content here"
                 rows={20}
                 onChange={this.handleContent}
-                value={this.state.content}
+                value={this.state.content || ""}
               />
             </div>
 
@@ -145,7 +156,7 @@ class Blog extends Component {
               <div className="md-renderer">
                 <ReactMarkdown
                   plugins={[gfm]}
-                  children={this.state.content}
+                  children={this.state.content || ""}
                   allowDangerousHtml
                 />
               </div>
