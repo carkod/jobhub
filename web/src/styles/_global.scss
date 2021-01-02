@@ -6,9 +6,10 @@ $orange: #f6ae1b;
 $dark: #414143;
 $dark-grey: #868e96;
 $main-blue: #44b0ee;
+$light-grey: #f9f9f9; // code background
 
 $preset-f: 1.3em;
-$standard-font: 1.2em;
+$standard-font: 1.05em;
 $preset-font: 1.3em;
 $preset-smaller: $preset-f / 1.55;
 $medium-p: 1.4em;
@@ -59,12 +60,9 @@ body,
   }
 }
 
-html {
-  font-size: 16px;
-}
-
 body {
   @extend .sans-serif;
+  font-size: $standard-font;
 }
 
 h1 {
@@ -127,7 +125,7 @@ a:link {
   color: $orange;
 }
 
-p, li,
+p,
 dl,
 li, blockquote {
   @extend .sans-serif;
@@ -158,6 +156,10 @@ blockquote p {
 
 code {
   background: #f9f9f9;
+}
+
+pre code {
+  display: block;
   padding: 0.5em;
 }
 
@@ -169,7 +171,7 @@ code {
 .HtmlText {
   @extend .sans-serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: $standard-font;
   line-height: 1.5;
 
   .public-DraftStyleDefault-ul {
@@ -179,7 +181,6 @@ code {
 
 strong {
   font-weight: 600;
-  font-size: 1rem;
 }
 section {
   margin: 1rem 0;
