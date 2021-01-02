@@ -49,10 +49,10 @@ class Blog extends Component {
     if (this.props.category !== props.category) {
       this.setState({ category: this.props.category });
     }
-    if (this.props.name !== props.name) {
+    if (this.props.name !== props.name || this.props.name !== this.state.name) {
       this.setState({ name: this.props.name });
     }
-    if (this.props.content !== props.content) {
+    if (checkValue(this.props.content) && (this.props.content !== props.content || this.props.content !== this.state.content)) {
       this.setState({ content: this.props.content });
     }
     if (this.props.status !== props.status) {
