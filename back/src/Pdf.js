@@ -55,10 +55,10 @@ export default function Pdf(app, db) {
         Model.findOne({ _id: id }, async (err, content) => {
             if (err) throw err;
             const url = `${req.protocol}://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`;
-            var updatedDate = new Date(content.updatedAt)
-            updatedDate = `${updatedDate.getDate()}/${updatedDate.getMonth()}/${updatedDate.getFullYear()}`
+            const updatedDate = new Date(content.updatedAt)
+            const date = `${updatedDate.getDate()}/${updatedDate.getMonth()}/${updatedDate.getFullYear()}`
 
-            const file = await generatePDF(url, title, updatedDate)
+            const file = await generatePDF(url, title, date)
 
             res.set({
                 'Content-Type': 'application/pdf', 
