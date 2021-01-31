@@ -63,7 +63,7 @@ export default function CVs(app) {
       cats: {
         position: r.cats.position,
         locale: r.cats.locale,
-        status: "draft",
+        status: r.cats.status ? r.cats.status : "draft",
       },
       image: r.image,
       persdetails: r.persdetails,
