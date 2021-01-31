@@ -37,8 +37,11 @@ This is a full stack application made with:
 
 ## DEVELOPMENT AND DEBUGGING
 
-- Execute debugger in .vscode F5
-- Edit `.env` and `docker-compose.yml` files and adjust to each environment
+1. Edit `.env` and `docker-compose.yml` files and adjust to each environment
+2. Start dev database `docker-compose up -d`
+3. Execute debugger in .vscode F5 back, to start back-end endpoint application
+- `cd hub && yarn start` to start hub application
+- `cd web && yarn start` to start web application
 
 > Actions and reducers should be exactly the same for both web and hub
 

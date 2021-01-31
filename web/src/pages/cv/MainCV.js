@@ -50,7 +50,7 @@ class MainCV extends Component {
       const blob = new Blob([response], { type: "application/pdf" });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = `Carlos-Wu-${this.state.name}.pdf`;
+      link.download = `Carlos-Wu-${this.state.cv.name}.pdf`;
       link.click();
     }
   };
