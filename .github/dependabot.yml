@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/web"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      # Prefix all commit messages with "npm"
+      prefix: "web"
+
+  - package-ecosystem: "npm"
+    directory: "/hub"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      # Prefix all commit messages with "npm"
+      prefix: "hub"
+  
+  - package-ecosystem: "npm"
+    directory: "/back"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      # Prefix all commit messages with "npm"
+      prefix: "back"
