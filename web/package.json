@@ -15,47 +15,40 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "fomantic-ui-css": "^2.8.7",
-    "ignore-styles": "^5.0.1",
+    "fomantic-ui-css": "^2.8.8",
     "immer": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "node-sass": "^5.0.0",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-addons-update": "^15.6.2",
-    "react-dom": "^17.0.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.19.0",
+    "sass": "^1.49.0",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.2",
+    "react-addons-update": "^15.6.3",
+    "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-html-parser": "^2.0.2",
-    "react-markdown": "^5.0.3",
-    "react-pdf": "^5.0.0",
-    "react-redux": "^7.2.2",
+    "react-markdown": "^8.0.0",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.0",
-    "react-transition-group": "^4.3.0",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
+    "react-transition-group": "^4.4.2",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "remark-gfm": "^1.0.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-register": "^6.26.0",
-    "node-sass-chokidar": "^1.5.0",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.8",
+    "@babel/node": "^7.16.8",
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "npm-run-all": "^4.1.5",
-    "react-scripts": "^4.0.1",
-    "redux-devtools-extension": "^2.13.8"
+    "react-scripts": "^5.0.0"
   },
   "babel": {
     "plugins": [
-      "transform-regenerator"
+      "@babel/transform-runtime"
     ]
   },
   "browserslist": {

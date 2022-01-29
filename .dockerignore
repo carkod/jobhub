@@ -72,16 +72,14 @@ ecosystem.config.js
 webhook.js
 .gitignore
 
-# Databases
-restore
-
-
-#Back-end exceptions
+# Back-end exceptions
 back/uploads/*
 back/dist/
 back/docs
 back/uploads
 *.http
+restore
+mongo_db
 
 # WEB
 web/build/

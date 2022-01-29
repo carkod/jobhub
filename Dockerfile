@@ -33,5 +33,3 @@ RUN yarn install && yarn run build
 
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082
-
-
