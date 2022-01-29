@@ -1,17 +1,17 @@
-FROM node:14 as build-hub
+FROM node:16 as build-hub
 COPY hub hub
 WORKDIR /hub/
 RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
-FROM node:14 as build-web
+FROM node:16 as build-web
 COPY web web
 WORKDIR /web/
 RUN yarn install && yarn global add react-scripts
 RUN react-scripts build
 
 # production environment
-FROM node:14
+FROM node:16
 # Installs latest Chromium (85) package for puppeteer
 RUN apt-get update && apt-get install -y wget gnupg nginx yarn \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
