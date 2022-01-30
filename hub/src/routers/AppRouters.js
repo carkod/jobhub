@@ -1,6 +1,5 @@
 import React from "react";
 import { Switch } from "react-router-dom";
-import "semantic-ui-css/semantic.min.css";
 import BlogList from "../containers/blog/BlogList";
 import Blog from "../containers/blog/Blog";
 import CoverLetters from "../containers/coverLetters/CoverLetters";
