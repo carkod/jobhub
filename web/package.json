@@ -4,7 +4,7 @@
   "private": true,
   "root": "/build",
   "scripts": {
-    "clean": "rm -rf node_modules yarn.lock",
+    "clean": "rm -rf node_modules yarn.lock build",
     "build-css": "sass ./src/:build/static/css/ ./node_modules/:build/static/css/",
     "watch-css": "yarn build-css && sass ./src/:build/static/css/ --watch",
     "start-js": "react-scripts start",
