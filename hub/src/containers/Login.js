@@ -1,11 +1,10 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Button, Checkbox, Form, Header, Input, Segment } from 'semantic-ui-react';
-import { auth, isAuthenticated, userLogin } from '../actions/login';
+import { userLogin } from '../actions/login';
 import Notifications from '../components/Notification';
-import { getToken } from '../utils';
-
+import { checkValue, getToken, withRouter } from '../utils';
 class Login extends Component {
 
 
@@ -25,9 +24,15 @@ class Login extends Component {
 
   login = (e) => {
     const { email, password } = this.state;
-    let logInState = userLogin(email, password);
-    if (logInState) {
-
+    this.props.userLogin(email, password);
+    const token = getToken();
+    if (checkValue(token)) {
+      if (this.props.router.location.state?.from) {
+        this.props.router.navigate(this.props.router.location.state.from);
+      } else {
+        this.props.router.navigate("/cv")
+      }
+ 
     }
   }
 
@@ -49,11 +54,9 @@ class Login extends Component {
           <Form onSubmit={this.login}>
             <Form.Field>
               <Input type='text' name='email' placeholder='Email' onChange={this.handleChange} />
-              {/* <Label color='red' pointing active={false}>Email is incorrect</Label> */}
             </Form.Field>
             <Form.Field>
               <Input type='password' name='password' placeholder='Password' onChange={this.handleChange} />
-              {/* <Label color='red' pointing active={true}>Password is incorrect</Label> */}
             </Form.Field>
             <Form.Field>
               <Checkbox name="remember" label='Remember me' onChange={this.checkboxChange} />
@@ -69,11 +72,5 @@ class Login extends Component {
 
 }
 
-function mapStateToProps(state, props) {
-  return {
-    isAuthenticated: state.authentication.isAuthenticated,
-    token: state.authentication.token || null
-  }
-}
 
-export default connect(mapStateToProps, { auth })(Login);
+export default compose(withRouter, connect(() => {}, { userLogin }))(Login);

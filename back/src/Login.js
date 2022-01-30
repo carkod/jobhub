@@ -38,11 +38,9 @@ export default function Login(app, db) {
               });
 
           } else {
-            res
-              .status(400)
-              .json({
+            res.json({
                 _id: user._id,
-                status: false,
+                error: 1,
                 message: "Login credentials are not correct.",
               });
           }

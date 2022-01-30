@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import Blog from "./containers/blog/Blog";
 import BlogList from "./containers/blog/BlogList";
 import CoverLetters from "./containers/coverLetters/CoverLetters";
@@ -19,12 +19,13 @@ import Jobs from "./containers/tracker/Jobs";
 import Tracker from "./containers/tracker/Tracker";
 import { getToken } from "./utils";
 
-function PrivateRoute(props) {
+function PrivateRoute() {
   const isAuthenticated = getToken();
+  const location = useLocation();
   return isAuthenticated ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" state={{ from: props.location }} replace />
+    <Navigate to="/login" state={{ from: location.pathname }} replace />
   );
 }
 

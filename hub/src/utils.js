@@ -1,4 +1,9 @@
 import moment from "moment";
+import {
+  useLocation,
+  useNavigate,
+  useParams
+} from "react-router-dom";
 
 export function formatDate(value) {
   const readable = moment(value).format("Do MMMM YYYY");
@@ -23,10 +28,28 @@ export const parseSize = (bytes) =>
 
 export const getToken = () => {
   const token = localStorage.getItem("hubToken");
-  if (checkValue(token)) {
+  if (!checkValue(token)) {
     return null
   }
-  return token
+  return JSON.parse(token)
 }
 
 export const setToken = (token) => localStorage.setItem("hubToken", JSON.stringify(token));
+
+
+
+export function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return (
+      <Component
+        {...props}
+        router={{ location, navigate, params }}
+      />
+    );
+  }
+
+  return ComponentWithRouterProp;
+}
