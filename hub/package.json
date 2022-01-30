@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
-    "start": "semantic-ui-css-patch && react-scripts start",
+    "start": "react-scripts start",
     "start-win": "set PORT=8082 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -26,7 +26,7 @@
     "react-html-parser": "^2.0.2",
     "react-markdown": "^8.0.0",
     "react-redux": "^7.2.6",
-    "react-router-dom": "^5.1.0",
+    "react-router-dom": "^6.2.1",
     "react-rte": "^0.16.5",
     "react-transition-group": "^4.4.2",
     "redux": "^4.1.2",

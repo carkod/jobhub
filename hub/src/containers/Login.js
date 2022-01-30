@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Checkbox, Form, Header, Input, Segment } from 'semantic-ui-react';
-import { auth } from '../actions/login';
+import { auth, isAuthenticated, userLogin } from '../actions/login';
 import Notifications from '../components/Notification';
+import { getToken } from '../utils';
 
 class Login extends Component {
 
@@ -15,14 +16,19 @@ class Login extends Component {
     };
   }
 
+  componentDidMount = () => {
+    const isAuthenticated = getToken();
+    this.setState({
+      isAuthenticated: !!isAuthenticated
+    });
+  }
+
   login = (e) => {
-    const { email, password } = this.state
-    this.props.auth({ email, password })
-      .then((d) => {
-        const { pathname } = this.props.location.state.from
-        this.props.history.push(pathname)
-      })
-      .catch(e => console.log(e));
+    const { email, password } = this.state;
+    let logInState = userLogin(email, password);
+    if (logInState) {
+
+    }
   }
 
   handleChange = (e) => {
