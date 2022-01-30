@@ -1,14 +1,14 @@
 FROM node:16 as build-hub
 COPY hub hub
 WORKDIR /hub/
-RUN yarn install && yarn global add react-scripts
-RUN react-scripts build
+RUN yarn install && yarn global add react-scripts sass
+RUN yarn build
 
 FROM node:16 as build-web
 COPY web web
 WORKDIR /web/
-RUN yarn install && yarn global add react-scripts
-RUN react-scripts build
+RUN yarn install && yarn global add react-scripts sass
+RUN yarn build
 
 # production environment
 FROM node:16
@@ -26,10 +26,13 @@ COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
 COPY --from=build-web /web/build /usr/share/nginx/html/web
 
 # Install back
-COPY ./.env /home/
 WORKDIR /home/back
 COPY back .
 RUN yarn install && yarn run build
+
+ENTRYPOINT ["node", "/home/back/dist/server.js"]
+CMD ["nginx", "-g", "daemon off;"]
+# CMD ["/usr/bin/nginx start && /home/wait-for-it.sh db:27017 -- node /home/back/dist/server.js"]
 
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082
