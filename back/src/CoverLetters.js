@@ -1,6 +1,5 @@
-//import { ObjectId } from 'mongodb';
 import mongoose from "mongoose";
-
+import { sanitize } from "mongo-sanitize";
 import { CLSchema } from "./Schemas";
 
 // Compile model from schema
@@ -59,7 +58,9 @@ export default function CLs(app, db) {
       desc: r.desc,
     });
 
-    CLModel.updateOne({ _id: r._id }, cl, {}, (err, msg) => {
+    const cleanId = sanitize(r._id);
+
+    CLModel.updateOne({ _id: cleanId }, cl, {}, (err, msg) => {
       if (err) res.json({ message: err, error: true });
 
       if (msg.ok) {
@@ -109,9 +110,10 @@ export default function CLs(app, db) {
         desc: r.desc,
       });
 
-      const id = r._id || cl._id;
+      const id = sanitize(r._id) || cl._id;
       delete r._id;
-      CLModel.update({ _id: id }, cl, { upsert: true }, (err, msg) => {
+
+      CLModel.updateOne({ _id: id }, cl, { upsert: true }, (err, msg) => {
         if (err) {
           throw err;
         } else {
@@ -133,10 +135,11 @@ export default function CLs(app, db) {
   });
 
   app.delete("/api/cls/:_id", (req, res) => {
-    const { _id } = req.params;
+    let { _id } = req.params;
+    const cleanId = sanitize(_id);
 
     if (_id) {
-      CLModel.deleteOne({ _id: _id }, (err, result) => {
+      CLModel.deleteOne({ _id: cleanId }, (err, result) => {
         if (err) {
           res.json({ data: result, message: err, error: true });
         } else if (result === null) {

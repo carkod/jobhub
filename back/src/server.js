@@ -5,6 +5,7 @@ import express from "express";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import path from "path";
+import rateLimit from "express-rate-limit";
 import Categories from "./Categories.js";
 import CoverLetters from "./CoverLetters.js";
 import CVs from "./CVs.js";
@@ -23,7 +24,13 @@ const app = express();
 
 const appFactory = async (app) => {
   try {
-    const connectString = `mongodb://${process.env.MONGO_AUTH_USERNAME}:${process.env.MONGO_AUTH_PASSWORD}@${process.env.HOST || process.env.HOSTNAME}:27017/${process.env.MONGO_AUTH_DATABASE}?authSource=admin`;
+
+    // Setup database
+    const connectString = `mongodb://${process.env.MONGO_AUTH_USERNAME}:${
+      process.env.MONGO_AUTH_PASSWORD
+    }@${process.env.HOST || process.env.HOSTNAME}:27017/${
+      process.env.MONGO_DATABASE
+    }?authSource=admin`;
     const mongoOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -31,15 +38,23 @@ const appFactory = async (app) => {
     };
     const connectClient = await mongoose.connect(connectString, mongoOptions);
     const db = connectClient.connection;
-    //Security
-    app.use(helmet());
 
-    //Parser Middlewares
+    // Security
+    app.use(helmet());
+    const limiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+      standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+      legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    });
+
+    // Apply the rate limiting middleware to all requests
+    app.use(limiter);
+
+    // Parser Middlewares
     app.use(cors());
     app.use(bodyParser.json({ limit: "50mb" }));
     app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-
-    // app.use(expressValidator());
 
     //Download static files in uploads folder
     app.use(express.static(path.join(__dirname, "../", "/uploads")));
@@ -67,12 +82,15 @@ const appFactory = async (app) => {
     Blog(app, db);
 
     app.listen(process.env.BACK_PORT, () =>
-      console.warn(`Server is running on ${process.env.HOST || process.env.HOSTNAME}:${process.env.BACK_PORT}`)
+      console.warn(
+        `Server is running on ${process.env.HOST || process.env.HOSTNAME}:${
+          process.env.BACK_PORT
+        }`
+      )
     );
-
   } catch (e) {
     console.error(`MongoDB connection error: ${e}`);
   }
-}
+};
 
 appFactory(app);

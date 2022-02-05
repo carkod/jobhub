@@ -3,7 +3,7 @@ on: pull_request
 env:
   ACTIONS_RUNNER_DEBUG: true
   SECRET_KEY: test
-  MONGO_AUTH_DATABASE: cv_generator
+  MONGO_DATABASE: cv_generator
   MONGO_AUTH_USERNAME: test
   MONGO_AUTH_PASSWORD: root_password
   MONGO_HOSTNAME: jobhub_db
@@ -31,6 +31,7 @@ jobs:
         ports:
           - 27017:27017
 
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -41,11 +42,12 @@ jobs:
           docker run --network host --name jobhub_app \
           -e MONGO_AUTH_USERNAME=${{ env.MONGO_AUTH_USERNAME }} \
           -e MONGO_AUTH_PASSWORD=${{ env.MONGO_AUTH_PASSWORD }} \
-          -e MONGO_AUTH_DATABASE=${{ env.MONGO_AUTH_DATABASE }} \
+          -e MONGO_DATABASE=${{ env.MONGO_DATABASE }} \
           -e BACK_PORT=${{ env.BACK_PORT }} \
           -e HUB_URL=${{ env.HUB_URL }} \
           -e WEB_URL=${{ env.WEB_URL }} \
           -e GITHUB_ACTIONS=true -d jobhub
+          docker ps
           curl --head --fail --retry-delay 5 --retry 3 --retry-connrefused http://localhost:8082/api
       - name: Test hub
         run: |

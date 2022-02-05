@@ -1,5 +1,6 @@
 import moment from "moment";
 import mongoose from "mongoose";
+import { sanitize } from "mongo-sanitize";
 import { CVSchema } from "./Schemas";
 
 // Compile model from schema
@@ -75,7 +76,7 @@ export default function CVs(app) {
       other: r.other,
     });
 
-    const id = r._id || mongoose.Types.ObjectId();
+    const id = sanitize(r._id) || mongoose.Types.ObjectId();
 
     CVModel.updateOne({_id: id}, cv, null, (err, msg) => {
       if (err) {
