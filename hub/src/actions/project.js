@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { handleResponse, headers, formdataHeaders } from './actions.config';
+import { handleResponse, headers, formdataHeaders, buildBackUrl } from './actions.config';
 import { addNotification } from '../actions/notification'
 
 export const SET_PROJECTS = 'SET_PROJECTS';
@@ -9,7 +8,6 @@ export const PROJECT_FETCHED = 'PROJECT_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_PROJECT = 'RETRIEVED_PROJECT';
-//export const PROJECT_UPDATED = 'PROJECT_UPDATED';
 export const PROJECT_DELETED = 'PROJECT_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';

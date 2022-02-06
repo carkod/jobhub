@@ -56,7 +56,7 @@ export default function Pdf(app, db) {
             if (err) throw err;
             const url = `${req.protocol}://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`;
             const updatedDate = new Date(content.updatedAt)
-            const date = `${updatedDate.getDate()}/${updatedDate.getMonth()}/${updatedDate.getFullYear()}`
+            const date = `${updatedDate.getDate()}/${updatedDate.getMonth() + 1}/${updatedDate.getFullYear()}`
 
             const file = await generatePDF(url, title, date)
 
@@ -67,5 +67,4 @@ export default function Pdf(app, db) {
             res.status(200).send(file);
         })
     });
-
 }

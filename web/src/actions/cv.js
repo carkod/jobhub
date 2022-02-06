@@ -1,4 +1,4 @@
-import { bufferHeaders, handleResponse, headers } from "./actions.config";
+import { bufferHeaders, handleResponse, headers, buildBackUrl } from "./actions.config";
 
 export const SET_CV = "SET_CV";
 export const ADD_CV = "ADD_CV";

@@ -169,7 +169,7 @@ export function fetchCL(id) {
 
 export function generatePDF(id) {
     return dispatch =>
-        fetch(`${process.env.REACT_APP_PDF_URL}/generateCl/${id}`, {
+        fetch(`${buildBackUrl().pdfUrl}/generateCl/${id}`, {
             method: 'GET',
             headers: headers
         })

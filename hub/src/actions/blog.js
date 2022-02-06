@@ -1,4 +1,4 @@
-import { bufferHeaders, handleResponse, headers } from "./actions.config";
+import { buildBackUrl, handleResponse, headers } from "./actions.config";
 
 export const GET_BLOG_SUCCESS = "GET_BLOG_SUCCESS";
 export const GET_ALL_BLOGS_SUCCESS = "GET_ALL_BLOGS_SUCCESS";

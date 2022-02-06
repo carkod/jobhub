@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { sanitize } from "mongo-sanitize";
+import sanitize from "mongo-sanitize";
 import { CLSchema } from "./Schemas";
 
 // Compile model from schema

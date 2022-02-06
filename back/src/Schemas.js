@@ -140,12 +140,6 @@ ApplicationSchema.pre('save', function (next) {
     next();
 });
 
-// CVSchema.pre('update', function (next) {
-//     const title = this._update.name;
-//     this._update.$setOnInsert("slug")
-//     console.log(this)
-// })
-
 // Blog
 const BlogSchema = new Schema({
     _id: mongoose.Schema.ObjectId,

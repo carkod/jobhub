@@ -21,7 +21,7 @@ class Letter extends Component {
       positions: null,
       statuses: null,
       name: null,
-      previewPdf: `${process.env.REACT_APP_PDF_URL}/view/${pdfType}/${props.match.params.id}`
+      previewPdf: `${buildBackUrl().pdfUrl}/view/${pdfType}/${props.match.params.id}`
     };
   }
 

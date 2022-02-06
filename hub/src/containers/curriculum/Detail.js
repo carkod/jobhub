@@ -82,7 +82,7 @@ class Detail extends Component {
       props.router.params.id !== this.props.router.params.id
     ) {
       this.setState({
-        previewPdf: `${process.env.REACT_APP_PDF_URL}/view/${pdfType}/${props.router.params.id}`,
+        previewPdf: `${buildBackUrl().pdfUrl}/view/${pdfType}/${props.router.params.id}`,
       });
     }
   };

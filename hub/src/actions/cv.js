@@ -1,4 +1,4 @@
-import { bufferHeaders, handleResponse, headers } from './actions.config';
+import { bufferHeaders, handleResponse, headers, buildBackUrl } from './actions.config';
 import { addNotification, setCVNotification } from './notification';
 
 export const SET_CV = 'SET_CV';

@@ -1,6 +1,6 @@
 import moment from "moment";
 import mongoose from "mongoose";
-import { sanitize } from "mongo-sanitize";
+import sanitize from "mongo-sanitize";
 import { CVSchema } from "./Schemas";
 
 // Compile model from schema

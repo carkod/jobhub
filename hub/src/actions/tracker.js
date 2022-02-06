@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { handleResponse, headers, buildBackUrl } from './actions.config';
 import { addNotification } from './notification'
 

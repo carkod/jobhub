@@ -1,6 +1,6 @@
 // New project actions
 
-import { formdataHeaders, handleResponse, headers } from './actions.config';
+import { buildBackUrl, handleResponse, headers } from './actions.config';
 
 // listProjectsReducer
 export const GET_PROJECTS = 'GET_PROJECTS';

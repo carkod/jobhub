@@ -80,7 +80,7 @@ class Home extends Component {
                   <span className="u-emphasize-text">Full Stack developer</span>
                   , currently based in{" "}
                   <span className="u-emphasize-text">London, UK</span> I have
-                  been working in Web for about {yearsExp} years now
+                  been working for the Web for about {yearsExp} years now
                 </p>
                 <p className="u-home-text">
                   I am experienced in a breadth of technologies such as{" "}
@@ -89,10 +89,11 @@ class Home extends Component {
                   <span className="u-emphasize-text">Docker</span>, Kubernetes
                   and <span className="u-emphasize-text">Python</span> (mostly
                   using Flask) with a little experience in DB management
-                  (Postgres and MongoDB)
+                  (Postgres and MongoDB). Additionally, due to my background in Business and Economics,{" "}
+                  I've supported and estimated projects and managed some offshore teams, 
                 </p>
                 <p className="u-home-text">
-                  In my free time, I like to work on my{" "}
+                  In my free time, I like to work on a number of{" "}
                   <a href="https://github/carkod/" target="_blank">
                     personal projects
                   </a>

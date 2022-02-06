@@ -5,7 +5,6 @@ import { Field, Button, Checkbox, Form, Input, Radio, Select, TextArea, Header, 
 
 const PD = (props) => {
     const {persdetails} = props;
-    //console.log(props)
   return (
     <div className="personal section">
         <Header sub>PERSONAL DETAILS</Header>

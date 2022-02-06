@@ -4,20 +4,23 @@ import puppeteer from 'puppeteer';
 dotenv.config()
 
 export async function generatePDF(url, title, updatedDate) {
+  try {
     // launch a new chrome instance
     const browser = await puppeteer.launch({
-      args: ['--no-sandbox'],
+      devtools: true,
+      args: ['--no-sandbox', "--disable-setuid-sandbox"],
       headless: true,
+      dumpio: true,
     })
 
     // create a new page
     const page = await browser.newPage()
-  
+
     // set your html as the pages content
-    await page.goto(url)
-  
-    // create a pdf buffer
+    await page.goto(url, { waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]})
+
     const pdfBuffer = await page.pdf({
+      printBackground: true,
       format: 'A4',
       displayHeaderFooter: true,
       footerTemplate: `
@@ -56,7 +59,11 @@ export async function generatePDF(url, title, updatedDate) {
       }
     });
 
-    // close the browser
-    await browser.close()
+    browser.close()
+  
     return pdfBuffer;
+  } catch (e) {
+    throw e;
+  }
+    
 }

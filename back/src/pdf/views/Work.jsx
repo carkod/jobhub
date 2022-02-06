@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { Component } from "react";
 
 class Work extends Component {
