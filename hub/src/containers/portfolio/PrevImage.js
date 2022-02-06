@@ -83,7 +83,7 @@ class PrevImage extends Component {
                 />
               </Grid.Column>
               <Grid.Column>
-                <a href={this.props.file.fileURL} target="_blank">
+                <a href={this.props.file.fileURL} target="_blank" rel="noopener noreferrer">
                   <img src={this.props.file.fileURL} style={{"maxWidth": "100%"}}/>
                   <span>{this.props.file.fileName}</span>
                 </a>

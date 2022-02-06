@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { sanitize } from "mongo-sanitize";
 import { BlogSchema } from "./Schemas";
 
 // Compile model from schema
@@ -39,7 +40,7 @@ export default function Blog(app) {
       blog._id = mongoose.Types.ObjectId();
     }
 
-    const id = r._id || blog._id;
+    const id = sanitize(r._id) || blog._id;
     delete r._id;
 
     BlogModel.updateOne({ _id: id }, blog, { upsert: true }, (err, msg) => {

@@ -1,16 +1,15 @@
 FROM node:16 as build-hub
 COPY hub hub
 WORKDIR /hub/
-RUN yarn install && yarn global add react-scripts
-RUN react-scripts build
+RUN yarn install && yarn global add react-scripts sass
+RUN yarn build
 
 FROM node:16 as build-web
 COPY web web
 WORKDIR /web/
-RUN yarn install && yarn global add react-scripts
-RUN react-scripts build
+RUN yarn install && yarn global add react-scripts sass
+RUN yarn build
 
-# production environment
 FROM node:16
 # Installs latest Chromium (85) package for puppeteer
 RUN apt-get update && apt-get install -y wget gnupg nginx yarn \
@@ -21,17 +20,17 @@ RUN apt-get update && apt-get install -y wget gnupg nginx yarn \
 
 COPY wait-for-it.sh /home/wait-for-it.sh
 RUN chmod +x /home/wait-for-it.sh
+
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
 COPY --from=build-web /web/build /usr/share/nginx/html/web
 
 # Install back
-COPY ./.env /home/
 WORKDIR /home/back
 COPY back .
 RUN yarn install && yarn run build
 
+CMD ["node", "/home/back/dist/server.js"]
+
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082
-
-

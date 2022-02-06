@@ -56,13 +56,14 @@ export function notAuthNotification(msg) {
     }
 }
 
-export function isAuthNotification(msg) {
+export function isAuthNotification(msg, err) {
     return {
         type: NOTIFICATION,
         message: msg,
-        error: false
+        error: err
     }
 }
+
 
 export function removeNotification(status) {
     return {

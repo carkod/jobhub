@@ -1,11 +1,13 @@
+import produce from "immer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { compose } from "redux";
 import { Button, Icon } from "semantic-ui-react";
 import { fetchCV, fetchCVs, saveCvApi } from "../../actions/cv";
 import { generatePdfApi } from "../../actions/generate-pdf";
 import { fetchRelationsApi } from "../../actions/relations";
-import { checkValue } from "../../utils";
 import Metainfo from "../../components/Metainfo";
+import { checkValue, withRouter } from "../../utils";
 import Education from "./Education";
 import ItSkills from "./ItSkills";
 import LangSkills from "./LangSkills";
@@ -13,7 +15,6 @@ import PD from "./PD";
 import Summary from "./Summary";
 import WebdevSkills from "./WebdevSkills";
 import WorkRepeater from "./WorkRepeater";
-import produce from "immer";
 
 // Serves both as
 // - title
@@ -37,19 +38,17 @@ class Detail extends Component {
       langSkills: null,
       webdevSkills: null,
       itSkills: null,
-      previewPdf: `${process.env.REACT_APP_PDF_URL}/view/${pdfType}/${props.match.params.id}`,
+      previewPdf: "",
     };
   }
 
   componentDidMount = () => {
-    this.props.fetchCV(this.props.match.params.id);
+    this.props.fetchCV(this.props.router.params.id);
     this.props.fetchRelationsApi();
   };
 
   componentDidUpdate = (props) => {
-    if (
-      this.props.navName !== props.navName
-    ) {
+    if (this.props.navName !== props.navName) {
       this.setState({
         cats: {
           locale: this.props.cats.locale,
@@ -76,6 +75,15 @@ class Detail extends Component {
           })
         );
       }
+    }
+
+    if (
+      this.props.router.params?.id &&
+      props.router.params.id !== this.props.router.params.id
+    ) {
+      this.setState({
+        previewPdf: `${process.env.REACT_APP_PDF_URL}/view/${pdfType}/${props.router.params.id}`,
+      });
     }
   };
 
@@ -138,12 +146,13 @@ class Detail extends Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-    if (this.props.match.params.id) {
-      this.setState({ _id: this.props.match.params.id }, () => this.props.saveCvApi(this.state));
+    if (this.props.router.params.id) {
+      this.setState({ _id: this.props.router.params.id }, () =>
+        this.props.saveCvApi(this.state)
+      );
     } else {
       this.props.saveCvApi(this.state);
     }
-    
   };
 
   render() {
@@ -157,7 +166,7 @@ class Detail extends Component {
               navName={this.state.navName}
               previewPdf={this.state.previewPdf}
               locales={this.props.locales || null}
-              positions={this.props.positions || null }
+              positions={this.props.positions || null}
               statuses={this.props.statuses || null}
               onChange={this.metaChange}
             />
@@ -212,13 +221,15 @@ class Detail extends Component {
               Save
             </Button>
 
-            <Button
-              type="button"
-              onClick={this.savePdf(this.props.match.params.id)}
-            >
-              <Icon name="file pdf" />
-              Generate
-            </Button>
+            {this.props.router?.params?.id && (
+              <Button
+                type="button"
+                onClick={this.savePdf(this.props.router.params.id)}
+              >
+                <Icon name="file pdf" />
+                Generate
+              </Button>
+            )}
           </div>
         </form>
       </div>
@@ -234,10 +245,13 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  saveCvApi,
-  fetchCVs,
-  fetchCV,
-  fetchRelationsApi,
-  generatePdfApi,
-})(Detail);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {
+    saveCvApi,
+    fetchCVs,
+    fetchCV,
+    fetchRelationsApi,
+    generatePdfApi,
+  })
+)(Detail);

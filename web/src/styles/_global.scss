@@ -1,3 +1,4 @@
+@use "sass:math";
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,900,900i");
 
 $blue: #44b0ee;
@@ -11,7 +12,7 @@ $light-grey: #f9f9f9; // code background
 $preset-f: 1.3em;
 $standard-font: 1.05em;
 $preset-font: 1.3em;
-$preset-smaller: $preset-f / 1.55;
+$preset-smaller: math.div($preset-f, 1.55);
 $medium-p: 1.4em;
 $large-p: 1.5em;
 

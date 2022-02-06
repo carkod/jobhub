@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import { Card, Icon, Image } from "semantic-ui-react";
 import profilePic from "../../carlos.jpg";
 
@@ -79,7 +80,7 @@ class Home extends Component {
                   <span className="u-emphasize-text">Full Stack developer</span>
                   , currently based in{" "}
                   <span className="u-emphasize-text">London, UK</span> I have
-                  been working in Web for about {yearsExp} six years now
+                  been working in Web for about {yearsExp} years now
                 </p>
                 <p className="u-home-text">
                   I am experienced in a breadth of technologies such as{" "}
@@ -147,7 +148,9 @@ class Home extends Component {
               </div>
             </div>
             <div>
-              <button>Thank you, next</button>
+              <Link to="/cv/en-GB/5fe993de5a4d95045179151b">
+                <button>I'm Feeling Lucky</button>
+              </Link>
             </div>
           </div>
         </div>

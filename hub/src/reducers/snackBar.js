@@ -1,4 +1,5 @@
 import { SAVE_BLOG_FAILED, SAVE_BLOG_SUCCESS } from "../actions/blog";
+import { NOTIFICATION } from "../actions/cl";
 import {
   COPY_CL_FAILED,
   COPY_CL_SUCCESS,
@@ -209,6 +210,12 @@ export function snackBarReducer(
         error: action.error,
         loading: false,
       };
+    case NOTIFICATION:
+      return {
+        message: action.message,
+        error: action.error,
+        loading: false,
+      }
     default:
       return state;
   }
