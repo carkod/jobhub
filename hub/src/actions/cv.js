@@ -116,7 +116,7 @@ export function addCV(data) {
 
 export function deleteCV(id) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/cvs/${id}`, {
             method: 'delete',
             headers: headers
         })
@@ -127,7 +127,7 @@ export function deleteCV(id) {
 
 export function copyCV(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cvs/${data._id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/cvs/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -143,7 +143,7 @@ export function copyCV(data) {
 export function saveCvApi(data) {
     return dispatch => {
         dispatch(saveCv(data));
-        return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
+        return fetch(`${buildBackUrl().apiUrl}/cvs`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: headers
@@ -155,7 +155,7 @@ export function saveCvApi(data) {
 
 export function fetchCVs() {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cvs`, {
+        return fetch(`${buildBackUrl().apiUrl}/cvs`, {
             headers: headers
         })
             .then(handleResponse)
@@ -168,7 +168,7 @@ export function fetchCVs() {
 
 export function fetchCV(id) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cvs/${id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/cvs/${id}`, {
             headers: bufferHeaders
         })
             .then(handleResponse)

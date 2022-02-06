@@ -105,7 +105,7 @@ export function removeFile(payload) {
 export function removeFileApi(file) {
   return dispatch => {
     dispatch(removeFile())
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/deupload`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/deupload`, {
       method: 'post',
       headers: headers,
       body: JSON.stringify(file),
@@ -118,7 +118,7 @@ export function removeFileApi(file) {
 export function uploadFileApi(file) {
   return dispatch => {
     dispatch(upload())
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/upload`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/upload`, {
       method: 'post',
       headers: formdataHeaders,
       body: file,

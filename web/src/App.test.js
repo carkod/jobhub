@@ -5,7 +5,7 @@ import axios from 'axios';
 
 it('connect to back application API endpoint', async () => {
   // expect.assertions(1);
-  const data = await axios.get(process.env.REACT_APP_API_URL + '/cvs');
+  const data = await axios.get(buildBackUrl().apiUrl + '/cvs');
   expect(data).toBeDefined();
   expect(data.status).toEqual(200)
 })

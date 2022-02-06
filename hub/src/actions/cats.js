@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
-import { handleResponse, headers } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from './actions.config';
 
 export const SET_CATS = 'SET_CATS';
 export const SAVED_CATS = 'SAVED_CATS';
@@ -32,7 +32,7 @@ export function setCats(cats) {
 
 export function fetchCats() {
     return dispatch => {
-        axios.get(`${process.env.REACT_APP_API_URL}/cats`,{
+        axios.get(`${buildBackUrl().apiUrl}/cats`,{
             headers: headers
         })
             .then(res => {
@@ -44,7 +44,7 @@ export function fetchCats() {
 
 export function saveCats(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cats`, {
+        return fetch(`${buildBackUrl().apiUrl}/cats`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers

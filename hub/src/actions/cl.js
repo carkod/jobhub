@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { handleResponse, headers } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from './actions.config';
 export const SET_CLS = 'SET_CLS';
 export const ADD_CL = 'ADD_CL';
 export const CL_FETCHED = 'CL_FETCHED';
@@ -88,7 +88,7 @@ export function pdfGeneratedNotification(data) {
 
 export function deleteCL(id) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cls/${id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/cls/${id}`, {
             method: 'delete',
             headers: headers
         })
@@ -99,7 +99,7 @@ export function deleteCL(id) {
 
 export function copyCL(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cls/${data._id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/cls/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -112,7 +112,7 @@ export function copyCL(data) {
 
 export function saveCL(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
+        return fetch(`${buildBackUrl().apiUrl}/cls`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -128,7 +128,7 @@ export function saveCL(data) {
 
 export function editCL(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
+        return fetch(`${buildBackUrl().apiUrl}/cls`, {
             method: 'put',
             body: JSON.stringify(data),
             headers: headers
@@ -143,7 +143,7 @@ export function editCL(data) {
 
 export function fetchCLs() {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/cls`, {
+        fetch(`${buildBackUrl().apiUrl}/cls`, {
             headers: headers
         })
             .then(handleResponse)
@@ -156,7 +156,7 @@ export function fetchCLs() {
 
 export function fetchCL(id) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/cl/${id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/cl/${id}`, {
             headers: headers
         })
             .then(handleResponse)

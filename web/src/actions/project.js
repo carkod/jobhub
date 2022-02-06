@@ -102,7 +102,7 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/deupload`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/deupload`, {
         method: 'post',
         headers: headers,
         body: JSON.stringify(file),
@@ -110,7 +110,7 @@ export function removeFile(file) {
 }
 
 export function uploadFile(file) {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/upload`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/upload`, {
         method: 'post',
         headers: formdataHeaders,
         body: file,
@@ -119,7 +119,7 @@ export function uploadFile(file) {
 
 export function deleteProject(id) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/project/${id}`, {
             method: 'delete',
             headers: headers
         })
@@ -133,7 +133,7 @@ export function deleteProject(id) {
 export function copyProject(data) {
 
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/${data._id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/portfolio/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -148,7 +148,7 @@ export function copyProject(data) {
 
 export function fetchPortfolio() {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/portfolio`, {
+        fetch(`${buildBackUrl().apiUrl}/portfolio`, {
             headers: headers
         })
             .then(handleResponse)
@@ -161,7 +161,7 @@ export function fetchPortfolio() {
 
 export function fetchProject(id) {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
+        fetch(`${buildBackUrl().apiUrl}/project/${id}`, {
             headers: headers
         })
             .then(handleResponse)
@@ -174,7 +174,7 @@ export function fetchProject(id) {
 
 export function fetchCats() {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/cats`, {
+        fetch(`${buildBackUrl().apiUrl}/cats`, {
             headers: headers
         })
             .then(handleResponse)

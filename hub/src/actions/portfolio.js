@@ -165,7 +165,7 @@ return {
 export function fetchPortfolioApi() {
   return dispatch => {
     dispatch(getProjects())
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio`, {
       headers: headers
     })
       .then(handleResponse)
@@ -178,7 +178,7 @@ export function fetchPortfolioApi() {
 export function fetchProjectApi(id) {
   return dispatch => {
     dispatch(getProject())
-    return fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/project/${id}`, {
       method: "GET",
       headers: headers
     })
@@ -192,7 +192,7 @@ export function fetchProjectApi(id) {
 export function createProjectApi(data) {
   return dispatch => {
     dispatch(addProject())
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/project`, {
       method: 'post',
       body: JSON.stringify(data),
       headers: headers
@@ -206,7 +206,7 @@ export function createProjectApi(data) {
 export function saveProjectApi(data) {
   return dispatch => {
     dispatch(saveProject())
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/project`, {
       method: 'put',
       body: JSON.stringify(data),
       headers: headers
@@ -220,7 +220,7 @@ export function saveProjectApi(data) {
 export function deleteProjectApi(id) {
   return dispatch => {
     dispatch(deleteProject())
-    return fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/project/${id}`, {
       method: 'delete',
       headers: headers
     })
@@ -234,7 +234,7 @@ export function deleteProjectApi(id) {
 export function copyProject(data) {
 
   return dispatch => {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/${data._id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/${data._id}`, {
       method: 'post',
       body: JSON.stringify(data),
       headers: headers

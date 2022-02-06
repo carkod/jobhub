@@ -42,3 +42,16 @@ export function handlePdfResponse(response) {
       throw error;
   }
 }
+
+export function buildBackUrl() {
+  let base = window.location.hostname.split(".")
+  if (base.length > 2) {
+    base.shift(0)
+    base.unshift("api")
+  }
+  base = `${window.location.protocol}://${base.join(".")}`;
+  return {
+    apiUrl: `${base}/api`,
+    pdfUrl: `${base}/pdf`
+  }
+}

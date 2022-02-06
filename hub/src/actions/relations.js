@@ -1,4 +1,4 @@
-import { handleResponse, headers } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from './actions.config';
 
 export const GET_RELATIONS = 'GET_RELATIONS';
 export const GET_RELATIONS_SUCCESS = 'GET_RELATIONS_SUCCESS';
@@ -133,7 +133,7 @@ export function saveRelationFailed(payload) {
 export function fetchRelationsApi() {
     return dispatch => {
         dispatch(getRelations())
-        return fetch(`${process.env.REACT_APP_API_URL}/cats`, {
+        return fetch(`${buildBackUrl().apiUrl}/cats`, {
             method: 'get',
             headers: headers
         })
@@ -145,7 +145,7 @@ export function fetchRelationsApi() {
 export function saveRelationApi(data) {
     return dispatch => {
         dispatch(saveRelation(data))
-        return fetch(`${process.env.REACT_APP_API_URL}/cats`, {
+        return fetch(`${buildBackUrl().apiUrl}/cats`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers

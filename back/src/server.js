@@ -24,7 +24,6 @@ const app = express();
 
 const appFactory = async (app) => {
   try {
-
     // Setup database
     const connectString = `mongodb://${process.env.MONGO_AUTH_USERNAME}:${
       process.env.MONGO_AUTH_PASSWORD
