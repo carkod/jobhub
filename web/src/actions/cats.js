@@ -31,7 +31,7 @@ export function setCats(cats) {
 export function fetchCats() {
   return (dispatch) => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/cats`, {
+      .get(`${buildBackUrl().apiUrl}/cats`, {
         headers: headers,
       })
       .then((res) => {

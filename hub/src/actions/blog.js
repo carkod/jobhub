@@ -1,4 +1,4 @@
-import { bufferHeaders, handleResponse, headers } from "./actions.config";
+import { buildBackUrl, handleResponse, headers } from "./actions.config";
 
 export const GET_BLOG_SUCCESS = "GET_BLOG_SUCCESS";
 export const GET_ALL_BLOGS_SUCCESS = "GET_ALL_BLOGS_SUCCESS";
@@ -72,7 +72,7 @@ export function deleteBlogSuccess(payload) {
 
 export function deleteBlogApi(id) {
   return (dispatch) => {
-    return fetch(`${process.env.REACT_APP_API_URL}/blogs/${id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/blogs/${id}`, {
       method: "delete",
       headers: headers,
     })
@@ -83,7 +83,7 @@ export function deleteBlogApi(id) {
 
 export function fetchBlogsApi() {
   return (dispatch) => {
-    return fetch(`${process.env.REACT_APP_API_URL}/blogs`, {
+    return fetch(`${buildBackUrl().apiUrl}/blogs`, {
       headers: headers,
     })
       .then(handleResponse)
@@ -95,7 +95,7 @@ export function fetchBlogsApi() {
 
 export function fetchBlogApi(id) {
   return (dispatch) => {
-    return fetch(`${process.env.REACT_APP_API_URL}/blog/${id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/blog/${id}`, {
       headers: headers,
     })
       .then(handleResponse)
@@ -106,7 +106,7 @@ export function fetchBlogApi(id) {
 export function saveBlogApi(data) {
   return (dispatch) => {
     dispatch(saveBlog());
-    return fetch(`${process.env.REACT_APP_API_URL}/blogs`, {
+    return fetch(`${buildBackUrl().apiUrl}/blogs`, {
       method: "post",
       body: JSON.stringify(data),
       headers: headers,

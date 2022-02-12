@@ -27,14 +27,6 @@ const Metainfo = props => {
         status = meta.cats.status && statusIndex !== -1 ? meta.cats.status : 'Select Status';
     }
 
-    // const [projectDate, setProjectDate] = useState('');
-    // function handleProjectDate(e) {
-    //     setProjectDate(e.target.value)
-    //     getProjectDate(projectDate)
-    //     console.log(projectDate)
-    // }
-
-
     return (
         <div id="metainfo">
             <Header as='h1'>

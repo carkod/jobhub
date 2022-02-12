@@ -1,4 +1,4 @@
-import { handleResponse, headers } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from './actions.config';
 
 export const GET_CLS = 'GET_CLS';
 export const GET_CLS_SUCCESS = 'GET_CLS_SUCCESS';
@@ -127,7 +127,7 @@ export function deleteClSuccess(payload) {
 export function fetchClsApi() {
   return dispatch => {
     dispatch(getCls())
-    return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
+    return fetch(`${buildBackUrl().apiUrl}/cls`, {
       headers: headers
     })
       .then(handleResponse)
@@ -138,7 +138,7 @@ export function fetchClsApi() {
 export function fetchClApi(id) {
   return dispatch => {
     dispatch(getCl())
-    return fetch(`${process.env.REACT_APP_API_URL}/cls/${id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/cls/${id}`, {
       method: 'GET',
       headers: headers
     })
@@ -150,7 +150,7 @@ export function fetchClApi(id) {
 
 export function deleteClApi(id) {
   return dispatch => {
-    return fetch(`${process.env.REACT_APP_API_URL}/cls/${id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/cls/${id}`, {
       method: 'delete',
       headers: headers
     })
@@ -161,7 +161,7 @@ export function deleteClApi(id) {
 
 export function copyClApi(data) {
   return dispatch => {
-    return fetch(`${process.env.REACT_APP_API_URL}/cls/${data._id}`, {
+    return fetch(`${buildBackUrl().apiUrl}/cls/${data._id}`, {
       method: 'post',
       body: JSON.stringify(data),
       headers: headers
@@ -174,7 +174,7 @@ export function copyClApi(data) {
 
 export function saveClApi(data) {
   return dispatch => {
-    return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
+    return fetch(`${buildBackUrl().apiUrl}/cls`, {
       method: 'post',
       body: JSON.stringify(data),
       headers: headers
@@ -190,7 +190,7 @@ export function saveClApi(data) {
 export function editClApi(data) {
   return dispatch => {
     dispatch(editCl())
-    return fetch(`${process.env.REACT_APP_API_URL}/cls`, {
+    return fetch(`${buildBackUrl().apiUrl}/cls`, {
       method: 'put',
       body: JSON.stringify(data),
       headers: headers

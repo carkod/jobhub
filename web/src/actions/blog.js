@@ -1,7 +1,7 @@
-import { bufferHeaders, handleResponse, headers } from "./actions.config";
+import { handleResponse, headers } from "./actions.config";
 
 export function fetchBlogsApi() {
-  return fetch(`${process.env.REACT_APP_API_URL}/blogs`, {
+  return fetch(`${buildBackUrl().apiUrl}/blogs`, {
     method: "GET",
     headers: headers,
   })
@@ -10,7 +10,7 @@ export function fetchBlogsApi() {
 }
 
 export function fetchBlogApi(id) {
-  return fetch(`${process.env.REACT_APP_API_URL}/blog/${id}`, {
+  return fetch(`${buildBackUrl().apiUrl}/blog/${id}`, {
     headers: headers,
   })
     .then(handleResponse)
@@ -18,7 +18,7 @@ export function fetchBlogApi(id) {
 }
 
 export function searchBlogApi(term) {
-  return fetch(`${process.env.REACT_APP_API_URL}/blogs/name/${term}`, {
+  return fetch(`${buildBackUrl().apiUrl}/blogs/name/${term}`, {
     headers: headers,
   })
     .then(handleResponse)
@@ -26,7 +26,7 @@ export function searchBlogApi(term) {
 }
 
 export function searchBlogCategoryApi(category) {
-  return fetch(`${process.env.REACT_APP_API_URL}/blogs/category/${category}`, {
+  return fetch(`${buildBackUrl().apiUrl}/blogs/category/${category}`, {
     headers: headers,
   })
     .then(handleResponse)

@@ -55,29 +55,6 @@ class MainCV extends Component {
     }
   };
 
-  listenScroll = (e) => {
-    // const { translatePosition, angle, lateralPosition } = this.state;
-    // const scroll = e.target.scrollTop;
-    // const angleProportion = 0.030
-    // const lateralMovement = 0.006
-    // console.log(lateralPosition, scroll)
-    // if (this.state.scroll - scroll > 0) {
-    //   this.setState({
-    //     translatePosition: translatePosition * 15,
-    //     scroll: scroll,
-    //     angle: angle + angleProportion,
-    //     lateralPosition: lateralMovement
-    //   })
-    // } else {
-    //   this.setState({
-    //     translatePosition: translatePosition / 15,
-    //     scroll: scroll,
-    //     angle: angle - angleProportion,
-    //     lateralPosition: lateralMovement
-    //   })
-    // }
-  };
-
   render() {
     const { cv } = this.state;
     return (

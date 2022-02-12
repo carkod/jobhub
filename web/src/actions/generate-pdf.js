@@ -1,4 +1,4 @@
-import { bufferHeaders, handlePdfResponse } from './actions.config';
+import { bufferHeaders, buildBackUrl, handlePdfResponse } from './actions.config';
 
 export const GENERATE_PDF = 'GENERATE_PDF';
 export const GENERATE_PDF_SUCCESS = 'GENERATE_PDF_SUCCESS';
@@ -36,7 +36,7 @@ export function generatePdfFailed(payload) {
 export function generatePdfApi(type, id) {
   return dispatch => {
       dispatch(generatePdf());
-      return fetch(`${process.env.REACT_APP_PDF_URL}/generate/${type}/${id}`, {
+      return fetch(`${buildBackUrl().pdfUrl}/generate/${type}/${id}`, {
           method: 'GET',
           headers: bufferHeaders,
       })

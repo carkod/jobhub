@@ -1,4 +1,4 @@
-import { handleResponse } from "./actions.config";
+import { handleResponse, buildBackUrl } from "./actions.config";
 
 export const SET_PROJECTS = "SET_PROJECTS";
 
@@ -10,14 +10,14 @@ export function setProjects(project) {
 }
 
 export function fetchProjects() {
-  return fetch(`${process.env.REACT_APP_API_URL}/portfolio`)
+  return fetch(`${buildBackUrl().apiUrl}/portfolio`)
     .then(handleResponse)
     .then((res) => res)
     
 }
 
 export function fetchProjectApi(id) {
-  return fetch(`${process.env.REACT_APP_API_URL}/project/${id}`)
+  return fetch(`${buildBackUrl().apiUrl}/project/${id}`)
     .then(handleResponse)
     .then((res) => res)
 }

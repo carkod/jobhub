@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { sanitize } from "mongo-sanitize";
+import sanitize from "mongo-sanitize";
 import { UserSchema } from "./Schemas";
 import dotenv from "dotenv";
 

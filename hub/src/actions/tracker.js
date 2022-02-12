@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { handleResponse, headers } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from './actions.config';
 import { addNotification } from './notification'
 
 export const SET_APPLICATIONS = 'SET_APPLICATIONS';
@@ -105,7 +104,7 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
-    return fetch(`${process.env.REACT_APP_API_URL}/application-deupload`, {
+    return fetch(`${buildBackUrl().apiUrl}/application-deupload`, {
         method: 'post',
         headers: headers,
         body: JSON.stringify(file),
@@ -113,7 +112,7 @@ export function removeFile(file) {
 }
 
 export function uploadFile(file) {
-    return fetch(`${process.env.REACT_APP_API_URL}/application-upload`, {
+    return fetch(`${buildBackUrl().apiUrl}/application-upload`, {
         method: 'post',
         body: file
     })
@@ -122,7 +121,7 @@ export function uploadFile(file) {
 
 export function deleteApplication(id) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/application/${id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/application/${id}`, {
             method: 'delete',
             headers: headers
         })
@@ -137,7 +136,7 @@ export function deleteApplication(id) {
 export function copyApplication(data) {
 
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/application/${data._id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/application/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -153,7 +152,7 @@ export function copyApplication(data) {
 
 export function saveApplication(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/application`, {
+        return fetch(`${buildBackUrl().apiUrl}/application`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -167,7 +166,7 @@ export function saveApplication(data) {
 
 export function editApplication(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/application`, {
+        return fetch(`${buildBackUrl().apiUrl}/application`, {
             method: 'put',
             body: JSON.stringify(data),
             headers: headers
@@ -182,7 +181,7 @@ export function editApplication(data) {
 
 export function fetchApplication(id) {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/application/${id}`, {
+        fetch(`${buildBackUrl().apiUrl}/application/${id}`, {
             method: 'get',
             headers: headers
         })
@@ -196,7 +195,7 @@ export function fetchApplication(id) {
 
 export function getApplications(page, pagesize) {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/applications/${page}/${pagesize}`, {
+        fetch(`${buildBackUrl().apiUrl}/applications/${page}/${pagesize}`, {
             method: 'get',
             headers: headers
         })
@@ -210,7 +209,7 @@ export function getApplications(page, pagesize) {
 
 export function moveNextStage(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/application`, {
+        return fetch(`${buildBackUrl().apiUrl}/application`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers

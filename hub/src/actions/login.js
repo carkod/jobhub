@@ -1,6 +1,6 @@
 import { notAuthNotification, isAuthNotification } from "./notification";
 import axios from "axios";
-import { headers } from "./actions.config";
+import { buildBackUrl, headers } from "./actions.config";
 import { setToken } from "../utils";
 
 export const IS_AUTH = "IS_AUTH";
@@ -22,7 +22,7 @@ export function isNotAuthenticated(payload) {
 
 export const userLogin = (email, password) => async (dispatch, getState) => {
   const res = await axios.post(
-    `${process.env.REACT_APP_API_URL}/login`,
+    `${buildBackUrl().apiUrl}/login`,
     { email: email, password: password },
     headers
   );

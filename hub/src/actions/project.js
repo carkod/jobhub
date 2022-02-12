@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { handleResponse, headers, formdataHeaders } from './actions.config';
+import { handleResponse, headers, formdataHeaders, buildBackUrl } from './actions.config';
 import { addNotification } from '../actions/notification'
 
 export const SET_PROJECTS = 'SET_PROJECTS';
@@ -9,7 +8,6 @@ export const PROJECT_FETCHED = 'PROJECT_FETCHED';
 export const SET_FIELDS = 'SET_FIELDS';
 export const SYNC_PERSDETAILS = 'SYNC_PERSDETAILS';
 export const RETRIEVED_PROJECT = 'RETRIEVED_PROJECT';
-//export const PROJECT_UPDATED = 'PROJECT_UPDATED';
 export const PROJECT_DELETED = 'PROJECT_DELETED';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
@@ -104,7 +102,7 @@ export function fileRemoved(file) {
 }
 
 export function removeFile(file) {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/deupload`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/deupload`, {
         method: 'post',
         headers: headers,
         body: JSON.stringify(file),
@@ -112,7 +110,7 @@ export function removeFile(file) {
 }
 
 export function uploadFile(file) {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/upload`, {
+    return fetch(`${buildBackUrl().apiUrl}/portfolio/upload`, {
         method: 'post',
         headers: formdataHeaders,
         body: file,
@@ -121,7 +119,7 @@ export function uploadFile(file) {
 
 export function deleteProject(id) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/project/${id}`, {
             method: 'delete',
             headers: headers
         })
@@ -136,7 +134,7 @@ export function deleteProject(id) {
 export function copyProject(data) {
 
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/${data._id}`, {
+        return fetch(`${buildBackUrl().apiUrl}/portfolio/${data._id}`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -152,7 +150,7 @@ export function copyProject(data) {
 
 export function createProject(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
+        return fetch(`${buildBackUrl().apiUrl}/portfolio/project`, {
             method: 'post',
             body: JSON.stringify(data),
             headers: headers
@@ -166,7 +164,7 @@ export function createProject(data) {
 
 export function saveProject(data) {
     return dispatch => {
-        return fetch(`${process.env.REACT_APP_API_URL}/portfolio/project`, {
+        return fetch(`${buildBackUrl().apiUrl}/portfolio/project`, {
             method: 'put',
             body: JSON.stringify(data),
             headers: headers
@@ -180,7 +178,7 @@ export function saveProject(data) {
 
 export function fetchPortfolio() {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/portfolio`, {
+        fetch(`${buildBackUrl().apiUrl}/portfolio`, {
             headers: headers
         })
             .then(handleResponse)
@@ -193,7 +191,7 @@ export function fetchPortfolio() {
 
 export function fetchProject(id) {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/project/${id}`, {
+        fetch(`${buildBackUrl().apiUrl}/project/${id}`, {
             headers: headers
         })
             .then(handleResponse)
@@ -206,7 +204,7 @@ export function fetchProject(id) {
 
 export function fetchCats() {
     return dispatch => {
-        fetch(`${process.env.REACT_APP_API_URL}/cats`, {
+        fetch(`${buildBackUrl().apiUrl}/cats`, {
             headers: headers
         })
             .then(handleResponse)
