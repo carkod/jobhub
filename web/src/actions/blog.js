@@ -1,4 +1,4 @@
-import { handleResponse, headers } from "./actions.config";
+import { buildBackUrl, handleResponse, headers } from "./actions.config";
 
 export function fetchBlogsApi() {
   return fetch(`${buildBackUrl().apiUrl}/blogs`, {

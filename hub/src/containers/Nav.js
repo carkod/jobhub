@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { removeToken } from "../utils";
 
-class Nav extends Component {
+export default class Nav extends Component {
   render() {
     const style = {
       background: "#1b1c1d",
@@ -63,10 +64,13 @@ class Nav extends Component {
               BLOG
             </NavLink>
           </div>
+          <div className="item">
+            <NavLink to="/login" className="u-section-title" onClick={() => removeToken()}>
+              LOGOUT
+            </NavLink>
+          </div>
         </div>
       </nav>
     );
   }
 }
-
-export default Nav;

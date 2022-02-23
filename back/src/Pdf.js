@@ -54,7 +54,7 @@ export default function Pdf(app, db) {
         }
         Model.findOne({ _id: id }, async (err, content) => {
             if (err) throw err;
-            const url = `${req.protocol}://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`;
+            const url = `http://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`;
             const updatedDate = new Date(content.updatedAt)
             const date = `${updatedDate.getDate()}/${updatedDate.getMonth() + 1}/${updatedDate.getFullYear()}`
 

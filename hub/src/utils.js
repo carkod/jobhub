@@ -6,6 +6,8 @@ import {
   useParams
 } from "react-router-dom";
 
+const tokenName = "hubToken";
+
 export function formatDate(value) {
   const readable = moment(value).format("Do MMMM YYYY");
   return readable;
@@ -28,16 +30,16 @@ export const parseSize = (bytes) =>
   parseFloat(Math.round(bytes / 1024)).toFixed(2);
 
 export const getToken = () => {
-  const token = localStorage.getItem("hubToken");
+  const token = localStorage.getItem(tokenName);
   if (!checkValue(token)) {
     return null
   }
   return JSON.parse(token)
 }
 
-export const setToken = (token) => localStorage.setItem("hubToken", JSON.stringify(token));
+export const setToken = (token) => localStorage.setItem(tokenName, JSON.stringify(token));
 
-
+export const removeToken = () => localStorage.removeItem(tokenName)
 
 export function withRouter(Component) {
   function ComponentWithRouterProp(props) {

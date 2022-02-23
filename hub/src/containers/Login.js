@@ -27,7 +27,7 @@ class Login extends Component {
     this.props.userLogin(email, password);
     const token = getToken();
     if (checkValue(token)) {
-      if (this.props.router.location.state?.from) {
+      if (this.props.router.location.state?.from && this.props.router.location.state.from !== "/") {
         this.props.router.navigate(this.props.router.location.state.from);
       } else {
         this.props.router.navigate("/cv")

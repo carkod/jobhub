@@ -67,6 +67,15 @@ const appFactory = async (app) => {
       res.download(path.join(__dirname, "../", req.url));
     });
 
+    app.use(function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Request-Method', '*');
+      res.header('Access-Control-Request-Headers', 'Content-Type');
+      res.header("Cross-Origin-Opener-Policy", "unsafe-none");
+      res.header("Origin-Agent-Cluster", "*");
+      next();
+    });
+
     // Unprotected route
     Login(app, db);
     Pdf(app, db);
