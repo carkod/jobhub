@@ -21,6 +21,7 @@
   "author": "Carlos Wu",
   "license": "ISC",
   "dependencies": {
+    "@joepie91/express-react-views": "^1.0.1",
     "axios": "^0.25.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -28,7 +29,6 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-rate-limit": "^6.2.0",
-    "express-react-views": "^0.11.0",
     "express-validator": "^6.1.0",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",

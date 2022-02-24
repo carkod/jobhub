@@ -118,7 +118,6 @@ export default function CVs(app) {
         other: r.other,
       });
 
-      const id = cv._id;
       delete r._id;
       CVModel.create(cv, (err, content) => {
         if (err) throw err;
@@ -130,11 +129,7 @@ export default function CVs(app) {
         }
       });
     } else {
-      const response = {
-        message: "Todo could not be copied",
-      };
-
-      res.send(response);
+      res.json({ status: false, message: "Missing _id" });
     }
   });
 
@@ -167,11 +162,7 @@ export default function CVs(app) {
         }
       });
     } else {
-      const response = {
-        message: "CV could not be deleted",
-      };
-
-      res.send(response);
+      res.json({ status: false, message: "Missing _id" });
     }
   });
 }

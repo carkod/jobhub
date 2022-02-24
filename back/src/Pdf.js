@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import path from "path";
 import { CVSchema, CLSchema } from './Schemas';
 import { generatePDF } from './generator';
 
@@ -8,11 +9,11 @@ let CVModel = mongoose.model('CVModel', CVSchema);
 let CLModel = mongoose.model('CLModel', CLSchema);
 
 export default function Pdf(app, db) {
-    app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
-    app.use('/pdf/assets/vendor', express.static(__dirname + '/node_modules/semantic-ui-css'));
-    app.set('views', __dirname + '/pdf/views');
+    app.use('/pdf/assets', express.static(path.join(__dirname, '/pdf/assets')));
+    app.use('/pdf/assets/vendor', express.static(path.join(__dirname, '/node_modules/semantic-ui-css')));
+    app.set('views', path.join(__dirname, '/pdf/views'));
     app.set('view engine', 'jsx');
-    app.engine('jsx', require('express-react-views').createEngine());
+    app.engine('jsx', require('@joepie91/express-react-views').createEngine());
 
     app.get('/pdf/view/:type/:id/:locale?', (req, res, next) => {
         const { type, locale, id } = req.params;
@@ -35,10 +36,7 @@ export default function Pdf(app, db) {
             } else if (content === null) {
                 res.send(`No item found`)
             } else {
-                res.render(template, content, (err, html) => {
-                    if (err) res.send(`Error: ${err}`)
-                    res.send(html)
-                })
+                res.render(template, content)
             }
             
         })

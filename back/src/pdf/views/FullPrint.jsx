@@ -27,7 +27,7 @@ class FullPrint extends Component {
     return (
       <html>
         <head>
-          <link rel="stylesheet" href={`/pdf/assets/index.css`} />
+          <link rel="stylesheet" type="text/css" href={`/pdf/assets/index.css`} />
         </head>
         <body>
           <div id="fullprint" className="container">
