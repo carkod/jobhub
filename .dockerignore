@@ -77,7 +77,7 @@ back/uploads/*
 back/dist/
 back/docs
 back/uploads
-*.http
+back/*.http
 restore
 mongo_db
 

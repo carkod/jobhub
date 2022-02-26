@@ -39,7 +39,7 @@ const appFactory = async (app) => {
     const db = connectClient.connection;
 
     // Security
-    app.use(helmet());
+    // app.use(helmet());
     // const limiter = rateLimit({
     //   windowMs: 15 * 60 * 1000, // 15 minutes
     //   max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -51,7 +51,7 @@ const appFactory = async (app) => {
     // app.use(limiter);
 
     // Parser Middlewares
-    app.use(cors());
+    // app.use(cors());
     app.use(bodyParser.json({ limit: "50mb" }));
     app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
@@ -67,6 +67,15 @@ const appFactory = async (app) => {
       res.download(path.join(__dirname, "../", req.url));
     });
 
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Request-Method', 'OPTIONS, GET, POST, PUT, DELETE, PATCH');
+      res.header('Access-Control-Allow-Headers', '*');
+      res.header("Cross-Origin-Opener-Policy", "unsafe-none");
+      res.header("Origin-Agent-Cluster", "*");
+      next();
+    });
+
     // Unprotected route
     Login(app, db);
     Pdf(app, db);
@@ -79,15 +88,6 @@ const appFactory = async (app) => {
     Categories(app, db);
     Tracker(app, db);
     Blog(app, db);
-
-    // app.use((req, res, next) => {
-    //   res.header('Access-Control-Allow-Origin', '*');
-    //   res.header('Access-Control-Request-Method', '*');
-    //   res.header('Access-Control-Request-Headers', 'Content-Type');
-    //   res.header("Cross-Origin-Opener-Policy", "unsafe-none");
-    //   res.header("Origin-Agent-Cluster", "*");
-    //   next();
-    // });
 
     app.listen(process.env.BACK_PORT, () =>
       console.warn(

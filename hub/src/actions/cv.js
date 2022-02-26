@@ -156,7 +156,8 @@ export function saveCvApi(data) {
 export function fetchCVs() {
     return dispatch => {
         return fetch(`${buildBackUrl().apiUrl}/cvs`, {
-            headers: headers
+            headers: headers,
+            mode: "no-cors",
         })
             .then(handleResponse)
             .then(data => {

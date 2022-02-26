@@ -19,6 +19,7 @@ export default function Pdf(app, db) {
         const { type, locale, id } = req.params;
         let Model = CVModel;
         let template = 'FullPrint.jsx';
+        // let template = "Test.jsx";
         if (locale === "es-ES") {
             template = `${locale}/CV.jsx`
         }
@@ -29,7 +30,9 @@ export default function Pdf(app, db) {
                 template = "Carta.jsx"
             }
         }
-        
+
+        // res.render(template, {title: "Hello World"})
+
         Model.findOne({ _id: id }, (findErr, content) => {
             if (findErr) {
                 res.send(`Error: ${findErr}`)

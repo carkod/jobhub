@@ -32,8 +32,9 @@ export function setCats(cats) {
 
 export function fetchCats() {
     return dispatch => {
-        axios.get(`${buildBackUrl().apiUrl}/cats`,{
-            headers: headers
+        axios.get(`${buildBackUrl().apiUrl}/cats`, {
+            headers: headers,
+            mode: "no-cors",
         })
             .then(res => {
                 dispatch(setCats(res.data))

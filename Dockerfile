@@ -28,9 +28,8 @@ COPY --from=build-web /web/build /usr/share/nginx/html/web
 # Install back
 WORKDIR /home/back
 COPY back .
-RUN yarn install && yarn run build
-
-CMD ["node", "/home/back/dist/server.js"]
+RUN yarn install && chmod +x /home/back/
+ENTRYPOINT ["/home/back/src/server.js"]
 
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082
