@@ -19,6 +19,8 @@ export async function generatePDF(url, title, updatedDate) {
     // set your html as the pages content
     await page.goto(url, { waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]})
 
+    const currentDate = moment().format("DD/MM/YYYY");
+    console.log(currentDate);
     const pdfBuffer = await page.pdf({
       printBackground: true,
       format: 'A4',
@@ -48,6 +50,7 @@ export async function generatePDF(url, title, updatedDate) {
           </span>
           <span style="position: absolute; top: 10px; right: 210px;">
              Updated: ${updatedDate}
+             Generated: ${currentDate}
           </span>
         </div>
       `,

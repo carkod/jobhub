@@ -7,7 +7,7 @@ import { generatePDF } from './generator';
 let CVModel = mongoose.model('CVModel', CVSchema);
 let CLModel = mongoose.model('CLModel', CLSchema);
 
-export default function Pdf(app, db) {
+export default function Pdf(app) {
     app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
     app.use('/pdf/assets/vendor', express.static(__dirname + '/node_modules/semantic-ui-css'));
     app.set('views', __dirname + '/pdf/views');
@@ -45,6 +45,7 @@ export default function Pdf(app, db) {
     })
 
     app.get('/pdf/generate/:type/:id', (req, res, next) => {
+        res.type("application/pdf");
 
         const { type, id } = req.params;
         let Model = CVModel;
@@ -60,10 +61,7 @@ export default function Pdf(app, db) {
 
             const file = await generatePDF(url, title, date)
 
-            res.set({
-                'Content-Type': 'application/pdf', 
-                'Content-Length': file.length
-            });
+            res.header('Content-Length', file.length);
             res.status(200).send(file);
         })
     });

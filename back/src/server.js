@@ -38,6 +38,20 @@ const appFactory = async (app) => {
     const connectClient = await mongoose.connect(connectString, mongoOptions);
     const db = connectClient.connection;
 
+    // Allow complex requests (json)
+    // app.use(cors());
+
+    // Only set of endpoints that are not json, no need for security
+    // Start first to avoid browser errors
+    app.use((req, res, next) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Headers", "*");
+      res.setHeader('Access-Control-Request-Method', '*');
+      res.setHeader('Access-Control-Allow-Credentials', true);
+      next();
+    });
+    Pdf(app);
+
     // Security
     app.use(helmet());
     const limiter = rateLimit({
@@ -51,7 +65,6 @@ const appFactory = async (app) => {
     app.use(limiter);
 
     // Parser Middlewares
-    app.use(cors());
     app.use(bodyParser.json({ limit: "50mb" }));
     app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
@@ -69,7 +82,6 @@ const appFactory = async (app) => {
 
     // Unprotected route
     Login(app, db);
-    Pdf(app, db);
 
     //CRUD
     Api(app);
