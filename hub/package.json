@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.16.8",
-    "@babel/core": "^7.16.8",
+    "@babel/core": "^7.17.5",
     "@babel/node": "^7.16.8",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
