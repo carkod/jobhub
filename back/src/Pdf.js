@@ -11,23 +11,22 @@ export default function Pdf(app) {
     app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
     app.use('/pdf/assets/vendor', express.static(__dirname + '/node_modules/semantic-ui-css'));
     app.set('views', __dirname + '/pdf/views');
-    app.set('view engine', 'jsx');
-    app.engine('jsx', require('express-react-views').createEngine());
+    app.set('view engine', 'pug');
 
     app.get('/pdf/view/:type/:id/:locale?', (req, res, next) => {
         const { type, locale, id } = req.params;
         let Model = CVModel;
-        let template = 'FullPrint.jsx';
-        if (locale === "es-ES") {
-            template = `${locale}/CV.jsx`
-        }
-        if (type === "cover-letter") {
-            Model = CLModel
-            template = "CoverLetter.jsx"
-            if (locale === "es-ES") {
-                template = "Carta.jsx"
-            }
-        }
+        const template = 'index.pug';
+        // if (locale === "es-ES") {
+        //     template = `${locale}/CV.jsx`
+        // }
+        // if (type === "cover-letter") {
+        //     Model = CLModel
+        //     template = "CoverLetter.jsx"
+        //     if (locale === "es-ES") {
+        //         template = "Carta.jsx"
+        //     }
+        // }
         
         Model.findOne({ _id: id }, (findErr, content) => {
             if (findErr) {
@@ -35,10 +34,7 @@ export default function Pdf(app) {
             } else if (content === null) {
                 res.send(`No item found`)
             } else {
-                res.render(template, content, (err, html) => {
-                    if (err) res.send(`Error: ${err}`)
-                    res.send(html)
-                })
+                res.render(template, content)
             }
             
         })
