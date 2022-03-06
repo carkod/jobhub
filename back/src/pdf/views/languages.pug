@@ -1,0 +1,17 @@
+section#languages.skills
+  .ui.grid
+    .eight.wide.column
+      h2.ui.dividing.header Languages
+      each lang in langSkills
+        div
+          p
+            | #{lang.name} 
+            small #{lang.desc}
+
+    .eight.wide.column
+      h2.ui.dividing.header Web development
+      each skill in webdevSkills
+        div
+          p
+            | #{skill.name}
+            small #{skill.desc}

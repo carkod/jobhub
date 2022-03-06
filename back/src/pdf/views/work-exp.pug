@@ -1,0 +1,14 @@
+section#work
+  h2.ui.dividing.header Work Experience
+  each exp in workExp
+    .ui.grid(style='page-break-inside: avoid; page-break-inside: always')
+      .row
+        .workplace.eight.wide.column
+          h4 #{exp.company}
+        .position.eight.wide.column
+          h4 #{exp.position}
+      .row
+        .work-date.eight.wide.column
+          p #{exp.date}
+        .desc.eight.wide.column
+          | !{exp.desc}
