@@ -20,6 +20,9 @@ export async function generatePDF(url, title, updatedDate) {
     // set your html as the pages content
     await page.goto(url, { waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]})
 
+    // Generates a PDF with 'screen' media type.
+    await page.emulateMediaType('screen');
+
     const currentDate = moment().format("DD/MM/YYYY");
     const pdfBuffer = await page.pdf({
       printBackground: true,
@@ -28,8 +31,8 @@ export async function generatePDF(url, title, updatedDate) {
       footerTemplate: `
         <div style="
           color: #000; 
-          font-size: 12px;
-          font-family: "Source Sans Pro", sans-serif;
+          font-size: 8px;
+          font-family: "Source Sans Pro", Arial, sans-serif;
           height: 100%;
           position: relative;
           ">
