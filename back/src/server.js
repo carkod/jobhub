@@ -45,7 +45,7 @@ const appFactory = async (app) => {
     const db = connectClient.connection;
 
     // Allow complex requests (json)
-    // app.use(cors());
+    app.use(cors());
 
     // Only set of endpoints that are not json, no need for security
     // Start first to avoid browser errors

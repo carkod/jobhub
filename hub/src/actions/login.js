@@ -1,6 +1,6 @@
 import { notAuthNotification, isAuthNotification } from "./notification";
 import axios from "axios";
-import { buildBackUrl, headers } from "./actions.config";
+import { buildBackUrl, headers } from "../utils";
 import { setToken } from "../utils";
 
 export const IS_AUTH = "IS_AUTH";

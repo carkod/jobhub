@@ -1,4 +1,4 @@
-import { headers, handleUploadResponse, formdataHeaders } from "./actions.config";
+import { headers, handleUploadResponse, formdataHeaders } from "../utils";
 
 export const UPLOAD = 'UPLOAD';
 export const UPLOAD_FAILED = 'UPLOAD_FAILED';

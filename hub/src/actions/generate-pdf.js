@@ -1,4 +1,4 @@
-import { bufferHeaders, handlePdfResponse, buildBackUrl } from './actions.config';
+import { bufferHeaders, handlePdfResponse, buildBackUrl } from '../utils';
 
 export const GENERATE_PDF = 'GENERATE_PDF';
 export const GENERATE_PDF_SUCCESS = 'GENERATE_PDF_SUCCESS';

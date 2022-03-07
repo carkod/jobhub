@@ -1,4 +1,4 @@
-import { handleResponse, headers, formdataHeaders, buildBackUrl } from './actions.config';
+import { handleResponse, headers, formdataHeaders, buildBackUrl } from '../utils';
 import { addNotification } from '../actions/notification'
 
 export const SET_PROJECTS = 'SET_PROJECTS';

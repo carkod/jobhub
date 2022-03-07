@@ -1,4 +1,4 @@
-import { handleResponse, headers, buildBackUrl } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from '../utils';
 
 export const GET_CLS = 'GET_CLS';
 export const GET_CLS_SUCCESS = 'GET_CLS_SUCCESS';

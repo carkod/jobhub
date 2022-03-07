@@ -1,4 +1,4 @@
-import { handleResponse, headers, buildBackUrl } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from '../utils';
 import { addNotification } from './notification'
 
 export const SET_APPLICATIONS = 'SET_APPLICATIONS';

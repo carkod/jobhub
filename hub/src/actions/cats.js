@@ -1,6 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
-import { handleResponse, headers, buildBackUrl } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from '../utils';
 
 export const SET_CATS = 'SET_CATS';
 export const SAVED_CATS = 'SAVED_CATS';
