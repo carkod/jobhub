@@ -34,6 +34,8 @@ export default function Pdf(app) {
             } else if (content === null) {
                 res.send(`No item found`)
             } else {
+                content.type = type
+                content.locale = locale
                 res.render(template, content)
             }
             

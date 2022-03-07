@@ -38,7 +38,6 @@ class Detail extends Component {
       langSkills: null,
       webdevSkills: null,
       itSkills: null,
-      previewPdf: "",
     };
   }
 
@@ -64,25 +63,6 @@ class Detail extends Component {
         langSkills: this.props.langSkills,
         webdevSkills: this.props.webdevSkills,
         itSkills: this.props.itSkills,
-      });
-    }
-
-    if (this.props.cats !== props.cats) {
-      if (this.props.cats.locale !== "en-GB") {
-        this.setState(
-          produce((draft) => {
-            draft.previewPdf = `${draft.previewPdf}/${this.props.cats.locale}`;
-          })
-        );
-      }
-    }
-
-    if (
-      this.props.router.params?.id &&
-      props.router.params.id !== this.props.router.params.id
-    ) {
-      this.setState({
-        previewPdf: `${buildBackUrl().pdfUrl}/view/${pdfType}/${props.router.params.id}`,
       });
     }
   };
@@ -164,7 +144,6 @@ class Detail extends Component {
               meta={this.state.cats}
               name={this.state.name}
               navName={this.state.navName}
-              previewPdf={this.state.previewPdf}
               locales={this.props.locales || null}
               positions={this.props.positions || null}
               statuses={this.props.statuses || null}
