@@ -154,6 +154,7 @@ export function saveCvApi(data) {
 }
 
 export function fetchCVs() {
+    console.log(buildBackUrl())
     return dispatch => {
         return fetch(`${buildBackUrl().apiUrl}/cvs`, {
             headers: headers

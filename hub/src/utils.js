@@ -60,6 +60,9 @@ export function buildBackUrl() {
   let base = window.location.hostname.split(".")
   if (base.includes("localhost")) {
     base = ["localhost:8082"]
+  } else if (base.length > 2) {
+    base.shift(0)
+    base.unshift("api")
   } else {
     base.unshift("api")
   }
