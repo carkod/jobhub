@@ -6,6 +6,7 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import path from "path";
 import rateLimit from "express-rate-limit";
+import { I18n } from "i18n";
 import Categories from "./Categories.js";
 import CoverLetters from "./CoverLetters.js";
 import CVs from "./CVs.js";
@@ -21,6 +22,11 @@ if (process.env.GITHUB_ACTIONS !== "true" || !process.env.GITHUB_ACTIONS) {
 }
 
 const app = express();
+
+const interationalization = new I18n({
+  locales: ['es-ES'],
+  directory: path.join(__dirname, 'locales')
+})
 
 const appFactory = async (app) => {
   try {
@@ -48,8 +54,10 @@ const appFactory = async (app) => {
       res.setHeader("Access-Control-Allow-Headers", "*");
       res.setHeader('Access-Control-Request-Method', '*');
       res.setHeader('Access-Control-Allow-Credentials', true);
+      res.setHeader("Accept-Language", "en")
       next();
     });
+    app.use(interationalization.init)
     Pdf(app);
 
     // Security

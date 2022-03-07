@@ -1,11 +1,11 @@
 section#details
-  h2.ui.dividing.header Personal Details
+  h2.ui.dividing.header #{__('Personal Details')}
   div.u-standard-grid
     if persdetails.name
       div#firstname
         p
           strong
-            span.label First name: 
+            span.label #{__('First name')}: 
           
           | #{persdetails.name}
 
@@ -13,7 +13,7 @@ section#details
       div#lastname
         p
           strong
-            span.label Surname: 
+            span.label #{__('Surname')}: 
           
           | #{persdetails.lastname}
 
@@ -21,30 +21,30 @@ section#details
       div#email
         p
           strong
-            span.label Email: 
+            span.label #{__('Email')}: 
           
           | #{persdetails.email}
     if persdetails.phone
       div#phone
         p
           strong
-            span.label Phone: 
+            span.label #{__('Phone')}: 
           
           | #{persdetails.phone}
 
     if persdetails.address
-    div#address
-      p
-        strong
-          span.label Address: 
-        
-        | #{persdetails.address}
+      div#address
+        p
+          strong
+            span.label #{__('Address')}: 
+          
+          | #{persdetails.address}
 
     if persdetails.PC
       div#postcode
         p
           strong
-            span.label Post Code: 
+            span.label #{__('Post Code')}: 
           
           | #{persdetails.PC}
 
@@ -52,7 +52,7 @@ section#details
       div#city
         p
           strong
-            span.label City: 
+            span.label #{__('City')}: 
           
           | #{persdetails.city}
 
@@ -60,23 +60,23 @@ section#details
       div#country
         p
           strong
-            span.label Country: 
+            span.label #{__('Country')}: 
           
           | #{persdetails.country}
 
     if persdetails.nationality
-    #nationality
-      p
-        strong
-          span.label Nationality: 
-        
-        | #{persdetails.nationality}
+      #nationality
+        p
+          strong
+            span.label #{__('Nationality')}: 
+          
+          | #{persdetails.nationality}
 
     if persdetails.DoB
       div#dob
         p
           strong
-            span.label Date of Birth: 
+            span.label #{__('Date of Birth')}: 
           
           | #{persdetails.DoB}
 
@@ -84,7 +84,7 @@ section#details
       div#passport
         p
           strong
-            span.label Passport: 
+            span.label #{__('Passport')}: 
           
           | #{persdetails.ID}
 
@@ -92,11 +92,10 @@ section#details
       div#pob
         p
           strong
-            span.label Place of Birth: 
+            span.label #{__('Place of Birth')}: 
           
           | #{persdetails.PoB}
     
     if persdetails.photo
       div.photo.four.wide.column 
-    
-    | #{persdetails.photo}
+        | #{persdetails.photo}

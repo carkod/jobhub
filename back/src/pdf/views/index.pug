@@ -11,7 +11,7 @@ html
 						h1 Carlos Wu - 
 							small #{name}
 						section#summary 
-							h2 Summary and professional goals
+							h2 #{__('Summary and professional goals')}
 							div !{summary}
 
 						//- Mandatory fields
@@ -22,15 +22,15 @@ html
 						//- Optional fields
 						if langSkills.length > 0
 							include languages
-						
+
 						if itSkills.length > 0
 							include it
 
 			default
 				div#coverletter.container
 				main.clContent
-					h1 Cover letter - 
+					h1 Carlos Wu - 
 						small #{name}
 					section#summary 
 						div !{desc}
-				
+

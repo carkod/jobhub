@@ -45,12 +45,11 @@ export async function generatePDF(url, title, updatedDate) {
           float: right;
           position: relative;
         ">
-          <span style="text-transform: capitalize; position: absolute; top: 10px; left: 10px;">
+          <span style="text-transform: capitalize; position: absolute; top: 10px; left: 10px; font-size: 8px;">
             ${title}
           </span>
-          <span style="position: absolute; top: 10px; right: 210px;">
-             Updated: ${updatedDate}
-             Generated: ${currentDate}
+          <span style="position: absolute; top: 10px; right: 210px; font-size: 8px;">
+             updated: ${updatedDate}, generated: ${currentDate}
           </span>
         </div>
       `,
