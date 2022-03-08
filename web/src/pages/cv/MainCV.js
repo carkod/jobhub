@@ -87,6 +87,7 @@ class MainCV extends Component {
                   onClick={(e) => this.getPdf(e)}
                   className="btn download"
                   disabled={this.state.snackBar ? this.state.snackBar.loading : false}
+                  title="Download in pdf"
                 >
                   <i className="file pdf outline icon" />
                 </button>

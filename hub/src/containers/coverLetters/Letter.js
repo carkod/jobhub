@@ -1,14 +1,14 @@
 import produce from "immer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { compose } from "redux";
 import { Button, Icon } from "semantic-ui-react";
 import { editClApi, fetchClApi } from "../../actions/cover-letter";
+import { generatePdfApi } from "../../actions/generate-pdf";
 import { fetchRelationsApi } from "../../actions/relations";
 import Editor from "../../components/Editor";
 import Metainfo from "../../components/Metainfo";
-import { buildBackUrl, checkValue, withRouter } from "../../utils";
-import { generatePdfApi } from "../../actions/generate-pdf";
-import { compose } from "redux";
+import { checkValue, withRouter } from "../../utils";
 
 const pdfType = "cover-letter";
 
@@ -76,7 +76,7 @@ class Letter extends Component {
 
   savePdf = (id) => async (e) => {
     e.preventDefault();
-    const response = await this.props.generatePdfApi(pdfType, id);
+    const response = await this.props.generatePdfApi(pdfType, id, this.state.cats.locale);
     const blob = new Blob([response], { type: "application/pdf" });
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);

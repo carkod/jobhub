@@ -116,7 +116,7 @@ class Detail extends Component {
 
   savePdf = (id) => async (e) => {
     e.preventDefault();
-    const response = await this.props.generatePdfApi(pdfType, id);
+    const response = await this.props.generatePdfApi(pdfType, id, this.state.cats.locale);
     const blob = new Blob([response], { type: "application/pdf" });
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);

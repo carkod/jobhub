@@ -30,10 +30,10 @@ export function generatePdfFailed(payload) {
   }
 }
 
-export function generatePdfApi(type, id) {
+export function generatePdfApi(type, id, locale="en-GB") {
   return dispatch => {
       dispatch(generatePdf());
-      return fetch(`${buildBackUrl().pdfUrl}/generate/${type}/${id}`, {
+      return fetch(`${buildBackUrl().pdfUrl}/generate/${type}/${id}/${locale}`, {
           method: 'GET',
           headers: bufferHeaders,
       })
