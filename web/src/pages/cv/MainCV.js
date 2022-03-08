@@ -44,8 +44,8 @@ class MainCV extends Component {
 
   getPdf = async (e) => {
     e.preventDefault();
-    const { id } = this.props.match.params;
-    const response = await this.props.generatePdfApi("curriculum-vitae", id);
+    const { id, language } = this.props.match.params;
+    const response = await this.props.generatePdfApi("curriculum-vitae", id, language);
     if (!this.state.loading) {
       const blob = new Blob([response], { type: "application/pdf" });
       const link = document.createElement("a");

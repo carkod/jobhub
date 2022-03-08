@@ -17,15 +17,13 @@ export default function Pdf(app) {
   app.set("view engine", "pug");
 
   app.get("/pdf/view/:type/:id/:locale?", (req, res, next) => {
-    const { type, locale, id } = req.params;
+    const { type, locale="en-GB", id } = req.params;
     let Model = CVModel;
     const template = "index.pug";
+    res.setLocale(locale)
 
     if (type === "cover-letter") {
       Model = CLModel;
-    }
-    if (locale === "es-ES") {
-        res.setLocale(locale)
     }
 
     Model.findOne({ _id: id }, (findErr, content) => {
@@ -41,20 +39,25 @@ export default function Pdf(app) {
     });
   });
 
-  app.get("/pdf/generate/:type/:id", (req, res, next) => {
+  app.get("/pdf/generate/:type/:id/:locale?", (req, res, next) => {
+
+    const { type, locale="en-GB", id } = req.params;
+    res.setLocale(locale);
     res.type("application/pdf");
 
-    const { type, id } = req.params;
     let Model = CVModel;
-    let title = type.replace("-", " ");
+
     if (type === "cover-letter") {
       Model = CLModel;
     }
+
+    let title = type.replace("-", " ");
+
     Model.findOne({ _id: id }, async (err, content) => {
       if (err) throw err;
       const url = `${req.protocol}://${req.get("host")}/pdf/view/${type}/${
         content._id
-      }/${content.locale}`;
+      }/${locale}`;
       const updatedDate = new Date(content.updatedAt);
       const date = `${updatedDate.getDate()}/${
         updatedDate.getMonth() + 1

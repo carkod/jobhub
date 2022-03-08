@@ -2,7 +2,6 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express from "express";
 import rateLimit from "express-rate-limit";
-import helmet from "helmet";
 import { I18n } from "i18n";
 import mongoose from "mongoose";
 import path from "path";
@@ -22,13 +21,12 @@ if (process.env.GITHUB_ACTIONS !== "true" || !process.env.GITHUB_ACTIONS) {
 
 const app = express();
 const interationalization = new I18n({
-  locales: ['es-ES'],
-  directory: path.join(__dirname, 'locales')
-})
+  locales: ["es-ES"],
+  directory: path.join(__dirname, "locales"),
+});
 
 const appFactory = async (app) => {
   try {
-
     // Setup database
     const connectString = `mongodb://${process.env.MONGO_AUTH_USERNAME}:${
       process.env.MONGO_AUTH_PASSWORD
@@ -52,16 +50,16 @@ const appFactory = async (app) => {
     app.use(limiter); // Apply the rate limiting middleware to all requests
 
     // translations
-    app.use(interationalization.init)
+    app.use(interationalization.init);
 
     // Cors for complex objects
     // Start first to avoid browser errors
     app.use((req, res, next) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader("Access-Control-Allow-Headers", "*");
-      res.setHeader('Access-Control-Request-Method', '*');
-      res.setHeader('Access-Control-Allow-Credentials', true);
-      res.setHeader("Accept-Language", "en")
+      res.setHeader("Access-Control-Request-Method", "*");
+      res.setHeader("Access-Control-Allow-Credentials", true);
+      res.setHeader("Accept-Language", "en");
       next();
     });
 
@@ -74,7 +72,6 @@ const appFactory = async (app) => {
     app.get("/uploads/:filename", (req, res) => {
       res.download(path.join(__dirname, "../", req.url));
     });
-
 
     Pdf(app);
     Login(app, db);
