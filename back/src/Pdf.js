@@ -20,16 +20,6 @@ export default function Pdf(app) {
     const { type, locale, id } = req.params;
     let Model = CVModel;
     const template = "index.pug";
-    // if (locale === "es-ES") {
-    //     template = `${locale}/CV.jsx`
-    // }
-    // if (type === "cover-letter") {
-    //     Model = CLModel
-    //     template = "CoverLetter.jsx"
-    //     if (locale === "es-ES") {
-    //         template = "Carta.jsx"
-    //     }
-    // }
 
     if (type === "cover-letter") {
       Model = CLModel;

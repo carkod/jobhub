@@ -43,8 +43,6 @@ const appFactory = async (app) => {
     const connectClient = await mongoose.connect(connectString, mongoOptions);
     const db = connectClient.connection;
 
-    // Security
-    app.use(helmet());
     const limiter = rateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
       max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -52,23 +50,6 @@ const appFactory = async (app) => {
       legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     });
     app.use(limiter); // Apply the rate limiting middleware to all requests
-
-    // Parser Middlewares. Increase file upload limit
-    app.use(bodyParser.json({ limit: "50mb" }));
-    app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-
-    //Download static files in uploads folder
-    app.use(express.static(path.join(__dirname, "../", "/uploads")));
-    app.get("/uploads/:filename", (req, res) => {
-      res.download(path.join(__dirname, "../", req.url));
-    });
-
-    // PDF generator folder
-    app.use(express.static(path.join(__dirname, "../", "/docs")));
-    app.get("/docs/:filename", (req, res) => {
-      res.download(path.join(__dirname, "../", req.url));
-    });
-
 
     // translations
     app.use(interationalization.init)
@@ -83,6 +64,18 @@ const appFactory = async (app) => {
       res.setHeader("Accept-Language", "en")
       next();
     });
+
+    // Parser Middlewares. Increase file upload limit
+    app.use(bodyParser.json({ limit: "50mb" }));
+    app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+    //Download static files in uploads folder
+    app.use(express.static(path.join(__dirname, "../", "/uploads")));
+    app.get("/uploads/:filename", (req, res) => {
+      res.download(path.join(__dirname, "../", req.url));
+    });
+
+
     Pdf(app);
     Login(app, db);
 
