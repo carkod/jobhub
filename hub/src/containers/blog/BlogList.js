@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { compose } from "redux";
 import { Accordion, Button, Icon, Segment } from "semantic-ui-react";
-import { fetchBlogsApi, deleteBlogApi } from "../../actions/blog";
-import { formatDate }  from "../../utils";
+import { deleteBlogApi, fetchBlogsApi } from "../../actions/blog";
+import { formatDate, withRouter } from "../../utils";
 
 const buttonDefaultStyles = {
   backgroundColor: "#fff",
@@ -12,10 +13,10 @@ const buttonDefaultStyles = {
   outline: "none",
 };
 
-const AddNewBlog = ({ history }) => (
+const AddNewBlog = ({ router }) => (
   <button
     onClick={() => {
-      history.push("/blog/null");
+      router.navigate("/blog/null");
     }}
     style={buttonDefaultStyles}
     className="btn"
@@ -29,7 +30,7 @@ class CoverLetters extends Component {
     super(props);
     this.state = {
       blogList: [],
-      activeIndex: 0
+      activeIndex: 0,
     };
   }
 
@@ -44,7 +45,7 @@ class CoverLetters extends Component {
   };
 
   handleDelete = (i) => (e) => {
-    this.props.deleteBlogApi(this.state.blogList[i]._id).then(cv => {
+    this.props.deleteBlogApi(this.state.blogList[i]._id).then((cv) => {
       this.props.fetchBlogsApi();
     });
   };
@@ -53,7 +54,7 @@ class CoverLetters extends Component {
     return (
       <div id="blogList" className="">
         <h1>
-          Blog <AddNewBlog history={this.props.history} />
+          Blog <AddNewBlog router={this.props.router} />
         </h1>
         <div className="listItem">
           {this.state.blogList && (
@@ -141,4 +142,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchBlogsApi, deleteBlogApi })(CoverLetters);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, { fetchBlogsApi, deleteBlogApi })
+)(CoverLetters);

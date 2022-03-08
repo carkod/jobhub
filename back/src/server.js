@@ -57,9 +57,8 @@ const appFactory = async (app) => {
     app.use((req, res, next) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader("Access-Control-Allow-Headers", "*");
-      res.setHeader("Access-Control-Request-Method", "*");
+      res.setHeader("Access-Control-Allow-Methods", "*");
       res.setHeader("Access-Control-Allow-Credentials", true);
-      res.setHeader("Accept-Language", "en");
       next();
     });
 

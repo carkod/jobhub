@@ -1,10 +1,8 @@
-/* eslint-disable */
-
-import moment from "moment";
 import React, { Component } from "react";
 import update from "react-addons-update";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { compose } from "redux";
 import {
   Button,
   Checkbox,
@@ -12,14 +10,15 @@ import {
   Form,
   Header,
   Icon,
+  TextArea
 } from "semantic-ui-react";
-import {
-  saveApplication,
-  uploadFile,
-  fetchApplication,
-} from "../../actions/tracker";
 import { addNotification } from "../../actions/notification";
-import Editor from "../../components/Editor";
+import {
+  fetchApplication,
+  saveApplication,
+  uploadFile
+} from "../../actions/tracker";
+import { withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
 import { status as statusOptions } from "./Tracker.data";
 
@@ -27,9 +26,8 @@ class EditApplication extends Component {
   constructor(props) {
     super(props);
     this.applicationModel = new AddNewApplicationConfig();
-    const { id } = this.props.match.params;
     this.state = {
-      _id: id,
+      _id: null,
       status: {
         value: 0,
         text: "Applied",
@@ -47,37 +45,24 @@ class EditApplication extends Component {
   }
 
   componentDidMount() {
-    const { id } = this.props.match.params;
+    const { id } = this.props.router.params;
     this.props.fetchApplication(id);
   }
 
-  componentDidUpdate(nextProps) {
-    const {
-      status,
-      id,
-      company,
-      role,
-      salary,
-      applicationUrl,
-      location,
-      contacts,
-      stages,
-      files,
-      description,
-    } = nextProps.application;
-    const newObj = Object.assign(
-      this.state,
-      this.applicationModel.fillInApplicationModel(nextProps.application)
-    );
-    this.setState((prevState) => ({
-      status: {
-        ...prevState.status,
-        value: status.value,
-        text: status.text,
-      },
-      stages: update(this.state.stages, { $set: stages }),
-      contacts: contacts,
-    }));
+  componentDidUpdate(prevProps, prevState) {
+
+    if (this.props.application !== prevProps.application) {
+      const { status, contacts, stages } = this.props.application;    
+      this.setState((prevState) => ({
+        status: {
+          ...prevState.status,
+          value: status.value,
+          text: status.text,
+        },
+        stages: update(this.state.stages, { $set: stages }),
+        contacts: contacts,
+      }));
+    }
   }
 
   inputChange = (e) => {
@@ -449,7 +434,13 @@ class EditApplication extends Component {
           <br />
 
           <h3>Job description</h3>
-          <Editor value={description} onChange={this.descChange} />
+          <TextArea
+            name="description"
+            placeholder="Write blog content here"
+            rows={20}
+            onChange={this.descChange}
+            value={description}
+          />
         </Form>
 
         <br />
@@ -470,9 +461,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  uploadFile,
-  addNotification,
-  saveApplication,
-  fetchApplication,
-})(EditApplication);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {
+    uploadFile,
+    addNotification,
+    saveApplication,
+    fetchApplication,
+  })
+)(EditApplication);
