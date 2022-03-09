@@ -57,21 +57,33 @@ function fillModel(r) {
 }
 
 export default function Tracker(app, db) {
-  app.get("/api/applications/:page/:pagesize", (req, res) => {
-    const page = +req.params.page || 0;
-    const pagesize = +req.params.pagesize || 0;
+  app.get("/api/applications", async (req, res) => {
+    /**
+     * GET applications
+     * @params
+     * page [number]: optional, discrete number
+     * pagesize [number]: optional, discrete number that indicates how many items each page has
+     */
+    const page = +req.query.page || 1;
+    const pagesize = +req.query.pagesize || 0;
     const skip = pagesize * page - pagesize;
-    ApplicationModel.find(
-      {},
-      null,
-      { sort: { updatedDate: -1 }, new: true },
-      function (err, content) {
-        if (err) throw err;
-        res.status(200).json(content);
-      }
-    )
-      .skip(skip)
-      .limit(pagesize);
+    const { showCompleted } = req.query;
+    
+    let params = {}
+    if (!showCompleted) {
+      params["status.text"] = { $nin: ["Rejected", "Success"] }
+    }
+    try {
+      let query = await ApplicationModel.find(params, null, { sort: { updatedDate: -1 }});
+      const results = query;
+      res.json(results)
+    } catch(e) {
+      res.json({
+        status: false,
+        message: `Error: ${e}`
+      })
+    }
+    
   });
 
   app.post("/api/applications-upload", (req, res) => {

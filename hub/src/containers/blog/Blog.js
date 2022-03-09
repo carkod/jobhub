@@ -1,93 +1,73 @@
 import React, { Component } from "react";
-import produce from "immer";
 import ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
-import gfm from "remark-gfm";
+import { compose } from "redux";
+import remarkGfm from "remark-gfm";
 import {
-  Dropdown,
-  Header,
-  Segment,
-  Button,
-  Icon,
-  TextArea,
+  Button, Dropdown,
+  Header, Icon, Segment, TextArea
 } from "semantic-ui-react";
+import { fetchBlogApi, saveBlogApi } from "../../actions/blog";
 import { fetchRelationsApi } from "../../actions/relations";
-import { saveBlogApi, fetchBlogApi } from "../../actions/blog";
-import { checkValue, formatDate } from "../../utils";
+import { checkValue, formatDate, withRouter } from "../../utils";
+
+function updateBlogState(name, value) {
+  return {
+    type: "UPDATE_BLOG_STATE",
+    payload: {
+      [name]: value,
+    },
+  };
+}
+
+function resetBlogForm() {
+  return {
+    type: "RESET_BLOG_FORM",
+  };
+}
 
 class Blog extends Component {
   constructor(props) {
     super(props);
-    if (checkValue(props.match.params.id)) {
-      this.state = {
-        name: props.name,
-        content: props.content,
-        category: props.category,
-        status: props.status,
-      };
-    } else {
-      this.state = {
-        name: "",
-        content:  "",
-        category: "",
-        status: "draft",
-      };
-    }
-    
+    this.state = {
+      name: "",
+      content: "",
+      category: "",
+      status: "draft",
+    };
   }
 
   componentDidMount = () => {
-    const { id } = this.props.match.params;
-    if (checkValue(id)) {
+    const { id } = this.props.router.params;
+    if (!checkValue(id)) {
       this.props.fetchBlogApi(id);
+    } else {
+      this.props.resetBlogForm();
     }
-
     this.props.fetchRelationsApi();
   };
 
-  componentDidUpdate = (props, state) => {
-    if (this.props.category !== props.category) {
-      this.setState({ category: this.props.category });
-    }
-    if (this.props.name !== props.name) {
-      this.setState({ name: this.props.name });
-    }
-    if (checkValue(this.props.content) && (this.props.content !== props.content || this.props.content !== this.state.content)) {
-      this.setState({ content: this.props.content });
-    }
-    if (this.props.status !== props.status) {
-      this.setState({ status: this.props.status });
-    }
-  };
-
   handleTitle = (e) => {
-    this.setState({ name: e.target.value });
-  }
+    this.props.updateBlogState("name", e.target.value);
+  };
 
   handleChange = (e, { name, value }) => {
-    this.setState(
-      produce((draft) => {
-        draft[name] = value;
-      })
-    );
+    this.props.updateBlogState(name, value);
   };
 
-  handleContent = (e, { name, value }) => {
-    this.setState(
-      produce((draft) => {
-        draft[name] = value;
-      })
-    );
-  };
-
-  onSubmit = (e) => {
+  onSubmit = async (e) => {
     e.preventDefault();
-    const { id } = this.props.match.params;
-    if (checkValue(id)) {
-      this.setState({ _id: id}, () => this.props.saveBlogApi(this.state))
-    } else {
-      this.props.saveBlogApi(this.state);
-    }
+    const { id } = this.props.router.params;
+    let blogData = {
+      id: id === "null" ? undefined : id,
+      name: this.props.name,
+      category: this.props.category,
+      status: this.props.status,
+      content: this.props.content,
+    };
+    this.props
+      .saveBlogApi(blogData)
+      .then((x) => this.props.router.navigate(`/blog`));
   };
 
   render() {
@@ -101,17 +81,19 @@ class Blog extends Component {
                 type="text"
                 name="name"
                 onChange={this.handleTitle}
-                value={this.state.name}
+                defaultValue={this.props.name}
               />
             </Header>
             <div className="section">
               <Header sub>META</Header>
               <Segment.Group horizontal>
                 <Segment>
-                  <strong>Created</strong>: {formatDate(this.props.createdAt || new Date())}
+                  <strong>Created</strong>:{" "}
+                  {formatDate(this.props.createdAt || new Date())}
                 </Segment>
                 <Segment>
-                  <strong>Updated</strong>: {formatDate(this.props.updatedAt || new Date())}
+                  <strong>Updated</strong>:{" "}
+                  {formatDate(this.props.updatedAt || new Date())}
                 </Segment>
               </Segment.Group>
               <div className="u-space-between">
@@ -122,7 +104,7 @@ class Blog extends Component {
                     selection
                     search
                     options={this.props.categories}
-                    value={this.state.category}
+                    defaultValue={this.props.category || "dev"}
                   />
                 )}
                 {checkValue(this.props.statuses) && (
@@ -132,7 +114,7 @@ class Blog extends Component {
                     selection
                     search
                     options={this.props.statuses}
-                    value={this.state.status}
+                    defaultValue={this.props.status || "draft"}
                   />
                 )}
               </div>
@@ -146,19 +128,15 @@ class Blog extends Component {
                 name="content"
                 placeholder="Write blog content here"
                 rows={20}
-                onChange={this.handleContent}
-                value={this.state.content || ""}
+                onChange={this.handleChange}
+                defaultValue={this.props.content}
               />
             </div>
 
             <div className="preview">
               <h2 className="title">Preview</h2>
               <div className="md-renderer">
-                <ReactMarkdown
-                  plugins={[gfm]}
-                  children={this.state.content || ""}
-                  allowDangerousHtml
-                />
+                <ReactMarkdown remarkPlugins={[remarkGfm]} children={this.state.content} />
               </div>
             </div>
           </div>
@@ -176,13 +154,22 @@ class Blog extends Component {
 const mapStateToprops = (state, props) => {
   const { blogReducer, catsReducer } = state;
   return {
-    ...blogReducer,
-    ...catsReducer,
+    name: blogReducer?.name,
+    content: blogReducer?.content,
+    category: blogReducer?.category,
+    status: blogReducer?.status,
+    categories: catsReducer?.categories,
+    statuses: catsReducer?.statuses,
   };
 };
 
-export default connect(mapStateToprops, {
-  fetchBlogApi,
-  saveBlogApi,
-  fetchRelationsApi,
-})(Blog);
+export default compose(
+  withRouter,
+  connect(mapStateToprops, {
+    fetchBlogApi,
+    saveBlogApi,
+    fetchRelationsApi,
+    updateBlogState,
+    resetBlogForm,
+  })
+)(Blog);

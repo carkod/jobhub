@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import puppeteer from 'puppeteer';
+import moment from "moment";
 
 dotenv.config()
 
@@ -19,6 +20,10 @@ export async function generatePDF(url, title, updatedDate) {
     // set your html as the pages content
     await page.goto(url, { waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]})
 
+    // Generates a PDF with 'screen' media type.
+    await page.emulateMediaType('screen');
+
+    const currentDate = moment().format("DD/MM/YYYY");
     const pdfBuffer = await page.pdf({
       printBackground: true,
       format: 'A4',
@@ -26,8 +31,8 @@ export async function generatePDF(url, title, updatedDate) {
       footerTemplate: `
         <div style="
           color: #000; 
-          font-size: 12px;
-          font-family: "Source Sans Pro", sans-serif;
+          font-size: 8px;
+          font-family: "Source Sans Pro", Arial, sans-serif;
           height: 100%;
           position: relative;
           ">
@@ -43,11 +48,11 @@ export async function generatePDF(url, title, updatedDate) {
           float: right;
           position: relative;
         ">
-          <span style="text-transform: capitalize; position: absolute; top: 10px; left: 10px;">
+          <span style="text-transform: capitalize; position: absolute; top: 10px; left: 10px; font-size: 8px;">
             ${title}
           </span>
-          <span style="position: absolute; top: 10px; right: 210px;">
-             Updated: ${updatedDate}
+          <span style="position: absolute; top: 10px; right: 210px; font-size: 8px;">
+             updated: ${updatedDate}, generated: ${currentDate}
           </span>
         </div>
       `,

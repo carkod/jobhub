@@ -1,4 +1,4 @@
-import { handleResponse, headers, buildBackUrl } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from '../utils';
 
 export const GET_RELATIONS = 'GET_RELATIONS';
 export const GET_RELATIONS_SUCCESS = 'GET_RELATIONS_SUCCESS';

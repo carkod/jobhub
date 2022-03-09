@@ -1,11 +1,12 @@
 import bodyParser from "body-parser";
-import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import { I18n } from "i18n";
 import mongoose from "mongoose";
 import path from "path";
-import rateLimit from "express-rate-limit";
+import Api from "./Api";
+import Blog from "./Blog.js";
 import Categories from "./Categories.js";
 import CoverLetters from "./CoverLetters.js";
 import CVs from "./CVs.js";
@@ -13,14 +14,16 @@ import Login from "./Login.js";
 import Pdf from "./Pdf";
 import Portfolio from "./Portfolio.js";
 import Tracker from "./Tracker.js";
-import Api from "./Api";
-import Blog from "./Blog.js";
 
 if (process.env.GITHUB_ACTIONS !== "true" || !process.env.GITHUB_ACTIONS) {
   dotenv.config({ path: "../.env" });
 }
 
 const app = express();
+const interationalization = new I18n({
+  locales: ["es-ES"],
+  directory: path.join(__dirname, "locales"),
+});
 
 const appFactory = async (app) => {
   try {
@@ -38,20 +41,29 @@ const appFactory = async (app) => {
     const connectClient = await mongoose.connect(connectString, mongoOptions);
     const db = connectClient.connection;
 
-    // Security
-    app.use(helmet());
     const limiter = rateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
       max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
       standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
       legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+      skip: (req, res) => (process.env.HOST === "localhost" || process.env.HOSTNAME === "localhost")
+    });
+    app.use(limiter); // Apply the rate limiting middleware to all requests
+
+    // translations
+    app.use(interationalization.init);
+
+    // Cors for complex objects
+    // Start first to avoid browser errors
+    app.use((req, res, next) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Headers", "*");
+      res.setHeader("Access-Control-Allow-Methods", "*");
+      res.setHeader("Access-Control-Allow-Credentials", true);
+      next();
     });
 
-    // Apply the rate limiting middleware to all requests
-    app.use(limiter);
-
-    // Parser Middlewares
-    app.use(cors());
+    // Parser Middlewares. Increase file upload limit
     app.use(bodyParser.json({ limit: "50mb" }));
     app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
@@ -61,15 +73,8 @@ const appFactory = async (app) => {
       res.download(path.join(__dirname, "../", req.url));
     });
 
-    // PDF generator folder
-    app.use(express.static(path.join(__dirname, "../", "/docs")));
-    app.get("/docs/:filename", (req, res) => {
-      res.download(path.join(__dirname, "../", req.url));
-    });
-
-    // Unprotected route
+    Pdf(app);
     Login(app, db);
-    Pdf(app, db);
 
     //CRUD
     Api(app);

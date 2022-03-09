@@ -1,70 +1,72 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import { CVSchema, CLSchema } from './Schemas';
-import { generatePDF } from './generator';
+import express from "express";
+import mongoose from "mongoose";
+import { CVSchema, CLSchema } from "./Schemas";
+import { generatePDF } from "./generator";
 
 // Compile model from schema
-let CVModel = mongoose.model('CVModel', CVSchema);
-let CLModel = mongoose.model('CLModel', CLSchema);
+let CVModel = mongoose.model("CVModel", CVSchema);
+let CLModel = mongoose.model("CLModel", CLSchema);
 
-export default function Pdf(app, db) {
-    app.use('/pdf/assets', express.static(__dirname + '/pdf/assets'));
-    app.use('/pdf/assets/vendor', express.static(__dirname + '/node_modules/semantic-ui-css'));
-    app.set('views', __dirname + '/pdf/views');
-    app.set('view engine', 'jsx');
-    app.engine('jsx', require('express-react-views').createEngine());
+export default function Pdf(app) {
+  app.use("/pdf/assets", express.static(__dirname + "/pdf/assets"));
+  app.use(
+    "/pdf/assets/vendor",
+    express.static(__dirname + "/node_modules/semantic-ui-css")
+  );
+  app.set("views", __dirname + "/pdf/views");
+  app.set("view engine", "pug");
 
-    app.get('/pdf/view/:type/:id/:locale?', (req, res, next) => {
-        const { type, locale, id } = req.params;
-        let Model = CVModel;
-        let template = 'FullPrint.jsx';
-        if (locale === "es-ES") {
-            template = `${locale}/CV.jsx`
-        }
-        if (type === "cover-letter") {
-            Model = CLModel
-            template = "CoverLetter.jsx"
-            if (locale === "es-ES") {
-                template = "Carta.jsx"
-            }
-        }
-        
-        Model.findOne({ _id: id }, (findErr, content) => {
-            if (findErr) {
-                res.send(`Error: ${findErr}`)
-            } else if (content === null) {
-                res.send(`No item found`)
-            } else {
-                res.render(template, content, (err, html) => {
-                    if (err) res.send(`Error: ${err}`)
-                    res.send(html)
-                })
-            }
-            
-        })
-    })
+  app.get("/pdf/view/:type/:id/:locale?", (req, res, next) => {
+    const { type, locale="en-GB", id } = req.params;
+    let Model = CVModel;
+    const template = "index.pug";
+    res.setLocale(locale)
 
-    app.get('/pdf/generate/:type/:id', (req, res, next) => {
+    if (type === "cover-letter") {
+      Model = CLModel;
+    }
 
-        const { type, id } = req.params;
-        let Model = CVModel;
-        let title = type.replace("-", " ")
-        if (type === "cover-letter") {
-            Model = CLModel
-        }
-        Model.findOne({ _id: id }, async (err, content) => {
-            if (err) throw err;
-            const url = `${req.protocol}://${req.get('host')}/pdf/view/${type}/${content._id}/${content.locale}`;
-            const updatedDate = new Date(content.updatedAt)
-            const date = `${updatedDate.getDate()}/${updatedDate.getMonth() + 1}/${updatedDate.getFullYear()}`
-
-            const file = await generatePDF(url, title, date)
-
-            res.set({
-                'Content-Type': 'application/pdf', 
-                'Content-Length': file.length
-            });
-            res.status(200).send(file);
-        })
+    Model.findOne({ _id: id }, (findErr, content) => {
+      if (findErr) {
+        res.send(`Error: ${findErr}`);
+      } else if (content === null) {
+        res.send(`No item found`);
+      } else {
+        content.type = type;
+        content.locale = locale;
+        res.render(template, content);
+      }
     });
+  });
+
+  app.get("/pdf/generate/:type/:id/:locale?", (req, res, next) => {
+
+    const { type, locale="en-GB", id } = req.params;
+    res.setLocale(locale);
+    res.type("application/pdf");
+
+    let Model = CVModel;
+
+    if (type === "cover-letter") {
+      Model = CLModel;
+    }
+
+    let title = type.replace("-", " ");
+
+    Model.findOne({ _id: id }, async (err, content) => {
+      if (err) throw err;
+      const url = `${req.protocol}://${req.get("host")}/pdf/view/${type}/${
+        content._id
+      }/${locale}`;
+      const updatedDate = new Date(content.updatedAt);
+      const date = `${updatedDate.getDate()}/${
+        updatedDate.getMonth() + 1
+      }/${updatedDate.getFullYear()}`;
+
+      const file = await generatePDF(url, title, date);
+
+      res.header("Content-Length", file.length);
+      res.status(200).send(file);
+    });
+  });
 }

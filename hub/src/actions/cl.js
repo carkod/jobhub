@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { handleResponse, headers, buildBackUrl } from './actions.config';
+import { handleResponse, headers, buildBackUrl } from '../utils';
 export const SET_CLS = 'SET_CLS';
 export const ADD_CL = 'ADD_CL';
 export const CL_FETCHED = 'CL_FETCHED';

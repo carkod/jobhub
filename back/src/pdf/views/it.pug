@@ -1,0 +1,12 @@
+section#it.skills
+  h2.ui.dividing.header #{__('IT software')}
+  .ui.grid
+    each ed in itSkills
+      .row
+        .label.ten.wide.column
+          h4
+            | #{ed.name} 
+            small #{ed.desc}
+        .level.six.wide.column
+          .ui.small.grey.progress
+            .bar(style='width:#{ed.level}')

@@ -1,0 +1,101 @@
+section#details
+  h2.ui.dividing.header #{__('Personal Details')}
+  div.u-standard-grid
+    if persdetails.name
+      div#firstname
+        p
+          strong
+            span.label #{__('First name')}: 
+          
+          | #{persdetails.name}
+
+    if persdetails.lastname
+      div#lastname
+        p
+          strong
+            span.label #{__('Surname')}: 
+          
+          | #{persdetails.lastname}
+
+    if persdetails.email
+      div#email
+        p
+          strong
+            span.label #{__('Email')}: 
+          
+          | #{persdetails.email}
+    if persdetails.phone
+      div#phone
+        p
+          strong
+            span.label #{__('Phone')}: 
+          
+          | #{persdetails.phone}
+
+    if persdetails.address
+      div#address
+        p
+          strong
+            span.label #{__('Address')}: 
+          
+          | #{persdetails.address}
+
+    if persdetails.PC
+      div#postcode
+        p
+          strong
+            span.label #{__('Post Code')}: 
+          
+          | #{persdetails.PC}
+
+    if persdetails.city
+      div#city
+        p
+          strong
+            span.label #{__('City')}: 
+          
+          | #{persdetails.city}
+
+    if persdetails.country
+      div#country
+        p
+          strong
+            span.label #{__('Country')}: 
+          
+          | #{persdetails.country}
+
+    if persdetails.nationality
+      #nationality
+        p
+          strong
+            span.label #{__('Nationality')}: 
+          
+          | #{persdetails.nationality}
+
+    if persdetails.DoB
+      div#dob
+        p
+          strong
+            span.label #{__('Date of Birth')}: 
+          
+          | #{persdetails.DoB}
+
+    if persdetails.ID
+      div#passport
+        p
+          strong
+            span.label #{__('Passport')}: 
+          
+          | #{persdetails.ID}
+
+    if persdetails.PoB
+      div#pob
+        p
+          strong
+            span.label #{__('Place of Birth')}: 
+          
+          | #{persdetails.PoB}
+    
+    if persdetails.photo
+      div.photo.four.wide.column 
+        | #{persdetails.photo}

@@ -1,0 +1,35 @@
+doctype html
+html
+	head
+		meta(name='viewport' content='width=device-width')
+		link(rel="stylesheet" href="/pdf/assets/index.css")
+	body
+		case type
+			when "curriculum-vitae"
+				div#fullprint.container
+					main.cvContent
+						h1 Carlos Wu - 
+							small #{name}
+						section#summary 
+							h2 #{__('Summary and professional goals')}
+							div !{summary}
+
+						//- Mandatory fields
+						include persdetails
+						include work-exp
+						include education
+
+						//- Optional fields
+						if langSkills.length > 0
+							include languages
+
+						if itSkills.length > 0
+							include it
+
+			default
+				div#coverletter.container
+				main.clContent
+					h1 Carlos Wu - 
+						small #{name}
+					section#summary 
+						div !{desc}

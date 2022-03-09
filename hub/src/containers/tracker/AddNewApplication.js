@@ -1,8 +1,9 @@
-import moment from "moment";
+import produce from "immer";
 import React, { Component } from "react";
 import update from "react-addons-update";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { compose } from "redux";
 import {
   Button,
   Checkbox,
@@ -10,10 +11,11 @@ import {
   Form,
   Header,
   Icon,
+  TextArea
 } from "semantic-ui-react";
-import { saveApplication, uploadFile } from "../../actions/tracker";
 import { addNotification } from "../../actions/notification";
-import Editor from "../../components/Editor";
+import { saveApplication, uploadFile } from "../../actions/tracker";
+import { withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
 import { status } from "./Tracker.data";
 
@@ -38,14 +40,16 @@ class AddNewApplication extends Component {
     };
   }
 
-  componentDidMount() {}
-
   inputChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  descChange = (e) => {
-    this.setState({ description: e.toString("html") });
+  descChange = (e, { name, value }) => {
+    this.setState(
+      produce((draft) => {
+        draft[name] = value;
+      })
+    );
   };
 
   addNewStage = () => {
@@ -111,11 +115,6 @@ class AddNewApplication extends Component {
   };
 
   resetForm() {
-    const contact = {
-      contactName: "",
-      contactEmail: "",
-      contactPhone: "",
-    };
     this.setState({
       company: "",
       status: {
@@ -133,63 +132,63 @@ class AddNewApplication extends Component {
 
   onSave = () => {
     this.props.saveApplication(this.state).then((res) => {
-      this.props.history.push("/tracker");
+      this.props.router.navigate("/tracker");
     });
   };
 
-  render() {
-    const backBtn = (
-      <button className="btn__add-new">
-        <Link to={`/tracker`}>
-          <Icon name="backward" color="green" />
-        </Link>
-      </button>
+  backBtn = () => (
+    <button className="btn__add-new">
+      <Link to={`/tracker`}>
+        <Icon name="backward" color="green" />
+      </Link>
+    </button>
+  );
+
+  removeContactBtn = (i) => {
+    return (
+      <Button
+        type="button"
+        onClick={this.removeContact(i)}
+        width={"1"}
+        className="btn"
+      >
+        <Icon name="minus square" />
+      </Button>
     );
+  };
 
-    const removeContactBtn = (i) => {
+  removeStageBtn = (i) => {
+    if (i > 0) {
       return (
         <Button
           type="button"
-          onClick={this.removeContact(i)}
+          onClick={this.removeStage(i)}
           width={"1"}
           className="btn"
         >
           <Icon name="minus square" />
         </Button>
       );
-    };
+    }
+  };
 
-    const removeStageBtn = (i) => {
-      if (i > 0) {
-        return (
-          <Button
-            type="button"
-            onClick={this.removeStage(i)}
-            width={"1"}
-            className="btn"
-          >
-            <Icon name="minus square" />
-          </Button>
-        );
-      }
-    };
+  removeFileBtn = (i) => {
+    return (
+      <Button
+        type="button"
+        onClick={this.removeFile(i)}
+        width={"1"}
+        className="btn"
+      >
+        <Icon name="minus square" />
+      </Button>
+    );
+  };
 
-    const removeFileBtn = (i) => {
-      return (
-        <Button
-          type="button"
-          onClick={this.removeFile(i)}
-          width={"1"}
-          className="btn"
-        >
-          <Icon name="minus square" />
-        </Button>
-      );
-    };
-
+  render() {
     return (
       <div id="new-application">
-        <h1>New Application {backBtn}</h1>
+        <h1>New Application {this.backBtn()}</h1>
         <Form className="addNew-modal" onSubmit={this.handleSubmit}>
           <Form.Group widths="equal">
             <Form.Input
@@ -282,7 +281,7 @@ class AddNewApplication extends Component {
                 value={this.state.contacts[i].contactPhone}
                 onChange={this.contactInputChange(i)}
               />
-              {removeContactBtn(i)}
+              {this.removeContactBtn(i)}
             </Form.Group>
           ))}
 
@@ -340,7 +339,6 @@ class AddNewApplication extends Component {
                 fluid
                 label="Start date"
                 name="startDate"
-                value={moment().format("DD MMMM YYYY")}
                 value={this.state.stages[i].startDate}
                 onChange={this.stagesInputChange(i)}
               />
@@ -353,7 +351,7 @@ class AddNewApplication extends Component {
                 value={this.state.stages[i].endDate}
                 onChange={this.stagesInputChange(i)}
               />
-              {removeStageBtn(i)}
+              {this.removeStageBtn(i)}
             </Form.Group>
           ))}
 
@@ -384,7 +382,7 @@ class AddNewApplication extends Component {
                 value={this.state.files[i].fileUrl}
                 onChange={this.fileInputChange(i)}
               />
-              {removeFileBtn(i)}
+              {this.removeFileBtn(i)}
             </Form.Group>
           ))}
 
@@ -393,7 +391,14 @@ class AddNewApplication extends Component {
           <br />
 
           <h3>Job description</h3>
-          <Editor value={this.state.description} onChange={this.descChange} />
+
+          <TextArea
+            name="description"
+            placeholder="Write blog content here"
+            rows={20}
+            onChange={this.descChange}
+            value={this.state.description}
+          />
         </Form>
 
         <br />
@@ -414,8 +419,11 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, {
-  uploadFile,
-  addNotification,
-  saveApplication,
-})(AddNewApplication);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {
+    uploadFile,
+    addNotification,
+    saveApplication,
+  })
+)(AddNewApplication);

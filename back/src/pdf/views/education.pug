@@ -1,0 +1,14 @@
+section#education
+  h2.ui.dividing.header #{__('Education')}
+  each ed in educ
+    .ui.grid
+      .row
+        .workplace.eight.wide.column
+          h4 #{ed.institution}
+        .position.eight.wide.column
+          h4 #{ed.diploma}
+      .row
+        .work-date.eight.wide.column
+          p #{ed.date}
+        .work-desc.eight.wide.column
+          .desc !{ed.desc}
