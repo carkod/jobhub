@@ -41,8 +41,4 @@ class Tracker extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  return state;
-};
-
 export default Tracker;
