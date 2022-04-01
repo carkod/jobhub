@@ -22,7 +22,7 @@
     "react-helmet": "^6.1.0",
     "react-html-parser": "^2.0.2",
     "react-i18next": "^11.15.6",
-    "react-markdown": "^8.0.0",
+    "react-markdown": "^8.0.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.4.2",
