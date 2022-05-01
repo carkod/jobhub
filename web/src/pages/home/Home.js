@@ -79,7 +79,7 @@ class Home extends Component {
                   Sass for CSS as well{" "}
                   <span className="u-emphasize-text">Docker</span>, Kubernetes
                   and <span className="u-emphasize-text">Python</span> (mostly
-                  using Flask) with a little experience in DB management
+                  using Flask) and Node.js, with some experience in DB management
                   (Postgres and MongoDB). Additionally, due to my background in Business and Economics,{" "}
                   I've supported and estimated projects and managed some offshore teams.
                 </p>
@@ -141,7 +141,7 @@ class Home extends Component {
             </div>
             <div>
               <Link to="/cv/en-GB/5fe993de5a4d95045179151b">
-                <button style="cursor: pointer;">I'm Feeling Lucky</button>
+                <button styles="cursor: pointer;">I'm Feeling Lucky</button>
               </Link>
             </div>
           </div>

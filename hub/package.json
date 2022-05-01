@@ -11,12 +11,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "axios": "^0.25.0",
+    "axios": "^0.27.2",
     "draft-js": "^0.11.7",
     "helmet": "^5.0.2",
-    "immer": "^8.0.0",
+    "immer": "^9.0.12",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
+    "moment": "^2.29.3",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-addons-update": "^15.6.3",
@@ -32,8 +32,8 @@
     "shortid": "^2.2.16"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.8",
-    "@babel/core": "^7.16.8",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
     "@babel/node": "^7.16.8",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
