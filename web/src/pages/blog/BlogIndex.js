@@ -27,7 +27,10 @@ export default class BlogIndex extends Component {
           <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
         </Helmet>
         <main className="container">
-          <h1>{`B-Log`}</h1>
+          <div>
+            <h1>{`B-Log`}</h1>
+            <p>The server log of my life, a place where I jot down incoherent notes for preservation in eternity.</p>
+          </div>
           {this.state.blogs.length > 0
             ? this.state.blogs.map((b) => (
                 <div key={b._id} className="row one column wide">
