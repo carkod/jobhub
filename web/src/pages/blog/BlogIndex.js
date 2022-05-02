@@ -20,11 +20,12 @@ export default class BlogIndex extends Component {
         <Helmet>
           <title>{`Carlos Wu - Blogs`}</title>
           <meta charSet="utf-8" />
+          <title>Carlos Wu - Professional Profile | Blogs</title>
           <meta
             name="description"
-            content={`Carlos Wu - Professional Profile | Blogs`}
+            content="The server log of my life, a place where I jot down incoherent notes for preservation in eternity."
           />
-          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
+          <link rel="canonical" href={process.env.REACT_APP_HOME_URL + "/blog"} />
         </Helmet>
         <main className="container">
           <div>

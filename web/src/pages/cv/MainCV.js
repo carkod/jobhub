@@ -45,7 +45,11 @@ class MainCV extends Component {
   getPdf = async (e) => {
     e.preventDefault();
     const { id, language } = this.props.match.params;
-    const response = await this.props.generatePdfApi("curriculum-vitae", id, language);
+    const response = await this.props.generatePdfApi(
+      "curriculum-vitae",
+      id,
+      language
+    );
     if (!this.state.loading) {
       const blob = new Blob([response], { type: "application/pdf" });
       const link = document.createElement("a");
@@ -68,25 +72,18 @@ class MainCV extends Component {
                 name="description"
                 content={`Carlos Wu - Professional Profile | ${cv.name}`}
               />
-              <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
             </Helmet>
 
-            <main
-              className="cvContent"
-              style={
-                {
-                  // transform: `rotate(${this.state.angle}deg) translate(${this.state.lateralPosition}em, ${this.state.translatePosition}em)`,
-                  // width: `90%`
-                }
-              }
-            >
+            <main className="cvContent">
               <h1>
                 Carlos Wu - <small>{cv.name}</small>
                 <button
                   type="button"
                   onClick={(e) => this.getPdf(e)}
                   className="btn download"
-                  disabled={this.state.snackBar ? this.state.snackBar.loading : false}
+                  disabled={
+                    this.state.snackBar ? this.state.snackBar.loading : false
+                  }
                   title="Download in pdf"
                 >
                   <i className="file pdf outline icon" />
