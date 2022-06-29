@@ -39,7 +39,7 @@ class Blog extends Component {
 
   componentDidMount = () => {
     const { id } = this.props.router.params;
-    if (!checkValue(id)) {
+    if (id) {
       this.props.fetchBlogApi(id);
     } else {
       this.props.resetBlogForm();
@@ -59,7 +59,7 @@ class Blog extends Component {
     e.preventDefault();
     const { id } = this.props.router.params;
     let blogData = {
-      id: id === "null" ? undefined : id,
+      id: id === "null" || !id ? undefined : id,
       name: this.props.name,
       category: this.props.category,
       status: this.props.status,
@@ -136,7 +136,7 @@ class Blog extends Component {
             <div className="preview">
               <h2 className="title">Preview</h2>
               <div className="md-renderer">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} children={this.state.content} />
+                <ReactMarkdown remarkPlugins={[remarkGfm]} children={this.props.content} />
               </div>
             </div>
           </div>

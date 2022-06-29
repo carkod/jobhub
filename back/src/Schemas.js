@@ -142,7 +142,6 @@ ApplicationSchema.pre('save', function (next) {
 
 // Blog
 const BlogSchema = new Schema({
-    _id: mongoose.Schema.ObjectId,
     name: { type: String, required: true },
     category: { type: String },
     status: { type: String },

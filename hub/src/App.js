@@ -48,6 +48,7 @@ const AppRouter = () => (
         <Route exact path="/new-tracker" element={<AddNewApplication />} />
         <Route exact path="/tracker/:id" element={<EditApplication />} />
         <Route exact path="/blog/" element={<BlogList />} />
+        <Route exact path="/blog/new" element={<Blog />} />
         <Route exact path="/blog/:id" element={<Blog />} />
       </Route>
     </Route>
