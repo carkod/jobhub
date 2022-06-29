@@ -6,10 +6,9 @@ const FourOFour = props => {
     return (
       <div id="fourofour" className="container">
         <Helmet>
-          <title>{`Carlos Wu - About`}</title>
+          <title>{`Carlos Wu - Not found`}</title>
           <meta charSet="utf-8" />
-          <meta name="description" content={`Carlos Wu - Professional Profile | 404 error`}/>
-          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
+          <meta name="description" content={`Page not found`}/>
         </Helmet>
         
         <main>

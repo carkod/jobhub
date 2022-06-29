@@ -14,15 +14,6 @@ class Home extends Component {
     };
   }
 
-  componentDidMount() {
-
-      // document.addEventListener("scroll", this.listenToScroll, true);
-  }
-
-  componentWillUnmount() {
-    // document.removeEventListener("scroll", () => null, true);
-  }
-
   componentDidUpdate = (props) => {
     if (this.props.value !== props.value) {
       this.setState({ cvs: this.props.value });
@@ -38,7 +29,7 @@ class Home extends Component {
 
   
   render() {
-    const yearsExp = new Date().getFullYear() - 2014;
+    const yearsExp = new Date().getFullYear() - 2015;
     const rotationStyles = {
       transform: `rotate(${this.state.theposition}deg) translate(0em, -1em)`,
     }
@@ -79,7 +70,7 @@ class Home extends Component {
                   as a{" "}
                   <span className="u-emphasize-text">Full Stack developer</span>
                   , currently based in{" "}
-                  <span className="u-emphasize-text">London, UK</span> I have
+                  <span className="u-emphasize-text">London, UK</span>. I have
                   been working for the Web for about {yearsExp} years now
                 </p>
                 <p className="u-home-text">
@@ -88,9 +79,9 @@ class Home extends Component {
                   Sass for CSS as well{" "}
                   <span className="u-emphasize-text">Docker</span>, Kubernetes
                   and <span className="u-emphasize-text">Python</span> (mostly
-                  using Flask) with a little experience in DB management
+                  using Flask) and Node.js, with some experience in DB management
                   (Postgres and MongoDB). Additionally, due to my background in Business and Economics,{" "}
-                  I've supported and estimated projects and managed some offshore teams, 
+                  I've supported and estimated projects and managed some offshore teams.
                 </p>
                 <p className="u-home-text">
                   In my free time, I like to work on a number of{" "}
@@ -150,7 +141,7 @@ class Home extends Component {
             </div>
             <div>
               <Link to="/cv/en-GB/5fe993de5a4d95045179151b">
-                <button>I'm Feeling Lucky</button>
+                <button styles="cursor: pointer;">I'm Feeling Lucky</button>
               </Link>
             </div>
           </div>

@@ -20,14 +20,18 @@ export default class BlogIndex extends Component {
         <Helmet>
           <title>{`Carlos Wu - Blogs`}</title>
           <meta charSet="utf-8" />
+          <title>Carlos Wu - Professional Profile | Blogs</title>
           <meta
             name="description"
-            content={`Carlos Wu - Professional Profile | Blogs`}
+            content="The server log of my life, a place where I jot down incoherent notes for preservation in eternity."
           />
-          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
+          <link rel="canonical" href={process.env.REACT_APP_HOME_URL + "/blog"} />
         </Helmet>
         <main className="container">
-          <h1>{`B-Log`}</h1>
+          <div>
+            <h1>{`B-Log`}</h1>
+            <p>The server log of my life, a place where I jot down incoherent notes for preservation in eternity.</p>
+          </div>
           {this.state.blogs.length > 0
             ? this.state.blogs.map((b) => (
                 <div key={b._id} className="row one column wide">

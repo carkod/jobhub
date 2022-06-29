@@ -45,16 +45,16 @@ export default class BlogDetail extends Component {
         <main className="blogContent">
           <small>Category: {blog.category}</small>
           <h1 className="u-blog-header-divider">{blog.name}</h1>
-            <div className="row one column wide">
-              <section id="blog">
-                <ReactMarkdown 
-                  plugins={[gfm]}
-                  children={blog.content}
-                  allowDangerousHtml
-                  style={{ wordWrap: "break-word"}}
-                />
-              </section>
-            </div>
+          <div className="row one column wide">
+            <section id="blog">
+              <ReactMarkdown
+                plugins={[gfm]}
+                children={blog.content}
+                allowDangerousHtml
+                style={{ wordWrap: "break-word" }}
+              />
+            </section>
+          </div>
         </main>
       </div>
     );

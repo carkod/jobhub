@@ -50,10 +50,9 @@ class MainResources extends Component {
     return (
       <div id="mainportfolio" className="container">
         <Helmet>
-          <title>{`Carlos Wu - ${title}`}</title>
+          <title>{`Carlos Wu - ${title} | Portfolio`}</title>
           <meta charSet="utf-8" />
           <meta name="description" content={`Portfolio and projects by Carlos Wu - ${title}`}/>
-          <link rel="canonical" href={`http://carloswu.xyz/en-GB/${position}/resources`} />
         </Helmet>
         
         <main className="portfolioContent ui grid">
