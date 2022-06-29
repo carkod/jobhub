@@ -19,6 +19,7 @@ back/docs
 back/uploads
 mongo_db/
 restore/
+db.dump
 
 # WEB
 web/src/*.css
