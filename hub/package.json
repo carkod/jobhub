@@ -16,7 +16,7 @@
     "helmet": "^5.0.2",
     "immer": "^9.0.12",
     "lodash": "^4.17.21",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-addons-update": "^15.6.3",
