@@ -18,8 +18,7 @@
 * http://opensource.org/licenses/MIT
 *
 */
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);
-/*!
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin); /*!
 * # Semantic UI 2.4.0 - Reset
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -43,9 +42,7 @@ html {
 input[type=email], input[type=password], input[type=search], input[type=text] {
   -webkit-appearance: none;
   -moz-appearance: none;
-}
-
-/*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
+} /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
   line-height: 1.15;
   -ms-text-size-adjust: 100%;
@@ -248,9 +245,7 @@ template {
 
 [hidden] {
   display: none;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Site
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -411,9 +406,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:window-inactive {
 
 body .ui.inverted::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.35);
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Button
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -3828,9 +3821,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 
 .ui.vertical.buttons .button:only-child {
   border-radius: 0.28571429rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Container
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -3850,15 +3841,12 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
     margin-left: 1em !important;
     margin-right: 1em !important;
   }
-
   .ui.grid.container {
     width: auto !important;
   }
-
   .ui.relaxed.grid.container {
     width: auto !important;
   }
-
   .ui.very.relaxed.grid.container {
     width: auto !important;
   }
@@ -3869,15 +3857,12 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-
   .ui.grid.container {
     width: calc(723px + 2rem) !important;
   }
-
   .ui.relaxed.grid.container {
     width: calc(723px + 3rem) !important;
   }
-
   .ui.very.relaxed.grid.container {
     width: calc(723px + 5rem) !important;
   }
@@ -3888,15 +3873,12 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-
   .ui.grid.container {
     width: calc(933px + 2rem) !important;
   }
-
   .ui.relaxed.grid.container {
     width: calc(933px + 3rem) !important;
   }
-
   .ui.very.relaxed.grid.container {
     width: calc(933px + 5rem) !important;
   }
@@ -3907,15 +3889,12 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-
   .ui.grid.container {
     width: calc(1127px + 2rem) !important;
   }
-
   .ui.relaxed.grid.container {
     width: calc(1127px + 3rem) !important;
   }
-
   .ui.very.relaxed.grid.container {
     width: calc(1127px + 5rem) !important;
   }
@@ -3951,9 +3930,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Divider
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -4062,7 +4039,6 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
     -webkit-transform: none;
     transform: none;
   }
-
   .ui.grid .stackable.row .ui.vertical.divider:after, .ui.grid .stackable.row .ui.vertical.divider:before, .ui.stackable.grid .ui.vertical.divider:after, .ui.stackable.grid .ui.vertical.divider:before {
     position: static;
     left: 0;
@@ -4075,11 +4051,9 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
     width: 50%;
     background-repeat: no-repeat;
   }
-
   .ui.grid .stackable.row .ui.vertical.divider:before, .ui.stackable.grid .ui.vertical.divider:before {
     background-position: right 1em top 50%;
   }
-
   .ui.grid .stackable.row .ui.vertical.divider:after, .ui.stackable.grid .ui.vertical.divider:after {
     background-position: left 1em top 50%;
   }
@@ -4135,8 +4109,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
   .ui.grid .stackable.row .ui.vertical.divider:after, .ui.grid .stackable.row .ui.vertical.divider:before, .ui.stackable.grid .ui.vertical.divider:after, .ui.stackable.grid .ui.vertical.divider:before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABaAAAAACCAYAAACuTHuKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1OThBRDY4OUNDMTYxMUU0OUE3NUVGOEJDMzMzMjE2NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1OThBRDY4QUNDMTYxMUU0OUE3NUVGOEJDMzMzMjE2NyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjU5OEFENjg3Q0MxNjExRTQ5QTc1RUY4QkMzMzMyMTY3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU5OEFENjg4Q0MxNjExRTQ5QTc1RUY4QkMzMzMyMTY3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+VU513gAAADVJREFUeNrs0DENACAQBDBIWLGBJQby/mUcJn5sJXQmOQMAAAAAAJqt+2prAAAAAACg2xdgANk6BEVuJgyMAAAAAElFTkSuQmCC);
   }
-}
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Flag
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -5145,9 +5118,7 @@ i.flag.zambia:before, i.flag.zm:before {
 
 i.flag.zimbabwe:before, i.flag.zw:before {
   background-position: -108px -390px;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Header
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -5807,9 +5778,7 @@ a.ui.inverted.grey.header:hover {
 
 .ui.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
   font-size: 1.28571429em;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Icon
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -11438,9 +11407,7 @@ i.icon.star.empty:before {
 }
 i.icon.\35 00px, i.icon.accessible.icon, i.icon.accusoft, i.icon.adn, i.icon.adversal, i.icon.affiliatetheme, i.icon.algolia, i.icon.amazon, i.icon.amazon.pay, i.icon.amilia, i.icon.android, i.icon.angellist, i.icon.angrycreative, i.icon.angular, i.icon.app.store, i.icon.app.store.ios, i.icon.apper, i.icon.apple, i.icon.apple.pay, i.icon.asymmetrik, i.icon.audible, i.icon.autoprefixer, i.icon.avianex, i.icon.aviato, i.icon.aws, i.icon.bandcamp, i.icon.behance, i.icon.behance.square, i.icon.bimobject, i.icon.bitbucket, i.icon.bitcoin, i.icon.bity, i.icon.black.tie, i.icon.blackberry, i.icon.blogger, i.icon.blogger.b, i.icon.bluetooth, i.icon.bluetooth.b, i.icon.btc, i.icon.buromobelexperte, i.icon.buysellads, i.icon.cc.amazon.pay, i.icon.cc.amex, i.icon.cc.apple.pay, i.icon.cc.diners.club, i.icon.cc.discover, i.icon.cc.jcb, i.icon.cc.mastercard, i.icon.cc.paypal, i.icon.cc.stripe, i.icon.cc.visa, i.icon.centercode, i.icon.chrome, i.icon.cloudscale, i.icon.cloudsmith, i.icon.cloudversify, i.icon.codepen, i.icon.codiepie, i.icon.connectdevelop, i.icon.contao, i.icon.cpanel, i.icon.creative.commons, i.icon.css3, i.icon.css3.alternate, i.icon.cuttlefish, i.icon.d.and.d, i.icon.dashcube, i.icon.delicious, i.icon.deploydog, i.icon.deskpro, i.icon.deviantart, i.icon.digg, i.icon.digital.ocean, i.icon.discord, i.icon.discourse, i.icon.dochub, i.icon.docker, i.icon.draft2digital, i.icon.dribbble, i.icon.dribbble.square, i.icon.dropbox, i.icon.drupal, i.icon.dyalog, i.icon.earlybirds, i.icon.edge, i.icon.elementor, i.icon.ember, i.icon.empire, i.icon.envira, i.icon.erlang, i.icon.ethereum, i.icon.etsy, i.icon.expeditedssl, i.icon.facebook, i.icon.facebook.f, i.icon.facebook.messenger, i.icon.facebook.square, i.icon.firefox, i.icon.first.order, i.icon.firstdraft, i.icon.flickr, i.icon.flipboard, i.icon.fly, i.icon.font.awesome, i.icon.font.awesome.alternate, i.icon.font.awesome.flag, i.icon.fonticons, i.icon.fonticons.fi, i.icon.fort.awesome, i.icon.fort.awesome.alternate, i.icon.forumbee, i.icon.foursquare, i.icon.free.code.camp, i.icon.freebsd, i.icon.get.pocket, i.icon.gg, i.icon.gg.circle, i.icon.git, i.icon.git.square, i.icon.github, i.icon.github.alternate, i.icon.github.square, i.icon.gitkraken, i.icon.gitlab, i.icon.gitter, i.icon.glide, i.icon.glide.g, i.icon.gofore, i.icon.goodreads, i.icon.goodreads.g, i.icon.google, i.icon.google.drive, i.icon.google.play, i.icon.google.plus, i.icon.google.plus.g, i.icon.google.plus.square, i.icon.google.wallet, i.icon.gratipay, i.icon.grav, i.icon.gripfire, i.icon.grunt, i.icon.gulp, i.icon.hacker.news, i.icon.hacker.news.square, i.icon.hips, i.icon.hire.a.helper, i.icon.hooli, i.icon.hotjar, i.icon.houzz, i.icon.html5, i.icon.hubspot, i.icon.imdb, i.icon.instagram, i.icon.internet.explorer, i.icon.ioxhost, i.icon.itunes, i.icon.itunes.note, i.icon.jenkins, i.icon.joget, i.icon.joomla, i.icon.js, i.icon.js.square, i.icon.jsfiddle, i.icon.keycdn, i.icon.kickstarter, i.icon.kickstarter.k, i.icon.korvue, i.icon.laravel, i.icon.lastfm, i.icon.lastfm.square, i.icon.leanpub, i.icon.less, i.icon.linechat, i.icon.linkedin, i.icon.linkedin.alternate, i.icon.linkedin.in, i.icon.linode, i.icon.linux, i.icon.lyft, i.icon.magento, i.icon.maxcdn, i.icon.medapps, i.icon.medium, i.icon.medium.m, i.icon.medrt, i.icon.meetup, i.icon.microsoft, i.icon.mix, i.icon.mixcloud, i.icon.mizuni, i.icon.modx, i.icon.monero, i.icon.napster, i.icon.nintendo.switch, i.icon.node, i.icon.node.js, i.icon.npm, i.icon.ns8, i.icon.nutritionix, i.icon.odnoklassniki, i.icon.odnoklassniki.square, i.icon.opencart, i.icon.openid, i.icon.opera, i.icon.optin.monster, i.icon.osi, i.icon.page4, i.icon.pagelines, i.icon.palfed, i.icon.patreon, i.icon.paypal, i.icon.periscope, i.icon.phabricator, i.icon.phoenix.framework, i.icon.php, i.icon.pied.piper, i.icon.pied.piper.alternate, i.icon.pied.piper.pp, i.icon.pinterest, i.icon.pinterest.p, i.icon.pinterest.square, i.icon.playstation, i.icon.product.hunt, i.icon.pushed, i.icon.python, i.icon.qq, i.icon.quinscape, i.icon.quora, i.icon.ravelry, i.icon.react, i.icon.rebel, i.icon.reddit, i.icon.reddit.alien, i.icon.reddit.square, i.icon.redriver, i.icon.rendact, i.icon.renren, i.icon.replyd, i.icon.resolving, i.icon.rocketchat, i.icon.rockrms, i.icon.safari, i.icon.sass, i.icon.schlix, i.icon.scribd, i.icon.searchengin, i.icon.sellcast, i.icon.sellsy, i.icon.servicestack, i.icon.shirtsinbulk, i.icon.simplybuilt, i.icon.sistrix, i.icon.skyatlas, i.icon.skype, i.icon.slack, i.icon.slack.hash, i.icon.slideshare, i.icon.snapchat, i.icon.snapchat.ghost, i.icon.snapchat.square, i.icon.soundcloud, i.icon.speakap, i.icon.spotify, i.icon.stack.exchange, i.icon.stack.overflow, i.icon.staylinked, i.icon.steam, i.icon.steam.square, i.icon.steam.symbol, i.icon.sticker.mule, i.icon.strava, i.icon.stripe, i.icon.stripe.s, i.icon.studiovinari, i.icon.stumbleupon, i.icon.stumbleupon.circle, i.icon.superpowers, i.icon.supple, i.icon.telegram, i.icon.telegram.plane, i.icon.tencent.weibo, i.icon.themeisle, i.icon.trello, i.icon.tripadvisor, i.icon.tumblr, i.icon.tumblr.square, i.icon.twitch, i.icon.twitter, i.icon.twitter.square, i.icon.typo3, i.icon.uber, i.icon.uikit, i.icon.uniregistry, i.icon.untappd, i.icon.usb, i.icon.ussunnah, i.icon.vaadin, i.icon.viacoin, i.icon.viadeo, i.icon.viadeo.square, i.icon.viber, i.icon.vimeo, i.icon.vimeo.square, i.icon.vimeo.v, i.icon.vine, i.icon.vk, i.icon.vnv, i.icon.vuejs, i.icon.wechat, i.icon.weibo, i.icon.weixin, i.icon.whatsapp, i.icon.whatsapp.square, i.icon.whmcs, i.icon.wikipedia.w, i.icon.windows, i.icon.wordpress, i.icon.wordpress.simple, i.icon.wpbeginner, i.icon.wpexplorer, i.icon.wpforms, i.icon.xbox, i.icon.xing, i.icon.xing.square, i.icon.y.combinator, i.icon.yahoo, i.icon.yandex, i.icon.yandex.international, i.icon.yelp, i.icon.yoast, i.icon.youtube, i.icon.youtube.square {
   font-family: brand-icons;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Image
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -11629,9 +11596,7 @@ img.ui.image {
 .ui.images .image, .ui.images > img, .ui.images > svg {
   display: inline-block;
   margin: 0 0.25rem 0.5rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Input
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -12069,9 +12034,7 @@ img.ui.image {
 
 .ui.massive.input {
   font-size: 1.71428571em;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Label
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -13119,9 +13082,7 @@ a.ui.basic.label:hover {
 
 .ui.massive.label, .ui.massive.labels .label {
   font-size: 1.71428571rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - List
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -13883,9 +13844,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.horizontal.list .list > .item, .ui.massive.horizontal.list > .item {
   font-size: 1.71428571rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Loader
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -14171,9 +14130,7 @@ ol.ui.list li[value]:before {
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Loader
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -14395,9 +14352,7 @@ ol.ui.list li[value]:before {
 
 .ui.fluid.placeholder {
   max-width: none;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Rail
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -14520,9 +14475,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.rail {
   font-size: 1.71428571rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Reveal
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -14758,9 +14711,7 @@ ol.ui.list li[value]:before {
 
 .ui.reveal > .content {
   font-size: 1rem !important;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Segment
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -15503,9 +15454,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.segment, .ui.massive.segments .segment {
   font-size: 1.71428571rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Step
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -15767,7 +15716,6 @@ ol.ui.list li[value]:before {
     -ms-flex-direction: column;
     flex-direction: column;
   }
-
   .ui.steps:not(.unstackable) .step {
     width: 100% !important;
     -webkit-box-orient: vertical;
@@ -15777,24 +15725,19 @@ ol.ui.list li[value]:before {
     border-radius: 0;
     padding: 1.14285714em 2em;
   }
-
   .ui.steps:not(.unstackable) .step:first-child {
     padding: 1.14285714em 2em;
     border-radius: 0.28571429rem 0.28571429rem 0 0;
   }
-
   .ui.steps:not(.unstackable) .step:last-child {
     border-radius: 0 0 0.28571429rem 0.28571429rem;
   }
-
   .ui.steps:not(.unstackable) .step:after {
     display: none !important;
   }
-
   .ui.steps:not(.unstackable) .step .content {
     text-align: center;
   }
-
   .ui.ordered.steps:not(.unstackable) .step:before, .ui.steps:not(.unstackable) .step > .icon {
     margin: 0 0 1rem 0;
   }
@@ -15877,7 +15820,6 @@ ol.ui.list li[value]:before {
     -ms-flex-direction: column;
     flex-direction: column;
   }
-
   .ui[class*="tablet stackable"].steps .step {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -15886,24 +15828,19 @@ ol.ui.list li[value]:before {
     border-radius: 0;
     padding: 1.14285714em 2em;
   }
-
   .ui[class*="tablet stackable"].steps .step:first-child {
     padding: 1.14285714em 2em;
     border-radius: 0.28571429rem 0.28571429rem 0 0;
   }
-
   .ui[class*="tablet stackable"].steps .step:last-child {
     border-radius: 0 0 0.28571429rem 0.28571429rem;
   }
-
   .ui[class*="tablet stackable"].steps .step:after {
     display: none !important;
   }
-
   .ui[class*="tablet stackable"].steps .step .content {
     text-align: center;
   }
-
   .ui[class*="tablet stackable"].ordered.steps .step:before, .ui[class*="tablet stackable"].steps .step > .icon {
     margin: 0 0 1rem 0;
   }
@@ -16023,9 +15960,7 @@ ol.ui.list li[value]:before {
 .ui.ordered.steps .step.completed:before, .ui.steps .step.completed > .icon:before {
   font-family: Step;
   content: "\e800";
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Breadcrumb
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -16120,9 +16055,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.breadcrumb {
   font-size: 1.71428571rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Form
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -16698,7 +16631,6 @@ ol.ui.list li[value]:before {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
   }
-
   .ui.form:not(.unstackable) .eight.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .eight.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .five.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .five.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .four.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .four.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .nine.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .nine.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .seven.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .seven.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .six.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .six.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .ten.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .ten.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .three.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .three.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .two.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .two.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) [class*="equal width"].fields:not(.unstackable) > .field, .ui[class*="equal width"].form:not(.unstackable) .fields > .field {
     width: 100% !important;
     margin: 0 0 1em;
@@ -16778,7 +16710,6 @@ ol.ui.list li[value]:before {
   .ui.form:not(.unstackable) .fields:not(.unstackable) > .eight.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .eleven.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .fifteen.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .five.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .four.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .fourteen.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .nine.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .seven.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .six.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .sixteen.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .ten.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .thirteen.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .three.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .twelve.wide.field, .ui.form:not(.unstackable) .fields:not(.unstackable) > .two.wide.field, .ui.form:not(.unstackable) .five.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .five.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .four.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .four.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .three.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .three.fields:not(.unstackable) > .fields, .ui.form:not(.unstackable) .two.fields:not(.unstackable) > .field, .ui.form:not(.unstackable) .two.fields:not(.unstackable) > .fields {
     width: 100% !important;
   }
-
   .ui.form .fields {
     margin-bottom: 0;
   }
@@ -16878,9 +16809,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.form {
   font-size: 1.71428571rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Grid
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -17255,63 +17184,48 @@ ol.ui.list li[value]:before {
   .ui.column.grid > [class*="one wide mobile"].column, .ui.grid > .column.row > [class*="one wide mobile"].column, .ui.grid > .row > [class*="one wide mobile"].column, .ui.grid > [class*="one wide mobile"].column {
     width: 6.25% !important;
   }
-
   .ui.column.grid > [class*="two wide mobile"].column, .ui.grid > .column.row > [class*="two wide mobile"].column, .ui.grid > .row > [class*="two wide mobile"].column, .ui.grid > [class*="two wide mobile"].column {
     width: 12.5% !important;
   }
-
   .ui.column.grid > [class*="three wide mobile"].column, .ui.grid > .column.row > [class*="three wide mobile"].column, .ui.grid > .row > [class*="three wide mobile"].column, .ui.grid > [class*="three wide mobile"].column {
     width: 18.75% !important;
   }
-
   .ui.column.grid > [class*="four wide mobile"].column, .ui.grid > .column.row > [class*="four wide mobile"].column, .ui.grid > .row > [class*="four wide mobile"].column, .ui.grid > [class*="four wide mobile"].column {
     width: 25% !important;
   }
-
   .ui.column.grid > [class*="five wide mobile"].column, .ui.grid > .column.row > [class*="five wide mobile"].column, .ui.grid > .row > [class*="five wide mobile"].column, .ui.grid > [class*="five wide mobile"].column {
     width: 31.25% !important;
   }
-
   .ui.column.grid > [class*="six wide mobile"].column, .ui.grid > .column.row > [class*="six wide mobile"].column, .ui.grid > .row > [class*="six wide mobile"].column, .ui.grid > [class*="six wide mobile"].column {
     width: 37.5% !important;
   }
-
   .ui.column.grid > [class*="seven wide mobile"].column, .ui.grid > .column.row > [class*="seven wide mobile"].column, .ui.grid > .row > [class*="seven wide mobile"].column, .ui.grid > [class*="seven wide mobile"].column {
     width: 43.75% !important;
   }
-
   .ui.column.grid > [class*="eight wide mobile"].column, .ui.grid > .column.row > [class*="eight wide mobile"].column, .ui.grid > .row > [class*="eight wide mobile"].column, .ui.grid > [class*="eight wide mobile"].column {
     width: 50% !important;
   }
-
   .ui.column.grid > [class*="nine wide mobile"].column, .ui.grid > .column.row > [class*="nine wide mobile"].column, .ui.grid > .row > [class*="nine wide mobile"].column, .ui.grid > [class*="nine wide mobile"].column {
     width: 56.25% !important;
   }
-
   .ui.column.grid > [class*="ten wide mobile"].column, .ui.grid > .column.row > [class*="ten wide mobile"].column, .ui.grid > .row > [class*="ten wide mobile"].column, .ui.grid > [class*="ten wide mobile"].column {
     width: 62.5% !important;
   }
-
   .ui.column.grid > [class*="eleven wide mobile"].column, .ui.grid > .column.row > [class*="eleven wide mobile"].column, .ui.grid > .row > [class*="eleven wide mobile"].column, .ui.grid > [class*="eleven wide mobile"].column {
     width: 68.75% !important;
   }
-
   .ui.column.grid > [class*="twelve wide mobile"].column, .ui.grid > .column.row > [class*="twelve wide mobile"].column, .ui.grid > .row > [class*="twelve wide mobile"].column, .ui.grid > [class*="twelve wide mobile"].column {
     width: 75% !important;
   }
-
   .ui.column.grid > [class*="thirteen wide mobile"].column, .ui.grid > .column.row > [class*="thirteen wide mobile"].column, .ui.grid > .row > [class*="thirteen wide mobile"].column, .ui.grid > [class*="thirteen wide mobile"].column {
     width: 81.25% !important;
   }
-
   .ui.column.grid > [class*="fourteen wide mobile"].column, .ui.grid > .column.row > [class*="fourteen wide mobile"].column, .ui.grid > .row > [class*="fourteen wide mobile"].column, .ui.grid > [class*="fourteen wide mobile"].column {
     width: 87.5% !important;
   }
-
   .ui.column.grid > [class*="fifteen wide mobile"].column, .ui.grid > .column.row > [class*="fifteen wide mobile"].column, .ui.grid > .row > [class*="fifteen wide mobile"].column, .ui.grid > [class*="fifteen wide mobile"].column {
     width: 93.75% !important;
   }
-
   .ui.column.grid > [class*="sixteen wide mobile"].column, .ui.grid > .column.row > [class*="sixteen wide mobile"].column, .ui.grid > .row > [class*="sixteen wide mobile"].column, .ui.grid > [class*="sixteen wide mobile"].column {
     width: 100% !important;
   }
@@ -17320,63 +17234,48 @@ ol.ui.list li[value]:before {
   .ui.column.grid > [class*="one wide tablet"].column, .ui.grid > .column.row > [class*="one wide tablet"].column, .ui.grid > .row > [class*="one wide tablet"].column, .ui.grid > [class*="one wide tablet"].column {
     width: 6.25% !important;
   }
-
   .ui.column.grid > [class*="two wide tablet"].column, .ui.grid > .column.row > [class*="two wide tablet"].column, .ui.grid > .row > [class*="two wide tablet"].column, .ui.grid > [class*="two wide tablet"].column {
     width: 12.5% !important;
   }
-
   .ui.column.grid > [class*="three wide tablet"].column, .ui.grid > .column.row > [class*="three wide tablet"].column, .ui.grid > .row > [class*="three wide tablet"].column, .ui.grid > [class*="three wide tablet"].column {
     width: 18.75% !important;
   }
-
   .ui.column.grid > [class*="four wide tablet"].column, .ui.grid > .column.row > [class*="four wide tablet"].column, .ui.grid > .row > [class*="four wide tablet"].column, .ui.grid > [class*="four wide tablet"].column {
     width: 25% !important;
   }
-
   .ui.column.grid > [class*="five wide tablet"].column, .ui.grid > .column.row > [class*="five wide tablet"].column, .ui.grid > .row > [class*="five wide tablet"].column, .ui.grid > [class*="five wide tablet"].column {
     width: 31.25% !important;
   }
-
   .ui.column.grid > [class*="six wide tablet"].column, .ui.grid > .column.row > [class*="six wide tablet"].column, .ui.grid > .row > [class*="six wide tablet"].column, .ui.grid > [class*="six wide tablet"].column {
     width: 37.5% !important;
   }
-
   .ui.column.grid > [class*="seven wide tablet"].column, .ui.grid > .column.row > [class*="seven wide tablet"].column, .ui.grid > .row > [class*="seven wide tablet"].column, .ui.grid > [class*="seven wide tablet"].column {
     width: 43.75% !important;
   }
-
   .ui.column.grid > [class*="eight wide tablet"].column, .ui.grid > .column.row > [class*="eight wide tablet"].column, .ui.grid > .row > [class*="eight wide tablet"].column, .ui.grid > [class*="eight wide tablet"].column {
     width: 50% !important;
   }
-
   .ui.column.grid > [class*="nine wide tablet"].column, .ui.grid > .column.row > [class*="nine wide tablet"].column, .ui.grid > .row > [class*="nine wide tablet"].column, .ui.grid > [class*="nine wide tablet"].column {
     width: 56.25% !important;
   }
-
   .ui.column.grid > [class*="ten wide tablet"].column, .ui.grid > .column.row > [class*="ten wide tablet"].column, .ui.grid > .row > [class*="ten wide tablet"].column, .ui.grid > [class*="ten wide tablet"].column {
     width: 62.5% !important;
   }
-
   .ui.column.grid > [class*="eleven wide tablet"].column, .ui.grid > .column.row > [class*="eleven wide tablet"].column, .ui.grid > .row > [class*="eleven wide tablet"].column, .ui.grid > [class*="eleven wide tablet"].column {
     width: 68.75% !important;
   }
-
   .ui.column.grid > [class*="twelve wide tablet"].column, .ui.grid > .column.row > [class*="twelve wide tablet"].column, .ui.grid > .row > [class*="twelve wide tablet"].column, .ui.grid > [class*="twelve wide tablet"].column {
     width: 75% !important;
   }
-
   .ui.column.grid > [class*="thirteen wide tablet"].column, .ui.grid > .column.row > [class*="thirteen wide tablet"].column, .ui.grid > .row > [class*="thirteen wide tablet"].column, .ui.grid > [class*="thirteen wide tablet"].column {
     width: 81.25% !important;
   }
-
   .ui.column.grid > [class*="fourteen wide tablet"].column, .ui.grid > .column.row > [class*="fourteen wide tablet"].column, .ui.grid > .row > [class*="fourteen wide tablet"].column, .ui.grid > [class*="fourteen wide tablet"].column {
     width: 87.5% !important;
   }
-
   .ui.column.grid > [class*="fifteen wide tablet"].column, .ui.grid > .column.row > [class*="fifteen wide tablet"].column, .ui.grid > .row > [class*="fifteen wide tablet"].column, .ui.grid > [class*="fifteen wide tablet"].column {
     width: 93.75% !important;
   }
-
   .ui.column.grid > [class*="sixteen wide tablet"].column, .ui.grid > .column.row > [class*="sixteen wide tablet"].column, .ui.grid > .row > [class*="sixteen wide tablet"].column, .ui.grid > [class*="sixteen wide tablet"].column {
     width: 100% !important;
   }
@@ -17385,63 +17284,48 @@ ol.ui.list li[value]:before {
   .ui.column.grid > [class*="one wide computer"].column, .ui.grid > .column.row > [class*="one wide computer"].column, .ui.grid > .row > [class*="one wide computer"].column, .ui.grid > [class*="one wide computer"].column {
     width: 6.25% !important;
   }
-
   .ui.column.grid > [class*="two wide computer"].column, .ui.grid > .column.row > [class*="two wide computer"].column, .ui.grid > .row > [class*="two wide computer"].column, .ui.grid > [class*="two wide computer"].column {
     width: 12.5% !important;
   }
-
   .ui.column.grid > [class*="three wide computer"].column, .ui.grid > .column.row > [class*="three wide computer"].column, .ui.grid > .row > [class*="three wide computer"].column, .ui.grid > [class*="three wide computer"].column {
     width: 18.75% !important;
   }
-
   .ui.column.grid > [class*="four wide computer"].column, .ui.grid > .column.row > [class*="four wide computer"].column, .ui.grid > .row > [class*="four wide computer"].column, .ui.grid > [class*="four wide computer"].column {
     width: 25% !important;
   }
-
   .ui.column.grid > [class*="five wide computer"].column, .ui.grid > .column.row > [class*="five wide computer"].column, .ui.grid > .row > [class*="five wide computer"].column, .ui.grid > [class*="five wide computer"].column {
     width: 31.25% !important;
   }
-
   .ui.column.grid > [class*="six wide computer"].column, .ui.grid > .column.row > [class*="six wide computer"].column, .ui.grid > .row > [class*="six wide computer"].column, .ui.grid > [class*="six wide computer"].column {
     width: 37.5% !important;
   }
-
   .ui.column.grid > [class*="seven wide computer"].column, .ui.grid > .column.row > [class*="seven wide computer"].column, .ui.grid > .row > [class*="seven wide computer"].column, .ui.grid > [class*="seven wide computer"].column {
     width: 43.75% !important;
   }
-
   .ui.column.grid > [class*="eight wide computer"].column, .ui.grid > .column.row > [class*="eight wide computer"].column, .ui.grid > .row > [class*="eight wide computer"].column, .ui.grid > [class*="eight wide computer"].column {
     width: 50% !important;
   }
-
   .ui.column.grid > [class*="nine wide computer"].column, .ui.grid > .column.row > [class*="nine wide computer"].column, .ui.grid > .row > [class*="nine wide computer"].column, .ui.grid > [class*="nine wide computer"].column {
     width: 56.25% !important;
   }
-
   .ui.column.grid > [class*="ten wide computer"].column, .ui.grid > .column.row > [class*="ten wide computer"].column, .ui.grid > .row > [class*="ten wide computer"].column, .ui.grid > [class*="ten wide computer"].column {
     width: 62.5% !important;
   }
-
   .ui.column.grid > [class*="eleven wide computer"].column, .ui.grid > .column.row > [class*="eleven wide computer"].column, .ui.grid > .row > [class*="eleven wide computer"].column, .ui.grid > [class*="eleven wide computer"].column {
     width: 68.75% !important;
   }
-
   .ui.column.grid > [class*="twelve wide computer"].column, .ui.grid > .column.row > [class*="twelve wide computer"].column, .ui.grid > .row > [class*="twelve wide computer"].column, .ui.grid > [class*="twelve wide computer"].column {
     width: 75% !important;
   }
-
   .ui.column.grid > [class*="thirteen wide computer"].column, .ui.grid > .column.row > [class*="thirteen wide computer"].column, .ui.grid > .row > [class*="thirteen wide computer"].column, .ui.grid > [class*="thirteen wide computer"].column {
     width: 81.25% !important;
   }
-
   .ui.column.grid > [class*="fourteen wide computer"].column, .ui.grid > .column.row > [class*="fourteen wide computer"].column, .ui.grid > .row > [class*="fourteen wide computer"].column, .ui.grid > [class*="fourteen wide computer"].column {
     width: 87.5% !important;
   }
-
   .ui.column.grid > [class*="fifteen wide computer"].column, .ui.grid > .column.row > [class*="fifteen wide computer"].column, .ui.grid > .row > [class*="fifteen wide computer"].column, .ui.grid > [class*="fifteen wide computer"].column {
     width: 93.75% !important;
   }
-
   .ui.column.grid > [class*="sixteen wide computer"].column, .ui.grid > .column.row > [class*="sixteen wide computer"].column, .ui.grid > .row > [class*="sixteen wide computer"].column, .ui.grid > [class*="sixteen wide computer"].column {
     width: 100% !important;
   }
@@ -17450,63 +17334,48 @@ ol.ui.list li[value]:before {
   .ui.column.grid > [class*="one wide large screen"].column, .ui.grid > .column.row > [class*="one wide large screen"].column, .ui.grid > .row > [class*="one wide large screen"].column, .ui.grid > [class*="one wide large screen"].column {
     width: 6.25% !important;
   }
-
   .ui.column.grid > [class*="two wide large screen"].column, .ui.grid > .column.row > [class*="two wide large screen"].column, .ui.grid > .row > [class*="two wide large screen"].column, .ui.grid > [class*="two wide large screen"].column {
     width: 12.5% !important;
   }
-
   .ui.column.grid > [class*="three wide large screen"].column, .ui.grid > .column.row > [class*="three wide large screen"].column, .ui.grid > .row > [class*="three wide large screen"].column, .ui.grid > [class*="three wide large screen"].column {
     width: 18.75% !important;
   }
-
   .ui.column.grid > [class*="four wide large screen"].column, .ui.grid > .column.row > [class*="four wide large screen"].column, .ui.grid > .row > [class*="four wide large screen"].column, .ui.grid > [class*="four wide large screen"].column {
     width: 25% !important;
   }
-
   .ui.column.grid > [class*="five wide large screen"].column, .ui.grid > .column.row > [class*="five wide large screen"].column, .ui.grid > .row > [class*="five wide large screen"].column, .ui.grid > [class*="five wide large screen"].column {
     width: 31.25% !important;
   }
-
   .ui.column.grid > [class*="six wide large screen"].column, .ui.grid > .column.row > [class*="six wide large screen"].column, .ui.grid > .row > [class*="six wide large screen"].column, .ui.grid > [class*="six wide large screen"].column {
     width: 37.5% !important;
   }
-
   .ui.column.grid > [class*="seven wide large screen"].column, .ui.grid > .column.row > [class*="seven wide large screen"].column, .ui.grid > .row > [class*="seven wide large screen"].column, .ui.grid > [class*="seven wide large screen"].column {
     width: 43.75% !important;
   }
-
   .ui.column.grid > [class*="eight wide large screen"].column, .ui.grid > .column.row > [class*="eight wide large screen"].column, .ui.grid > .row > [class*="eight wide large screen"].column, .ui.grid > [class*="eight wide large screen"].column {
     width: 50% !important;
   }
-
   .ui.column.grid > [class*="nine wide large screen"].column, .ui.grid > .column.row > [class*="nine wide large screen"].column, .ui.grid > .row > [class*="nine wide large screen"].column, .ui.grid > [class*="nine wide large screen"].column {
     width: 56.25% !important;
   }
-
   .ui.column.grid > [class*="ten wide large screen"].column, .ui.grid > .column.row > [class*="ten wide large screen"].column, .ui.grid > .row > [class*="ten wide large screen"].column, .ui.grid > [class*="ten wide large screen"].column {
     width: 62.5% !important;
   }
-
   .ui.column.grid > [class*="eleven wide large screen"].column, .ui.grid > .column.row > [class*="eleven wide large screen"].column, .ui.grid > .row > [class*="eleven wide large screen"].column, .ui.grid > [class*="eleven wide large screen"].column {
     width: 68.75% !important;
   }
-
   .ui.column.grid > [class*="twelve wide large screen"].column, .ui.grid > .column.row > [class*="twelve wide large screen"].column, .ui.grid > .row > [class*="twelve wide large screen"].column, .ui.grid > [class*="twelve wide large screen"].column {
     width: 75% !important;
   }
-
   .ui.column.grid > [class*="thirteen wide large screen"].column, .ui.grid > .column.row > [class*="thirteen wide large screen"].column, .ui.grid > .row > [class*="thirteen wide large screen"].column, .ui.grid > [class*="thirteen wide large screen"].column {
     width: 81.25% !important;
   }
-
   .ui.column.grid > [class*="fourteen wide large screen"].column, .ui.grid > .column.row > [class*="fourteen wide large screen"].column, .ui.grid > .row > [class*="fourteen wide large screen"].column, .ui.grid > [class*="fourteen wide large screen"].column {
     width: 87.5% !important;
   }
-
   .ui.column.grid > [class*="fifteen wide large screen"].column, .ui.grid > .column.row > [class*="fifteen wide large screen"].column, .ui.grid > .row > [class*="fifteen wide large screen"].column, .ui.grid > [class*="fifteen wide large screen"].column {
     width: 93.75% !important;
   }
-
   .ui.column.grid > [class*="sixteen wide large screen"].column, .ui.grid > .column.row > [class*="sixteen wide large screen"].column, .ui.grid > .row > [class*="sixteen wide large screen"].column, .ui.grid > [class*="sixteen wide large screen"].column {
     width: 100% !important;
   }
@@ -17515,63 +17384,48 @@ ol.ui.list li[value]:before {
   .ui.column.grid > [class*="one wide widescreen"].column, .ui.grid > .column.row > [class*="one wide widescreen"].column, .ui.grid > .row > [class*="one wide widescreen"].column, .ui.grid > [class*="one wide widescreen"].column {
     width: 6.25% !important;
   }
-
   .ui.column.grid > [class*="two wide widescreen"].column, .ui.grid > .column.row > [class*="two wide widescreen"].column, .ui.grid > .row > [class*="two wide widescreen"].column, .ui.grid > [class*="two wide widescreen"].column {
     width: 12.5% !important;
   }
-
   .ui.column.grid > [class*="three wide widescreen"].column, .ui.grid > .column.row > [class*="three wide widescreen"].column, .ui.grid > .row > [class*="three wide widescreen"].column, .ui.grid > [class*="three wide widescreen"].column {
     width: 18.75% !important;
   }
-
   .ui.column.grid > [class*="four wide widescreen"].column, .ui.grid > .column.row > [class*="four wide widescreen"].column, .ui.grid > .row > [class*="four wide widescreen"].column, .ui.grid > [class*="four wide widescreen"].column {
     width: 25% !important;
   }
-
   .ui.column.grid > [class*="five wide widescreen"].column, .ui.grid > .column.row > [class*="five wide widescreen"].column, .ui.grid > .row > [class*="five wide widescreen"].column, .ui.grid > [class*="five wide widescreen"].column {
     width: 31.25% !important;
   }
-
   .ui.column.grid > [class*="six wide widescreen"].column, .ui.grid > .column.row > [class*="six wide widescreen"].column, .ui.grid > .row > [class*="six wide widescreen"].column, .ui.grid > [class*="six wide widescreen"].column {
     width: 37.5% !important;
   }
-
   .ui.column.grid > [class*="seven wide widescreen"].column, .ui.grid > .column.row > [class*="seven wide widescreen"].column, .ui.grid > .row > [class*="seven wide widescreen"].column, .ui.grid > [class*="seven wide widescreen"].column {
     width: 43.75% !important;
   }
-
   .ui.column.grid > [class*="eight wide widescreen"].column, .ui.grid > .column.row > [class*="eight wide widescreen"].column, .ui.grid > .row > [class*="eight wide widescreen"].column, .ui.grid > [class*="eight wide widescreen"].column {
     width: 50% !important;
   }
-
   .ui.column.grid > [class*="nine wide widescreen"].column, .ui.grid > .column.row > [class*="nine wide widescreen"].column, .ui.grid > .row > [class*="nine wide widescreen"].column, .ui.grid > [class*="nine wide widescreen"].column {
     width: 56.25% !important;
   }
-
   .ui.column.grid > [class*="ten wide widescreen"].column, .ui.grid > .column.row > [class*="ten wide widescreen"].column, .ui.grid > .row > [class*="ten wide widescreen"].column, .ui.grid > [class*="ten wide widescreen"].column {
     width: 62.5% !important;
   }
-
   .ui.column.grid > [class*="eleven wide widescreen"].column, .ui.grid > .column.row > [class*="eleven wide widescreen"].column, .ui.grid > .row > [class*="eleven wide widescreen"].column, .ui.grid > [class*="eleven wide widescreen"].column {
     width: 68.75% !important;
   }
-
   .ui.column.grid > [class*="twelve wide widescreen"].column, .ui.grid > .column.row > [class*="twelve wide widescreen"].column, .ui.grid > .row > [class*="twelve wide widescreen"].column, .ui.grid > [class*="twelve wide widescreen"].column {
     width: 75% !important;
   }
-
   .ui.column.grid > [class*="thirteen wide widescreen"].column, .ui.grid > .column.row > [class*="thirteen wide widescreen"].column, .ui.grid > .row > [class*="thirteen wide widescreen"].column, .ui.grid > [class*="thirteen wide widescreen"].column {
     width: 81.25% !important;
   }
-
   .ui.column.grid > [class*="fourteen wide widescreen"].column, .ui.grid > .column.row > [class*="fourteen wide widescreen"].column, .ui.grid > .row > [class*="fourteen wide widescreen"].column, .ui.grid > [class*="fourteen wide widescreen"].column {
     width: 87.5% !important;
   }
-
   .ui.column.grid > [class*="fifteen wide widescreen"].column, .ui.grid > .column.row > [class*="fifteen wide widescreen"].column, .ui.grid > .row > [class*="fifteen wide widescreen"].column, .ui.grid > [class*="fifteen wide widescreen"].column {
     width: 93.75% !important;
   }
-
   .ui.column.grid > [class*="sixteen wide widescreen"].column, .ui.grid > .column.row > [class*="sixteen wide widescreen"].column, .ui.grid > .row > [class*="sixteen wide widescreen"].column, .ui.grid > [class*="sixteen wide widescreen"].column {
     width: 100% !important;
   }
@@ -17947,39 +17801,32 @@ ol.ui.list li[value]:before {
     -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
   }
-
   .ui.stackable[class*="mobile reversed"], .ui[class*="mobile vertically reversed"].grid {
     -webkit-box-orient: vertical;
     -webkit-box-direction: reverse;
     -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
   }
-
   .ui[class*="mobile reversed"].divided.grid:not([class*="vertically divided"]) > .column:first-child, .ui[class*="mobile reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:first-child {
     -webkit-box-shadow: -1px 0 0 0 rgba(34, 36, 38, 0.15);
     box-shadow: -1px 0 0 0 rgba(34, 36, 38, 0.15);
   }
-
   .ui[class*="mobile reversed"].divided.grid:not([class*="vertically divided"]) > .column:last-child, .ui[class*="mobile reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:last-child {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-
   .ui.grid[class*="vertically divided"][class*="mobile vertically reversed"] > .row:first-child:before {
     -webkit-box-shadow: 0 -1px 0 0 rgba(34, 36, 38, 0.15);
     box-shadow: 0 -1px 0 0 rgba(34, 36, 38, 0.15);
   }
-
   .ui.grid[class*="vertically divided"][class*="mobile vertically reversed"] > .row:last-child:before {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-
   .ui[class*="mobile reversed"].celled.grid > .row > .column:first-child {
     -webkit-box-shadow: -1px 0 0 0 #d4d4d5;
     box-shadow: -1px 0 0 0 #d4d4d5;
   }
-
   .ui[class*="mobile reversed"].celled.grid > .row > .column:last-child {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -17992,39 +17839,32 @@ ol.ui.list li[value]:before {
     -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
   }
-
   .ui[class*="tablet vertically reversed"].grid {
     -webkit-box-orient: vertical;
     -webkit-box-direction: reverse;
     -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
   }
-
   .ui[class*="tablet reversed"].divided.grid:not([class*="vertically divided"]) > .column:first-child, .ui[class*="tablet reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:first-child {
     -webkit-box-shadow: -1px 0 0 0 rgba(34, 36, 38, 0.15);
     box-shadow: -1px 0 0 0 rgba(34, 36, 38, 0.15);
   }
-
   .ui[class*="tablet reversed"].divided.grid:not([class*="vertically divided"]) > .column:last-child, .ui[class*="tablet reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:last-child {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-
   .ui.grid[class*="vertically divided"][class*="tablet vertically reversed"] > .row:first-child:before {
     -webkit-box-shadow: 0 -1px 0 0 rgba(34, 36, 38, 0.15);
     box-shadow: 0 -1px 0 0 rgba(34, 36, 38, 0.15);
   }
-
   .ui.grid[class*="vertically divided"][class*="tablet vertically reversed"] > .row:last-child:before {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-
   .ui[class*="tablet reversed"].celled.grid > .row > .column:first-child {
     -webkit-box-shadow: -1px 0 0 0 #d4d4d5;
     box-shadow: -1px 0 0 0 #d4d4d5;
   }
-
   .ui[class*="tablet reversed"].celled.grid > .row > .column:last-child {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -18037,39 +17877,32 @@ ol.ui.list li[value]:before {
     -ms-flex-direction: row-reverse;
     flex-direction: row-reverse;
   }
-
   .ui[class*="computer vertically reversed"].grid {
     -webkit-box-orient: vertical;
     -webkit-box-direction: reverse;
     -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
   }
-
   .ui[class*="computer reversed"].divided.grid:not([class*="vertically divided"]) > .column:first-child, .ui[class*="computer reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:first-child {
     -webkit-box-shadow: -1px 0 0 0 rgba(34, 36, 38, 0.15);
     box-shadow: -1px 0 0 0 rgba(34, 36, 38, 0.15);
   }
-
   .ui[class*="computer reversed"].divided.grid:not([class*="vertically divided"]) > .column:last-child, .ui[class*="computer reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:last-child {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-
   .ui.grid[class*="vertically divided"][class*="computer vertically reversed"] > .row:first-child:before {
     -webkit-box-shadow: 0 -1px 0 0 rgba(34, 36, 38, 0.15);
     box-shadow: 0 -1px 0 0 rgba(34, 36, 38, 0.15);
   }
-
   .ui.grid[class*="vertically divided"][class*="computer vertically reversed"] > .row:last-child:before {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-
   .ui[class*="computer reversed"].celled.grid > .row > .column:first-child {
     -webkit-box-shadow: -1px 0 0 0 #d4d4d5;
     box-shadow: -1px 0 0 0 #d4d4d5;
   }
-
   .ui[class*="computer reversed"].celled.grid > .row > .column:last-child {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -18079,12 +17912,10 @@ ol.ui.list li[value]:before {
   .ui.doubling.grid {
     width: auto;
   }
-
   .ui.doubling.grid > .row, .ui.grid > .doubling.row {
     margin: 0 !important;
     padding: 0 !important;
   }
-
   .ui.doubling.grid > .row > .column, .ui.grid > .doubling.row > .column {
     display: inline-block !important;
     padding-top: 1rem !important;
@@ -18093,63 +17924,48 @@ ol.ui.list li[value]:before {
     box-shadow: none !important;
     margin: 0;
   }
-
   .ui.grid > [class*="two column"].doubling.row.row > .column, .ui[class*="two column"].doubling.grid > .column:not(.row), .ui[class*="two column"].doubling.grid > .row > .column {
     width: 100% !important;
   }
-
   .ui.grid > [class*="three column"].doubling.row.row > .column, .ui[class*="three column"].doubling.grid > .column:not(.row), .ui[class*="three column"].doubling.grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="four column"].doubling.row.row > .column, .ui[class*="four column"].doubling.grid > .column:not(.row), .ui[class*="four column"].doubling.grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="five column"].doubling.row.row > .column, .ui[class*="five column"].doubling.grid > .column:not(.row), .ui[class*="five column"].doubling.grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="six column"].doubling.row.row > .column, .ui[class*="six column"].doubling.grid > .column:not(.row), .ui[class*="six column"].doubling.grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="seven column"].doubling.row.row > .column, .ui[class*="seven column"].doubling.grid > .column:not(.row), .ui[class*="seven column"].doubling.grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="eight column"].doubling.row.row > .column, .ui[class*="eight column"].doubling.grid > .column:not(.row), .ui[class*="eight column"].doubling.grid > .row > .column {
     width: 25% !important;
   }
-
   .ui.grid > [class*="nine column"].doubling.row.row > .column, .ui[class*="nine column"].doubling.grid > .column:not(.row), .ui[class*="nine column"].doubling.grid > .row > .column {
     width: 25% !important;
   }
-
   .ui.grid > [class*="ten column"].doubling.row.row > .column, .ui[class*="ten column"].doubling.grid > .column:not(.row), .ui[class*="ten column"].doubling.grid > .row > .column {
     width: 20% !important;
   }
-
   .ui.grid > [class*="eleven column"].doubling.row.row > .column, .ui[class*="eleven column"].doubling.grid > .column:not(.row), .ui[class*="eleven column"].doubling.grid > .row > .column {
     width: 20% !important;
   }
-
   .ui.grid > [class*="twelve column"].doubling.row.row > .column, .ui[class*="twelve column"].doubling.grid > .column:not(.row), .ui[class*="twelve column"].doubling.grid > .row > .column {
     width: 16.66666667% !important;
   }
-
   .ui.grid > [class*="thirteen column"].doubling.row.row > .column, .ui[class*="thirteen column"].doubling.grid > .column:not(.row), .ui[class*="thirteen column"].doubling.grid > .row > .column {
     width: 16.66666667% !important;
   }
-
   .ui.grid > [class*="fourteen column"].doubling.row.row > .column, .ui[class*="fourteen column"].doubling.grid > .column:not(.row), .ui[class*="fourteen column"].doubling.grid > .row > .column {
     width: 14.28571429% !important;
   }
-
   .ui.grid > [class*="fifteen column"].doubling.row.row > .column, .ui[class*="fifteen column"].doubling.grid > .column:not(.row), .ui[class*="fifteen column"].doubling.grid > .row > .column {
     width: 14.28571429% !important;
   }
-
   .ui.grid > [class*="sixteen column"].doubling.row.row > .column, .ui[class*="sixteen column"].doubling.grid > .column:not(.row), .ui[class*="sixteen column"].doubling.grid > .row > .column {
     width: 12.5% !important;
   }
@@ -18159,7 +17975,6 @@ ol.ui.list li[value]:before {
     margin: 0 !important;
     padding: 0 !important;
   }
-
   .ui.doubling.grid > .row > .column, .ui.grid > .doubling.row > .column {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
@@ -18167,63 +17982,48 @@ ol.ui.list li[value]:before {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
   }
-
   .ui.grid > [class*="two column"].doubling:not(.stackable).row.row > .column, .ui[class*="two column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="two column"].doubling:not(.stackable).grid > .row > .column {
     width: 100% !important;
   }
-
   .ui.grid > [class*="three column"].doubling:not(.stackable).row.row > .column, .ui[class*="three column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="three column"].doubling:not(.stackable).grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="four column"].doubling:not(.stackable).row.row > .column, .ui[class*="four column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="four column"].doubling:not(.stackable).grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="five column"].doubling:not(.stackable).row.row > .column, .ui[class*="five column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="five column"].doubling:not(.stackable).grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="six column"].doubling:not(.stackable).row.row > .column, .ui[class*="six column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="six column"].doubling:not(.stackable).grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="seven column"].doubling:not(.stackable).row.row > .column, .ui[class*="seven column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="seven column"].doubling:not(.stackable).grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="eight column"].doubling:not(.stackable).row.row > .column, .ui[class*="eight column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="eight column"].doubling:not(.stackable).grid > .row > .column {
     width: 50% !important;
   }
-
   .ui.grid > [class*="nine column"].doubling:not(.stackable).row.row > .column, .ui[class*="nine column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="nine column"].doubling:not(.stackable).grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="ten column"].doubling:not(.stackable).row.row > .column, .ui[class*="ten column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="ten column"].doubling:not(.stackable).grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="eleven column"].doubling:not(.stackable).row.row > .column, .ui[class*="eleven column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="eleven column"].doubling:not(.stackable).grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="twelve column"].doubling:not(.stackable).row.row > .column, .ui[class*="twelve column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="twelve column"].doubling:not(.stackable).grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="thirteen column"].doubling:not(.stackable).row.row > .column, .ui[class*="thirteen column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="thirteen column"].doubling:not(.stackable).grid > .row > .column {
     width: 33.33333333% !important;
   }
-
   .ui.grid > [class*="fourteen column"].doubling:not(.stackable).row.row > .column, .ui[class*="fourteen column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="fourteen column"].doubling:not(.stackable).grid > .row > .column {
     width: 25% !important;
   }
-
   .ui.grid > [class*="fifteen column"].doubling:not(.stackable).row.row > .column, .ui[class*="fifteen column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="fifteen column"].doubling:not(.stackable).grid > .row > .column {
     width: 25% !important;
   }
-
   .ui.grid > [class*="sixteen column"].doubling:not(.stackable).row.row > .column, .ui[class*="sixteen column"].doubling:not(.stackable).grid > .column:not(.row), .ui[class*="sixteen column"].doubling:not(.stackable).grid > .row > .column {
     width: 25% !important;
   }
@@ -18234,7 +18034,6 @@ ol.ui.list li[value]:before {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
-
   .ui.grid > .stackable.stackable.row > .column, .ui.stackable.grid > .column.grid > .column, .ui.stackable.grid > .column.row > .column, .ui.stackable.grid > .column:not(.row), .ui.stackable.grid > .row > .column, .ui.stackable.grid > .row > .wide.column, .ui.stackable.grid > .wide.column {
     width: 100% !important;
     margin: 0 0 !important;
@@ -18242,30 +18041,24 @@ ol.ui.list li[value]:before {
     box-shadow: none !important;
     padding: 1rem 1rem !important;
   }
-
   .ui.stackable.grid:not(.vertically) > .row {
     margin: 0;
     padding: 0;
   }
-
   .ui.container > .ui.stackable.grid > .column, .ui.container > .ui.stackable.grid > .row > .column {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-
   .ui.grid .ui.stackable.grid, .ui.segment:not(.vertical) .ui.stackable.page.grid {
     margin-left: -1rem !important;
     margin-right: -1rem !important;
   }
-
   .ui.stackable.celled.grid > .column:not(.row):first-child, .ui.stackable.celled.grid > .row:first-child > .column:first-child, .ui.stackable.divided.grid > .column:not(.row):first-child, .ui.stackable.divided.grid > .row:first-child > .column:first-child {
     border-top: none !important;
   }
-
   .ui.inverted.stackable.celled.grid > .column:not(.row), .ui.inverted.stackable.celled.grid > .row > .column, .ui.inverted.stackable.divided.grid > .column:not(.row), .ui.inverted.stackable.divided.grid > .row > .column {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
-
   .ui.stackable.celled.grid > .column:not(.row), .ui.stackable.celled.grid > .row > .column, .ui.stackable.divided:not(.vertically).grid > .column:not(.row), .ui.stackable.divided:not(.vertically).grid > .row > .column {
     border-top: 1px solid rgba(34, 36, 38, 0.15);
     -webkit-box-shadow: none !important;
@@ -18273,12 +18066,10 @@ ol.ui.list li[value]:before {
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
   }
-
   .ui.stackable.celled.grid > .row {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
   }
-
   .ui.stackable.divided:not(.vertically).grid > .column:not(.row), .ui.stackable.divided:not(.vertically).grid > .row > .column {
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -18288,15 +18079,12 @@ ol.ui.list li[value]:before {
   .ui.grid.grid.grid > .row > [class*="tablet only"].column:not(.mobile), .ui.grid.grid.grid > [class*="tablet only"].column:not(.mobile), .ui.grid.grid.grid > [class*="tablet only"].row:not(.mobile), .ui[class*="tablet only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="computer only"].column:not(.mobile), .ui.grid.grid.grid > [class*="computer only"].column:not(.mobile), .ui.grid.grid.grid > [class*="computer only"].row:not(.mobile), .ui[class*="computer only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="large screen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="large screen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="large screen only"].row:not(.mobile), .ui[class*="large screen only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].row:not(.mobile), .ui[class*="widescreen only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
@@ -18305,15 +18093,12 @@ ol.ui.list li[value]:before {
   .ui.grid.grid.grid > .row > [class*="mobile only"].column:not(.tablet), .ui.grid.grid.grid > [class*="mobile only"].column:not(.tablet), .ui.grid.grid.grid > [class*="mobile only"].row:not(.tablet), .ui[class*="mobile only"].grid.grid.grid:not(.tablet) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="computer only"].column:not(.tablet), .ui.grid.grid.grid > [class*="computer only"].column:not(.tablet), .ui.grid.grid.grid > [class*="computer only"].row:not(.tablet), .ui[class*="computer only"].grid.grid.grid:not(.tablet) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="large screen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="large screen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="large screen only"].row:not(.mobile), .ui[class*="large screen only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].row:not(.mobile), .ui[class*="widescreen only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
@@ -18322,15 +18107,12 @@ ol.ui.list li[value]:before {
   .ui.grid.grid.grid > .row > [class*="mobile only"].column:not(.computer), .ui.grid.grid.grid > [class*="mobile only"].column:not(.computer), .ui.grid.grid.grid > [class*="mobile only"].row:not(.computer), .ui[class*="mobile only"].grid.grid.grid:not(.computer) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="tablet only"].column:not(.computer), .ui.grid.grid.grid > [class*="tablet only"].column:not(.computer), .ui.grid.grid.grid > [class*="tablet only"].row:not(.computer), .ui[class*="tablet only"].grid.grid.grid:not(.computer) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="large screen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="large screen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="large screen only"].row:not(.mobile), .ui[class*="large screen only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].row:not(.mobile), .ui[class*="widescreen only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
@@ -18339,11 +18121,9 @@ ol.ui.list li[value]:before {
   .ui.grid.grid.grid > .row > [class*="mobile only"].column:not(.computer), .ui.grid.grid.grid > [class*="mobile only"].column:not(.computer), .ui.grid.grid.grid > [class*="mobile only"].row:not(.computer), .ui[class*="mobile only"].grid.grid.grid:not(.computer) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="tablet only"].column:not(.computer), .ui.grid.grid.grid > [class*="tablet only"].column:not(.computer), .ui.grid.grid.grid > [class*="tablet only"].row:not(.computer), .ui[class*="tablet only"].grid.grid.grid:not(.computer) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].column:not(.mobile), .ui.grid.grid.grid > [class*="widescreen only"].row:not(.mobile), .ui[class*="widescreen only"].grid.grid.grid:not(.mobile) {
     display: none !important;
   }
@@ -18352,7 +18132,6 @@ ol.ui.list li[value]:before {
   .ui.grid.grid.grid > .row > [class*="mobile only"].column:not(.computer), .ui.grid.grid.grid > [class*="mobile only"].column:not(.computer), .ui.grid.grid.grid > [class*="mobile only"].row:not(.computer), .ui[class*="mobile only"].grid.grid.grid:not(.computer) {
     display: none !important;
   }
-
   .ui.grid.grid.grid > .row > [class*="tablet only"].column:not(.computer), .ui.grid.grid.grid > [class*="tablet only"].column:not(.computer), .ui.grid.grid.grid > [class*="tablet only"].row:not(.computer), .ui[class*="tablet only"].grid.grid.grid:not(.computer) {
     display: none !important;
   }
@@ -19425,11 +19204,9 @@ ol.ui.list li[value]:before {
     -ms-flex-direction: column;
     flex-direction: column;
   }
-
   .ui.stackable.menu .item {
     width: 100% !important;
   }
-
   .ui.stackable.menu .item:before {
     position: absolute;
     content: "";
@@ -19440,15 +19217,12 @@ ol.ui.list li[value]:before {
     height: 1px;
     background: rgba(34, 36, 38, 0.1);
   }
-
   .ui.stackable.menu .left.item, .ui.stackable.menu .left.menu {
     margin-right: 0 !important;
   }
-
   .ui.stackable.menu .right.item, .ui.stackable.menu .right.menu {
     margin-left: 0 !important;
   }
-
   .ui.stackable.menu .left.menu, .ui.stackable.menu .right.menu {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -20126,9 +19900,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.vertical.menu {
   width: 25rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Message
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -20597,9 +20369,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.message {
   font-size: 1.71428571em;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Table
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -20745,31 +20515,25 @@ ol.ui.list li[value]:before {
   .ui.table:not(.unstackable) {
     width: 100%;
   }
-
   .ui.table:not(.unstackable) tbody, .ui.table:not(.unstackable) tr, .ui.table:not(.unstackable) tr > td, .ui.table:not(.unstackable) tr > th {
     width: auto !important;
     display: block !important;
   }
-
   .ui.table:not(.unstackable) {
     padding: 0;
   }
-
   .ui.table:not(.unstackable) thead {
     display: block;
   }
-
   .ui.table:not(.unstackable) tfoot {
     display: block;
   }
-
   .ui.table:not(.unstackable) tr {
     padding-top: 1em;
     padding-bottom: 1em;
     -webkit-box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1) inset !important;
     box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1) inset !important;
   }
-
   .ui.table:not(.unstackable) tr > td, .ui.table:not(.unstackable) tr > th {
     background: 0 0;
     border: none !important;
@@ -20777,11 +20541,9 @@ ol.ui.list li[value]:before {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
   }
-
   .ui.table:not(.unstackable) td:first-child, .ui.table:not(.unstackable) th:first-child {
     font-weight: 700;
   }
-
   .ui.definition.table:not(.unstackable) thead th:first-child {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
@@ -20928,26 +20690,21 @@ ol.ui.list li[value]:before {
     width: 100% !important;
     display: block !important;
   }
-
   .ui[class*="tablet stackable"].table {
     padding: 0;
   }
-
   .ui[class*="tablet stackable"].table thead {
     display: block;
   }
-
   .ui[class*="tablet stackable"].table tfoot {
     display: block;
   }
-
   .ui[class*="tablet stackable"].table tr {
     padding-top: 1em;
     padding-bottom: 1em;
     -webkit-box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1) inset !important;
     box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1) inset !important;
   }
-
   .ui[class*="tablet stackable"].table tr > td, .ui[class*="tablet stackable"].table tr > th {
     background: 0 0;
     border: none !important;
@@ -20955,7 +20712,6 @@ ol.ui.list li[value]:before {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
   }
-
   .ui.definition[class*="tablet stackable"].table thead th:first-child {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
@@ -21571,9 +21327,7 @@ ol.ui.list li[value]:before {
 
 .ui.large.table {
   font-size: 1.1em;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Ad
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -21757,9 +21511,7 @@ ol.ui.list li[value]:before {
 
 .ui.test.ad[data-text]:after {
   content: attr(data-text);
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Item
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -22367,95 +22119,78 @@ ol.ui.list li[value]:before {
     margin-left: 0;
     margin-right: 0;
   }
-
   .ui.two.doubling.cards > .card {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
   }
-
   .ui.three.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.three.doubling.cards > .card {
     width: calc(50% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.four.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.four.doubling.cards > .card {
     width: calc(50% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.five.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.five.doubling.cards > .card {
     width: calc(50% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.six.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.six.doubling.cards > .card {
     width: calc(50% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.seven.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.seven.doubling.cards > .card {
     width: calc(33.33333333% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.eight.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.eight.doubling.cards > .card {
     width: calc(33.33333333% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.nine.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.nine.doubling.cards > .card {
     width: calc(33.33333333% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.ten.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.ten.doubling.cards > .card {
     width: calc(33.33333333% - 2em);
     margin-left: 1em;
@@ -22467,95 +22202,78 @@ ol.ui.list li[value]:before {
     margin-left: 0;
     margin-right: 0;
   }
-
   .ui.two.doubling.cards > .card {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
   }
-
   .ui.three.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.three.doubling.cards > .card {
     width: calc(50% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.four.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.four.doubling.cards > .card {
     width: calc(50% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.five.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.five.doubling.cards > .card {
     width: calc(33.33333333% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.six.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.six.doubling.cards > .card {
     width: calc(33.33333333% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.eight.doubling.cards {
     margin-left: -1em;
     margin-right: -1em;
   }
-
   .ui.eight.doubling.cards > .card {
     width: calc(33.33333333% - 2em);
     margin-left: 1em;
     margin-right: 1em;
   }
-
   .ui.eight.doubling.cards {
     margin-left: -0.75em;
     margin-right: -0.75em;
   }
-
   .ui.eight.doubling.cards > .card {
     width: calc(25% - 1.5em);
     margin-left: 0.75em;
     margin-right: 0.75em;
   }
-
   .ui.nine.doubling.cards {
     margin-left: -0.75em;
     margin-right: -0.75em;
   }
-
   .ui.nine.doubling.cards > .card {
     width: calc(25% - 1.5em);
     margin-left: 0.75em;
     margin-right: 0.75em;
   }
-
   .ui.ten.doubling.cards {
     margin-left: -0.75em;
     margin-right: -0.75em;
   }
-
   .ui.ten.doubling.cards > .card {
     width: calc(20% - 1.5em);
     margin-left: 0.75em;
@@ -22566,11 +22284,9 @@ ol.ui.list li[value]:before {
   .ui.stackable.cards {
     display: block !important;
   }
-
   .ui.stackable.cards .card:first-child {
     margin-top: 0 !important;
   }
-
   .ui.stackable.cards > .card {
     display: block !important;
     height: auto !important;
@@ -22581,9 +22297,7 @@ ol.ui.list li[value]:before {
 }
 .ui.cards > .card {
   font-size: 1em;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Comment
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -22789,9 +22503,7 @@ ol.ui.list li[value]:before {
 
 .ui.massive.comments {
   font-size: 1.71428571rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Feed
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -23031,9 +22743,7 @@ ol.ui.list li[value]:before {
 
 .ui.large.feed {
   font-size: 1.14285714rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Item
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -23323,11 +23033,9 @@ ol.ui.list li[value]:before {
   .ui.items > .item {
     margin: 1em 0;
   }
-
   .ui.items > .item > .image:not(.ui) {
     width: 150px;
   }
-
   .ui.items > .item > .image + .content {
     display: block;
     padding: 0 0 0 1em;
@@ -23341,19 +23049,16 @@ ol.ui.list li[value]:before {
     flex-direction: column;
     margin: 2em 0;
   }
-
   .ui.items:not(.unstackable) > .item > .image {
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
-
   .ui.items:not(.unstackable) > .item > .image, .ui.items:not(.unstackable) > .item > .image > img {
     max-width: 100% !important;
     width: auto !important;
     max-height: 250px !important;
   }
-
   .ui.items:not(.unstackable) > .item > .image + .content {
     display: block;
     padding: 1.5em 0 0;
@@ -23425,8 +23130,7 @@ ol.ui.list li[value]:before {
   .ui.unstackable.items > .item > .image, .ui.unstackable.items > .item > .image > img {
     width: 125px !important;
   }
-}
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Statistic
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -23882,9 +23586,7 @@ ol.ui.list li[value]:before {
 
 .ui.huge.statistic > .text.value, .ui.huge.statistics .statistic > .text.value {
   font-size: 2.5rem !important;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Accordion
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -24056,9 +23758,7 @@ ol.ui.list li[value]:before {
 
 .ui.accordion .accordion .title .dropdown.icon:before, .ui.accordion .title .dropdown.icon:before {
   content: "\f0da";
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Checkbox
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -24505,9 +24205,7 @@ ol.ui.list li[value]:before {
 .ui.checkbox input:indeterminate ~ .box:after, .ui.checkbox input:indeterminate ~ label:after {
   font-size: 12px;
   content: "\e801";
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Dimmer
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -24698,9 +24396,7 @@ body.dimmable > .dimmer {
 
 .dimmed.dimmable > .ui.simple.inverted.dimmer {
   background-color: rgba(255, 255, 255, 0.85);
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Dropdown
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -25930,9 +25626,7 @@ select.ui.dropdown {
 
 .ui.dropdown > .clear.icon:before {
   content: "\f00d";
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Video
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -26048,9 +25742,7 @@ select.ui.dropdown {
 
 .ui[class*="21:9"].embed {
   padding-bottom: 42.85714286%;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Modal
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -26243,7 +25935,6 @@ select.ui.dropdown {
   .ui.modal > .header {
     padding-right: 2.25rem;
   }
-
   .ui.modal > .close {
     top: 1.0535rem;
     right: 1rem;
@@ -26255,24 +25946,20 @@ select.ui.dropdown {
     padding: 0.75rem 1rem !important;
     padding-right: 2.25rem !important;
   }
-
   .ui.modal > .content {
     display: block;
     padding: 1rem !important;
   }
-
   .ui.modal > .close {
     top: 0.5rem !important;
     right: 0.5rem !important;
   }
-
   .ui.modal .image.content {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
   }
-
   .ui.modal .content > .image {
     display: block;
     max-width: 100%;
@@ -26280,12 +25967,10 @@ select.ui.dropdown {
     text-align: center;
     padding: 0 0 1rem !important;
   }
-
   .ui.modal > .content > .image > i.icon {
     font-size: 5rem;
     text-align: center;
   }
-
   .ui.modal .content > .description {
     display: block;
     width: 100% !important;
@@ -26294,11 +25979,9 @@ select.ui.dropdown {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-
   .ui.modal > .actions {
     padding: 1rem 1rem 0 !important;
   }
-
   .ui.modal .actions > .button, .ui.modal .actions > .buttons {
     margin-bottom: 1rem;
   }
@@ -26582,8 +26265,7 @@ select.ui.dropdown {
     width: 1140px;
     margin: 0;
   }
-}
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Nag
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -26680,9 +26362,7 @@ a.ui.nag {
 
 .ui.bottom.nags .nag:last-child {
   border-radius: 0.28571429rem 0.28571429rem 0 0;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Popup
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -27347,9 +27027,7 @@ a.ui.nag {
 
 .ui.huge.popup {
   font-size: 1.42857143rem;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Progress Bar
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -27783,9 +27461,7 @@ a.ui.nag {
 
 .ui.big.progress .bar {
   height: 3.5em;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Rating
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -27963,9 +27639,7 @@ a.ui.nag {
 
 .ui.heart.rating .active.icon:before {
   content: "\f004";
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Search
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -28326,8 +28000,7 @@ a.ui.nag {
   .ui.search .results {
     max-width: calc(100vw - 2rem);
   }
-}
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Shape
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -28445,9 +28118,7 @@ a.ui.nag {
 
 .ui.shape .active.side {
   display: block;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Sidebar
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -28942,9 +28613,7 @@ body.pushable > .pusher {
 .ui.visible.scale.down.sidebar ~ .pusher {
   -webkit-transform: scale(0.75);
   transform: scale(0.75);
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Sticky
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -28988,9 +28657,7 @@ body.pushable > .pusher {
   position: -ms-sticky;
   position: -o-sticky;
   position: sticky;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Tab
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -29049,9 +28716,7 @@ body.pushable > .pusher {
   border-width: 0.2em;
   -webkit-box-shadow: 0 0 0 1px transparent;
   box-shadow: 0 0 0 1px transparent;
-}
-
-/*!
+} /*!
 * # Semantic UI 2.4.0 - Transition
 * http://github.com/semantic-org/semantic-ui/
 *
@@ -31156,9 +30821,7 @@ ul li, dl, ol li {
 p {
   font-size: 1rem;
   font-weight: 400;
-}
-
-/*-------------
+} /*-------------
     <MainCV>
 --------------*/
 #fullprint h1 {

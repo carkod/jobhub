@@ -21,7 +21,7 @@ jobs:
       jobhub_db:
         image: mongo:latest
         options: >-
-          --health-cmd "echo 'db.runCommand(\"ping\").ok' | mongo jobhub_db:27017/test --quiet"
+          --health-cmd "echo 'db.runCommand(\"ping\").ok' | mongosh jobhub_db:27017/cv_generator --quiet"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
