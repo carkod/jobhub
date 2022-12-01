@@ -28,7 +28,7 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "remark-gfm": "^1.0.0",
-    "semantic-ui-react": "^2.0.1",
+    "semantic-ui-react": "^2.1.4",
     "shortid": "^2.2.16"
   },
   "devDependencies": {
