@@ -12,7 +12,7 @@ pids
 *.scss.map
 .DS_Store
 
-#Back-end exceptions
+# Back-end exceptions
 back/uploads/*
 back/dist/
 back/docs
