@@ -6,6 +6,7 @@ import CoverLetters from "./containers/coverLetters/CoverLetters";
 import Letter from "./containers/coverLetters/Letter";
 import Detail from "./containers/curriculum/Detail";
 import Listing from "./containers/curriculum/Listing";
+import NewCV from "./containers/curriculum/NewCV";
 import Positions from "./containers/curriculum/Positions";
 import Home from "./containers/Home";
 import Layout from "./containers/Layout";
@@ -39,6 +40,7 @@ const AppRouter = () => (
         <Route exact path="/cv/positions" element={<Positions />} />
         <Route exact path="/relationships" element={<Relationships />} />
         <Route exact path="/cv/id=:id" element={<Detail />} />
+        <Route exact path="/cv/new" element={<Detail />} />
         <Route exact path="/portfolio" element={<Portfolio />} />
         <Route exact path="/portfolio/project/id=:id" element={<Project />} />
         <Route exact path="/coverletters" element={<CoverLetters />} />

@@ -1,14 +1,9 @@
+import produce from "immer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { Button, Icon } from "semantic-ui-react";
-import {
-  fetchCV,
-  fetchCVs,
-  resetCVState,
-  saveCvApi,
-  setCVState,
-} from "../../actions/cv";
+import { fetchCV, fetchCVs, saveCvApi } from "../../actions/cv";
 import { generatePdfApi } from "../../actions/generate-pdf";
 import { fetchRelationsApi } from "../../actions/relations";
 import Metainfo from "../../components/Metainfo";
@@ -26,41 +21,54 @@ import WorkRepeater from "./WorkRepeater";
 // - path param for conditions
 const pdfType = "curriculum-vitae";
 
-class Detail extends Component {
+class NewCV extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cats: {
+        locale: null,
+        position: null,
+        status: null,
+      },
+      locales: null,
+      positions: null,
+      statuses: null,
+      name: "",
+      navName: "",
+      summary: "",
+      workExp: [],
+      persdetails: "",
+      educ: [],
+      langSkills: [],
+      webdevSkills: [],
+      itSkills: [],
+    };
   }
 
   componentDidMount = () => {
-    if (this.props.router.params.id) {
-      this.props.fetchCV(this.props.router.params.id);
-    } else {
-      this.props.resetCVState();
-    }
     this.props.fetchRelationsApi();
   };
 
   summaryChange = (e) => {
-    this.props.setCVState({ summary: e });
+    this.setState({ summary: e });
   };
 
   metaChange = (e, element) => {
     if (checkValue(e.target.name)) {
-      this.props.setCVState({ [e.target.name]: e.target.value });
+      this.setState({ [e.target.name]: e.target.value });
     } else {
-      this.props.setCVState({
-        cats: {
-          ...this.props.cv.cats,
-          [element.name]: element.value,
-        },
-      });
+      this.setState(
+        produce((draft) => {
+          draft.cats[element.name] = element.value;
+        })
+      );
     }
   };
 
   pdChange = (e) => {
-    this.props.setCVState({
+    this.setState({
       persdetails: {
-        ...this.props.cv.persdetails,
+        ...this.state.persdetails,
         [e.target.name]: e.target.value,
       },
     });
@@ -68,93 +76,101 @@ class Detail extends Component {
 
   skillsChange = ({ langSkills, webdevSkills, itSkills, workExp, educ }) => {
     if (checkValue(langSkills)) {
-      this.props.setCVState({ langSkills: langSkills });
+      this.setState({ langSkills: langSkills });
     }
     if (checkValue(webdevSkills)) {
-      this.props.setCVState({ webdevSkills: webdevSkills });
+      this.setState({ webdevSkills: webdevSkills });
     }
     if (checkValue(itSkills)) {
-      this.props.setCVState({ itSkills: itSkills });
+      this.setState({ itSkills: itSkills });
     }
     if (checkValue(workExp)) {
-      this.props.setCVState({ workExp: workExp });
+      this.setState({ workExp: workExp });
     }
     if (checkValue(educ)) {
-      this.props.setCVState({ educ: educ });
+      this.setState({ educ: educ });
     }
   };
 
   cvName = (e) => {
-    this.props.setCVState({ name: e.target.value });
+    this.setState({ name: e.target.value });
   };
 
   savePdf = (id) => async (e) => {
     e.preventDefault();
-    const response = await this.props.generatePdfApi(
-      pdfType,
-      id,
-      this.props.cv.cats.locale
-    );
+    const response = await this.props.generatePdfApi(pdfType, id, this.state.cats.locale);
     const blob = new Blob([response], { type: "application/pdf" });
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
-    link.download = `Carlos-Wu-${this.props.cv.name}.pdf`;
+    link.download = `Carlos-Wu-${this.state.name}.pdf`;
     link.click();
   };
 
   onSubmit = async (e) => {
     e.preventDefault();
-    this.props.saveCvApi(this.props.cv);
+    if (this.props.router.params.id) {
+      this.setState({ _id: this.props.router.params.id }, () =>
+        this.props.saveCvApi(this.state)
+      );
+    } else {
+      this.props.saveCvApi(this.state);
+    }
   };
 
   render() {
     return (
       <div id="detail">
         <form onSubmit={this.onSubmit}>
-          <Metainfo
-            cv={this.props.cv}
-            cats={this.props.cats}
-            onChange={this.metaChange}
-          />
+          {this.state.cats && (
+            <Metainfo
+              meta={this.state.cats}
+              name={this.state.name}
+              navName={this.state.navName}
+              locales={this.props.locales || null}
+              positions={this.props.positions || null}
+              statuses={this.props.statuses || null}
+              onChange={this.metaChange}
+            />
+          )}
           <div className="container">
-            {this.props.cv.summary && (
+            {this.state.summary && (
               <Summary
-                summary={this.props.cv.summary}
+                summary={this.state.summary}
                 onChange={this.summaryChange}
               />
             )}
-            {this.props.cv.persdetails && (
+            {this.state.persdetails && (
               <PD
-                persdetails={this.props.cv.persdetails}
+                persdetails={this.state.persdetails}
                 onChange={this.pdChange}
               />
             )}
 
-            {this.props.cv.workExp && (
+            {this.state.workExp && (
               <WorkRepeater
-                workExp={this.props.cv.workExp}
+                workExp={this.state.workExp}
                 update={this.skillsChange}
               />
             )}
-            {this.props.cv.educ && (
-              <Education educ={this.props.cv.educ} update={this.skillsChange} />
+            {this.state.educ && (
+              <Education educ={this.state.educ} update={this.skillsChange} />
             )}
 
-            {this.props.cv.langSkills && (
+            {this.state.langSkills && (
               <LangSkills
-                langSkills={this.props.cv.langSkills}
+                langSkills={this.state.langSkills}
                 update={this.skillsChange}
               />
             )}
-            {this.props.cv.webdevSkills && (
+            {this.state.webdevSkills && (
               <WebdevSkills
-                webdevSkills={this.props.cv.webdevSkills}
+                webdevSkills={this.state.webdevSkills}
                 update={this.skillsChange}
               />
             )}
-            {this.props.cv.itSkills && (
+            {this.state.itSkills && (
               <ItSkills
-                itSkills={this.props.cv.itSkills}
+                itSkills={this.state.itSkills}
                 update={this.skillsChange}
               />
             )}
@@ -185,8 +201,8 @@ class Detail extends Component {
 const mapStateToProps = (state, props) => {
   const { cvReducer, catsReducer } = state;
   return {
-    cv: cvReducer,
-    cats: catsReducer,
+    ...cvReducer,
+    ...catsReducer,
   };
 };
 
@@ -198,7 +214,5 @@ export default compose(
     fetchCV,
     fetchRelationsApi,
     generatePdfApi,
-    setCVState,
-    resetCVState,
   })
-)(Detail);
+)(NewCV);

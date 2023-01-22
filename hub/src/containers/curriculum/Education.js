@@ -1,10 +1,9 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
-import RichTextEditor from 'react-rte';
 import { Grid, Header, Icon } from 'semantic-ui-react';
-import shortid from 'shortid';
 import Editor from '../../components/Editor';
+import { educObj } from '../../reducers/cv';
 
 export default class Education extends Component {
   
@@ -30,15 +29,7 @@ export default class Education extends Component {
   pushExp = (e) => {
     e.preventDefault();
     const {educ} = this.state;
-    const id = 'langSkill-' + shortid.generate();
-    const newExp = {
-      id: id, 
-      date: '', 
-      diploma:'',
-      institution:'',
-      desc: RichTextEditor.createEmptyValue(),
-    }
-    educ.unshift(newExp)
+    educ.unshift(educObj)
     this.setState({ educ });
   }
   

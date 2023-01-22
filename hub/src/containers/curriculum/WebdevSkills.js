@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Header, Icon } from 'semantic-ui-react';
-import shortid from 'shortid';
+import { skillsObjGenerator, webdevSkillObj } from '../../reducers/cv';
 
 export default class WebdevSkills extends Component {
 
@@ -22,14 +22,7 @@ export default class WebdevSkills extends Component {
   pushSkill = (e) => {
     e.preventDefault();
     const { webdevSkills } = this.state;
-    const id = 'webdevSkill-' + shortid.generate();
-    const newLang = {
-      id: id,
-      name: '',
-      level: '',
-      desc: '',
-    }
-    webdevSkills.push(newLang)
+    webdevSkills.push(skillsObjGenerator("webdevSkill"))
     this.setState({ webdevSkills });
   }
 

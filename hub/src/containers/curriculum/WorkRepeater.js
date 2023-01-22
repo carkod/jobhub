@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import RichTextEditor from 'react-rte';
 import { Grid, Header, Icon } from 'semantic-ui-react';
-import shortid from 'shortid';
 import Editor from '../../components/Editor';
-
 class WorkRepeater extends Component {
   
   constructor(props) {
@@ -26,15 +23,7 @@ class WorkRepeater extends Component {
   pushExp = (e) => {
     e.preventDefault();
     const {workExp} = this.state;
-    const id = 'workExp-' + shortid.generate();
-    const newExp = {
-      id: id, 
-      date: '', 
-      position:'',
-      company:'',
-      desc: RichTextEditor.createEmptyValue(),
-    }
-    workExp.unshift(newExp)
+    workExp.unshift(expObj)
     this.setState({ workExp });
   }
   

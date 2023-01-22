@@ -19,6 +19,8 @@ export const DELETE_CV_SUCCESS = "DELETE_CV_SUCCESS";
 export const SAVE_CV = "SAVE_CV";
 export const SAVE_CV_SUCCESS = "SAVE_CV_SUCCESS";
 
+export const SET_CV_STATE = "SET_CV_STATE";
+export const RESET_CV_STATE = "RESET_CV_STATE";
 /**
  * New action creators
  * 2 states instead of three:
@@ -83,10 +85,23 @@ export function setFormFields(data) {
   };
 }
 
+export function resetCVState() {
+  return {
+    type: RESET_CV_STATE,
+  }
+}
+
 export function setCVs(cvs) {
   return {
     type: SET_CV,
     cvs,
+  };
+}
+
+export function setCVState(payload) {
+  return {
+    type: SET_CV_STATE,
+    payload: payload
   };
 }
 

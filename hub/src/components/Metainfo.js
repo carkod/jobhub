@@ -2,7 +2,7 @@ import React from "react";
 import { Dropdown, Header, Segment } from "semantic-ui-react";
 import { checkValue, formatDate } from "../utils";
 
-const Metainfo = (props) => {
+const Metainfo = ({ cv, cats, onChange }) => {
   return (
     <div id="metainfo" className="u-top-margin-title">
       <Header as="h1">
@@ -10,55 +10,55 @@ const Metainfo = (props) => {
           className="u-display-block"
           type="text"
           name="name"
-          value={props.name}
-          onChange={props.onChange}
+          value={cv.name}
+          onChange={onChange}
         />
       </Header>
       <label htmlFor="navName">Navigation name:</label>
       <input
         type="text"
         name="navName"
-        value={props.navName}
-        onChange={props.onChange}
+        value={cv.navName}
+        onChange={onChange}
       />
       <div className="section">
         <Header sub>META</Header>
         <Segment.Group horizontal>
           <Segment>
-            <strong>Created</strong>: {formatDate(props.createdAt)}
+            <strong>Created</strong>: {formatDate(cv.createdAt)}
           </Segment>
           <Segment>
-            <strong>Updated</strong>: {formatDate(props.updatedAt)}
+            <strong>Updated</strong>: {formatDate(cv.updatedAt)}
           </Segment>
         </Segment.Group>
         <div className="u-space-between">
-          {checkValue(props.locales) && (
+          {checkValue(cats?.locales) && (
             <Dropdown
-              onChange={props.onChange}
+              onChange={onChange}
               name="locale"
               selection
-              options={props.locales}
-              value={props.meta.locale}
+              options={cats?.locales}
+              value={cv.locale}
             />
           )}
 
-          {checkValue(props.statuses) && (
+          {checkValue(cats?.statuses) && (
             <Dropdown
-              value={props.meta.status}
-              onChange={props.onChange}
+              value={cv.status}
+              onChange={onChange}
               name="status"
               selection
-              options={props.statuses}
+              options={cats?.statuses}
             />
           )}
 
-          {checkValue(props.positions) && (
+          {checkValue(cats?.positions) && (
             <Dropdown
-              value={props.meta.position}
-              onChange={props.onChange}
+              value={cv.position}
+              onChange={onChange}
               name="position"
               selection
-              options={props.positions}
+              options={cats?.positions}
             />
           )}
         </div>
