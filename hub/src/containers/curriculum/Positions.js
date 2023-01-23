@@ -72,11 +72,6 @@ class Positions extends Component {
                 </List.Item>  
               </List>
             </div>
-            {/*<div className="buttons">
-              <Button primary><Link style={{color: '#fff', display:'block'}} to={`/cv/id=${cv._id}`}>Edit/View</Link></Button>
-              <Button onClick={this.handleCopy(i)} secondary>Copy</Button>
-              <Button onClick={this.handleDelete} negative>Delete</Button>
-            </div>*/}
           </div>
           )
         }

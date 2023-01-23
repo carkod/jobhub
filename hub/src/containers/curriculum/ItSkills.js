@@ -1,98 +1,92 @@
-import React, { Component } from 'react';
-import { Grid, Header, Icon } from 'semantic-ui-react';
-import shortid from 'shortid';
-import { skillsObjGenerator } from '../../reducers/cv';
+import React, { useState } from "react";
+import { Grid, Header, Icon } from "semantic-ui-react";
+import { skillsObjGenerator } from "../../reducers/cv";
 
-class ItSkills extends Component {
+const ItSkills = ({ itSkills, addSkillItem, removeSkill, update }) => {
+  const [toggle, setToggle] = useState(false);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      toggle: false,
+  const pushSkill = (e) => {
+    e.preventDefault();
+    addSkillItem("itSkills", skillsObjGenerator("itSkills"));
+    if (!toggle) {
+      setToggle(!toggle);
     }
-  }
+  };
 
-  componentDidMount = () => {
-    this.setState({ itSkills: this.props.itSkills })
-  }
+  return (
+    <div className="itSkills section">
+      <Header sub className="u-space-between u-align-baseline">
+        <div>
+          <span>IT skills</span>
+          <button className="btn" onClick={pushSkill}>
+            <Icon className="green" name="add square"></Icon>
+          </button>
+        </div>
+        <div>
+          <button
+            className="btn"
+            type="button"
+            onClick={() => setToggle(!toggle)}
+          >
+            <Icon className="blue large" fitted name="caret square down" />
+          </button>
+        </div>
+      </Header>
 
-  componentDidUpdate = (props) => {
-    if (this.props.itSkills !== props.itSkills) this.setState({ itSkills: this.props.itSkills })
-  }
+      {toggle && itSkills
+        ? itSkills.map((it, i) => (
+            <div className="single" key={it.id}>
+              <button
+                className="btn btn-close-repeat"
+                onClick={() => removeSkill("itSkills", i)}
+              >
+                <Icon className="red large" name="window close"></Icon>
+              </button>
+              <Grid columns={12}>
+                <Grid.Row columns={2}>
+                  <Grid.Column>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <label>Name </label>
+                        <input
+                          type="text"
+                          name="name"
+                          onChange={(e) => update("itSkills", i, e)}
+                          value={it.name}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                      <Grid.Column className="pos-bottom">
+                        <label>Level </label>
+                        <input
+                          type="text"
+                          name="level"
+                          onChange={(e) => update("itSkills", i, e)}
+                          value={it.level}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid.Column>
 
-  pushSkill = (e) => {
-    e.preventDefault();
-    const { itSkills } = this.state;
-    itSkills.push(skillsObjGenerator("itSkill"))
-    this.setState({ itSkills });
-  }
-
-  removeSkill = (i) => (e) => {
-    e.preventDefault();
-    const { itSkills } = this.state;
-    itSkills.splice(i, 1)
-    this.setState({ itSkills })
-  }
-
-
-  handleChange = (i) => (e) => {
-    const { itSkills } = this.state;
-    itSkills[i][e.target.name] = e.target.value;
-    this.setState({ itSkills })
-    this.timeout = setTimeout(() => this.props.update({ itSkills }), 1000)
-  }
-
-  render() {
-    const { itSkills } = !!Object.keys(this.state).length ? this.state : this.props;
-    return (
-      <div className="itSkills section">
-        <Header sub className="u-space-between u-align-baseline">
-          <div>
-            <span>IT skills</span>
-            <button className="btn" onClick={this.pushSkill}><Icon className="green" name="add square"></Icon></button>
+                  <Grid.Column>
+                    <label>Brief description </label>
+                    <textarea
+                      style={{ width: "100%" }}
+                      rows="5"
+                      type="text"
+                      name="desc"
+                      onChange={(e) => update("itSkills", i, e)}
+                      value={it.desc}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
             </div>
-          <div>
-            <button className="btn" type="button" onClick={() => this.setState({ toggle: !this.state.toggle})}>
-              <Icon className="blue large" fitted name='caret square down' />
-            </button>
-          </div>
-        </Header>
-
-        {this.state.toggle && itSkills ? itSkills.map((it, i) =>
-          <div className="single" key={it.id}>
-            <button className="btn btn-close-repeat" onClick={this.removeSkill(i)}>
-              <Icon className="red large" name="window close" ></Icon>
-            </button>
-            <Grid columns={12}>
-              <Grid.Row columns={2}>
-                <Grid.Column>
-                  <Grid.Row>
-                    <Grid.Column >
-                      <label>Name </label>
-                      <input type="text" name="name" onChange={this.handleChange(i)} value={it.name} />
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column className="pos-bottom">
-                      <label>Level </label>
-                      <input type="text" name="level" onChange={this.handleChange(i)} value={it.level} />
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid.Column>
-
-                <Grid.Column>
-                  <label>Brief description </label>
-                  <textarea style={{ width: '100%' }} rows="5" type="text" name="desc" onChange={this.handleChange(i)} value={it.desc} />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </div>
-        ) : ""}
-      </div>
-    );
-
-  }
-
-}
+          ))
+        : ""}
+    </div>
+  );
+};
 
 export default ItSkills;

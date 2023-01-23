@@ -47,7 +47,7 @@ class Listing extends Component {
         <h1>Section - CV <AddNew /></h1>
         <Card.Group>
           {this.props.cvs && this.props.cvs.map((cv, i) =>
-            <Card key={`panel-${cv._id}`} color={cv.cats.position === "front-end" ? "blue" : null} href={`/cv/id=${cv._id}`}>
+            <Card key={`panel-${cv._id}`} color={cv.cats.position === "front-end" ? "blue" : null} href={`/cv/${cv._id}`}>
               <Card.Content>
                 <Card.Header>{cv.name}</Card.Header>
                 <Card.Meta>

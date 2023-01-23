@@ -49,7 +49,13 @@ export default function Blog(app) {
     } else {
       const id = sanitize(r.id);
       try {
-        await BlogModel.updateOne({_id: id}, blog);
+        await BlogModel.updateOne({_id: id}, {
+          name: r.name,
+          category: r.category,
+          tags: r.tags,
+          content: r.content,
+          status: r.status
+        });
         res.json({ error: false, message: "Blog changes saved!" });
       } catch (err) {
         res.json({

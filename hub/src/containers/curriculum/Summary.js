@@ -13,14 +13,13 @@ class Summary extends Component {
   }
 
   onChange = (e) => {
-    this.props.onChange(e.toString("html"));
+    this.props.onChange(e);
   };
 
   render() {
     const { summary } = this.props;
     return (
       <div className="personal section">
-        {console.log(summary)}
         <div className="u-space-between u-align-baseline">
           <Header sub>SUMMARY AND PROFESSIONAL GOALS</Header>
           <button
@@ -35,7 +34,7 @@ class Summary extends Component {
           <Grid>
             <Grid.Row>
               <Grid.Column width={16}>
-                <Editor value={summary} onChange={this.onChange} />
+                <Editor value={summary} onChange={this.onChange}/>
               </Grid.Column>
             </Grid.Row>
           </Grid>

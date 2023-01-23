@@ -34,17 +34,17 @@ const Metainfo = ({ cv, cats, onChange }) => {
         <div className="u-space-between">
           {checkValue(cats?.locales) && (
             <Dropdown
+              defaultValue={cv.cats.locale}
               onChange={onChange}
               name="locale"
               selection
               options={cats?.locales}
-              value={cv.locale}
             />
           )}
 
           {checkValue(cats?.statuses) && (
             <Dropdown
-              value={cv.status}
+              defaultValue={cv.cats.status}
               onChange={onChange}
               name="status"
               selection
@@ -54,7 +54,7 @@ const Metainfo = ({ cv, cats, onChange }) => {
 
           {checkValue(cats?.positions) && (
             <Dropdown
-              value={cv.position}
+              value={cv.cats.position}
               onChange={onChange}
               name="position"
               selection

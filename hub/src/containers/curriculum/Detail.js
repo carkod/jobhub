@@ -1,3 +1,4 @@
+import produce from "immer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -7,11 +8,12 @@ import {
   fetchCVs,
   resetCVState,
   saveCvApi,
-  setCVState,
+  setCVState
 } from "../../actions/cv";
 import { generatePdfApi } from "../../actions/generate-pdf";
 import { fetchRelationsApi } from "../../actions/relations";
 import Metainfo from "../../components/Metainfo";
+import { cvModel } from "../../reducers/cv";
 import { checkValue, withRouter } from "../../utils";
 import Education from "./Education";
 import ItSkills from "./ItSkills";
@@ -29,6 +31,10 @@ const pdfType = "curriculum-vitae";
 class Detail extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cv: cvModel,
+      cats: {},
+    };
   }
 
   componentDidMount = () => {
@@ -40,15 +46,55 @@ class Detail extends Component {
     this.props.fetchRelationsApi();
   };
 
+  componentDidUpdate = (props) => {
+    if (this.props.cv !== props.cv) {
+      this.setState(
+        produce((d) => {
+          d.cv.cats.locale = this.props.cv.cats.locale;
+          d.cv.cats.position = this.props.cv.cats.position;
+          d.cv.cats.status = this.props.cv.cats.status;
+          d.cv.navName = this.props.cv.navName;
+          d.cv.name = this.props.cv.name;
+          d.cv.summary = this.props.cv.summary;
+          d.cv.workExp = this.props.cv.workExp;
+          d.cv.persdetails = this.props.cv.persdetails;
+          d.cv.educ = this.props.cv.educ;
+          d.cv.langSkills = this.props.cv.langSkills;
+          d.cv.webdevSkills = this.props.cv.webdevSkills;
+          d.cv.itSkills = this.props.cv.itSkills;
+        })
+      );
+    }
+
+    if (
+      this.props.router.params?.id &&
+      props.router.params.id !== this.props.router.params.id
+    ) {
+      this.setState({
+        previewPdf: `${buildBackUrl().pdfUrl}/view/${pdfType}/${
+          props.router.params.id
+        }`,
+      });
+    }
+  };
+
   summaryChange = (e) => {
-    this.props.setCVState({ summary: e });
+    this.setState(produce(d => {
+      d.cv.summary = e
+    }));
+  };
+
+  descChange = (key, e, i) => {
+    this.setState(produce((d) => {
+      d.cv[key][i].desc = e;
+    }));
   };
 
   metaChange = (e, element) => {
     if (checkValue(e.target.name)) {
-      this.props.setCVState({ [e.target.name]: e.target.value });
+      this.setState({ [e.target.name]: e.target.value });
     } else {
-      this.props.setCVState({
+      this.setState({
         cats: {
           ...this.props.cv.cats,
           [element.name]: element.value,
@@ -58,7 +104,7 @@ class Detail extends Component {
   };
 
   pdChange = (e) => {
-    this.props.setCVState({
+    this.setState({
       persdetails: {
         ...this.props.cv.persdetails,
         [e.target.name]: e.target.value,
@@ -66,26 +112,32 @@ class Detail extends Component {
     });
   };
 
-  skillsChange = ({ langSkills, webdevSkills, itSkills, workExp, educ }) => {
-    if (checkValue(langSkills)) {
-      this.props.setCVState({ langSkills: langSkills });
-    }
-    if (checkValue(webdevSkills)) {
-      this.props.setCVState({ webdevSkills: webdevSkills });
-    }
-    if (checkValue(itSkills)) {
-      this.props.setCVState({ itSkills: itSkills });
-    }
-    if (checkValue(workExp)) {
-      this.props.setCVState({ workExp: workExp });
-    }
-    if (checkValue(educ)) {
-      this.props.setCVState({ educ: educ });
-    }
+  skillsChange = (key, index, event) => {
+    this.setState(
+      produce((d) => {
+        d.cv[key][index][event.target.name] = event.target.value;
+      })
+    );
   };
 
+  removeSkill = (key, index) => {
+    this.setState(
+      produce((d) => {
+        d.cv[key].splice(index, 1)
+      })
+    );
+  }
+
+  addSkillItem = (key, item) => {
+    this.setState(
+      produce((d) => {
+        d.cv[key].push(item)
+      })
+    );
+  }
+
   cvName = (e) => {
-    this.props.setCVState({ name: e.target.value });
+    this.setState({ name: e.target.value });
   };
 
   savePdf = (id) => async (e) => {
@@ -98,13 +150,18 @@ class Detail extends Component {
     const blob = new Blob([response], { type: "application/pdf" });
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
-    link.download = `Carlos-Wu-${this.props.cv.name}.pdf`;
+    link.download = `Carlos-Wu-${this.state.cv.name}.pdf`;
     link.click();
   };
 
   onSubmit = async (e) => {
     e.preventDefault();
-    this.props.saveCvApi(this.props.cv);
+    const { cv } = this.state;
+    let cvObj = {...cv}
+    if (this.props.router.params.id) {
+      cvObj._id = this.props.router.params.id
+    }
+    this.props.saveCvApi(cvObj);
   };
 
   render() {
@@ -112,50 +169,58 @@ class Detail extends Component {
       <div id="detail">
         <form onSubmit={this.onSubmit}>
           <Metainfo
-            cv={this.props.cv}
-            cats={this.props.cats}
+            cv={this.state.cv}
+            cats={this.state.cats}
             onChange={this.metaChange}
           />
           <div className="container">
-            {this.props.cv.summary && (
-              <Summary
-                summary={this.props.cv.summary}
-                onChange={this.summaryChange}
-              />
-            )}
-            {this.props.cv.persdetails && (
-              <PD
-                persdetails={this.props.cv.persdetails}
-                onChange={this.pdChange}
-              />
-            )}
+            {this.state.cv && (
+              <>
+                <Summary
+                  summary={this.state.cv.summary}
+                  onChange={this.summaryChange}
+                />
+                <PD
+                  persdetails={this.state.cv.persdetails}
+                  onChange={this.pdChange}
+                />
+                <WorkRepeater
+                  workExp={this.state.cv.workExp}
+                  update={this.skillsChange}
+                  removeSkill={this.removeSkill}
+                  addSkillItem={this.addSkillItem}
+                  descChange={this.descChange}
+                />
+                <Education
+                  educ={this.state.cv.educ}
+                  update={this.skillsChange}
+                  removeSkill={this.removeSkill}
+                  addSkillItem={this.addSkillItem}
+                  descChange={this.descChange}
+                />
+                <LangSkills
+                  langSkills={this.state.cv.langSkills}
+                  update={this.skillsChange}
+                  removeSkill={this.removeSkill}
+                  addSkillItem={this.addSkillItem}
 
-            {this.props.cv.workExp && (
-              <WorkRepeater
-                workExp={this.props.cv.workExp}
-                update={this.skillsChange}
-              />
+                />
+              </>
             )}
-            {this.props.cv.educ && (
-              <Education educ={this.props.cv.educ} update={this.skillsChange} />
-            )}
-
-            {this.props.cv.langSkills && (
-              <LangSkills
-                langSkills={this.props.cv.langSkills}
-                update={this.skillsChange}
-              />
-            )}
-            {this.props.cv.webdevSkills && (
+            {this.state.cv.webdevSkills.length > 0 && (
               <WebdevSkills
-                webdevSkills={this.props.cv.webdevSkills}
+                webdevSkills={this.state.cv.webdevSkills}
                 update={this.skillsChange}
+                removeSkill={this.removeSkill}
+                addSkillItem={this.addSkillItem}
               />
             )}
-            {this.props.cv.itSkills && (
+            {this.state.cv.itSkills.length > 0 && (
               <ItSkills
-                itSkills={this.props.cv.itSkills}
+                itSkills={this.state.cv.itSkills}
                 update={this.skillsChange}
+                removeSkill={this.removeSkill}
+                addSkillItem={this.addSkillItem}
               />
             )}
 

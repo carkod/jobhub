@@ -1,4 +1,3 @@
-import RichTextEditor from "react-rte";
 import shortid from "shortid";
 import {
   COPY_CV_SUCCESS,
@@ -18,7 +17,7 @@ const expObj = {
   date: "",
   position: "",
   company: "",
-  desc: RichTextEditor.createEmptyValue(),
+  desc: "",
 };
 
 const educObj = {
@@ -26,7 +25,7 @@ const educObj = {
   date: "",
   diploma: "",
   institution: "",
-  desc: RichTextEditor.createEmptyValue(),
+  desc: "",
 };
 
 const skillsObjGenerator = (prefix) => {
@@ -50,7 +49,7 @@ const cvModel = {
   workExp: [expObj],
   persdetails: {
     name: "",
-    lastName: "",
+    lastname: "",
     email: "",
     phone: "",
     address: "",
@@ -76,13 +75,14 @@ const cvReducer = produce((draft, action) => {
       draft = cvModel;
       break;
     case SET_CV_STATE:
+      console.log(action.payload.langSkills[0].level)
       const newState = Object.assign(draft, action.payload);
       draft = newState
       break;
     case SET_ONE_CV:
       if (action.cv) {
-        const newState = Object.assign(state, action.cv);
-        return newState;
+        const newState = Object.assign(draft, action.cv);
+        return draft;
       } else {
         return draft;
       }
