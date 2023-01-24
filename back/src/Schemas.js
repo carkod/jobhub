@@ -146,6 +146,7 @@ const BlogSchema = new Schema({
     category: { type: String },
     status: { type: String },
     tags: { type: Array },
+    publishToLinkedin: { type: Boolean },
     content: { type: String, required: true },
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true }, { strict: false });
