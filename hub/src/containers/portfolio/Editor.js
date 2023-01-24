@@ -18,7 +18,6 @@ class Editor extends Component {
       <div className="section">
         <Header sub>DESCRIPTION</Header>
         <Editor value={this.state.value} onChange={this.handleChange} />
-        {/* <RichTextEditor value={this.state.value} onChange={this.handleChange} onBlur={() => this.props.onChange(this.state.value.toString('html'))}/> */}
       </div>
     );
   }

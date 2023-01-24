@@ -43,7 +43,8 @@ const AppRouter = () => (
         <Route exact path="/portfolio" element={<Portfolio />} />
         <Route exact path="/portfolio/project/id=:id" element={<Project />} />
         <Route exact path="/coverletters" element={<CoverLetters />} />
-        <Route exact path="/coverletters/id=:id" element={<Letter />} />
+        <Route exact path="/coverletters/:id" element={<Letter />} />
+        <Route exact path="/coverletters/new" element={<Letter />} />
         <Route exact path="/jobs" element={<Jobs />} />
         <Route exact path="/tracker" element={<Tracker />} />
         <Route exact path="/new-tracker" element={<AddNewApplication />} />

@@ -65,17 +65,6 @@ class Detail extends Component {
         })
       );
     }
-
-    if (
-      this.props.router.params?.id &&
-      props.router.params.id !== this.props.router.params.id
-    ) {
-      this.setState({
-        previewPdf: `${buildBackUrl().pdfUrl}/view/${pdfType}/${
-          props.router.params.id
-        }`,
-      });
-    }
   };
 
   summaryChange = (e) => {
@@ -92,24 +81,20 @@ class Detail extends Component {
 
   metaChange = (e, element) => {
     if (checkValue(e.target.name)) {
-      this.setState({ [e.target.name]: e.target.value });
+      this.setState(produce(d => {
+        d.cv[e.target.name] = e.target.value;
+      }));
     } else {
-      this.setState({
-        cats: {
-          ...this.props.cv.cats,
-          [element.name]: element.value,
-        },
-      });
+      this.setState(produce(d => {
+        d.cats[element.name] = element.value;
+      }));
     }
   };
 
   pdChange = (e) => {
-    this.setState({
-      persdetails: {
-        ...this.props.cv.persdetails,
-        [e.target.name]: e.target.value,
-      },
-    });
+    this.setState(produce(d => {
+      d.cv.persdetails[e.target.name] = e.target.value;
+    }));
   };
 
   skillsChange = (key, index, event) => {
@@ -137,7 +122,9 @@ class Detail extends Component {
   }
 
   cvName = (e) => {
-    this.setState({ name: e.target.value });
+    this.setState(produce(d => {
+      d.cv.name = e.target.value;
+    }));
   };
 
   savePdf = (id) => async (e) => {
@@ -245,7 +232,9 @@ class Detail extends Component {
       </div>
     );
   }
-}
+};
+
+
 
 const mapStateToProps = (state, props) => {
   const { cvReducer, catsReducer } = state;
