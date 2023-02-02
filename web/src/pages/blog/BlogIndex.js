@@ -43,7 +43,7 @@ export default class BlogIndex extends Component {
                   </section>
                 </div>
               ))
-            : "No blogs yet"}
+            : "No logs yet"}
         </main>
       </Fragment>
     );
