@@ -47,7 +47,7 @@ class CoverLetters extends Component {
     return (
       <div id="cls" className="">
         <h1>
-          Section - All Cover Letters <NewCL />
+          All Cover Letters <NewCL />
         </h1>
         <div className="listItem">
           {this.state.cls && (
@@ -113,7 +113,7 @@ class CoverLetters extends Component {
                       <div className="buttons">
                         <Link
                           className="ui primary button"
-                          to={`/coverletters/id=${letter._id}`}
+                          to={`/coverletters/${letter._id}`}
                         >
                           Edit/View
                         </Link>

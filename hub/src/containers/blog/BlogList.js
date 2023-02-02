@@ -16,7 +16,7 @@ const buttonDefaultStyles = {
 const AddNewBlog = ({ router }) => (
   <button
     onClick={() => {
-      router.navigate("/blog/null");
+      router.navigate("/blog/new");
     }}
     style={buttonDefaultStyles}
     className="btn"

@@ -23,36 +23,48 @@ export default function Blog(app) {
       .limit(pagesize);
   });
 
-  app.post("/api/blogs", (req, res) => {
+  app.post("/api/blogs", async (req, res) => {
     let r = req.body;
 
-    // Upsert model
-    let blog = new BlogModel({
+    let blog = {
       name: r.name,
       category: r.category,
       tags: r.tags,
       content: r.content,
       status: r.status
-    });
-
-    if (!r._id) {
-      // Create New
-      blog._id = mongoose.Types.ObjectId();
     }
 
-    const id = sanitize(r._id) || blog._id;
-    delete r._id;
-
-    BlogModel.updateOne({ _id: id }, blog, { upsert: true }, (err, msg) => {
-      if (err) {
+    if (r.id == undefined) {
+      // Create New
+      try {
+        await BlogModel.create(blog);
+        res.json({ error: false, message: "New blog post created!" });
+      } catch (err) {
+        console.log(err)
+        res.json({
+          error: true,
+          message: `Blog failed to create ${err}`,
+        });
+      }
+    } else {
+      const id = sanitize(r.id);
+      try {
+        await BlogModel.updateOne({_id: id}, {
+          name: r.name,
+          category: r.category,
+          tags: r.tags,
+          content: r.content,
+          status: r.status
+        });
+        res.json({ error: false, message: "Blog changes saved!" });
+      } catch (err) {
         res.json({
           error: true,
           message: `Blog changes failed to save ${err}`,
         });
-      } else {
-        res.json({ error: false, message: "Blog changes saved!" });
       }
-    });
+    }
+
   });
 
   app.get("/api/blog/:_id", (req, res) => {

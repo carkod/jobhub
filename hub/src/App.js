@@ -38,16 +38,19 @@ const AppRouter = () => (
         <Route exact path="/cv" element={<Listing />} />
         <Route exact path="/cv/positions" element={<Positions />} />
         <Route exact path="/relationships" element={<Relationships />} />
-        <Route exact path="/cv/id=:id" element={<Detail />} />
+        <Route exact path="/cv/:id" element={<Detail />} />
+        <Route exact path="/cv/new" element={<Detail />} />
         <Route exact path="/portfolio" element={<Portfolio />} />
         <Route exact path="/portfolio/project/id=:id" element={<Project />} />
         <Route exact path="/coverletters" element={<CoverLetters />} />
-        <Route exact path="/coverletters/id=:id" element={<Letter />} />
+        <Route exact path="/coverletters/:id" element={<Letter />} />
+        <Route exact path="/coverletters/new" element={<Letter />} />
         <Route exact path="/jobs" element={<Jobs />} />
         <Route exact path="/tracker" element={<Tracker />} />
         <Route exact path="/new-tracker" element={<AddNewApplication />} />
         <Route exact path="/tracker/:id" element={<EditApplication />} />
         <Route exact path="/blog/" element={<BlogList />} />
+        <Route exact path="/blog/new" element={<Blog />} />
         <Route exact path="/blog/:id" element={<Blog />} />
       </Route>
     </Route>

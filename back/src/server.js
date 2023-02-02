@@ -35,8 +35,7 @@ const appFactory = async (app) => {
     }?authSource=admin`;
     const mongoOptions = {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
+      useUnifiedTopology: true
     };
     const connectClient = await mongoose.connect(connectString, mongoOptions);
     const db = connectClient.connection;

@@ -47,9 +47,3 @@
   display: block;
   width: 100%;
 }
-
-.u-basic-layout {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-gap: 1em;
-}
