@@ -11,8 +11,8 @@ export default class BlogIndex extends Component {
   }
   async componentDidMount() {
     const blogs = await fetchBlogsApi();
-    blogs.filter((x) => x.status === "public");
-    this.setState({ blogs: blogs });
+    const blogState = blogs.filter((x) => x.status === "public");
+    this.setState({ blogs: blogState });
   }
   render() {
     return (
