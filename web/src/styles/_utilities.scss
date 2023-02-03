@@ -25,11 +25,22 @@
   margin-bottom: 0;
 }
 
-.u-blog-header-section {
-  border-bottom: 1px dashed $dark-grey;
-  padding-bottom: 0.5em;
+.u-block__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: $standard-line-height;
+  align-items: stretch;
 }
 
-.u-blog-header-divider {
-  border-bottom: 1px dashed $dark-grey;
+.u-block__item {
+  border: 0.1rem dashed $dark-grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: $standard-line-height;
+  padding: $standard-line-height;
+}
+
+.u-blog-header-section {
+  margin: 0;
 }

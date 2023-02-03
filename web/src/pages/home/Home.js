@@ -97,8 +97,8 @@ class Home extends Component {
               <div className="item">
                 <i className="mail icon" />
                 <div className="content">
-                  <a href="mailto:carkodesign@gmail.com">
-                    carkodesign@gmail.com
+                  <a href="mailto:disendaweb@gmail.com">
+                    disendaweb@gmail.com
                   </a>
                 </div>
               </div>

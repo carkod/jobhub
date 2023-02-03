@@ -140,13 +140,19 @@ ApplicationSchema.pre('save', function (next) {
     next();
 });
 
+const ServicesSchema = new Schema({
+    publishedDate: { type: Schema.Types.Mixed },
+    url: { type: String },
+})
+
 // Blog
 const BlogSchema = new Schema({
     name: { type: String, required: true },
     category: { type: String },
     status: { type: String },
     tags: { type: Array },
-    publishToLinkedin: { type: Boolean },
+    linkedin: { type: ServicesSchema },
+    medium: { type: ServicesSchema },
     content: { type: String, required: true },
     updatedAt: { type: Date, default: Date.now },
 }, { timestamps: true }, { strict: false });
