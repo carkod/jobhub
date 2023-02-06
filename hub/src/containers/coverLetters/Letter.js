@@ -62,7 +62,11 @@ class Letter extends Component {
 
   metaChange = (e, element) => {
     if (checkValue(e.target.name)) {
-      this.setState({ [e.target.name]: e.target.value });
+      this.setState(
+        produce((draft) => {
+          draft.cl[e.target.name] = e.target.value;
+        })
+      );
     } else {
       this.setState(
         produce((draft) => {
@@ -75,32 +79,20 @@ class Letter extends Component {
   descChange = (v) => {
     this.setState(
       produce((draft) => {
-        draft.desc = v;
+        draft.cl.desc = v;
       })
     );
   };
 
-  handleName = (e) => {
-    this.setState(
-      produce((draft) => {
-        draft[e.target.name] = e.target.value;
-      })
-    );
-  };
-
-  handleChange = ({ links }) => {
-    this.setState({ links: links });
-  };
-
-  handleFiles = (docs) => {
-    const { cl } = this.state;
-    this.state.cl.documents = docs.documents;
-    this.setState({ cl });
-  };
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.editClApi(this.state);
+    if (this.props.router.params.id) {
+      this.props.editClApi(this.state.cl, this.props.router.params.id);
+    } else {
+      this.props.saveClApi(this.state.cl)
+    }
+    
   };
 
   savePdf = (id) => async (e) => {
@@ -129,10 +121,7 @@ class Letter extends Component {
             />
           )}
           <div className="container">
-            {this.state.cl.desc && (
-              <Editor value={this.state.cl.desc} onChange={this.descChange} />
-            )}
-
+            <Editor value={this.state.cl.desc} onChange={this.descChange} />
             <br />
 
             <Button type="submit" color="green">

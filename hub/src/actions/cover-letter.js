@@ -192,10 +192,10 @@ export function saveClApi(data) {
   };
 }
 
-export function editClApi(data) {
+export function editClApi(data, id) {
   return (dispatch) => {
     dispatch(editCl());
-    return fetch(`${buildBackUrl().apiUrl}/cls`, {
+    return fetch(`${buildBackUrl().apiUrl}/cls/${id}`, {
       method: "put",
       body: JSON.stringify(data),
       headers: headers,
