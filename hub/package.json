@@ -15,7 +15,7 @@
     "@tinymce/tinymce-react": "4.0.0",
     "axios": "^0.27.2",
     "draft-js": "^0.11.7",
-    "helmet": "^5.1.0",
+    "helmet": "^6.0.1",
     "immer": "^9.0.15",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
