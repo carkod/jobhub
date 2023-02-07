@@ -42,11 +42,10 @@ export default function CLs(app, db) {
     });
   });
 
-  app.put("/api/cls", (req, res) => {
+  app.put("/api/cls/:id", (req, res) => {
     let r = req.body;
     // Update
     const cl = new CLModel({
-      _id: r._id,
       name: r.name,
       navName: r.navName ? r.navName : r.name,
       cats: {
@@ -58,15 +57,15 @@ export default function CLs(app, db) {
       desc: r.desc,
     });
 
-    const cleanId = sanitize(r._id);
+    const cleanId = sanitize(req.params.id);
 
     CLModel.updateOne({ _id: cleanId }, cl, {}, (err, msg) => {
       if (err) res.json({ message: err, error: true });
 
-      if (msg.ok) {
+      if (msg.acknowledged) {
         res.status(200).json({ _id: msg.id, message: "Cover letter Updated!" });
       } else {
-        res.json({ message: "No changes upadated" });
+        res.status(422).json({ message: "No changes upadated" });
       }
     });
   });
