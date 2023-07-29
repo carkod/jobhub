@@ -74,18 +74,17 @@ class Home extends Component {
                   been working for the Web for about {yearsExp} years now
                 </p>
                 <p className="u-home-text">
-                  I am experienced in a breadth of technologies such as{" "}
+                  I am experienced in a breadth of technologies. Front-end development such as{" "}
                   <span className="u-emphasize-text">React</span>, Angular 2+,
-                  Sass for CSS as well{" "}
+                  Sass as well infrastructure and back-end{" "}
                   <span className="u-emphasize-text">Docker</span>, Kubernetes
-                  and <span className="u-emphasize-text">Python</span> (mostly
-                  using Flask) and Node.js, with some experience in DB management
+                  and <span className="u-emphasize-text">Python</span> (Flask) and Node.js, with some experience in DB management
                   (Postgres and MongoDB). Additionally, due to my background in Business and Economics,{" "}
-                  I've supported and estimated projects and managed some offshore teams.
+                  I've managed projects and offshore teams.
                 </p>
                 <p className="u-home-text">
                   In my free time, I like to work on a number of{" "}
-                  <a href="https://github/carkod/" target="_blank">
+                  <a href="https://github.com/carkod/" target="_blank">
                     personal projects
                   </a>
                   , play music and take walks in the various parks of London!
@@ -141,7 +140,7 @@ class Home extends Component {
             </div>
             <div>
               <Link to="/cv/en-GB/5fe993de5a4d95045179151b">
-                <button styles="cursor: pointer;">I'm Feeling Lucky</button>
+                <button className="btn-feeling-lucky">Get my latest CV/Resume</button>
               </Link>
             </div>
           </div>

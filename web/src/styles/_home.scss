@@ -24,10 +24,10 @@
     @extend .sans-serif;
     font-weight: 200;
     font-size: $preset-font;
-    border: 1px solid $blue;
+    border: 1px solid $main-blue;
     outline: none;
     border-radius: 0px;
-    background-color: $blue;
+    background-color: $main-blue;
     box-shadow: none;
     padding-right: 1.3rem;
 
@@ -50,14 +50,14 @@
 
     .menu {
       border-radius: 0px;
-      border-color: $blue;
+      border-color: $main-blue;
       box-shadow: none;
 
       .menutem {
         a {
           display: block;
           @extend .sans-serif;
-          color: $blue;
+          color: $main-blue;
           padding: 1rem 1.25rem;
 
           @media (max-width: $mobile-size) {
@@ -67,7 +67,7 @@
 
           &:hover {
             color: #fff;
-            background-color: $blue;
+            background-color: $main-blue;
           }
         }
       }
@@ -97,7 +97,7 @@
     .text {
       @extend .sans-serif;
       font-size: 1.06rem;
-      color: $blue;
+      color: $main-blue;
     }
   }
 }

@@ -1,5 +1,5 @@
 #fourofour {
-  background-color: $blue;
+  background-color: $main-blue;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -51,7 +51,7 @@
       right: 0;
       transform: skewY(-20deg);
       transform-origin: 0 100%;
-      background-color: $blue;
+      background-color: $main-blue;
       z-index: 4;
     }
   }
@@ -72,7 +72,7 @@
       justify-content: center;
       position: absolute;
       z-index: 3;
-      background-color: $blue;
+      background-color: $main-blue;
 
       &.close {
         width: 100%;
