@@ -70,7 +70,7 @@ export default function Tracker(app, db) {
     const { showCompleted } = req.query;
     
     let params = {}
-    if (!showCompleted) {
+    if (showCompleted !== "true") {
       params["status.text"] = { $nin: ["Rejected", "Success"] }
     }
     try {

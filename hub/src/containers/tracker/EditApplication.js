@@ -63,6 +63,11 @@ class EditApplication extends Component {
         contacts: contacts,
       }));
     }
+
+    if (this.props.showArchive !== prevProps.showArchive) {
+      const { id } = this.props.router.params;
+      this.props.fetchApplication(id);
+    }
   }
 
   inputChange = (e) => {
@@ -458,6 +463,7 @@ class EditApplication extends Component {
 function mapStateToProps(state) {
   return {
     application: state.applicationDetail.data,
+    showArchive: state.showArchive,
   };
 }
 

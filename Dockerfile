@@ -1,21 +1,21 @@
-FROM node:16 as build-hub
+FROM node:20 as build-hub
 COPY hub hub
 WORKDIR /hub/
 RUN yarn install && yarn global add react-scripts sass
 RUN yarn build
 
-FROM node:16 as build-web
+FROM node:20 as build-web
 COPY web web
 WORKDIR /web/
 RUN yarn install && yarn global add react-scripts sass
 RUN yarn build
 
-FROM node:16
+FROM node:20
 # Installs latest Chromium (85) package for puppeteer
-RUN apt-get update && apt-get install -y wget gnupg nginx yarn \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+RUN apt-get update && apt-get install -y gnupg nginx yarn \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
+    && apt-get update && apt-get install google-chrome-stable -y fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY wait-for-it.sh /home/wait-for-it.sh

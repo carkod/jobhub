@@ -22,9 +22,9 @@ class Login extends Component {
     });
   }
 
-  login = (e) => {
+  login = async (e) => {
     const { email, password } = this.state;
-    this.props.userLogin(email, password);
+    await this.props.userLogin(email, password);
     const token = getToken();
     if (checkValue(token)) {
       if (this.props.router.location.state?.from) {

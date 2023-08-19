@@ -27,6 +27,8 @@ const interationalization = new I18n({
 
 const appFactory = async (app) => {
   try {
+    // Prepare for Mongoose 7 migration and supress warning
+    mongoose.set("strictQuery", false);
     // Setup database
     const connectString = `mongodb://${process.env.MONGO_AUTH_USERNAME}:${
       process.env.MONGO_AUTH_PASSWORD

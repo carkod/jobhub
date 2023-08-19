@@ -39,15 +39,16 @@ class TrackingTable extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { applications, showArchive } = this.state;
+
     if (prevProps.applications !== this.props.applications) {
       this.setState({
         applications: this.props.applications,
       });
     }
 
-    if (prevState.showArchive !== this.state.showArchive) {
-      this.setState({ showArchive: showArchive });
+    if (prevProps.showArchive !== this.props.showArchive) {
+      this.setState({ showArchive: this.props.showArchive });
+      this.props.getApplications(this.props.showArchive);
     }
   };
 

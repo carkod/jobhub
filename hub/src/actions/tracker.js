@@ -197,9 +197,13 @@ export function fetchApplication(id) {
   };
 }
 
-export function getApplications(page, pagesize) {
+export function getApplications(showCompleted, page, pagesize) {
+  const url = new URL(`${buildBackUrl().apiUrl}/applications`);
+  url.searchParams.append("page", page);
+  url.searchParams.append("pagesize", pagesize);
+  url.searchParams.append("showCompleted", showCompleted);
   return (dispatch) => {
-    fetch(`${buildBackUrl().apiUrl}/applications?page=${page}&pagesize${pagesize}`, {
+    fetch(url, {
       method: "get",
       headers: headers,
     })
