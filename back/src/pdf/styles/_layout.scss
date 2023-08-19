@@ -1,77 +1,74 @@
 #main {
-    display:flex;
-    flex-flow: row;
-    @media (min-width:42rem) {
-        &::before {
-            top: 0;
-            content: '';
-            display: block;
-            height: 100%;
-            left: -30%;
-            right:0;
-            position: absolute;
-            transform: skewX(9deg);
-            transform-origin: 0;
-            background-color: rgba($blue, 0.8);
-            z-index: -1;
-            width: 60%;
-        }
-        
-        &::after {
-            top: 0;
-            content: '';
-            display: block;
-            height: 100%;
-            right:-10%;
-            position: absolute;
-            transform: skewX(9deg);
-            transform-origin: 0;
-            background-color: #fff;
-            z-index: -1;
-            width: 79%;
-        }
+  display: flex;
+  flex-flow: row;
+  @media (min-width: 42rem) {
+    &::before {
+      top: 0;
+      content: "";
+      display: block;
+      height: 100%;
+      left: -30%;
+      right: 0;
+      position: absolute;
+      transform: skewX(9deg);
+      transform-origin: 0;
+      background-color: rgba($main-blue, 0.8);
+      z-index: -1;
+      width: 60%;
     }
-    
-    @media (max-width: 40rem) {
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            display: block;
-            height: 5rem;
-            left: 0;
-            right:0;
-            
-            transform: skewY(-45deg);
-            transform-origin: 0 100%;
-            background-color: rgba($blue, 0.8);
-            z-index: -1;
-        }
+
+    &::after {
+      top: 0;
+      content: "";
+      display: block;
+      height: 100%;
+      right: -10%;
+      position: absolute;
+      transform: skewX(9deg);
+      transform-origin: 0;
+      background-color: #fff;
+      z-index: -1;
+      width: 79%;
     }
-    
-    
-    .lefty {
-        width:30%;
-        height:100%;
-        position:absolute;
-        top:0;
-        left:0;
+  }
+
+  @media (max-width: 40rem) {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      display: block;
+      height: 5rem;
+      left: 0;
+      right: 0;
+
+      transform: skewY(-45deg);
+      transform-origin: 0 100%;
+      background-color: rgba($main-blue, 0.8);
+      z-index: -1;
     }
-   
-    .righty {
-        width: 65%;
-        height: 100%;
-        display: flex;
-        flex-flow: row wrap ;
-        position: absolute;
-        top: 0;
-        right: 0;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        @media (max-width: 75rem) {
-             align-items:center;
-        }
+  }
+
+  .lefty {
+    width: 30%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .righty {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    @media (max-width: 75rem) {
+      align-items: center;
     }
-    
-    
+  }
 }

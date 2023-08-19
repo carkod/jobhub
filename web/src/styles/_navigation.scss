@@ -21,7 +21,7 @@
         position: absolute;
         transform: skewX(9deg);
         transform-origin: 0;
-        background-color: rgba($blue, 0.8);
+        background-color: rgba($main-blue, 0.8);
         z-index: -1;
       }
 
@@ -82,7 +82,7 @@
       }
 
       .active {
-        color: $blue;
+        color: $main-blue;
         background: #fff;
 
         &::before {
