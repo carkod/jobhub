@@ -9,7 +9,7 @@ class Tracker extends Component {
     super(props);
 
     this.state = {
-      showArchive: false,
+      filterStatus: "active",
     };
   }
 
@@ -30,12 +30,12 @@ class Tracker extends Component {
         <h1>Application tracking {addNewBtn}</h1>
         {/*Three tabs: tracking table, add stage, contact book*/}
         <Dropdown
-          name="showArchive"
+          name="filterStatus"
           options={showArchiveOptions}
           onChange={this.handleChangeFilter}
-          defaultValue={this.state.showArchive}
+          defaultValue={this.state.filterStatus}
         />
-        <TrackingTable {...this.props} showArchive={this.state.showArchive} />
+        <TrackingTable {...this.props} filterStatus={this.state.filterStatus} />
       </div>
     );
   }

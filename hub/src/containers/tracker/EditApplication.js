@@ -16,7 +16,8 @@ import { addNotification } from "../../actions/notification";
 import {
   fetchApplication,
   saveApplication,
-  uploadFile
+  uploadFile,
+  editApplication
 } from "../../actions/tracker";
 import { withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
@@ -61,6 +62,13 @@ class EditApplication extends Component {
         },
         stages: update(this.state.stages, { $set: stages }),
         contacts: contacts,
+        company: this.props.application.company,
+        role: this.props.application.role,
+        salary: this.props.application.salary,
+        applicationUrl: this.props.application.applicationUrl,
+        files: this.props.application.files,
+        description: this.props.application.description,
+        location: this.props.application.location,
       }));
     }
 
@@ -171,10 +179,13 @@ class EditApplication extends Component {
     });
   }
 
-  onSave = () => {
-    this.props.saveApplication(this.state).then((res) => {
-      console.log("saved application", res, this.state);
-    });
+  onSave = (e) => {
+    if (this.props.router.params.id) {
+      this.props.editApplication(this.state, this.props.router.params.id);
+    } else {
+      this.props.saveApplication(this.state);
+    }
+    
   };
 
   render() {
@@ -243,7 +254,7 @@ class EditApplication extends Component {
     return (
       <div id="new-application">
         <h1>View and Edit application {backBtn}</h1>
-        <Form className="addNew-modal" onSubmit={this.handleSubmit}>
+        <Form className="addNew-modal" onSubmit={this.onSave}>
           <Form.Group widths="equal">
             <Form.Input
               value={company}
@@ -446,15 +457,14 @@ class EditApplication extends Component {
             onChange={this.descChange}
             value={description}
           />
-        </Form>
-
         <br />
         <Divider />
         <br />
 
-        <Button form="newcv" type="submit" color="green" onClick={this.onSave}>
+        <Button type="submit" color="green">
           <Icon name="save" /> Save
         </Button>
+        </Form>
       </div>
     );
   }
@@ -474,5 +484,6 @@ export default compose(
     addNotification,
     saveApplication,
     fetchApplication,
+    editApplication,
   })
 )(EditApplication);

@@ -74,13 +74,31 @@ export const showArchiveOptions = [
   {
     key: shortid.generate(),
     text: 'Show active applications',
-    value: false,
+    value: "active",
     placeholder: 'Active or closed',
   },
   {
     key: shortid.generate(),
+    text: 'Show rejected applications',
+    value: "rejected",
+    placeholder: 'rejected',
+  },
+  {
+    key: shortid.generate(),
+    text: 'Show applied applications',
+    value: "applied",
+    placeholder: 'applied',
+  },
+  {
+    key: shortid.generate(),
+    text: 'Show in progress applications',
+    value: "in progress",
+    placeholder: 'in progress',
+  },
+  {
+    key: shortid.generate(),
     text: 'Show all applications',
-    value: true,
+    value: "all",
     placeholder: 'Active or closed',
   },
 ]

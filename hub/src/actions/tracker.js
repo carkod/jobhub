@@ -164,9 +164,9 @@ export function saveApplication(data) {
   };
 }
 
-export function editApplication(data) {
+export function editApplication(data, id) {
   return (dispatch) => {
-    return fetch(`${buildBackUrl().apiUrl}/application`, {
+    return fetch(`${buildBackUrl().apiUrl}/application?id=${id}`, {
       method: "put",
       body: JSON.stringify(data),
       headers: headers,
@@ -197,11 +197,21 @@ export function fetchApplication(id) {
   };
 }
 
-export function getApplications(showCompleted, page, pagesize) {
+export function getApplications(status, page, pagesize) {
   const url = new URL(`${buildBackUrl().apiUrl}/applications`);
-  url.searchParams.append("page", page);
-  url.searchParams.append("pagesize", pagesize);
-  url.searchParams.append("showCompleted", showCompleted);
+
+  if (status) {
+    url.searchParams.append("status", status);
+  }
+
+  if (page) {
+    url.searchParams.append("page", page);
+  }
+
+  if (pagesize) {
+    url.searchParams.append("pagesize", pagesize);
+  }
+  
   return (dispatch) => {
     fetch(url, {
       method: "get",

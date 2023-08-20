@@ -28,14 +28,14 @@ class TrackingTable extends Component {
       activePage: 1,
       activePageSize: 10,
       totalPages: 1,
-      showCompleted: false, // Rejected or Successful
+      filterStatus: "active",
       applications: APPLIED_COMPANIES,
       pagedApplications: APPLIED_COMPANIES,
     };
   }
 
   componentDidMount = () => {
-    this.props.getApplications();
+    this.props.getApplications(this.state.filterStatus);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -46,9 +46,8 @@ class TrackingTable extends Component {
       });
     }
 
-    if (prevProps.showArchive !== this.props.showArchive) {
-      this.setState({ showArchive: this.props.showArchive });
-      this.props.getApplications(this.props.showArchive);
+    if (prevProps.filterStatus !== this.props.filterStatus) {
+      this.props.getApplications(this.props.filterStatus);
     }
   };
 
@@ -132,7 +131,7 @@ class TrackingTable extends Component {
           },
         }),
       },
-      () => this.props.editApplication(this.state.applications[index])
+      () => this.props.editApplication(this.state.applications[index], this.state.applications[index]._id)
     );
   };
 
