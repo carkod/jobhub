@@ -4,8 +4,6 @@ services:
   #   build: .
   #   restart: on-failure
   #   container_name: jobhub_app
-  #   security_opt: 
-  #     - seccomp=chrome.json
   #   depends_on:
   #     - db
   #   env_file:
@@ -14,7 +12,7 @@ services:
   #     - "8082:8082"
   #     - "8081:8081"
   #     - "8080:8080"
-    # command: bash -c "service nginx start && /home/wait-for-it.sh db:27017 -- node /home/back/dist/server.js"
+  #   command: bash -c "service nginx start && /home/wait-for-it.sh db:27017 -- node /home/back/dist/server.js"
 
   db:
     image: mongo:latest

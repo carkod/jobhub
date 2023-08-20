@@ -14,16 +14,15 @@ const compare = (a, b) => {
 };
 
 export default function CVs(app) {
-  app.get("/api/cvs", (req, res) => {
-    CVModel.find(
-      {},
-      null,
-      { sort: { updatedAt: -1 }, new: true },
-      (err, content) => {
-        if (err) throw err;
-        res.status(200).json(content);
-      }
-    );
+  app.get("/api/cvs", async (req, res) => {
+    try {
+      let cvs = await CVModel.find({}, null,
+        { sort: { updatedAt: -1 }}
+      );
+      res.status(200).json(cvs);
+    } catch(err) {
+      res.status(400).json(err);
+    }
   });
 
   /**
@@ -31,25 +30,24 @@ export default function CVs(app) {
    * - Only public status
    * @returns { navName, _id }
    */
-  app.get("/api/cvs/navigation", (req, res) => {
+  app.get("/api/cvs/navigation", async (req, res) => {
     const query = {
       $and: [{ "cats.status": "public" }, { navName: { $exists: true } }],
     };
 
-    CVModel.find(
+    try {
+    let cvs = await CVModel.find(
       query,
       "navName _id cats",
       { sort: { updatedAt: -1 } },
-      (err, content) => {
-        if (err) {
-          res.json({ message: err, error: true });
-        }
-        res.status(200).json(content);
-      }
     );
+    res.json(cvs);
+    } catch (err) {
+      res.json({ message: err, error: true });
+    }
   });
 
-  app.post("/api/cvs", (req, res) => {
+  app.post("/api/cvs", async (req, res) => {
     let r = req.body;
 
     // Sort by date
@@ -78,18 +76,17 @@ export default function CVs(app) {
 
     const id = sanitize(r._id) || mongoose.Types.ObjectId();
 
-    CVModel.updateOne({_id: id}, cv, null, (err, msg) => {
-      if (err) {
-        throw err;
+    try {
+      let cvs = await CVModel.updateOne({_id: id}, cv);
+      if (cvs) {
+        res.json({ status: true, message: "CV changes saved!" });
       } else {
-        if (msg.ok) {
-          const savedID = id;
-          res.json({ status: !!msg.ok, message: "CV changes saved!" });
-        } else {
-          res.json({ status: !!msg.ok, message: "No changes" });
-        }
+        res.json({ status: true, message: "No changes" });
       }
-    });
+
+    } catch(err) {
+      res.json({ message: `Failed to create CV: ${err}`, error: true  });
+    }
   });
 
   // Copy action

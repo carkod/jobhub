@@ -56,6 +56,12 @@ function fillModel(r) {
   };
 }
 
+const capitalize = (word) => {
+  const lower = word.toLowerCase();
+  const capText = word.charAt(0).toUpperCase() + lower.slice(1);
+  return capText;
+}
+
 export default function Tracker(app, db) {
   app.get("/api/applications", async (req, res) => {
     /**
@@ -67,21 +73,29 @@ export default function Tracker(app, db) {
     const page = +req.query.page || 1;
     const pagesize = +req.query.pagesize || 0;
     const skip = pagesize * page - pagesize;
-    const { showCompleted } = req.query;
-    
+    const { status } = req.query;
+    // These should be typed into Schema in the future
+    const typedStatus = ["in progress", "applied", "success", "rejected"];
     let params = {}
-    if (!showCompleted) {
+
+    if (status === "active") {
       params["status.text"] = { $nin: ["Rejected", "Success"] }
+    } else if (typedStatus.includes(status)) {
+      params["status.text"] = { $in: [capitalize(status)] }
     }
+
     try {
       let query = await ApplicationModel.find(params, null, { sort: { updatedDate: -1 }});
+      if (skip > 0) {
+        query.skip(skip);
+      }
       const results = query;
       res.json(results)
     } catch(e) {
       res.json({
         status: false,
         message: `Error: ${e}`
-      })
+      });
     }
     
   });
@@ -135,8 +149,9 @@ export default function Tracker(app, db) {
     );
   });
 
-  app.put("/api/application", (req, res) => {
+  app.put("/api/application", async (req, res) => {
     const r = req.body;
+    const { id } = req.query;
     const applications = {
       company: r.company,
       status: {
@@ -152,18 +167,17 @@ export default function Tracker(app, db) {
       stages: r.stages,
       location: r.location,
     };
-    ApplicationModel.findByIdAndUpdate(r._id, applications, (err, msg) => {
-      if (err) {
-        const newError = new Error(err);
-        res.json({ status: false, message: newError });
+    try {
+      let application = await ApplicationModel.findByIdAndUpdate(id, applications);
+      if (application) {
+        res.status(200).json({ _id: id, message: "Application changes successfully saved!" });
       } else {
-        if (msg.ok) {
-          res.status(200).json({ _id: msg.id, message: "Changes successfully saved!" });
-        } else {
-          res.json({ status: !!msg.ok, message: "No changes" });
-        }
+        res.status(200).json({ _id: id, message: "Application failed to save!" });
       }
-    });
+      
+    } catch (err) {
+      res.status(400).json({ _id: id, message: err });
+    }
   });
 
   app.get("/api/application/:_id", (req, res) => {
