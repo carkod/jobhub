@@ -116,7 +116,7 @@ class Detail extends Component {
   addSkillItem = (key, item) => {
     this.setState(
       produce((d) => {
-        d.cv[key].push(item)
+        d.cv[key].unshift(item)
       })
     );
   }
