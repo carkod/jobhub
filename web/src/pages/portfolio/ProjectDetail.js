@@ -78,7 +78,7 @@ class ProjectDetail extends Component {
           />
           <link
             rel="canonical"
-            href={`http://carloswu.xyz/en-GB/${position}/resources`}
+            href={`http://carlos.wf/en-GB/${position}/resources`}
           />
         </Helmet>
 

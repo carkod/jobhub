@@ -39,7 +39,7 @@ export default class BlogDetail extends Component {
             name="description"
             content={`blog by Carlos Wu - ${blog.name}`}
           />
-          <link rel="canonical" href={`http://carloswu.xyz/blog/${id}`} />
+          <link rel="canonical" href={`http://carlos.wf/blog/${id}`} />
         </Helmet>
 
         <main className="blogContent">

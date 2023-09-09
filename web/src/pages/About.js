@@ -234,7 +234,7 @@ export function About() {
         <meta charSet="utf-8" />
         <meta
           name="description"
-          content={`Carlos Wu - Professional Profile | About carloswu.xyz`}
+          content={`Carlos Wu - Professional Profile | About carlos.wf`}
         />
         <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
       </Helmet>
