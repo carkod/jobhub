@@ -1,3 +1,13 @@
+.u-larger-p {
+  p {
+    font-size: $standard-web-paragraph;
+    strong {
+      font-weight: 500;
+    }
+    
+  }
+}
+
 .u-emphasize-text {
   color: $main-blue;
   font-weight: 500;

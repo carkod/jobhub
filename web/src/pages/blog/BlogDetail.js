@@ -42,7 +42,7 @@ export default class BlogDetail extends Component {
           <link rel="canonical" href={`http://carlos.wf/blog/${id}`} />
         </Helmet>
 
-        <main className="blogContent">
+        <main className="blogContent" style={{ marginLeft: "5.5rem", maxWidth: "800px" }}>
           <small>Category: {blog.category}</small>
           <h1 className="u-blog-header-divider">{blog.name}</h1>
           <div className="row one column wide">
@@ -51,6 +51,7 @@ export default class BlogDetail extends Component {
                 plugins={[gfm]}
                 children={blog.content}
                 allowDangerousHtml
+                className="u-larger-p"
                 style={{ wordWrap: "break-word" }}
               />
             </section>

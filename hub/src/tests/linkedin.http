@@ -2,7 +2,7 @@
 POST https://api.linkedin.com/rest/posts HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer xxx
-LinkedIn-Version: {version number in the format YYYYMM}
+LinkedIn-Version: 202308
 X-Restli-Protocol-Version: 2.0.0
 
 {
@@ -29,7 +29,7 @@ X-Restli-Protocol-Version: 2.0.0
 POST https://api.linkedin.com/rest/posts/{shareUrn}/{ugcPostUrn}
 Content-Type: application/json
 Authorization: Bearer xxx
-LinkedIn-Version: {version number in the format YYYYMM}
+LinkedIn-Version: 202308
 X-Restli-Protocol-Version: 2.0.0
 X-RestLi-Method: PARTIAL_UPDATE
 
@@ -55,6 +55,6 @@ X-RestLi-Method: PARTIAL_UPDATE
 DELETE https://api.linkedin.com/rest/posts/{encoded ugcPostUrn|shareUrn}
 Content-Type: application/json
 Authorization: Bearer xxx
-LinkedIn-Version: {version number in the format YYYYMM}
+LinkedIn-Version: 202308
 X-Restli-Protocol-Version: 2.0.0
 X-RestLi-Method: DELETE
