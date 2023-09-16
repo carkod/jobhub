@@ -20,7 +20,7 @@ export default class BlogDetail extends Component {
     const { id } = this.props.match.params;
     try {
       const blog = await fetchBlogApi(id);
-      this.setState({ blog: blog.data }, () => window.prerenderReady = true);
+      this.setState({ blog: blog.data });
     } catch (e) {
       this.setState({ blog: {} });
     }
@@ -34,18 +34,10 @@ export default class BlogDetail extends Component {
       <div id="mainblog" className="container">
         <Helmet>
           <title>{`Carlos Wu - ${blog.name}`}</title>
-          <meta property="og:title" content={`Carlos Wu`} />
+          <meta property="og:title" content={`Carlos Wu ${blog.name}`} />
           <meta charSet="utf-8" />
-          <meta
-            name="description"
-            content={`${blog.name} | ${blog.category} - blog by Carlos Wu`}
-          />
-          <meta
-            property="og:description"
-            content={`${blog.name} | ${blog.category} - blog by Carlos Wu`}
-          />
-          <link rel="canonical" href={`http://carlos.wf/blog/${id}`} />
-          <meta property="og:url" content={`http://carlos.wf/blog/${id}`} />
+          <link rel="canonical" href={`%PUBLIC_URL%/blog/${id}`} />
+          <meta property="og:url" content={`%PUBLIC_URL%/blog/${id}`} />
         </Helmet>
 
         <main className="blogContent" style={{ marginLeft: "5.5rem", maxWidth: "800px" }}>
