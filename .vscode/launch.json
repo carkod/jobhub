@@ -26,6 +26,15 @@
       }
     },
     {
+      "name": "Web Server",
+      "program": "${workspaceFolder}/web/server/index.js",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
+    {
       "name": "Hub",
       "type": "chrome",
       "request": "launch",

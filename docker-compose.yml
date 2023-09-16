@@ -9,10 +9,21 @@ services:
   #   env_file:
   #     - .env
   #   ports:
-  #     - "8082:8082"
   #     - "8081:8081"
   #     - "8080:8080"
   #   command: bash -c "service nginx start && /home/wait-for-it.sh db:27017 -- node /home/back/dist/server.js"
+
+  back:
+    build: back/
+    restart: on-failure
+    container_name: jobhub_back
+    depends_on:
+      - db
+    env_file:
+      - .env
+    ports:
+      - "8082:8082"
+    command: bash -c "service nginx start && /home/wait-for-it.sh db:27017 -- node /home/web/server/index.js"
 
   db:
     image: mongo:latest
