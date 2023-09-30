@@ -10,6 +10,7 @@ $light-grey: #f9f9f9; // code background
 
 $preset-f: 1.3rem;
 $standard-font: 1.05rem;
+$standard-web-paragraph: 1.2rem;
 $preset-font: 1.3rem;
 $preset-smaller: math.div($preset-f, 1.55);
 $medium-p: 1.4rem;
@@ -112,6 +113,7 @@ h3 {
 h4 {
   @extend .sans-serif;
   font-weight: 400;
+  text-decoration: underline;
 
   small {
     font-weight: 600;
@@ -119,9 +121,11 @@ h4 {
   }
 }
 
-a,
-a:link {
+a {
   color: $orange;
+  &:hover {
+    color: $main-blue;
+  }
 }
 
 p,
