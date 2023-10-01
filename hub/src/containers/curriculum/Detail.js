@@ -14,7 +14,7 @@ import { generatePdfApi } from "../../actions/generate-pdf";
 import { fetchRelationsApi } from "../../actions/relations";
 import Metainfo from "../../components/Metainfo";
 import { cvModel } from "../../reducers/cv";
-import { checkValue, withRouter } from "../../utils";
+import { checkValue, slugify, withRouter } from "../../utils";
 import Education from "./Education";
 import ItSkills from "./ItSkills";
 import LangSkills from "./LangSkills";
@@ -48,8 +48,13 @@ class Detail extends Component {
 
   componentDidUpdate = (props) => {
     if (this.props.cv !== props.cv) {
+      let slug = this.props.cv.slug || "";
+      if (!this.props.cv.slug || this.props.cv.slug === "") {
+        slug = slugify(this.props.cv.name)
+      }
       this.setState(
         produce((d) => {
+          d.cv.slug = slug;
           d.cv.cats.locale = this.props.cv.cats.locale;
           d.cv.cats.position = this.props.cv.cats.position;
           d.cv.cats.status = this.props.cv.cats.status;
@@ -145,11 +150,22 @@ class Detail extends Component {
     e.preventDefault();
     const { cv } = this.state;
     let cvObj = {...cv}
+    if (!cvObj.slug || cvObj.slug === "") {
+      cvObj.slug = slugify(cvObj.name)
+    }
     if (this.props.router.params.id) {
       cvObj._id = this.props.router.params.id
     }
     this.props.saveCvApi(cvObj);
   };
+
+  handleTitleBlur = (e) => {
+    if (!this.state.cv.slug || this.state.cv.slug === "") {
+      this.setState(produce(d => {
+        d.cv.slug = slugify(e.target.value);
+      }));
+    }
+  }
 
   render() {
     return (
@@ -159,6 +175,7 @@ class Detail extends Component {
             cv={this.state.cv}
             cats={this.state.cats}
             onChange={this.metaChange}
+            onTitleBlur={this.handleTitleBlur}
           />
           <div className="container">
             {this.state.cv && (

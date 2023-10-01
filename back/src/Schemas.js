@@ -148,6 +148,7 @@ const ServicesSchema = new Schema({
 // Blog
 const BlogSchema = new Schema({
     name: { type: String, required: true },
+    slug: { type: String, slug: "name", unique: true},
     category: { type: String },
     status: { type: String },
     tags: { type: Array },

@@ -6,7 +6,9 @@ export function fetchBlogsApi() {
     headers: headers,
   })
     .then(handleResponse)
-    .then((data) => data );
+    .then((data) => {
+      return data 
+    });
 }
 
 export function fetchBlogApi(id) {

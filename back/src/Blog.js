@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { isValidObjectId, Types } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { BlogSchema } from "./Schemas";
 
@@ -28,6 +28,7 @@ export default function Blog(app) {
 
     let blog = {
       name: r.name,
+      slug: r.slug,
       category: r.category,
       tags: r.tags,
       content: r.content,
@@ -40,7 +41,6 @@ export default function Blog(app) {
         await BlogModel.create(blog);
         res.json({ error: false, message: "New blog post created!" });
       } catch (err) {
-        console.log(err)
         res.json({
           error: true,
           message: `Blog failed to create ${err}`,
@@ -51,6 +51,7 @@ export default function Blog(app) {
       try {
         await BlogModel.updateOne({_id: id}, {
           name: r.name,
+          slug: r.slug,
           category: r.category,
           tags: r.tags,
           content: r.content,
@@ -68,8 +69,8 @@ export default function Blog(app) {
   });
 
   app.get("/api/blog/:_id", (req, res) => {
-    if (req.params._id) {
-      BlogModel.findOne({ _id: req.params._id }, (err, blog) => {
+    if (isValidObjectId(req.params._id)) {
+      BlogModel.findOne({ _id: Types.ObjectId(req.params._id) }, (err, blog) => {
         if (!err) {
           res
             .status(200)
@@ -84,12 +85,27 @@ export default function Blog(app) {
             .json({ message: `Failed to retrieve blog ${err}`, error: true });
         }
       });
-    } else {
+    } else if (req.params._id === undefined) {
       const response = {
         message: "blog could not be found",
       };
-
       res.send(response);
+    } else {
+      BlogModel.findOne({ slug: req.params._id }, (err, blog) => {
+        if (!err) {
+          res
+            .status(200)
+            .json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
+        } else {
+          res
+            .status(200)
+            .json({ message: `Failed to retrieve blog ${err}`, error: true });
+        }
+      });
     }
   });
 

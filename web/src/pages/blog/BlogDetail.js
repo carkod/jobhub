@@ -3,7 +3,8 @@ import { Helmet } from "react-helmet";
 import { fetchBlogApi } from "../../actions/blog";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
-
+import { createExcerpt } from "../../utils";
+import Metatags from "../../components/Metatags";
 /**
  * blog Detail page
  * Shows a list of blogs coming from the /blog endpoint
@@ -32,23 +33,22 @@ export default class BlogDetail extends Component {
 
     return (
       <div id="mainblog" className="container">
-        <Helmet>
-          <title>{`Carlos Wu - ${blog.name}`}</title>
-          <meta charSet="utf-8" />
-          <meta
-            name="description"
-            content={`blog by Carlos Wu - ${blog.name}`}
-          />
-          <link rel="canonical" href={`http://carlos.wf/blog/${id}`} />
-        </Helmet>
+        <Metatags
+          title={blog.name}
+          description={createExcerpt(blog.content)}
+          type="article"
+        />
 
-        <main className="blogContent" style={{ marginLeft: "5.5rem", maxWidth: "800px" }}>
+        <main
+          className="blogContent"
+          style={{ marginLeft: "5.5rem", maxWidth: "800px" }}
+        >
           <small>Category: {blog.category}</small>
           <h1 className="u-blog-header-divider">{blog.name}</h1>
           <div className="row one column wide">
             <section id="blog">
               <ReactMarkdown
-                plugins={[gfm]}
+                remarkPlugins={[gfm]}
                 children={blog.content}
                 allowDangerousHtml
                 className="u-larger-p"

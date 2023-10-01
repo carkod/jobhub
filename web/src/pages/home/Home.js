@@ -3,6 +3,10 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { Card, Icon, Image } from "semantic-ui-react";
 import profilePic from "../../carlos.jpg";
+import Metatags from "../../components/Metatags";
+import produce from "immer";
+import { fetchCVNav } from "../../actions/cv";
+
 
 class Home extends Component {
   constructor(props) {
@@ -10,9 +14,22 @@ class Home extends Component {
     const mobileSize = window.innerWidth < "765" ? true :false
     this.state = {
       theposition: -10,
-      mobile: mobileSize
+      mobile: mobileSize,
     };
   }
+
+  componentDidMount = async () => {
+    try {
+      const navigationCvs = await fetchCVNav();
+      this.setState(
+        produce((draft) => {
+          draft.cvs = navigationCvs;
+        })
+      );
+    } catch (e) {
+      if (e) throw e;
+    }
+  };
 
   componentDidUpdate = (props) => {
     if (this.props.value !== props.value) {
@@ -36,15 +53,10 @@ class Home extends Component {
   
     return (
       <div id="home" className="home container">
-        <Helmet>
-          <title>Carlos Wu - Professional Profile</title>
-          <meta charSet="utf-8" />
-          <meta
-            name="description"
-            content="Full stack developer, Front-end developer, Business analyst, Project Manager"
-          />
-          <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
-        </Helmet>
+        <Metatags
+          title="Professional profile"
+          description="Full-stack developer, business analyst, investor"
+        />
 
         <div
           className="home-details"
@@ -139,7 +151,7 @@ class Home extends Component {
               </div>
             </div>
             <div>
-              <Link to="/cv/en-GB/5fe993de5a4d95045179151b">
+              <Link to={`/cv/en-GB/${this.state.cvs ? this.state.cvs[0].slug ? this.state.cvs[0].slug : this.state.cvs[0].id : ""}`}>
                 <button className="btn-feeling-lucky">Get my latest CV/Resume</button>
               </Link>
             </div>

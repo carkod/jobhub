@@ -98,6 +98,10 @@ class CoverLetters extends Component {
                           </Segment.Group>
                           <Segment.Group horizontal>
                             <Segment>
+                              <Icon fitted name="linkify" />{" "}
+                              {letter.slug ? letter.slug : ""}
+                            </Segment>
+                            <Segment>
                               <Icon fitted name="briefcase" />{" "}
                               {letter.category ? letter.category : "N/A"}
                             </Segment>
@@ -112,7 +116,7 @@ class CoverLetters extends Component {
                       <div className="buttons">
                         <Link
                           className="ui primary button"
-                          to={`/blog/${letter._id}`}
+                          to={`/blog/${letter.slug ? letter.slug : letter._id}`}
                         >
                           Edit/View
                         </Link>

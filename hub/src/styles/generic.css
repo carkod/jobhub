@@ -55,3 +55,18 @@ body {
 	cursor: pointer;
 	outline: none;
 }
+
+.default-input {
+  border:none;
+  outline:none;
+  border-bottom:1px solid #00bfff;
+  padding: 0.5em;
+}
+
+.default-input--extended {
+  border:none;
+  outline:none;
+  border-bottom:1px solid #00bfff;
+  padding: 0.5em;
+  width: 40rem;
+}

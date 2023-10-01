@@ -9,6 +9,7 @@ import { fetchProjects } from '../../actions/res';
 import HtmlText from '../../components/HtmlText';
 import Documents from './Documents';
 import Links from './Links';
+import Metatags from "../../components/Metatags";
 
 class MainResources extends Component {
     
@@ -49,11 +50,10 @@ class MainResources extends Component {
     
     return (
       <div id="mainportfolio" className="container">
-        <Helmet>
-          <title>{`Carlos Wu - ${title} | Portfolio`}</title>
-          <meta charSet="utf-8" />
-          <meta name="description" content={`Portfolio and projects by Carlos Wu - ${title}`}/>
-        </Helmet>
+        <Metatags
+          title={`${title} | Portfolio`}
+          description={`Portfolio and projects by Carlos Wu - ${title}`}
+        />
         
         <main className="portfolioContent ui grid">
         <h1>{`You are viewing ${title} projects`}</h1>

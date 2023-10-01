@@ -17,6 +17,7 @@ import { fetchBlogApi, saveBlogApi } from "../../actions/blog";
 import { fetchRelationsApi } from "../../actions/relations";
 import { blogState } from "../../reducers/blog";
 import { checkValue, formatDate, withRouter } from "../../utils";
+import { slugify } from "../../utils";
 
 function resetBlogForm() {
   return {
@@ -42,9 +43,14 @@ class Blog extends Component {
 
   componentDidUpdate = (props) => {
     if (this.props.blog !== props.blog) {
+      let slug = this.props.blog.slug;
+      if (!this.props.blog.slug) {
+        slug = slugify(this.props.blog.name)
+      }
       this.setState(
         produce((d) => {
           d.blog.name = this.props.blog.name;
+          d.blog.slug = slug;
           d.blog.content = this.props.blog.content;
           d.blog.category = this.props.blog.category;
           d.blog.status = this.props.blog.status;
@@ -78,6 +84,16 @@ class Blog extends Component {
     );
   };
 
+  handleTitleBlur = (e) => {
+    if (!this.state.blog.slug || this.state.blog.slug === "") {
+      this.setState(
+        produce((d) => {
+          d.blog.slug = slugify(this.state.blog.name);
+        })
+      );
+    }
+  }
+
   handleChange = (e, { name, value }) => {
     this.setState(
       produce((d) => {
@@ -91,6 +107,7 @@ class Blog extends Component {
     const { id } = this.props.router.params;
     let blogData = {
       id: id === "null" || !id ? undefined : id,
+      slug: this.state.blog.slug,
       name: this.state.blog.name,
       category: this.state.blog.category,
       status: this.state.blog.status,
@@ -112,11 +129,28 @@ class Blog extends Component {
                 type="text"
                 name="name"
                 onChange={this.handleTitle}
+                onBlurCapture={this.handleTitleBlur}
                 defaultValue={this.state.blog.name}
               />
             </Header>
             <div className="section">
               <Header sub>META</Header>
+                <br />
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                    <label htmlFor="slug"><strong>Slug</strong>:{" "}</label>
+                    {" "}
+                    <input
+                      type="text"
+                      name="slug"
+                      className="default-input--extended"
+                      onChange={this.handleSlug}
+                      defaultValue={this.state.blog.slug}
+                    />
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
               <Segment.Group horizontal>
                 <Segment>
                   <strong>Created</strong>:{" "}

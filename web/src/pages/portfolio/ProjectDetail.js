@@ -6,6 +6,7 @@ import HtmlText from "../../components/HtmlText";
 import { checkValue } from "../../utils";
 import Documents from "./Documents";
 import Links from "./Links";
+import Metatags from "../../components/Metatags";
 
 /**
  * Filter projects
@@ -69,18 +70,10 @@ class ProjectDetail extends Component {
     const title = position || "Professional Profile";
     return (
       <div id="mainportfolio" className="container">
-        <Helmet>
-          <title>{`Carlos Wu - ${title}`}</title>
-          <meta charSet="utf-8" />
-          <meta
-            name="description"
-            content={`Portfolio and projects by Carlos Wu - ${title}`}
-          />
-          <link
-            rel="canonical"
-            href={`http://carlos.wf/en-GB/${position}/resources`}
-          />
-        </Helmet>
+        <Metatags
+          title={title}
+          description="Portfolio and projects"
+        />
 
         <main className="portfolioContent">
           <h1>{`You are viewing ${title} projects`}</h1>
