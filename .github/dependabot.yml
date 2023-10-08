@@ -7,6 +7,9 @@ updates:
     commit-message:
       # Prefix all commit messages with "npm"
       prefix: "web"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
 
   - package-ecosystem: "npm"
     directory: "/hub"
@@ -15,6 +18,9 @@ updates:
     commit-message:
       # Prefix all commit messages with "npm"
       prefix: "hub"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
   
   - package-ecosystem: "npm"
     directory: "/back"
@@ -23,3 +29,6 @@ updates:
     commit-message:
       # Prefix all commit messages with "npm"
       prefix: "back"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]

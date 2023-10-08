@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import mongoose, { isValidObjectId, Types } from "mongoose";
 import { CVSchema, CLSchema } from "./Schemas";
 import { generatePDF } from "./generator";
 
@@ -26,7 +26,7 @@ export default function Pdf(app) {
       Model = CLModel;
     }
 
-    Model.findOne({ _id: id }, (findErr, content) => {
+    Model.findOne({_id: id}, (findErr, content) => {
       if (findErr) {
         res.send(`Error: ${findErr}`);
       } else if (content === null) {
@@ -42,6 +42,19 @@ export default function Pdf(app) {
   app.get("/pdf/generate/:type/:id/:locale?", (req, res, next) => {
 
     const { type, locale="en-GB", id } = req.params;
+
+    let query;
+    if (isValidObjectId(id)) {
+      query = {
+        _id: id
+      }
+    } else {
+      // Slug was passed instead of ObjectId
+      query = {
+        slug: id
+      }
+    }
+
     res.setLocale(locale);
     res.type("application/pdf");
 
@@ -53,7 +66,7 @@ export default function Pdf(app) {
 
     let title = type.replace("-", " ");
 
-    Model.findOne({ _id: id }, async (err, content) => {
+    Model.findOne(query, async (err, content) => {
       if (err) throw err;
       const url = `${req.protocol}://${req.get("host")}/pdf/view/${type}/${
         content._id
