@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@tinymce/tinymce-react": "4.0.0",
-    "axios": "^1.5.0",
+    "axios": "^1.5.1",
     "draft-js": "^0.11.7",
     "immer": "^9.0.15",
     "lodash": "^4.17.21",
