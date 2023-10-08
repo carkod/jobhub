@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchCats } from "../../actions/cats";
 import { fetchProjects } from "../../actions/res";
-
+import Metatags from "../../components/Metatags";
 class Documents extends Component {
   constructor(props) {
     super(props);
@@ -15,14 +15,10 @@ class Documents extends Component {
       : this.props;
     return (
       <>
-        <Helmet>
-          <title>{`Carlos Wu - ${title} | Portfolio`}</title>
-          <meta charSet="utf-8" />
-          <meta
-            name="description"
-            content={title}
-          />
-        </Helmet>
+        <Metatags
+          title="Resources"
+          description={title}
+        />
 
         <div className="column">
           {documents.length > 0 ? (

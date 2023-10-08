@@ -83,7 +83,7 @@ class Sidebar extends Component {
                 {this.state.cvs.map((cv) => (
                   <li key={cv._id} className="item">
                     <NavLink
-                      to={`/cv/${cv.cats.locale}/${cv._id}`}
+                      to={`/cv/${cv.cats.locale}/${cv.slug ? cv.slug : cv._id}`}
                       activeClassName="active"
                     >
                       {cv.navName}

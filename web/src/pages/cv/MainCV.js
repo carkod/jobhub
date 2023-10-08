@@ -11,6 +11,8 @@ import Languages from "./Languages";
 import PD from "./PD";
 import WebDev from "./WebDev";
 import Work from "./Work";
+import { createExcerpt } from "../../utils";
+import Metatags from "../../components/Metatags";
 
 class MainCV extends Component {
   constructor(props) {
@@ -65,14 +67,10 @@ class MainCV extends Component {
       <div id="mainCV" className="container">
         {cv ? (
           <div>
-            <Helmet>
-              <title>{`Carlos Wu - ${cv.name}`}</title>
-              <meta charSet="utf-8" />
-              <meta
-                name="description"
-                content={`Carlos Wu - Professional Profile | ${cv.name}`}
-              />
-            </Helmet>
+            <Metatags
+              title={cv.name}
+              description={createExcerpt(cv.summary)}
+            />
 
             <main className="cvContent">
               <h1>

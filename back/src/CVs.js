@@ -1,5 +1,5 @@
 import moment from "moment";
-import mongoose from "mongoose";
+import mongoose, { isValidObjectId, Types } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { CVSchema } from "./Schemas";
 
@@ -36,12 +36,12 @@ export default function CVs(app) {
     };
 
     try {
-    let cvs = await CVModel.find(
-      query,
-      "navName _id cats",
-      { sort: { updatedAt: -1 } },
-    );
-    res.json(cvs);
+      let cvs = await CVModel.find(
+        query,
+        "navName _id cats slug",
+        { sort: { updatedAt: -1 } },
+      );
+      res.json(cvs);
     } catch (err) {
       res.json({ message: err, error: true });
     }
@@ -57,6 +57,7 @@ export default function CVs(app) {
     // Upsert model
     let cv = new CVModel({
       name: r.name,
+      slug: r.slug,
       summary: r.summary,
       navName: r.navName ? r.navName : r.name,
       cats: {
@@ -73,11 +74,15 @@ export default function CVs(app) {
       itSkills: r.itSkills,
       other: r.other,
     });
-
-    const id = sanitize(r._id) || mongoose.Types.ObjectId();
-
+    let query = {}
+    if (isValidObjectId(r._id)) {
+      query = { _id: sanitize(r._id) };
+    } else {
+      query = { _id: mongoose.Types.ObjectId() }
+    }
+    
     try {
-      let cvs = await CVModel.updateOne({_id: id}, cv);
+      let cvs = await CVModel.insertOne(query, cv);
       if (cvs) {
         res.json({ status: true, message: "CV changes saved!" });
       } else {
@@ -85,7 +90,7 @@ export default function CVs(app) {
       }
 
     } catch(err) {
-      res.json({ message: `Failed to create CV: ${err}`, error: true  });
+      res.json({ message: `Failed to create CV: ${err}`, error: true });
     }
   });
 
@@ -136,20 +141,27 @@ export default function CVs(app) {
   });
 
   app.get("/api/cvs/:_id", (req, res) => {
-    if (req.params._id) {
-      CVModel.findById(req.params._id, (err, cv) => {
+    if (isValidObjectId(req.params._id)) {
+      CVModel.findOne({ _id: Types.ObjectId(req.params._id)}, (err, cv) => {
         if (!err) {
           res.status(200).json({ cv });
         } else {
           res.status(200).json({ message: err });
         }
       });
-    } else {
+    } else if (req.params._id === undefined) {
       const response = {
         message: "CV could not be found",
       };
-
       res.send(response);
+    } else {
+      CVModel.findOne({ slug: req.params._id}, (err, cv) => {
+        if (!err) {
+          res.status(200).json({ cv });
+        } else {
+          res.status(200).json({ message: err });
+        }
+      });
     }
   });
 

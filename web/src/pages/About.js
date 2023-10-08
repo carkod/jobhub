@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import Metatags from "../components/Metatags";
 
 export const AboutMe = () => {
   return (
@@ -229,17 +230,9 @@ export const AboutSite = () => {
 export function About() {
   return (
     <div id="mainCV" className="container">
-      <Helmet>
-        <title>{`Carlos Wu - About`}</title>
-        <meta charSet="utf-8" />
-        <meta
-          name="description"
-          content={`Carlos Wu - Professional Profile | About carloswu.xyz`}
-        />
-        <link rel="canonical" href={process.env.REACT_APP_HOME_URL} />
-      </Helmet>
+      <Metatags title={"About"} description={"Professional Profile | About carlos.wf"}/>
 
-      <main className="about">
+      <main className="about u-layout">
         <AboutMe />
         <AboutSite />
       </main>

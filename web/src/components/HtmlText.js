@@ -1,30 +1,26 @@
 /* eslint-disable */
 
-import React, { Component } from 'react';
-import ReactHtmlParser from 'react-html-parser'
+import React, { Component } from "react";
+import ReactHtmlParser from "react-html-parser";
 
 class HtmlText extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidUpdate = (props) => {
+    if (this.props.text) {
+      const { text } = props;
     }
+  };
 
-    componentDidUpdate = (props) => {
-        if (this.props.text) {
-            const { text } = props;
-        }
-
-    }
-
-    render() {
-        return (
-            <div className="rte-text">
-                {ReactHtmlParser(this.props.text)}
-                {/* <Editor editorState={blocksFromHTML} readOnly={true} /> */}
-            </div>
-        )
-    }
-
-
+  render() {
+    return (
+      <div className="rte-text">
+        {ReactHtmlParser(this.props.text)}
+      </div>
+    );
+  }
 }
 
 export default HtmlText;
