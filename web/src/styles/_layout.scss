@@ -126,3 +126,12 @@
     z-index: 4;
   }
 }
+
+#blogContent {
+  margin-left: 5.5rem;
+  max-width: 50rem;
+
+  @media screen and (max-width: $mobile-size) {
+    margin-left: 0;
+  }
+}

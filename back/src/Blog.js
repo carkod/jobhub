@@ -1,9 +1,9 @@
-import mongoose, { isValidObjectId, Types } from "mongoose";
+import mongoose, { isValidObjectId, Types, model } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { BlogSchema } from "./Schemas";
 
 // Compile model from schema
-const BlogModel = mongoose.model("BlogModel", BlogSchema);
+const BlogModel = model("BlogModel", BlogSchema);
 
 export default function Blog(app) {
   app.get("/api/blogs/:page?/:pagesize?", (req, res) => {
@@ -47,11 +47,20 @@ export default function Blog(app) {
         });
       }
     } else {
-      const id = sanitize(r.id);
+      
       try {
-        await BlogModel.updateOne({_id: id}, {
+        const id = sanitize(r.id);
+        let query = {}
+        if (isValidObjectId(id)) {
+          query.id = id;
+        } else {
+          query.slug = {
+            $eq: r.slug
+          };
+        }
+
+        await BlogModel.updateOne(query, {
           name: r.name,
-          slug: r.slug,
           category: r.category,
           tags: r.tags,
           content: r.content,

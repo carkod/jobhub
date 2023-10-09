@@ -296,6 +296,7 @@ class EditApplication extends Component {
               fluid
               name="applicationUrl"
               placeholder="Application url"
+              onChange={this.inputChange}
             />
             <Form.Input
               value={location}
