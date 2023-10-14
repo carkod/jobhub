@@ -29,6 +29,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: $standard-space;
+
+  @media screen and (max-width: $mobile-size) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .u-blog-index-header {

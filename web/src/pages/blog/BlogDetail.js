@@ -41,7 +41,6 @@ export default class BlogDetail extends Component {
 
         <main
           className="blogContent"
-          style={{ marginLeft: "5.5rem", maxWidth: "800px" }}
         >
           <small>Category: {blog.category}</small>
           <h1 className="u-blog-header-divider">{blog.name}</h1>
