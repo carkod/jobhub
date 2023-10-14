@@ -60,11 +60,11 @@ export default function Blog(app) {
         }
 
         await BlogModel.updateOne(query, {
-          name: r.name,
-          category: r.category,
-          tags: r.tags,
-          content: r.content,
-          status: r.status
+          name: sanitize(r.name),
+          category: sanitize(r.category),
+          tags: sanitize(r.tags),
+          content: sanitize(r.content),
+          status: sanitize(r.status)
         });
         res.json({ error: false, message: "Blog changes saved!" });
       } catch (err) {
