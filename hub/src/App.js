@@ -46,7 +46,7 @@ const AppRouter = () => (
         <Route exact path="/coverletters/:id" element={<Letter />} />
         <Route exact path="/coverletters/new" element={<Letter />} />
         <Route exact path="/jobs" element={<Jobs />} />
-        <Route exact path="/tracker" element={<Tracker />} />
+        <Route exact path="/" element={<Tracker />} />
         <Route exact path="/new-tracker" element={<AddNewApplication />} />
         <Route exact path="/tracker/:id" element={<EditApplication />} />
         <Route exact path="/blog/" element={<BlogList />} />
