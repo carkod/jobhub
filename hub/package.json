@@ -32,7 +32,7 @@
     "shortid": "^2.2.16"
   },
   "devDependencies": {
-    "@babel/cli": "^7.21.5",
+    "@babel/cli": "^7.22.15",
     "@babel/core": "^7.21.5",
     "@babel/node": "^7.21.5",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
