@@ -83,7 +83,7 @@ class EditApplication extends Component {
   };
 
   descChange = (e) => {
-    this.setState({ description: e.toString("html") });
+    this.setState({ description: e.target.value.toString("html") });
   };
 
   addNewStage = () => {
@@ -296,6 +296,7 @@ class EditApplication extends Component {
               fluid
               name="applicationUrl"
               placeholder="Application url"
+              onChange={this.inputChange}
             />
             <Form.Input
               value={location}
@@ -452,7 +453,7 @@ class EditApplication extends Component {
           <h3>Job description</h3>
           <TextArea
             name="description"
-            placeholder="Write blog content here"
+            placeholder="Write job description here"
             rows={20}
             onChange={this.descChange}
             value={description}

@@ -26,23 +26,6 @@ class Nav extends Component {
             </NavLink>
           </div>
           <div className="item">
-            <a>JOB BOARD</a>
-            <div className="level-2 menu menu__reset-space">
-              <div className="item">
-                <NavLink to="/tracker" className="u-section-title">
-                  APPLICATION TRACKER
-                </NavLink>
-              </div>
-            </div>
-            <div className="level-2 menu menu__reset-space">
-              <div className="item">
-                <NavLink to="/new-tracker" className="u-section-title">
-                  NEW APPLICATION
-                </NavLink>
-              </div>
-            </div>
-          </div>
-          <div className="item">
             <NavLink to="/coverletters" className="u-section-title">
               COVER LETTERS
             </NavLink>

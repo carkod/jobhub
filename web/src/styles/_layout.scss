@@ -70,8 +70,8 @@
       flex-flow: column;
       align-items: center;
       justify-content: center;
-      position: absolute;
-      z-index: 3;
+      position: fixed;
+      z-index: 5;
       background-color: $main-blue;
 
       &.close {
@@ -114,6 +114,8 @@
   border: none;
   outline: none;
   display: none;
+  cursor: pointer;
+
   @media (max-width: $mobile-size) {
     display: block;
     position: absolute;
@@ -123,6 +125,15 @@
     height: 2rem;
     color: #fff;
     font-size: 1rem;
-    z-index: 4;
+    z-index: 7;
+  }
+}
+
+#blogContent {
+  margin-left: 5.5rem;
+  max-width: 50rem;
+
+  @media screen and (max-width: $mobile-size) {
+    margin-left: 0;
   }
 }

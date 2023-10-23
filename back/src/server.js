@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import { I18n } from "i18n";
 import mongoose from "mongoose";
 import path from "path";
+import mongoSanitize from "express-mongo-sanitize";
 import Api from "./Api";
 import Blog from "./Blog.js";
 import Categories from "./Categories.js";
@@ -63,6 +64,9 @@ const appFactory = async (app) => {
       res.setHeader("Access-Control-Allow-Credentials", true);
       next();
     });
+
+    // sanitization
+    app.use(mongoSanitize());
 
     // Parser Middlewares. Increase file upload limit
     app.use(bodyParser.json({ limit: "50mb" }));
