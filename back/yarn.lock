@@ -1648,6 +1648,13 @@
   dependencies:
     make-plural "^7.0.0"
 
+"@mongodb-js/saslprep@^1.1.0":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@mongodb-js/saslprep/-/saslprep-1.1.1.tgz#9a6c2516bc9188672c4d953ec99760ba49970da7"
+  integrity sha512-t7c5K033joZZMspnHg/gWPE4kandgc2OxE74aYOtGKfgB9VPuVJPix0H6fhmm2erj5PBJ21mqcx34lpIGtUCsQ==
+  dependencies:
+    sparse-bitfield "^3.0.3"
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz#323d72dd25103d0c4fbdce89dadf574a787b1f9b"
@@ -2261,10 +2268,10 @@ bson@^4.7.2:
   dependencies:
     buffer "^5.6.0"
 
-bson@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-5.4.0.tgz#0eea77276d490953ad8616b483298dbff07384c6"
-  integrity sha512-WRZ5SQI5GfUuKnPTNmAYPiKIof3ORXAF4IRU5UcgmivNIon01rWQlw5RUH954dpu8yGL8T59YShVddIPaU/gFA==
+bson@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-6.2.0.tgz#4b6acafc266ba18eeee111373c2699304a9ba0a3"
+  integrity sha512-ID1cI+7bazPDyL9wYy9GaQ8gEEohWvcUl/Yf0dIdutJxnmInEEyCsb4awy/OiBfall7zBA179Pahi3vCdFze3Q==
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
@@ -3726,16 +3733,14 @@ mongodb@4.16.0:
     "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
-mongodb@^5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-5.7.0.tgz#e16d2fcdfd9f8503ec2d88288392dc3235bb3ecc"
-  integrity sha512-zm82Bq33QbqtxDf58fLWBwTjARK3NSvKYjyz997KSy6hpat0prjeX/kxjbPVyZY60XYPDNETaHkHJI2UCzSLuw==
+mongodb@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-6.2.0.tgz#2c9dcb3eeaf528ed850e94b3df392de6c6b0d7ab"
+  integrity sha512-d7OSuGjGWDZ5usZPqfvb36laQ9CPhnWkAGHT61x5P95p/8nMVeH8asloMwW6GcYFeB0Vj4CB/1wOTDG2RA9BFA==
   dependencies:
-    bson "^5.4.0"
+    "@mongodb-js/saslprep" "^1.1.0"
+    bson "^6.2.0"
     mongodb-connection-string-url "^2.6.0"
-    socks "^2.7.1"
-  optionalDependencies:
-    saslprep "^1.0.3"
 
 mongoose-slug-updater@^3.2.3:
   version "3.3.0"
