@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { Component } from "react";
 import { Grid, Header, Icon } from "semantic-ui-react";
 import Editor from "../../components/Editor";

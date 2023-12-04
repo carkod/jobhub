@@ -1,7 +1,7 @@
 name: PR checks
 on: pull_request
 env:
-  ACTIONS_RUNNER_DEBUG: true
+  ACTIONS_RUNNER_DEBUG: false
   SECRET_KEY: test
   MONGO_DATABASE: cv_generator
   MONGO_AUTH_USERNAME: test
@@ -11,7 +11,6 @@ env:
   JWT_SECRET: root_password
   HUB_URL: http://localhost:8081
   WEB_URL: http://localhost:8080
-
 
 jobs:
   push_to_registry:
@@ -30,7 +29,6 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: ${{ env.MONGO_AUTH_PASSWORD }}
         ports:
           - 27017:27017
-
 
     steps:
       - name: Check out the repo
