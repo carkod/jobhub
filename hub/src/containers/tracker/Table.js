@@ -1,4 +1,3 @@
-/* eslint-disable */
 import _ from "lodash";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -12,7 +11,8 @@ import {
 	deleteApplication,
 	editApplication,
 	getApplications,
-	moveNextStage
+	moveNextStage,
+  fetchCompaniesApplied
 } from "../../actions/tracker";
 import { withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
@@ -31,6 +31,7 @@ class TrackingTable extends Component {
       filterStatus: "active",
       applications: APPLIED_COMPANIES,
       pagedApplications: APPLIED_COMPANIES,
+      companySelected: null
     };
   }
 
@@ -39,6 +40,10 @@ class TrackingTable extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
+
+    if (prevProps.companySelected !== this.props.companySelected) {
+      this.props.getApplications(this.props.filterStatus, this.props.companySelected);
+    }
 
     if (prevProps.applications !== this.props.applications) {
       this.setState({
@@ -240,5 +245,6 @@ export default compose(
     deleteApplication,
     moveNextStage,
     editApplication,
+    fetchCompaniesApplied
   })
 )(TrackingTable);

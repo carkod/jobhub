@@ -73,7 +73,7 @@ export default function Tracker(app, db) {
     const page = +req.query.page || 1;
     const pagesize = +req.query.pagesize || 0;
     const skip = pagesize * page - pagesize;
-    const { status } = req.query;
+    const { status, companyName } = req.query;
     // These should be typed into Schema in the future
     const typedStatus = ["in progress", "applied", "success", "rejected"];
     let params = {}
@@ -82,6 +82,10 @@ export default function Tracker(app, db) {
       params["status.text"] = { $nin: ["Rejected", "Success"] }
     } else if (typedStatus.includes(status)) {
       params["status.text"] = { $in: [capitalize(status)] }
+    }
+
+    if (companyName) {
+      params["company"] = { $regex: companyName, $options: "i" }
     }
 
     try {

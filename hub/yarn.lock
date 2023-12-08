@@ -1920,10 +1920,10 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@tinymce/tinymce-react@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-react/-/tinymce-react-4.0.0.tgz#bc3cb752b17e9e673ea31dd3b0b7a6723e9bc409"
-  integrity sha512-dECENgV0l2O9ifrergzJVKritePCvYRKwdJLjSkWloPa9KRjwsqnIpB2b0BC0JqGYxwqmc203gB8jCmw3N4vCw==
+"@tinymce/tinymce-react@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-react/-/tinymce-react-4.3.2.tgz#fbe05e35e948b0e577eddf639bfe7ee2158fdc10"
+  integrity sha512-wJHZhPf2Mk3yTtdVC/uIGh+kvDgKuTw/qV13uzdChTNo68JI1l7jYMrSQOpyimDyn5LHAw0E1zFByrm1WHAVeA==
   dependencies:
     prop-types "^15.6.2"
     tinymce "^6.0.0 || ^5.5.1"

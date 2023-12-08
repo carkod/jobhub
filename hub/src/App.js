@@ -35,6 +35,10 @@ const AppRouter = () => (
     <Route element={<Layout />}>
       <Route exact path="/" element={<PrivateRoute />}>
         <Route element={Home} />
+        <Route exact path="/" element={<Tracker />} />
+        <Route exact path="/tracker" element={<Tracker />} />
+        <Route exact path="/tracker/:id" element={<EditApplication />} />
+        <Route exact path="/new-tracker" element={<AddNewApplication />} />
         <Route exact path="/cv" element={<Listing />} />
         <Route exact path="/cv/positions" element={<Positions />} />
         <Route exact path="/relationships" element={<Relationships />} />
@@ -46,9 +50,6 @@ const AppRouter = () => (
         <Route exact path="/coverletters/:id" element={<Letter />} />
         <Route exact path="/coverletters/new" element={<Letter />} />
         <Route exact path="/jobs" element={<Jobs />} />
-        <Route exact path="/" element={<Tracker />} />
-        <Route exact path="/new-tracker" element={<AddNewApplication />} />
-        <Route exact path="/tracker/:id" element={<EditApplication />} />
         <Route exact path="/blog/" element={<BlogList />} />
         <Route exact path="/blog/new" element={<Blog />} />
         <Route exact path="/blog/:id" element={<Blog />} />

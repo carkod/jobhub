@@ -75,7 +75,6 @@ const cvReducer = produce((draft, action) => {
       draft = cvModel;
       break;
     case SET_CV_STATE:
-      console.log(action.payload.langSkills[0].level)
       const newState = Object.assign(draft, action.payload);
       draft = newState
       break;

@@ -197,7 +197,7 @@ export function fetchApplication(id) {
   };
 }
 
-export function getApplications(status, page, pagesize) {
+export function getApplications(status, companyName=null, page=null, pagesize=null) {
   const url = new URL(`${buildBackUrl().apiUrl}/applications`);
 
   if (status) {
@@ -210,6 +210,10 @@ export function getApplications(status, page, pagesize) {
 
   if (pagesize) {
     url.searchParams.append("pagesize", pagesize);
+  }
+
+  if (companyName) {
+    url.searchParams.append("companyName", companyName);
   }
   
   return (dispatch) => {
@@ -236,6 +240,22 @@ export function moveNextStage(data) {
       .then((data) => {
         dispatch(moveStage(data));
         dispatch(addNotification(moveStage(data), "Staged moved"));
+      });
+  };
+}
+
+export function fetchCompaniesApplied(companyName) {
+  return (dispatch) => {
+    fetch(`${buildBackUrl().apiUrl}/companies/${companyName}`, {
+      method: "get",
+      headers: headers,
+    })
+      .then(handleResponse)
+      .then((data) => {
+        dispatch(applicationFetched(data));
+        dispatch(
+          addNotification(applicationFetched(data), "Application fetched")
+        );
       });
   };
 }
