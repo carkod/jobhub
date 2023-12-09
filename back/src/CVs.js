@@ -76,13 +76,13 @@ export default function CVs(app) {
     });
     let query = {}
     if (isValidObjectId(r._id)) {
-      query = { _id: sanitize(r._id) };
+      query = { _id: r._id };
     } else {
       query = { _id: mongoose.Types.ObjectId() }
     }
     
     try {
-      let cvs = await CVModel.insertOne(query, cv);
+      let cvs = await CVModel.findOneAndUpdate(query, cv, {upsert: true});
       if (cvs) {
         res.json({ status: true, message: "CV changes saved!" });
       } else {
