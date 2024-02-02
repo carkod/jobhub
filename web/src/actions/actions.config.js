@@ -47,7 +47,7 @@ export function buildBackUrl() {
   } else {
     base.unshift("api")
   }
-  base = `http://${base.join(".")}`;
+  base = `https://${base.join(".")}`;
   return {
     apiUrl: `${base}/api`,
     pdfUrl: `${base}/pdf`

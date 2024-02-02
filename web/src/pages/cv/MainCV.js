@@ -17,7 +17,7 @@ import Metatags from "../../components/Metatags";
 class MainCV extends Component {
   constructor(props) {
     super(props);
-    const start = window.pageYOffset || document.documentElement.scrollTop;
+    const start = document.documentElement.scrollTop;
     this.state = {
       snackBar: null,
       cv: undefined,
