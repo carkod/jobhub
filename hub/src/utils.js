@@ -37,6 +37,15 @@ export const getToken = () => {
 
 export const setToken = (token) => localStorage.setItem("hubToken", JSON.stringify(token));
 
+export const getGoogleToken = () => {
+  const token = localStorage.getItem("googleToken");
+  if (!checkValue(token)) {
+    return null
+  }
+  return JSON.parse(token)
+}
+
+export const setGoogleToken = (token) => localStorage.setItem("googleToken", JSON.stringify(token));
 
 
 export function withRouter(Component) {

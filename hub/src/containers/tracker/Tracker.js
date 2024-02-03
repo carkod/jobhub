@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { Dropdown, Grid, Icon, Search } from "semantic-ui-react";
 import TrackingTable from "./Table.js";
 import { showArchiveOptions } from "./Tracker.data";
-
+import { GoogleLogin } from "@react-oauth/google";
+import { setGoogleToken } from "../../utils.js";
+import { scanGmail } from "../../actions/tracker.js";
 class Tracker extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,12 @@ class Tracker extends Component {
       this.setState({ filterStatus: "all" })
     }
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleAuth = async (creds) => {
+    setGoogleToken(creds);
+    const response = scanGmail(creds);
+    console.log(response);
   };
 
   render() {
@@ -59,6 +67,17 @@ class Tracker extends Component {
                 value={this.state.companySelected}
               />
             </Grid.Column>
+            <Grid.Column>
+              <GoogleLogin
+                onSuccess={this.handleAuth}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+                useOneTap
+              />;
+              
+            </Grid.Column>
+            
           </Grid.Row>
         </Grid>
         <TrackingTable

@@ -259,3 +259,12 @@ export function fetchCompaniesApplied(companyName) {
       });
   };
 }
+
+export function scanGmail(creds) {
+  return (dispatch) => {
+    axios.post(`${buildBackUrl().apiUrl}/applications/scan`, data=creds).then((res) => {
+      handleResponse(res);
+      dispatch(setCats(res.data));
+    });
+  };
+}
