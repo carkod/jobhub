@@ -1,8 +1,9 @@
-//import { ObjectId } from 'mongodb';
 import mongoose from "mongoose";
 import multer from "multer";
 import fs from "fs";
 import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas";
+import emailParser from "./services/emailParser";
+import { handleResponse } from "./utils";
 
 // Compile model from schema
 let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
@@ -60,6 +61,27 @@ const capitalize = (word) => {
   const lower = word.toLowerCase();
   const capText = word.charAt(0).toUpperCase() + lower.slice(1);
   return capText;
+}
+
+const createApplications = async (applications) => {
+  let application = await ApplicationModel.insertMany(applications);
+  return application;
+}
+
+const fetchIndividualEmail = async (access_token, messageId) => {
+  const response = await fetch(`https://www.googleapis.com/gmail/v1/users/me/messages/${messageId}`, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  const message = response.data;
+  const subject = message.payload.headers.find((header) => header.name === 'Subject').value;
+  const body = Buffer.from(message.payload.body.data, 'base64').toString('utf-8');
+  return {
+    message,
+    subject,
+    body,
+  }
 }
 
 export default function Tracker(app, db) {
@@ -129,7 +151,45 @@ export default function Tracker(app, db) {
     });
   });
 
-  app.post("/api/application", (req, res) => {
+  app.post("/api/applications/scan", async (req, res) => {
+    const { access_token } = req.body;
+    try {
+      const response = await fetch('https://www.googleapis.com/gmail/v1/users/me/messages', {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      console.log('response', response);
+      const { messages } = handleResponse(response);
+
+      if (messages.length === 0) {
+        res.json({ status: false, message: 'No messages found.' });
+      } else {
+        let newApplications = [];
+        messages.forEach(element => {
+          const messageId = element.id;
+          const { message, subject, body } = fetchIndividualEmail(access_token, messageId);
+          const classification = emailParser(message);
+          if (classification) {
+            let newApplication = new ApplicationModel(fillModel(classification));
+            newApplications.push(newApplication);
+          }
+        });
+        const { id } = createApplications(newApplications);
+        if (msg) {
+          res.json({ _id: id, status: true, message: msg });
+        } else {
+          res.json({ status: false, message: msg });
+        }
+      }
+      res.json(response);
+    } catch (err) {
+      console.log(err);
+      res.json({ status: false, message: err });
+    }
+  })
+
+  app.post("/api/application", async (req, res) => {
     let r = req.body,
       applications = new ApplicationModel(fillModel(r));
     const id = r._id || applications._id;

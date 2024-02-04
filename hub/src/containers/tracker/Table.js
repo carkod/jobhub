@@ -5,8 +5,9 @@ import React, { Component } from "react";
 import update from "react-addons-update";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Dropdown, Table } from "semantic-ui-react";
+import { Button, Dropdown, Table } from "semantic-ui-react";
 import { addNotification } from "../../actions/notification";
+import { scanGmail } from "../../actions/tracker";
 import {
 	deleteApplication,
 	editApplication,
@@ -14,7 +15,7 @@ import {
 	moveNextStage,
   fetchCompaniesApplied
 } from "../../actions/tracker";
-import { withRouter } from "../../utils";
+import { buildBackUrl, getGoogleToken, handleResponse, setGoogleToken, withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
 import { APPLIED_COMPANIES, columns } from "./Tracker.data";
 
@@ -37,6 +38,17 @@ class TrackingTable extends Component {
 
   componentDidMount = () => {
     this.props.getApplications(this.state.filterStatus);
+    const params = new URLSearchParams(window.location.hash.substr(1))
+    if (params.get("state") === "gmail_auth_token") {
+      const token = {
+        access_token: params.get("access_token"),
+        token_type: params.get("token_type"),
+        expires_in: params.get("expires_in"),
+        scope: params.get("scope")
+      }
+      setGoogleToken(token);
+      this.handleGmailAuth();
+    }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -140,10 +152,31 @@ class TrackingTable extends Component {
     );
   };
 
+
+  handleGmailAuth = async () => {
+    const token = getGoogleToken();
+    if (token) {
+      this.props.scanGmail(token);
+    } else {
+      // oauth2SignIn
+      const params = new URLSearchParams({
+        'client_id': "314002233314-vbqftldokddclqka3msf6e5bcfrkcvuf.apps.googleusercontent.com",
+        'redirect_uri': window.location.origin,
+        'scope': 'https://www.googleapis.com/auth/gmail.readonly',
+        'response_type': 'token',
+        'state': "gmail_auth_token"
+
+      });
+      const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+      window.open(oauth2Url, "_self");
+    }
+  }
+
   render() {
     const { applications, activeColumn, direction, totalPages } = this.state;
     return (
       <Table sortable compact celled color="blue">
+        <Button onClick={this.handleGmailAuth}>Scan emails</Button>
         <Table.Header>
           <Table.Row>
             {columns.map((col, i) => (
@@ -157,7 +190,6 @@ class TrackingTable extends Component {
             ))}
           </Table.Row>
         </Table.Header>
-
         <Table.Body>
           {applications.length > 0 ? (
             applications.map((application, i) => (
@@ -245,6 +277,7 @@ export default compose(
     deleteApplication,
     moveNextStage,
     editApplication,
-    fetchCompaniesApplied
+    fetchCompaniesApplied,
+    scanGmail
   })
 )(TrackingTable);
