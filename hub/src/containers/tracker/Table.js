@@ -5,19 +5,33 @@ import React, { Component } from "react";
 import update from "react-addons-update";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Button, Dropdown, Table } from "semantic-ui-react";
+import { Dropdown, Table } from "semantic-ui-react";
 import { addNotification } from "../../actions/notification";
-import { scanGmail } from "../../actions/tracker";
 import {
-	deleteApplication,
-	editApplication,
-	getApplications,
-	moveNextStage,
-  fetchCompaniesApplied
+  deleteApplication,
+  editApplication,
+  fetchCompaniesApplied,
+  getApplications,
+  moveNextStage,
+  scanGmail,
 } from "../../actions/tracker";
-import { buildBackUrl, getGoogleToken, handleResponse, setGoogleToken, withRouter } from "../../utils";
+import { getGoogleToken, removeGoogleToken, setGoogleToken, withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
 import { APPLIED_COMPANIES, columns } from "./Tracker.data";
+
+const oauth2SignIn = () => {
+  removeGoogleToken();
+  const params = new URLSearchParams({
+    client_id:
+      "314002233314-vbqftldokddclqka3msf6e5bcfrkcvuf.apps.googleusercontent.com",
+    redirect_uri: window.location.origin,
+    scope: "https://www.googleapis.com/auth/gmail.readonly",
+    response_type: "token",
+    state: "gmail_auth_token",
+  });
+  const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+  window.open(oauth2Url, "_self");
+};
 
 class TrackingTable extends Component {
   constructor(props) {
@@ -32,29 +46,32 @@ class TrackingTable extends Component {
       filterStatus: "active",
       applications: APPLIED_COMPANIES,
       pagedApplications: APPLIED_COMPANIES,
-      companySelected: null
+      companySelected: null,
     };
   }
 
   componentDidMount = () => {
     this.props.getApplications(this.state.filterStatus);
-    const params = new URLSearchParams(window.location.hash.substr(1))
+    this.props.scanEmails(this.handleGmailAuth);
+    const params = new URLSearchParams(window.location.hash.substr(1));
     if (params.get("state") === "gmail_auth_token") {
       const token = {
         access_token: params.get("access_token"),
         token_type: params.get("token_type"),
         expires_in: params.get("expires_in"),
-        scope: params.get("scope")
-      }
+        scope: params.get("scope"),
+      };
       setGoogleToken(token);
       this.handleGmailAuth();
     }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-
     if (prevProps.companySelected !== this.props.companySelected) {
-      this.props.getApplications(this.props.filterStatus, this.props.companySelected);
+      this.props.getApplications(
+        this.props.filterStatus,
+        this.props.companySelected
+      );
     }
 
     if (prevProps.applications !== this.props.applications) {
@@ -148,35 +165,31 @@ class TrackingTable extends Component {
           },
         }),
       },
-      () => this.props.editApplication(this.state.applications[index], this.state.applications[index]._id)
+      () =>
+        this.props.editApplication(
+          this.state.applications[index],
+          this.state.applications[index]._id
+        )
     );
   };
-
 
   handleGmailAuth = async () => {
     const token = getGoogleToken();
     if (token) {
-      this.props.scanGmail(token);
+      const response = await this.props.scanGmail(token, 2000);
+      if (response.code === 401) {
+        oauth2SignIn();
+        await this.props.scanGmail(token, 2000);
+      }
     } else {
-      // oauth2SignIn
-      const params = new URLSearchParams({
-        'client_id': "314002233314-vbqftldokddclqka3msf6e5bcfrkcvuf.apps.googleusercontent.com",
-        'redirect_uri': window.location.origin,
-        'scope': 'https://www.googleapis.com/auth/gmail.readonly',
-        'response_type': 'token',
-        'state': "gmail_auth_token"
-
-      });
-      const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-      window.open(oauth2Url, "_self");
+      oauth2SignIn();
     }
-  }
+  };
 
   render() {
     const { applications, activeColumn, direction, totalPages } = this.state;
     return (
       <Table sortable compact celled color="blue">
-        <Button onClick={this.handleGmailAuth}>Scan emails</Button>
         <Table.Header>
           <Table.Row>
             {columns.map((col, i) => (
@@ -278,6 +291,6 @@ export default compose(
     moveNextStage,
     editApplication,
     fetchCompaniesApplied,
-    scanGmail
+    scanGmail,
   })
 )(TrackingTable);

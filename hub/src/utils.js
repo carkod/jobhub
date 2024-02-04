@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios";
 import moment from "moment";
 import React from "react";
 import {
@@ -39,14 +40,21 @@ export const setToken = (token) => localStorage.setItem("hubToken", JSON.stringi
 
 export const getGoogleToken = () => {
   const token = localStorage.getItem("gmailToken");
-  if (!checkValue(token)) {
+  if (!token) {
     return null
   }
+
+  const expiredToken = token && parseFloat(token.expiry_date) < new Date().getSeconds();
+  if (expiredToken) {
+    localStorage.removeItem("gmailToken");
+    return null
+  }
+
   return JSON.parse(token)
 }
 
 export const setGoogleToken = (token) => localStorage.setItem("gmailToken", JSON.stringify(token));
-
+export const removeGoogleToken = () => localStorage.removeItem("gmailToken");
 
 export function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -103,7 +111,7 @@ export function handleResponse(response) {
       return response.json();
   } else {
       let error = new Error(response.statusText);
-      error.response = response;
+      error.code = response.status;
       throw error;
   }
 }

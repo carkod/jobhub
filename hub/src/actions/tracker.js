@@ -1,6 +1,5 @@
 import { buildBackUrl, handleResponse, headers } from "../utils";
 import { addNotification } from "./notification";
-import axios from "axios";
 
 export const SET_APPLICATIONS = "SET_APPLICATIONS";
 export const ADD_APPLICATION = "ADD_APPLICATION";
@@ -261,9 +260,9 @@ export function fetchCompaniesApplied(companyName) {
   };
 }
 
-export function scanGmail(creds) {
+export function scanGmail(creds, limit=100) {
   return (dispatch) => {
-    fetch(`${buildBackUrl().apiUrl}/applications/scan`, {
+    return fetch(`${buildBackUrl().apiUrl}/applications/scan?limit=${limit}`, {
       method: "post",
       body: JSON.stringify(creds),
       headers: headers,
@@ -272,6 +271,8 @@ export function scanGmail(creds) {
       dispatch(
         addNotification(applicationFetched(data), "Application fetched")
       );
+    }).catch((e) => {
+      return e;
     });
   };
 }
