@@ -144,7 +144,7 @@ export default function Tracker(app, db) {
     const limit = parseInt(req.query.limit) || 100;
 
     try {
-      // await linkedInEmails(access_token, limit);
+      await linkedInEmails(access_token, limit);
       await linkedinRejectedApplications(access_token, limit);
     } catch (e) {
       return res
