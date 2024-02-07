@@ -192,15 +192,19 @@ class TrackingTable extends Component {
       <Table sortable compact celled color="blue">
         <Table.Header>
           <Table.Row>
-            {columns.map((col, i) => (
-              <Table.HeaderCell
-                key={i}
-                sorted={activeColumn === col ? direction : null}
-                onClick={this.handleSort(col)}
-              >
-                {col}
-              </Table.HeaderCell>
-            ))}
+            {columns.map((col, i) => {
+              if (col !== "Contact") {
+                return (
+                  <Table.HeaderCell
+                    key={i}
+                    sorted={activeColumn === col ? direction : null}
+                    onClick={this.handleSort(col)}
+                  >
+                    {col}
+                  </Table.HeaderCell>
+                )
+              }
+          })}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -210,14 +214,6 @@ class TrackingTable extends Component {
                 <Table.Cell>{application.company}</Table.Cell>
                 <Table.Cell>{application.status.text}</Table.Cell>
                 <Table.Cell>{application.role || ""}</Table.Cell>
-                <Table.Cell>
-                  {application.contacts.length > 0
-                    ? application.contacts[0].contactName +
-                      " <" +
-                      application.contacts[0].contactEmail +
-                      ">"
-                    : ""}
-                </Table.Cell>
                 <Table.Cell>
                   {this.getCurrentStage(application.stages).action +
                     " (" +

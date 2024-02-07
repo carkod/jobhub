@@ -13,7 +13,7 @@
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "runtimeArgs": ["start"]
+      "runtimeArgs": ["start"],
     },
     {
       "name": "Web",

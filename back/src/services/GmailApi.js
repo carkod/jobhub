@@ -38,6 +38,7 @@ export default class GmailApi {
     });
 
     const data = await handleResponse(response);
+
     const messages = data.messages || [];
     const resultSizeEstimate = data.resultSizeEstimate || 0;
     const nextPageToken = data.nextPageToken || null;
@@ -46,12 +47,7 @@ export default class GmailApi {
     allMessages = allMessages.concat(messages);
 
     if (nextPageToken && this.limit > totalItems) {
-      await fetchListEmails(
-        query,
-        nextPageToken,
-        totalItems,
-        allMessages
-      );
+      await this.fetchListEmails(query, nextPageToken, totalItems, allMessages);
     }
 
     return allMessages;

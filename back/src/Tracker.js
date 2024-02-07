@@ -2,9 +2,9 @@ import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
 import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas";
-import emailParser from "./services/emailParser";
-import { handleResponse } from "./utils";
-import GmailApi from "./services/GmailApi";
+import {
+  linkedinRejectedApplications
+} from "./services/emailParser";
 
 // Compile model from schema
 let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
@@ -63,15 +63,6 @@ const capitalize = (word) => {
   const capText = word.charAt(0).toUpperCase() + lower.slice(1);
   return capText;
 };
-
-const createApplications = async (applications) => {
-  let application = await ApplicationModel.updateMany(
-    { company: appli },
-    applications
-  );
-  return application;
-};
-
 
 export default function Tracker(app, db) {
   app.get("/api/applications", async (req, res) => {
@@ -153,43 +144,17 @@ export default function Tracker(app, db) {
     const limit = parseInt(req.query.limit) || 100;
 
     try {
-      const gmailApi = new GmailApi(access_token, limit);
-      const messages = await gmailApi.fetchListEmails("Your application was sent to");
-      if (messages.length === 0) {
-        return res.json({ status: false, message: "No messages found." });
-      } else {
-        for (const element of messages) {
-          const {
-            snippet,
-            payload: { parts, headers },
-          } = await gmailApi.fetchIndividualEmail(element.id);
-          const newApplication = emailParser(snippet, headers, parts);
-
-          // Company is the least information we need to store job application data
-          if (newApplication.company) {
-            const findCompany = await ApplicationModel.findOne({
-              company: newApplication.company,
-            });
-            if (!findCompany) {
-              try {
-                newApplication._id = mongoose.Types.ObjectId();
-                newApplication.save();
-              } catch (e) {
-                return res.json({ status: false, message: e });
-              }
-            }
-          }
-        }
-        let query = await ApplicationModel.find({}, null, {
-          sort: { updatedDate: -1 },
-        });
-        return res.json(query);
-      }
+      // await linkedInEmails(access_token, limit);
+      await linkedinRejectedApplications(access_token, limit);
     } catch (e) {
       return res
         .status(e.status)
-        .json({ status: false, message: "Error fetching emails." });
+        .json({ status: false, message: `Error fetching emails: ${e}` });
     }
+    let query = await ApplicationModel.find({}, null, {
+      sort: { updatedDate: -1 },
+    });
+    return res.json(query);
   });
 
   app.post("/api/application", async (req, res) => {
@@ -240,12 +205,10 @@ export default function Tracker(app, db) {
         applications
       );
       if (application) {
-        res
-          .status(200)
-          .json({
-            _id: id,
-            message: "Application changes successfully saved!",
-          });
+        res.status(200).json({
+          _id: id,
+          message: "Application changes successfully saved!",
+        });
       } else {
         res
           .status(200)
