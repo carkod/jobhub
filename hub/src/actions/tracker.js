@@ -259,3 +259,20 @@ export function fetchCompaniesApplied(companyName) {
       });
   };
 }
+
+export function scanGmail(creds, limit=100) {
+  return (dispatch) => {
+    return fetch(`${buildBackUrl().apiUrl}/applications/scan?limit=${limit}`, {
+      method: "post",
+      body: JSON.stringify(creds),
+      headers: headers,
+    }).then((res) => {
+      handleResponse(res);
+      dispatch(
+        addNotification(applicationFetched(data), "Application fetched")
+      );
+    }).catch((e) => {
+      return e;
+    });
+  };
+}

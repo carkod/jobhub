@@ -8,15 +8,30 @@ import { compose } from "redux";
 import { Dropdown, Table } from "semantic-ui-react";
 import { addNotification } from "../../actions/notification";
 import {
-	deleteApplication,
-	editApplication,
-	getApplications,
-	moveNextStage,
-  fetchCompaniesApplied
+  deleteApplication,
+  editApplication,
+  fetchCompaniesApplied,
+  getApplications,
+  moveNextStage,
+  scanGmail,
 } from "../../actions/tracker";
-import { withRouter } from "../../utils";
+import { getGoogleToken, removeGoogleToken, setGoogleToken, withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
 import { APPLIED_COMPANIES, columns } from "./Tracker.data";
+
+const oauth2SignIn = () => {
+  removeGoogleToken();
+  const params = new URLSearchParams({
+    client_id:
+      "314002233314-vbqftldokddclqka3msf6e5bcfrkcvuf.apps.googleusercontent.com",
+    redirect_uri: window.location.origin,
+    scope: "https://www.googleapis.com/auth/gmail.readonly",
+    response_type: "token",
+    state: "gmail_auth_token",
+  });
+  const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+  window.open(oauth2Url, "_self");
+};
 
 class TrackingTable extends Component {
   constructor(props) {
@@ -31,18 +46,32 @@ class TrackingTable extends Component {
       filterStatus: "active",
       applications: APPLIED_COMPANIES,
       pagedApplications: APPLIED_COMPANIES,
-      companySelected: null
+      companySelected: null,
     };
   }
 
   componentDidMount = () => {
     this.props.getApplications(this.state.filterStatus);
+    this.props.scanEmails(this.handleGmailAuth);
+    const params = new URLSearchParams(window.location.hash.substr(1));
+    if (params.get("state") === "gmail_auth_token") {
+      const token = {
+        access_token: params.get("access_token"),
+        token_type: params.get("token_type"),
+        expires_in: params.get("expires_in"),
+        scope: params.get("scope"),
+      };
+      setGoogleToken(token);
+      this.handleGmailAuth();
+    }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-
     if (prevProps.companySelected !== this.props.companySelected) {
-      this.props.getApplications(this.props.filterStatus, this.props.companySelected);
+      this.props.getApplications(
+        this.props.filterStatus,
+        this.props.companySelected
+      );
     }
 
     if (prevProps.applications !== this.props.applications) {
@@ -136,8 +165,25 @@ class TrackingTable extends Component {
           },
         }),
       },
-      () => this.props.editApplication(this.state.applications[index], this.state.applications[index]._id)
+      () =>
+        this.props.editApplication(
+          this.state.applications[index],
+          this.state.applications[index]._id
+        )
     );
+  };
+
+  handleGmailAuth = async () => {
+    const token = getGoogleToken();
+    if (token) {
+      const response = await this.props.scanGmail(token, 2000);
+      if (response.code === 401) {
+        oauth2SignIn();
+        await this.props.scanGmail(token, 2000);
+      }
+    } else {
+      oauth2SignIn();
+    }
   };
 
   render() {
@@ -146,18 +192,21 @@ class TrackingTable extends Component {
       <Table sortable compact celled color="blue">
         <Table.Header>
           <Table.Row>
-            {columns.map((col, i) => (
-              <Table.HeaderCell
-                key={i}
-                sorted={activeColumn === col ? direction : null}
-                onClick={this.handleSort(col)}
-              >
-                {col}
-              </Table.HeaderCell>
-            ))}
+            {columns.map((col, i) => {
+              if (col !== "Contact") {
+                return (
+                  <Table.HeaderCell
+                    key={i}
+                    sorted={activeColumn === col ? direction : null}
+                    onClick={this.handleSort(col)}
+                  >
+                    {col}
+                  </Table.HeaderCell>
+                )
+              }
+          })}
           </Table.Row>
         </Table.Header>
-
         <Table.Body>
           {applications.length > 0 ? (
             applications.map((application, i) => (
@@ -165,14 +214,6 @@ class TrackingTable extends Component {
                 <Table.Cell>{application.company}</Table.Cell>
                 <Table.Cell>{application.status.text}</Table.Cell>
                 <Table.Cell>{application.role || ""}</Table.Cell>
-                <Table.Cell>
-                  {application.contacts.length > 0
-                    ? application.contacts[0].contactName +
-                      " <" +
-                      application.contacts[0].contactEmail +
-                      ">"
-                    : ""}
-                </Table.Cell>
                 <Table.Cell>
                   {this.getCurrentStage(application.stages).action +
                     " (" +
@@ -245,6 +286,7 @@ export default compose(
     deleteApplication,
     moveNextStage,
     editApplication,
-    fetchCompaniesApplied
+    fetchCompaniesApplied,
+    scanGmail,
   })
 )(TrackingTable);

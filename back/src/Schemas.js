@@ -135,7 +135,7 @@ const UserSchema = new Schema(
 const ApplicationSchema = new Schema(
   {
     _id: Schema.ObjectId,
-    company: { type: String, required: true },
+    company: { type: String, required: true, unique: true},
     status: {
       value: { type: Number, required: true },
       text: { type: String, required: true },

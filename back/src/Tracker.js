@@ -1,8 +1,10 @@
-//import { ObjectId } from 'mongodb';
+import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
-import fs from "fs";
 import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas";
+import {
+  linkedinRejectedApplications
+} from "./services/emailParser";
 
 // Compile model from schema
 let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
@@ -60,7 +62,7 @@ const capitalize = (word) => {
   const lower = word.toLowerCase();
   const capText = word.charAt(0).toUpperCase() + lower.slice(1);
   return capText;
-}
+};
 
 export default function Tracker(app, db) {
   app.get("/api/applications", async (req, res) => {
@@ -76,32 +78,33 @@ export default function Tracker(app, db) {
     const { status, companyName } = req.query;
     // These should be typed into Schema in the future
     const typedStatus = ["in progress", "applied", "success", "rejected"];
-    let params = {}
+    let params = {};
 
     if (status === "active") {
-      params["status.text"] = { $nin: ["Rejected", "Success"] }
+      params["status.text"] = { $nin: ["Rejected", "Success"] };
     } else if (typedStatus.includes(status)) {
-      params["status.text"] = { $in: [capitalize(status)] }
+      params["status.text"] = { $in: [capitalize(status)] };
     }
 
     if (companyName) {
-      params["company"] = { $regex: companyName, $options: "i" }
+      params["company"] = { $regex: companyName, $options: "i" };
     }
 
     try {
-      let query = await ApplicationModel.find(params, null, { sort: { updatedDate: -1 }});
+      let query = await ApplicationModel.find(params, null, {
+        sort: { updatedDate: -1 },
+      });
       if (skip > 0) {
         query.skip(skip);
       }
       const results = query;
-      res.json(results)
-    } catch(e) {
+      res.json(results);
+    } catch (e) {
       res.json({
         status: false,
-        message: `Error: ${e}`
+        message: `Error: ${e}`,
       });
     }
-    
   });
 
   app.post("/api/applications-upload", (req, res) => {
@@ -129,7 +132,32 @@ export default function Tracker(app, db) {
     });
   });
 
-  app.post("/api/application", (req, res) => {
+  /**
+   * Scans and parses emails to get job applications
+   *
+   *
+   * @param {string} access_token: Google API access token
+   * @param {boolean} allPages: optional, first page by default (gmail API)
+   */
+  app.post("/api/applications/scan", async (req, res) => {
+    const { access_token } = req.body;
+    const limit = parseInt(req.query.limit) || 100;
+
+    try {
+      // await linkedInEmails(access_token, limit);
+      await linkedinRejectedApplications(access_token, limit);
+    } catch (e) {
+      return res
+        .status(e.status)
+        .json({ status: false, message: `Error fetching emails: ${e}` });
+    }
+    let query = await ApplicationModel.find({}, null, {
+      sort: { updatedDate: -1 },
+    });
+    return res.json(query);
+  });
+
+  app.post("/api/application", async (req, res) => {
     let r = req.body,
       applications = new ApplicationModel(fillModel(r));
     const id = r._id || applications._id;
@@ -172,13 +200,20 @@ export default function Tracker(app, db) {
       location: r.location,
     };
     try {
-      let application = await ApplicationModel.findByIdAndUpdate(id, applications);
+      let application = await ApplicationModel.findByIdAndUpdate(
+        id,
+        applications
+      );
       if (application) {
-        res.status(200).json({ _id: id, message: "Application changes successfully saved!" });
+        res.status(200).json({
+          _id: id,
+          message: "Application changes successfully saved!",
+        });
       } else {
-        res.status(200).json({ _id: id, message: "Application failed to save!" });
+        res
+          .status(200)
+          .json({ _id: id, message: "Application failed to save!" });
       }
-      
     } catch (err) {
       res.status(400).json({ _id: id, message: err });
     }

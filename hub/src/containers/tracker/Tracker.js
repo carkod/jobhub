@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Dropdown, Grid, Icon, Search } from "semantic-ui-react";
+import { Button, Dropdown, Grid, Icon, Search } from "semantic-ui-react";
 import TrackingTable from "./Table.js";
 import { showArchiveOptions } from "./Tracker.data";
+import { getGoogleToken } from "../../utils.js";
 
 class Tracker extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Tracker extends Component {
 
   handleSearchChange = (e) => {
     if (this.state.filterStatus !== "all") {
-      this.setState({ filterStatus: "all" })
+      this.setState({ filterStatus: "all" });
     }
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -59,12 +60,16 @@ class Tracker extends Component {
                 value={this.state.companySelected}
               />
             </Grid.Column>
+            <Grid.Column>
+              <Button onClick={() => this.scanEmails()}>Scan emails</Button>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
         <TrackingTable
           {...this.props}
           filterStatus={this.state.filterStatus}
           companySelected={this.state.companySelected}
+          scanEmails={handleGmailAuth => this.scanEmails = handleGmailAuth}
         />
       </div>
     );
