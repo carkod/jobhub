@@ -2,9 +2,7 @@ import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
 import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas";
-import {
-  linkedinRejectedApplications
-} from "./services/emailParser";
+import EmailParser from "./services/emailParser";
 
 // Compile model from schema
 let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
@@ -144,8 +142,8 @@ export default function Tracker(app, db) {
     const limit = parseInt(req.query.limit) || 100;
 
     try {
-      await linkedInEmails(access_token, limit);
-      await linkedinRejectedApplications(access_token, limit);
+      let emailParser = new EmailParser(access_token, limit);
+      await emailParser.genericApplicationParser();
     } catch (e) {
       return res
         .status(e.status)

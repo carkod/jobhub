@@ -7,3 +7,7 @@ export function handleResponse(response, res) {
     throw error;
   }
 }
+
+export function escapeRegex(string) {
+  return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
+}
