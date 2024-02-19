@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { ApplicationSchema } from "../Schemas";
-import GmailApi from "./GmailApi";
-import { escapeRegex } from "../utils";
-import fs from 'fs';
+import { ApplicationSchema } from "../Schemas.js";
+import GmailApi from "./GmailApi.js";
+import { escapeRegex } from "../utils.js";
+import GeminiApi from "./GeminiApi.js";
 export default class EmailParser {
   // This keyword should filter most job application emails
   static keywords = ["Your application"];
@@ -15,10 +15,13 @@ export default class EmailParser {
     this.access_token = access_token;
     this.limit = limit;
     this.gmailApi = new GmailApi(access_token, limit);
+    this.geminiApi = new GeminiApi();
     this.ApplicationModel = mongoose.model(
       "ApplicationModel",
       ApplicationSchema
     );
+    this.miscellaneousRecruitersList = [];
+    this.contentParts = [];
   }
 
   getApplicationByCompany(company) {
@@ -185,64 +188,6 @@ export default class EmailParser {
     }
   }
 
-  async miscellaneousRecruiters(parts, snippet, date, subject) {
-    const searchKeywords = [
-      "Your application for the",
-      "Your application to",
-      "Your application for the position of",
-    ];
-    const ignoreWords = ["position", "job"].join("|");
-    const regexPatterns = [];
-    if (parts[0].body.size > 0) {
-      const part1 = Buffer.from(parts[0].body.data, "base64").toString("utf-8");
-      searchKeywords.forEach(async (phrase) => {
-        if (part1.toLocaleLowerCase().includes(phrase.toLowerCase())) {
-          try {
-            const filename = 'miscellaneousRecruiters.csv';
-            const writeStream = fs.createWriteStream(filename);
-            writeStream.write(`${date}; ${subject}; ${snippet}; ${part1}\n`);
-            res.status(200).json({message: `data saved to ${filename}`, error: 0});
-          } catch(err) {
-            console.log('Some error occured - file either not saved or corrupted file saved.');
-          }
-          let regexPattern = new RegExp(
-            `${phrase} (.+?)&nbsp;at&nbsp;(.+?)\.`,
-            "i"
-          );
-          let match = part1.toLowerCase().match(regexPattern);
-          if (!match) {
-            regexPattern = new RegExp(`${phrase} (.+?) position\\s`,"i")
-            match = part1.toLowerCase().match(regexPattern);
-          }
-          if (match && match.length >= 2) {
-            // const applicationByCompany = await this.getApplicationByCompany(
-            //   companyName
-            // );
-            // if (
-            //   applicationByCompany &&
-            //   applicationByCompany.status.value !== 0 &&
-            //   applicationByCompany.role.toLowerCase() === match[1].toLowerCase()
-            // ) {
-            //   let status = {
-            //     value: 0,
-            //     text: "Applied",
-            //   };
-            //   let firstStage = {
-            //     order: 1,
-            //     completed: false,
-            //     action: "Online application",
-            //     dept: "HR",
-            //     startDate: new Date(date),
-            //   };
-            //   applicationByCompany.status = status;
-            //   applicationByCompany.stages.push(firstStage);
-            //   applicationByCompany.save();
-            // }
-          }
-        }
-      });
-    }
-  }
 
   async workable(parts, snippet, date, subject) {
     const searchKeywords = ["Your application for the"];
@@ -320,23 +265,24 @@ export default class EmailParser {
           (date) => date.name.toLowerCase() === "date"
         ).value;
 
-        if (snippet.includes(this.constructor.keywords[0])) {
-          if (parts) {
-            switch (subject.toLowerCase()) {
-              case this.constructor.senders[0]:
-                this.linkedInEmails(parts, snippet, date, subject);
-                this.linkedinRejectionEmails(parts, snippet, date, subject);
-                break;
-              case this.constructor.senders[1]:
-                this.workable(parts, snippet, date, subject);
-                break;
-              default:
-                this.miscellaneousRecruiters(parts, snippet, date, subject);
-                break;
-            }
-          }
+        if (parts && parts[0].body.size > 0) {
+          const part1 = Buffer.from(parts[0].body.data, "base64").toString(
+            "utf-8"
+          );
+          let processedContent = part1.replace(/\\r\\n/, " ")
+          processedContent = processedContent.replace(/'/g, "\\'");
+          this.miscellaneousRecruitersList.push({
+            snippet: snippet,
+            date: date,
+            subject: subject,
+            content: part1,
+          });
+          this.contentParts.push({
+            text: processedContent
+          });
         }
       }
+      const text = await this.geminiApi.classifyEmails(this.contentParts);
     }
   }
 }

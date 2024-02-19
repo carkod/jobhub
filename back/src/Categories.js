@@ -1,6 +1,6 @@
 //import { ObjectId } from 'mongodb';
 import mongoose from "mongoose";
-import { CategoriesSchema } from "./Schemas";
+import { CategoriesSchema } from "./Schemas.js";
 
 // Compile model from schema
 let cats = mongoose.model("categories", CategoriesSchema);

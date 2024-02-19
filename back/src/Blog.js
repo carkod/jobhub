@@ -1,6 +1,6 @@
 import mongoose, { isValidObjectId, Types, model } from "mongoose";
 import sanitize from "mongo-sanitize";
-import { BlogSchema } from "./Schemas";
+import { BlogSchema } from "./Schemas.js";
 
 // Compile model from schema
 const BlogModel = model("BlogModel", BlogSchema);

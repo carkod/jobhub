@@ -1,8 +1,8 @@
 import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
-import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas";
-import EmailParser from "./services/emailParser";
+import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas.js";
+import EmailParser from "./services/emailParser.js";
 
 // Compile model from schema
 let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
@@ -145,6 +145,7 @@ export default function Tracker(app, db) {
       let emailParser = new EmailParser(access_token, limit);
       await emailParser.genericApplicationParser();
     } catch (e) {
+      console.log(e);
       return res
         .status(e.status)
         .json({ status: false, message: `Error fetching emails: ${e}` });

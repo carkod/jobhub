@@ -1,7 +1,7 @@
 import moment from "moment";
 import mongoose, { isValidObjectId, Types } from "mongoose";
 import sanitize from "mongo-sanitize";
-import { CVSchema } from "./Schemas";
+import { CVSchema } from "./Schemas.js";
 
 // Compile model from schema
 const CVModel = mongoose.model("CVModel", CVSchema);

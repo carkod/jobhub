@@ -132,13 +132,25 @@ const UserSchema = new Schema(
 );
 
 // Applications
+/**
+ * 
+ * 0 - applied
+ * 1 - in progress
+ * 2 - rejected
+ * 3 - success
+ */
 const ApplicationSchema = new Schema(
   {
     _id: Schema.ObjectId,
-    company: { type: String, required: true, unique: true},
+    company: { type: String, required: true, unique: true },
     status: {
-      value: { type: Number, required: true },
-      text: { type: String, required: true },
+      value: { type: Number, required: true, enum: [0, 1, 2, 3], default: 0 },
+      text: {
+        type: String,
+        required: true,
+        enum: ["applied", "interview", "rejected", "success"],
+        default: "applied",
+      },
     },
     role: { type: String },
     salary: { type: String },
