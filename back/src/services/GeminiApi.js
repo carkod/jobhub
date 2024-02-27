@@ -1,7 +1,5 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { VertexAI } from "@google-cloud/vertexai";
-import { GoogleAuth } from "google-auth-library";
-import { Storage } from "@google-cloud/storage";
+import { delay } from "../utils";
 
 const tools = [
   {
@@ -11,20 +9,22 @@ const tools = [
         parameters: {
           type: "object",
           description:
-            "Classify each email as a job application or not. Reply with `true` or `false`",
+            "Classify email as a job application or not. Reply with `true` or `false`",
           properties: {
             categorize_email: {
               type: "boolean",
-              description: `Answer the question with true or false`,
+              description:
+                "Return true if the email is related to a job application or false if it is not.",
             },
           },
         },
       },
       {
-        name: "status",
-        description: `Classify the email in one of the following categories: "Applied", "In progress", "Rejected", "Not an application".`,
+        name: "extract_job_details",
+        description: `Extract job details from the email and set status of the job application according to the email`,
         parameters: {
           type: "object",
+          required: ["company"],
           properties: {
             status: {
               type: "string",
@@ -36,16 +36,6 @@ const tools = [
               ],
               description: `Categorize email as "Applied" by default, "Rejected" it the candidate has been rejected, "In progress" if there is an interview scheduled or an assignment to be completed`,
             },
-          },
-        },
-      },
-      {
-        name: "extract_job_details",
-        description: `Extract job details from the email.`,
-        parameters: {
-          type: "object",
-          required: ["company"],
-          properties: {
             job_title: {
               type: "string",
               description: `The job title.`,
@@ -68,73 +58,61 @@ const tools = [
     ],
   },
 ];
+
+/**
+ * Class to interact with the Gemini API
+ * 
+ * Docs: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
+ * GCloud Project Console: https://console.cloud.google.com/apis/credentials?project=jobhub-415000
+ */
 export default class GeminiApi {
+
+  static max_output_tokens = 256;
+
   constructor() {
     try {
       this.vertexAi = new VertexAI({
-        preview: true,
         project: "jobhub-415000",
         location: "us-east4",
       });
-      // this.genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+      this.model = this.vertexAi.getGenerativeModel({
+        model: "gemini-pro",
+        generation_config: {
+          max_output_tokens: this.constructor.max_output_tokens,
+        },
+      });
     } catch (error) {
       console.error("Error initializing Gemini API", error);
     }
-
-    this.chatMessages = [];
-    this.assistant = null;
-    this.thread = null;
-    this.run = null;
+    this.chat = null;
   }
 
-  async classifyEmails(parts) {
-    // For text-only input, use the gemini-pro model
-    // this.model = this.vertexAi.getGenerativeModel({ model: "gemini-pro"});
-    this.model = this.vertexAi.getGenerativeModel({
-      model: "text-bison",
-    });
 
-    const chat = this.model.startChat({
+  async classifyEmails(part) {
+
+    this.chat = this.model.startChat({
       tools: tools,
     });
 
-    // [parts[0].text]
-    // const request = {
-    //   contents: [{role: 'user', parts: [parts[0]]}],
-    //   tools: tools,
-    // };
-
-    let data = [];
-
-    for (const part of parts) {
-      const chatInput1 = `Is this email a job application? ${part.text}`;
-
-      // const result = await this.model.generateContentStream(request);
-      try {
-        
-        const result = await chat.sendMessageStream(chatInput1);
-      } catch (error) {
-        console.error("Error classifying emails", error);
-      }
-      const result = await chat.sendMessageStream(chatInput1);
-
-      for await (const chunk of result.stream) {
-        if (chunk.candidates[0].content.parts === undefined) {
-          console.log(chunk.candidates[0].content);
-        }
-        const functionCall = chunk.candidates[0].content.parts[0];
-        if (
-          functionCall &&
-          functionCall.args &&
-          functionCall.args.status !== "Not an application"
-        ) {
-          const jobApplicationCheck = functionCall.args.categorize_email;
-          if (jobApplicationCheck) {
-            console.log(jobApplicationCheck);
+    const chatInput1 = `Is this email is related to a job application ${part.text}`;
+    const result = await this.chat.sendMessageStream(chatInput1);
+    for await (const chunk of result.stream) {
+      if (chunk.candidates[0].content.parts) {
+        const { functionCall } = chunk.candidates[0].content.parts[0];
+        if (functionCall && functionCall.args && functionCall.args.categorize_email) {
+          const chatInput2 = `Get status of this email and extract job details: ${part.text}`;
+          await delay(5000);
+          const result2 = await this.chat.sendMessageStream(chatInput2);
+          for await (const chunk2 of result2.stream) {
+            if (chunk2.candidates[0].content.parts) {
+              const functionCall2 = chunk2.candidates[0].content.parts[0].functionCall;
+              if (functionCall2 && functionCall2.args && functionCall2.args.status && functionCall2.args.status.toLowerCase() !== "not an application" && functionCall2.args.company) {
+                return functionCall2.args
+              }
+            }
           }
         }
       }
     }
-    return data
   }
 }

@@ -1,15 +1,12 @@
 import mongoose from "mongoose";
 import { ApplicationSchema } from "../Schemas.js";
-import GmailApi from "./GmailApi.js";
-import { escapeRegex } from "../utils.js";
+import { delay, escapeRegex } from "../utils.js";
 import GeminiApi from "./GeminiApi.js";
+import GmailApi from "./GmailApi.js";
+
 export default class EmailParser {
   // This keyword should filter most job application emails
   static keywords = ["Your application"];
-  static senders = [
-    "linkedin <jobs-noreply@linkedin.com>",
-    "workable <noreply@candidates.workablemail.com>",
-  ];
 
   constructor(access_token, limit = 100) {
     this.access_token = access_token;
@@ -20,12 +17,12 @@ export default class EmailParser {
       "ApplicationModel",
       ApplicationSchema
     );
-    this.miscellaneousRecruitersList = [];
     this.contentParts = [];
+    this.jobApplicationEmails = [];
   }
 
   getApplicationByCompany(company) {
-    const regex = escapeRegex(company);
+    let regex = escapeRegex(company);
     return this.ApplicationModel.findOne({
       company: { $regex: regex, $options: "i" },
     });
@@ -51,197 +48,57 @@ export default class EmailParser {
     return trimmedCompanyName.join(" ");
   }
 
-  async linkedinRejectionEmails(parts, snippet, date) {
-    const part1 = Buffer.from(parts[0].body.data, "base64").toString("utf-8");
-    if (part1.includes("email_jobs_application_rejected")) {
-      const match = /Your application to\s+(.*?)\s+at\s+(.*)/.exec(snippet);
-      if (match && match.length === 3) {
-        const companyName = this.parseCompanyName(match[2]);
-        const applicationByCompany = await this.getApplicationByCompany(
-          companyName
-        );
-        if (
-          applicationByCompany &&
-          applicationByCompany.status.value === 0 &&
-          applicationByCompany.role.toLowerCase() === match[1].toLowerCase()
-        ) {
-          let status = {
-            value: 2,
-            text: "Rejected",
-          };
-          let lastStage = {
-            order: 1,
-            completed: true,
-            action: "Application rejected",
-            dept: "HR",
-            startDate: new Date(date),
-          };
-          applicationByCompany.status = status;
-          applicationByCompany.stages.push(lastStage);
-          applicationByCompany.save();
-        }
-      }
-    }
-  }
-
-  async linkedInEmails(parts, snippet, date, subject) {
-    if (subject.toLowerCase() === this.constructor.senders[0]) {
-      if (parts) {
-        const match = /Your application was sent to (.*?)‌/.exec(snippet);
-
-        if (match.length === 2) {
-          const jobDetails = Buffer.from(parts[0].body.data, "base64").toString(
-            "utf-8"
-          );
-          const matchDetails = /-{64,}\r\n([\s\S]+?)-{64,}/.exec(jobDetails);
-          const extractedText = matchDetails[1].split("\r\n");
-          // Ensure format is correct and company matches
-          if (extractedText[1] === match[1]) {
-            let status = {
-              value: 0,
-              text: "Applied",
-            };
-            let firstStage = {
-              order: 1,
-              completed: false,
-              action: "Online application",
-              dept: "HR",
-              startDate: new Date(date),
-            };
-
-            const applicationUrl = /(https:\/\/\S*)/.exec(extractedText[4]);
-            const findCompany = await this.ApplicationModel.findOne({
-              company: extractedText[1],
-            });
-            if (!findCompany) {
-              let application = new this.ApplicationModel({
-                _id: mongoose.Types.ObjectId(),
-                role: extractedText[0],
-                company: extractedText[1],
-                location: extractedText[2],
-                applicationUrl: applicationUrl[1],
-                date: date,
-                status: status,
-                stages: [firstStage],
-              });
-              application.save();
-            }
-          }
-        }
-      }
+  async saveApplication(emailData, date, emailId) {
+    const application = {
+      role: emailData?.job_title,
+      company: emailData.company,
+      location: emailData?.location,
+      applicationUrl: emailData.application_link,
+      updatedAt: new Date(date),
+      status: {
+        text: emailData.status,
+      },
+      emailId: emailId,
+    };
+    const applicationByCompany = await this.getApplicationByCompany(
+      application.company
+    );
+    if (applicationByCompany) {
+      // Check which update is newer
+      // if (applicationByCompany.updatedAt < new Date(date)) {
+      this.updateApplicationByCompany(application);
+      // }
+    } else {
+      let newApplication = new this.ApplicationModel({
+        _id: mongoose.Types.ObjectId(),
+        role: application.role,
+        company: application.company,
+        location: application.location,
+        applicationUrl: application.applicationUrl,
+        date: application.date,
+        status: application.status,
+        createdAt: new Date(date),
+        updatedAt: application.updatedAt,
+        emailId: application.emailId,
+      });
+      newApplication.save();
     }
   }
 
   /**
-   * Email parser for LinkedIn job applications
+   * Exclude from scanning
+   * - Emails that are rejected
    *
-   * to be replaced by classification algorithsm in the future
-   * @param {*} access_token
-   * @param {number} limit
-   * @returns
+   * @returns {string} message.id
    */
-  async linkedInEmails(parts, snippet, date, subject) {
-    if (subject.toLowerCase() === this.constructor.senders[1]) {
-      if (parts) {
-        const match = /Your application was sent to (.*?)‌/.exec(snippet);
+  async exclusions() {
+    const emailIds = await this.ApplicationModel.aggregate([
+      { $unwind: "$status" },
+      { $match: { "status.value": { $nin: [2, 3] }, emailId: { $ne: null } }},
+      { $project: { _id: 0, emailId: 1 } },
+    ]).exec();
 
-        if (match.length === 2) {
-          const jobDetails = Buffer.from(parts[0].body.data, "base64").toString(
-            "utf-8"
-          );
-          const matchDetails = /-{64,}\r\n([\s\S]+?)-{64,}/.exec(jobDetails);
-          const extractedText = matchDetails[1].split("\r\n");
-          // Ensure format is correct and company matches
-          if (extractedText[1] === match[1]) {
-            let status = {
-              value: 0,
-              text: "Applied",
-            };
-            let firstStage = {
-              order: 1,
-              completed: false,
-              action: "Online application",
-              dept: "HR",
-              startDate: new Date(date),
-            };
-
-            const applicationUrl = /(https:\/\/\S*)/.exec(extractedText[4]);
-            const findCompany = await this.ApplicationModel.findOne({
-              company: extractedText[1],
-            });
-            if (!findCompany) {
-              let application = new this.ApplicationModel({
-                _id: mongoose.Types.ObjectId(),
-                role: extractedText[0],
-                company: extractedText[1],
-                location: extractedText[2],
-                applicationUrl: applicationUrl[1],
-                date: date,
-                status: status,
-                stages: [firstStage],
-              });
-              application.save();
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-  async workable(parts, snippet, date, subject) {
-    const searchKeywords = ["Your application for the"];
-    const part1 = Buffer.from(parts[0].body.data, "base64").toString("utf-8");
-    const part2 = Buffer.from(parts[1].body.data, "base64").toString("utf-8");
-    const phrase = searchKeywords[0];
-    if (part1.includes(phrase)) {
-      const escapedPattern = searchKeywords[0].replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&"
-      );
-      const regexString = `^([^0-9]+) ${escapedPattern} (.+?) job`;
-      const regexPattern = new RegExp(regexString, "i");
-      const match = snippet.match(regexPattern);
-      if (match && match.length >= 2) {
-        const companyName = match[1];
-        if (companyName) {
-          const applicationByCompany = await this.getApplicationByCompany(
-            companyName
-          );
-          if (!applicationByCompany) {
-            // Get application URL
-            const escapedPattern = "Withdraw this application".replace(
-              /[.*+?^${}()|[\]\\]/g,
-              "\\$&"
-            );
-            const regexPattern = new RegExp(`${escapedPattern}\\s*([^\r\n]+)`);
-            const extractedText = part1.match(regexPattern);
-
-            let status = {
-              value: 0,
-              text: "Applied",
-            };
-            let firstStage = {
-              order: 1,
-              completed: false,
-              action: "Online application",
-              dept: "HR",
-              startDate: new Date(date),
-            };
-            let application = new this.ApplicationModel({
-              _id: mongoose.Types.ObjectId(),
-              role: match[2],
-              company: companyName,
-              applicationUrl: extractedText[1],
-              date: date,
-              status: status,
-              stages: [firstStage],
-            });
-            application.save();
-          }
-        }
-      }
-    }
+    return emailIds.flatMap((email) => email ? email.id : [] );;
   }
 
   async genericApplicationParser() {
@@ -252,7 +109,15 @@ export default class EmailParser {
     if (messages.length === 0) {
       throw new Error("No messages found.");
     } else {
+      const excludeMessageIds = await this.exclusions();
       for (const message of messages) {
+
+        // // Skip if message is in the exclusion list
+        // // to prevent re-scanning of emails
+        // if (excludeMessageIds.includes(message.id)) {
+        //   continue;
+        // }
+
         const {
           snippet,
           payload: { parts, headers },
@@ -269,20 +134,28 @@ export default class EmailParser {
           const part1 = Buffer.from(parts[0].body.data, "base64").toString(
             "utf-8"
           );
-          let processedContent = part1.replace(/\\r\\n/, " ")
+          let processedContent = part1.replace(/\\r\\n/, " ");
           processedContent = processedContent.replace(/'/g, "\\'");
-          this.miscellaneousRecruitersList.push({
-            snippet: snippet,
-            date: date,
-            subject: subject,
-            content: part1,
-          });
-          this.contentParts.push({
-            text: processedContent
-          });
+
+          const checkForLetters = /[a-zA-Z]/g.test(snippet);
+          if (checkForLetters) {
+            try {
+              await delay(5000);
+              const extractedApplicationData = await this.geminiApi.classifyEmails({
+                text: processedContent,
+                subject: subject,
+                id: message.id,
+              });
+              if (extractedApplicationData) {
+                await this.saveApplication(extractedApplicationData, date, message.id);
+              }
+            } catch (error) {
+              console.error("Error classifying emails", error, snippet);
+              break;
+            }
+          }
         }
       }
-      const text = await this.geminiApi.classifyEmails(this.contentParts);
     }
   }
 }

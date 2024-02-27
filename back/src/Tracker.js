@@ -1,12 +1,12 @@
 import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
-import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas.js";
+import { ApplicationSchema, StagesSchema } from "./Schemas.js";
 import EmailParser from "./services/emailParser.js";
+import { typedStatus } from "./utils.js";
 
 // Compile model from schema
 let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
-let ContactsModel = mongoose.model("ContactsModel", ContactsSchema);
 let StagesModel = mongoose.model("StagesModel", StagesSchema);
 
 const fileDir = "uploads/applications";
@@ -75,11 +75,10 @@ export default function Tracker(app, db) {
     const skip = pagesize * page - pagesize;
     const { status, companyName } = req.query;
     // These should be typed into Schema in the future
-    const typedStatus = ["in progress", "applied", "success", "rejected"];
     let params = {};
 
     if (status === "active") {
-      params["status.text"] = { $nin: ["Rejected", "Success"] };
+      params["status.value"] = { $nin: [2, 3] };
     } else if (typedStatus.includes(status)) {
       params["status.text"] = { $in: [capitalize(status)] };
     }
@@ -145,7 +144,6 @@ export default function Tracker(app, db) {
       let emailParser = new EmailParser(access_token, limit);
       await emailParser.genericApplicationParser();
     } catch (e) {
-      console.log(e);
       return res
         .status(e.status)
         .json({ status: false, message: `Error fetching emails: ${e}` });

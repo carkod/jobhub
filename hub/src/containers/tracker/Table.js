@@ -173,13 +173,13 @@ class TrackingTable extends Component {
     );
   };
 
-  handleGmailAuth = async () => {
+  handleGmailAuth = async (emailsCount=100) => {
     const token = getGoogleToken();
     if (token) {
-      const response = await this.props.scanGmail(token, 2000);
+      const response = await this.props.scanGmail(token, emailsCount);
       if (response.code === 401) {
         oauth2SignIn();
-        await this.props.scanGmail(token, 2000);
+        await this.props.scanGmail(token, emailsCount);
       }
     } else {
       oauth2SignIn();
