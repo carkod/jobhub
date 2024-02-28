@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { ApplicationSchema } from "../Schemas.js";
-import { delay, escapeRegex } from "../utils.js";
+import { escapeRegex } from "../utils.js";
 import GeminiApi from "./GeminiApi.js";
 import GmailApi from "./GmailApi.js";
 
@@ -8,7 +8,7 @@ export default class EmailParser {
   // This keyword should filter most job application emails
   static keywords = ["Your application"];
 
-  constructor(access_token, limit = 100) {
+  constructor(access_token, limit = 300) {
     this.access_token = access_token;
     this.limit = limit;
     this.gmailApi = new GmailApi(access_token, limit);
@@ -65,9 +65,9 @@ export default class EmailParser {
     );
     if (applicationByCompany) {
       // Check which update is newer
-      // if (applicationByCompany.updatedAt < new Date(date)) {
-      this.updateApplicationByCompany(application);
-      // }
+      if (applicationByCompany.updatedAt < new Date(date)) {
+        this.updateApplicationByCompany(application);
+      }
     } else {
       let newApplication = new this.ApplicationModel({
         _id: mongoose.Types.ObjectId(),
@@ -94,38 +94,41 @@ export default class EmailParser {
   async exclusions() {
     const emailIds = await this.ApplicationModel.aggregate([
       { $unwind: "$status" },
-      { $match: { "status.value": { $nin: [2, 3] }, emailId: { $ne: null } }},
+      { $match: { "status.value": { $nin: [2, 3] }, emailId: { $ne: null } } },
       { $project: { _id: 0, emailId: 1 } },
     ]).exec();
 
-    return emailIds.flatMap((email) => email ? email.id : [] );;
+    return emailIds.flatMap((email) => (email ? email.id : []));
   }
 
   async genericApplicationParser() {
-    const messages = await this.gmailApi.fetchListEmails(
-      this.constructor.keywords[0]
-    );
+    const messages = await this.gmailApi.fetchListEmails();
 
     if (messages.length === 0) {
       throw new Error("No messages found.");
     } else {
       const excludeMessageIds = await this.exclusions();
       for (const message of messages) {
-
-        // // Skip if message is in the exclusion list
-        // // to prevent re-scanning of emails
+        // Skip if message is in the exclusion list
+        // to prevent re-scanning of emails
         // if (excludeMessageIds.includes(message.id)) {
+        //   console.log("Excluded message", message.id);
         //   continue;
         // }
 
+        const emailContent = await this.gmailApi.fetchIndividualEmail(
+          message.id
+        );
         const {
           snippet,
           payload: { parts, headers },
-        } = await this.gmailApi.fetchIndividualEmail(message.id);
+        } = emailContent;
 
         const subject = headers.find(
           (header) => header.name.toLowerCase() === "from"
         ).value;
+
+        console.log("subject", subject, message.id);
         const date = headers.find(
           (date) => date.name.toLowerCase() === "date"
         ).value;
@@ -140,14 +143,18 @@ export default class EmailParser {
           const checkForLetters = /[a-zA-Z]/g.test(snippet);
           if (checkForLetters) {
             try {
-              await delay(5000);
-              const extractedApplicationData = await this.geminiApi.classifyEmails({
-                text: processedContent,
-                subject: subject,
-                id: message.id,
-              });
+              const extractedApplicationData =
+                await this.geminiApi.classifyEmails({
+                  text: processedContent,
+                  subject: subject,
+                  id: message.id,
+                });
               if (extractedApplicationData) {
-                await this.saveApplication(extractedApplicationData, date, message.id);
+                await this.saveApplication(
+                  extractedApplicationData,
+                  date,
+                  message.id
+                );
               }
             } catch (error) {
               console.error("Error classifying emails", error, snippet);
@@ -156,6 +163,7 @@ export default class EmailParser {
           }
         }
       }
+      console.log("Finished processing emails");
     }
   }
 }

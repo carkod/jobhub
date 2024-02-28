@@ -137,6 +137,10 @@ export default function Tracker(app, db) {
    * @param {boolean} allPages: optional, first page by default (gmail API)
    */
   app.post("/api/applications/scan", async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    res.setHeader("Access-Control-Allow-Methods", "*");
+
     const { access_token } = req.body;
     const limit = parseInt(req.query.limit) || 100;
 
