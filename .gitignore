@@ -90,3 +90,4 @@ typings/
 # dotenv environment variables file
 /.env
 .env.local
+jobhub-415000-prod.json

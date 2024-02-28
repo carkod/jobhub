@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y gnupg nginx yarn \
     && apt-get update && apt-get install google-chrome-stable -y fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+# Login to Gcloud
+RUN gcloud auth activate-service-account --key-file=/home/back/application_default_credentials.json
+
 COPY wait-for-it.sh /home/wait-for-it.sh
 RUN chmod +x /home/wait-for-it.sh
 

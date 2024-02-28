@@ -77,6 +77,17 @@ export default function Tracker(app, db) {
     // These should be typed into Schema in the future
     let params = {};
 
+    // Parse a few to get up to date applications
+    // do not wait for the response (removed await)
+    try {
+      let emailParser = new EmailParser(access_token, 50);
+      emailParser.genericApplicationParser();
+    } catch (e) {
+      return res
+        .status(e.status)
+        .json({ status: false, message: `Error fetching emails: ${e}` });
+    }
+
     if (status === "active") {
       params["status.value"] = { $nin: [2, 3] };
     } else if (typedStatus.includes(status)) {
@@ -137,6 +148,7 @@ export default function Tracker(app, db) {
    * @param {boolean} allPages: optional, first page by default (gmail API)
    */
   app.post("/api/applications/scan", async (req, res) => {
+
     const { access_token } = req.body;
     const limit = parseInt(req.query.limit) || 100;
 
@@ -275,7 +287,7 @@ export default function Tracker(app, db) {
       );
     } else {
       let response = {
-        message: "Todo could not be deleted deleted",
+        message: "Please provide _id to delete the application.",
       };
 
       res.send(response);

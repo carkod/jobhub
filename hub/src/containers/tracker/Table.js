@@ -22,8 +22,7 @@ import { APPLIED_COMPANIES, columns } from "./Tracker.data";
 const oauth2SignIn = () => {
   removeGoogleToken();
   const params = new URLSearchParams({
-    client_id:
-      "314002233314-vbqftldokddclqka3msf6e5bcfrkcvuf.apps.googleusercontent.com",
+    client_id: "42631546883-fp8hp8bnc7lj2vi7grdg742bum2ptomi.apps.googleusercontent.com",
     redirect_uri: window.location.origin,
     scope: "https://www.googleapis.com/auth/gmail.readonly",
     response_type: "token",

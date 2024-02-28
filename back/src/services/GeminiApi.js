@@ -1,24 +1,8 @@
 import { VertexAI } from "@google-cloud/vertexai";
-import { delay } from "../utils";
 
 const tools = [
   {
     function_declarations: [
-      {
-        name: "classify_email",
-        parameters: {
-          type: "object",
-          description:
-            "Classify email as a job application or not. Reply with `true` or `false`",
-          properties: {
-            categorize_email: {
-              type: "boolean",
-              description:
-                "Return true if the email is related to a job application or false if it is not.",
-            },
-          },
-        },
-      },
       {
         name: "extract_job_details",
         description: `Extract job details from the email and set status of the job application according to the email`,
@@ -68,51 +52,67 @@ const tools = [
 export default class GeminiApi {
 
   static max_output_tokens = 256;
+  static regions = ["us-central1", "europe-west1", "europe-west2", "europe-west3", "europe-west4", "europe-west9", "northamerica-northeast1", "asia-northeast1", "asia-northeast3", "asia-southeast1"]
 
   constructor() {
-    try {
-      this.vertexAi = new VertexAI({
-        project: "jobhub-415000",
-        location: "us-east4",
-      });
-      this.model = this.vertexAi.getGenerativeModel({
-        model: "gemini-pro",
-        generation_config: {
-          max_output_tokens: this.constructor.max_output_tokens,
-        },
-      });
-    } catch (error) {
-      console.error("Error initializing Gemini API", error);
-    }
-    this.chat = null;
+    this.requests_per_minute = 300;
+    this.currentRegionIndex = 0;
   }
 
+  /**
+   * Rotate regions so that we don't hit the rate limit
+   * most of servers have max request per minute of only 60
+   * 
+   * https://cloud.google.com/vertex-ai/generative-ai/docs/quotas
+   */
+  setRegionIndex() {
+    if (this.currentRegionIndex < this.constructor.regions.length - 1) {
+      this.currentRegionIndex = this.currentRegionIndex + 1;
+    } else {
+      this.currentRegionIndex = 0;
+    }
+  }
+
+  setupAi() {
+    this.setRegionIndex();
+    const vertexAi = new VertexAI({
+      project: process.env.PROJECT_ID,
+      location: this.constructor.regions[this.currentRegionIndex],
+    });
+    const model = vertexAi.getGenerativeModel({
+      model: "gemini-pro",
+      generation_config: {
+        max_output_tokens: this.constructor.max_output_tokens,
+      },
+    });
+
+    const chat = model.startChat({
+      tools: tools,
+    });
+    return chat;
+  }
+
+  async sendMessage(input) {
+    const chat = this.setupAi();
+    return await chat.sendMessageStream(input);
+  }
 
   async classifyEmails(part) {
 
-    this.chat = this.model.startChat({
-      tools: tools,
-    });
-
-    const chatInput1 = `Is this email is related to a job application ${part.text}`;
-    const result = await this.chat.sendMessageStream(chatInput1);
+    let data = null;
+    const chatInput1 = `Is this email is related to a job application? If it is, extract job details: ${part.text}`;
+    const result = await this.sendMessage(chatInput1);
+    // sometimes response takes time to process
     for await (const chunk of result.stream) {
       if (chunk.candidates[0].content.parts) {
         const { functionCall } = chunk.candidates[0].content.parts[0];
-        if (functionCall && functionCall.args && functionCall.args.categorize_email) {
-          const chatInput2 = `Get status of this email and extract job details: ${part.text}`;
-          await delay(5000);
-          const result2 = await this.chat.sendMessageStream(chatInput2);
-          for await (const chunk2 of result2.stream) {
-            if (chunk2.candidates[0].content.parts) {
-              const functionCall2 = chunk2.candidates[0].content.parts[0].functionCall;
-              if (functionCall2 && functionCall2.args && functionCall2.args.status && functionCall2.args.status.toLowerCase() !== "not an application" && functionCall2.args.company) {
-                return functionCall2.args
-              }
-            }
-          }
+        console.log(functionCall)
+        if (functionCall && functionCall.args && functionCall.args.status && functionCall.args.status.toLowerCase() !== "not an application" && functionCall.args.company && functionCall.args.company !== "None") {
+          data = functionCall.args;
+          break;
         }
       }
     }
+    return data;
   }
 }
