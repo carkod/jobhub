@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, { get } from "lodash";
 import moment from "moment";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
@@ -62,6 +62,10 @@ class TrackingTable extends Component {
       };
       setGoogleToken(token);
       this.handleGmailAuth();
+    }
+    const token = getGoogleToken();
+    if (token) {
+      this.props.scanGmail(token);
     }
   };
 
