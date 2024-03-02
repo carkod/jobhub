@@ -77,17 +77,6 @@ export default function Tracker(app, db) {
     // These should be typed into Schema in the future
     let params = {};
 
-    // Parse a few to get up to date applications
-    // do not wait for the response (removed await)
-    try {
-      let emailParser = new EmailParser(access_token, 50);
-      emailParser.genericApplicationParser();
-    } catch (e) {
-      return res
-        .status(e.status)
-        .json({ status: false, message: `Error fetching emails: ${e}` });
-    }
-
     if (status === "active") {
       params["status.value"] = { $nin: [2, 3] };
     } else if (typedStatus.includes(status)) {

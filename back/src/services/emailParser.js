@@ -111,10 +111,10 @@ export default class EmailParser {
       for (const message of messages) {
         // Skip if message is in the exclusion list
         // to prevent re-scanning of emails
-        // if (excludeMessageIds.includes(message.id)) {
-        //   console.log("Excluded message", message.id);
-        //   continue;
-        // }
+        if (excludeMessageIds.includes(message.id)) {
+          console.log("Excluded message", message.id);
+          continue;
+        }
 
         const emailContent = await this.gmailApi.fetchIndividualEmail(
           message.id

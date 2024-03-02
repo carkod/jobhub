@@ -61,7 +61,6 @@ class Tracker extends Component {
             </Grid.Column>
             <Grid.Column>
               <Button onClick={() => this.scanEmails()}>Scan emails</Button>
-              <Button onClick={() => this.scanEmails(50)}>Scan last 50 emails</Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>

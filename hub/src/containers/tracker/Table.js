@@ -1,4 +1,4 @@
-import _, { get } from "lodash";
+import _ from "lodash";
 import moment from "moment";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
@@ -15,14 +15,20 @@ import {
   moveNextStage,
   scanGmail,
 } from "../../actions/tracker";
-import { getGoogleToken, removeGoogleToken, setGoogleToken, withRouter } from "../../utils";
+import {
+  getGoogleToken,
+  removeGoogleToken,
+  setGoogleToken,
+  withRouter,
+} from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
 import { APPLIED_COMPANIES, columns } from "./Tracker.data";
 
 const oauth2SignIn = () => {
   removeGoogleToken();
   const params = new URLSearchParams({
-    client_id: "42631546883-fp8hp8bnc7lj2vi7grdg742bum2ptomi.apps.googleusercontent.com",
+    client_id:
+      "42631546883-fp8hp8bnc7lj2vi7grdg742bum2ptomi.apps.googleusercontent.com",
     redirect_uri: window.location.origin,
     scope: "https://www.googleapis.com/auth/gmail.readonly",
     response_type: "token",
@@ -61,12 +67,8 @@ class TrackingTable extends Component {
         scope: params.get("scope"),
       };
       setGoogleToken(token);
-      this.handleGmailAuth();
     }
-    const token = getGoogleToken();
-    if (token) {
-      this.props.scanGmail(token);
-    }
+    this.handleGmailAuth(50);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -176,7 +178,7 @@ class TrackingTable extends Component {
     );
   };
 
-  handleGmailAuth = async (emailsCount=100) => {
+  handleGmailAuth = async (emailsCount = 100) => {
     const token = getGoogleToken();
     if (token) {
       const response = await this.props.scanGmail(token, emailsCount);
@@ -205,9 +207,9 @@ class TrackingTable extends Component {
                   >
                     {col}
                   </Table.HeaderCell>
-                )
+                );
               }
-          })}
+            })}
           </Table.Row>
         </Table.Header>
         <Table.Body>
