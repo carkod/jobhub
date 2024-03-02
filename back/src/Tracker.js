@@ -1,14 +1,12 @@
 import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
-import { ApplicationSchema, ContactsSchema, StagesSchema } from "./Schemas";
-import {
-  linkedinRejectedApplications
-} from "./services/emailParser";
+import { ApplicationSchema, StagesSchema } from "./Schemas.js";
+import EmailParser from "./services/emailParser.js";
+import { typedStatus } from "./utils.js";
 
 // Compile model from schema
 let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
-let ContactsModel = mongoose.model("ContactsModel", ContactsSchema);
 let StagesModel = mongoose.model("StagesModel", StagesSchema);
 
 const fileDir = "uploads/applications";
@@ -77,11 +75,10 @@ export default function Tracker(app, db) {
     const skip = pagesize * page - pagesize;
     const { status, companyName } = req.query;
     // These should be typed into Schema in the future
-    const typedStatus = ["in progress", "applied", "success", "rejected"];
     let params = {};
 
     if (status === "active") {
-      params["status.text"] = { $nin: ["Rejected", "Success"] };
+      params["status.value"] = { $nin: [2, 3] };
     } else if (typedStatus.includes(status)) {
       params["status.text"] = { $in: [capitalize(status)] };
     }
@@ -140,12 +137,13 @@ export default function Tracker(app, db) {
    * @param {boolean} allPages: optional, first page by default (gmail API)
    */
   app.post("/api/applications/scan", async (req, res) => {
+
     const { access_token } = req.body;
     const limit = parseInt(req.query.limit) || 100;
 
     try {
-      // await linkedInEmails(access_token, limit);
-      await linkedinRejectedApplications(access_token, limit);
+      let emailParser = new EmailParser(access_token, limit);
+      await emailParser.genericApplicationParser();
     } catch (e) {
       return res
         .status(e.status)
@@ -278,7 +276,7 @@ export default function Tracker(app, db) {
       );
     } else {
       let response = {
-        message: "Todo could not be deleted deleted",
+        message: "Please provide _id to delete the application.",
       };
 
       res.send(response);

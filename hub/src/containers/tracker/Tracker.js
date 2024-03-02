@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button, Dropdown, Grid, Icon, Search } from "semantic-ui-react";
 import TrackingTable from "./Table.js";
 import { showArchiveOptions } from "./Tracker.data";
-import { getGoogleToken } from "../../utils.js";
 
 class Tracker extends Component {
   constructor(props) {

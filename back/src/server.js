@@ -6,13 +6,13 @@ import { I18n } from "i18n";
 import mongoose from "mongoose";
 import path from "path";
 import mongoSanitize from "express-mongo-sanitize";
-import Api from "./Api";
+import Api from "./Api.js";
 import Blog from "./Blog.js";
 import Categories from "./Categories.js";
 import CoverLetters from "./CoverLetters.js";
 import CVs from "./CVs.js";
 import Login from "./Login.js";
-import Pdf from "./Pdf";
+import Pdf from "./Pdf.js";
 import Portfolio from "./Portfolio.js";
 import Tracker from "./Tracker.js";
 

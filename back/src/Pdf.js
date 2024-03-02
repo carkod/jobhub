@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose, { isValidObjectId, Types } from "mongoose";
-import { CVSchema, CLSchema } from "./Schemas";
-import { generatePDF } from "./generator";
+import { CVSchema, CLSchema } from "./Schemas.js";
+import { generatePDF } from "./generator.js";
 
 // Compile model from schema
 let CVModel = mongoose.model("CVModel", CVSchema);

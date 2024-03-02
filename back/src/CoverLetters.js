@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import sanitize from "mongo-sanitize";
-import { CLSchema } from "./Schemas";
+import { CLSchema } from "./Schemas.js";
 
 // Compile model from schema
 let CLModel = mongoose.model("CLModel", CLSchema);

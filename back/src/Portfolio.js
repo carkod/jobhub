@@ -1,11 +1,11 @@
-//import { ObjectId } from 'mongodb';
 import mongoose from "mongoose";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
+import { ProjectSchema } from "./Schemas.js";
 
-import { ProjectSchema } from "./Schemas";
+
 dotenv.config();
 
 const host = process.env.ENV_PROD;

@@ -132,13 +132,26 @@ const UserSchema = new Schema(
 );
 
 // Applications
+/**
+ * 
+ * 0 - applied
+ * 1 - in progress
+ * 2 - rejected
+ * 3 - success
+ */
 const ApplicationSchema = new Schema(
   {
     _id: Schema.ObjectId,
-    company: { type: String, required: true, unique: true},
+    company: { type: String, required: true, unique: true },
     status: {
-      value: { type: Number, required: true },
-      text: { type: String, required: true },
+      value: { type: Number, enum: [0, 1, 2, 3], default: 0 },
+      text: {
+        type: String,
+        required: true,
+        lowercase: true,
+        enum: ["applied", "in progress", "rejected", "success"],
+        default: "applied",
+      },
     },
     role: { type: String },
     salary: { type: String },
@@ -149,12 +162,34 @@ const ApplicationSchema = new Schema(
     files: { type: Array },
     stages: [StagesSchema],
     updatedAt: { type: Date, default: Date.now },
+    emailId: { type: String | undefined }, // If data comes from email
   },
   { timestamps: true },
   { strict: false }
 );
 
 ApplicationSchema.pre("save", function (next) {
+  switch (this.status.text) {
+    case "applied":
+      this.status.value = 0;
+      break;
+    
+    case "in progress":
+      this.status.value = 1;
+      break;
+    
+    case "rejected":
+      this.status.value = 2;
+      break;
+    
+    case "success":
+      this.status.value = 3;
+      break;
+  
+    default:
+      this.status.value = 0;
+      break;
+  }
   if (this.contacts.length === 0) {
     this.contacts.push({
       contactId: "",
