@@ -1,4 +1,4 @@
-import { handleResponse } from "../utils";
+import { handleResponse } from "../utils.js";
 
 export default class GmailApi {
   constructor(access_token, limit = 100) {

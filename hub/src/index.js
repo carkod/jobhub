@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import Reducer from './Reducer';
 import App from './App';
 
+import 'semantic-ui-css-offline';
 import 'draft-js/dist/Draft.css';
 import './index.css';
 

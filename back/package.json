@@ -1,6 +1,6 @@
 {
   "name": "back",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Back-end application for Jobhub",
   "main": "server.js",
   "scripts": {
@@ -21,9 +21,11 @@
   "author": "Carlos Wu",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/vertexai": "^0.4.0",
+    "@google/generative-ai": "^0.2.1",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.0",
+    "body-parser": "^1.20.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.2",
     "express-mongo-sanitize": "^2.2.0",
@@ -60,5 +62,7 @@
       "@babel/transform-runtime",
       "@babel/plugin-transform-flow-strip-types"
     ]
-  }
+  },
+  "repository": "https://github.com/carkod/jobhub",
+  "private": false
 }

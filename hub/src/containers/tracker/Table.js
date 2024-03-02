@@ -22,8 +22,7 @@ import { APPLIED_COMPANIES, columns } from "./Tracker.data";
 const oauth2SignIn = () => {
   removeGoogleToken();
   const params = new URLSearchParams({
-    client_id:
-      "314002233314-vbqftldokddclqka3msf6e5bcfrkcvuf.apps.googleusercontent.com",
+    client_id: "42631546883-fp8hp8bnc7lj2vi7grdg742bum2ptomi.apps.googleusercontent.com",
     redirect_uri: window.location.origin,
     scope: "https://www.googleapis.com/auth/gmail.readonly",
     response_type: "token",
@@ -173,13 +172,13 @@ class TrackingTable extends Component {
     );
   };
 
-  handleGmailAuth = async () => {
+  handleGmailAuth = async (emailsCount=100) => {
     const token = getGoogleToken();
     if (token) {
-      const response = await this.props.scanGmail(token, 2000);
+      const response = await this.props.scanGmail(token, emailsCount);
       if (response.code === 401) {
         oauth2SignIn();
-        await this.props.scanGmail(token, 2000);
+        await this.props.scanGmail(token, emailsCount);
       }
     } else {
       oauth2SignIn();

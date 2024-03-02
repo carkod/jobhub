@@ -1,0 +1,22 @@
+
+POST https://us-east4-aiplatform.googleapis.com/v1/projects/jobhub-41500/locations/us-east4/publishers/google/models/gemini-1.0-pro:streamGenerateContent HTTP/1.1
+content-type: application/json
+Authorization: Bearer xxxx
+
+{
+  "contents": [
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "Generate email text",
+        }
+      ]
+    }
+  ]
+}
+
+### Create API key
+POST https://apikeys.googleapis.com/v2/projects/jobhub-41500/locations/global/keys HTTP/1.1
+content-type: application/json
+Authorization: Bearer xxxx
