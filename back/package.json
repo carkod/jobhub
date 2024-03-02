@@ -1,6 +1,6 @@
 {
   "name": "back",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Back-end application for Jobhub",
   "main": "server.js",
   "scripts": {
@@ -62,5 +62,7 @@
       "@babel/transform-runtime",
       "@babel/plugin-transform-flow-strip-types"
     ]
-  }
+  },
+  "repository": "https://github.com/carkod/jobhub",
+  "private": false
 }

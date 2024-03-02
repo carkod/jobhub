@@ -1,66 +1,19 @@
+/**
+ * Routes for jobApplications
+ *
+ * These are views or endpoints that expose the application
+ * as an interface to the outside world.
+ */
+
 import fs from "fs";
 import mongoose from "mongoose";
-import multer from "multer";
 import { ApplicationSchema, StagesSchema } from "./Schemas.js";
 import EmailParser from "./services/emailParser.js";
-import { typedStatus } from "./utils.js";
+import { typedStatus, capitalize } from "../utils.js";
+import { fillModel } from "./controllers.js";
 
 // Compile model from schema
-let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
-let StagesModel = mongoose.model("StagesModel", StagesSchema);
 
-const fileDir = "uploads/applications";
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, fileDir);
-  },
-  filename(req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-const fileUpload = upload.single("fieldname");
-
-function fillModel(r) {
-  const stages = new StagesModel({
-    _id: r._id || mongoose.Types.ObjectId(),
-    order: r.order,
-    completed: r.completed,
-    action: r.action,
-    dept: r.dept,
-    startDate: r.startDate,
-    endDate: r.endDate,
-  });
-  const sortStages = (stages) => {
-    return stages.sort(({ order: a }, { order: b }) => {
-      return a - b;
-    });
-  };
-  return {
-    // Create new || Update
-    _id: r._id || mongoose.Types.ObjectId(),
-    company: r.company,
-    status: {
-      value: r.status.value,
-      text: r.status.text,
-    },
-    role: r.role,
-    salary: r.salary,
-    applicationUrl: r.applicationUrl,
-    contacts: r.contacts,
-    description: r.description,
-    files: r.files,
-    stages: sortStages(r.stages),
-    location: r.location,
-  };
-}
-
-const capitalize = (word) => {
-  const lower = word.toLowerCase();
-  const capText = word.charAt(0).toUpperCase() + lower.slice(1);
-  return capText;
-};
 
 export default function Tracker(app, db) {
   app.get("/api/applications", async (req, res) => {
@@ -137,7 +90,6 @@ export default function Tracker(app, db) {
    * @param {boolean} allPages: optional, first page by default (gmail API)
    */
   app.post("/api/applications/scan", async (req, res) => {
-
     const { access_token } = req.body;
     const limit = parseInt(req.query.limit) || 50;
 
@@ -157,7 +109,7 @@ export default function Tracker(app, db) {
 
   app.post("/api/application", async (req, res) => {
     let r = req.body,
-      applications = new ApplicationModel(fillModel(r));
+      applications = fillModel(r);
     const id = r._id || applications._id;
     delete r._id;
     ApplicationModel.updateOne(
@@ -239,7 +191,7 @@ export default function Tracker(app, db) {
       applications;
 
     if (id) {
-      applications = new ApplicationModel(fillModel(r));
+      applications = fillModel(r);
       ApplicationModel.create(applications, (err, msg) => {
         if (err) {
           throw err;
@@ -261,25 +213,17 @@ export default function Tracker(app, db) {
     }
   });
 
-  app.delete("/api/application/:_id", (req, res) => {
+  app.delete("/api/application/:_id", async (req, res) => {
     if (req.params._id) {
-      ApplicationModel.findByIdAndRemove(
-        req.params._id,
-        (err, applications) => {
-          if (!err) {
-            const deletedID = req.params._id;
-            res.json({ _id: deletedID });
-          } else {
-            res.json({ message: err });
-          }
-        }
-      );
-    } else {
-      let response = {
-        message: "Todo could not be deleted deleted",
-      };
-
-      res.send(response);
+      try {
+        await deleteApplication({ field: "_id", value: req.params._id });
+        const response = {
+          message: "Application deleted successfully",
+        };
+        res.send(response);
+      } catch (e) {
+        res.json({ message: e });
+      }
     }
   });
 }

@@ -17,3 +17,9 @@ export function delay(ms=5000) {
 }
 
 export const typedStatus = ["in progress", "applied", "success", "rejected"];
+
+export const capitalize = (word) => {
+  const lower = word.toLowerCase();
+  const capText = word.charAt(0).toUpperCase() + lower.slice(1);
+  return capText;
+};
