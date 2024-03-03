@@ -1,4 +1,5 @@
 import { VertexAI } from "@google-cloud/vertexai";
+import { delay, validateUrl } from "../utils";
 
 const tools = [
   {
@@ -36,6 +37,26 @@ const tools = [
               type: "string",
               description: `The application link.`,
             },
+            job_requirements: {
+              type: "string",
+              description: `Optional. The job requirements if you can find it, otherwise leave it empty.`,
+            },
+            city: {
+              type: "string",
+              description: `Optional. The city in which the candidate has to work`,
+            },
+            work_mode: {
+              type: "string",
+              description: `Is it hybrid, remote or on-site? Optional, leave empty if there no information.`,
+            },
+            contract_type: {
+              type: "string",
+              description: `Optional. Is it a full-time, part-time or internship? Is it a permanent or temporary contract?`,
+            },
+            salary: {
+              type: "string",
+              description: `Optional. The salary.`,
+            },
           },
         },
       },
@@ -55,7 +76,6 @@ export default class GeminiApi {
   static regions = ["us-central1", "europe-west1", "europe-west2", "europe-west3", "europe-west4", "europe-west9", "northamerica-northeast1", "asia-northeast1", "asia-northeast3", "asia-southeast1"]
 
   constructor() {
-    this.requests_per_minute = 300;
     this.currentRegionIndex = 0;
   }
 
@@ -97,6 +117,20 @@ export default class GeminiApi {
     return await chat.sendMessageStream(input);
   }
 
+  /**
+   * Extract job details from application link
+   * 
+   * @param {string} url - The URL of the email
+   * @returns {HTML} - The job details
+   */
+  async getApplicationDetails(url) {
+    const page = await fetch(url);
+    const text = await page.text();
+    const prompt = `Extract job details: ${text}`;
+    const result = await this.sendMessage(prompt);
+    return result;
+  }
+
   async classifyEmails(part) {
 
     let data = null;
@@ -106,10 +140,26 @@ export default class GeminiApi {
     for await (const chunk of result.stream) {
       if (chunk.candidates[0].content.parts) {
         const { functionCall } = chunk.candidates[0].content.parts[0];
-        console.log(functionCall)
         if (functionCall && functionCall.args && functionCall.args.status && functionCall.args.status.toLowerCase() !== "not an application" && functionCall.args.company && functionCall.args.company !== "None") {
           data = functionCall.args;
-          break;
+          console.log("First functioncall ", data, "region" , this.constructor.regions[this.currentRegionIndex]);
+          if (validateUrl(data.application_link)) {
+            // Try to change server to avoid 500 errors
+            this.setRegionIndex();
+            const results2 = await this.getApplicationDetails(data.application_link);
+            for await (const chunk2 of results2.stream) {
+              if (chunk2.candidates[0].content.parts) {
+                const functionCall2 = chunk2.candidates[0].content.parts[0].functionCall;
+                if (functionCall2 && functionCall2.args) {
+                  data = {...data, ...functionCall2.args};
+                  if (!data.status && functionCall.args.status) {
+                    data.status = functionCall.args.status;
+                  }
+                }
+                break;
+              }
+            }
+          }
         }
       }
     }
