@@ -151,7 +151,6 @@ export default class EmailParser {
                   subject: subject,
                   id: message.id,
                 });
-              console.log("extractedApplicationData", extractedApplicationData);
               if (extractedApplicationData) {
                 await this.saveApplication(
                   extractedApplicationData,

@@ -142,10 +142,10 @@ export default class GeminiApi {
         const { functionCall } = chunk.candidates[0].content.parts[0];
         if (functionCall && functionCall.args && functionCall.args.status && functionCall.args.status.toLowerCase() !== "not an application" && functionCall.args.company && functionCall.args.company !== "None") {
           data = functionCall.args;
-          console.log("First functioncall ", data, "region" , this.constructor.regions[this.currentRegionIndex]);
+          console.log("region: ", this.constructor.regions[this.currentRegionIndex]);
           if (validateUrl(data.application_link)) {
             // Try to change server to avoid 500 errors
-            this.setRegionIndex();
+            delay(5000);
             const results2 = await this.getApplicationDetails(data.application_link);
             for await (const chunk2 of results2.stream) {
               if (chunk2.candidates[0].content.parts) {
