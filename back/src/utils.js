@@ -17,3 +17,9 @@ export function delay(ms=5000) {
 }
 
 export const typedStatus = ["in progress", "applied", "success", "rejected"];
+
+export function validateUrl(url) {
+  if (!url) return false;
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return url.match(urlRegex);
+}

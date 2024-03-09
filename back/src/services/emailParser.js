@@ -49,6 +49,7 @@ export default class EmailParser {
   }
 
   async saveApplication(emailData, date, emailId) {
+    const applicationDate = new Date(date);
     const application = {
       role: emailData?.job_title,
       company: emailData.company,
@@ -58,6 +59,8 @@ export default class EmailParser {
       status: {
         text: emailData.status,
       },
+      description: emailData.job_requirements,
+      location: emailData.city,
       emailId: emailId,
     };
     const applicationByCompany = await this.getApplicationByCompany(
@@ -65,8 +68,8 @@ export default class EmailParser {
     );
     if (applicationByCompany) {
       // Check which update is newer
-      if (applicationByCompany.updatedAt < new Date(date)) {
-        this.updateApplicationByCompany(application);
+      if (applicationByCompany.updatedAt < applicationDate) {
+        await this.updateApplicationByCompany(application);
       }
     } else {
       let newApplication = new this.ApplicationModel({
@@ -77,8 +80,8 @@ export default class EmailParser {
         applicationUrl: application.applicationUrl,
         date: application.date,
         status: application.status,
-        createdAt: new Date(date),
-        updatedAt: application.updatedAt,
+        createdAt: applicationDate,
+        updatedAt: applicationDate,
         emailId: application.emailId,
       });
       newApplication.save();
@@ -128,7 +131,6 @@ export default class EmailParser {
           (header) => header.name.toLowerCase() === "from"
         ).value;
 
-        console.log("subject", subject, message.id);
         const date = headers.find(
           (date) => date.name.toLowerCase() === "date"
         ).value;
