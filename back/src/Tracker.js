@@ -88,8 +88,8 @@ export default function Tracker(app, db) {
     }
 
     try {
-      let query = await ApplicationModel.find(params, null, {
-        sort: { updatedDate: -1 },
+      let query = await ApplicationModel.find({"status": req.query.company}, null, {
+        sort: { updatedAt: -1 },
       });
       if (skip > 0) {
         query.skip(skip);
