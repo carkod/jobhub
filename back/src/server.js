@@ -40,7 +40,7 @@ const appFactory = async (app) => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     };
-    const connectClient = await mongoose.connect(connectString, mongoOptions);
+    const connectClient = mongoose.connect(connectString, mongoOptions);
     const db = connectClient.connection;
 
     const limiter = rateLimit({

@@ -1,9 +1,15 @@
 import { Editor as TinyMCE } from "@tinymce/tinymce-react";
 import React, { useEffect, useRef, useState } from "react";
 
-export default function Editor({ value, onChange, height = 250 }) {
+export default function Editor({ value, onChange, height }) {
   const [content, setContent] = useState(value ?? "");
   useEffect(() => setContent(value ?? ""), [value]);
+
+  const { innerHeight } = window;
+
+  if (height === undefined) {
+    height = innerHeight;
+  }
 
   return (
     <TinyMCE
