@@ -2914,10 +2914,10 @@ express-mongo-sanitize@^2.2.0:
   resolved "https://registry.yarnpkg.com/express-mongo-sanitize/-/express-mongo-sanitize-2.2.0.tgz#c8c2d45e137f213950f70bf586704e0db5cfe356"
   integrity sha512-PZBs5nwhD6ek9ZuP+W2xmpvcrHwXZxD5GdieX2dsjPbAbH4azOkrHbycBud2QRU+YQF1CT+pki/lZGedHgo/dQ==
 
-express-rate-limit@^6.4.0:
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-6.6.0.tgz#3bbc2546540d327b1b0bfa9ab5f1b2c49075af98"
-  integrity sha512-HFN2+4ZGdkQOS8Qli4z6knmJFnw6lZed67o6b7RGplWeb1Z0s8VXaj3dUgPIdm9hrhZXTRpCTHXA0/2Eqex0vA==
+express-rate-limit@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-7.3.0.tgz#b3ea0dc4fc3ca9739e3af04565184f6edcdf0240"
+  integrity sha512-ZPfWlcQQ1PsZonB/vqksOsBQV74z5osi/QcdoBCyKJXl/wOVjS1yRDmvkpMM52KJeLbiF2+djwVEnEgVCDdvtw==
 
 express-validator@^6.14.2:
   version "6.14.2"
