@@ -138,7 +138,7 @@ export default class GeminiApi {
     const result = await this.sendMessage(chatInput1);
     // sometimes response takes time to process
     for await (const chunk of result.stream) {
-      if (chunk.candidates[0].content.parts) {
+      if (chunk.candidates[0].content.parts && chunk.candidates[0].content.parts[0].functionCall) {
         const { functionCall } = chunk.candidates[0].content.parts[0];
         if (functionCall && functionCall.args && functionCall.args.status && functionCall.args.status.toLowerCase() !== "not an application" && functionCall.args.company && functionCall.args.company !== "None") {
           data = functionCall.args;
