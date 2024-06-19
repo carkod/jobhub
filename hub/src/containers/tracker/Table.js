@@ -217,7 +217,7 @@ class TrackingTable extends Component {
             applications.map((application, i) => (
               <Table.Row key={i}>
                 <Table.Cell>{application.company}</Table.Cell>
-                <Table.Cell>{application.status.text}</Table.Cell>
+                <Table.Cell>{application.status.name}</Table.Cell>
                 <Table.Cell>{application.role || ""}</Table.Cell>
                 <Table.Cell>
                   {this.getCurrentStage(application.stages).action +

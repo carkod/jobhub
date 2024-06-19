@@ -1624,10 +1624,10 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@google-cloud/vertexai@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@google-cloud/vertexai/-/vertexai-0.4.0.tgz#d87a096afb90af460d1aa4ef522c5fce11dbceea"
-  integrity sha512-IaMGRZy3K12fym6BzcCwVOZA6d/lJ9XnWqsrWNbzDCnfMeJsYRVaoCvWor/OcQnfDmy+cGCntSBrLGPYpiQ4AQ==
+"@google-cloud/vertexai@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/vertexai/-/vertexai-1.2.0.tgz#ebc0220f26cb0ee9aba82f31f5d282ba16bfbfeb"
+  integrity sha512-EH0dnoMRIBQzJEEOUWN03eWPSdLBFdsZA/am3eU+qYrnNyY9okUueOajZd79U48KwgFbqoFrCA9yHQ30DgfD8Q==
   dependencies:
     google-auth-library "^9.1.0"
 

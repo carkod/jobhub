@@ -91,7 +91,7 @@ class Detail extends Component {
       }));
     } else {
       this.setState(produce(d => {
-        d.cats[element.name] = element.value;
+        d.cv.cats[element.name] = element.value;
       }));
     }
   };
@@ -173,7 +173,7 @@ class Detail extends Component {
         <form onSubmit={this.onSubmit}>
           <Metainfo
             cv={this.state.cv}
-            cats={this.state.cats}
+            cats={this.props.cats}
             onChange={this.metaChange}
             onTitleBlur={this.handleTitleBlur}
           />
