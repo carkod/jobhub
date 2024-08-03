@@ -72,3 +72,26 @@ GET http://localhost:8082/api/blogs/name/Test%20markdown HTTP/1.1
 
 ### Search by topic (Filter)
 GET http://localhost:8082/api/blogs/category/dev HTTP/1.1
+
+### Get Author ID from Medium
+GET https://api.medium.com/v1/me HTTP/1.1
+Authorization: Bearer <REACT_APP_MEDIUM_TOKEN>
+content-type: application/json
+Accept: application/json
+Accept-Charset: utf-8
+
+### POST a blog to Medium
+POST https://api.medium.com/v1/users/1f8eb02c43597ef29fd11b8f64ac5339c58416991cfe8411988072bfdab3ed2c1/posts HTTP/1.1
+Authorization: Bearer 27c97c5c1047f809c4cf5530d4d03cf2448e1432955c4208a3fbb62694eb43173
+content-type: application/json
+Accept: application/json
+Accept-Charset: utf-8
+
+{
+  "title": "Why I don't use an iPhone",
+  "contentFormat": "markdown",
+  "content": "## Memory\n\niPhone doesn't have additional memory, to get more memory you need to spend hundreds of dollars to get a model with more memory. They always encourage you to use icloud which is still very limited compared to Google drive, eventually ending up in more money that you have to pay to increase icloud storage capacity if you find yoursel find in dire need of more space.\n\nAt the time of writing, I use a Samsung S9+ which has an additional slot for an SD card with the SIM card. But I am actually using it as a second SIM card!\n\n## Cables\n\niPhone doesn't use the standard USB-C, so you need to buy their special cables and when you change brand that will force you to buy other types of cables, which means decreased reusability and bad for the environment.\n\n## Battery\n\nWe all know how little iPhone or Apple batteries in general last. This is by design, they'd rather let you have less battery and more features. Lithium batteries add a lot of cost to the phone.\n",
+  "canonicalUrl": "https://carlos.wf/blog/test",
+  "tags": ["iphone", " battery"],
+  "publishStatus": "public"
+}

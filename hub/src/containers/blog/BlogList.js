@@ -116,7 +116,7 @@ class CoverLetters extends Component {
                       <div className="buttons">
                         <Link
                           className="ui primary button"
-                          to={`/blog/${letter.slug ? letter.slug : letter._id}`}
+                          to={`/blog/${letter._id}`}
                         >
                           Edit/View
                         </Link>
