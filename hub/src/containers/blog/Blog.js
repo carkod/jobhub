@@ -6,18 +6,19 @@ import { compose } from "redux";
 import remarkGfm from "remark-gfm";
 import {
   Button,
+  Checkbox,
   Dropdown,
   Grid,
   Header,
   Icon,
+  Input,
   Segment,
   TextArea
 } from "semantic-ui-react";
 import { fetchBlogApi, saveBlogApi } from "../../actions/blog";
 import { fetchRelationsApi } from "../../actions/relations";
 import { blogState } from "../../reducers/blog";
-import { checkValue, formatDate, withRouter } from "../../utils";
-import { slugify } from "../../utils";
+import { checkValue, formatDate, withRouter, slugify } from "../../utils";
 
 function resetBlogForm() {
   return {
@@ -55,6 +56,11 @@ class Blog extends Component {
           d.blog.category = this.props.blog.category;
           d.blog.status = this.props.blog.status;
           d.blog.publishTolinkedin = this.props.blog.publishTolinkedin;
+          d.blog.tags = this.props.blog.tags instanceof Array ? this.props.blog.tags.join(",") : this.props.blog.tags;
+          d.blog.mediumLink = this.props.blog.mediumLink;
+          if (this.props.blog.mediumLink) {
+            d.postOnMedium = true;
+          }
         })
       );
     }
@@ -102,6 +108,24 @@ class Blog extends Component {
     );
   };
 
+  handletags = (e) => {
+    let { value } = e.target;
+    if (value instanceof Array) {
+      value = value.join(",");
+    }
+    this.setState(
+      produce((d) => {
+        d.blog.tags = value;
+      })
+    );
+  };
+
+  postOnMedium = () => {
+    this.setState({
+      postOnMedium: !this.state.postOnMedium
+    });
+  }
+
   onSubmit = async (e) => {
     e.preventDefault();
     const { id } = this.props.router.params;
@@ -112,9 +136,10 @@ class Blog extends Component {
       category: this.state.blog.category,
       status: this.state.blog.status,
       content: this.state.blog.content,
+      tags: this.state.blog.tags ? this.state.blog.tags.split(",") : [],
     };
     this.props
-      .saveBlogApi(blogData)
+      .saveBlogApi(blogData, this.state.postOnMedium)
       .then((x) => this.props.router.navigate(`/blog`));
   };
 
@@ -150,6 +175,21 @@ class Blog extends Component {
                     />
                     </Grid.Column>
                   </Grid.Row>
+                  {this.props.blog.mediumLink && (
+                    <Grid.Row>
+                      <Grid.Column>
+                      <label htmlFor="medium-link"><strong>Medium link</strong>:{" "}</label>
+                      {" "}
+                      <input
+                        type="text"
+                        name="medium-link"
+                        className="default-input--extended"
+                        disabled={true}
+                        defaultValue={this.props.blog.mediumLink}
+                      />
+                      </Grid.Column>
+                  </Grid.Row>
+                  )}
                 </Grid>
               <Segment.Group horizontal>
                 <Segment>
@@ -172,6 +212,13 @@ class Blog extends Component {
                     value={this.state.blog.category}
                   />
                 )}
+                <Input
+                  placeholder="Tags"
+                  type="text"
+                  name="tags"
+                  onChange={this.handletags}
+                  defaultValue={this.state.blog.tags}
+                />
                 {checkValue(this.state.statuses) && (
                   <Dropdown
                     onChange={this.handleChange}
@@ -210,14 +257,22 @@ class Blog extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-
-          <Button type="submit" color="green">
-            <Icon name="save" />
-            Save
-          </Button>
-          <Button color='linkedin' onClick={()=> window.open(`https://www.linkedin.com/sharing/share-offsite/?url=http://carlos.wf/${this.props.router.location.pathname}&title=${this.state.blog.name}&source=http://carlos.wf/`, "_blank")}>
-            <Icon name='linkedin' /> Share on LinkedIn
-          </Button>
+          <br />
+          <br />
+          <div className="u-top-margin">
+            {!this.props.blog.mediumLink && (
+              <Checkbox label='Post on Medium' onChange={this.postOnMedium}/>
+            )}
+            
+            <br />
+            <Button type="submit" color="green">
+              <Icon name="save" />
+              Save
+            </Button>
+            <Button color='linkedin' onClick={()=> window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https://carlos.wf${this.props.router.location.pathname}&title=${this.state.blog.name}&source=http://carlos.wf/`, "_blank")}>
+              <Icon name='linkedin' /> Share on LinkedIn
+            </Button>
+          </div>
         </form>
       </div>
     );

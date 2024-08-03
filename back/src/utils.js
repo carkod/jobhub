@@ -23,3 +23,25 @@ export function validateUrl(url) {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   return url.match(urlRegex);
 }
+
+export async function apiRequest(
+  url,
+  verb,
+  data,
+  headers
+) {
+
+  if (!headers) {
+    headers = headers;
+  }
+
+  let options = {
+    method: verb,
+    cors: "no-cors",
+    body: data,
+    headers: headers
+  };
+  const response = await fetch(url, options);
+  const content = await handleResponse(response);
+  return content;
+}

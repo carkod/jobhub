@@ -1,6 +1,8 @@
-import mongoose, { isValidObjectId, Types, model } from "mongoose";
+import { isValidObjectId, Types, model } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { BlogSchema } from "./Schemas.js";
+import { apiRequest } from "./utils.js";
+import { ObjectId } from "mongodb";
 
 // Compile model from schema
 const BlogModel = model("BlogModel", BlogSchema);
@@ -24,6 +26,7 @@ export default function Blog(app) {
   });
 
   app.post("/api/blogs", async (req, res) => {
+    const postOnMedium = (/true/i).test(req.query.postOnMedium) || false;
     let r = req.body;
 
     let blog = {
@@ -32,7 +35,7 @@ export default function Blog(app) {
       category: r.category,
       tags: r.tags,
       content: r.content,
-      status: r.status
+      status: r.status,
     }
 
     if (r.id == undefined) {
@@ -52,20 +55,46 @@ export default function Blog(app) {
         const id = sanitize(r.id);
         let query = {}
         if (isValidObjectId(id)) {
-          query.id = id;
+          query._id = id;
         } else {
           query.slug = {
             $eq: r.slug
           };
         }
 
+        let mediumLink = null;
+        
+        if (postOnMedium) {
+          // Post to Medium
+          const url = "https://api.medium.com/v1/users/1f8eb02c43597ef29fd11b8f64ac5339c58416991cfe8411988072bfdab3ed2c1/posts"
+
+          const data = {
+            "title": blog.name,
+            "contentFormat": "markdown",
+            "content": blog.content,
+            "canonicalUrl": `https://carlos.wf/blog/${blog.slug}`,
+            "tags": blog.tags,
+            "publishStatus": "public"
+          }
+          const headers = {
+            "Authorization": `Bearer ${process.env.MEDIUM_API_TOKEN}`,
+            "content-type": "application/json",
+            "Accept": "application/json",
+            "Accept-Charset": "utf-8"
+          }
+          const response = await apiRequest(url, "POST", JSON.stringify(data), headers);
+          mediumLink = response.data.url;
+        }
+
         await BlogModel.updateOne(query, {
           name: sanitize(r.name),
           category: sanitize(r.category),
-          tags: sanitize(r.tags),
+          tags: r.tags,
           content: sanitize(r.content),
-          status: sanitize(r.status)
+          status: sanitize(r.status),
+          mediumLink: mediumLink
         });
+
         res.json({ error: false, message: "Blog changes saved!" });
       } catch (err) {
         res.json({
