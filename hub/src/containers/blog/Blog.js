@@ -215,7 +215,7 @@ class Blog extends Component {
             <Icon name="save" />
             Save
           </Button>
-          <Button color='linkedin' onClick={()=> window.open(`https://www.linkedin.com/sharing/share-offsite/?url=http://carlos.wf/${this.props.router.location.pathname}&title=${this.state.blog.name}&source=http://carlos.wf/`, "_blank")}>
+          <Button color='linkedin' onClick={()=> window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https://carlos.wf${this.props.router.location.pathname}&title=${this.state.blog.name}&source=http://carlos.wf/`, "_blank")}>
             <Icon name='linkedin' /> Share on LinkedIn
           </Button>
         </form>
