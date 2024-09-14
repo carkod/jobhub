@@ -17,6 +17,7 @@ const blogState = {
   blog: blog,
   categories: [],
   statuses: [],
+  postOnMedium: false,
 };
 
 export function blogsReducer(state = {}, action = {}) {

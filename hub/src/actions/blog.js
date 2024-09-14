@@ -103,10 +103,10 @@ export function fetchBlogApi(id) {
   };
 }
 
-export function saveBlogApi(data) {
+export function saveBlogApi(data, postOnMedium=false) {
   return (dispatch) => {
     dispatch(saveBlog());
-    return fetch(`${buildBackUrl().apiUrl}/blogs`, {
+    return fetch(`${buildBackUrl().apiUrl}/blogs?postOnMedium=${postOnMedium}`, {
       method: "post",
       body: JSON.stringify(data),
       headers: headers,
