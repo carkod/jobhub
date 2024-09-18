@@ -1,10 +1,8 @@
 export function handleResponse(response, res) {
-  if (response.ok && response.status < 400) {
+  if (response.ok) {
     return response.json();
   } else {
-    let error = new Error(response.statusText);
-    error.status = response.status;
-    throw error;
+    throw new Error(`Response status: ${response.status}`);
   }
 }
 
@@ -12,7 +10,7 @@ export function escapeRegex(string) {
   return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
 }
 
-export function delay(ms=5000) {
+export function delay(ms = 5000) {
   return new Promise((res) => setTimeout(res, ms));
 }
 
@@ -24,25 +22,20 @@ export function validateUrl(url) {
   return url.match(urlRegex);
 }
 
-export async function apiRequest(
-  url,
-  verb,
-  data,
-  headers
-) {
-
+export async function apiRequest(url, verb, data, headers) {
   if (!headers) {
     headers = headers;
   }
 
   let options = {
     method: verb,
-    cors: "no-cors",
     body: data,
-    headers: headers
+    headers: headers,
   };
-  const response = await fetch(url, options);
-  console.log("apiRequest", response);
+
+  const request = new Request(url, options);
+  console.log("request ", request);
+  const response = await fetch(request);
   const content = await handleResponse(response);
   return content;
 }
