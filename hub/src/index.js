@@ -16,6 +16,8 @@ const store = createStore(
   applyMiddleware(thunkMiddleware)
 );
 
+
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
