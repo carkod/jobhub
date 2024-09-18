@@ -42,6 +42,7 @@ export async function apiRequest(
     headers: headers
   };
   const response = await fetch(url, options);
+  console.log("apiRequest", response);
   const content = await handleResponse(response);
   return content;
 }

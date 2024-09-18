@@ -30,7 +30,7 @@ WORKDIR /home/back
 COPY back .
 RUN yarn install && yarn run build
 
-CMD ["node", "/home/back/dist/server.js"]
+# CMD ["node", "/home/back/dist/server.js"]
 
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082
