@@ -26,7 +26,7 @@ export default function Blog(app) {
   });
 
   app.post("/api/blogs", async (req, res) => {
-    const postOnMedium = (/true/i).test(req.query.postOnMedium) || false;
+    const postOnMedium = /true/i.test(req.query.postOnMedium) || false;
     let r = req.body;
 
     let blog = {
@@ -36,7 +36,7 @@ export default function Blog(app) {
       tags: r.tags,
       content: r.content,
       status: r.status,
-    }
+    };
 
     if (r.id == undefined) {
       // Create New
@@ -50,39 +50,44 @@ export default function Blog(app) {
         });
       }
     } else {
-      
       try {
         const id = sanitize(r.id);
-        let query = {}
+        let query = {};
         if (isValidObjectId(id)) {
           query._id = id;
         } else {
           query.slug = {
-            $eq: r.slug
+            $eq: r.slug,
           };
         }
 
         let mediumLink = null;
-        
+
         if (postOnMedium) {
           // Post to Medium
-          const url = "https://api.medium.com/v1/users/1f8eb02c43597ef29fd11b8f64ac5339c58416991cfe8411988072bfdab3ed2c1/posts"
+          const url =
+            "https://api.medium.com/v1/users/1e18e864a434709082c2ad7db7b96ecc5786aac215a18f07f97aec4f73bea5a84/posts";
 
           const data = {
-            "title": blog.name,
-            "contentFormat": "markdown",
-            "content": blog.content,
-            "canonicalUrl": `https://carlos.wf/blog/${blog.slug}`,
-            "tags": blog.tags,
-            "publishStatus": "public"
-          }
+            title: blog.name,
+            contentFormat: "markdown",
+            content: blog.content,
+            canonicalUrl: `https://carlos.wf/blog/${blog.slug}`,
+            tags: blog.tags,
+            publishStatus: "public",
+          };
           const headers = {
-            "Authorization": `Bearer ${process.env.MEDIUM_API_TOKEN}`,
+            Authorization: `Bearer ${process.env.MEDIUM_API_TOKEN}`,
             "content-type": "application/json",
-            "Accept": "application/json",
-            "Accept-Charset": "utf-8"
-          }
-          const response = await apiRequest(url, "POST", JSON.stringify(data), headers);
+            Accept: "application/json",
+            "Accept-Charset": "utf-8",
+          };
+          const response = await apiRequest(
+            url,
+            "POST",
+            JSON.stringify(data),
+            headers
+          );
           mediumLink = response.data.url;
         }
 
@@ -92,7 +97,7 @@ export default function Blog(app) {
           tags: r.tags,
           content: sanitize(r.content),
           status: sanitize(r.status),
-          mediumLink: mediumLink
+          mediumLink: mediumLink,
         });
 
         res.json({ error: false, message: "Blog changes saved!" });
@@ -103,26 +108,26 @@ export default function Blog(app) {
         });
       }
     }
-
   });
 
   app.get("/api/blog/:_id", (req, res) => {
     if (isValidObjectId(req.params._id)) {
-      BlogModel.findOne({ _id: Types.ObjectId(req.params._id) }, (err, blog) => {
-        if (!err) {
-          res
-            .status(200)
-            .json({
+      BlogModel.findOne(
+        { _id: Types.ObjectId(req.params._id) },
+        (err, blog) => {
+          if (!err) {
+            res.status(200).json({
               data: blog,
               message: "Blog successfully retrieved!",
               error: false,
             });
-        } else {
-          res
-            .status(200)
-            .json({ message: `Failed to retrieve blog ${err}`, error: true });
+          } else {
+            res
+              .status(200)
+              .json({ message: `Failed to retrieve blog ${err}`, error: true });
+          }
         }
-      });
+      );
     } else if (req.params._id === undefined) {
       const response = {
         message: "blog could not be found",
@@ -131,13 +136,11 @@ export default function Blog(app) {
     } else {
       BlogModel.findOne({ slug: req.params._id }, (err, blog) => {
         if (!err) {
-          res
-            .status(200)
-            .json({
-              data: blog,
-              message: "Blog successfully retrieved!",
-              error: false,
-            });
+          res.status(200).json({
+            data: blog,
+            message: "Blog successfully retrieved!",
+            error: false,
+          });
         } else {
           res
             .status(200)
@@ -166,13 +169,11 @@ export default function Blog(app) {
     if (req.params.name) {
       BlogModel.findOne({ name: req.params.name }, (err, blog) => {
         if (!err) {
-          res
-            .status(200)
-            .json({
-              data: blog,
-              message: "Blog successfully retrieved!",
-              error: false,
-            });
+          res.status(200).json({
+            data: blog,
+            message: "Blog successfully retrieved!",
+            error: false,
+          });
         } else {
           res
             .status(200)
@@ -193,13 +194,11 @@ export default function Blog(app) {
     if (req.params.category) {
       BlogModel.findOne({ category: req.params.category }, (err, blog) => {
         if (!err) {
-          res
-            .status(200)
-            .json({
-              data: blog,
-              message: "Blog successfully retrieved!",
-              error: false,
-            });
+          res.status(200).json({
+            data: blog,
+            message: "Blog successfully retrieved!",
+            error: false,
+          });
         } else {
           res
             .status(200)
