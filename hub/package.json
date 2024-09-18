@@ -5,11 +5,12 @@
   "scripts": {
     "install:clean": "yarn run clean && yarn install && yarn start",
     "clean": "rm -rf node_modules yarn.lock build",
-    "start": "react-scripts start",
+    "start": "vite",
     "start-win": "set PORT=8082 && react-scripts start",
-    "build": "react-scripts build",
+    "build": "vite build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "vite"
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
@@ -40,9 +41,12 @@
     "@babel/core": "^7.21.5",
     "@babel/node": "^7.22.19",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@vitejs/plugin-react": "^4.3.1",
     "nodemon": "^3.0.1",
     "react-scripts": "^5.0.1",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "vite": "^5.4.6",
+    "vitest": "^2.1.1"
   },
   "browserslist": {
     "production": [
