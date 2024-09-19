@@ -45,8 +45,9 @@ jobs:
           -e HUB_URL=${{ env.HUB_URL }} \
           -e WEB_URL=${{ env.WEB_URL }} \
           -e GITHUB_ACTIONS=true -d jobhub
+          sleep 8
           docker ps
-          curl --head --fail --retry-delay 5 --retry 3 --retry-connrefused http://localhost:8082/api
+          curl --head --fail --retry-delay 10 --retry 3 --retry-connrefused http://localhost:8082/api
       - name: Test hub
         run: |
           docker exec jobhub_app sh -c "service nginx start"

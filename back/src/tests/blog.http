@@ -82,7 +82,7 @@ Accept-Charset: utf-8
 
 ### POST a blog to Medium
 POST https://api.medium.com/v1/users/1f8eb02c43597ef29fd11b8f64ac5339c58416991cfe8411988072bfdab3ed2c1/posts HTTP/1.1
-Authorization: Bearer 27c97c5c1047f809c4cf5530d4d03cf2448e1432955c4208a3fbb62694eb43173
+Authorization: Bearer <REACT_APP_MEDIUM_TOKEN>
 content-type: application/json
 Accept: application/json
 Accept-Charset: utf-8
