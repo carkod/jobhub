@@ -2,7 +2,6 @@ import { isValidObjectId, Types, model } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { BlogSchema } from "./Schemas.js";
 import { apiRequest } from "./utils.js";
-import { ObjectId } from "mongodb";
 
 // Compile model from schema
 const BlogModel = model("BlogModel", BlogSchema);
@@ -76,12 +75,14 @@ export default function Blog(app) {
             tags: blog.tags,
             publishStatus: "public",
           };
-          const headers = {
-            Authorization: `Bearer ${process.env.MEDIUM_API_TOKEN}`,
-            "content-type": "application/json",
-            Accept: "application/json",
-            "Accept-Charset": "utf-8",
+          // Fix compiler error
+          // which results in .concat(process.env.MEDIUM_API_TOKEN)
+          const mediumApiToken = process.env.MEDIUM_API_TOKEN;
+          const httpHeaders = {
+            Authorization: `Bearer ${mediumApiToken}`,
+            "Content-Type": "application/json",
           };
+          const headers = new Headers(httpHeaders);
           const response = await apiRequest(
             url,
             "POST",
@@ -102,6 +103,7 @@ export default function Blog(app) {
 
         res.json({ error: false, message: "Blog changes saved!" });
       } catch (err) {
+        console.log("Posting to Medium", err.message);
         res.json({
           error: true,
           message: `Blog changes failed to save ${err}`,

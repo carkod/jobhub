@@ -13,7 +13,7 @@ import {
   Icon,
   Input,
   Segment,
-  TextArea
+  TextArea,
 } from "semantic-ui-react";
 import { fetchBlogApi, saveBlogApi } from "../../actions/blog";
 import { fetchRelationsApi } from "../../actions/relations";
@@ -46,7 +46,7 @@ class Blog extends Component {
     if (this.props.blog !== props.blog) {
       let slug = this.props.blog.slug;
       if (!this.props.blog.slug) {
-        slug = slugify(this.props.blog.name)
+        slug = slugify(this.props.blog.name);
       }
       this.setState(
         produce((d) => {
@@ -56,7 +56,10 @@ class Blog extends Component {
           d.blog.category = this.props.blog.category;
           d.blog.status = this.props.blog.status;
           d.blog.publishTolinkedin = this.props.blog.publishTolinkedin;
-          d.blog.tags = this.props.blog.tags instanceof Array ? this.props.blog.tags.join(",") : this.props.blog.tags;
+          d.blog.tags =
+            this.props.blog.tags instanceof Array
+              ? this.props.blog.tags.join(",")
+              : this.props.blog.tags;
           d.blog.mediumLink = this.props.blog.mediumLink;
           if (this.props.blog.mediumLink) {
             d.postOnMedium = true;
@@ -98,7 +101,7 @@ class Blog extends Component {
         })
       );
     }
-  }
+  };
 
   handleChange = (e, { name, value }) => {
     this.setState(
@@ -122,9 +125,9 @@ class Blog extends Component {
 
   postOnMedium = () => {
     this.setState({
-      postOnMedium: !this.state.postOnMedium
+      postOnMedium: !this.state.postOnMedium,
     });
-  }
+  };
 
   onSubmit = async (e) => {
     e.preventDefault();
@@ -160,12 +163,13 @@ class Blog extends Component {
             </Header>
             <div className="section">
               <Header sub>META</Header>
-                <br />
-                <Grid>
-                  <Grid.Row>
-                    <Grid.Column>
-                    <label htmlFor="slug"><strong>Slug</strong>:{" "}</label>
-                    {" "}
+              <br />
+              <Grid>
+                <Grid.Row>
+                  <Grid.Column>
+                    <label htmlFor="slug">
+                      <strong>Slug</strong>:{" "}
+                    </label>{" "}
                     <input
                       type="text"
                       name="slug"
@@ -173,13 +177,14 @@ class Blog extends Component {
                       onChange={this.handleSlug}
                       defaultValue={this.state.blog.slug}
                     />
-                    </Grid.Column>
-                  </Grid.Row>
-                  {this.props.blog.mediumLink && (
-                    <Grid.Row>
-                      <Grid.Column>
-                      <label htmlFor="medium-link"><strong>Medium link</strong>:{" "}</label>
-                      {" "}
+                  </Grid.Column>
+                </Grid.Row>
+                {this.props.blog.mediumLink && (
+                  <Grid.Row>
+                    <Grid.Column>
+                      <label htmlFor="medium-link">
+                        <strong>Medium link</strong>:{" "}
+                      </label>{" "}
                       <input
                         type="text"
                         name="medium-link"
@@ -187,10 +192,10 @@ class Blog extends Component {
                         disabled={true}
                         defaultValue={this.props.blog.mediumLink}
                       />
-                      </Grid.Column>
+                    </Grid.Column>
                   </Grid.Row>
-                  )}
-                </Grid>
+                )}
+              </Grid>
               <Segment.Group horizontal>
                 <Segment>
                   <strong>Created</strong>:{" "}
@@ -260,17 +265,28 @@ class Blog extends Component {
           <br />
           <br />
           <div className="u-top-margin">
-            {!this.props.blog.mediumLink && (
-              <Checkbox label='Post on Medium' onChange={this.postOnMedium}/>
-            )}
-            
+            <Checkbox
+              label={`Post on Medium ${
+                this.props.blog.mediumLink ? "(Already posted)" : ""
+              }`}
+              onChange={this.postOnMedium}
+            />
+
             <br />
             <Button type="submit" color="green">
               <Icon name="save" />
               Save
             </Button>
-            <Button color='linkedin' onClick={()=> window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https://carlos.wf${this.props.router.location.pathname}&title=${this.state.blog.name}&source=http://carlos.wf/`, "_blank")}>
-              <Icon name='linkedin' /> Share on LinkedIn
+            <Button
+              color="linkedin"
+              onClick={() =>
+                window.open(
+                  `https://www.linkedin.com/sharing/share-offsite/?url=https://carlos.wf${this.props.router.location.pathname}&title=${this.state.blog.name}&source=http://carlos.wf/`,
+                  "_blank"
+                )
+              }
+            >
+              <Icon name="linkedin" /> Share on LinkedIn
             </Button>
           </div>
         </form>
