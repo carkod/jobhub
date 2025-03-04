@@ -1,16 +1,18 @@
-FROM node:20 as build-hub
+FROM node:22 AS build-hub
 COPY hub hub
 WORKDIR /hub/
 RUN yarn install && yarn global add react-scripts sass
 RUN yarn build
 
-FROM node:20 as build-web
+FROM node:22 AS build-web
 COPY web web
 WORKDIR /web/
 RUN yarn install && yarn global add react-scripts sass
 RUN yarn build
 
-FROM node:20
+FROM node:22
+# MacOS 
+ENV export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # Installs latest Chromium (85) package for puppeteer
 RUN apt-get update && apt-get install -y gnupg nginx yarn \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg \

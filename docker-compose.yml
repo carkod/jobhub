@@ -1,7 +1,6 @@
 services:
   app:
-    # build: .
-    image: carloswufei/jobhub
+    build: .
     restart: on-failure
     container_name: jobhub_app
     depends_on:
