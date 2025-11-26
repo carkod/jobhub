@@ -7,7 +7,7 @@ RUN yarn build
 FROM node:20 as build-web
 COPY web web
 WORKDIR /web/
-RUN yarn install && yarn global add react-scripts sass
+RUN yarn install
 RUN yarn build
 
 FROM node:20
@@ -23,14 +23,20 @@ RUN chmod +x /home/wait-for-it.sh
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
-COPY --from=build-web /web/build /usr/share/nginx/html/web
+# Copy Next.js web app
+COPY --from=build-web /web /home/web
+WORKDIR /home/web
 
 # Install back
 WORKDIR /home/back
 COPY back .
 RUN yarn install && yarn run build
 
-CMD ["node", "/home/back/dist/server.js"]
+# Copy startup script
+COPY start.sh /home/start.sh
+RUN chmod +x /home/start.sh
+
+CMD ["/home/start.sh"]
 
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082

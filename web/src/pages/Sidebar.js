@@ -1,6 +1,6 @@
 import produce from "immer";
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import NavLink from "../components/NavLink";
 import { fetchCVNav } from "../actions/cv";
 import { fetchProjects } from "../actions/res";
 
