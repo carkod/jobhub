@@ -1,16 +1,20 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function Metatags({ title, description, type="website", imageUrl=null }) {
+  const router = useRouter();
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://carlos.wf${router.asPath}`;
+  
   return (
-    <Helmet>
+    <Head>
       <meta charSet="utf-8" />
       <title>{`Carlos Wu — ${title}`}</title>
       <meta
         name="description"
         content={`Carlos Wu — ${description}`}
       />
-      <link rel="canonical" href={window.location.href} />
+      <link rel="canonical" href={currentUrl} />
       {imageUrl && (
         <>
           <meta
@@ -25,11 +29,11 @@ export default function Metatags({ title, description, type="website", imageUrl=
       <meta property="og:title" content={`Carlos Wu — ${title}`} />
       <meta property="og:description" content={`Carlos Wu — ${description}`} />
       <meta property="og:type" content={type} />
-      <meta property="og:url" content={window.location.href} />
+      <meta property="og:url" content={currentUrl} />
 
       <meta name="twitter:title" content={`Carlos Wu — ${title}`} />
       <meta name="twitter:description" content={`Carlos Wu — ${description}`} />
-      <meta name="twitter:url" content={window.location.href} />
-    </Helmet>
+      <meta name="twitter:url" content={currentUrl} />
+    </Head>
   );
 }
