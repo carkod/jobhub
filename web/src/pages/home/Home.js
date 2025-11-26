@@ -11,7 +11,7 @@ import { fetchCVNav } from "../../actions/cv";
 class Home extends Component {
   constructor(props) {
     super(props);
-    const mobileSize = typeof window !== 'undefined' && window.innerWidth < 765 ? true : false;
+    const mobileSize = typeof window !== 'undefined' && window.innerWidth < 765;
     this.state = {
       theposition: -10,
       mobile: mobileSize,
