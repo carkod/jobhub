@@ -24,6 +24,7 @@ db.dump
 # WEB
 web/src/*.css
 web/build/
+web/.next/
 
 # HUB
 hub/build/
