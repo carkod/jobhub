@@ -1,10 +1,11 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { SITE_URL } from "../config";
 
 export default function Metatags({ title, description, type="website", imageUrl=null }) {
   const router = useRouter();
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://carlos.wf${router.asPath}`;
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : `${SITE_URL}${router.asPath}`;
   
   return (
     <Head>
