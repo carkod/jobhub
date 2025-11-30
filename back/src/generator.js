@@ -8,7 +8,7 @@ export async function generatePDF(url, title, updatedDate) {
   try {
     // launch a new chrome instance
     const browser = await puppeteer.launch({
-      devtools: true,
+      devtools: false,
       args: ['--no-sandbox', "--disable-setuid-sandbox"],
       headless: true,
       dumpio: true,
