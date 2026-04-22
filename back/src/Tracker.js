@@ -138,21 +138,20 @@ export default function Tracker(app, db) {
    */
   app.post("/api/applications/scan", async (req, res) => {
 
-    const { access_token } = req.body;
+    const { access_token, lastHistoryId } = req.body;
     const limit = parseInt(req.query.limit) || 100;
 
     try {
       let emailParser = new EmailParser(access_token, limit);
-      await emailParser.genericApplicationParser();
+      const pipelineResults = await emailParser.genericApplicationParser({
+        lastHistoryId: lastHistoryId || null,
+      });
+      return res.json({ status: true, ...pipelineResults });
     } catch (e) {
       return res
-        .status(e.status)
+        .status(e.status || 500)
         .json({ status: false, message: `Error fetching emails: ${e}` });
     }
-    let query = await ApplicationModel.find({}, null, {
-      sort: { updatedDate: -1 },
-    });
-    return res.json(query);
   });
 
   app.post("/api/application", async (req, res) => {

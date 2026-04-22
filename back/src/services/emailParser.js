@@ -4,168 +4,324 @@ import { escapeRegex } from "../utils.js";
 import GeminiApi from "./GeminiApi.js";
 import GmailApi from "./GmailApi.js";
 
-export default class EmailParser {
-  // This keyword should filter most job application emails
-  static keywords = ["Your application"];
+const POSITIVE_KEYWORDS = ["application", "interview", "assessment", "role", "position"];
+const POSITIVE_PHRASES = ["thank you for applying", "next steps", "we reviewed"];
+const ATS_DOMAINS = ["greenhouse", "lever", "workday", "ashby"];
+const CAREER_DOMAIN_HINTS = ["careers", "jobs"];
+const NEGATIVE_KEYWORDS = ["order", "delivery", "receipt", "invoice", "refund"];
+const NEGATIVE_PHRASES = ["basket", "clubcard", "points", "discount"];
+const RETAIL_DOMAIN_HINTS = ["shop", "store", "retail", "marketplace"];
 
-  constructor(access_token, limit = 300) {
+const STATUS_MAP = {
+  Applied: "applied",
+  "In progress": "in progress",
+  Interview: "in progress",
+  Assessment: "in progress",
+  Offer: "success",
+  Rejected: "rejected",
+  Unknown: "applied",
+};
+
+export default class EmailParser {
+  constructor(access_token, limit = 300, logger = console) {
     this.access_token = access_token;
     this.limit = limit;
+    this.logger = logger;
     this.gmailApi = new GmailApi(access_token, limit);
-    this.geminiApi = new GeminiApi();
-    this.ApplicationModel = mongoose.model(
-      "ApplicationModel",
-      ApplicationSchema
-    );
-    this.contentParts = [];
-    this.jobApplicationEmails = [];
+    this.geminiApi = new GeminiApi(logger);
+    this.ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
+    this.reviewQueue = [];
   }
 
-  getApplicationByCompany(company) {
-    let regex = escapeRegex(company);
-    return this.ApplicationModel.findOne({
-      company: { $regex: regex, $options: "i" },
-    });
+  async getApplicationByThreadId(threadId) {
+    if (!threadId) return null;
+    return this.ApplicationModel.findOne({ threadId });
   }
 
-  updateApplicationByCompany(application) {
-    return this.ApplicationModel.updateOne(
-      {
-        company: application.company,
-      },
-      application
-    );
+  async getApplicationByCompany(company) {
+    if (!company) return null;
+    const regex = escapeRegex(company);
+    return this.ApplicationModel.findOne({ company: { $regex: regex, $options: "i" } });
   }
 
-  parseCompanyName(companyName) {
-    const words = companyName.split(" ");
-    const set = new Set(words);
-    // Remove special character
-    const trimmedCompanyName = Array.from(set)
-      .join(" ")
-      .split(" ")
-      .filter((x) => x !== "͏");
-    return trimmedCompanyName.join(" ");
+  async getApplicationByExactTitle(role) {
+    if (!role) return null;
+    const regex = `^${escapeRegex(role)}$`;
+    return this.ApplicationModel.findOne({ role: { $regex: regex, $options: "i" } });
   }
 
-  async saveApplication(emailData, date, emailId) {
-    const applicationDate = new Date(date);
-    const application = {
-      role: emailData?.job_title,
-      company: emailData.company,
-      location: emailData?.location,
-      applicationUrl: emailData.application_link,
-      updatedAt: new Date(date),
-      status: {
-        text: emailData.status,
-      },
-      description: emailData.job_requirements,
-      location: emailData.city,
-      emailId: emailId,
+  parseFromHeader(headers = []) {
+    const byName = (name) => headers.find((h) => h.name?.toLowerCase() === name)?.value || "";
+    const from = byName("from");
+    const subject = byName("subject");
+    const date = byName("date");
+
+    const senderEmail = from.match(/<([^>]+)>/)?.[1] || from;
+    const senderDomain = senderEmail.includes("@") ? senderEmail.split("@").pop().toLowerCase() : "";
+
+    return { from, subject, date, senderDomain };
+  }
+
+  decodeBase64Url(data = "") {
+    if (!data) return "";
+    const normalized = data.replace(/-/g, "+").replace(/_/g, "/");
+    return Buffer.from(normalized, "base64").toString("utf-8");
+  }
+
+  flattenBody(payload) {
+    if (!payload) return "";
+
+    const chunks = [];
+    const walk = (part) => {
+      if (part?.body?.data) {
+        chunks.push(this.decodeBase64Url(part.body.data));
+      }
+      if (part?.parts?.length) {
+        for (const child of part.parts) {
+          walk(child);
+        }
+      }
     };
-    const applicationByCompany = await this.getApplicationByCompany(
-      application.company
-    );
-    if (applicationByCompany) {
-      // Check which update is newer
-      if (applicationByCompany.updatedAt < applicationDate) {
-        await this.updateApplicationByCompany(application);
+
+    walk(payload);
+    return chunks.join(" ").replace(/\s+/g, " ").trim();
+  }
+
+  buildEmailInput(emailContent) {
+    const { snippet, payload = {}, id, threadId } = emailContent;
+    const parsedHeaders = this.parseFromHeader(payload.headers || []);
+    const body = this.flattenBody(payload);
+
+    return {
+      id,
+      threadId,
+      snippet: snippet || "",
+      body,
+      ...parsedHeaders,
+    };
+  }
+
+  calculatePrefilterScore(email) {
+    const corpus = `${email.subject || ""} ${email.body || ""}`.toLowerCase();
+    let jobScore = 0;
+    let commerceScore = 0;
+
+    for (const keyword of POSITIVE_KEYWORDS) {
+      if (corpus.includes(keyword)) {
+        jobScore += 2;
       }
-    } else {
-      let newApplication = new this.ApplicationModel({
+    }
+
+    for (const phrase of POSITIVE_PHRASES) {
+      if ((email.body || "").toLowerCase().includes(phrase)) {
+        jobScore += 3;
+      }
+    }
+
+    for (const domainHint of ATS_DOMAINS) {
+      if ((email.senderDomain || "").includes(domainHint)) {
+        jobScore += 4;
+      }
+    }
+
+    for (const domainHint of CAREER_DOMAIN_HINTS) {
+      if ((email.senderDomain || "").includes(domainHint)) {
+        jobScore += 2;
+      }
+    }
+
+    for (const keyword of NEGATIVE_KEYWORDS) {
+      if (corpus.includes(keyword)) {
+        commerceScore += 4;
+      }
+    }
+
+    for (const phrase of NEGATIVE_PHRASES) {
+      if ((email.body || "").toLowerCase().includes(phrase)) {
+        commerceScore += 3;
+      }
+    }
+
+    for (const domainHint of RETAIL_DOMAIN_HINTS) {
+      if ((email.senderDomain || "").includes(domainHint)) {
+        commerceScore += 2;
+      }
+    }
+
+    return { jobScore, commerceScore };
+  }
+
+  shouldPassPrefilter(email) {
+    const { jobScore, commerceScore } = this.calculatePrefilterScore(email);
+    const pass = !(commerceScore >= 4 && jobScore === 0);
+    return { pass, jobScore, commerceScore };
+  }
+
+  textSimilarity(a = "", b = "") {
+    const tokensA = new Set(a.toLowerCase().split(/\W+/).filter(Boolean));
+    const tokensB = new Set(b.toLowerCase().split(/\W+/).filter(Boolean));
+
+    if (tokensA.size === 0 || tokensB.size === 0) return 0;
+
+    const intersection = Array.from(tokensA).filter((token) => tokensB.has(token)).length;
+    const union = new Set([...tokensA, ...tokensB]).size;
+    return intersection / union;
+  }
+
+  async matchApplication(emailInput, extraction) {
+    if (emailInput.threadId) {
+      const byThread = await this.getApplicationByThreadId(emailInput.threadId);
+      if (byThread) {
+        return { applicationId: byThread._id, confidence: 1 };
+      }
+    }
+
+    if (extraction.company) {
+      const byCompany = await this.getApplicationByCompany(extraction.company);
+      if (byCompany) {
+        return { applicationId: byCompany._id, confidence: 0.94 };
+      }
+    }
+
+    if (extraction.job_title) {
+      const byTitle = await this.getApplicationByExactTitle(extraction.job_title);
+      if (byTitle) {
+        return { applicationId: byTitle._id, confidence: 0.9 };
+      }
+
+      const applications = await this.ApplicationModel.find({ role: { $exists: true, $ne: null } }).limit(200);
+      let best = { applicationId: null, confidence: 0 };
+
+      for (const application of applications) {
+        const similarity = this.textSimilarity(extraction.job_title, application.role);
+        if (similarity > best.confidence) {
+          best = { applicationId: application._id, confidence: similarity * 0.89 };
+        }
+      }
+
+      if (best.applicationId) {
+        return best;
+      }
+    }
+
+    return { applicationId: null, confidence: 0 };
+  }
+
+  mapStatus(status) {
+    return STATUS_MAP[status] || "applied";
+  }
+
+  async guardedUpdate({ extraction, match, emailInput, emailDate }) {
+    if (extraction.confidence >= 0.85 && match.confidence >= 0.9) {
+      const updatePayload = {
+        role: extraction.job_title || undefined,
+        company: extraction.company || "Unknown",
+        location: extraction.location || extraction.city || undefined,
+        applicationUrl: extraction.application_link || undefined,
+        salary: extraction.salary || undefined,
+        recruiterName: extraction.recruiter_name || undefined,
+        contractType: extraction.contract_type || undefined,
+        workMode: extraction.work_mode,
+        eventDate: extraction.event_date || undefined,
+        threadId: emailInput.threadId,
+        emailId: emailInput.id,
+        updatedAt: emailDate,
+        status: { text: this.mapStatus(extraction.status) },
+      };
+
+      if (match.applicationId) {
+        await this.ApplicationModel.updateOne({ _id: match.applicationId }, updatePayload);
+        return { updated: true, review: false };
+      }
+
+      if (!extraction.company) {
+        this.reviewQueue.push({ reason: "missing_company", extraction, emailInput, match });
+        return { updated: false, review: true };
+      }
+
+      await new this.ApplicationModel({
         _id: mongoose.Types.ObjectId(),
-        role: application.role,
-        company: application.company,
-        location: application.location,
-        applicationUrl: application.applicationUrl,
-        date: application.date,
-        status: application.status,
-        createdAt: applicationDate,
-        updatedAt: applicationDate,
-        emailId: application.emailId,
-      });
-      newApplication.save();
+        createdAt: emailDate,
+        ...updatePayload,
+      }).save();
+
+      return { updated: true, review: false };
     }
+
+    this.reviewQueue.push({ reason: "low_confidence", extraction, emailInput, match });
+    return { updated: false, review: true };
   }
 
-  /**
-   * Exclude from scanning
-   * - Emails that are rejected
-   *
-   * @returns {string} message.id
-   */
-  async exclusions() {
-    const emailIds = await this.ApplicationModel.aggregate([
-      { $unwind: "$status" },
-      { $match: { "status.value": { $nin: [2, 3] }, emailId: { $ne: null } } },
-      { $project: { _id: 0, emailId: 1 } },
-    ]).exec();
+  async processMessage(messageId) {
+    const emailContent = await this.gmailApi.fetchIndividualEmail(messageId);
+    const emailInput = this.buildEmailInput(emailContent);
 
-    return emailIds.flatMap((email) => (email ? email.id : []));
+    const prefilter = this.shouldPassPrefilter(emailInput);
+    if (!prefilter.pass) {
+      this.logger.info?.(`[EmailParser] Rejected by prefilter id=${messageId}`);
+      return { messageId, outcome: "prefilter_reject", prefilter };
+    }
+
+    const classification = await this.geminiApi.classifyEmail(emailInput);
+    this.logger.info?.(`[EmailParser] classification=${JSON.stringify(classification)}`);
+
+    if (!classification?.is_job_related || classification?.confidence < 0.8) {
+      return { messageId, outcome: "classification_reject", classification };
+    }
+
+    const extraction = await this.geminiApi.extractJobData(emailInput);
+    this.logger.info?.(`[EmailParser] extraction=${JSON.stringify(extraction)}`);
+
+    if (!extraction) {
+      this.reviewQueue.push({ reason: "invalid_extraction", emailInput });
+      return { messageId, outcome: "review_invalid_extraction" };
+    }
+
+    const match = await this.matchApplication(emailInput, extraction);
+    const emailDate = emailInput.date ? new Date(emailInput.date) : new Date();
+    const updateResult = await this.guardedUpdate({ extraction, match, emailInput, emailDate });
+
+    return {
+      messageId,
+      outcome: updateResult.updated ? "updated" : "queued_review",
+      classification,
+      extraction,
+      match,
+    };
   }
 
-  async genericApplicationParser() {
+  async processHistoryChanges(lastHistoryId) {
+    const { history, historyId: newestHistoryId } = await this.gmailApi.fetchHistory(lastHistoryId);
+    const messageIds = this.gmailApi.extractMessageIdsFromHistory(history);
+
+    const results = [];
+    for (const messageId of messageIds) {
+      results.push(await this.processMessage(messageId));
+    }
+
+    return {
+      processed: results,
+      reviewQueue: this.reviewQueue,
+      lastHistoryId: newestHistoryId || lastHistoryId,
+    };
+  }
+
+  async genericApplicationParser({ lastHistoryId = null } = {}) {
+    if (lastHistoryId) {
+      return this.processHistoryChanges(lastHistoryId);
+    }
+
     const messages = await this.gmailApi.fetchListEmails();
+    const results = [];
 
-    if (messages.length === 0) {
-      throw new Error("No messages found.");
-    } else {
-      const excludeMessageIds = await this.exclusions();
-      for (const message of messages) {
-        // Skip if message is in the exclusion list
-        // to prevent re-scanning of emails
-        if (excludeMessageIds.includes(message.id)) {
-          console.log("Excluded message", message.id);
-          continue;
-        }
-
-        const emailContent = await this.gmailApi.fetchIndividualEmail(
-          message.id
-        );
-        const {
-          snippet,
-          payload: { parts, headers },
-        } = emailContent;
-
-        const subject = headers.find(
-          (header) => header.name.toLowerCase() === "from"
-        ).value;
-
-        const date = headers.find(
-          (date) => date.name.toLowerCase() === "date"
-        ).value;
-
-        if (parts && parts[0].body.size > 0) {
-          const part1 = Buffer.from(parts[0].body.data, "base64").toString(
-            "utf-8"
-          );
-          let processedContent = part1.replace(/\\r\\n/, " ");
-          processedContent = processedContent.replace(/'/g, "\\'");
-
-          const checkForLetters = /[a-zA-Z]/g.test(snippet);
-          if (checkForLetters) {
-            try {
-              const extractedApplicationData =
-                await this.geminiApi.classifyEmails({
-                  text: processedContent,
-                  subject: subject,
-                  id: message.id,
-                });
-              if (extractedApplicationData) {
-                await this.saveApplication(
-                  extractedApplicationData,
-                  date,
-                  message.id
-                );
-              }
-            } catch (error) {
-              console.error("Error classifying emails", error, snippet);
-              break;
-            }
-          }
-        }
-      }
-      console.log("Finished processing emails");
+    for (const message of messages) {
+      results.push(await this.processMessage(message.id));
     }
+
+    return {
+      processed: results,
+      reviewQueue: this.reviewQueue,
+      lastHistoryId: null,
+    };
   }
 }
