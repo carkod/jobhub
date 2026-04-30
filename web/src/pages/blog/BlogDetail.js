@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
 import { fetchBlogApi } from "../../actions/blog";
 import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
+import remarkGfm from "remark-gfm";
 import { createExcerpt } from "../../utils";
 import Metatags from "../../components/Metatags";
 /**
@@ -47,12 +46,12 @@ export default class BlogDetail extends Component {
           <div className="row one column wide">
             <section id="blog">
               <ReactMarkdown
-                remarkPlugins={[gfm]}
-                children={blog.content}
-                allowDangerousHtml
+                remarkPlugins={[remarkGfm]}
                 className="u-larger-p"
                 style={{ wordWrap: "break-word" }}
-              />
+              >
+                {blog.content || ""}
+              </ReactMarkdown>
             </section>
           </div>
         </main>

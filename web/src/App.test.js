@@ -1,12 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './containers/App';
-import axios from 'axios';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { About } from "./pages/About";
 
-it('connect to back application API endpoint', async () => {
-  // expect.assertions(1);
-  const data = await axios.get(buildBackUrl().apiUrl + '/cvs');
-  expect(data).toBeDefined();
-  expect(data.status).toEqual(200)
-})
+describe("About", () => {
+  it("renders the about page content", () => {
+    render(<About />);
 
+    expect(
+      screen.getByRole("heading", { name: /faqs about me/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/my name is carlos\./i)
+    ).toBeInTheDocument();
+  });
+});

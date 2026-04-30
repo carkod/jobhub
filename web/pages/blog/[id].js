@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import BlogDetail from "../../src/pages/blog/BlogDetail";
 import PageWrapper from "../PageWrapper";
@@ -16,18 +15,9 @@ export default function BlogDetailPage() {
   };
 
   return (
-    <>
-      <Head>
-        <title>Carlos Wu — Blog Post</title>
-        <meta name="description" content="Carlos Wu — Blog post" />
-        <meta property="og:title" content="Carlos Wu — Blog Post" />
-        <meta property="og:description" content="Carlos Wu — Blog post" />
-        <meta property="og:type" content="article" />
-      </Head>
-      <PageWrapper>
-        <BlogDetail {...mockProps} />
-      </PageWrapper>
-    </>
+    <PageWrapper>
+      <BlogDetail {...mockProps} />
+    </PageWrapper>
   );
 }
 

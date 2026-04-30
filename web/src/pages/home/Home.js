@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
 import Link from "next/link";
 import { Card, Icon, Image } from "semantic-ui-react";
 import profilePic from "../../carlos.jpg";
 import Metatags from "../../components/Metatags";
-import produce from "immer";
+import { produce } from "immer";
 import { fetchCVNav } from "../../actions/cv";
 
 

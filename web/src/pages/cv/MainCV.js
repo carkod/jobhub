@@ -1,6 +1,5 @@
-import produce from "immer";
+import { produce } from "immer";
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { fetchCV } from "../../actions/cv";
 import { generatePdfApi } from "../../actions/generate-pdf";

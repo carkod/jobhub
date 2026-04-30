@@ -3,9 +3,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { SITE_URL } from "../config";
 
-export default function Metatags({ title, description, type="website", imageUrl=null }) {
+export default function Metatags({
+  title,
+  description,
+  type = "website",
+  imageUrl = null,
+  robots = "index, follow",
+}) {
   const router = useRouter();
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : `${SITE_URL}${router.asPath}`;
+  const currentUrl =
+    typeof window !== "undefined"
+      ? window.location.href
+      : `${SITE_URL}${router.asPath}`;
   
   return (
     <Head>
@@ -15,6 +24,8 @@ export default function Metatags({ title, description, type="website", imageUrl=
         name="description"
         content={`Carlos Wu — ${description}`}
       />
+      <meta name="robots" content={robots} />
+      <meta name="googlebot" content={robots} />
       <link rel="canonical" href={currentUrl} />
       {imageUrl && (
         <>

@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import MainCV from "../../../src/pages/cv/MainCV";
 import PageWrapper from "../../PageWrapper";
@@ -16,18 +15,9 @@ export default function CVPage() {
   };
 
   return (
-    <>
-      <Head>
-        <title>Carlos Wu — CV/Resume</title>
-        <meta name="description" content="Carlos Wu — Curriculum Vitae and Resume" />
-        <meta property="og:title" content="Carlos Wu — CV/Resume" />
-        <meta property="og:description" content="Carlos Wu — Curriculum Vitae and Resume" />
-        <meta property="og:type" content="website" />
-      </Head>
-      <PageWrapper>
-        <MainCV {...mockProps} />
-      </PageWrapper>
-    </>
+    <PageWrapper>
+      <MainCV {...mockProps} />
+    </PageWrapper>
   );
 }
 

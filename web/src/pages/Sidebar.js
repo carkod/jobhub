@@ -1,4 +1,4 @@
-import produce from "immer";
+import { produce } from "immer";
 import React, { Component } from "react";
 import NavLink from "../components/NavLink";
 import { fetchCVNav } from "../actions/cv";
