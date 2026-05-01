@@ -42,12 +42,14 @@ export function handlePdfResponse(response) {
 
 export function buildBackUrl() {
   let base = window.location.hostname.split(".")
+  let protocol = "https"
   if (base.includes("localhost")) {
     base = ["localhost:8082"]
+    protocol = "http"
   } else {
     base.unshift("api")
   }
-  base = `https://${base.join(".")}`;
+  base = `${protocol}://${base.join(".")}`;
   return {
     apiUrl: `${base}/api`,
     pdfUrl: `${base}/pdf`

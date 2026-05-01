@@ -65,7 +65,7 @@ class Home extends Component {
             <div className="home-details__container-top u-restore-home-layout">
               <Card>
                 <Image
-                  src={profilePic}
+                  src={profilePic.src}
                   alt="Carlos Wu" />
                 <Card.Content>
                 <a href="https://goo.gl/maps/fvteJ9H1djgSH4wn8">
