@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
 import shortid from "shortid";
 import { fetchProjects } from "../../actions/res";
 import HtmlText from "../../components/HtmlText";

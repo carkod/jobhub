@@ -1,6 +1,5 @@
-import produce from "immer";
+import { produce } from "immer";
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { fetchCV } from "../../actions/cv";
 import { generatePdfApi } from "../../actions/generate-pdf";
@@ -17,7 +16,7 @@ import Metatags from "../../components/Metatags";
 class MainCV extends Component {
   constructor(props) {
     super(props);
-    const start = document.documentElement.scrollTop;
+    const start = typeof window !== 'undefined' ? document.documentElement.scrollTop : 0;
     this.state = {
       snackBar: null,
       cv: undefined,

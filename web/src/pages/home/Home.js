@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Card, Icon, Image } from "semantic-ui-react";
 import profilePic from "../../carlos.jpg";
 import Metatags from "../../components/Metatags";
-import produce from "immer";
+import { produce } from "immer";
 import { fetchCVNav } from "../../actions/cv";
 
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    const mobileSize = window.innerWidth < "765" ? true :false
+    const mobileSize = typeof window !== 'undefined' && window.innerWidth < 765;
     this.state = {
       theposition: -10,
       mobile: mobileSize,
@@ -66,7 +65,7 @@ class Home extends Component {
             <div className="home-details__container-top u-restore-home-layout">
               <Card>
                 <Image
-                  src={profilePic}
+                  src={profilePic.src}
                   alt="Carlos Wu" />
                 <Card.Content>
                 <a href="https://goo.gl/maps/fvteJ9H1djgSH4wn8">
@@ -151,9 +150,11 @@ class Home extends Component {
               </div>
             </div>
             <div>
-              <Link to={`/cv/en-GB/${this.state.cvs ? this.state.cvs[0].slug ? this.state.cvs[0].slug : this.state.cvs[0].id : ""}`}>
-                <button className="btn-feeling-lucky">Get my latest CV/Resume</button>
-              </Link>
+              {this.state.cvs && this.state.cvs.length > 0 && (
+                <Link href={`/cv/en-GB/${this.state.cvs[0].slug || this.state.cvs[0].id}`}>
+                  <button className="btn-feeling-lucky">Get my latest CV/Resume</button>
+                </Link>
+              )}
             </div>
           </div>
         </div>

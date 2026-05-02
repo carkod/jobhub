@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { Helmet } from "react-helmet";
 import { fetchBlogsApi } from "../../actions/blog";
 import Metatags from "../../components/Metatags";
 
