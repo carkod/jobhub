@@ -10,4 +10,4 @@ service nginx start
 cd /home/back && node dist/server.js &
 
 # Start Next.js web app
-cd /home/web && npm start
+cd /home/web && npm run start

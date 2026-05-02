@@ -23,7 +23,6 @@ RUN apt-get update && apt-get install -y gnupg nginx yarn \
 COPY wait-for-it.sh /home/wait-for-it.sh
 RUN chmod +x /home/wait-for-it.sh
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
 # Copy Next.js web app
 COPY --from=build-web /web /home/web
