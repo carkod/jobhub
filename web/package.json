@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start -p 3000",
     "clean": "rm -rf node_modules yarn.lock .next",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,json,md}\" \"*.{js,mjs,json,md}\"",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -33,6 +34,7 @@
     "@testing-library/react": "^16.3.2",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
+    "prettier": "^3.8.3",
     "sass": "^1.99.0"
   }
 }

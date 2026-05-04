@@ -1,18 +1,18 @@
-FROM node:22 AS build-hub
+ARG JOBHUB_PLATFORM=linux/amd64
+
+FROM --platform=$JOBHUB_PLATFORM node:22 AS build-hub
 COPY hub hub
 WORKDIR /hub/
 RUN npm ci
 RUN npm run build
 
-FROM node:22 AS build-web
+FROM --platform=$JOBHUB_PLATFORM node:22 AS build-web
 COPY web web
 WORKDIR /web/
 RUN npm ci
 RUN npm run build
 
-FROM node:22
-# MacOS 
-ENV DOCKER_DEFAULT_PLATFORM=linux/amd64
+FROM --platform=$JOBHUB_PLATFORM node:22
 # Installs latest Chromium (85) package for puppeteer
 RUN apt-get update && apt-get install -y gnupg nginx \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg \

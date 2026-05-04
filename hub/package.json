@@ -9,6 +9,7 @@
     "start": "vite",
     "start-win": "set PORT=8082 && vite --port 8082",
     "build": "vite build",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,scss,json,md}\" \"*.{js,mjs,json,md}\"",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -42,6 +43,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@vitejs/plugin-react": "^4.3.1",
     "nodemon": "^3.0.1",
+    "prettier": "^3.8.3",
     "sass": "^1.62.1",
     "vite": "^5.4.0"
   },
