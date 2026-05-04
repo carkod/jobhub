@@ -154,6 +154,38 @@ export default function Tracker(app, db) {
     }
   });
 
+
+  app.post("/api/applications/watch", async (req, res) => {
+    const { access_token, topicName, labelIds } = req.body;
+
+    try {
+      const emailParser = new EmailParser(access_token);
+      const watch = await emailParser.beginWatch(topicName, labelIds || ["INBOX"]);
+      return res.json({ status: true, ...watch });
+    } catch (e) {
+      return res
+        .status(e.status || 500)
+        .json({ status: false, message: `Error setting watch: ${e}` });
+    }
+  });
+
+  app.post("/api/applications/notification", async (req, res) => {
+    const { access_token, lastHistoryId } = req.body;
+
+    try {
+      const emailParser = new EmailParser(access_token);
+      const pipelineResults = await emailParser.processPubSubNotification(
+        req.body,
+        lastHistoryId || null
+      );
+      return res.json({ status: true, ...pipelineResults });
+    } catch (e) {
+      return res
+        .status(e.status || 500)
+        .json({ status: false, message: `Error processing notification: ${e}` });
+    }
+  });
+
   app.post("/api/application", async (req, res) => {
     let r = req.body,
       applications = new ApplicationModel(fillModel(r));

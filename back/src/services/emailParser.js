@@ -213,9 +213,14 @@ export default class EmailParser {
 
   async guardedUpdate({ extraction, match, emailInput, emailDate }) {
     if (extraction.confidence >= 0.85 && match.confidence >= 0.9) {
+      if (!match.applicationId && !extraction.company) {
+        this.reviewQueue.push({ reason: "missing_company", extraction, emailInput, match });
+        return { updated: false, review: true };
+      }
+
       const updatePayload = {
         role: extraction.job_title || undefined,
-        company: extraction.company || "Unknown",
+        company: extraction.company || undefined,
         location: extraction.location || extraction.city || undefined,
         applicationUrl: extraction.application_link || undefined,
         salary: extraction.salary || undefined,
@@ -232,11 +237,6 @@ export default class EmailParser {
       if (match.applicationId) {
         await this.ApplicationModel.updateOne({ _id: match.applicationId }, updatePayload);
         return { updated: true, review: false };
-      }
-
-      if (!extraction.company) {
-        this.reviewQueue.push({ reason: "missing_company", extraction, emailInput, match });
-        return { updated: false, review: true };
       }
 
       await new this.ApplicationModel({
@@ -303,6 +303,36 @@ export default class EmailParser {
       processed: results,
       reviewQueue: this.reviewQueue,
       lastHistoryId: newestHistoryId || lastHistoryId,
+    };
+  }
+
+
+  async beginWatch(topicName, labelIds = ["INBOX"]) {
+    const watch = await this.gmailApi.startWatch(topicName, labelIds);
+    return {
+      historyId: watch.historyId || null,
+      expiration: watch.expiration || null,
+    };
+  }
+
+  async processPubSubNotification(pubSubBody, lastHistoryId) {
+    const payload = this.gmailApi.decodePubSubMessage(pubSubBody);
+    const newestHistoryId = payload?.historyId || lastHistoryId;
+
+    if (!lastHistoryId) {
+      return {
+        processed: [],
+        reviewQueue: this.reviewQueue,
+        lastHistoryId: newestHistoryId,
+        notification: payload,
+      };
+    }
+
+    const parsed = await this.processHistoryChanges(lastHistoryId);
+    return {
+      ...parsed,
+      lastHistoryId: newestHistoryId || parsed.lastHistoryId,
+      notification: payload,
     };
   }
 
