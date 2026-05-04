@@ -10,14 +10,14 @@ body {
 
 .section {
   padding: 1.5em 0;
-  border-bottom:1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .btn {
-  border:none;
-  background:none;
-  outline:none;
-  cursor:pointer;
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .pos-bottom {
@@ -27,7 +27,7 @@ body {
 }
 
 .borderTopDashed {
-  border-top:1px dashed #ccc;
+  border-top: 1px dashed #ccc;
 }
 
 .editor__minHeight {
@@ -50,23 +50,23 @@ body {
 /* Add New button */
 
 .btn__add-new {
-  background-color: '#fff';
-	border: none;
-	cursor: pointer;
-	outline: none;
+  background-color: "#fff";
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
 .default-input {
-  border:none;
-  outline:none;
-  border-bottom:1px solid #00bfff;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #00bfff;
   padding: 0.5em;
 }
 
 .default-input--extended {
-  border:none;
-  outline:none;
-  border-bottom:1px solid #00bfff;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #00bfff;
   padding: 0.5em;
   width: 40rem;
 }

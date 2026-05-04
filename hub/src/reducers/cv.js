@@ -9,8 +9,7 @@ import {
   SET_CV_STATE,
   SET_ONE_CV,
 } from "../actions/cv";
-import produce from 'immer';
-
+import produce from "immer";
 
 const expObj = {
   id: "workExp-" + shortid.generate(),
@@ -68,7 +67,6 @@ const cvModel = {
   itSkills: [skillsObjGenerator("itSkill")],
 };
 
-
 const cvReducer = produce((draft, action) => {
   switch (action.type) {
     case RESET_CV_STATE:
@@ -76,7 +74,7 @@ const cvReducer = produce((draft, action) => {
       break;
     case SET_CV_STATE:
       const newState = Object.assign(draft, action.payload);
-      draft = newState
+      draft = newState;
       break;
     case SET_ONE_CV:
       if (action.cv) {
@@ -94,7 +92,7 @@ const cvReducer = produce((draft, action) => {
     default:
       return draft;
   }
-}, cvModel)
+}, cvModel);
 
 export function getCvsReducer(state = [cvModel], action = {}) {
   switch (action.type) {

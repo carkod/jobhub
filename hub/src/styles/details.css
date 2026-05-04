@@ -1,15 +1,17 @@
-#detail input, #detail textarea {
-  border:none;
-  outline:none;
-  border-bottom:1px solid #00bfff;
+#detail input,
+#detail textarea {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #00bfff;
   padding: 0.5em;
 }
 
 #detail label {
-  font-size:1.2em;
+  font-size: 1.2em;
 }
 
-#detail .sub.header, #project .sub.header  {
+#detail .sub.header,
+#project .sub.header {
   font-size: 1rem;
 }
 
@@ -30,15 +32,15 @@
 }
 
 #detail .single .btn-close-repeat {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0;
-    display: table;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0;
+  display: table;
 }
 
 #detail .workExp-space {
-  padding:1.5em 0;
+  padding: 1.5em 0;
 }
 
 #detail .personal .sub.header {

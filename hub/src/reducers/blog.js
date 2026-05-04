@@ -2,7 +2,7 @@ import {
   DELETE_BLOG_SUCCESS,
   GET_ALL_BLOGS_SUCCESS,
   GET_BLOG_SUCCESS,
-  SAVE_BLOG
+  SAVE_BLOG,
 } from "../actions/blog";
 
 const blog = {

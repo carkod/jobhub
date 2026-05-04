@@ -40,7 +40,7 @@ import {
 
 export function snackBarReducer(
   state = { loading: false, message: null, error: false },
-  action = {}
+  action = {},
 ) {
   switch (action.type) {
     case GENERATE_PDF:
@@ -215,7 +215,7 @@ export function snackBarReducer(
         message: action.message,
         error: action.error,
         loading: false,
-      }
+      };
     default:
       return state;
   }

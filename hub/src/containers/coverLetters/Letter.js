@@ -47,7 +47,7 @@ class Letter extends Component {
           d.cl.cats.locale = this.props.cl.cats.locale;
           d.cl.cats.position = this.props.cl.cats.position;
           d.cl.cats.cvCountry = this.props.cl.cvCountry;
-        })
+        }),
       );
     }
 
@@ -55,7 +55,7 @@ class Letter extends Component {
       this.setState(
         produce((d) => {
           d.cl.cats = this.props.cats;
-        })
+        }),
       );
     }
   };
@@ -65,13 +65,13 @@ class Letter extends Component {
       this.setState(
         produce((draft) => {
           draft.cl[e.target.name] = e.target.value;
-        })
+        }),
       );
     } else {
       this.setState(
         produce((draft) => {
           draft.cats[element.name] = element.value;
-        })
+        }),
       );
     }
   };
@@ -80,19 +80,17 @@ class Letter extends Component {
     this.setState(
       produce((draft) => {
         draft.cl.desc = v;
-      })
+      }),
     );
   };
-
 
   onSubmit = (e) => {
     e.preventDefault();
     if (this.props.router.params.id) {
       this.props.editClApi(this.state.cl, this.props.router.params.id);
     } else {
-      this.props.saveClApi(this.state.cl)
+      this.props.saveClApi(this.state.cl);
     }
-    
   };
 
   savePdf = (id) => async (e) => {
@@ -100,7 +98,7 @@ class Letter extends Component {
     const response = await this.props.generatePdfApi(
       pdfType,
       id,
-      this.state.cl.locale
+      this.state.cl.locale,
     );
     const blob = new Blob([response], { type: "application/pdf" });
     const link = document.createElement("a");
@@ -159,5 +157,5 @@ export default compose(
     fetchRelationsApi,
     editClApi,
     generatePdfApi,
-  })
+  }),
 )(Letter);

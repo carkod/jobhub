@@ -11,7 +11,7 @@ import {
   Form,
   Header,
   Icon,
-  TextArea
+  TextArea,
 } from "semantic-ui-react";
 import { addNotification } from "../../actions/notification";
 import { saveApplication, uploadFile } from "../../actions/tracker";
@@ -48,7 +48,7 @@ class AddNewApplication extends Component {
     this.setState(
       produce((draft) => {
         draft[name] = value;
-      })
+      }),
     );
   };
 
@@ -425,5 +425,5 @@ export default compose(
     uploadFile,
     addNotification,
     saveApplication,
-  })
+  }),
 )(AddNewApplication);

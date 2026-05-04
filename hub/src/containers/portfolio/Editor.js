@@ -1,17 +1,16 @@
 /* eslint-disable*/
-import React, { Component } from 'react';
-import { Icon, Button, Header, Input } from 'semantic-ui-react';
-import Editor from '../../components/Editor';
+import React, { Component } from "react";
+import { Icon, Button, Header, Input } from "semantic-ui-react";
+import Editor from "../../components/Editor";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
-
   }
 
   handleChange = (e) => {
-    this.props.onChange(e.toString('html'))
-  }
+    this.props.onChange(e.toString("html"));
+  };
 
   render() {
     return (
