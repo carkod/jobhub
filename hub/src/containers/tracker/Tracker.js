@@ -68,7 +68,7 @@ class Tracker extends Component {
           {...this.props}
           filterStatus={this.state.filterStatus}
           companySelected={this.state.companySelected}
-          scanEmails={handleGmailAuth => this.scanEmails = handleGmailAuth}
+          scanEmails={(handleGmailAuth) => (this.scanEmails = handleGmailAuth)}
         />
       </div>
     );

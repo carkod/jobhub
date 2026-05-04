@@ -148,5 +148,5 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, { fetchBlogsApi, deleteBlogApi })
+  connect(mapStateToProps, { fetchBlogsApi, deleteBlogApi }),
 )(CoverLetters);

@@ -6,12 +6,14 @@ WORKDIR /hub/
 RUN npm ci
 RUN npm run build
 
+ARG JOBHUB_PLATFORM=linux/amd64
 FROM --platform=$JOBHUB_PLATFORM node:22 AS build-web
 COPY web web
 WORKDIR /web/
 RUN npm ci
 RUN npm run build
 
+ARG JOBHUB_PLATFORM=linux/amd64
 FROM --platform=$JOBHUB_PLATFORM node:22
 # Installs latest Chromium (85) package for puppeteer
 RUN apt-get update && apt-get install -y gnupg nginx \

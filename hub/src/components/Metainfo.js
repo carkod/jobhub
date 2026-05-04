@@ -23,12 +23,7 @@ const Metainfo = ({ cv, cats, onChange, onTitleBlur }) => {
         onChange={onChange}
       />
       <label htmlFor="slug">Slug:</label>
-      <input
-        type="text"
-        name="slug"
-        value={cv.slug}
-        onChange={onChange}
-      />
+      <input type="text" name="slug" value={cv.slug} onChange={onChange} />
       <div className="section">
         <Header sub>META</Header>
         <Segment.Group horizontal>

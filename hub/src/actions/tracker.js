@@ -123,7 +123,7 @@ export function deleteApplication(id) {
       .then((data) => {
         dispatch(applicationDeleted(data));
         dispatch(
-          addNotification(applicationDeleted(data), "Application Deleted")
+          addNotification(applicationDeleted(data), "Application Deleted"),
         );
       });
   };
@@ -142,8 +142,8 @@ export function copyApplication(data) {
         dispatch(
           addNotification(
             pastedApplication(data.Application),
-            "Application copied"
-          )
+            "Application copied",
+          ),
         );
       });
   };
@@ -175,7 +175,7 @@ export function editApplication(data, id) {
       .then((data) => {
         dispatch(applicationEdited(data));
         dispatch(
-          addNotification(applicationEdited(data), "Application edited")
+          addNotification(applicationEdited(data), "Application edited"),
         );
       });
   };
@@ -191,13 +191,18 @@ export function fetchApplication(id) {
       .then((data) => {
         dispatch(applicationFetched(data));
         dispatch(
-          addNotification(applicationFetched(data), "Application fetched")
+          addNotification(applicationFetched(data), "Application fetched"),
         );
       });
   };
 }
 
-export function getApplications(status, companyName=null, page=null, pagesize=null) {
+export function getApplications(
+  status,
+  companyName = null,
+  page = null,
+  pagesize = null,
+) {
   const url = new URL(`${buildBackUrl().apiUrl}/applications`);
 
   if (status) {
@@ -215,7 +220,7 @@ export function getApplications(status, companyName=null, page=null, pagesize=nu
   if (companyName) {
     url.searchParams.append("companyName", companyName);
   }
-  
+
   return (dispatch) => {
     fetch(url, {
       method: "get",
@@ -254,25 +259,27 @@ export function fetchCompaniesApplied(companyName) {
       .then((data) => {
         dispatch(applicationFetched(data));
         dispatch(
-          addNotification(applicationFetched(data), "Application fetched")
+          addNotification(applicationFetched(data), "Application fetched"),
         );
       });
   };
 }
 
-export function scanGmail(creds, limit=100) {
+export function scanGmail(creds, limit = 100) {
   return (dispatch) => {
     return fetch(`${buildBackUrl().apiUrl}/applications/scan?limit=${limit}`, {
       method: "post",
       body: JSON.stringify(creds),
       headers: headers,
-    }).then((res) => {
-      handleResponse(res);
-      dispatch(
-        addNotification(applicationFetched(data), "Application fetched")
-      );
-    }).catch((e) => {
-      return e;
-    });
+    })
+      .then((res) => {
+        handleResponse(res);
+        dispatch(
+          addNotification(applicationFetched(data), "Application fetched"),
+        );
+      })
+      .catch((e) => {
+        return e;
+      });
   };
 }

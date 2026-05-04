@@ -1,1 +1,1 @@
-export { buildBackUrl, handleResponse } from '../utils';
+export { buildBackUrl, handleResponse } from "../utils";

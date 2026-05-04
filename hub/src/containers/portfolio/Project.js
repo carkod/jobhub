@@ -36,7 +36,7 @@ class Project extends Component {
         produce((draft) => {
           draft.project = this.props.project;
           draft.categories = this.props.categories;
-        })
+        }),
       );
     }
   };
@@ -45,7 +45,7 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         draft.project[e.target.name] = e.target.value;
-      })
+      }),
     );
   };
 
@@ -54,7 +54,7 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         draft.project.cats[name] = value;
-      })
+      }),
     );
   };
 
@@ -62,7 +62,7 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         draft.project.desc = v;
-      })
+      }),
     );
   };
 
@@ -70,7 +70,7 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         draft.project.links = links;
-      })
+      }),
     );
   };
 
@@ -78,7 +78,7 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         draft.project.documents.push(docs);
-      })
+      }),
     );
   };
 
@@ -86,7 +86,7 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         draft.project.documents[i].fileName = e.target.value;
-      })
+      }),
     );
   };
 
@@ -94,10 +94,10 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         const index = this.state.project.documents.findIndex(
-          (x) => x.fileId === docs.fileId
+          (x) => x.fileId === docs.fileId,
         );
         draft.project.documents.splice(index, 1);
-      })
+      }),
     );
   };
 
@@ -105,7 +105,7 @@ class Project extends Component {
     this.setState(
       produce((draft) => {
         draft.project.image = image;
-      })
+      }),
     );
   };
 
@@ -180,5 +180,5 @@ export default compose(
     fetchProjectApi,
     uploadFile,
     fetchRelationsApi,
-  })
+  }),
 )(Project);

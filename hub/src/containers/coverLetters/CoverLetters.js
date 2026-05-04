@@ -83,13 +83,13 @@ class CoverLetters extends Component {
                             <Segment>
                               <Icon fitted name="checked calendar" />{" "}
                               {moment(letter.updateDate).format(
-                                "Do MMMM YYYY"
+                                "Do MMMM YYYY",
                               ) || "N/A"}
                             </Segment>
                             <Segment>
                               <Icon fitted name="clock" />{" "}
                               {moment(letter.createdDate).format(
-                                "Do MMMM YYYY"
+                                "Do MMMM YYYY",
                               ) || "N/A"}
                             </Segment>
                           </Segment.Group>

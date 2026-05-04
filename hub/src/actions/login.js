@@ -24,7 +24,7 @@ export const userLogin = (email, password) => async (dispatch, getState) => {
   const res = await axios.post(
     `${buildBackUrl().apiUrl}/login`,
     { email: email, password: password },
-    headers
+    headers,
   );
   if (res.data.error === 1) {
     dispatch(isAuthNotification(res.data.message, res.data.error));

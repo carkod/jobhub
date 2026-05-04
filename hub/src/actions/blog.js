@@ -103,14 +103,17 @@ export function fetchBlogApi(id) {
   };
 }
 
-export function saveBlogApi(data, postOnMedium=false) {
+export function saveBlogApi(data, postOnMedium = false) {
   return (dispatch) => {
     dispatch(saveBlog());
-    return fetch(`${buildBackUrl().apiUrl}/blogs?postOnMedium=${postOnMedium}`, {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: headers,
-    })
+    return fetch(
+      `${buildBackUrl().apiUrl}/blogs?postOnMedium=${postOnMedium}`,
+      {
+        method: "post",
+        body: JSON.stringify(data),
+        headers: headers,
+      },
+    )
       .then(handleResponse)
       .then((data) => dispatch(saveBlogSuccess(data)));
   };

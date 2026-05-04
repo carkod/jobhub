@@ -9,7 +9,7 @@ const LangSkills = ({ langSkills, addSkillItem, removeSkill, update }) => {
     e.preventDefault();
     addSkillItem("langSkills", skillsObjGenerator("langSkills"));
     if (!toggle) {
-      setToggle(!toggle)
+      setToggle(!toggle);
     }
   };
 

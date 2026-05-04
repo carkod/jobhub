@@ -13,10 +13,7 @@ const AddNew = (props) => {
   const navigate = useNavigate();
 
   return (
-    <button
-      onClick={() => navigate(`/cv/new`)}
-      style={buttonDefaultStyles}
-    >
+    <button onClick={() => navigate(`/cv/new`)} style={buttonDefaultStyles}>
       <Icon name="plus square" color="green" />
     </button>
   );
