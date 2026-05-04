@@ -1,20 +1,20 @@
 FROM node:22 AS build-hub
 COPY hub hub
 WORKDIR /hub/
-RUN yarn install && yarn global add react-scripts sass
-RUN yarn build
+RUN npm ci
+RUN npm run build
 
 FROM node:22 AS build-web
 COPY web web
 WORKDIR /web/
-RUN yarn install
-RUN yarn build
+RUN npm ci
+RUN npm run build
 
 FROM node:22
 # MacOS 
-ENV export DOCKER_DEFAULT_PLATFORM=linux/amd64
+ENV DOCKER_DEFAULT_PLATFORM=linux/amd64
 # Installs latest Chromium (85) package for puppeteer
-RUN apt-get update && apt-get install -y gnupg nginx yarn \
+RUN apt-get update && apt-get install -y gnupg nginx \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
     && apt-get update && apt-get install google-chrome-stable -y fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y gnupg nginx yarn \
 COPY wait-for-it.sh /home/wait-for-it.sh
 RUN chmod +x /home/wait-for-it.sh
 
-COPY --from=build-hub /hub/build /usr/share/nginx/html/hub
+COPY --from=build-hub /hub/dist /usr/share/nginx/html/hub
 # Copy Next.js web app
 COPY --from=build-web /web /home/web
 WORKDIR /home/web
@@ -31,7 +31,7 @@ WORKDIR /home/web
 # Install back
 WORKDIR /home/back
 COPY back .
-RUN yarn install && yarn run build
+RUN npm ci && npm run build
 
 # Copy startup script
 COPY start.sh /home/start.sh
