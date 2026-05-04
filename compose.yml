@@ -13,7 +13,7 @@ services:
     command:
       - bash
       - -c
-      - /home/wait-for-it.sh web:3000 -- nginx -g 'daemon off;'
+      - /home/wait-for-it.sh web:3000 -- nginx -t && exec nginx -g 'daemon off;'
 
   web:
     image: carloswufei/jobhub
