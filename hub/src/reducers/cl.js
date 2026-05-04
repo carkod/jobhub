@@ -2,7 +2,7 @@ import {
   COPY_CL_SUCCESS,
   GET_CLS_SUCCESS,
   GET_CL_SUCCESS,
-  RESET_CL_FORM
+  RESET_CL_FORM,
 } from "../actions/cover-letter";
 
 const clState = {
@@ -20,7 +20,7 @@ const clState = {
   status: "",
   desc: "",
   slug: "",
-  pdf: []
+  pdf: [],
 };
 
 export function clsListReducer(state = {}, action = {}) {

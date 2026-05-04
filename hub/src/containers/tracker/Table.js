@@ -75,7 +75,7 @@ class TrackingTable extends Component {
     if (prevProps.companySelected !== this.props.companySelected) {
       this.props.getApplications(
         this.props.filterStatus,
-        this.props.companySelected
+        this.props.companySelected,
       );
     }
 
@@ -173,8 +173,8 @@ class TrackingTable extends Component {
       () =>
         this.props.editApplication(
           this.state.applications[index],
-          this.state.applications[index]._id
-        )
+          this.state.applications[index]._id,
+        ),
     );
   };
 
@@ -227,7 +227,9 @@ class TrackingTable extends Component {
                 </Table.Cell>
                 <Table.Cell>
                   {moment(
-                    new Date(this.getCurrentStage(application.stages).startDate)
+                    new Date(
+                      this.getCurrentStage(application.stages).startDate,
+                    ),
                   ).format("DD MMMM YYYY")}
                 </Table.Cell>
                 <Table.Cell>{application.location}</Table.Cell>
@@ -293,5 +295,5 @@ export default compose(
     editApplication,
     fetchCompaniesApplied,
     scanGmail,
-  })
+  }),
 )(TrackingTable);

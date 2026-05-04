@@ -64,7 +64,7 @@ class Blog extends Component {
           if (this.props.blog.mediumLink) {
             d.postOnMedium = true;
           }
-        })
+        }),
       );
     }
 
@@ -72,7 +72,7 @@ class Blog extends Component {
       this.setState(
         produce((d) => {
           d.categories = this.props.categories;
-        })
+        }),
       );
     }
 
@@ -80,7 +80,7 @@ class Blog extends Component {
       this.setState(
         produce((d) => {
           d.statuses = this.props.statuses;
-        })
+        }),
       );
     }
   };
@@ -89,7 +89,7 @@ class Blog extends Component {
     this.setState(
       produce((d) => {
         d.blog[e.target.name] = e.target.value;
-      })
+      }),
     );
   };
 
@@ -98,7 +98,7 @@ class Blog extends Component {
       this.setState(
         produce((d) => {
           d.blog.slug = slugify(this.state.blog.name);
-        })
+        }),
       );
     }
   };
@@ -107,7 +107,7 @@ class Blog extends Component {
     this.setState(
       produce((d) => {
         d.blog[name] = value;
-      })
+      }),
     );
   };
 
@@ -119,7 +119,7 @@ class Blog extends Component {
     this.setState(
       produce((d) => {
         d.blog.tags = value;
-      })
+      }),
     );
   };
 
@@ -282,7 +282,7 @@ class Blog extends Component {
               onClick={() =>
                 window.open(
                   `https://www.linkedin.com/sharing/share-offsite/?url=https://carlos.wf${this.props.router.location.pathname}&title=${this.state.blog.name}&source=http://carlos.wf/`,
-                  "_blank"
+                  "_blank",
                 )
               }
             >
@@ -311,5 +311,5 @@ export default compose(
     saveBlogApi,
     fetchRelationsApi,
     resetBlogForm,
-  })
+  }),
 )(Blog);

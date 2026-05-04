@@ -31,7 +31,7 @@ export const RESET_CL_FORM = "RESET_CL_FORM";
  */
 export function resetCl() {
   return {
-    type: RESET_CL_FORM
+    type: RESET_CL_FORM,
   };
 }
 

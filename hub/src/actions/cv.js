@@ -88,7 +88,7 @@ export function setFormFields(data) {
 export function resetCVState() {
   return {
     type: RESET_CV_STATE,
-  }
+  };
 }
 
 export function setCVs(cvs) {
@@ -101,7 +101,7 @@ export function setCVs(cvs) {
 export function setCVState(payload) {
   return {
     type: SET_CV_STATE,
-    payload: payload
+    payload: payload,
   };
 }
 

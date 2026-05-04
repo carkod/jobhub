@@ -1,18 +1,21 @@
-import { DELETE_PROJECT_SUCCESFUL, GET_PROJECTS_SUCCESFUL, GET_PROJECT_SUCCESFUL } from '../actions/portfolio';
+import {
+  DELETE_PROJECT_SUCCESFUL,
+  GET_PROJECTS_SUCCESFUL,
+  GET_PROJECT_SUCCESFUL,
+} from "../actions/portfolio";
 
 // List project data
 export function listProjectsReducer(state = null, action = {}) {
   switch (action.type) {
     case GET_PROJECTS_SUCCESFUL:
-      return action.payload
+      return action.payload;
     case DELETE_PROJECT_SUCCESFUL:
-      return action.payload
+      return action.payload;
 
     default:
-      return state
+      return state;
   }
 }
-
 
 // Single project data
 export function projectReducer(state = null, action = {}) {
@@ -20,9 +23,9 @@ export function projectReducer(state = null, action = {}) {
     case GET_PROJECT_SUCCESFUL:
       return {
         ...state,
-        ...action.payload.data
-      }
+        ...action.payload.data,
+      };
     default:
-      return state
+      return state;
   }
 }

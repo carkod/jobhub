@@ -26,7 +26,7 @@ class Notification extends Component {
           {
             pop: true,
           },
-          () => window.setTimeout(this.removeNotification, 3000)
+          () => window.setTimeout(this.removeNotification, 3000),
         );
       }
     }
@@ -45,11 +45,7 @@ class Notification extends Component {
     return (
       <div id="notification">
         <Transition visible={pop} animation="scale" duration={500}>
-          <Message
-            color={error ? "red" : "green"}
-            floating
-            content={message}
-          />
+          <Message color={error ? "red" : "green"} floating content={message} />
         </Transition>
       </div>
     );

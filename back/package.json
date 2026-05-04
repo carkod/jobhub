@@ -8,7 +8,8 @@
     "watch-sass": "sass --watch src/pdf/styles/:src/pdf/assets/",
     "build-js": "babel src --copy-files --extensions .js --ignore pdf/styles --out-dir dist",
     "build-sass": "sass src/pdf/styles/:dist/pdf/styles/",
-    "build": "yarn run build-js && yarn run build-sass",
+    "build": "npm run build-js && npm run build-sass",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,scss,json,md}\" \"*.{js,json,md}\"",
     "production": "node dist/server.js",
     "clean": "rm -rf docs node_modules dist src/pdf/assets"
   },
@@ -51,7 +52,8 @@
     "@babel/plugin-transform-flow-strip-types": "^7.19.0",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "prettier": "^3.8.3"
   },
   "babel": {
     "presets": [

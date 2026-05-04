@@ -10,14 +10,14 @@ import {
   Form,
   Header,
   Icon,
-  TextArea
+  TextArea,
 } from "semantic-ui-react";
 import { addNotification } from "../../actions/notification";
 import {
   fetchApplication,
   saveApplication,
   uploadFile,
-  editApplication
+  editApplication,
 } from "../../actions/tracker";
 import { withRouter } from "../../utils";
 import AddNewApplicationConfig from "./AddNewApplication.config";
@@ -51,9 +51,8 @@ class EditApplication extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-
     if (this.props.application !== prevProps.application) {
-      const { status, contacts, stages } = this.props.application;    
+      const { status, contacts, stages } = this.props.application;
       this.setState((prevState) => ({
         status: {
           ...prevState.status,
@@ -98,7 +97,7 @@ class EditApplication extends Component {
 
   addNewContact = () => {
     const newData = this.state.contacts.concat(
-      this.applicationModel.emptyContact
+      this.applicationModel.emptyContact,
     );
     this.setState({ contacts: newData });
   };
@@ -185,7 +184,6 @@ class EditApplication extends Component {
     } else {
       this.props.saveApplication(this.state);
     }
-    
   };
 
   render() {
@@ -458,13 +456,13 @@ class EditApplication extends Component {
             onChange={this.descChange}
             value={description}
           />
-        <br />
-        <Divider />
-        <br />
+          <br />
+          <Divider />
+          <br />
 
-        <Button type="submit" color="green">
-          <Icon name="save" /> Save
-        </Button>
+          <Button type="submit" color="green">
+            <Icon name="save" /> Save
+          </Button>
         </Form>
       </div>
     );
@@ -486,5 +484,5 @@ export default compose(
     saveApplication,
     fetchApplication,
     editApplication,
-  })
+  }),
 )(EditApplication);

@@ -32,7 +32,7 @@ class Summary extends Component {
           <Grid>
             <Grid.Row>
               <Grid.Column width={16}>
-                <Editor value={summary} onChange={this.onChange}/>
+                <Editor value={summary} onChange={this.onChange} />
               </Grid.Column>
             </Grid.Row>
           </Grid>

@@ -2,22 +2,24 @@
  --- Cover Letters page
 */
 
-#cl input, #cl textarea {
-  border:none;
-  outline:none;
-  border-bottom:1px solid #00bfff;
+#cl input,
+#cl textarea {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #00bfff;
   padding: 0.5em;
 }
 
 #cl .ui.header input {
-  width:100%;
+  width: 100%;
 }
 
 #cl label {
-  font-size:1.2em;
+  font-size: 1.2em;
 }
 
-#cl .sub.header, #project .sub.header  {
+#cl .sub.header,
+#project .sub.header {
   font-size: 1rem;
 }
 
@@ -38,15 +40,15 @@
 }
 
 #cl .single .btn-close-repeat {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0;
-    display: table;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0;
+  display: table;
 }
 
 #cl .workExp-space {
-  padding:1.5em 0;
+  padding: 1.5em 0;
 }
 
 #cl .personal .sub.header {
