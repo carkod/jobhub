@@ -4,7 +4,10 @@ services:
     restart: always
     container_name: jobhub_app
     depends_on:
-      - web
+      web:
+        condition: service_started
+      back:
+        condition: service_healthy
     env_file:
       - .env
     ports:
@@ -13,12 +16,15 @@ services:
     command:
       - bash
       - -c
-      - /home/wait-for-it.sh web:3000 -- nginx -g 'daemon off;'
+      - nginx -t && exec nginx -g 'daemon off;'
 
   web:
     image: carloswufei/jobhub
     restart: always
     container_name: jobhub_web
+    depends_on:
+      back:
+        condition: service_healthy
     env_file:
       - .env
     expose:
@@ -33,7 +39,8 @@ services:
     restart: always
     container_name: jobhub_back
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
     environment:
@@ -47,7 +54,17 @@ services:
     command:
       - bash
       - -c
-      - /home/wait-for-it.sh db:27017 -- node /home/back/dist/server.js
+      - node /home/back/dist/server.js
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://localhost:' + (process.env.BACK_PORT || 8082) + '/api').then((res) => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))\""
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
     volumes:
       - ./jobhub-415000-prod.json:/home/back/jobhub-415000-prod.json
       - ./back/docs:/home/back/docs
@@ -61,6 +78,16 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_AUTH_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_AUTH_PASSWORD}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mongosh --quiet --host localhost --username \"$$MONGO_INITDB_ROOT_USERNAME\" --password \"$$MONGO_INITDB_ROOT_PASSWORD\" --authenticationDatabase admin --eval \"db.adminCommand('ping').ok\" | grep 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
     ports:
       - "27017:27017"
     volumes:

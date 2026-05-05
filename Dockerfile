@@ -20,10 +20,8 @@ RUN apt-get update && apt-get install -y gnupg nginx \
     && apt-get update && apt-get install google-chrome-stable -y fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-COPY wait-for-it.sh /home/wait-for-it.sh
-RUN chmod +x /home/wait-for-it.sh
-
 COPY --from=build-hub /hub/dist /usr/share/nginx/html/hub
+COPY nginx.conf /etc/nginx/conf.d/jobhub.conf
 # Copy Next.js web app
 COPY --from=build-web /web /home/web
 WORKDIR /home/web
@@ -32,12 +30,6 @@ WORKDIR /home/web
 WORKDIR /home/back
 COPY back .
 RUN npm ci && npm run build
-
-# Copy startup script
-COPY start.sh /home/start.sh
-RUN chmod +x /home/start.sh
-
-CMD ["/home/start.sh"]
 
 STOPSIGNAL SIGTERM
 EXPOSE 8080 8081 8082
