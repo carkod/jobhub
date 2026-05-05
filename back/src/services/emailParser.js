@@ -109,15 +109,16 @@ export default class EmailParser {
     let nextHistoryId = lastHistoryId;
 
     const decoded = this.gmailApi.decodePubSubMessage(pubSubPayload);
-    const historyStart = decoded?.historyId || lastHistoryId;
+    const notificationHistoryId = decoded?.historyId || null;
 
-    if (historyStart) {
-      const historyResult = await this.gmailApi.fetchHistory(historyStart);
+    if (lastHistoryId) {
+      const historyResult = await this.gmailApi.fetchHistory(lastHistoryId);
       messageIds = this.gmailApi.extractMessageIdsFromHistory(historyResult.history);
-      nextHistoryId = historyResult.historyId || historyStart;
+      nextHistoryId = historyResult.historyId || notificationHistoryId || lastHistoryId;
     } else {
       const messages = await this.gmailApi.fetchListEmails();
       messageIds = messages.map((m) => m.id);
+      nextHistoryId = notificationHistoryId || nextHistoryId;
     }
 
     const processed = [];
