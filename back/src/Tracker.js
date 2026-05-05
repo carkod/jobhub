@@ -137,22 +137,21 @@ export default function Tracker(app, db) {
    * @param {boolean} allPages: optional, first page by default (gmail API)
    */
   app.post("/api/applications/scan", async (req, res) => {
-
-    const { access_token } = req.body;
+    const { access_token, lastHistoryId, pubSubPayload } = req.body;
     const limit = parseInt(req.query.limit) || 100;
 
     try {
-      let emailParser = new EmailParser(access_token, limit);
-      await emailParser.genericApplicationParser();
+      const emailParser = new EmailParser(access_token, limit);
+      const result = await emailParser.runPipeline({
+        lastHistoryId: lastHistoryId || null,
+        pubSubPayload: pubSubPayload || null,
+      });
+      return res.json(result);
     } catch (e) {
       return res
-        .status(e.status)
+        .status(e.status || 500)
         .json({ status: false, message: `Error fetching emails: ${e}` });
     }
-    let query = await ApplicationModel.find({}, null, {
-      sort: { updatedDate: -1 },
-    });
-    return res.json(query);
   });
 
   app.post("/api/application", async (req, res) => {
