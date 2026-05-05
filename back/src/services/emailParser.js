@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { ApplicationSchema } from "../Schemas.js";
+import { escapeRegex } from "../utils.js";
 import GeminiApi from "./GeminiApi.js";
 import GmailApi from "./GmailApi.js";
 
@@ -39,7 +40,8 @@ export default class EmailParser {
       const byTitle = await this.ApplicationModel.findOne({ role: extraction.job_title });
       if (byTitle) return { application: byTitle, confidence: 0.92, strategy: "exact title" };
 
-      const fuzzy = await this.ApplicationModel.findOne({ role: { $regex: extraction.job_title.split(" ")[0], $options: "i" } });
+      const fuzzyToken = escapeRegex(extraction.job_title.split(" ")[0]);
+      const fuzzy = await this.ApplicationModel.findOne({ role: { $regex: fuzzyToken, $options: "i" } });
       if (fuzzy) return { application: fuzzy, confidence: 0.9, strategy: "fuzzy title similarity" };
     }
 
