@@ -1,171 +1,130 @@
 import mongoose from "mongoose";
 import { ApplicationSchema } from "../Schemas.js";
-import { escapeRegex } from "../utils.js";
 import GeminiApi from "./GeminiApi.js";
 import GmailApi from "./GmailApi.js";
 
 export default class EmailParser {
-  // This keyword should filter most job application emails
-  static keywords = ["Your application"];
-
   constructor(access_token, limit = 300) {
     this.access_token = access_token;
     this.limit = limit;
     this.gmailApi = new GmailApi(access_token, limit);
     this.geminiApi = new GeminiApi();
-    this.ApplicationModel = mongoose.model(
-      "ApplicationModel",
-      ApplicationSchema
-    );
-    this.contentParts = [];
-    this.jobApplicationEmails = [];
+    this.ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
+    this.reviewQueue = [];
   }
 
-  getApplicationByCompany(company) {
-    let regex = escapeRegex(company);
-    return this.ApplicationModel.findOne({
-      company: { $regex: regex, $options: "i" },
-    });
+  computePrefilterScore({ subject = "", snippet = "", body = "" }) {
+    const text = `${subject} ${snippet} ${body}`.toLowerCase();
+    const positiveSignals = ["application", "interview", "recruiter", "candidate", "hiring", "position", "job"];
+    const negativeSignals = ["discount", "sale", "offer", "coupon", "marketing", "unsubscribe", "shop"];
+
+    const positive = positiveSignals.reduce((acc, s) => (text.includes(s) ? acc + 1 : acc), 0);
+    const negative = negativeSignals.reduce((acc, s) => (text.includes(s) ? acc + 1 : acc), 0);
+
+    return { score: positive - negative, positive, negative };
   }
 
-  updateApplicationByCompany(application) {
-    return this.ApplicationModel.updateOne(
-      {
-        company: application.company,
-      },
-      application
-    );
+  async matchApplication(extraction, threadId) {
+    if (threadId) {
+      const byThread = await this.ApplicationModel.findOne({ threadId });
+      if (byThread) return { application: byThread, confidence: 1, strategy: "threadId" };
+    }
+
+    if (extraction.company) {
+      const byCompany = await this.ApplicationModel.findOne({ company: extraction.company });
+      if (byCompany) return { application: byCompany, confidence: 0.95, strategy: "exact company" };
+    }
+
+    if (extraction.job_title) {
+      const byTitle = await this.ApplicationModel.findOne({ role: extraction.job_title });
+      if (byTitle) return { application: byTitle, confidence: 0.92, strategy: "exact title" };
+
+      const fuzzy = await this.ApplicationModel.findOne({ role: { $regex: extraction.job_title.split(" ")[0], $options: "i" } });
+      if (fuzzy) return { application: fuzzy, confidence: 0.9, strategy: "fuzzy title similarity" };
+    }
+
+    return { application: null, confidence: 0, strategy: "none" };
   }
 
-  parseCompanyName(companyName) {
-    const words = companyName.split(" ");
-    const set = new Set(words);
-    // Remove special character
-    const trimmedCompanyName = Array.from(set)
-      .join(" ")
-      .split(" ")
-      .filter((x) => x !== "͏");
-    return trimmedCompanyName.join(" ");
-  }
+  async guardedUpsert({ extraction, date, emailId, threadId, match }) {
+    if (!(extraction.confidence >= 0.85 && match.confidence >= 0.9)) {
+      this.reviewQueue.push({ emailId, extraction, match });
+      return { status: "review" };
+    }
 
-  async saveApplication(emailData, date, emailId) {
-    const applicationDate = new Date(date);
-    const application = {
-      role: emailData?.job_title,
-      company: emailData.company,
-      location: emailData?.location,
-      applicationUrl: emailData.application_link,
-      updatedAt: new Date(date),
-      status: {
-        text: emailData.status,
-      },
-      description: emailData.job_requirements,
-      location: emailData.city,
-      emailId: emailId,
+    const payload = {
+      role: extraction.job_title,
+      company: extraction.company,
+      location: extraction.location,
+      applicationUrl: extraction.application_link,
+      updatedAt: new Date(date || Date.now()),
+      status: { text: extraction.status || "Applied" },
+      description: extraction.job_requirements,
+      emailId,
+      threadId,
     };
-    const applicationByCompany = await this.getApplicationByCompany(
-      application.company
-    );
-    if (applicationByCompany) {
-      // Check which update is newer
-      if (applicationByCompany.updatedAt < applicationDate) {
-        await this.updateApplicationByCompany(application);
-      }
-    } else {
-      let newApplication = new this.ApplicationModel({
-        _id: mongoose.Types.ObjectId(),
-        role: application.role,
-        company: application.company,
-        location: application.location,
-        applicationUrl: application.applicationUrl,
-        date: application.date,
-        status: application.status,
-        createdAt: applicationDate,
-        updatedAt: applicationDate,
-        emailId: application.emailId,
-      });
-      newApplication.save();
+
+    if (match.application) {
+      await this.ApplicationModel.updateOne({ _id: match.application._id }, payload);
+      return { status: "updated" };
     }
+
+    await this.ApplicationModel.create({
+      _id: mongoose.Types.ObjectId(),
+      ...payload,
+      createdAt: new Date(date || Date.now()),
+    });
+    return { status: "created" };
   }
 
-  /**
-   * Exclude from scanning
-   * - Emails that are rejected
-   *
-   * @returns {string} message.id
-   */
-  async exclusions() {
-    const emailIds = await this.ApplicationModel.aggregate([
-      { $unwind: "$status" },
-      { $match: { "status.value": { $nin: [2, 3] }, emailId: { $ne: null } } },
-      { $project: { _id: 0, emailId: 1 } },
-    ]).exec();
+  async parseMessage(messageId) {
+    const email = await this.gmailApi.fetchIndividualEmail(messageId);
+    const headers = email?.payload?.headers || [];
+    const subject = headers.find((h) => h.name.toLowerCase() === "subject")?.value || "";
+    const date = headers.find((h) => h.name.toLowerCase() === "date")?.value;
+    const threadId = email.threadId;
+    const snippet = email.snippet || "";
+    const part = email?.payload?.parts?.[0]?.body?.data;
+    const text = part ? Buffer.from(part, "base64").toString("utf-8") : "";
 
-    return emailIds.flatMap((email) => (email ? email.id : []));
+    const prefilter = this.computePrefilterScore({ subject, snippet, body: text });
+    if (prefilter.score <= 0) {
+      return { messageId, status: "skipped_prefilter", prefilter };
+    }
+
+    const classification = await this.geminiApi.classifyEmail({ subject, snippet, text });
+    if (!classification?.is_job_related || classification.confidence < 0.8) {
+      return { messageId, status: "skipped_classification", classification };
+    }
+
+    const extraction = await this.geminiApi.extractJobData({ subject, snippet, text });
+    const match = await this.matchApplication(extraction, threadId);
+    const writeResult = await this.guardedUpsert({ extraction, date, emailId: messageId, threadId, match });
+
+    return { messageId, status: writeResult.status, classification, extraction, match };
   }
 
-  async genericApplicationParser() {
-    const messages = await this.gmailApi.fetchListEmails();
+  async runPipeline({ lastHistoryId = null, pubSubPayload = null } = {}) {
+    let messageIds = [];
+    let nextHistoryId = lastHistoryId;
 
-    if (messages.length === 0) {
-      throw new Error("No messages found.");
+    const decoded = this.gmailApi.decodePubSubMessage(pubSubPayload);
+    const historyStart = decoded?.historyId || lastHistoryId;
+
+    if (historyStart) {
+      const historyResult = await this.gmailApi.fetchHistory(historyStart);
+      messageIds = this.gmailApi.extractMessageIdsFromHistory(historyResult.history);
+      nextHistoryId = historyResult.historyId || historyStart;
     } else {
-      const excludeMessageIds = await this.exclusions();
-      for (const message of messages) {
-        // Skip if message is in the exclusion list
-        // to prevent re-scanning of emails
-        if (excludeMessageIds.includes(message.id)) {
-          console.log("Excluded message", message.id);
-          continue;
-        }
-
-        const emailContent = await this.gmailApi.fetchIndividualEmail(
-          message.id
-        );
-        const {
-          snippet,
-          payload: { parts, headers },
-        } = emailContent;
-
-        const subject = headers.find(
-          (header) => header.name.toLowerCase() === "from"
-        ).value;
-
-        const date = headers.find(
-          (date) => date.name.toLowerCase() === "date"
-        ).value;
-
-        if (parts && parts[0].body.size > 0) {
-          const part1 = Buffer.from(parts[0].body.data, "base64").toString(
-            "utf-8"
-          );
-          let processedContent = part1.replace(/\\r\\n/, " ");
-          processedContent = processedContent.replace(/'/g, "\\'");
-
-          const checkForLetters = /[a-zA-Z]/g.test(snippet);
-          if (checkForLetters) {
-            try {
-              const extractedApplicationData =
-                await this.geminiApi.classifyEmails({
-                  text: processedContent,
-                  subject: subject,
-                  id: message.id,
-                });
-              if (extractedApplicationData) {
-                await this.saveApplication(
-                  extractedApplicationData,
-                  date,
-                  message.id
-                );
-              }
-            } catch (error) {
-              console.error("Error classifying emails", error, snippet);
-              break;
-            }
-          }
-        }
-      }
-      console.log("Finished processing emails");
+      const messages = await this.gmailApi.fetchListEmails();
+      messageIds = messages.map((m) => m.id);
     }
+
+    const processed = [];
+    for (const messageId of messageIds) {
+      processed.push(await this.parseMessage(messageId));
+    }
+
+    return { processed, lastHistoryId: nextHistoryId, reviewQueue: this.reviewQueue };
   }
 }
