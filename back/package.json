@@ -4,7 +4,7 @@
   "description": "Back-end application for Jobhub",
   "main": "server.js",
   "scripts": {
-    "start": "yarn run watch-sass & nodemon --exec babel-node -- src/server.js",
+    "start": "npm run watch-sass & nodemon --exec babel-node -- src/server.js",
     "watch-sass": "sass --watch src/pdf/styles/:src/pdf/assets/",
     "build-js": "babel src --copy-files --extensions .js --ignore pdf/styles --out-dir dist",
     "build-sass": "sass src/pdf/styles/:dist/pdf/styles/",
