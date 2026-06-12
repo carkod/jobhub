@@ -1,4 +1,4 @@
-@use 'global' as *;
+@use "global" as *;
 
 .ed-portfolio {
   h1 {
@@ -24,7 +24,9 @@
     margin-bottom: 3rem;
   }
 
-  section { margin-bottom: 3rem; }
+  section {
+    margin-bottom: 3rem;
+  }
 
   h2 {
     font-family: $font-serif;
@@ -39,7 +41,7 @@
   .field {
     font-size: 1rem;
     line-height: 1.7;
-    color: rgba(26,26,26,0.78);
+    color: rgba(26, 26, 26, 0.78);
     padding: 0.4rem 0;
   }
 }

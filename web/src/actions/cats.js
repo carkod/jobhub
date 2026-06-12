@@ -19,9 +19,11 @@ export function setCats(cats) {
 
 export function fetchCats() {
   return (dispatch) => {
-    axios.get(`${buildBackUrl().apiUrl}/cats`, { headers: headers }).then((res) => {
-      dispatch(setCats(res.data));
-      dispatch(addNotification(setCats(res.data)));
-    });
+    axios
+      .get(`${buildBackUrl().apiUrl}/cats`, { headers: headers })
+      .then((res) => {
+        dispatch(setCats(res.data));
+        dispatch(addNotification(setCats(res.data)));
+      });
   };
 }

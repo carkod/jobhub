@@ -1,4 +1,4 @@
-@use 'global' as *;
+@use "global" as *;
 
 .ed-home {
   .ed-hero {
@@ -47,7 +47,10 @@
     max-width: 520px;
     margin-bottom: 2rem;
 
-    @media (min-width: 640px) { font-size: 1.1rem; margin-bottom: 2.5rem; }
+    @media (min-width: 640px) {
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
   }
 
   .ed-hero__links {
@@ -57,7 +60,9 @@
     margin-bottom: 2.5rem;
     list-style: none;
 
-    @media (min-width: 640px) { gap: 1.25rem 2rem; }
+    @media (min-width: 640px) {
+      gap: 1.25rem 2rem;
+    }
 
     a {
       display: flex;
@@ -70,9 +75,13 @@
       color: $ink;
       transition: color 0.2s;
 
-      @media (min-width: 640px) { font-size: 0.8rem; }
+      @media (min-width: 640px) {
+        font-size: 0.8rem;
+      }
 
-      &:hover { color: $amber; }
+      &:hover {
+        color: $amber;
+      }
     }
   }
 
@@ -81,7 +90,9 @@
     position: relative;
     order: -1;
 
-    @media (min-width: 860px) { order: 0; }
+    @media (min-width: 860px) {
+      order: 0;
+    }
   }
 
   .ed-hero__glow {
@@ -103,10 +114,12 @@
     z-index: 1;
     max-width: 280px;
 
-    @media (min-width: 860px) { max-width: 100%; }
+    @media (min-width: 860px) {
+      max-width: 100%;
+    }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -1rem;
       right: -1rem;
@@ -124,7 +137,9 @@
       transition: filter 0.6s ease;
       display: block;
 
-      &:hover { filter: grayscale(0%); }
+      &:hover {
+        filter: grayscale(0%);
+      }
     }
   }
 

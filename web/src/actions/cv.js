@@ -1,4 +1,9 @@
-import { bufferHeaders, handleResponse, headers, buildBackUrl } from "./actions.config";
+import {
+  bufferHeaders,
+  handleResponse,
+  headers,
+  buildBackUrl,
+} from "./actions.config";
 
 export const SET_CV = "SET_CV";
 export const ADD_CV = "ADD_CV";
@@ -19,7 +24,12 @@ export const SAVE_CV = "SAVE_CV";
 export const SAVE_CV_SUCCESS = "SAVE_CV_SUCCESS";
 
 export function fetchCVsSuccess(cvs) {
-  return { type: GET_ALL_CVS_SUCCESS, error: false, message: GET_ALL_CVS_SUCCESS, cvs };
+  return {
+    type: GET_ALL_CVS_SUCCESS,
+    error: false,
+    message: GET_ALL_CVS_SUCCESS,
+    cvs,
+  };
 }
 
 export function saveCv(cvs) {
@@ -31,7 +41,12 @@ export function saveCvSuccess(cvs) {
 }
 
 export function copyCVSuccess(payload) {
-  return { type: COPY_CV_SUCCESS, error: false, message: COPY_CV_SUCCESS, payload };
+  return {
+    type: COPY_CV_SUCCESS,
+    error: false,
+    message: COPY_CV_SUCCESS,
+    payload,
+  };
 }
 
 export function deleteCVSuccess(payload) {
@@ -77,7 +92,9 @@ export function copyCV(data) {
       headers: headers,
     })
       .then(handleResponse)
-      .then((payload) => { dispatch(copyCVSuccess(payload)); });
+      .then((payload) => {
+        dispatch(copyCVSuccess(payload));
+      });
   };
 }
 
@@ -98,7 +115,9 @@ export function fetchCVs() {
   return (dispatch) => {
     return fetch(`${buildBackUrl().apiUrl}/cvs`, { headers: headers })
       .then(handleResponse)
-      .then((data) => { dispatch(fetchCVsSuccess(data)); });
+      .then((data) => {
+        dispatch(fetchCVsSuccess(data));
+      });
   };
 }
 

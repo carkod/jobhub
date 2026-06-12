@@ -37,12 +37,14 @@ export default class PD extends Component {
         </div>
         {!collapsed && (
           <div className="ed-pd-grid">
-            {PD_FIELDS.filter(({ key }) => persdetails[key]).map(({ key, label }) => (
-              <div key={key} className="ed-pd-field">
-                <span className="ed-pd-field__label">{label}</span>
-                <span className="ed-pd-field__value">{persdetails[key]}</span>
-              </div>
-            ))}
+            {PD_FIELDS.filter(({ key }) => persdetails[key]).map(
+              ({ key, label }) => (
+                <div key={key} className="ed-pd-field">
+                  <span className="ed-pd-field__label">{label}</span>
+                  <span className="ed-pd-field__value">{persdetails[key]}</span>
+                </div>
+              ),
+            )}
           </div>
         )}
       </section>

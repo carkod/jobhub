@@ -1,4 +1,4 @@
-@use 'global' as *;
+@use "global" as *;
 
 .ed-header {
   display: flex;
@@ -11,8 +11,12 @@
   top: 0;
   z-index: 300;
 
-  @media (min-width: 640px) { padding: 1.4rem 2rem; }
-  @media (min-width: 900px) { padding: 1.4rem 4rem; }
+  @media (min-width: 640px) {
+    padding: 1.4rem 2rem;
+  }
+  @media (min-width: 900px) {
+    padding: 1.4rem 4rem;
+  }
 }
 
 .ed-wordmark {
@@ -23,9 +27,13 @@
   color: $ink;
   white-space: nowrap;
 
-  @media (min-width: 640px) { font-size: 1.4rem; }
+  @media (min-width: 640px) {
+    font-size: 1.4rem;
+  }
 
-  &:hover { color: $ink; }
+  &:hover {
+    color: $ink;
+  }
 }
 
 // ── Desktop nav (hidden on mobile) ──────────────────────────────────────────
@@ -48,9 +56,13 @@
   color: $ink;
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
 
-  &:hover { color: $amber; }
+  &:hover {
+    color: $amber;
+  }
 
   &.active {
     color: $amber;
@@ -74,7 +86,9 @@
   z-index: 400;
   flex-shrink: 0;
 
-  @media (min-width: 640px) { display: none; }
+  @media (min-width: 640px) {
+    display: none;
+  }
 
   span {
     display: block;
@@ -82,14 +96,23 @@
     height: 2px;
     background: $ink;
     border-radius: 2px;
-    transition: transform 0.25s ease, opacity 0.2s ease;
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s ease;
     transform-origin: center;
   }
 
   &--open {
-    span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
   }
 }
 
@@ -102,7 +125,9 @@
   z-index: 350;
   backdrop-filter: blur(2px);
 
-  @media (min-width: 640px) { display: none; }
+  @media (min-width: 640px) {
+    display: none;
+  }
 }
 
 // ── Mobile nav drawer ────────────────────────────────────────────────────────
@@ -123,9 +148,13 @@
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-left: 1px solid $ink-faint;
 
-  @media (min-width: 640px) { display: none; }
+  @media (min-width: 640px) {
+    display: none;
+  }
 
-  &--open { transform: translateX(0); }
+  &--open {
+    transform: translateX(0);
+  }
 }
 
 .ed-mobile-nav__list {
@@ -145,8 +174,14 @@
   border-bottom: 1px solid $ink-faint;
   transition: color 0.2s;
 
-  &:last-child { border-bottom: none; }
-  &:hover { color: $amber; }
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover {
+    color: $amber;
+  }
 
-  &.active { color: $amber; }
+  &.active {
+    color: $amber;
+  }
 }

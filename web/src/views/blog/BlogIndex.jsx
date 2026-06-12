@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Component } from "react";
 import Link from "next/link";
 import { fetchBlogsApi } from "../../actions/blog";
@@ -32,13 +34,13 @@ export default class BlogIndex extends Component {
 
         <div className="ed-blog-index__hero">
           <h1>Writing</h1>
-          <p>Thoughts on development, technology, and building things that last.</p>
+          <p>
+            Thoughts on development, technology, and building things that last.
+          </p>
           <div className="ed-blog-index__divider" />
         </div>
 
-        {blogs.length === 0 && (
-          <p className="ed-empty">No posts yet.</p>
-        )}
+        {blogs.length === 0 && <p className="ed-empty">No posts yet.</p>}
 
         {featured && (
           <div className="ed-featured">
@@ -49,7 +51,10 @@ export default class BlogIndex extends Component {
                   <span className="ed-featured__cat">{featured.category}</span>
                 )}
               </div>
-              <Link href={`/blog/${featured.slug || featured._id}`} className="ed-featured__title">
+              <Link
+                href={`/blog/${featured.slug || featured._id}`}
+                className="ed-featured__title"
+              >
                 {featured.name}
               </Link>
               {featured.content && (
@@ -57,7 +62,10 @@ export default class BlogIndex extends Component {
                   {featured.content.replace(/[#*`]/g, "").slice(0, 180)}…
                 </p>
               )}
-              <Link href={`/blog/${featured.slug || featured._id}`} className="ed-featured__read">
+              <Link
+                href={`/blog/${featured.slug || featured._id}`}
+                className="ed-featured__read"
+              >
                 Read more →
               </Link>
             </div>
@@ -79,7 +87,10 @@ export default class BlogIndex extends Component {
                     </>
                   )}
                 </div>
-                <Link href={`/blog/${b.slug || b._id}`} className="ed-post-card__title">
+                <Link
+                  href={`/blog/${b.slug || b._id}`}
+                  className="ed-post-card__title"
+                >
                   {b.name}
                 </Link>
                 {b.content && (
@@ -87,7 +98,10 @@ export default class BlogIndex extends Component {
                     {b.content.replace(/[#*`]/g, "").slice(0, 120)}…
                   </p>
                 )}
-                <Link href={`/blog/${b.slug || b._id}`} className="ed-post-card__read">
+                <Link
+                  href={`/blog/${b.slug || b._id}`}
+                  className="ed-post-card__read"
+                >
                   Read article →
                 </Link>
               </article>

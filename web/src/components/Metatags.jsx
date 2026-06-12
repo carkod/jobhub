@@ -1,15 +1,22 @@
+"use client";
+
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { SITE_URL } from "../config";
 
-export default function Metatags({ title, description, type = "website", imageUrl = null, robots = "index, follow" }) {
-  const router = useRouter();
-  const location = router.pathname;
-  const currentUrl = typeof window !== "undefined" ? window.location.href : `${SITE_URL}${location}`;
+export default function Metatags({
+  title,
+  description,
+  type = "website",
+  imageUrl = null,
+  robots = "index, follow",
+}) {
+  const location = usePathname();
   const fullTitle = `Carlos Wu — ${title}`;
   const fullDesc = `Carlos Wu — ${description}`;
 
   useEffect(() => {
+    const currentUrl = window.location.href || `${SITE_URL}${location}`;
     document.title = fullTitle;
     const setMeta = (name, content, prop) => {
       let el = prop
@@ -31,7 +38,7 @@ export default function Metatags({ title, description, type = "website", imageUr
     setMeta(null, currentUrl, "og:url");
     setMeta("twitter:title", fullTitle);
     setMeta("twitter:description", fullDesc);
-  }, [fullTitle, fullDesc, type, currentUrl, robots]);
+  }, [fullTitle, fullDesc, type, location, robots]);
 
   return null;
 }

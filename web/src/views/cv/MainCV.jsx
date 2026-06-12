@@ -1,3 +1,5 @@
+"use client";
+
 import { produce } from "immer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -32,7 +34,11 @@ class MainCV extends Component {
 
   loadCV = async (id) => {
     const payload = await fetchCV(id);
-    this.setState(produce((draft) => { draft.cv = payload.cv; }));
+    this.setState(
+      produce((draft) => {
+        draft.cv = payload.cv;
+      }),
+    );
   };
 
   getPdf = async (e) => {
@@ -40,7 +46,11 @@ class MainCV extends Component {
     const { id, language } = this.props.match.params;
     this.setState({ loading: true });
     try {
-      const response = await this.props.generatePdfApi("curriculum-vitae", id, language);
+      const response = await this.props.generatePdfApi(
+        "curriculum-vitae",
+        id,
+        language,
+      );
       const blob = new Blob([response], { type: "application/pdf" });
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
@@ -70,7 +80,14 @@ class MainCV extends Component {
                 disabled={loading}
                 title="Download as PDF"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                   <polyline points="7 10 12 15 17 10" />
                   <line x1="12" y1="15" x2="12" y2="3" />

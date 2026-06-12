@@ -10,8 +10,10 @@
     color: #fff;
     font-size: 0.9rem;
     font-weight: 500;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 
-    &--error { background: #d63031; }
+    &--error {
+      background: #d63031;
+    }
   }
 }

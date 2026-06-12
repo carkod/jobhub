@@ -17,7 +17,7 @@ class Notification extends Component {
         p.snackBar.message !== this.state.message
       ) {
         this.setState({ pop: true }, () =>
-          window.setTimeout(this.removeNotification, 3000)
+          window.setTimeout(this.removeNotification, 3000),
         );
       }
     }
@@ -39,7 +39,10 @@ class Notification extends Component {
     if (!pop || !message) return null;
     return (
       <div id="notification">
-        <div className={`ui message floating ${error ? "error" : "success"}`} style={{ backgroundColor: error ? "red" : "#1aa62a", color: "#fff" }}>
+        <div
+          className={`ui message floating ${error ? "error" : "success"}`}
+          style={{ backgroundColor: error ? "red" : "#1aa62a", color: "#fff" }}
+        >
           <div className="content">
             <div className="header">{`${message}`}</div>
           </div>

@@ -15,12 +15,16 @@ class Documents extends Component {
     return (
       <>
         <div className="column">
-          {documents.length > 0 && <div className="files ui top right label">Files</div>}
+          {documents.length > 0 && (
+            <div className="files ui top right label">Files</div>
+          )}
           <div className="ui divided selection list">
             {documents.map((doc, i) => (
               <div className="item" key={doc.fileId || i}>
                 <div className="name">
-                  <a href={doc.fileURL} className="url">{doc.fileName} <i className="icon"></i></a>
+                  <a href={doc.fileURL} className="url">
+                    {doc.fileName} <i className="icon"></i>
+                  </a>
                   <span className="detail">{doc.fileSize}</span>
                 </div>
               </div>
@@ -33,4 +37,6 @@ class Documents extends Component {
 }
 
 const mapStateToProps = (state) => ({ portfolio: state.portfolio });
-export default connect(mapStateToProps, { fetchProjects, fetchCats })(Documents);
+export default connect(mapStateToProps, { fetchProjects, fetchCats })(
+  Documents,
+);

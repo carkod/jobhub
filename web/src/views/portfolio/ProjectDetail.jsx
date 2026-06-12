@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Component } from "react";
 import shortid from "shortid";
 import { fetchProjects } from "../../actions/res";
@@ -10,7 +12,9 @@ import Metatags from "../../components/Metatags";
 function filterProjectsCriteria(portfolio, language, position) {
   return portfolio.filter((cv) => {
     const matchPos = cv.cats.position.toLowerCase() === position.toLowerCase();
-    const matchStatus = checkValue(cv.cats.status) ? cv.cats.status.toLowerCase() === "public" : false;
+    const matchStatus = checkValue(cv.cats.status)
+      ? cv.cats.status.toLowerCase() === "public"
+      : false;
     const matchLang = cv.cats.locale === language;
     return matchPos && matchStatus && matchLang;
   });
@@ -30,7 +34,11 @@ class ProjectDetail extends Component {
   async componentDidUpdate(prevProps) {
     const { position, language } = this.props.match.params;
     const { position: prevPos, language: prevLang } = prevProps.match.params;
-    if (position && language && (position !== prevPos || language !== prevLang)) {
+    if (
+      position &&
+      language &&
+      (position !== prevPos || language !== prevLang)
+    ) {
       await this.loadProjects(position, language);
     }
   }
@@ -39,7 +47,11 @@ class ProjectDetail extends Component {
     this.setState({ loading: true });
     try {
       const portfolio = await fetchProjects();
-      const filteredProjects = filterProjectsCriteria(portfolio, language, position);
+      const filteredProjects = filterProjectsCriteria(
+        portfolio,
+        language,
+        position,
+      );
       this.setState({ portfolio: filteredProjects, loading: false });
     } catch (e) {
       this.setState({ loading: false });
@@ -67,20 +79,24 @@ class ProjectDetail extends Component {
             <p className="ed-empty">No projects found for this category.</p>
           )}
 
-          {!loading && portfolio.map((project) => (
-            <article key={project.id || shortid.generate()} className="ed-project">
-              <h2 className="ed-project__name">{project.name}</h2>
-              <div className="ed-project__grid">
-                <div className="ed-project__desc">
-                  <HtmlText text={project.desc} />
+          {!loading &&
+            portfolio.map((project) => (
+              <article
+                key={project.id || shortid.generate()}
+                className="ed-project"
+              >
+                <h2 className="ed-project__name">{project.name}</h2>
+                <div className="ed-project__grid">
+                  <div className="ed-project__desc">
+                    <HtmlText text={project.desc} />
+                  </div>
+                  <aside className="ed-project__aside">
+                    <Links links={project.links} />
+                    <Documents documents={project.documents} />
+                  </aside>
                 </div>
-                <aside className="ed-project__aside">
-                  <Links links={project.links} />
-                  <Documents documents={project.documents} />
-                </aside>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
         </div>
       </div>
     );

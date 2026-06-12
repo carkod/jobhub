@@ -27,7 +27,9 @@ export default class Languages extends Component {
               <div key={i} className="ed-skill-row">
                 <div className="ed-skill-row__label">
                   <span className="ed-skill-row__name">{lang.name}</span>
-                  {lang.desc && <span className="ed-skill-row__desc">{lang.desc}</span>}
+                  {lang.desc && (
+                    <span className="ed-skill-row__desc">{lang.desc}</span>
+                  )}
                 </div>
                 <div className="ed-skill-bar">
                   <div

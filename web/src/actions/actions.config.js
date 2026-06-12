@@ -1,9 +1,9 @@
 export const headers = {
-  'Content-Type': 'application/json',
+  "Content-Type": "application/json",
 };
 
 export const bufferHeaders = {
-  'Accept': 'application/pdf',
+  Accept: "application/pdf",
 };
 
 export const formdataHeaders = {};
@@ -45,7 +45,7 @@ export function handlePdfResponse(response) {
  * routing handles the forwarding transparently.
  */
 export function buildBackUrl() {
-  const base = (process.env.NEXT_PUBLIC_API_BASE ?? '').replace(/\/$/, '');
+  const base = (process.env.NEXT_PUBLIC_API_BASE ?? "").replace(/\/$/, "");
   return {
     apiUrl: `${base}/api`,
     pdfUrl: `${base}/pdf`,

@@ -2,10 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
-    includePaths: ['./src/styles'],
+    includePaths: ["./src/styles"],
   },
   // Preserve the existing behavior of serving from root
-  basePath: '',
-}
+  basePath: "",
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

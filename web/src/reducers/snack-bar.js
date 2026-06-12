@@ -1,8 +1,12 @@
-import { GENERATE_PDF, GENERATE_PDF_FAILED, GENERATE_PDF_SUCCESS } from "../actions/generate-pdf";
+import {
+  GENERATE_PDF,
+  GENERATE_PDF_FAILED,
+  GENERATE_PDF_SUCCESS,
+} from "../actions/generate-pdf";
 
 export function snackBarReducer(
   state = { loading: false, message: null, error: false },
-  action = {}
+  action = {},
 ) {
   switch (action.type) {
     case GENERATE_PDF:

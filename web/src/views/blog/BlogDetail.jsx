@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Component } from "react";
 import { fetchBlogApi } from "../../actions/blog";
 import ReactMarkdown from "react-markdown";
@@ -29,8 +31,14 @@ export default class BlogDetail extends Component {
 
     return (
       <article className="ed-blog-detail">
-        <Metatags title={blog.name} description={createExcerpt(blog.content)} type="article" />
-        {blog.category && <span className="ed-blog-detail__cat">{blog.category}</span>}
+        <Metatags
+          title={blog.name}
+          description={createExcerpt(blog.content)}
+          type="article"
+        />
+        {blog.category && (
+          <span className="ed-blog-detail__cat">{blog.category}</span>
+        )}
         <h1>{blog.name}</h1>
         <div className="ed-blog-detail__body">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>

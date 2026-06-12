@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import NavLink from "../components/NavLink";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { to: "/", label: "Home", exact: true },
@@ -13,11 +15,11 @@ const NAV_LINKS = [
 
 function Header() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     setOpen(false);
-  }, [router.pathname]);
+  }, [pathname]);
 
   useEffect(() => {
     if (open) {
@@ -25,18 +27,27 @@ function Header() {
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
     <header className="ed-header">
-      <Link href="/" className="ed-wordmark">Carlos Wu</Link>
+      <Link href="/" className="ed-wordmark">
+        Carlos Wu
+      </Link>
 
       <nav aria-label="Main navigation">
         <ul className="ed-nav ed-nav--desktop">
           {NAV_LINKS.map(({ to, label, exact }) => (
             <li key={to} className="ed-nav__item">
-              <NavLink exact={exact} to={to} activeClassName="active" className="ed-nav__link">
+              <NavLink
+                exact={exact}
+                to={to}
+                activeClassName="active"
+                className="ed-nav__link"
+              >
                 {label}
               </NavLink>
             </li>
@@ -56,7 +67,11 @@ function Header() {
       </button>
 
       {open && (
-        <div className="ed-mobile-backdrop" onClick={() => setOpen(false)} aria-hidden="true" />
+        <div
+          className="ed-mobile-backdrop"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
       )}
 
       <nav
@@ -66,7 +81,12 @@ function Header() {
         <ul className="ed-mobile-nav__list">
           {NAV_LINKS.map(({ to, label, exact }) => (
             <li key={to}>
-              <NavLink exact={exact} to={to} activeClassName="active" className="ed-mobile-nav__link">
+              <NavLink
+                exact={exact}
+                to={to}
+                activeClassName="active"
+                className="ed-mobile-nav__link"
+              >
                 {label}
               </NavLink>
             </li>

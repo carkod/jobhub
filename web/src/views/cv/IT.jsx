@@ -27,7 +27,9 @@ export default class IT extends Component {
               <div key={i} className="ed-skill-row">
                 <div className="ed-skill-row__label">
                   <span className="ed-skill-row__name">{skill.name}</span>
-                  {skill.desc && <span className="ed-skill-row__desc">{skill.desc}</span>}
+                  {skill.desc && (
+                    <span className="ed-skill-row__desc">{skill.desc}</span>
+                  )}
                 </div>
                 <div className="ed-skill-bar">
                   <div

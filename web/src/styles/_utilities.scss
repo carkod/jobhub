@@ -1,4 +1,4 @@
-@use 'global' as *;
+@use "global" as *;
 
 // Loading / empty states
 .ed-loading {
@@ -35,7 +35,12 @@
     margin-bottom: 1rem;
   }
 
-  p { color: $ink-muted; }
+  p {
+    color: $ink-muted;
+  }
 
-  a { color: $amber; border-bottom: 1px solid $amber; }
+  a {
+    color: $amber;
+    border-bottom: 1px solid $amber;
+  }
 }

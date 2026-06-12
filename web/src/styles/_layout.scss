@@ -1,4 +1,4 @@
-@use 'global' as *;
+@use "global" as *;
 
 .ed-layout {
   display: flex;
@@ -12,7 +12,12 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 6rem;
+  padding: 3.5rem 1.25rem 6rem;
 
-  @media (min-width: 768px) { padding: 4rem 4rem 6rem; }
+  @media (min-width: 640px) {
+    padding: 4rem 2rem 6rem;
+  }
+  @media (min-width: 900px) {
+    padding: 4rem 4rem 6rem;
+  }
 }

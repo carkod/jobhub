@@ -1,21 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:wght@300;400;600&display=swap");
 
 // ── Design tokens ──────────────────────────────────────────────
-$cream:      #faf8f4;
-$ink:        #1a1a1a;
-$amber:      #f6ae1b;
-$ink-muted:  rgba(26, 26, 26, 0.65);
-$ink-faint:  rgba(26, 26, 26, 0.10);
-$white:      #ffffff;
+$cream: #faf8f4;
+$ink: #1a1a1a;
+$amber: #f6ae1b;
+$ink-muted: rgba(26, 26, 26, 0.65);
+$ink-faint: rgba(26, 26, 26, 0.1);
+$white: #ffffff;
 
-$font-serif:  'Lora', Georgia, serif;
-$font-display: 'Playfair Display', Georgia, serif;
-$font-sans:  'Source Sans Pro', system-ui, sans-serif;
+$font-serif: "Lora", Georgia, serif;
+$font-display: "Playfair Display", Georgia, serif;
+$font-sans: "Source Sans Pro", system-ui, sans-serif;
 
 // ── Base reset ──────────────────────────────────────────────────
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html, body, #root {
+html,
+body,
+#root {
   min-height: 100%;
   background: $cream;
 }
@@ -28,13 +36,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img { display: block; max-width: 100%; }
+img {
+  display: block;
+  max-width: 100%;
+}
 
 a {
   color: $ink;
   text-decoration: none;
   transition: color 0.2s ease;
-  &:hover { color: $amber; }
+  &:hover {
+    color: $amber;
+  }
 }
 
 p {
@@ -44,8 +57,13 @@ p {
   color: $ink-muted;
 }
 
-ul, ol { list-style: none; }
-strong { font-weight: 600; }
+ul,
+ol {
+  list-style: none;
+}
+strong {
+  font-weight: 600;
+}
 
 // ── Shared editorial components ─────────────────────────────────
 
@@ -61,7 +79,7 @@ strong { font-weight: 600; }
   padding-bottom: 0.5rem;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -4px;
     left: 0;
@@ -70,8 +88,12 @@ strong { font-weight: 600; }
     background: $amber;
   }
 
-  &--sm { font-size: 1.75rem; }
-  &--lg { font-size: 2.75rem; }
+  &--sm {
+    font-size: 1.75rem;
+  }
+  &--lg {
+    font-size: 2.75rem;
+  }
 }
 
 // Amber left-bar entry (CV work items)
@@ -80,7 +102,7 @@ strong { font-weight: 600; }
   padding-left: 1.5rem;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
@@ -99,7 +121,9 @@ strong { font-weight: 600; }
   font-size: 0.85rem;
   font-weight: 500;
   cursor: default;
-  transition: border-color 0.2s, color 0.2s;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
 
   &:hover {
     border-color: $amber;
@@ -117,26 +141,41 @@ strong { font-weight: 600; }
   color: $ink;
   border-bottom: 1px solid $ink;
   padding-bottom: 2px;
-  transition: color 0.2s, border-color 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
 
   &:hover {
     color: $amber;
     border-color: $amber;
   }
 
-  svg { transition: transform 0.2s; }
-  &:hover svg { transform: translateX(4px); }
+  svg {
+    transition: transform 0.2s;
+  }
+  &:hover svg {
+    transform: translateX(4px);
+  }
 }
 
 // Page fade transition
-.slide-appear, .slide-enter { opacity: 0; transform: translateY(6px); }
-.slide-appear-active, .slide-enter-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  opacity: 1;
-  transform: translateY(0);
+.page-transition {
+  animation: page-enter 0.3s ease;
 }
-.slide-exit { opacity: 1; transform: translateY(0); }
-.slide-exit-active {
-  transition: opacity 0.2s ease;
-  opacity: 0;
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
 }
