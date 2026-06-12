@@ -1,9 +1,4 @@
-import {
-  generatePdfSuccess,
-  GENERATE_PDF,
-  GENERATE_PDF_FAILED,
-  GENERATE_PDF_SUCCESS
-} from "../actions/generate-pdf";
+import { GENERATE_PDF, GENERATE_PDF_FAILED, GENERATE_PDF_SUCCESS } from "../actions/generate-pdf";
 
 export function snackBarReducer(
   state = { loading: false, message: null, error: false },
@@ -11,24 +6,11 @@ export function snackBarReducer(
 ) {
   switch (action.type) {
     case GENERATE_PDF:
-      return {
-        loading: true,
-        message: action.message,
-        error: false,
-      };
+      return { loading: true, message: action.message, error: false };
     case GENERATE_PDF_SUCCESS:
-      return {
-        loading: false,
-        message: action.message,
-        error: false,
-      };
+      return { loading: false, message: action.message, error: false };
     case GENERATE_PDF_FAILED:
-      return {
-        loading: false,
-        message: action.message,
-        error: false,
-      };
-    
+      return { loading: false, message: action.message, error: false };
     default:
       return state;
   }

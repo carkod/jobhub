@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import Layout from "../src/pages/Layout";
+import Layout from "../src/views/Layout";
 
 const PageWrapper = ({ children }) => {
   const router = useRouter();

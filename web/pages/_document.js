@@ -30,18 +30,6 @@ export default function Document() {
         />
       </Head>
       <body>
-        <div
-          style={{
-            fontSize: '120em',
-            position: 'fixed',
-            top: '0.2em',
-            left: '-0.7em',
-            height: '100%',
-            zIndex: -1,
-          }}
-        >
-          Carlos
-        </div>
         <div id="web">
           <Main />
         </div>

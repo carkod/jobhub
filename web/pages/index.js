@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "../src/pages/home/Home";
+import Home from "../src/views/home/Home";
 import PageWrapper from "./PageWrapper";
 
 export default function HomePage() {

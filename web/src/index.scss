@@ -1,8 +1,11 @@
-@import 'styles/_global.scss';
-@import 'styles/_layout.scss';
-@import 'styles/_navigation.scss'; // assuming a styles directory under src/
-@import 'styles/_notifications.scss';
-@import 'styles/_home.scss';
-@import 'styles/_mainCV.scss';
-@import 'styles/_mainResources.scss';
-@import 'styles/_utilities.scss';
+@use 'styles/global';
+@use 'styles/layout';
+@use 'styles/navigation';
+@use 'styles/home';
+@use 'styles/mainCV';
+@use 'styles/portfolio';
+@use 'styles/blog';
+@use 'styles/faqs';
+@use 'styles/mainResources';
+@use 'styles/notifications';
+@use 'styles/utilities';

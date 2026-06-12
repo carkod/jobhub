@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import BlogDetail from "../../src/pages/blog/BlogDetail";
+import BlogDetail from "../../src/views/blog/BlogDetail";
 import PageWrapper from "../PageWrapper";
 
 export default function BlogDetailPage() {

@@ -1,6 +1,6 @@
 import React from "react";
 import Metatags from "../src/components/Metatags";
-import FourOFour from "../src/pages/FourOFour";
+import FourOFour from "../src/views/FourOFour";
 import PageWrapper from "./PageWrapper";
 
 export default function Custom404() {

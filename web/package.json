@@ -6,7 +6,7 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start -p 3000",
-    "clean": "rm -rf node_modules yarn.lock .next",
+    "clean": "rm -rf node_modules .next",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,json,md}\" \"*.{js,mjs,json,md}\"",
     "test": "jest",
     "test:watch": "jest --watch"

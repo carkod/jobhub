@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import MainCV from "../../../src/pages/cv/MainCV";
+import MainCV from "../../../src/views/cv/MainCV";
 import PageWrapper from "../../PageWrapper";
 
 export default function CVPage() {

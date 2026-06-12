@@ -1,197 +1,142 @@
-@use "sass:math";
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:wght@300;400;600&display=swap");
 
-$grey: #eee;
-$orange: #f6ae1b;
-$dark: #414143;
-$dark-grey: #868e96;
-$main-blue: #44b0ee;
-$light-grey: #f9f9f9; // code background
+// ── Design tokens ──────────────────────────────────────────────
+$cream:      #faf8f4;
+$ink:        #1a1a1a;
+$amber:      #f6ae1b;
+$ink-muted:  rgba(26, 26, 26, 0.65);
+$ink-faint:  rgba(26, 26, 26, 0.10);
+$white:      #ffffff;
 
-$preset-f: 1.3rem;
-$standard-font: 1.05rem;
-$standard-web-paragraph: 1.2rem;
-$preset-font: 1.3rem;
-$preset-smaller: math.div($preset-f, 1.55);
-$medium-p: 1.4rem;
-$large-p: 1.5rem;
+$font-serif:  'Lora', Georgia, serif;
+$font-display: 'Playfair Display', Georgia, serif;
+$font-sans:  'Source Sans Pro', system-ui, sans-serif;
 
-$standard-line-height: 1.5rem;
+// ── Base reset ──────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-$standard-space: $standard-line-height;
-$medium-space: 2rem;
-$large-space: 3rem;
-
-// indeces
-$index-base: 3; // On top of sidebar
-$index-primary: 5;
-$index-secondary: 10;
-$index-third: 15;
-$index-top: 100; // Modal
-
-// media queries
-$mobile-size: 44rem;
-$small-screen: 54rem; // Table portrait mode, small and older deivces
-
-.serif {
-  font-family: "Source Serif Pro", serif;
-}
-
-.sans-serif {
-  font-family: "Source Sans Pro", sans-serif;
-}
-
-.btn {
-  border: none;
-  background: none;
-  outline: none;
-  cursor: pointer;
-}
-
-html,
-body,
-#root,
-.layout {
-  @media (min-width: $mobile-size) {
-    height: 100%;
-  }
-  @media (max-width: $mobile-size) {
-    height: auto;
-  }
+html, body, #root {
+  min-height: 100%;
+  background: $cream;
 }
 
 body {
-  @extend .sans-serif;
-  font-size: $standard-font;
+  font-family: $font-sans;
+  font-size: 1rem;
+  color: $ink;
+  background: $cream;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1 {
-  @extend .sans-serif;
-  font-weight: 600;
-  font-size: 2.5rem;
-  margin-bottom:$standard-space;
-  hyphens: auto;
-  @media (max-width: $mobile-size) {
-    font-size: 2.2rem;
-  }
-  small {
-    color: $dark-grey;
-    font-weight: 300;
-    font-size: $medium-space;
-    @media (max-width: $mobile-size) {
-      font-size: 1.8rem;
-    }
-  }
-}
-h2 {
-  @extend .sans-serif;
-  font-weight: 200;
-  font-size: $medium-space;
-  margin-bottom: 0.5rem;
-  @media (max-width: $mobile-size) {
-    font-size: 1.8rem;
-  }
-  &.ui.dividing.header {
-    @extend .sans-serif;
-    border-top: 1px solid rgba(34, 36, 38, 0.15);
-    margin: $medium-space 0;
-    padding: 0.5rem 0;
-    font-weight: 200;
-    @media (max-width: $mobile-size) {
-      font-size:$standard-space;
-    }
-  }
-}
-h3 {
-  @extend .sans-serif;
-  font-weight: 600;
-  font-size: 1.3rem;
-  @media (max-width: $mobile-size) {
-    font-size: 1.1rem;
-  }
-}
-h4 {
-  @extend .sans-serif;
-  font-weight: 400;
-  text-decoration: underline;
-
-  small {
-    font-weight: 600;
-    color: $dark-grey;
-  }
-}
+img { display: block; max-width: 100%; }
 
 a {
-  color: $orange;
+  color: $ink;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  &:hover { color: $amber; }
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.75;
+  font-weight: 300;
+  color: $ink-muted;
+}
+
+ul, ol { list-style: none; }
+strong { font-weight: 600; }
+
+// ── Shared editorial components ─────────────────────────────────
+
+// Section heading with amber underline
+.ed-heading {
+  position: relative;
+  display: inline-block;
+  font-family: $font-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: $ink;
+  letter-spacing: -0.02em;
+  padding-bottom: 0.5rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: $amber;
+  }
+
+  &--sm { font-size: 1.75rem; }
+  &--lg { font-size: 2.75rem; }
+}
+
+// Amber left-bar entry (CV work items)
+.ed-entry {
+  position: relative;
+  padding-left: 1.5rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: $amber;
+  }
+}
+
+// Skill pill badge
+.ed-pill {
+  display: inline-flex;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: default;
+  transition: border-color 0.2s, color 0.2s;
+
   &:hover {
-    color: $main-blue;
+    border-color: $amber;
+    color: $amber;
   }
 }
 
-p,
-dl,
-li, blockquote {
-  @extend .sans-serif;
-  font-size: $standard-font;
-  font-weight: 200;
-  line-height: $standard-line-height;
-  hyphens: auto;
-}
+// Amber text link with arrow
+.ed-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: $font-serif;
+  font-size: 1.5rem;
+  color: $ink;
+  border-bottom: 1px solid $ink;
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
 
-blockquote {
-  background: #f9f9f9;
-  border-left: 10px solid #ccc;
-  margin:$standard-space 10px;
-  padding: 0.5rem 10px;
-  quotes: "\201C""\201D""\2018""\2019";
-}
-blockquote:before {
-  color: #ccc;
-  content: open-quote;
-  font-size: 4rem;
-  line-height: 0.1rem;
-  margin-right: 0.25rem;
-  vertical-align: -0.4rem;
-}
-blockquote p {
-  display: inline;
-}
-
-code {
-  background: #f9f9f9;
-}
-
-pre code {
-  display: block;
-  padding: 0.5rem;
-}
-
-.container {
-  padding-top: $medium-space;
-  padding-right: $medium-space;
-}
-
-.HtmlText {
-  @extend .sans-serif;
-  font-weight: 400;
-  font-size: $standard-font;
-  line-height: 1.5;
-
-  .public-DraftStyleDefault-ul {
-    list-style-type: square;
+  &:hover {
+    color: $amber;
+    border-color: $amber;
   }
+
+  svg { transition: transform 0.2s; }
+  &:hover svg { transform: translateX(4px); }
 }
 
-strong {
-  font-weight: 600;
+// Page fade transition
+.slide-appear, .slide-enter { opacity: 0; transform: translateY(6px); }
+.slide-appear-active, .slide-enter-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
 }
-section {
-  margin: 1rem 0;
-}
-
-.btn-feeling-lucky {
-  @extend .btn;
-
-  background-color: $main-blue;
-  color: #fff;
+.slide-exit { opacity: 1; transform: translateY(0); }
+.slide-exit-active {
+  transition: opacity 0.2s ease;
+  opacity: 0;
 }

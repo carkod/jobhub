@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import MainResources from "../../../src/pages/resources/MainResources";
+import MainResources from "../../../src/views/resources/MainResources";
 import PageWrapper from "../../PageWrapper";
 
 export default function ResourcesPage() {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import ProjectDetail from "../../../src/pages/portfolio/ProjectDetail";
+import ProjectDetail from "../../../src/views/portfolio/ProjectDetail";
 import PageWrapper from "../../PageWrapper";
 
 export default function ProjectDetailPage() {

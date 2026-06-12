@@ -1,102 +1,152 @@
-#nav {
-  position: relative;
-  height: 100vh;
+@use 'global' as *;
+
+.ed-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.25rem;
+  border-bottom: 1px solid $ink-faint;
+  background: $cream;
+  position: sticky;
+  top: 0;
+  z-index: 300;
 
-  #primary {
-    border: none;
-    width: 100%;
+  @media (min-width: 640px) { padding: 1.4rem 2rem; }
+  @media (min-width: 900px) { padding: 1.4rem 4rem; }
+}
 
-    // trapezoid shape nav
-    @media (min-width: $mobile-size) {
-      &::before {
-        top: 0;
-        content: "";
-        display: block;
-        height: 100%;
-        left: -30%;
-        right: 0;
-        position: absolute;
-        transform: skewX(9deg);
-        transform-origin: 0;
-        background-color: rgba($main-blue, 0.8);
-        z-index: -1;
-      }
+.ed-wordmark {
+  font-family: $font-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: $ink;
+  white-space: nowrap;
 
-      &::after {
-        top: 0;
-        content: "";
-        display: block;
-        height: 100%;
-        right: -109%;
-        position: absolute;
-        transform: skewX(9deg);
-        transform-origin: 0;
-        background-color: white;
-        z-index: -2;
-        width: 110%;
-      }
-    }
+  @media (min-width: 640px) { font-size: 1.4rem; }
 
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+  &:hover { color: $ink; }
+}
 
-      ul {
-        padding-bottom: 0.5rem;
-        display: none;
-        &.openMenu {
-          display: block;
-        }
-        &.closeMenu {
-          display: none;
-        }
-      }
-    }
-    .item,
-    .btn {
-      @extend .sans-serif;
-      font-weight: 800;
-      text-transform: uppercase;
-      text-align: center;
-      color: #fff;
-      border: none;
-      list-style: none;
-      padding: 0px;
-      margin: 0px;
+// ── Desktop nav (hidden on mobile) ──────────────────────────────────────────
 
-      ul .item {
-        font-weight: 100;
-      }
-      a,
-      button {
-        color: #fff;
-        position: relative;
-        display: inline-block;
-        padding: 0.3rem;
-        padding-top: 0;
-        margin: 0.5rem 0;
-      }
+.ed-nav--desktop {
+  display: none;
 
-      .active {
-        color: $main-blue;
-        background: #fff;
-
-        &::before {
-          content: "";
-          width: 100%;
-          height: 10px;
-          background: #fff;
-          position: absolute;
-          transform: skew(5deg) rotate(2deg);
-          top: -5px;
-          left: 0;
-          z-index: -1;
-        }
-      }
-    }
+  @media (min-width: 640px) {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    list-style: none;
   }
+}
+
+.ed-nav__link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: $ink;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+
+  &:hover { color: $amber; }
+
+  &.active {
+    color: $amber;
+    border-bottom-color: $amber;
+  }
+}
+
+// ── Hamburger button (mobile only) ──────────────────────────────────────────
+
+.ed-hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  z-index: 400;
+  flex-shrink: 0;
+
+  @media (min-width: 640px) { display: none; }
+
+  span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: $ink;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+  }
+
+  &--open {
+    span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+}
+
+// ── Mobile backdrop ──────────────────────────────────────────────────────────
+
+.ed-mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.35);
+  z-index: 350;
+  backdrop-filter: blur(2px);
+
+  @media (min-width: 640px) { display: none; }
+}
+
+// ── Mobile nav drawer ────────────────────────────────────────────────────────
+
+.ed-mobile-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 75vw;
+  max-width: 280px;
+  background: $cream;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 2rem 3rem;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 1px solid $ink-faint;
+
+  @media (min-width: 640px) { display: none; }
+
+  &--open { transform: translateX(0); }
+}
+
+.ed-mobile-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  list-style: none;
+}
+
+.ed-mobile-nav__link {
+  display: block;
+  font-family: $font-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $ink;
+  padding: 1rem 0;
+  border-bottom: 1px solid $ink-faint;
+  transition: color 0.2s;
+
+  &:last-child { border-bottom: none; }
+  &:hover { color: $amber; }
+
+  &.active { color: $amber; }
 }

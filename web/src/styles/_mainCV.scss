@@ -1,92 +1,315 @@
-/*-------------
-    <MainCV>
---------------*/
+@use 'global' as *;
 
-#mainCV {
-  @media (max-width: $mobile-size) {
-    padding-right: 0px;
+.ed-cv {
+  padding-top: 3rem;
+
+  // ── Header ──────────────────────────────────────────────────
+  .ed-cv__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
   }
 
-  strong {
+  .ed-cv__title {
+    font-family: $font-display;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $ink;
+    line-height: 1.1;
+  }
+
+  .ed-cv__subtitle {
+    display: block;
+    font-family: $font-serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: $ink-muted;
+    margin-top: 0.35rem;
+  }
+
+  // ── Download button ─────────────────────────────────────────
+  .ed-cv__download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
     font-weight: 600;
-  }
-  section {
-    margin: 1rem 0;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $ink-muted;
+    background: none;
+    border: 1px solid $ink-faint;
+    cursor: pointer;
+    padding: 0.55rem 1rem;
+    border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover { color: $amber; border-color: $amber; }
+    &:disabled { opacity: 0.4; cursor: default; }
   }
 
-  .row {
-    padding-top: 0.5rem;
+  // ── Section ─────────────────────────────────────────────────
+  .ed-cv__section {
+    margin-bottom: 4.5rem;
+    padding-bottom: 4.5rem;
+    border-bottom: 1px solid $ink-faint;
+
+    &:last-child { border-bottom: none; }
+  }
+
+  .ed-cv__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .ed-cv__section-title {
+    font-family: $font-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $ink;
+    position: relative;
     padding-bottom: 0.5rem;
-  }
 
-  .field {
-    @extend .sans-serif;
-    font-weight: 400;
-    padding: 0.5rem 1rem;
-
-    strong {
-      font-weight: 600;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 2rem;
+      height: 2px;
+      background: $amber;
     }
   }
 
-  .visible {
-    overflow: hidden;
-    max-height: 99em;
-    transition: max-height 1s;
+  .ed-cv__toggle {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: $ink-muted;
+    background: none;
+    border: 1px solid $ink-faint;
+    border-radius: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover { color: $amber; border-color: $amber; }
   }
 
-  .hidden {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 1s;
+  // ── Summary ──────────────────────────────────────────────────
+  .ed-cv__summary-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: $ink-muted;
+    max-width: 70ch;
   }
 
-  .btn {
-    color: $orange;
+  // ── Work / generic entries ───────────────────────────────────
+  .ed-cv__entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
-  .download {
-    float: right;
-    font-weight: 2rem;
-    &:disabled {
-      color: $dark-grey;
+  .ed-entry {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-bottom: 2.5rem;
+    margin-bottom: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 0;
+      width: 3px;
+      background: $amber;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+      &::before { bottom: auto; height: 1.2rem; }
     }
   }
 
-  .workplace,
-  .position {
-    padding-bottom: 0;
+  .ed-entry__header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.75rem;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
   }
 
-  .work-date {
-    @extend .sans-serif;
-    font-weight: 400;
-    font-size: 1.2rem;
-    @media (max-width: $mobile-size) {
+  .ed-entry__company {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: $ink;
+  }
+
+  .ed-entry__role {
+    font-family: $font-serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(26, 26, 26, 0.7);
+    margin-top: 0.15rem;
+  }
+
+  .ed-entry__date {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: $ink-muted;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .ed-entry__body {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(26, 26, 26, 0.75);
+
+    p { margin-bottom: 0.5rem; }
+    ul { list-style: disc; padding-left: 1.2rem; }
+    li { margin-bottom: 0.25rem; }
+  }
+
+  // ── Education entries ────────────────────────────────────────
+  .ed-edu-entry {
+    padding-left: 1.5rem;
+    border-left: 1px solid $ink-faint;
+    margin-bottom: 2rem;
+
+    &:last-child { margin-bottom: 0; }
+
+    h3 {
+      font-weight: 700;
       font-size: 1rem;
-    }
-  }
-  .skills {
-    .bar {
-      transition: width 2s, background-color 2s;
-    }
-    small {
-      margin-left: 0.3rem;
-      opacity: 0;
-    }
-    h4:hover,
-    h4:active {
-      cursor: pointer;
-      small {
-        opacity: 1;
-        transition: opacity 1s ease-in-out;
-      }
+      color: $ink;
+      margin-bottom: 0.2rem;
     }
 
-    @media (max-width: $mobile-size) {
-      .level {
-        display: none;
-      }
+    .ed-edu-entry__school {
+      font-family: $font-serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(26, 26, 26, 0.7);
     }
+
+    .ed-edu-entry__year {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: $ink-muted;
+      margin-top: 0.35rem;
+    }
+
+    .ed-edu-entry__desc {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: rgba(26, 26, 26, 0.7);
+      line-height: 1.6;
+    }
+  }
+
+  // ── Skill bars ───────────────────────────────────────────────
+  .ed-cv__skill-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .ed-skill-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 1.5rem;
+
+    @media (max-width: 500px) {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+
+  .ed-skill-row__label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .ed-skill-row__name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: $ink;
+  }
+
+  .ed-skill-row__desc {
+    font-size: 0.8rem;
+    color: $ink-muted;
+  }
+
+  .ed-skill-bar {
+    height: 4px;
+    background: $ink-faint;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .ed-skill-bar__fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+
+    &--amber { background: $amber; }
+    &--ink { background: $ink; }
+  }
+
+  // ── Personal details grid ────────────────────────────────────
+  .ed-pd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 2rem;
+
+    @media (max-width: 500px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ed-pd-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .ed-pd-field__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $ink-muted;
+  }
+
+  .ed-pd-field__value {
+    font-size: 0.95rem;
+    color: $ink;
   }
 }

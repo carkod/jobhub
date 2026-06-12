@@ -1,6 +1,6 @@
 import React from "react";
 import Metatags from "../../src/components/Metatags";
-import { AboutSite } from "../../src/pages/About";
+import { AboutSite } from "../../src/views/About";
 import PageWrapper from "../PageWrapper";
 
 export default function AboutSitePage() {
