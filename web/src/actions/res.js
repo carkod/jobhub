@@ -12,6 +12,12 @@ export function fetchProjects() {
     .then((res) => res);
 }
 
+export function fetchPortfolioNav() {
+  return fetch(`${buildBackUrl().apiUrl}/portfolio/navigation`)
+    .then(handleResponse)
+    .then((res) => res);
+}
+
 export function fetchProjectApi(id) {
   return fetch(`${buildBackUrl().apiUrl}/project/${id}`)
     .then(handleResponse)
