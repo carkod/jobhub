@@ -1,14 +1,7 @@
-import { Lato } from "next/font/google";
 import Script from "next/script";
 import "../src/index.scss";
 import PageWrapper from "./page-wrapper";
 import Providers from "./providers";
-
-const lato = Lato({
-  weight: ["400", "700", "900"],
-  subsets: ["latin"],
-  variable: "--font-lato",
-});
 
 export const metadata = {
   title: "Carlos Wu",
@@ -31,12 +24,10 @@ export default function RootLayout({ children }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <div id="web">
           <Providers>
-            {/* <div className={lato.className}> */}
-              <PageWrapper>{children}</PageWrapper>
-            {/* </div> */}
+            <PageWrapper>{children}</PageWrapper>
           </Providers>
         </div>
         <Script

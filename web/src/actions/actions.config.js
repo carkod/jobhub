@@ -40,9 +40,9 @@ export function handlePdfResponse(response) {
 
 /**
  * Returns base URL paths for API and PDF endpoints.
- * Uses NEXT_PUBLIC_API_BASE env var if set (e.g. "https://api.carlos.wf").
- * Defaults to relative paths so Next.js rewrites or Replit's path
- * routing handles the forwarding transparently.
+ * Browser requests stay same-origin and are proxied by Next.js by default.
+ * NEXT_PUBLIC_API_BASE remains available for deployments with a public API
+ * origin, such as https://api.carlos.wf.
  */
 export function buildBackUrl() {
   const base = (process.env.NEXT_PUBLIC_API_BASE ?? "").replace(/\/$/, "");

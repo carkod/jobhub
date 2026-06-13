@@ -64,6 +64,15 @@ Both prod and dev:
 - Web 8080
 - Back 8082
 
+## WEB API ROUTING
+
+- `API_SERVER_URL` is an optional build-time setting for the backend target
+  used by Next.js rewrites. It defaults to `http://localhost:8082` in
+  development and `http://back:8082` in production.
+- `NEXT_PUBLIC_API_BASE` is an optional build-time setting. Set it to a public
+  API origin such as `https://api.carlos.wf` only when browser requests should
+  bypass the same-origin Next.js proxy.
+
 
 ## PDF generator
 Uses puppeeter to render an HTML page and then generate PDF from it
