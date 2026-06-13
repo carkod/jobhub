@@ -95,8 +95,8 @@ services:
       timeout: 5s
       retries: 12
       start_period: 10s
-    expose:
-      - "27017"
+    ports:
+      - "127.0.0.1:${MONGO_PORT:-27017}:27017"
     networks:
       - db_net
     volumes:
@@ -108,4 +108,4 @@ volumes:
 networks:
   app_net:
   db_net:
-    internal: true
+    internal: ${DB_NETWORK_INTERNAL:-true}
