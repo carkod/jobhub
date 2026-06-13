@@ -49,7 +49,7 @@ export default function MainResources({ match }) {
   if (loading) return <div className="ed-loading">Loading…</div>;
 
   return (
-    <div className="ed-portfolio">
+    <div className="ed-resources">
       <Metatags
         title={`${title} | Portfolio`}
         description={`Portfolio and projects by Carlos Wu — ${title}`}

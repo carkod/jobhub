@@ -30,7 +30,7 @@ class Home extends Component {
     const firstCv = cvs && cvs.length > 0 ? cvs[0] : null;
     const cvHref = firstCv
       ? `/cv/${firstCv.cats?.locale || "en-GB"}/${firstCv.slug || firstCv._id}`
-      : "/cv";
+      : null;
 
     return (
       <div className="ed-home">
@@ -138,19 +138,21 @@ class Home extends Component {
               </li>
             </ul>
 
-            <Link href={cvHref} className="ed-cta">
-              View my latest CV
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
+            {cvHref && (
+              <Link href={cvHref} className="ed-cta">
+                View my latest CV
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
+            )}
           </div>
 
           <div className="ed-hero__photo-col">

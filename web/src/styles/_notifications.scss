@@ -3,17 +3,4 @@
   top: 1.5rem;
   right: 1.5rem;
   z-index: 9999;
-
-  .notif-bubble {
-    padding: 0.85rem 1.25rem;
-    background: #1aa62a;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 500;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-
-    &--error {
-      background: #d63031;
-    }
-  }
 }

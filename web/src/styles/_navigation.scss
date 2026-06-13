@@ -49,12 +49,19 @@
   }
 }
 
+.ed-nav__item {
+  position: relative;
+}
+
 .ed-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.04em;
   color: $ink;
-  padding-bottom: 2px;
+  padding: 0 0 2px;
   border-bottom: 2px solid transparent;
   transition:
     color 0.2s,
@@ -68,6 +75,68 @@
     color: $amber;
     border-bottom-color: $amber;
   }
+}
+
+.ed-nav__dropdown-toggle {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.ed-nav__chevron {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.1rem) rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.ed-nav__dropdown--open .ed-nav__chevron,
+.ed-mobile-nav__dropdown-toggle[aria-expanded="true"] .ed-nav__chevron {
+  transform: translateY(0.1rem) rotate(225deg);
+}
+
+.ed-nav__dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.8rem);
+  left: 50%;
+  min-width: 13rem;
+  padding: 0.5rem 0;
+  margin: 0;
+  list-style: none;
+  background: $cream;
+  border: 1px solid $ink-faint;
+  box-shadow: 0 12px 30px rgba(26, 26, 26, 0.12);
+  transform: translateX(-50%);
+  z-index: 500;
+}
+
+.ed-nav__dropdown--open .ed-nav__dropdown-menu {
+  display: block;
+}
+
+.ed-nav__dropdown-link {
+  display: block;
+  padding: 0.7rem 1rem;
+  color: $ink;
+  font-size: 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    color: $amber;
+    background: rgba(26, 26, 26, 0.03);
+  }
+}
+
+.ed-nav__dropdown-status {
+  padding: 0.7rem 1rem;
+  color: rgba(26, 26, 26, 0.55);
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
 // ── Hamburger button (mobile only) ──────────────────────────────────────────
@@ -183,5 +252,33 @@
 
   &.active {
     color: $amber;
+  }
+}
+
+.ed-mobile-nav__dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid $ink-faint;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ed-mobile-nav__submenu {
+  padding: 0.25rem 0 0.75rem 1rem;
+  margin: 0;
+  list-style: none;
+  border-bottom: 1px solid $ink-faint;
+
+  .ed-nav__dropdown-link {
+    padding: 0.6rem 0;
+    white-space: normal;
+  }
+
+  .ed-nav__dropdown-status {
+    padding: 0.6rem 0;
   }
 }

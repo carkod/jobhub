@@ -1,26 +1,11 @@
 @use "global" as *;
 
-.ed-portfolio {
+.ed-resources {
   h1 {
     font-family: $font-serif;
     font-size: 3rem;
     font-weight: 700;
     color: $ink;
-    margin-bottom: 3rem;
-  }
-
-  .ed-portfolio__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .ed-portfolio__description {
-    font-size: 1.05rem;
-    line-height: 1.75;
-    color: $ink-muted;
-    max-width: 740px;
     margin-bottom: 3rem;
   }
 
@@ -36,12 +21,5 @@
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid $ink-faint;
-  }
-
-  .field {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: rgba(26, 26, 26, 0.78);
-    padding: 0.4rem 0;
   }
 }

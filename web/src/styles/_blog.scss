@@ -81,11 +81,6 @@
       color: $amber;
     }
 
-    &__date {
-      font-size: 0.85rem;
-      color: $ink-muted;
-    }
-
     &__title {
       font-family: $font-serif;
       font-size: 2rem;
@@ -199,11 +194,6 @@
     &__dot {
       color: rgba(26, 26, 26, 0.25);
       font-size: 0.6rem;
-    }
-
-    &__date {
-      font-size: 0.75rem;
-      color: $ink-muted;
     }
 
     &__title {
