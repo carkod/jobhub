@@ -1,57 +1,53 @@
 export const headers = {
-  'Content-Type': 'application/json',
-}
+  "Content-Type": "application/json",
+};
 
 export const bufferHeaders = {
-  'Accept': 'application/pdf',
-}
+  Accept: "application/pdf",
+};
 
-export const formdataHeaders = {
-}
-
+export const formdataHeaders = {};
 
 export function handleResponse(response) {
   if (response.ok) {
-      return response.json();
+    return response.json();
   } else {
-      let error = new Error(response.statusText);
-      error.response = response;
-      throw error;
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
   }
 }
 
 export function handleUploadResponse(response) {
   if (response.ok) {
-      return response.json();
+    return response.json();
   } else {
-      let error = new Error(response.statusText);
-      error.response = response;
-      throw error;
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
   }
 }
 
 export function handlePdfResponse(response) {
   if (response.ok) {
-      return response;
+    return response;
   } else {
-      let error = new Error(response.statusText);
-      error.response = response;
-      throw error;
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
   }
 }
 
+/**
+ * Returns base URL paths for API and PDF endpoints.
+ * Browser requests stay same-origin and are proxied by Next.js by default.
+ * NEXT_PUBLIC_API_BASE remains available for deployments with a public API
+ * origin, such as https://api.carlos.wf.
+ */
 export function buildBackUrl() {
-  let base = window.location.hostname.split(".")
-  let protocol = "https"
-  if (base.includes("localhost")) {
-    base = ["localhost:8082"]
-    protocol = "http"
-  } else {
-    base.unshift("api")
-  }
-  base = `${protocol}://${base.join(".")}`;
+  const base = (process.env.NEXT_PUBLIC_API_BASE ?? "").replace(/\/$/, "");
   return {
     apiUrl: `${base}/api`,
-    pdfUrl: `${base}/pdf`
-  }
+    pdfUrl: `${base}/pdf`,
+  };
 }

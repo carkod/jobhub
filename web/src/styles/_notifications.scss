@@ -1,16 +1,6 @@
 #notification {
   position: fixed;
-  top:2rem;
-  right:2rem;
-  z-index: 999999;
-}
-
-#notification .ui.message {
- background-color:#1aa62a;
- color:#fff;
-}
-
-#notification .ui.message.error {
-  background-color: red;
-  color:#fff;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
 }

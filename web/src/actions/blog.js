@@ -7,7 +7,7 @@ export function fetchBlogsApi() {
   })
     .then(handleResponse)
     .then((data) => {
-      return data 
+      return data;
     });
 }
 

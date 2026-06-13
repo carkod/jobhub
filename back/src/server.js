@@ -31,24 +31,27 @@ const appFactory = async (app) => {
     // Prepare for Mongoose 7 migration and supress warning
     mongoose.set("strictQuery", false);
     // Setup database
-    const connectString = `mongodb://${process.env.MONGO_AUTH_USERNAME}:${
-      process.env.MONGO_AUTH_PASSWORD
-    }@${process.env.HOST || process.env.HOSTNAME}:27017/${
-      process.env.MONGO_DATABASE
-    }?authSource=admin`;
+    const mongoHost =
+      process.env.MONGO_HOST || process.env.HOST || process.env.HOSTNAME;
+    const mongoPort = process.env.MONGO_PORT || 27017;
+    const mongoUsername = encodeURIComponent(process.env.MONGO_AUTH_USERNAME);
+    const mongoPassword = encodeURIComponent(process.env.MONGO_AUTH_PASSWORD);
+    const connectString = `mongodb://${mongoUsername}:${mongoPassword}@${mongoHost}:${mongoPort}/${process.env.MONGO_DATABASE}?authSource=admin`;
     const mongoOptions = {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     };
-    const connectClient = mongoose.connect(connectString, mongoOptions);
-    const db = connectClient.connection;
+    await mongoose.connect(connectString, mongoOptions);
+    const db = mongoose.connection;
 
     const limiter = rateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
       max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
       standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
       legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-      skip: (req, res) => (process.env.HOST === "localhost" || process.env.HOSTNAME === "localhost")
+      skip: (req, res) =>
+        process.env.HOST === "localhost" ||
+        process.env.HOSTNAME === "localhost",
     });
     app.use(limiter); // Apply the rate limiting middleware to all requests
 
@@ -94,8 +97,8 @@ const appFactory = async (app) => {
       console.warn(
         `Server is running on ${process.env.HOST || process.env.HOSTNAME}:${
           process.env.BACK_PORT
-        }`
-      )
+        }`,
+      ),
     );
   } catch (e) {
     console.error(`MongoDB connection error: ${e}`);

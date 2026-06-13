@@ -1,4 +1,9 @@
-import { bufferHeaders, handleResponse, headers, buildBackUrl } from "./actions.config";
+import {
+  bufferHeaders,
+  handleResponse,
+  headers,
+  buildBackUrl,
+} from "./actions.config";
 
 export const SET_CV = "SET_CV";
 export const ADD_CV = "ADD_CV";
@@ -18,16 +23,6 @@ export const DELETE_CV_SUCCESS = "DELETE_CV_SUCCESS";
 export const SAVE_CV = "SAVE_CV";
 export const SAVE_CV_SUCCESS = "SAVE_CV_SUCCESS";
 
-/**
- * New action creators
- * 2 states instead of three:
- *  - Fetch action directly no state
- *  - Action successful state
- *  - Notification (snackBar) states
- *  these are listened by the snackBar reducer
- *  and do not have additional ACTIONS
- */
-
 export function fetchCVsSuccess(cvs) {
   return {
     type: GET_ALL_CVS_SUCCESS,
@@ -38,21 +33,11 @@ export function fetchCVsSuccess(cvs) {
 }
 
 export function saveCv(cvs) {
-  return {
-    type: SAVE_CV,
-    error: false,
-    message: SAVE_CV,
-    cvs,
-  };
+  return { type: SAVE_CV, error: false, message: SAVE_CV, cvs };
 }
 
 export function saveCvSuccess(cvs) {
-  return {
-    type: SAVE_CV_SUCCESS,
-    error: false,
-    message: SAVE_CV_SUCCESS,
-    cvs,
-  };
+  return { type: SAVE_CV_SUCCESS, error: false, message: SAVE_CV_SUCCESS, cvs };
 }
 
 export function copyCVSuccess(payload) {
@@ -65,49 +50,27 @@ export function copyCVSuccess(payload) {
 }
 
 export function deleteCVSuccess(payload) {
-  return {
-    type: DELETE_CV_SUCCESS,
-    payload,
-  };
+  return { type: DELETE_CV_SUCCESS, payload };
 }
 
-/**
- * End New actions
- */
-
 export function setFormFields(data) {
-  return {
-    type: SET_FIELDS,
-    data,
-  };
+  return { type: SET_FIELDS, data };
 }
 
 export function setCVs(cvs) {
-  return {
-    type: SET_CV,
-    cvs,
-  };
+  return { type: SET_CV, cvs };
 }
 
 export function setCV(payload) {
-  return {
-    type: SET_ONE_CV,
-    ...payload,
-  };
+  return { type: SET_ONE_CV, ...payload };
 }
 
 export function cvDeleted(cvs) {
-  return {
-    type: CV_DELETED,
-    cvs,
-  };
+  return { type: CV_DELETED, cvs };
 }
 
 export function addCV(data) {
-  return {
-    type: ADD_CV,
-    data,
-  };
+  return { type: ADD_CV, data };
 }
 
 export function deleteCV(id) {
@@ -150,9 +113,7 @@ export function saveCvApi(data) {
 
 export function fetchCVs() {
   return (dispatch) => {
-    return fetch(`${buildBackUrl().apiUrl}/cvs`, {
-      headers: headers,
-    })
+    return fetch(`${buildBackUrl().apiUrl}/cvs`, { headers: headers })
       .then(handleResponse)
       .then((data) => {
         dispatch(fetchCVsSuccess(data));
@@ -161,18 +122,13 @@ export function fetchCVs() {
 }
 
 export function fetchCV(id) {
-  return fetch(`${buildBackUrl().apiUrl}/cvs/${id}`, {
-    headers: bufferHeaders,
-  })
+  return fetch(`${buildBackUrl().apiUrl}/cvs/${id}`, { headers: bufferHeaders })
     .then(handleResponse)
     .then((data) => data);
 }
 
 export function fetchCVNav() {
-    return fetch(`${buildBackUrl().apiUrl}/cvs/navigation`, {
-      headers: headers,
-    })
-      .then(handleResponse)
-      .then((data) => data);
-  }
-  
+  return fetch(`${buildBackUrl().apiUrl}/cvs/navigation`, { headers: headers })
+    .then(handleResponse)
+    .then((data) => data);
+}

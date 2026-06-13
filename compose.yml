@@ -1,81 +1,81 @@
 services:
-  app:
-    image: carloswufei/jobhub
-    restart: always
-    container_name: jobhub_app
-    depends_on:
-      web:
-        condition: service_started
-      back:
-        condition: service_healthy
-    env_file:
-      - .env
-    ports:
-      - "8081:8081"
-      - "8080:8080"
-    networks:
-      - app_net
-    command:
-      - bash
-      - -c
-      - nginx -t && exec nginx -g 'daemon off;'
+  # app:
+  #   image: carloswufei/jobhub
+  #   restart: always
+  #   container_name: jobhub_app
+  #   depends_on:
+  #     web:
+  #       condition: service_started
+  #     back:
+  #       condition: service_healthy
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "8081:8081"
+  #     - "8080:8080"
+  #   networks:
+  #     - app_net
+  #   command:
+  #     - bash
+  #     - -c
+  #     - nginx -t && exec nginx -g 'daemon off;'
 
-  web:
-    image: carloswufei/jobhub
-    restart: always
-    container_name: jobhub_web
-    depends_on:
-      back:
-        condition: service_healthy
-    env_file:
-      - .env
-    expose:
-      - "3000"
-    networks:
-      - app_net
-    command:
-      - bash
-      - -c
-      - cd /home/web && npm run start
+  # web:
+  #   image: carloswufei/jobhub
+  #   restart: always
+  #   container_name: jobhub_web
+  #   depends_on:
+  #     back:
+  #       condition: service_healthy
+  #   env_file:
+  #     - .env
+  #   expose:
+  #     - "3000"
+  #   networks:
+  #     - app_net
+  #   command:
+  #     - bash
+  #     - -c
+  #     - cd /home/web && npm run start
 
-  back:
-    image: carloswufei/jobhub
-    restart: always
-    container_name: jobhub_back
-    depends_on:
-      db:
-        condition: service_healthy
-    env_file:
-      - .env
-    environment:
-      MEDIUM_API_TOKEN: 2a3833154fa181728499e0c2ddc0ec6f92b0be3cc07f9e22eb6aa14e7c4347033
-      MONGO_CONNECTION_STRING: mongodb://db/cv_generator
-      GOOGLE_APPLICATION_CREDENTIALS: /home/back/jobhub-415000-prod.json
-      HOST: db
-      BACK_PORT: 8082
-    ports:
-      - "8082:8082"
-    networks:
-      - app_net
-      - db_net
-    command:
-      - bash
-      - -c
-      - node /home/back/dist/server.js
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "node -e \"fetch('http://localhost:' + (process.env.BACK_PORT || 8082) + '/api').then((res) => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))\""
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 12
-      start_period: 10s
-    volumes:
-      - ./jobhub-415000-prod.json:/home/back/jobhub-415000-prod.json
-      - ./back/docs:/home/back/docs
-      - ./back/uploads:/home/back/uploads
+  # back:
+  #   image: carloswufei/jobhub
+  #   restart: always
+  #   container_name: jobhub_back
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     MEDIUM_API_TOKEN: 2a3833154fa181728499e0c2ddc0ec6f92b0be3cc07f9e22eb6aa14e7c4347033
+  #     MONGO_CONNECTION_STRING: mongodb://db/cv_generator
+  #     GOOGLE_APPLICATION_CREDENTIALS: /home/back/jobhub-415000-prod.json
+  #     HOST: db
+  #     BACK_PORT: 8082
+  #   ports:
+  #     - "8082:8082"
+  #   networks:
+  #     - app_net
+  #     - db_net
+  #   command:
+  #     - bash
+  #     - -c
+  #     - node /home/back/dist/server.js
+  #   healthcheck:
+  #     test:
+  #       [
+  #         "CMD-SHELL",
+  #         "node -e \"fetch('http://localhost:' + (process.env.BACK_PORT || 8082) + '/api').then((res) => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))\""
+  #       ]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 12
+  #     start_period: 10s
+  #   volumes:
+  #     - ./jobhub-415000-prod.json:/home/back/jobhub-415000-prod.json
+  #     - ./back/docs:/home/back/docs
+  #     - ./back/uploads:/home/back/uploads
 
   db:
     image: mongo:7.0
@@ -95,8 +95,8 @@ services:
       timeout: 5s
       retries: 12
       start_period: 10s
-    expose:
-      - "27017"
+    ports:
+      - "127.0.0.1:${MONGO_PORT:-27017}:27017"
     networks:
       - db_net
     volumes:
@@ -108,4 +108,4 @@ volumes:
 networks:
   app_net:
   db_net:
-    internal: true
+    internal: ${DB_NETWORK_INTERNAL:-true}

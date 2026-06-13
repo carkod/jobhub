@@ -1,23 +1,25 @@
-/*-------------
-    <MainCV>
---------------*/
+@use "global" as *;
 
-#mainportfolio {
-  padding-right: 3rem;
-
-  .field {
-    @extend .sans-serif;
-    font-weight: 400;
-    padding: 0.5rem 1rem;
-
-    strong {
-      font-weight: 600;
-    }
+.ed-resources {
+  h1 {
+    font-family: $font-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: $ink;
+    margin-bottom: 3rem;
   }
 
-  .description {
-    .ui.label {
-      border-radius: 0px;
-    }
+  section {
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    font-family: $font-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $ink;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $ink-faint;
   }
 }
