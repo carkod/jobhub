@@ -1,22 +1,68 @@
 name: Deployment CI
 
-on: "pull_request"
+on:
+  pull_request:
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Build docker image
-      run: docker build --tag jobhub . 
-    - name: Test docker container
-      run: |
-        docker run --detach --publish 80:80 jobhub
-        sleep 3
-        curl --retry-delay 1 --retry 30 --retry-connrefused http://localhost
-    - name: build-push
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: carloswufei/jobhub
-        tags: latest
+      - uses: actions/checkout@v4
+
+      - name: Build docker image
+        run: docker build --tag jobhub .
+
+      - name: Test production web service
+        run: |
+          cleanup() {
+            status=$?
+            if [ "$status" -ne 0 ]; then
+              docker inspect \
+                --format='status={{.State.Status}} exit_code={{.State.ExitCode}} oom_killed={{.State.OOMKilled}} error={{json .State.Error}}' \
+                "$container_id" || true
+              docker logs --timestamps "$container_id" || true
+            fi
+            docker rm --force "$container_id" || true
+            exit "$status"
+          }
+
+          container_id=$(
+            docker run \
+              --detach \
+              --publish 8080:3000 \
+              jobhub \
+              bash -c "cd /home/web && exec npm run start"
+          )
+          trap cleanup EXIT
+
+          for attempt in $(seq 1 30); do
+            if [ "$(docker inspect --format='{{.State.Running}}' "$container_id")" != "true" ]; then
+              echo "Web container exited before becoming ready"
+              exit 1
+            fi
+
+            if curl --fail --silent --output /dev/null --max-time 5 http://127.0.0.1:8080; then
+              exit 0
+            fi
+
+            echo "Waiting for the web container ($attempt/30)"
+            sleep 1
+          done
+
+          echo "Web container did not become ready"
+          exit 1
+
+      - name: Log in to Docker Hub
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: carloswufei/jobhub:latest

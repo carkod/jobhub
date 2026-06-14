@@ -1,4 +1,8 @@
 .DS_Store
+.env
+.git
+.github
+
 #files
 *.pdf
 
@@ -83,7 +87,10 @@ mongo_db
 
 # WEB
 web/build/
+web/.next/
 web/.env.local
+
 # HUB
 hub/build/
+hub/dist/
 hub/.env.local

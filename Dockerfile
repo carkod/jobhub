@@ -32,4 +32,7 @@ COPY back .
 RUN npm ci && npm run build
 
 STOPSIGNAL SIGTERM
-EXPOSE 8080 8081 8082
+EXPOSE 3000 8080 8081 8082
+
+WORKDIR /home/web
+CMD ["npm", "run", "start"]
