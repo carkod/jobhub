@@ -12,28 +12,45 @@ jobs:
       - name: Build docker image
         run: docker build --tag jobhub .
 
-      - name: Test web container
+      - name: Test production web service
         run: |
+          cleanup() {
+            status=$?
+            if [ "$status" -ne 0 ]; then
+              docker inspect \
+                --format='status={{.State.Status}} exit_code={{.State.ExitCode}} oom_killed={{.State.OOMKilled}} error={{json .State.Error}}' \
+                "$container_id" || true
+              docker logs --timestamps "$container_id" || true
+            fi
+            docker rm --force "$container_id" || true
+            exit "$status"
+          }
+
           container_id=$(
             docker run \
               --detach \
-              --publish 80:3000 \
-              jobhub
+              --publish 8080:3000 \
+              jobhub \
+              bash -c "cd /home/web && exec npm run start"
           )
-
-          cleanup() {
-            docker logs "$container_id"
-            docker rm --force "$container_id"
-          }
           trap cleanup EXIT
 
-          curl \
-            --fail \
-            --show-error \
-            --retry-delay 1 \
-            --retry 30 \
-            --retry-connrefused \
-            http://localhost
+          for attempt in $(seq 1 30); do
+            if [ "$(docker inspect --format='{{.State.Running}}' "$container_id")" != "true" ]; then
+              echo "Web container exited before becoming ready"
+              exit 1
+            fi
+
+            if curl --fail --silent --output /dev/null --max-time 5 http://127.0.0.1:8080; then
+              exit 0
+            fi
+
+            echo "Waiting for the web container ($attempt/30)"
+            sleep 1
+          done
+
+          echo "Web container did not become ready"
+          exit 1
 
       - name: Log in to Docker Hub
         if: github.event.pull_request.head.repo.full_name == github.repository
