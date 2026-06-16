@@ -22,4 +22,46 @@
     padding-bottom: 0.5rem;
     border-bottom: 1px solid $ink-faint;
   }
+
+  .ed-resource-label {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    color: $ink;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .ed-resource-list {
+    border-top: 1px solid $ink-faint;
+  }
+
+  .ed-resource-list__item {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid $ink-faint;
+
+    .name {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .url {
+      color: $ink;
+      border-bottom: 1px solid transparent;
+
+      &:hover {
+        color: $amber;
+        border-bottom-color: $amber;
+      }
+    }
+
+    .detail {
+      color: $ink-muted;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+  }
 }

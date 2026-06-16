@@ -212,8 +212,8 @@ describe("Notification", () => {
 
     expect(await screen.findByText("PDF generated")).toBeInTheDocument();
     expect(
-      screen.getByText("PDF generated").closest(".ui.message"),
-    ).toHaveClass("success");
+      screen.getByText("PDF generated").closest(".ed-notification"),
+    ).toHaveClass("ed-notification--success");
   });
 
   it("hides messages after the notification timeout", async () => {
@@ -228,8 +228,8 @@ describe("Notification", () => {
 
     expect(await screen.findByText("Something failed")).toBeInTheDocument();
     expect(
-      screen.getByText("Something failed").closest(".ui.message"),
-    ).toHaveClass("error");
+      screen.getByText("Something failed").closest(".ed-notification"),
+    ).toHaveClass("ed-notification--error");
 
     act(() => {
       jest.advanceTimersByTime(3000);

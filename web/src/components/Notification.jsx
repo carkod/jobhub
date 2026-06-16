@@ -1,6 +1,5 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Transition } from "semantic-ui-react";
 
 class Notification extends Component {
   constructor(p) {
@@ -40,12 +39,12 @@ class Notification extends Component {
     return (
       <div id="notification">
         <div
-          className={`ui message floating ${error ? "error" : "success"}`}
-          style={{ backgroundColor: error ? "red" : "#1aa62a", color: "#fff" }}
+          className={`ed-notification ed-notification--${
+            error ? "error" : "success"
+          }`}
+          role="status"
         >
-          <div className="content">
-            <div className="header">{`${message}`}</div>
-          </div>
+          {`${message}`}
         </div>
       </div>
     );

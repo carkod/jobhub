@@ -14,16 +14,13 @@ class Links extends Component {
     if (!links) return null;
     return (
       <div className="column">
-        {links.length > 0 && (
-          <div className="links ui top left label">Links</div>
-        )}
-        <div className="ui divided selection list">
+        {links.length > 0 && <div className="ed-resource-label">Links</div>}
+        <div className="ed-resource-list">
           {links.map((link, i) => (
-            <div className="item" key={link.id || i}>
+            <div className="ed-resource-list__item" key={link.id || i}>
               <div className="name">
                 <a href={link.url} className="url">
                   {link.title}
-                  <i className="icon"></i>
                 </a>
               </div>
             </div>

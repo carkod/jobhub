@@ -44,7 +44,7 @@ describe("RootLayout", () => {
     expect(markup).toContain('data-testid="providers"');
     expect(markup).toContain('data-testid="page-wrapper"');
     expect(markup).toContain("Route content");
-    expect(markup).toContain("semantic.min.css");
+    expect(markup).not.toContain("semantic.min.css");
     expect(markup).toContain("googletagmanager.com/gtag/js");
     expect(markup).toContain('data-id="google-analytics"');
   });
