@@ -1,0 +1,52 @@
+@use "global" as *;
+
+.ed-cookie-banner {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 1rem;
+  color: $white;
+  background: rgba(26, 26, 26, 0.96);
+  box-shadow: 0 -1px 8px rgba(26, 26, 26, 0.16);
+
+  p {
+    margin: 0;
+    color: inherit;
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  button {
+    flex: 0 0 auto;
+    min-width: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    color: $white;
+    background: transparent;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover {
+      border-color: $white;
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  @media (max-width: 520px) {
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 0;
+  }
+}
