@@ -216,22 +216,28 @@ export default function Tracker(app, db) {
   });
 
   app.put("/api/application", async (req, res) => {
-    const r = req.body;
+    const r = req.body || {};
     const { id } = req.query;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ _id: id, message: "Invalid application id" });
+    }
+
     const applications = {
-      company: r.company,
+      company: typeof r.company === "string" ? r.company : "",
       status: {
-        value: r.status.value,
-        text: r.status.text,
+        value:
+          r.status && typeof r.status.value === "string" ? r.status.value : "",
+        text: r.status && typeof r.status.text === "string" ? r.status.text : "",
       },
-      role: r.role,
-      salary: r.salary,
-      applicationUrl: r.applicationUrl,
-      contacts: r.contacts,
-      description: r.description,
-      files: r.files,
-      stages: r.stages,
-      location: r.location,
+      role: typeof r.role === "string" ? r.role : "",
+      salary: typeof r.salary === "string" ? r.salary : "",
+      applicationUrl: typeof r.applicationUrl === "string" ? r.applicationUrl : "",
+      contacts: Array.isArray(r.contacts) ? r.contacts : [],
+      description: typeof r.description === "string" ? r.description : "",
+      files: Array.isArray(r.files) ? r.files : [],
+      stages: Array.isArray(r.stages) ? r.stages : [],
+      location: typeof r.location === "string" ? r.location : "",
     };
     try {
       let application = await ApplicationModel.findByIdAndUpdate(
