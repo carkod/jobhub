@@ -240,7 +240,9 @@ function Header() {
 
       <nav
         className={`ed-mobile-nav${open ? " ed-mobile-nav--open" : ""}`}
+        aria-label="Mobile navigation"
         aria-hidden={!open}
+        inert={open ? undefined : ""}
       >
         <ul className="ed-mobile-nav__list">
           {desktopLinks.map((item) => {

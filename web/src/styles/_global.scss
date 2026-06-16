@@ -3,8 +3,9 @@
 // ── Design tokens ──────────────────────────────────────────────
 $cream: #faf8f4;
 $ink: #1a1a1a;
-$amber: #f6ae1b;
-$ink-muted: rgba(26, 26, 26, 0.65);
+$amber: #8f5700;
+$amber-bright: #f6ae1b;
+$ink-muted: rgba(26, 26, 26, 0.75);
 $ink-faint: rgba(26, 26, 26, 0.1);
 $white: #ffffff;
 
@@ -44,15 +45,21 @@ a {
   color: $ink;
   text-decoration: none;
   transition: color 0.2s ease;
+
   &:hover {
     color: $amber;
   }
 }
 
+:where(a, button, [role="button"], [tabindex]):focus-visible {
+  outline: 3px solid $amber;
+  outline-offset: 4px;
+}
+
 p {
   font-size: 1.0625rem;
   line-height: 1.85;
-  font-weight: 300;
+  font-weight: 400;
   color: $ink-muted;
 }
 
