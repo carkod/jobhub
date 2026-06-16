@@ -1,4 +1,5 @@
 import path from "path";
+import sanitize from "mongo-sanitize";
 
 export function handleResponse(response, res) {
   if (response.ok) {
@@ -10,6 +11,28 @@ export function handleResponse(response, res) {
 
 export function escapeRegex(string) {
   return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
+}
+
+export function cleanQueryString(value, maxLength = 100) {
+  const firstValue = Array.isArray(value) ? value[0] : value;
+  if (typeof firstValue !== "string") return "";
+
+  const sanitized = sanitize(firstValue);
+  if (typeof sanitized !== "string") return "";
+
+  return sanitized.trim().slice(0, maxLength);
+}
+
+export function cleanObjectIdString(value) {
+  const cleanValue = cleanQueryString(value, 24);
+  return /^[0-9a-fA-F]{24}$/.test(cleanValue) ? cleanValue : null;
+}
+
+export function getPositiveInteger(value, fallback, max) {
+  const parsed = Number.parseInt(Array.isArray(value) ? value[0] : value, 10);
+  if (!Number.isSafeInteger(parsed) || parsed < 1) return fallback;
+
+  return Math.min(parsed, max);
 }
 
 export function safeFileBasename(fileName) {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import sanitize from "mongo-sanitize";
 import { CLSchema } from "./Schemas.js";
+import { cleanObjectIdString } from "./utils.js";
 
 // Compile model from schema
 let CLModel = mongoose.model("CLModel", CLSchema);
@@ -14,7 +14,7 @@ export default function CLs(app, db) {
       (err, content) => {
         if (err) throw err;
         res.json(content);
-      }
+      },
     );
   });
 
@@ -57,22 +57,37 @@ export default function CLs(app, db) {
       desc: r.desc,
     });
 
-    const cleanId = sanitize(req.params.id);
+    const cleanId = cleanObjectIdString(req.params.id);
 
-    CLModel.updateOne({ _id: cleanId }, cl, {}, (err, msg) => {
-      if (err) res.json({ message: err, error: true });
+    if (!cleanId) {
+      return res
+        .status(400)
+        .json({ message: "Invalid cover letter id", error: true });
+    }
 
-      if (msg.acknowledged) {
-        res.status(200).json({ _id: msg.id, message: "Cover letter Updated!" });
-      } else {
-        res.status(422).json({ message: "No changes upadated" });
-      }
-    });
+    CLModel.updateOne(
+      { _id: mongoose.Types.ObjectId(cleanId) },
+      cl,
+      {},
+      (err, msg) => {
+        if (err) res.json({ message: err, error: true });
+
+        if (msg.acknowledged) {
+          res
+            .status(200)
+            .json({ _id: msg.id, message: "Cover letter Updated!" });
+        } else {
+          res.status(422).json({ message: "No changes upadated" });
+        }
+      },
+    );
   });
 
   app.get("/api/cls/:_id", (req, res) => {
-    if (req.params._id) {
-      CLModel.findById(req.params._id, (err, result) => {
+    const cleanId = cleanObjectIdString(req.params._id);
+
+    if (cleanId) {
+      CLModel.findById(mongoose.Types.ObjectId(cleanId), (err, result) => {
         if (!err) {
           res.json({
             data: result,
@@ -84,9 +99,9 @@ export default function CLs(app, db) {
       });
     } else {
       let response = {
-        message: "Todo could not be deleted deleted",
+        message: "Valid cover letter id is required",
       };
-      res.send(response);
+      res.status(400).send(response);
     }
   });
 
@@ -109,21 +124,35 @@ export default function CLs(app, db) {
         desc: r.desc,
       });
 
-      const id = sanitize(r._id) || cl._id;
+      const id = r._id ? cleanObjectIdString(r._id) : cl._id;
+      if (!id) {
+        return res
+          .status(400)
+          .json({ message: "Invalid cover letter id", error: true });
+      }
+
       delete r._id;
 
-      CLModel.updateOne({ _id: id }, cl, { upsert: true }, (err, msg) => {
-        if (err) {
-          throw err;
-        } else {
-          if (msg.ok) {
-            const savedID = id;
-            res.json({ _id: savedID, message: "Changes successfully saved!" });
+      CLModel.updateOne(
+        { _id: mongoose.Types.ObjectId(id) },
+        cl,
+        { upsert: true },
+        (err, msg) => {
+          if (err) {
+            throw err;
           } else {
-            res.json({ status: "No changes" });
+            if (msg.ok) {
+              const savedID = id;
+              res.json({
+                _id: savedID,
+                message: "Changes successfully saved!",
+              });
+            } else {
+              res.json({ status: "No changes" });
+            }
           }
-        }
-      });
+        },
+      );
     } else {
       let response = {
         message: "Todo could not be copied",
@@ -135,24 +164,27 @@ export default function CLs(app, db) {
 
   app.delete("/api/cls/:_id", (req, res) => {
     let { _id } = req.params;
-    const cleanId = sanitize(_id);
+    const cleanId = cleanObjectIdString(_id);
 
-    if (_id) {
-      CLModel.deleteOne({ _id: cleanId }, (err, result) => {
-        if (err) {
-          res.json({ data: result, message: err, error: true });
-        } else if (result === null) {
-          res.json({ message: "Cover letter not found", error: true });
-        } else {
-          res.json({
-            data: result,
-            message: "Deleted cover letter successfully!",
-            error: false,
-          });
-        }
-      });
+    if (cleanId) {
+      CLModel.deleteOne(
+        { _id: mongoose.Types.ObjectId(cleanId) },
+        (err, result) => {
+          if (err) {
+            res.json({ data: result, message: err, error: true });
+          } else if (result === null) {
+            res.json({ message: "Cover letter not found", error: true });
+          } else {
+            res.json({
+              data: result,
+              message: "Deleted cover letter successfully!",
+              error: false,
+            });
+          }
+        },
+      );
     } else {
-      res.send({ message: "_id incorrect", error: true });
+      res.status(400).send({ message: "_id incorrect", error: true });
     }
   });
 }

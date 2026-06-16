@@ -1,15 +1,20 @@
-import { isValidObjectId, Types, model } from "mongoose";
+import { Types, model } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { BlogSchema } from "./Schemas.js";
-import { apiRequest } from "./utils.js";
+import {
+  apiRequest,
+  cleanObjectIdString,
+  cleanQueryString,
+  getPositiveInteger,
+} from "./utils.js";
 
 // Compile model from schema
 const BlogModel = model("BlogModel", BlogSchema);
 
 export default function Blog(app) {
   app.get("/api/blogs/:page?/:pagesize?", (req, res) => {
-    const page = +req.params.page || 0;
-    const pagesize = +req.params.pagesize || 0;
+    const page = getPositiveInteger(req.params.page, 0, 100000);
+    const pagesize = getPositiveInteger(req.params.pagesize, 0, 100);
     const skip = pagesize * page - pagesize;
     BlogModel.find(
       {},
@@ -18,7 +23,7 @@ export default function Blog(app) {
       (err, content) => {
         if (err) throw err;
         res.status(200).json(content);
-      }
+      },
     )
       .skip(skip)
       .limit(pagesize);
@@ -50,13 +55,20 @@ export default function Blog(app) {
       }
     } else {
       try {
-        const id = sanitize(r.id);
+        const id = cleanObjectIdString(r.id);
         let query = {};
-        if (isValidObjectId(id)) {
-          query._id = id;
+        if (id) {
+          query._id = Types.ObjectId(id);
         } else {
+          const cleanSlug = cleanQueryString(r.slug);
+          if (!cleanSlug) {
+            return res
+              .status(400)
+              .json({ error: true, message: "Valid blog slug is required" });
+          }
+
           query.slug = {
-            $eq: r.slug,
+            $eq: cleanSlug,
           };
         }
 
@@ -87,7 +99,7 @@ export default function Blog(app) {
             url,
             "POST",
             JSON.stringify(data),
-            headers
+            headers,
           );
           mediumLink = response.data.url;
         }
@@ -113,30 +125,36 @@ export default function Blog(app) {
   });
 
   app.get("/api/blog/:_id", (req, res) => {
-    if (isValidObjectId(req.params._id)) {
-      BlogModel.findOne(
-        { _id: Types.ObjectId(req.params._id) },
-        (err, blog) => {
-          if (!err) {
-            res.status(200).json({
-              data: blog,
-              message: "Blog successfully retrieved!",
-              error: false,
-            });
-          } else {
-            res
-              .status(200)
-              .json({ message: `Failed to retrieve blog ${err}`, error: true });
-          }
+    const cleanId = cleanObjectIdString(req.params._id);
+
+    if (cleanId) {
+      BlogModel.findOne({ _id: Types.ObjectId(cleanId) }, (err, blog) => {
+        if (!err) {
+          res.status(200).json({
+            data: blog,
+            message: "Blog successfully retrieved!",
+            error: false,
+          });
+        } else {
+          res
+            .status(200)
+            .json({ message: `Failed to retrieve blog ${err}`, error: true });
         }
-      );
+      });
     } else if (req.params._id === undefined) {
       const response = {
         message: "blog could not be found",
       };
       res.send(response);
     } else {
-      BlogModel.findOne({ slug: req.params._id }, (err, blog) => {
+      const cleanSlug = cleanQueryString(req.params._id);
+      if (!cleanSlug) {
+        return res
+          .status(400)
+          .json({ message: "Invalid blog id", error: true });
+      }
+
+      BlogModel.findOne({ slug: cleanSlug }, (err, blog) => {
         if (!err) {
           res.status(200).json({
             data: blog,
@@ -153,8 +171,10 @@ export default function Blog(app) {
   });
 
   app.delete("/api/blogs/:_id", (req, res) => {
-    if (req.params._id) {
-      BlogModel.deleteOne({ _id: req.params._id }, (err, blog) => {
+    const cleanId = cleanObjectIdString(req.params._id);
+
+    if (cleanId) {
+      BlogModel.deleteOne({ _id: Types.ObjectId(cleanId) }, (err, blog) => {
         if (!err) {
           res.json({ message: "Blog successfully deleted", error: false });
         } else {
@@ -162,14 +182,18 @@ export default function Blog(app) {
         }
       });
     } else {
-      res.send({ message: `Id missing in the request`, error: true });
+      res
+        .status(400)
+        .send({ message: `Valid id missing in the request`, error: true });
     }
   });
 
   // Find by title
   app.get("/api/blogs/name/:name", (req, res) => {
-    if (req.params.name) {
-      BlogModel.findOne({ name: req.params.name }, (err, blog) => {
+    const cleanName = cleanQueryString(req.params.name);
+
+    if (cleanName) {
+      BlogModel.findOne({ name: cleanName }, (err, blog) => {
         if (!err) {
           res.status(200).json({
             data: blog,
@@ -193,8 +217,10 @@ export default function Blog(app) {
 
   // Find by topic
   app.get("/api/blogs/category/:category", (req, res) => {
-    if (req.params.category) {
-      BlogModel.findOne({ category: req.params.category }, (err, blog) => {
+    const cleanCategory = cleanQueryString(req.params.category);
+
+    if (cleanCategory) {
+      BlogModel.findOne({ category: cleanCategory }, (err, blog) => {
         if (!err) {
           res.status(200).json({
             data: blog,

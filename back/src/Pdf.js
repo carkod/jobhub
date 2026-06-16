@@ -1,7 +1,8 @@
 import express from "express";
-import mongoose, { isValidObjectId, Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { CVSchema, CLSchema } from "./Schemas.js";
 import { generatePDF } from "./generator.js";
+import { cleanObjectIdString, cleanQueryString } from "./utils.js";
 
 // Compile model from schema
 let CVModel = mongoose.model("CVModel", CVSchema);
@@ -28,11 +29,13 @@ function getPdfConfig(type) {
 }
 
 function getPdfQuery(id) {
-  if (isValidObjectId(id)) {
-    return { _id: Types.ObjectId(id) };
+  const cleanId = cleanObjectIdString(id);
+  if (cleanId) {
+    return { _id: Types.ObjectId(cleanId) };
   }
 
-  return { slug: id };
+  const cleanSlug = cleanQueryString(id);
+  return cleanSlug ? { slug: cleanSlug } : null;
 }
 
 export default function Pdf(app) {
@@ -54,7 +57,12 @@ export default function Pdf(app) {
       return res.status(400).send("Unsupported PDF type");
     }
 
-    pdfConfig.model.findOne(getPdfQuery(id), (findErr, content) => {
+    const query = getPdfQuery(id);
+    if (!query) {
+      return res.status(400).send("Invalid PDF id");
+    }
+
+    pdfConfig.model.findOne(query, (findErr, content) => {
       if (findErr) {
         res.status(400).send("Unable to retrieve item");
       } else if (content === null) {
@@ -70,16 +78,10 @@ export default function Pdf(app) {
   app.get("/pdf/generate/:type/:id/:locale?", (req, res, next) => {
     const { type, locale = "en-GB", id } = req.params;
 
-    let query;
-    if (isValidObjectId(id)) {
-      query = {
-        _id: id,
-      };
-    } else {
-      // Slug was passed instead of ObjectId
-      query = {
-        slug: id,
-      };
+    const query = getPdfQuery(id);
+
+    if (!query) {
+      return res.status(400).json({ error: true, message: "Invalid PDF id" });
     }
 
     res.setLocale(locale);

@@ -1,7 +1,7 @@
 import moment from "moment";
-import mongoose, { isValidObjectId, Types } from "mongoose";
-import sanitize from "mongo-sanitize";
+import mongoose, { Types } from "mongoose";
 import { CVSchema } from "./Schemas.js";
+import { cleanObjectIdString, cleanQueryString } from "./utils.js";
 
 // Compile model from schema
 const CVModel = mongoose.model("CVModel", CVSchema);
@@ -16,11 +16,9 @@ const compare = (a, b) => {
 export default function CVs(app) {
   app.get("/api/cvs", async (req, res) => {
     try {
-      let cvs = await CVModel.find({}, null,
-        { sort: { updatedAt: -1 }}
-      );
+      let cvs = await CVModel.find({}, null, { sort: { updatedAt: -1 } });
       res.status(200).json(cvs);
-    } catch(err) {
+    } catch (err) {
       res.status(400).json(err);
     }
   });
@@ -36,11 +34,9 @@ export default function CVs(app) {
     };
 
     try {
-      let cvs = await CVModel.find(
-        query,
-        "navName _id cats slug",
-        { sort: { updatedAt: -1 } },
-      );
+      let cvs = await CVModel.find(query, "navName _id cats slug", {
+        sort: { updatedAt: -1 },
+      });
       res.json(cvs);
     } catch (err) {
       res.json({ message: err, error: true });
@@ -74,22 +70,22 @@ export default function CVs(app) {
       itSkills: r.itSkills,
       other: r.other,
     });
-    let query = {}
-    if (isValidObjectId(r._id)) {
-      query = { _id: r._id };
+    let query = {};
+    const cleanId = cleanObjectIdString(r._id);
+    if (cleanId) {
+      query = { _id: Types.ObjectId(cleanId) };
     } else {
-      query = { _id: mongoose.Types.ObjectId() }
+      query = { _id: mongoose.Types.ObjectId() };
     }
-    
+
     try {
-      let cvs = await CVModel.findOneAndUpdate(query, cv, {upsert: true});
+      let cvs = await CVModel.findOneAndUpdate(query, cv, { upsert: true });
       if (cvs) {
         res.json({ status: true, message: "CV changes saved!" });
       } else {
         res.json({ status: true, message: "No changes" });
       }
-
-    } catch(err) {
+    } catch (err) {
       res.json({ message: `Failed to create CV: ${err}`, error: true });
     }
   });
@@ -126,7 +122,10 @@ export default function CVs(app) {
         if (err) throw err;
 
         if (content !== undefined) {
-          res.json({ _id: content._id, message: "Changes successfully saved!" });
+          res.json({
+            _id: content._id,
+            message: "Changes successfully saved!",
+          });
         } else {
           res.json({ status: false, message: "No changes" });
         }
@@ -141,8 +140,10 @@ export default function CVs(app) {
   });
 
   app.get("/api/cvs/:_id", (req, res) => {
-    if (isValidObjectId(req.params._id)) {
-      CVModel.findOne({ _id: Types.ObjectId(req.params._id)}, (err, cv) => {
+    const cleanId = cleanObjectIdString(req.params._id);
+
+    if (cleanId) {
+      CVModel.findOne({ _id: Types.ObjectId(cleanId) }, (err, cv) => {
         if (!err) {
           res.status(200).json({ cv });
         } else {
@@ -155,7 +156,12 @@ export default function CVs(app) {
       };
       res.send(response);
     } else {
-      CVModel.findOne({ slug: req.params._id}, (err, cv) => {
+      const cleanSlug = cleanQueryString(req.params._id);
+      if (!cleanSlug) {
+        return res.status(400).json({ message: "Invalid CV id" });
+      }
+
+      CVModel.findOne({ slug: cleanSlug }, (err, cv) => {
         if (!err) {
           res.status(200).json({ cv });
         } else {
@@ -166,8 +172,10 @@ export default function CVs(app) {
   });
 
   app.delete("/api/cvs/:_id", (req, res) => {
-    if (req.params._id) {
-      CVModel.findByIdAndRemove(req.params._id, (err, cv) => {
+    const cleanId = cleanObjectIdString(req.params._id);
+
+    if (cleanId) {
+      CVModel.findByIdAndRemove(Types.ObjectId(cleanId), (err, cv) => {
         if (!err) {
           const deletedID = req.params._id;
           res.json({ _id: deletedID });
@@ -177,10 +185,10 @@ export default function CVs(app) {
       });
     } else {
       const response = {
-        message: "CV could not be deleted",
+        message: "Valid CV id is required",
       };
 
-      res.send(response);
+      res.status(400).send(response);
     }
   });
 }
