@@ -45,12 +45,12 @@
     "semantic-ui-css": "^2.5.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.19.1",
-    "@babel/node": "^7.16.8",
-    "@babel/plugin-transform-flow-strip-types": "^7.19.0",
-    "@babel/plugin-transform-runtime": "^7.19.6",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/cli": "^8.0.0",
+    "@babel/core": "^8.0.0",
+    "@babel/node": "^8.0.0",
+    "@babel/plugin-transform-flow-strip-types": "^8.0.0",
+    "@babel/plugin-transform-runtime": "^8.0.0",
+    "@babel/preset-env": "^8.0.0",
     "nodemon": "^2.0.6",
     "prettier": "^3.8.3"
   },
@@ -59,7 +59,7 @@
       "@babel/preset-env"
     ],
     "plugins": [
-      "@babel/transform-runtime",
+      "@babel/plugin-transform-runtime",
       "@babel/plugin-transform-flow-strip-types"
     ]
   }
