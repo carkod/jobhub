@@ -40,7 +40,7 @@
     "mongoose-slug-updater": "^3.2.3",
     "multer": "^2.2.0",
     "pug": "^3.0.4",
-    "puppeteer": "^19.6.3",
+    "puppeteer": "^25.1.0",
     "sass": "^1.55.0",
     "semantic-ui-css": "^2.5.0"
   },
