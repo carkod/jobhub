@@ -105,6 +105,13 @@ function getSafeObjectId(value) {
   return mongoose.Types.ObjectId(value);
 }
 
+function getPositiveInteger(value, fallback, max) {
+  const parsed = Number.parseInt(Array.isArray(value) ? value[0] : value, 10);
+  if (!Number.isSafeInteger(parsed) || parsed < 1) return fallback;
+
+  return Math.min(parsed, max);
+}
+
 export default function Tracker(app, db) {
   app.get("/api/applications", async (req, res) => {
     /**
@@ -113,8 +120,8 @@ export default function Tracker(app, db) {
      * page [number]: optional, discrete number
      * pagesize [number]: optional, discrete number that indicates how many items each page has
      */
-    const page = +req.query.page || 1;
-    const pagesize = +req.query.pagesize || 0;
+    const page = getPositiveInteger(req.query.page, 1, 100000);
+    const pagesize = getPositiveInteger(req.query.pagesize, 0, 100);
     const skip = pagesize * page - pagesize;
     const { status, companyName } = req.query;
     const cleanStatus = cleanQueryString(status, 40);
@@ -203,7 +210,7 @@ export default function Tracker(app, db) {
    */
   app.post("/api/applications/scan", async (req, res) => {
     const { access_token, lastHistoryId, pubSubPayload } = req.body;
-    const limit = parseInt(req.query.limit) || 100;
+    const limit = getPositiveInteger(req.query.limit, 100, 500);
 
     try {
       const emailParser = new EmailParser(access_token, limit);

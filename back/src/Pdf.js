@@ -7,9 +7,23 @@ import { generatePDF } from "./generator.js";
 let CVModel = mongoose.model("CVModel", CVSchema);
 let CLModel = mongoose.model("CLModel", CLSchema);
 
-function getPdfModel(type) {
-  if (type === "cover-letter") return CLModel;
-  if (type === "cv") return CVModel;
+function getPdfConfig(type) {
+  if (type === "cover-letter") {
+    return {
+      model: CLModel,
+      title: "cover letter",
+      viewType: "cover-letter",
+    };
+  }
+
+  if (type === "cv" || type === "curriculum-vitae") {
+    return {
+      model: CVModel,
+      title: "curriculum vitae",
+      viewType: "curriculum-vitae",
+    };
+  }
+
   return null;
 }
 
@@ -32,21 +46,21 @@ export default function Pdf(app) {
 
   app.get("/pdf/view/:type/:id/:locale?", (req, res, next) => {
     const { type, locale = "en-GB", id } = req.params;
-    let Model = getPdfModel(type);
+    const pdfConfig = getPdfConfig(type);
     const template = "index.pug";
     res.setLocale(locale);
 
-    if (!Model) {
+    if (!pdfConfig) {
       return res.status(400).send("Unsupported PDF type");
     }
 
-    Model.findOne(getPdfQuery(id), (findErr, content) => {
+    pdfConfig.model.findOne(getPdfQuery(id), (findErr, content) => {
       if (findErr) {
         res.status(400).send("Unable to retrieve item");
       } else if (content === null) {
         res.status(404).send(`No item found`);
       } else {
-        content.type = type;
+        content.type = pdfConfig.viewType;
         content.locale = locale;
         res.render(template, content);
       }
@@ -70,16 +84,14 @@ export default function Pdf(app) {
 
     res.setLocale(locale);
 
-    let Model = getPdfModel(type);
-    if (!Model) {
+    const pdfConfig = getPdfConfig(type);
+    if (!pdfConfig) {
       return res
         .status(400)
         .json({ error: true, message: "Unsupported PDF type" });
     }
 
-    let title = type.replace("-", " ");
-
-    Model.findOne(query, async (err, content) => {
+    pdfConfig.model.findOne(query, async (err, content) => {
       if (err) {
         return res
           .status(400)
@@ -91,7 +103,7 @@ export default function Pdf(app) {
       }
 
       const viewPath = `/pdf/view/${encodeURIComponent(
-        type,
+        pdfConfig.viewType,
       )}/${encodeURIComponent(String(content._id))}/${encodeURIComponent(
         locale,
       )}`;
@@ -101,7 +113,7 @@ export default function Pdf(app) {
       }/${updatedDate.getFullYear()}`;
 
       try {
-        const file = await generatePDF(viewPath, title, date);
+        const file = await generatePDF(viewPath, pdfConfig.title, date);
 
         res.type("application/pdf");
         res.header("Content-Length", file.length);

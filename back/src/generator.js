@@ -32,6 +32,22 @@ export function buildInternalPdfUrl(viewPath) {
   return url.toString();
 }
 
+function getPuppeteerLaunchOptions() {
+  const launchOptions = {
+    devtools: false,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    headless: "new",
+    dumpio: true,
+  };
+  const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+
+  if (executablePath) {
+    launchOptions.executablePath = executablePath;
+  }
+
+  return launchOptions;
+}
+
 export async function generatePDF(viewPath, title, updatedDate) {
   let browser;
 
@@ -39,12 +55,7 @@ export async function generatePDF(viewPath, title, updatedDate) {
     const url = buildInternalPdfUrl(viewPath);
 
     // launch a new chrome instance
-    browser = await puppeteer.launch({
-      devtools: false,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      headless: true,
-      dumpio: true,
-    });
+    browser = await puppeteer.launch(getPuppeteerLaunchOptions());
 
     // create a new page
     const page = await browser.newPage();
