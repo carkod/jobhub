@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import { I18n } from "i18n";
 import mongoose from "mongoose";
 import path from "path";
+import { fileURLToPath } from "url";
 import mongoSanitize from "express-mongo-sanitize";
 import Api from "./Api.js";
 import Blog from "./Blog.js";
@@ -16,6 +17,8 @@ import Pdf from "./Pdf.js";
 import Portfolio from "./Portfolio.js";
 import Tracker from "./Tracker.js";
 import { safeResolveInside } from "./utils.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 if (process.env.GITHUB_ACTIONS !== "true" || !process.env.GITHUB_ACTIONS) {
   dotenv.config({ path: "../.env" });

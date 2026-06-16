@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import multer from "multer";
 import sanitize from "mongo-sanitize";
 import path from "path";
+import { fileURLToPath } from "url";
 import { ApplicationSchema, StagesSchema } from "./Schemas.js";
 import EmailParser from "./services/emailParser.js";
 import {
@@ -12,6 +13,8 @@ import {
   uploadFileName,
   uploadFileNameFromDocument,
 } from "./utils.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Compile model from schema
 const ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);

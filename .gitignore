@@ -17,6 +17,7 @@ pids
 back/uploads/*
 back/dist/
 back/docs
+back/src/pdf/assets/
 back/uploads
 mongo_db/
 restore/

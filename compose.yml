@@ -61,7 +61,7 @@ services:
   #   command:
   #     - bash
   #     - -c
-  #     - node /home/back/dist/server.js
+  #     - node /home/back/src/server.js
   #   healthcheck:
   #     test:
   #       [

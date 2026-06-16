@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { ProjectSchema } from "./Schemas.js";
 import {
@@ -10,6 +11,8 @@ import {
   uploadFileName,
   uploadFileNameFromDocument,
 } from "./utils.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 
