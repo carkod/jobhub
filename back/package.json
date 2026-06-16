@@ -22,6 +22,7 @@
   "author": "Carlos Wu",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^7.29.7",
     "@google-cloud/vertexai": "^1.12.0",
     "axios": "^1.18.0",
     "bcryptjs": "^2.4.3",
@@ -45,12 +46,12 @@
     "semantic-ui-css": "^2.5.0"
   },
   "devDependencies": {
-    "@babel/cli": "^8.0.0",
-    "@babel/core": "^8.0.0",
-    "@babel/node": "^8.0.0",
-    "@babel/plugin-transform-flow-strip-types": "^8.0.0",
-    "@babel/plugin-transform-runtime": "^8.0.0",
-    "@babel/preset-env": "^8.0.0",
+    "@babel/cli": "^7.29.7",
+    "@babel/core": "^7.29.7",
+    "@babel/node": "^7.29.7",
+    "@babel/plugin-transform-flow-strip-types": "^7.29.7",
+    "@babel/plugin-transform-runtime": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
     "nodemon": "^2.0.6",
     "prettier": "^3.8.3"
   },

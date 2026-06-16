@@ -2,6 +2,7 @@ name: Deployment CI
 
 on:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
