@@ -1,6 +1,7 @@
 import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
+import sanitize from "mongo-sanitize";
 import path from "path";
 import { ApplicationSchema, StagesSchema } from "./Schemas.js";
 import EmailParser from "./services/emailParser.js";
@@ -79,6 +80,32 @@ const capitalize = (word) => {
   return capText;
 };
 
+function cleanQueryString(value, maxLength = 100) {
+  const firstValue = Array.isArray(value) ? value[0] : value;
+  if (typeof firstValue !== "string") return "";
+
+  const sanitized = sanitize(firstValue);
+  if (typeof sanitized !== "string") return "";
+
+  return sanitized.trim().slice(0, maxLength);
+}
+
+function buildCompanyNameFilter(companyName) {
+  const cleanCompanyName = cleanQueryString(companyName);
+  if (!cleanCompanyName) return null;
+
+  return new RegExp(escapeRegex(cleanCompanyName), "i");
+}
+
+function getSafeObjectId(value) {
+  if (value instanceof mongoose.Types.ObjectId) return value;
+  if (typeof value !== "string" || !mongoose.Types.ObjectId.isValid(value)) {
+    return null;
+  }
+
+  return mongoose.Types.ObjectId(value);
+}
+
 export default function Tracker(app, db) {
   app.get("/api/applications", async (req, res) => {
     /**
@@ -91,17 +118,19 @@ export default function Tracker(app, db) {
     const pagesize = +req.query.pagesize || 0;
     const skip = pagesize * page - pagesize;
     const { status, companyName } = req.query;
+    const cleanStatus = cleanQueryString(status, 40);
+    const companyNameFilter = buildCompanyNameFilter(companyName);
     // These should be typed into Schema in the future
     let params = {};
 
-    if (status === "active") {
+    if (cleanStatus === "active") {
       params["status.value"] = { $nin: [2, 3] };
-    } else if (typedStatus.includes(status)) {
-      params["status.text"] = { $in: [capitalize(status)] };
+    } else if (typedStatus.includes(cleanStatus)) {
+      params["status.text"] = { $in: [capitalize(cleanStatus)] };
     }
 
-    if (companyName) {
-      params["company"] = { $regex: escapeRegex(companyName), $options: "i" };
+    if (companyNameFilter) {
+      params["company"] = companyNameFilter;
     }
 
     try {
@@ -192,10 +221,20 @@ export default function Tracker(app, db) {
   });
 
   app.post("/api/application", async (req, res) => {
-    let r = req.body,
-      applications = new ApplicationModel(fillModel(r));
-    const id = r._id || applications._id;
-    delete r._id;
+    const r = req.body || {};
+    const providedId = r._id;
+    const safeId = providedId ? getSafeObjectId(providedId) : null;
+
+    if (providedId && !safeId) {
+      return res
+        .status(400)
+        .json({ _id: providedId, message: "Invalid application id" });
+    }
+
+    const applications = new ApplicationModel(
+      fillModel({ ...r, _id: safeId || undefined }),
+    );
+    const id = safeId || applications._id;
     ApplicationModel.updateOne(
       { _id: id },
       applications,
@@ -218,9 +257,12 @@ export default function Tracker(app, db) {
   app.put("/api/application", async (req, res) => {
     const r = req.body || {};
     const { id } = req.query;
+    const safeId = getSafeObjectId(id);
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ _id: id, message: "Invalid application id" });
+    if (!safeId) {
+      return res
+        .status(400)
+        .json({ _id: id, message: "Invalid application id" });
     }
 
     const applications = {
@@ -228,11 +270,13 @@ export default function Tracker(app, db) {
       status: {
         value:
           r.status && typeof r.status.value === "string" ? r.status.value : "",
-        text: r.status && typeof r.status.text === "string" ? r.status.text : "",
+        text:
+          r.status && typeof r.status.text === "string" ? r.status.text : "",
       },
       role: typeof r.role === "string" ? r.role : "",
       salary: typeof r.salary === "string" ? r.salary : "",
-      applicationUrl: typeof r.applicationUrl === "string" ? r.applicationUrl : "",
+      applicationUrl:
+        typeof r.applicationUrl === "string" ? r.applicationUrl : "",
       contacts: Array.isArray(r.contacts) ? r.contacts : [],
       description: typeof r.description === "string" ? r.description : "",
       files: Array.isArray(r.files) ? r.files : [],
@@ -241,7 +285,7 @@ export default function Tracker(app, db) {
     };
     try {
       let application = await ApplicationModel.findByIdAndUpdate(
-        id,
+        safeId,
         applications,
       );
       if (application) {
@@ -261,16 +305,18 @@ export default function Tracker(app, db) {
 
   app.get("/api/application/:_id", (req, res) => {
     const { _id } = req.params;
-    if (_id) {
-      ApplicationModel.findById(_id, (err, application) => {
+    const safeId = getSafeObjectId(_id);
+
+    if (safeId) {
+      ApplicationModel.findById(safeId, (err, application) => {
         if (err) throw err;
 
         res.json({ _id: _id, status: true, data: application });
       });
     } else {
       res
-        .status(200)
-        .json({ _id: null, status: !!msg.ok, description: "Item not found" });
+        .status(400)
+        .json({ _id, status: false, description: "Invalid application id" });
     }
   });
 
@@ -304,24 +350,23 @@ export default function Tracker(app, db) {
   });
 
   app.delete("/api/application/:_id", (req, res) => {
-    if (req.params._id) {
-      ApplicationModel.findByIdAndRemove(
-        req.params._id,
-        (err, applications) => {
-          if (!err) {
-            const deletedID = req.params._id;
-            res.json({ _id: deletedID });
-          } else {
-            res.json({ message: err });
-          }
-        },
-      );
+    const safeId = getSafeObjectId(req.params._id);
+
+    if (safeId) {
+      ApplicationModel.findByIdAndRemove(safeId, (err, applications) => {
+        if (!err) {
+          const deletedID = req.params._id;
+          res.json({ _id: deletedID });
+        } else {
+          res.json({ message: err });
+        }
+      });
     } else {
       let response = {
-        message: "Please provide _id to delete the application.",
+        message: "Please provide a valid _id to delete the application.",
       };
 
-      res.send(response);
+      res.status(400).send(response);
     }
   });
 }

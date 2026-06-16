@@ -90,16 +90,18 @@ export default function Pdf(app) {
         return res.status(404).json({ error: true, message: "No item found" });
       }
 
-      const url = `${req.protocol}://${req.get("host")}/pdf/view/${type}/${
-        content._id
-      }/${locale}`;
+      const viewPath = `/pdf/view/${encodeURIComponent(
+        type,
+      )}/${encodeURIComponent(String(content._id))}/${encodeURIComponent(
+        locale,
+      )}`;
       const updatedDate = new Date(content.updatedAt);
       const date = `${updatedDate.getDate()}/${
         updatedDate.getMonth() + 1
       }/${updatedDate.getFullYear()}`;
 
       try {
-        const file = await generatePDF(url, title, date);
+        const file = await generatePDF(viewPath, title, date);
 
         res.type("application/pdf");
         res.header("Content-Length", file.length);

@@ -18,7 +18,7 @@ export default class Home extends Component {
       this.setState(
         produce((draft) => {
           draft.cvs = navigationCvs;
-        })
+        }),
       );
     } catch (e) {
       console.warn("Could not load CV navigation:", e.message);
@@ -44,14 +44,14 @@ export default class Home extends Component {
             <h1 className="ed-hero__title">
               Software
               <br />
-              <em>Engineer</em> &amp;
+              <em className="ed-hero__title--highlight">Engineer</em> &amp;
               <br />
               <span className="ed-hero__title--sub">Entrepreneur</span>
             </h1>
 
             <p className="ed-hero__bio">
-              I'm London-based with over a decade of experience building <strong>web applications</strong>. Founder
-              of{" "}
+              I'm London-based with over a decade of experience building{" "}
+              <strong>web applications</strong>. Founder of{" "}
               <a href="https://binbot.in" target="_blank" rel="noreferrer">
                 Binbot
               </a>
@@ -66,8 +66,8 @@ export default class Home extends Component {
               really don't need to), and optimizing workflows.
             </p>
             <p className="ed-hero__bio">
-              <br />I can also work for you as a software engineer, helping you
-              build your product from scratch or improve an existing one.
+              I can also work for you as a software engineer, helping you build
+              your product from scratch or improve an existing one.
             </p>
 
             <ul className="ed-hero__links">

@@ -1,32 +1,66 @@
-import dotenv from 'dotenv';
-import puppeteer from 'puppeteer';
+import dotenv from "dotenv";
+import puppeteer from "puppeteer";
 import moment from "moment";
 
-dotenv.config()
+dotenv.config();
 
-export async function generatePDF(url, title, updatedDate) {
+export function buildInternalPdfUrl(viewPath) {
+  if (
+    typeof viewPath !== "string" ||
+    !viewPath.startsWith("/") ||
+    viewPath.startsWith("//")
+  ) {
+    throw new Error("PDF view path must be an internal absolute path");
+  }
+
+  const baseOrigin =
+    process.env.PDF_INTERNAL_ORIGIN ||
+    process.env.BACK_INTERNAL_ORIGIN ||
+    `http://127.0.0.1:${process.env.BACK_PORT || 3000}`;
+  const baseUrl = new URL(baseOrigin);
+
+  if (!["http:", "https:"].includes(baseUrl.protocol)) {
+    throw new Error("PDF internal origin must use http or https");
+  }
+
+  const url = new URL(viewPath, baseUrl);
+
+  if (url.origin !== baseUrl.origin || !url.pathname.startsWith("/pdf/view/")) {
+    throw new Error("PDF generation can only navigate to internal PDF views");
+  }
+
+  return url.toString();
+}
+
+export async function generatePDF(viewPath, title, updatedDate) {
+  let browser;
+
   try {
+    const url = buildInternalPdfUrl(viewPath);
+
     // launch a new chrome instance
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       devtools: false,
-      args: ['--no-sandbox', "--disable-setuid-sandbox"],
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
       headless: true,
       dumpio: true,
-    })
+    });
 
     // create a new page
-    const page = await browser.newPage()
+    const page = await browser.newPage();
 
     // set your html as the pages content
-    await page.goto(url, { waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]})
+    await page.goto(url, {
+      waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+    });
 
     // Generates a PDF with 'screen' media type.
-    await page.emulateMediaType('screen');
+    await page.emulateMediaType("screen");
 
     const currentDate = moment().format("DD/MM/YYYY");
     const pdfBuffer = await page.pdf({
       printBackground: true,
-      format: 'A4',
+      format: "A4",
       displayHeaderFooter: true,
       footerTemplate: `
         <div style="
@@ -61,14 +95,13 @@ export async function generatePDF(url, title, updatedDate) {
         bottom: 70,
         left: 70,
         right: 70,
-      }
+      },
     });
 
-    browser.close()
-  
     return pdfBuffer;
-  } catch (e) {
-    throw e;
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
   }
-    
 }
