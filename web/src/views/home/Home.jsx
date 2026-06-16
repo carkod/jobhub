@@ -6,7 +6,7 @@ import { produce } from "immer";
 import Metatags from "../../components/Metatags";
 import { fetchCVNav } from "../../actions/cv";
 
-class Home extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = { cvs: [] };
@@ -18,7 +18,7 @@ class Home extends Component {
       this.setState(
         produce((draft) => {
           draft.cvs = navigationCvs;
-        }),
+        })
       );
     } catch (e) {
       console.warn("Could not load CV navigation:", e.message);
@@ -50,14 +50,24 @@ class Home extends Component {
             </h1>
 
             <p className="ed-hero__bio">
-              London-based software engineer and entrepreneur with over a decade
-              of experience building products that scale. Founder of{" "}
+              I'm London-based with over a decade of experience building <strong>web applications</strong>. Founder
+              of{" "}
               <a href="https://binbot.in" target="_blank" rel="noreferrer">
                 Binbot
               </a>
-              , a cryptocurrency trading platform. Specialising in React,
-              Node.js, and cloud infrastructure — I build products and lead
-              teams.
+              , a cryptocurrency trading platform.
+            </p>
+
+            <p className="ed-hero__bio">
+              I provide consulting services for startups and established
+              companies, in the realm of web development, digital business
+              services, offshore team management, choosing the right technology
+              stack (small companies often go for Cloud-range services when they
+              really don't need to), and optimizing workflows.
+            </p>
+            <p className="ed-hero__bio">
+              <br />I can also work for you as a software engineer, helping you
+              build your product from scratch or improve an existing one.
             </p>
 
             <ul className="ed-hero__links">
@@ -167,5 +177,3 @@ class Home extends Component {
     );
   }
 }
-
-export default Home;
