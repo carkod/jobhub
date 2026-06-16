@@ -21,15 +21,25 @@ export function About({ initialTab = "me" }) {
         description="About Carlos Wu — developer, background, and this site."
       />
 
-      <div className="ed-faqs__tabs">
+      <div className="ed-faqs__tabs" role="tablist" aria-label="About sections">
         <button
+          type="button"
+          id="about-tab-me"
+          role="tab"
           className={`ed-faqs__tab${tab === "me" ? " active" : ""}`}
+          aria-selected={tab === "me"}
+          aria-controls="about-panel-me"
           onClick={() => setTab("me")}
         >
           About Me
         </button>
         <button
+          type="button"
+          id="about-tab-site"
+          role="tab"
           className={`ed-faqs__tab${tab === "site" ? " active" : ""}`}
+          aria-selected={tab === "site"}
+          aria-controls="about-panel-site"
           onClick={() => setTab("site")}
         >
           About This Site
@@ -37,7 +47,12 @@ export function About({ initialTab = "me" }) {
       </div>
 
       {tab === "me" && (
-        <div className="ed-faqs__panel">
+        <div
+          id="about-panel-me"
+          className="ed-faqs__panel"
+          role="tabpanel"
+          aria-labelledby="about-tab-me"
+        >
           <div style={{ position: "relative" }}>
             <div className="ed-faqs__quote-bg">"</div>
             <div className="ed-faqs__about-grid">
@@ -104,7 +119,12 @@ export function About({ initialTab = "me" }) {
       )}
 
       {tab === "site" && (
-        <div className="ed-faqs__panel">
+        <div
+          id="about-panel-site"
+          className="ed-faqs__panel"
+          role="tabpanel"
+          aria-labelledby="about-tab-site"
+        >
           <div className="ed-faqs__site-body">
             <p>
               This site has three applications. The <strong>Back</strong>{" "}

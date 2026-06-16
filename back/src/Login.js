@@ -12,35 +12,56 @@ let UserModel = mongoose.model("HubUsers", UserSchema);
 export default function Login(app, db) {
   app.post("/api/login", (req, res) => {
     let r = req.body;
+    if (!r || typeof r.email !== "string" || typeof r.password !== "string") {
+      return res.status(400).json({
+        message: "Email and password are required.",
+        error: 1,
+      });
+    }
+
     const email = sanitize(r.email);
     UserModel.findOne({ email: email }, (err, user) => {
-      if (err) throw err;
+      if (err) {
+        return res
+          .status(500)
+          .json({ message: "Login failed. Please try again.", error: 1 });
+      }
+
+      const invalidCredentials = {
+        error: 1,
+        message: "Login credentials are not correct.",
+      };
+
       if (user === null) {
-        res.json({ message: "No user found with this email address", error: 1 });
+        res.status(401).json(invalidCredentials);
       } else {
         bcrypt.compare(r.password, user.password, function (err, same) {
-          if (err) throw err;
+          if (err) {
+            return res
+              .status(500)
+              .json({ message: "Login failed. Please try again.", error: 1 });
+          }
           if (same) {
             const savedID = sanitize(user._id);
             const secret = process.env.JWT_SECRET;
+            if (!secret) {
+              return res.status(500).json({
+                message: "Login is not configured.",
+                error: 1,
+              });
+            }
+
             const token = jwt.sign({ email: email }, secret, {
               expiresIn: "10h",
             });
-            res
-              .status(200)
-              .json({
-                _id: savedID,
-                error: 0,
-                token: token,
-                message: "Login successful!",
-              });
-
+            res.status(200).json({
+              _id: savedID,
+              error: 0,
+              token: token,
+              message: "Login successful!",
+            });
           } else {
-            res.json({
-                _id: user._id,
-                error: 1,
-                message: "Login credentials are not correct.",
-              });
+            res.status(401).json(invalidCredentials);
           }
         });
       }

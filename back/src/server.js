@@ -15,16 +15,60 @@ import Login from "./Login.js";
 import Pdf from "./Pdf.js";
 import Portfolio from "./Portfolio.js";
 import Tracker from "./Tracker.js";
+import { safeResolveInside } from "./utils.js";
 
 if (process.env.GITHUB_ACTIONS !== "true" || !process.env.GITHUB_ACTIONS) {
   dotenv.config({ path: "../.env" });
 }
 
 const app = express();
+app.disable("x-powered-by");
+
 const interationalization = new I18n({
   locales: ["es-ES"],
   directory: path.join(__dirname, "locales"),
 });
+
+const getCorsOrigins = () =>
+  (process.env.CORS_ORIGINS || process.env.CORS_ORIGIN || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+const setSecurityHeaders = (req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Referrer-Policy", "no-referrer");
+  next();
+};
+
+const setCorsHeaders = (req, res, next) => {
+  const allowedOrigins = getCorsOrigins();
+  const origin = req.headers.origin;
+  const allowAnyOrigin =
+    allowedOrigins.length === 0 || allowedOrigins.includes("*");
+
+  if (allowAnyOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  } else if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Vary", "Origin");
+  }
+
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    req.headers["access-control-request-headers"] ||
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+};
 
 const appFactory = async (app) => {
   try {
@@ -54,19 +98,12 @@ const appFactory = async (app) => {
         process.env.HOSTNAME === "localhost",
     });
     app.use(limiter); // Apply the rate limiting middleware to all requests
+    app.use(setSecurityHeaders);
 
     // translations
     app.use(interationalization.init);
 
-    // Cors for complex objects
-    // Start first to avoid browser errors
-    app.use((req, res, next) => {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Access-Control-Allow-Headers", "*");
-      res.setHeader("Access-Control-Allow-Methods", "*");
-      res.setHeader("Access-Control-Allow-Credentials", true);
-      next();
-    });
+    app.use(setCorsHeaders);
 
     // sanitization
     app.use(mongoSanitize());
@@ -75,10 +112,32 @@ const appFactory = async (app) => {
     app.use(bodyParser.json({ limit: "50mb" }));
     app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-    //Download static files in uploads folder
-    app.use(express.static(path.join(__dirname, "../", "/uploads")));
+    // Download static files in uploads folder
+    const uploadDir = path.join(__dirname, "../", "/uploads");
+    app.use(
+      express.static(uploadDir, {
+        dotfiles: "deny",
+        index: false,
+      }),
+    );
     app.get("/uploads/:filename", (req, res) => {
-      res.download(path.join(__dirname, "../", req.url));
+      const uploadPath = safeResolveInside(uploadDir, req.params.filename);
+      if (!uploadPath) {
+        return res.status(400).json({ error: true, message: "Invalid file" });
+      }
+
+      return res.download(uploadPath);
+    });
+    app.get("/uploads/applications/:filename", (req, res) => {
+      const uploadPath = safeResolveInside(
+        path.join(uploadDir, "applications"),
+        req.params.filename,
+      );
+      if (!uploadPath) {
+        return res.status(400).json({ error: true, message: "Invalid file" });
+      }
+
+      return res.download(uploadPath);
     });
 
     Pdf(app);

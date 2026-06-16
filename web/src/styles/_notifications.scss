@@ -1,6 +1,27 @@
+@use "global" as *;
+
 #notification {
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
   z-index: 9999;
+}
+
+.ed-notification {
+  max-width: min(22rem, calc(100vw - 3rem));
+  padding: 0.85rem 1rem;
+  border-radius: 4px;
+  box-shadow: 0 12px 30px rgba(26, 26, 26, 0.18);
+  color: $white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+
+  &--success {
+    background: #1f7a34;
+  }
+
+  &--error {
+    background: #b3261e;
+  }
 }

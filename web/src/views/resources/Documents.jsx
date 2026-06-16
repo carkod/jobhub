@@ -16,14 +16,14 @@ class Documents extends Component {
       <>
         <div className="column">
           {documents.length > 0 && (
-            <div className="files ui top right label">Files</div>
+            <div className="ed-resource-label">Files</div>
           )}
-          <div className="ui divided selection list">
+          <div className="ed-resource-list">
             {documents.map((doc, i) => (
-              <div className="item" key={doc.fileId || i}>
+              <div className="ed-resource-list__item" key={doc.fileId || i}>
                 <div className="name">
                   <a href={doc.fileURL} className="url">
-                    {doc.fileName} <i className="icon"></i>
+                    {doc.fileName}
                   </a>
                   <span className="detail">{doc.fileSize}</span>
                 </div>
