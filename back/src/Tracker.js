@@ -98,7 +98,6 @@ function buildCompanyNameFilter(companyName) {
 }
 
 function getSafeObjectId(value) {
-  if (value instanceof mongoose.Types.ObjectId) return value;
   if (typeof value !== "string" || !mongoose.Types.ObjectId.isValid(value)) {
     return null;
   }
@@ -284,8 +283,8 @@ export default function Tracker(app, db) {
       location: typeof r.location === "string" ? r.location : "",
     };
     try {
-      let application = await ApplicationModel.findByIdAndUpdate(
-        safeId,
+      let application = await ApplicationModel.findOneAndUpdate(
+        { _id: { $eq: safeId } },
         applications,
       );
       if (application) {
