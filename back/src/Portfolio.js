@@ -5,6 +5,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { ProjectSchema } from "./Schemas.js";
 import {
+  cleanObjectIdString,
   safeResolveInside,
   uploadFileName,
   uploadFileNameFromDocument,
@@ -163,9 +164,18 @@ export default function Portfolio(app, db) {
 
   app.put("/api/portfolio/project", (req, res) => {
     let r = req.body;
+    const cleanId = cleanObjectIdString(r._id);
+
+    if (!cleanId) {
+      return res.status(400).json({
+        error: true,
+        message: "Invalid project id",
+      });
+    }
+
     // Update
     const project = new ProjectModel({
-      _id: r._id,
+      _id: cleanId,
       name: r.name,
       slug: r.slug,
       cats: {
@@ -180,25 +190,31 @@ export default function Portfolio(app, db) {
       links: r.links,
     });
 
-    ProjectModel.updateOne({ _id: r._id }, project, (err, msg) => {
-      if (err) {
-        const newError = new Error(err);
-        res.json({ error: false, message: newError });
-      } else if (msg === null) {
-        res.json({ error: false, message: "Project not found!" });
-      } else {
-        res.status(200).json({
-          data: msg.id,
-          error: false,
-          message: "Project saved successfully!",
-        });
-      }
-    });
+    ProjectModel.updateOne(
+      { _id: mongoose.Types.ObjectId(cleanId) },
+      project,
+      (err, msg) => {
+        if (err) {
+          const newError = new Error(err);
+          res.json({ error: false, message: newError });
+        } else if (msg === null) {
+          res.json({ error: false, message: "Project not found!" });
+        } else {
+          res.status(200).json({
+            data: msg.id,
+            error: false,
+            message: "Project saved successfully!",
+          });
+        }
+      },
+    );
   });
 
   app.get("/api/project/:_id", (req, res) => {
-    if (req.params._id) {
-      ProjectModel.findById(req.params._id, (err, result) => {
+    const cleanId = cleanObjectIdString(req.params._id);
+
+    if (cleanId) {
+      ProjectModel.findById(mongoose.Types.ObjectId(cleanId), (err, result) => {
         if (err) {
           res.json({ message: err, error: true });
         } else if (result === null) {
@@ -212,10 +228,10 @@ export default function Portfolio(app, db) {
       });
     } else {
       let response = {
-        message: "Item could not be found",
+        message: "Valid project id is required",
       };
 
-      res.send(response);
+      res.status(400).send(response);
     }
   });
 
@@ -262,21 +278,26 @@ export default function Portfolio(app, db) {
   });
 
   app.delete("/api/project/:_id", (req, res) => {
-    if (req.params._id) {
-      ProjectModel.findByIdAndRemove(req.params._id, (err, project) => {
-        if (!err) {
-          const deletedID = req.params._id;
-          res.json({ _id: deletedID });
-        } else {
-          res.json({ message: err });
-        }
-      });
+    const cleanId = cleanObjectIdString(req.params._id);
+
+    if (cleanId) {
+      ProjectModel.findByIdAndRemove(
+        mongoose.Types.ObjectId(cleanId),
+        (err, project) => {
+          if (!err) {
+            const deletedID = req.params._id;
+            res.json({ _id: deletedID });
+          } else {
+            res.json({ message: err });
+          }
+        },
+      );
     } else {
       let response = {
-        message: "Todo could not be deleted deleted",
+        message: "Valid project id is required",
       };
 
-      res.send(response);
+      res.status(400).send(response);
     }
   });
 }

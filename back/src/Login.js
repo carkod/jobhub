@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import sanitize from "mongo-sanitize";
 import { UserSchema } from "./Schemas.js";
 import dotenv from "dotenv";
+import { cleanQueryString } from "./utils.js";
 
 dotenv.config();
 
@@ -19,7 +19,14 @@ export default function Login(app, db) {
       });
     }
 
-    const email = sanitize(r.email);
+    const email = cleanQueryString(r.email, 254);
+    if (!email) {
+      return res.status(400).json({
+        message: "Email and password are required.",
+        error: 1,
+      });
+    }
+
     UserModel.findOne({ email: email }, (err, user) => {
       if (err) {
         return res
@@ -42,7 +49,7 @@ export default function Login(app, db) {
               .json({ message: "Login failed. Please try again.", error: 1 });
           }
           if (same) {
-            const savedID = sanitize(user._id);
+            const savedID = String(user._id);
             const secret = process.env.JWT_SECRET;
             if (!secret) {
               return res.status(500).json({
