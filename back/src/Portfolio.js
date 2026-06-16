@@ -4,11 +4,17 @@ import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 import { ProjectSchema } from "./Schemas.js";
-
+import {
+  safeResolveInside,
+  uploadFileName,
+  uploadFileNameFromDocument,
+} from "./utils.js";
 
 dotenv.config();
 
 const host = process.env.ENV_PROD;
+const uploadFileSizeLimit =
+  Number(process.env.UPLOAD_FILE_SIZE_LIMIT) || 25 * 1024 * 1024;
 
 // Compile model from schema
 let ProjectModel = mongoose.model("ProjectModel", ProjectSchema);
@@ -16,18 +22,21 @@ const fileDir = path.join(__dirname, "../", "/uploads");
 
 // Create file directory if not exists
 if (!fs.existsSync(fileDir)) {
-  fs.mkdirSync(fileDir);
+  fs.mkdirSync(fileDir, { recursive: true });
 }
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, fileDir);
   },
   filename(req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, uploadFileName(file.originalname));
   },
 });
 
-const upload = multer({ filesize: 500000, storage: storage });
+const upload = multer({
+  limits: { fileSize: uploadFileSizeLimit },
+  storage: storage,
+});
 const fileUpload = upload.single("fieldname");
 
 export default function Portfolio(app, db) {
@@ -39,7 +48,7 @@ export default function Portfolio(app, db) {
       function (err, content) {
         if (err) throw err;
         res.status(200).json(content);
-      }
+      },
     );
   });
 
@@ -63,30 +72,49 @@ export default function Portfolio(app, db) {
           res.json({ message: err, error: true });
         }
         res.status(200).json(content);
-      }
+      },
     );
   });
 
-  app.post("/api/portfolio/upload", fileUpload, (req, res) => {
-    let f = req.file;
-    if (!f) {
-      res.json({
-        message: "Upload failed! Please upload a file",
-        error: true,
-      });
-    } else {
-      f.url = `${req.protocol}://${req.get("host")}/uploads/${f.filename}`;
-      res.json({
-        message: "Upload successful!",
-        error: false,
-        data: f.url,
-      });
-    }
+  app.post("/api/portfolio/upload", (req, res) => {
+    fileUpload(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({
+          message: err.message || "Upload failed",
+          error: true,
+        });
+      }
+
+      let f = req.file;
+      if (!f) {
+        res.json({
+          message: "Upload failed! Please upload a file",
+          error: true,
+        });
+      } else {
+        f.url = `${req.protocol}://${req.get("host")}/uploads/${f.filename}`;
+        res.json({
+          message: "Upload successful!",
+          error: false,
+          data: f.url,
+        });
+      }
+    });
   });
 
   app.post("/api/portfolio/deupload", (req, res) => {
     let doc = req.body;
-    const foundDir = `${fileDir}/${doc.fileName}`;
+    const fileName = uploadFileNameFromDocument(doc);
+    const foundDir = safeResolveInside(fileDir, fileName);
+
+    if (!foundDir) {
+      return res.status(400).json({
+        message: "Invalid file path",
+        error: true,
+        data: doc,
+      });
+    }
+
     fs.unlink(foundDir, (err) => {
       if (err) {
         res.json({
@@ -159,13 +187,11 @@ export default function Portfolio(app, db) {
       } else if (msg === null) {
         res.json({ error: false, message: "Project not found!" });
       } else {
-        res
-          .status(200)
-          .json({
-            data: msg.id,
-            error: false,
-            message: "Project saved successfully!",
-          });
+        res.status(200).json({
+          data: msg.id,
+          error: false,
+          message: "Project saved successfully!",
+        });
       }
     });
   });

@@ -1,25 +1,42 @@
 import fs from "fs";
 import mongoose from "mongoose";
 import multer from "multer";
+import path from "path";
 import { ApplicationSchema, StagesSchema } from "./Schemas.js";
 import EmailParser from "./services/emailParser.js";
-import { typedStatus } from "./utils.js";
+import {
+  escapeRegex,
+  safeResolveInside,
+  typedStatus,
+  uploadFileName,
+  uploadFileNameFromDocument,
+} from "./utils.js";
 
 // Compile model from schema
-let ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
-let StagesModel = mongoose.model("StagesModel", StagesSchema);
+const ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
+const StagesModel = mongoose.model("StagesModel", StagesSchema);
 
-const fileDir = "uploads/applications";
+const fileDir = path.join(__dirname, "../", "/uploads/applications");
+const uploadFileSizeLimit =
+  Number(process.env.UPLOAD_FILE_SIZE_LIMIT) || 25 * 1024 * 1024;
+
+if (!fs.existsSync(fileDir)) {
+  fs.mkdirSync(fileDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, fileDir);
   },
   filename(req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, uploadFileName(file.originalname));
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  limits: { fileSize: uploadFileSizeLimit },
+  storage: storage,
+});
 const fileUpload = upload.single("fieldname");
 
 function fillModel(r) {
@@ -84,7 +101,7 @@ export default function Tracker(app, db) {
     }
 
     if (companyName) {
-      params["company"] = { $regex: companyName, $options: "i" };
+      params["company"] = { $regex: escapeRegex(companyName), $options: "i" };
     }
 
     try {
@@ -105,22 +122,42 @@ export default function Tracker(app, db) {
   });
 
   app.post("/api/applications-upload", (req, res) => {
-    let f = req.file;
     // file upload
     fileUpload(req, res, (err) => {
-      if (err) throw err;
+      if (err) {
+        return res.status(400).json({
+          message: err.message || "Upload failed",
+          error: true,
+        });
+      }
+
       if (req.file) {
-        const { path } = req.file;
-        req.file.url = req.protocol + "://" + req.get("host") + "/" + path;
+        req.file.url = `${req.protocol}://${req.get(
+          "host",
+        )}/uploads/applications/${req.file.filename}`;
         res.json(req.file);
+      } else {
+        res.status(400).json({
+          message: "Upload failed! Please upload a file",
+          error: true,
+        });
       }
     });
   });
 
   app.post("/api/applications-deupload", (req, res) => {
     let doc = req.body;
-    const fileDir = __dirname + "/" + fileDir + doc.fileRawName;
-    fs.unlink(fileDir, (err) => {
+    const fileName = uploadFileNameFromDocument(doc);
+    const foundDir = safeResolveInside(fileDir, fileName);
+
+    if (!foundDir) {
+      return res.status(400).json({
+        message: "Invalid file path",
+        error: true,
+      });
+    }
+
+    fs.unlink(foundDir, (err) => {
       if (err) {
         res.json(err);
       } else {
@@ -174,7 +211,7 @@ export default function Tracker(app, db) {
             res.json({ status: !!msg.ok });
           }
         }
-      }
+      },
     );
   });
 
@@ -199,7 +236,7 @@ export default function Tracker(app, db) {
     try {
       let application = await ApplicationModel.findByIdAndUpdate(
         id,
-        applications
+        applications,
       );
       if (application) {
         res.status(200).json({
@@ -271,7 +308,7 @@ export default function Tracker(app, db) {
           } else {
             res.json({ message: err });
           }
-        }
+        },
       );
     } else {
       let response = {
