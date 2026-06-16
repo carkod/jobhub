@@ -1,8 +1,12 @@
 import express from "express";
-import mongoose, { Types } from "mongoose";
+import mongoose, { isValidObjectId, Types } from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url";
 import { CVSchema, CLSchema } from "./Schemas.js";
 import { generatePDF } from "./generator.js";
 import { cleanObjectIdString, cleanQueryString } from "./utils.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Compile model from schema
 let CVModel = mongoose.model("CVModel", CVSchema);

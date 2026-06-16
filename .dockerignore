@@ -80,6 +80,7 @@ webhook.js
 back/uploads/*
 back/dist/
 back/docs
+back/src/pdf/assets/
 back/uploads
 *.http
 restore

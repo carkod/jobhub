@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y gnupg nginx \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
     && apt-get update && apt-get install google-chrome-stable -y fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+ENV PUPPETEER_SKIP_DOWNLOAD=true
 
 COPY --from=build-hub /hub/dist /usr/share/nginx/html/hub
 COPY nginx.conf /etc/nginx/conf.d/jobhub.conf

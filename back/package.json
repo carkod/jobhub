@@ -2,15 +2,15 @@
   "name": "back",
   "version": "1.0.0",
   "description": "Back-end application for Jobhub",
-  "main": "server.js",
+  "type": "module",
+  "main": "src/server.js",
   "scripts": {
-    "start": "npm run watch-sass & nodemon --exec babel-node -- src/server.js",
+    "start": "npm run watch-sass & nodemon src/server.js",
     "watch-sass": "sass --watch src/pdf/styles/:src/pdf/assets/",
-    "build-js": "babel src --copy-files --extensions .js --ignore pdf/styles --out-dir dist",
-    "build-sass": "sass src/pdf/styles/:dist/pdf/styles/",
-    "build": "npm run build-js && npm run build-sass",
+    "build-sass": "sass src/pdf/styles/:src/pdf/assets/",
+    "build": "npm run build-sass",
     "format": "prettier --write \"src/**/*.{js,jsx,css,scss,json,md}\" \"*.{js,json,md}\"",
-    "production": "node dist/server.js",
+    "production": "node src/server.js",
     "clean": "rm -rf docs node_modules dist src/pdf/assets"
   },
   "keywords": [
@@ -45,22 +45,7 @@
     "semantic-ui-css": "^2.5.0"
   },
   "devDependencies": {
-    "@babel/cli": "^8.0.0",
-    "@babel/core": "^8.0.0",
-    "@babel/node": "^8.0.0",
-    "@babel/plugin-transform-flow-strip-types": "^8.0.0",
-    "@babel/plugin-transform-runtime": "^8.0.0",
-    "@babel/preset-env": "^8.0.0",
     "nodemon": "^2.0.6",
     "prettier": "^3.8.3"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-transform-runtime",
-      "@babel/plugin-transform-flow-strip-types"
-    ]
   }
 }
