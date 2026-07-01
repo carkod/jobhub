@@ -47,7 +47,7 @@
   "devDependencies": {
     "@babel/cli": "^8.0.0",
     "@babel/core": "^8.0.0",
-    "@babel/node": "^8.0.0",
+    "@babel/node": "^8.0.1",
     "@babel/plugin-transform-flow-strip-types": "^8.0.0",
     "@babel/plugin-transform-runtime": "^8.0.0",
     "@babel/preset-env": "^8.0.0",
