@@ -51,7 +51,7 @@
     "@babel/plugin-transform-flow-strip-types": "^8.0.0",
     "@babel/plugin-transform-runtime": "^8.0.0",
     "@babel/preset-env": "^8.0.0",
-    "nodemon": "^2.0.6",
+    "nodemon": "^3.1.14",
     "prettier": "^3.8.3"
   },
   "babel": {
