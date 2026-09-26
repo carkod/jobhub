@@ -4,7 +4,8 @@ import { CVSchema } from "./Schemas.js";
 import { cleanObjectIdString, cleanQueryString } from "./utils.js";
 
 // Compile model from schema
-const CVModel = mongoose.model("CVModel", CVSchema);
+export const CVModel =
+  mongoose.models.CVModel || mongoose.model("CVModel", CVSchema);
 const compare = (a, b) => {
   const splitA = a.date.split("–")[0];
   const A = moment(splitA.split("/").reverse());
