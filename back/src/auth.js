@@ -42,6 +42,11 @@ export function verifyRequest(req) {
   }
 }
 
+// For public routes that serve both web/ and hub/: hub/ users see everything,
+// visitors without a login see only content with status "public".
+export const visibilityQuery = (req) =>
+  verifyRequest(req) ? {} : { "cats.status": "public" };
+
 export default function requireHubLogin(req, res, next) {
   // Express matches routes case-insensitively, so the policy must too.
   const path = req.path.toLowerCase();
