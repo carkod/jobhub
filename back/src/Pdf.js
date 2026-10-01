@@ -115,7 +115,12 @@ export default function Pdf(app) {
       }/${updatedDate.getFullYear()}`;
 
       try {
-        const file = await generatePDF(viewPath, pdfConfig.title, date);
+        const file = await generatePDF(
+          viewPath,
+          pdfConfig.title,
+          date,
+          req.headers.authorization,
+        );
 
         res.type("application/pdf");
         res.header("Content-Length", file.length);

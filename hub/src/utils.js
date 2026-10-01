@@ -82,21 +82,42 @@ export function buildBackUrl() {
   };
 }
 
+// Getters, so that each request reads the current token. A value read once at import
+// would stay empty after login until the page reloads.
+const authorization = () => {
+  const token = getToken();
+  return token ? `Bearer ${token}` : "";
+};
+
 export const headers = {
   "Content-Type": "application/json",
-  Authorization: `Bearer ${localStorage.getItem("hubToken")}`,
+  get Authorization() {
+    return authorization();
+  },
 };
 
 export const bufferHeaders = {
   Accept: "application/pdf",
-  Authorization: `Bearer ${localStorage.getItem("hubToken")}`,
+  get Authorization() {
+    return authorization();
+  },
 };
 
 export const formdataHeaders = {
-  Authorization: `Bearer ${localStorage.getItem("hubToken")}`,
+  get Authorization() {
+    return authorization();
+  },
+};
+
+// The back-end returns 401 when the token is missing or expired (10 h). Log out.
+const handleUnauthorized = (response) => {
+  if (response.status !== 401) return;
+  localStorage.removeItem("hubToken");
+  if (window.location.pathname !== "/login") window.location.assign("/login");
 };
 
 export function handleResponse(response) {
+  handleUnauthorized(response);
   if (response.ok) {
     return response.json();
   } else {
@@ -107,6 +128,7 @@ export function handleResponse(response) {
 }
 
 export function handleUploadResponse(response) {
+  handleUnauthorized(response);
   if (response.ok) {
     return response.json();
   } else {
@@ -117,6 +139,7 @@ export function handleUploadResponse(response) {
 }
 
 export function handlePdfResponse(response) {
+  handleUnauthorized(response);
   if (response.ok) {
     return response;
   } else {
