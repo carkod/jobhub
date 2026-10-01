@@ -20,6 +20,24 @@ ${JSON.stringify(job, null, 2)}
 Baseline CV:
 ${JSON.stringify(baselineCv, null, 2)}`;
 
+const factKey = (item = {}) =>
+  [item.company, item.date].map((value) => String(value || "").trim().toLowerCase()).join("|");
+
+// Keep company, position and date from the baseline. Take only the reworded desc
+// and the new order from the model. Items the model drops or changes keep their baseline text.
+export const mergeWorkExp = (generatedItems, baselineItems = []) => {
+  if (!Array.isArray(generatedItems)) return baselineItems;
+  const remaining = [...baselineItems];
+  const merged = [];
+  generatedItems.forEach((item) => {
+    const index = remaining.findIndex((base) => factKey(base) === factKey(item));
+    if (index === -1) return;
+    const [base] = remaining.splice(index, 1);
+    merged.push({ ...base, desc: typeof item.desc === "string" ? item.desc : base.desc });
+  });
+  return [...merged, ...remaining];
+};
+
 export const normalizeGeneratedCv = (generated, baseline, job) => {
   const source = generated && typeof generated === "object" ? generated : {};
   const keepArray = (key) =>
@@ -38,8 +56,8 @@ export const normalizeGeneratedCv = (generated, baseline, job) => {
     },
     image: baseline.image,
     persdetails: baseline.persdetails || {},
-    workExp: keepArray("workExp"),
-    educ: keepArray("educ"),
+    workExp: mergeWorkExp(source.workExp, baseline.workExp),
+    educ: baseline.educ || [],
     langSkills: keepArray("langSkills"),
     webdevSkills: keepArray("webdevSkills"),
     itSkills: keepArray("itSkills"),

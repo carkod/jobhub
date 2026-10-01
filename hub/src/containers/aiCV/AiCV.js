@@ -24,6 +24,9 @@ const initialForm = {
   baselineCvId: "",
 };
 
+// 10 s per poll, so about 15 minutes. This matches the server's stale-job limit.
+const MAX_POLL_ATTEMPTS = 90;
+
 const plainText = (value = "") =>
   value
     .replace(/<[^>]*>/g, " ")
@@ -52,16 +55,25 @@ class AiCV extends Component {
     this.setState(({ form }) => ({ form: { ...form, [name]: value } }));
   };
 
-  poll = (jobId) => {
+  poll = (jobId, attempt = 1) => {
     this.pollTimer = window.setTimeout(async () => {
       try {
         const result = await this.props.fetchAiCvGeneration(jobId);
+        // Ignore results from a job that a newer submit replaced.
+        if (jobId !== this.activeJobId) return;
         this.setState({
           status: result.status,
           generatedCv: result.cv || null,
         });
-        if (result.status === "in-progress" || result.status === "new")
-          this.poll(jobId);
+        const pending =
+          result.status === "in-progress" || result.status === "new";
+        if (pending && attempt < MAX_POLL_ATTEMPTS)
+          this.poll(jobId, attempt + 1);
+        if (pending && attempt >= MAX_POLL_ATTEMPTS)
+          this.props.notify(
+            "CV generation is taking too long. Check the CV list later.",
+            true,
+          );
         if (result.status === "completed")
           this.props.notify("Your tailored CV is ready.");
         if (result.status === "failed")
@@ -73,6 +85,8 @@ class AiCV extends Component {
   };
 
   handleSubmit = async () => {
+    window.clearTimeout(this.pollTimer);
+    this.activeJobId = null;
     this.setState({ loading: true, status: "new", generatedCv: null });
     try {
       const result = await this.props.generateAiCv(this.state.form);
@@ -82,6 +96,7 @@ class AiCV extends Component {
         generatedCv: result.cv || null,
       });
       this.props.notify(result.message);
+      this.activeJobId = result.jobId;
       if (result.status === "in-progress") this.poll(result.jobId);
     } catch (error) {
       this.setState({ loading: false, status: "failed" });
