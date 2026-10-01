@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose, { Types } from "mongoose";
 import { CVSchema, CLSchema } from "./Schemas.js";
+import { visibilityQuery } from "./auth.js";
 import { generatePDF } from "./generator.js";
 import { cleanObjectIdString, cleanQueryString } from "./utils.js";
 
@@ -20,6 +21,8 @@ function getPdfConfig(type) {
   if (type === "cv" || type === "curriculum-vitae") {
     return {
       model: CVModel,
+      // CVs are public, so a visitor without a login only gets published ones.
+      publicOnly: true,
       title: "curriculum vitae",
       viewType: "curriculum-vitae",
     };
@@ -61,6 +64,7 @@ export default function Pdf(app) {
     if (!query) {
       return res.status(400).send("Invalid PDF id");
     }
+    if (pdfConfig.publicOnly) Object.assign(query, visibilityQuery(req));
 
     pdfConfig.model.findOne(query, (findErr, content) => {
       if (findErr) {
@@ -92,6 +96,7 @@ export default function Pdf(app) {
         .status(400)
         .json({ error: true, message: "Unsupported PDF type" });
     }
+    if (pdfConfig.publicOnly) Object.assign(query, visibilityQuery(req));
 
     pdfConfig.model.findOne(query, async (err, content) => {
       if (err) {
@@ -115,7 +120,12 @@ export default function Pdf(app) {
       }/${updatedDate.getFullYear()}`;
 
       try {
-        const file = await generatePDF(viewPath, pdfConfig.title, date);
+        const file = await generatePDF(
+          viewPath,
+          pdfConfig.title,
+          date,
+          req.headers.authorization,
+        );
 
         res.type("application/pdf");
         res.header("Content-Length", file.length);

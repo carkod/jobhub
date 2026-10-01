@@ -48,7 +48,8 @@ function getPuppeteerLaunchOptions() {
   return launchOptions;
 }
 
-export async function generatePDF(viewPath, title, updatedDate) {
+// authorization is the caller's Authorization header. Private views (cover letters) need it.
+export async function generatePDF(viewPath, title, updatedDate, authorization) {
   let browser;
 
   try {
@@ -59,6 +60,18 @@ export async function generatePDF(viewPath, title, updatedDate) {
 
     // create a new page
     const page = await browser.newPage();
+    if (authorization) {
+      // Send the header only to the internal origin, never to third-party assets.
+      const internalOrigin = new URL(url).origin;
+      await page.setRequestInterception(true);
+      page.on("request", (request) => {
+        const headers = request.headers();
+        if (new URL(request.url()).origin === internalOrigin) {
+          headers.authorization = authorization;
+        }
+        request.continue({ headers });
+      });
+    }
 
     // set your html as the pages content
     await page.goto(url, {

@@ -1,10 +1,12 @@
 import moment from "moment";
 import mongoose, { Types } from "mongoose";
 import { CVSchema } from "./Schemas.js";
+import { visibilityQuery } from "./auth.js";
 import { cleanObjectIdString, cleanQueryString } from "./utils.js";
 
 // Compile model from schema
-const CVModel = mongoose.model("CVModel", CVSchema);
+export const CVModel =
+  mongoose.models.CVModel || mongoose.model("CVModel", CVSchema);
 const compare = (a, b) => {
   const splitA = a.date.split("–")[0];
   const A = moment(splitA.split("/").reverse());
@@ -16,7 +18,9 @@ const compare = (a, b) => {
 export default function CVs(app) {
   app.get("/api/cvs", async (req, res) => {
     try {
-      let cvs = await CVModel.find({}, null, { sort: { updatedAt: -1 } });
+      let cvs = await CVModel.find(visibilityQuery(req), null, {
+        sort: { updatedAt: -1 },
+      });
       res.status(200).json(cvs);
     } catch (err) {
       res.status(400).json(err);
@@ -143,7 +147,8 @@ export default function CVs(app) {
     const cleanId = cleanObjectIdString(req.params._id);
 
     if (cleanId) {
-      CVModel.findOne({ _id: Types.ObjectId(cleanId) }, (err, cv) => {
+      const query = { _id: Types.ObjectId(cleanId), ...visibilityQuery(req) };
+      CVModel.findOne(query, (err, cv) => {
         if (!err) {
           res.status(200).json({ cv });
         } else {
@@ -161,7 +166,7 @@ export default function CVs(app) {
         return res.status(400).json({ message: "Invalid CV id" });
       }
 
-      CVModel.findOne({ slug: cleanSlug }, (err, cv) => {
+      CVModel.findOne({ slug: cleanSlug, ...visibilityQuery(req) }, (err, cv) => {
         if (!err) {
           res.status(200).json({ cv });
         } else {

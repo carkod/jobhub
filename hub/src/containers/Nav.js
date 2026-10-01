@@ -26,6 +26,11 @@ class Nav extends Component {
             </NavLink>
           </div>
           <div className="item">
+            <NavLink to="/ai-cv" className="u-section-title">
+              AI CV
+            </NavLink>
+          </div>
+          <div className="item">
             <NavLink to="/coverletters" className="u-section-title">
               COVER LETTERS
             </NavLink>

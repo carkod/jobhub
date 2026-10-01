@@ -70,3 +70,15 @@ body {
   padding: 0.5em;
   width: 40rem;
 }
+
+/* Draft content is not on the public site. Fade the card, but show it fully on hover or focus. */
+.ui.cards > .card.is-draft {
+  background: #f3f4f5;
+  opacity: 0.6;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.ui.cards > .card.is-draft:hover,
+.ui.cards > .card.is-draft:focus-within {
+  opacity: 1;
+}

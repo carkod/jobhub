@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import path from "path";
 import mongoSanitize from "express-mongo-sanitize";
 import Api from "./Api.js";
+import AiCV from "./AiCV.js";
+import requireHubLogin from "./auth.js";
 import Blog from "./Blog.js";
 import Categories from "./Categories.js";
 import CoverLetters from "./CoverLetters.js";
@@ -105,6 +107,10 @@ const appFactory = async (app) => {
 
     app.use(setCorsHeaders);
 
+    // Login check for every /api and /pdf route except the public ones in auth.js.
+    // It runs before body parsing so that requests without a login are rejected early.
+    app.use(requireHubLogin);
+
     // sanitization
     app.use(mongoSanitize());
 
@@ -145,6 +151,7 @@ const appFactory = async (app) => {
 
     //CRUD
     Api(app);
+    AiCV(app);
     CVs(app, db);
     CoverLetters(app, db);
     Portfolio(app, db);

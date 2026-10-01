@@ -51,6 +51,7 @@ class Listing extends Component {
               <Card
                 key={`panel-${cv._id}`}
                 color={cv.cats.position === "front-end" ? "blue" : null}
+                className={cv.cats?.status === "draft" ? "is-draft" : undefined}
                 href={`/cv/${cv._id}`}
               >
                 <Card.Content>

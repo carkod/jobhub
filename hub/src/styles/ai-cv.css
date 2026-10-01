@@ -1,0 +1,77 @@
+#ai-cv {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 0 60px;
+}
+.ai-cv-heading {
+  padding: 28px 32px;
+  margin-bottom: 22px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(120deg, #172a3a, #086f65);
+  box-shadow: 0 12px 30px rgba(23, 42, 58, 0.18);
+}
+.ai-cv-heading h1 {
+  margin: 5px 0 8px;
+  font-size: 2.35rem;
+}
+.ai-cv-heading p {
+  margin: 0;
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.08rem;
+}
+.eyebrow {
+  color: #74e0c4;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.ui.segment.ai-cv-form-card {
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(28, 45, 65, 0.1);
+}
+.title-status-row {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  align-items: end;
+  gap: 18px;
+}
+.status-field {
+  padding-bottom: 1em;
+}
+.status-field > label {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 0.92857143em;
+  font-weight: 700;
+}
+.status-field .ui.label {
+  min-width: 86px;
+  text-align: center;
+  text-transform: capitalize;
+}
+.ui.card.ai-cv-result {
+  margin-top: 24px;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(28, 45, 65, 0.1);
+}
+.ai-cv-experience {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eee;
+}
+@media (max-width: 700px) {
+  .title-status-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .status-field {
+    padding-bottom: 1em;
+  }
+  .ai-cv-heading {
+    padding: 22px;
+  }
+}

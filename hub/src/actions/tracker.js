@@ -1,4 +1,9 @@
-import { buildBackUrl, handleResponse, headers } from "../utils";
+import {
+  buildBackUrl,
+  formdataHeaders,
+  handleResponse,
+  headers,
+} from "../utils";
 import { addNotification } from "./notification";
 
 export const SET_APPLICATIONS = "SET_APPLICATIONS";
@@ -109,6 +114,7 @@ export function removeFile(file) {
 export function uploadFile(file) {
   return fetch(`${buildBackUrl().apiUrl}/application-upload`, {
     method: "post",
+    headers: formdataHeaders,
     body: file,
   }).then((res) => res.json());
 }

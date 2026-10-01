@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import Blog from "./containers/blog/Blog";
 import BlogList from "./containers/blog/BlogList";
+import AiCV from "./containers/aiCV/AiCV";
 import CoverLetters from "./containers/coverLetters/CoverLetters";
 import Letter from "./containers/coverLetters/Letter";
 import Detail from "./containers/curriculum/Detail";
@@ -40,6 +41,7 @@ const AppRouter = () => (
         <Route exact path="/tracker/:id" element={<EditApplication />} />
         <Route exact path="/new-tracker" element={<AddNewApplication />} />
         <Route exact path="/cv" element={<Listing />} />
+        <Route exact path="/ai-cv" element={<AiCV />} />
         <Route exact path="/cv/positions" element={<Positions />} />
         <Route exact path="/relationships" element={<Relationships />} />
         <Route exact path="/cv/:id" element={<Detail />} />
