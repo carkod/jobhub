@@ -59,7 +59,7 @@ export default function Login(app, db) {
             }
 
             const token = jwt.sign({ email: email }, secret, {
-              expiresIn: "10h",
+              expiresIn: "180d",
             });
             res.status(200).json({
               _id: savedID,

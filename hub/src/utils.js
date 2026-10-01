@@ -109,7 +109,7 @@ export const formdataHeaders = {
   },
 };
 
-// The back-end returns 401 when the token is missing or expired (10 h). Log out.
+// The back-end returns 401 when the token is missing or expired (180 days). Log out.
 const handleUnauthorized = (response) => {
   if (response.status !== 401) return;
   localStorage.removeItem("hubToken");
