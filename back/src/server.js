@@ -16,6 +16,7 @@ import CVs from "./CVs.js";
 import Login from "./Login.js";
 import Pdf from "./Pdf.js";
 import Portfolio from "./Portfolio.js";
+import requestLogger from "./requestLogger.js";
 import Tracker from "./Tracker.js";
 import { safeResolveInside } from "./utils.js";
 
@@ -99,6 +100,7 @@ const appFactory = async (app) => {
         process.env.HOST === "localhost" ||
         process.env.HOSTNAME === "localhost",
     });
+    app.use(requestLogger);
     app.use(limiter); // Apply the rate limiting middleware to all requests
     app.use(setSecurityHeaders);
 
