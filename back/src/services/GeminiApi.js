@@ -1,4 +1,5 @@
 import { VertexAI } from "@google-cloud/vertexai";
+import { logger } from "../requestLogger.js";
 
 export const CLASSIFICATION_SCHEMA = {
   type: "object",
@@ -64,7 +65,7 @@ export default class GeminiApi {
     });
 
     const text = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
-    console.log("gemini_raw_output", text);
+    logger.debug({ event: "gemini_raw_output", output: text });
     return JSON.parse(text);
   }
 
