@@ -149,11 +149,14 @@ class AiCV extends Component {
 
   render() {
     const { form, loading, status } = this.state;
-    const cvOptions = (this.props.cvs || []).map((cv) => ({
-      key: cv._id,
-      value: cv._id,
-      text: cv.name,
-    }));
+    // The reducer starts with an empty placeholder CV that has no _id. Skip it.
+    const cvOptions = (this.props.cvs || [])
+      .filter((cv) => cv._id)
+      .map((cv) => ({
+        key: cv._id,
+        value: cv._id,
+        text: cv.name,
+      }));
     return (
       <div id="ai-cv">
         <div className="ai-cv-heading">

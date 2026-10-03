@@ -55,33 +55,45 @@ class Login extends Component {
           notifications={this.props.snackBarReducer}
           authNotification={this.state.isAuthenticated}
         />
-        <Segment id="login" compact>
-          <Header as="h2">LOGIN FOR ACCESS</Header>
-          <Form onSubmit={this.login}>
-            <Form.Field>
+        <Segment id="login">
+          <div className="login-heading">
+            <Header as="h2">LOGIN FOR ACCESS</Header>
+          </div>
+          <Form className="login-form" size="large" onSubmit={this.login}>
+            <Form.Field className="login-field">
               <Input
+                fluid
                 type="text"
                 name="email"
                 placeholder="Email"
+                autoComplete="email"
                 onChange={this.handleChange}
               />
             </Form.Field>
-            <Form.Field>
+            <Form.Field className="login-field">
               <Input
+                fluid
                 type="password"
                 name="password"
                 placeholder="Password"
+                autoComplete="current-password"
                 onChange={this.handleChange}
               />
             </Form.Field>
-            <Form.Field>
+            <Form.Field className="login-remember">
               <Checkbox
                 name="remember"
                 label="Remember me"
                 onChange={this.checkboxChange}
               />
             </Form.Field>
-            <Button type="submit" name="login">
+            <Button
+              className="login-submit"
+              fluid
+              size="large"
+              type="submit"
+              name="login"
+            >
               Log in
             </Button>
           </Form>

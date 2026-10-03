@@ -50,9 +50,19 @@ export const visibilityQuery = (req) =>
 export default function requireHubLogin(req, res, next) {
   // Express matches routes case-insensitively, so the policy must too.
   const path = req.path.toLowerCase();
-  if (!isProtectedPath(path) || isPublicRoute(req.method, path)) return next();
+  if (!isProtectedPath(path)) return next();
 
   const user = verifyRequest(req);
+  if (isPublicRoute(req.method, path)) {
+    // A visitor without a token gets the public view. A token that is sent but is
+    // expired or invalid gets a 401, so hub/ logs out and does not show a partial list.
+    if (!user && readBearerToken(req.headers.authorization)) {
+      return res.status(401).json({ error: true, message: "Login expired." });
+    }
+    req.user = user;
+    return next();
+  }
+
   if (!user) {
     return res
       .status(401)

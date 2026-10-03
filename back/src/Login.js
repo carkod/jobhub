@@ -9,6 +9,14 @@ dotenv.config();
 
 let UserModel = mongoose.model("HubUsers", UserSchema);
 
+const invalidCredentials = {
+  error: 1,
+  message: "Login credentials are not correct.",
+};
+
+const respondUnauthorized = (res) =>
+  res.status(401).json(invalidCredentials);
+
 export default function Login(app, db) {
   app.post("/api/login", (req, res) => {
     let r = req.body;
@@ -29,24 +37,17 @@ export default function Login(app, db) {
 
     UserModel.findOne({ email: email }, (err, user) => {
       if (err) {
-        return res
-          .status(500)
-          .json({ message: "Login failed. Please try again.", error: 1 });
+        console.error("Login credential lookup failed:", err);
+        return respondUnauthorized(res);
       }
 
-      const invalidCredentials = {
-        error: 1,
-        message: "Login credentials are not correct.",
-      };
-
       if (user === null) {
-        res.status(401).json(invalidCredentials);
+        return respondUnauthorized(res);
       } else {
         bcrypt.compare(r.password, user.password, function (err, same) {
           if (err) {
-            return res
-              .status(500)
-              .json({ message: "Login failed. Please try again.", error: 1 });
+            console.error("Login password comparison failed:", err);
+            return respondUnauthorized(res);
           }
           if (same) {
             const savedID = String(user._id);
@@ -59,7 +60,7 @@ export default function Login(app, db) {
             }
 
             const token = jwt.sign({ email: email }, secret, {
-              expiresIn: "10h",
+              expiresIn: "180d",
             });
             res.status(200).json({
               _id: savedID,
@@ -68,7 +69,7 @@ export default function Login(app, db) {
               message: "Login successful!",
             });
           } else {
-            res.status(401).json(invalidCredentials);
+            return respondUnauthorized(res);
           }
         });
       }

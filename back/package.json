@@ -22,6 +22,7 @@
   "author": "Carlos Wu",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^8.0.5",
     "@google-cloud/vertexai": "^1.12.0",
     "axios": "^1.18.0",
     "bcryptjs": "^2.4.3",
@@ -56,7 +57,12 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
+      [
+        "@babel/preset-env",
+        {
+          "modules": "commonjs"
+        }
+      ]
     ],
     "plugins": [
       "@babel/plugin-transform-runtime",

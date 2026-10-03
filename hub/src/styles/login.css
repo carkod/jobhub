@@ -1,10 +1,158 @@
-#login {
-  flex: none;
-}
-
 .login-centerer {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 3rem 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(8, 111, 101, 0.14),
+      transparent 32%
+    ),
+    radial-gradient(circle at 88% 82%, rgba(23, 42, 58, 0.12), transparent 34%),
+    #f5f8f8;
+}
+
+.login-centerer::before,
+.login-centerer::after {
+  position: absolute;
+  width: 18rem;
+  height: 18rem;
+  border: 1px solid rgba(8, 111, 101, 0.12);
+  border-radius: 50%;
+  content: "";
+}
+
+.login-centerer::before {
+  top: -8rem;
+  right: -5rem;
+}
+
+.login-centerer::after {
+  bottom: -10rem;
+  left: -6rem;
+}
+
+#login.ui.segment {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: min(100%, 560px);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 22px 60px rgba(23, 42, 58, 0.18);
+}
+
+#login .login-heading {
+  padding: 3rem;
+  background: linear-gradient(120deg, #172a3a, #086f65);
+}
+
+#login .login-heading .ui.header {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+}
+
+#login .login-heading .ui.header::after {
+  display: block;
+  width: 3.5rem;
+  height: 3px;
+  margin-top: 1.25rem;
+  border-radius: 999px;
+  background: #74e0c4;
+  content: "";
+}
+
+#login .login-form {
+  padding: 3rem;
+}
+
+#login .login-field.field {
+  margin-bottom: 1.35rem;
+}
+
+#login .ui.input > input {
+  min-height: 58px;
+  padding: 1rem 1.1rem;
+  border: 1px solid #d9e3e3;
+  border-radius: 10px;
+  background: #f8fafa;
+  color: #172a3a;
+  font-size: 1.05rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+#login .ui.input > input:focus {
+  border-color: #0b8175;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(8, 111, 101, 0.12);
+}
+
+#login .ui.input > input::placeholder {
+  color: #77868e;
+}
+
+#login .login-remember.field {
+  margin: 0.5rem 0 0;
+}
+
+#login .ui.checkbox label {
+  color: #52616a;
+  font-size: 1rem;
+}
+
+#login .ui.button.login-submit {
+  min-height: 56px;
+  margin-top: 2rem;
+  border-radius: 10px;
+  background: #086f65;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 18px rgba(8, 111, 101, 0.2);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+#login .ui.button.login-submit:hover,
+#login .ui.button.login-submit:focus {
+  background: #075f57;
+  box-shadow: 0 10px 22px rgba(8, 111, 101, 0.28);
+  transform: translateY(-1px);
+}
+
+#login .ui.button.login-submit:active {
+  box-shadow: 0 5px 12px rgba(8, 111, 101, 0.2);
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .login-centerer {
+    align-items: flex-start;
+    padding: 1.5rem 1rem;
+  }
+
+  #login .login-heading,
+  #login .login-form {
+    padding: 2rem 1.5rem;
+  }
+
+  #login .login-heading .ui.header {
+    font-size: 1.85rem;
+  }
 }
