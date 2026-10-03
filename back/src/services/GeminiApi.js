@@ -1,4 +1,4 @@
-import { VertexAI } from "@google-cloud/vertexai";
+import { GoogleGenAI } from "@google/genai";
 import { logger } from "../requestLogger.js";
 
 export const CLASSIFICATION_SCHEMA = {
@@ -28,43 +28,47 @@ export const EXTRACTION_SCHEMA = {
 
 export default class GeminiApi {
   static max_output_tokens = 512;
-  static regions = ["us-central1", "europe-west1", "europe-west2", "asia-northeast1"];
 
-  constructor() {
-    this.currentRegionIndex = 0;
-  }
+  setupClient() {
+    const project = process.env.GOOGLE_CLOUD_PROJECT || process.env.PROJECT_ID;
+    if (!project) {
+      throw new Error("GOOGLE_CLOUD_PROJECT or PROJECT_ID must be configured for Gemini");
+    }
 
-  setRegionIndex() {
-    this.currentRegionIndex = (this.currentRegionIndex + 1) % this.constructor.regions.length;
-  }
-
-  setupModel() {
-    this.setRegionIndex();
-    const vertexAi = new VertexAI({
-      project: process.env.PROJECT_ID,
-      location: this.constructor.regions[this.currentRegionIndex],
+    return new GoogleGenAI({
+      enterprise: true,
+      project,
+      location: process.env.GOOGLE_CLOUD_LOCATION || "global",
+      apiVersion: "v1",
     });
+  }
 
-    return vertexAi.getGenerativeModel({
-      model: "gemini-2.0-flash-001",
-      generation_config: {
-        max_output_tokens: this.constructor.max_output_tokens,
-        temperature: 0,
+  getModelName() {
+    return process.env.GEMINI_MODEL || "gemini-3.8-flash";
+  }
+
+  async generateContent(contents, config = {}) {
+    const client = this.setupClient();
+    return client.models.generateContent({
+      model: this.getModelName(),
+      contents,
+      config: {
+        maxOutputTokens: this.constructor.max_output_tokens,
+        ...config,
       },
     });
   }
 
   async requestJson(prompt, schema) {
-    const model = this.setupModel();
-    const result = await model.generateContent({
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: {
+    const result = await this.generateContent(
+      [{ role: "user", parts: [{ text: prompt }] }],
+      {
         responseMimeType: "application/json",
-        responseSchema: schema,
+        responseJsonSchema: schema,
       },
-    });
+    );
 
-    const text = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+    const text = result?.text || "{}";
     logger.debug({ event: "gemini_raw_output", output: text });
     return JSON.parse(text);
   }
