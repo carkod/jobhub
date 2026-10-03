@@ -3,6 +3,11 @@ services:
   #   image: carloswufei/jobhub
   #   restart: always
   #   container_name: jobhub_app
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "10m"
+  #       max-file: "3"
   #   depends_on:
   #     web:
   #       condition: service_started
@@ -24,6 +29,11 @@ services:
   #   image: carloswufei/jobhub
   #   restart: always
   #   container_name: jobhub_web
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "10m"
+  #       max-file: "3"
   #   depends_on:
   #     back:
   #       condition: service_healthy
@@ -42,13 +52,18 @@ services:
   #   image: carloswufei/jobhub
   #   restart: always
   #   container_name: jobhub_back
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "10m"
+  #       max-file: "3"
   #   depends_on:
   #     db:
   #       condition: service_healthy
   #   env_file:
   #     - .env
   #   environment:
-  #     MEDIUM_API_TOKEN: 2a3833154fa181728499e0c2ddc0ec6f92b0be3cc07f9e22eb6aa14e7c4347033
+  #     MEDIUM_API_TOKEN: ${MEDIUM_API_TOKEN}
   #     MONGO_CONNECTION_STRING: mongodb://db/cv_generator
   #     GOOGLE_APPLICATION_CREDENTIALS: /home/back/jobhub-415000-prod.json
   #     HOST: db
