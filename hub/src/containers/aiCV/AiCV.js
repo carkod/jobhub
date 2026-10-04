@@ -353,4 +353,5 @@ const mapDispatchToProps = (dispatch) => ({
   notify: (message, error = false) =>
     dispatch({ ...addNotification({}, message), error }),
 });
+export { AiCV };
 export default connect(mapStateToProps, mapDispatchToProps)(AiCV);
