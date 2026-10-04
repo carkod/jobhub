@@ -1,8 +1,70 @@
 import mongoose from "mongoose";
-import { ApplicationSchema } from "../Schemas.js";
+import { ApplicationSchema, EmailScanCacheSchema } from "../Schemas.js";
 import { cleanQueryString, escapeRegex } from "../utils.js";
 import GeminiApi from "./GeminiApi.js";
 import GmailApi from "./GmailApi.js";
+
+// Bump this when the classification or extraction policy changes so old
+// classifications are reconsidered on the next scan.
+const EMAIL_SCAN_VERSION = 1;
+
+const decodeEmailPart = (data) =>
+  Buffer.from(data.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString(
+    "utf-8",
+  );
+
+const stripHtml = (html) =>
+  html
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&quot;/gi, '"')
+    .replace(/\s+/g, " ")
+    .trim();
+
+const collectBodyParts = (part, type) => {
+  if (!part) return [];
+  const parts = [];
+  if (part.mimeType === type && part.body?.data) {
+    parts.push(decodeEmailPart(part.body.data));
+  }
+  for (const child of part.parts || []) {
+    parts.push(...collectBodyParts(child, type));
+  }
+  return parts;
+};
+
+const extractMessageText = (payload) => {
+  const plainText = collectBodyParts(payload, "text/plain").join("\n").trim();
+  if (plainText) return plainText;
+  return stripHtml(collectBodyParts(payload, "text/html").join("\n"));
+};
+
+const applicationStatuses = {
+  applied: 0,
+  "in progress": 1,
+  rejected: 2,
+  success: 3,
+};
+
+const normalizeApplicationStatus = (status) => {
+  const normalized = String(status || "applied")
+    .trim()
+    .toLowerCase()
+    .replace(/[_-]+/g, " ");
+  const text = Object.hasOwn(applicationStatuses, normalized)
+    ? normalized
+    : "applied";
+  return { text, value: applicationStatuses[text] };
+};
+
+const nonEmptyString = (value) =>
+  typeof value === "string" && value.trim() ? value.trim() : undefined;
 
 export default class EmailParser {
   constructor(access_token, limit = 300) {
@@ -14,40 +76,54 @@ export default class EmailParser {
       "ApplicationModel",
       ApplicationSchema,
     );
+    this.EmailScanCacheModel = mongoose.model(
+      "EmailScanCacheModel",
+      EmailScanCacheSchema,
+    );
     this.reviewQueue = [];
+    this.mailbox = null;
   }
 
-  computePrefilterScore({ subject = "", snippet = "", body = "" }) {
-    const text = `${subject} ${snippet} ${body}`.toLowerCase();
-    const positiveSignals = [
-      "application",
-      "interview",
-      "recruiter",
-      "candidate",
-      "hiring",
-      "position",
-      "job",
-    ];
-    const negativeSignals = [
-      "discount",
-      "sale",
-      "offer",
-      "coupon",
-      "marketing",
-      "unsubscribe",
-      "shop",
-    ];
+  async getMailbox() {
+    if (!this.mailbox) {
+      const profile = await this.gmailApi.fetchProfile();
+      if (!profile?.emailAddress) {
+        throw new Error("Gmail profile did not include an email address");
+      }
+      this.mailbox = profile.emailAddress.toLowerCase();
+    }
+    return this.mailbox;
+  }
 
-    const positive = positiveSignals.reduce(
-      (acc, s) => (text.includes(s) ? acc + 1 : acc),
-      0,
-    );
-    const negative = negativeSignals.reduce(
-      (acc, s) => (text.includes(s) ? acc + 1 : acc),
-      0,
-    );
+  async getCachedScan(messageId) {
+    const mailbox = await this.getMailbox();
+    const cached = await this.EmailScanCacheModel.findOne({
+      mailbox,
+      messageId,
+    }).lean();
+    if (
+      cached?.version !== EMAIL_SCAN_VERSION ||
+      cached?.model !== this.geminiApi.getEmailModelName()
+    ) {
+      return null;
+    }
+    return cached;
+  }
 
-    return { score: positive - negative, positive, negative };
+  async cacheClassification(messageId, classification, resultStatus) {
+    const mailbox = await this.getMailbox();
+    await this.EmailScanCacheModel.replaceOne(
+      { mailbox, messageId },
+      {
+        mailbox,
+        messageId,
+        version: EMAIL_SCAN_VERSION,
+        model: this.geminiApi.getEmailModelName(),
+        classification,
+        resultStatus,
+      },
+      { upsert: true },
+    );
   }
 
   async matchApplication(extraction, threadId) {
@@ -106,14 +182,26 @@ export default class EmailParser {
       return { status: "review" };
     }
 
+    const existing = match.application;
     const payload = {
-      role: extraction.job_title,
-      company: extraction.company,
-      location: extraction.location,
-      applicationUrl: extraction.application_link,
+      role:
+        nonEmptyString(extraction.job_title) || existing?.role || "",
+      company:
+        nonEmptyString(extraction.company) || existing?.company || "",
+      location:
+        nonEmptyString(extraction.location) || existing?.location || "",
+      applicationUrl:
+        nonEmptyString(extraction.application_link) ||
+        existing?.applicationUrl ||
+        "",
       updatedAt: new Date(date || Date.now()),
-      status: { text: extraction.status || "Applied" },
-      description: extraction.job_requirements,
+      status: normalizeApplicationStatus(
+        nonEmptyString(extraction.status) || existing?.status?.text,
+      ),
+      description:
+        nonEmptyString(extraction.job_requirements) ||
+        existing?.description ||
+        "",
       emailId,
       threadId,
     };
@@ -129,12 +217,27 @@ export default class EmailParser {
     await this.ApplicationModel.create({
       _id: mongoose.Types.ObjectId(),
       ...payload,
+      salary: "",
+      contacts: [],
+      files: [],
+      stages: [],
       createdAt: new Date(date || Date.now()),
     });
     return { status: "created" };
   }
 
   async parseMessage(messageId) {
+    const cached = await this.getCachedScan(messageId);
+    if (cached?.resultStatus) {
+      return {
+        messageId,
+        status: cached.resultStatus,
+        classification: cached.classification,
+        extraction: cached.extraction,
+        cached: true,
+      };
+    }
+
     const email = await this.gmailApi.fetchIndividualEmail(messageId);
     const headers = email?.payload?.headers || [];
     const subject =
@@ -142,32 +245,50 @@ export default class EmailParser {
     const date = headers.find((h) => h.name.toLowerCase() === "date")?.value;
     const threadId = email.threadId;
     const snippet = email.snippet || "";
-    const part = email?.payload?.parts?.[0]?.body?.data;
-    const text = part ? Buffer.from(part, "base64").toString("utf-8") : "";
+    const text = extractMessageText(email?.payload);
 
-    const prefilter = this.computePrefilterScore({
-      subject,
-      snippet,
-      body: text,
-    });
-    if (prefilter.score <= 0) {
-      return { messageId, status: "skipped_prefilter", prefilter };
+    if (!subject && !snippet && !text) {
+      return { messageId, status: "skipped_empty" };
     }
 
-    const classification = await this.geminiApi.classifyEmail({
-      subject,
-      snippet,
-      text,
-    });
-    if (!classification?.is_job_related || classification.confidence < 0.8) {
-      return { messageId, status: "skipped_classification", classification };
+    const classification =
+      cached?.classification ||
+      (await this.geminiApi.classifyEmail({ subject, snippet, text }));
+    if (
+      typeof classification?.is_job_related !== "boolean" ||
+      typeof classification.confidence !== "number" ||
+      classification.confidence < 0 ||
+      classification.confidence > 1
+    ) {
+      throw new Error("Gemini returned an invalid email classification");
+    }
+    const jobRelated =
+      classification?.is_job_related === true &&
+      classification.confidence >= 0.8;
+    if (!cached?.classification) {
+      await this.cacheClassification(
+        messageId,
+        classification,
+        jobRelated ? undefined : "skipped_classification",
+      );
+    }
+    if (!jobRelated) {
+      return {
+        messageId,
+        status: "skipped_classification",
+        classification,
+      };
     }
 
-    const extraction = await this.geminiApi.extractJobData({
-      subject,
-      snippet,
-      text,
-    });
+    const extraction =
+      cached?.extraction ||
+      (await this.geminiApi.extractJobData({ subject, snippet, text }));
+    if (!cached?.extraction) {
+      await this.EmailScanCacheModel.updateOne(
+        { mailbox: await this.getMailbox(), messageId },
+        { $set: { extraction } },
+      );
+    }
     const match = await this.matchApplication(extraction, threadId);
     const writeResult = await this.guardedUpsert({
       extraction,
@@ -176,6 +297,12 @@ export default class EmailParser {
       threadId,
       match,
     });
+    if (writeResult.status === "created" || writeResult.status === "updated") {
+      await this.EmailScanCacheModel.updateOne(
+        { mailbox: await this.getMailbox(), messageId },
+        { $set: { resultStatus: writeResult.status } },
+      );
+    }
 
     return {
       messageId,

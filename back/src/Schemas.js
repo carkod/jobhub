@@ -200,6 +200,20 @@ ApplicationSchema.pre("save", function (next) {
   next();
 });
 
+const EmailScanCacheSchema = new Schema(
+  {
+    mailbox: { type: String, required: true },
+    messageId: { type: String, required: true },
+    version: { type: Number, required: true },
+    model: { type: String, required: true },
+    classification: { type: Schema.Types.Mixed, required: true },
+    extraction: { type: Schema.Types.Mixed },
+    resultStatus: { type: String },
+  },
+  { timestamps: true },
+);
+EmailScanCacheSchema.index({ mailbox: 1, messageId: 1 }, { unique: true });
+
 const ServicesSchema = new Schema({
   publishedDate: { type: Schema.Types.Mixed },
   url: { type: String },
@@ -229,6 +243,7 @@ export {
   CategoriesSchema,
   UserSchema,
   ApplicationSchema,
+  EmailScanCacheSchema,
   StagesSchema,
   ContactsSchema,
   BlogSchema,
