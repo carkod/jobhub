@@ -1,7 +1,5 @@
 import GeminiApi from "./GeminiApi.js";
 
-const PROMPT = "Adapt my CV to this job description";
-
 const extractJson = (text) => {
   const cleaned = text
     .trim()
@@ -10,7 +8,7 @@ const extractJson = (text) => {
   return JSON.parse(cleaned);
 };
 
-export const buildCvPrompt = (baselineCv, job) => `${PROMPT}.
+export const buildCvPrompt = (baselineCv, job) => `${job.prompt}.
 
 Return only valid JSON. Keep the exact top-level shape of the baseline CV and preserve factual personal details, employers, dates, education and qualifications. Tailor only the summary, wording, ordering and skills to emphasize relevant experience. Do not invent experience or credentials. Set name and navName to a concise title that includes the target job and business, and set cats.status to "draft".
 
