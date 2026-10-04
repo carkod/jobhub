@@ -1,6 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert/strict");
-const EmailParser = require("../dist/services/emailParser.js").default;
+import test from "node:test";
+import assert from "node:assert/strict";
+import EmailParser from "../src/services/emailParser.js";
 
 const makeParser = (messages, classifyEmail, extractJobData = async () => null) => {
   const parser = new EmailParser("test-token");

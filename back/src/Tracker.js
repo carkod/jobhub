@@ -17,7 +17,7 @@ import {
 const ApplicationModel = mongoose.model("ApplicationModel", ApplicationSchema);
 const StagesModel = mongoose.model("StagesModel", StagesSchema);
 
-const fileDir = path.join(__dirname, "../", "/uploads/applications");
+const fileDir = path.join(import.meta.dirname, "../", "/uploads/applications");
 const uploadFileSizeLimit =
   Number(process.env.UPLOAD_FILE_SIZE_LIMIT) || 25 * 1024 * 1024;
 

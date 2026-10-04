@@ -15,6 +15,7 @@ import { addNotification } from "../../actions/notification";
 import "../../styles/ai-cv.css";
 
 const initialForm = {
+  prompt: "Adapt my CV to this job description",
   jobTitle: "",
   business: "",
   workMode: "",
@@ -253,6 +254,14 @@ class AiCV extends Component {
               noResultsMessage="No CVs found"
               options={cvOptions}
               value={form.baselineCvId}
+              onChange={this.handleChange}
+            />
+            <Form.TextArea
+              required
+              label="Refine AI prompt"
+              name="prompt"
+              rows={4}
+              value={form.prompt}
               onChange={this.handleChange}
             />
             {status === "in-progress" && (

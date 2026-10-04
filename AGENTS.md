@@ -4,7 +4,7 @@ This repository contains three separate projects. Each project has its own `pack
 
 | Folder  | Role                           | Audience                    | Stack                                       |
 | ------- | ------------------------------ | --------------------------- | ------------------------------------------- |
-| `back/` | Shared REST API                | Used by `hub/` and `web/`   | Express, Mongoose (MongoDB), Babel, Gemini  |
+| `back/` | Shared REST API                | Used by `hub/` and `web/`   | Express, Mongoose (MongoDB), Node.js, Gemini |
 | `hub/`  | Internal admin portal and CMS  | Internal only (login wall)  | Vite, React, Redux, Semantic UI             |
 | `web/`  | Public website                 | Public, optimized for SEO   | Next.js, React, Redux                       |
 
@@ -14,7 +14,7 @@ This repository contains three separate projects. Each project has its own `pack
 - Routes are under `/api/...` and are registered in `back/src/server.js`.
 - Because two clients use this API, a change to a route or a response shape can break `hub/`, `web/` or both. Before you change a response, find all callers in both front-ends.
 - Data that `web/` shows to the public must be safe to make public. Do not return internal-only fields (drafts, notes, contacts, tracker data) from routes that `web/` uses.
-- Scripts: `npm start` (development, nodemon and babel-node), `npm run build`, `npm run production`.
+- Scripts: `npm start` (development, nodemon and native Node.js), `npm run build` (PDF Sass assets), `npm run production`.
 
 ## hub/ - internal admin portal (CMS)
 
