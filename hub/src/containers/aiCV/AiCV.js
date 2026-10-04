@@ -37,6 +37,7 @@ const plainText = (value = "") =>
 class AiCV extends Component {
   state = {
     form: initialForm,
+    errors: {},
     status: "new",
     loading: false,
     collapsed: false,
@@ -53,7 +54,40 @@ class AiCV extends Component {
   handleChange = (event, data) => {
     const name = data.name || event.target.name;
     const value = data.value === undefined ? event.target.value : data.value;
-    this.setState(({ form }) => ({ form: { ...form, [name]: value } }));
+    this.setState(({ form, errors }) => {
+      const nextForm = { ...form, [name]: value };
+      const nextErrors = { ...errors };
+      const fieldError = this.validateForm(nextForm)[name];
+      if (fieldError) nextErrors[name] = fieldError;
+      else delete nextErrors[name];
+      return { form: nextForm, errors: nextErrors };
+    });
+  };
+
+  validateForm = (form = this.state.form) => {
+    const errors = {};
+    const requiredTextFields = {
+      jobTitle: "Job title is required.",
+      business: "Business is required.",
+      contractType: "Contract type is required.",
+      description: "Job description and requirements are required.",
+      prompt: "Refine AI prompt is required.",
+    };
+
+    Object.entries(requiredTextFields).forEach(([field, message]) => {
+      if (!String(form[field] || "").trim()) errors[field] = message;
+    });
+
+    if (!["On-site", "Hybrid", "Remote"].includes(form.workMode)) {
+      errors.workMode = "Select a work mode.";
+    }
+
+    const availableCv = (this.props.cvs || []).some(
+      (cv) => cv._id === form.baselineCvId,
+    );
+    if (!availableCv) errors.baselineCvId = "Choose an existing baseline CV.";
+
+    return errors;
   };
 
   poll = (jobId, attempt = 1) => {
@@ -85,7 +119,12 @@ class AiCV extends Component {
     }, 10000);
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const errors = this.validateForm();
+    this.setState({ errors });
+    if (Object.keys(errors).length) return;
+
     window.clearTimeout(this.pollTimer);
     this.activeJobId = null;
     this.setState({ loading: true, status: "new", generatedCv: null });
@@ -149,7 +188,7 @@ class AiCV extends Component {
   }
 
   render() {
-    const { form, loading, status } = this.state;
+    const { form, errors, loading, status } = this.state;
     // The reducer starts with an empty placeholder CV that has no _id. Skip it.
     const cvOptions = (this.props.cvs || [])
       .filter((cv) => cv._id)
@@ -171,10 +210,22 @@ class AiCV extends Component {
           </div>
         </div>
         <Segment padded="very" className="ai-cv-form-card">
-          <Form onSubmit={this.handleSubmit} loading={loading}>
+          <Form
+            noValidate
+            onSubmit={this.handleSubmit}
+            loading={loading}
+          >
+            {Object.keys(errors).length > 0 && (
+              <Message
+                error
+                header="Please correct the following fields before continuing."
+                list={Object.values(errors)}
+              />
+            )}
             <div className="title-status-row">
               <Form.Input
                 required
+                error={errors.jobTitle && { content: errors.jobTitle }}
                 label="Job title"
                 name="jobTitle"
                 placeholder="Full Stack Engineer"
@@ -200,6 +251,7 @@ class AiCV extends Component {
             </div>
             <Form.Input
               required
+              error={errors.business && { content: errors.business }}
               label="Business"
               name="business"
               placeholder="Station"
@@ -209,6 +261,7 @@ class AiCV extends Component {
             <Form.Group widths="equal">
               <Form.Select
                 required
+                error={errors.workMode && { content: errors.workMode }}
                 label="Work mode"
                 name="workMode"
                 placeholder="Select work mode"
@@ -229,6 +282,9 @@ class AiCV extends Component {
               />
               <Form.Input
                 required
+                error={errors.contractType && {
+                  content: errors.contractType,
+                }}
                 label="Contract type"
                 name="contractType"
                 placeholder="Full-time"
@@ -238,6 +294,9 @@ class AiCV extends Component {
             </Form.Group>
             <Form.TextArea
               required
+              error={errors.description && {
+                content: errors.description,
+              }}
               label="Job description and requirements"
               name="description"
               placeholder="Paste the complete job description here…"
@@ -248,6 +307,9 @@ class AiCV extends Component {
             <Form.Select
               search
               required
+              error={errors.baselineCvId && {
+                content: errors.baselineCvId,
+              }}
               label="Baseline CV"
               name="baselineCvId"
               placeholder="Choose an existing CV"
@@ -258,6 +320,7 @@ class AiCV extends Component {
             />
             <Form.TextArea
               required
+              error={errors.prompt && { content: errors.prompt }}
               label="Refine AI prompt"
               name="prompt"
               rows={4}

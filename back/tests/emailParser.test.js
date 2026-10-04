@@ -165,6 +165,34 @@ test("PUT scan sends unmatched applications to review without creating them", as
   assert.equal(parser.reviewQueue.length, 1);
 });
 
+test("an older email cannot replace a newer application update", async () => {
+  const parser = new EmailParser("test-token");
+  parser.ApplicationModel = {
+    updateOne: async () => {
+      assert.fail("An older email must not update the application");
+    },
+  };
+
+  const result = await parser.guardedUpsert({
+    extraction: { status: "rejected", confidence: 0.95 },
+    date: "2026-10-03T00:00:00.000Z",
+    emailId: "older-job",
+    threadId: "thread-1",
+    match: {
+      application: {
+        _id: "id",
+        company: "Acme",
+        status: { text: "in progress" },
+        lastEmailAt: new Date("2026-10-04T00:00:00.000Z"),
+      },
+      confidence: 1,
+    },
+    updateOnly: true,
+  });
+
+  assert.equal(result.status, "skipped_older_email");
+});
+
 test("PUT scan updates a match even when the email was processed before", async () => {
   let updates = 0;
   const { parser } = makeParser(

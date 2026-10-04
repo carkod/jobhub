@@ -176,7 +176,14 @@ export default class EmailParser {
     return { application: null, confidence: 0, strategy: "none" };
   }
 
-  async guardedUpsert({ extraction, date, emailId, threadId, match, updateOnly = false }) {
+  async guardedUpsert({
+    extraction,
+    date,
+    emailId,
+    threadId,
+    match,
+    updateOnly = false,
+  }) {
     const existing = match.application;
     if (
       !(extraction.confidence >= 0.85) ||
@@ -185,6 +192,14 @@ export default class EmailParser {
     ) {
       this.reviewQueue.push({ emailId, extraction, match });
       return { status: "review" };
+    }
+
+    const parsedDate = new Date(date || Date.now());
+    const emailDate = Number.isNaN(parsedDate.getTime())
+      ? new Date()
+      : parsedDate;
+    if (existing?.lastEmailAt && new Date(existing.lastEmailAt) >= emailDate) {
+      return { status: "skipped_older_email" };
     }
 
     const payload = {
@@ -198,7 +213,7 @@ export default class EmailParser {
         nonEmptyString(extraction.application_link) ||
         existing?.applicationUrl ||
         "",
-      updatedAt: new Date(date || Date.now()),
+      lastEmailAt: emailDate,
       status: normalizeApplicationStatus(
         nonEmptyString(extraction.status) || existing?.status?.text,
       ),
@@ -225,7 +240,7 @@ export default class EmailParser {
       contacts: [],
       files: [],
       stages: [],
-      createdAt: new Date(date || Date.now()),
+      createdAt: emailDate,
     });
     return { status: "created" };
   }
@@ -246,7 +261,10 @@ export default class EmailParser {
     const headers = email?.payload?.headers || [];
     const subject =
       headers.find((h) => h.name.toLowerCase() === "subject")?.value || "";
-    const date = headers.find((h) => h.name.toLowerCase() === "date")?.value;
+    const headerDate = headers.find((h) => h.name.toLowerCase() === "date")?.value;
+    const date = email.internalDate
+      ? new Date(Number(email.internalDate))
+      : headerDate;
     const threadId = email.threadId;
     const snippet = email.snippet || "";
     const text = extractMessageText(email?.payload);
@@ -318,7 +336,11 @@ export default class EmailParser {
     };
   }
 
-  async runPipeline({ lastHistoryId = null, pubSubPayload = null, updateOnly = false } = {}) {
+  async runPipeline({
+    lastHistoryId = null,
+    pubSubPayload = null,
+    updateOnly = false,
+  } = {}) {
     let messageIds = [];
     let nextHistoryId = lastHistoryId;
 

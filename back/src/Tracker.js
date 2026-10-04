@@ -74,12 +74,6 @@ function fillModel(r) {
   };
 }
 
-const capitalize = (word) => {
-  const lower = word.toLowerCase();
-  const capText = word.charAt(0).toUpperCase() + lower.slice(1);
-  return capText;
-};
-
 function cleanQueryString(value, maxLength = 100) {
   const firstValue = Array.isArray(value) ? value[0] : value;
   if (typeof firstValue !== "string") return "";
@@ -132,7 +126,7 @@ export default function Tracker(app, db) {
     if (cleanStatus === "active") {
       params["status.value"] = { $nin: [2, 3] };
     } else if (typedStatus.includes(cleanStatus)) {
-      params["status.text"] = { $in: [capitalize(cleanStatus)] };
+      params["status.text"] = cleanStatus;
     }
 
     if (companyNameFilter) {

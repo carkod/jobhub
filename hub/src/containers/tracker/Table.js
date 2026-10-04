@@ -57,6 +57,7 @@ class TrackingTable extends Component {
 
   componentDidMount = () => {
     this.props.getApplications(this.state.filterStatus);
+    this.props.scanEmails(this.handleGmailAuth);
     const params = new URLSearchParams(window.location.hash.substr(1));
     if (params.get("state") === "gmail_auth_token") {
       const token = {
