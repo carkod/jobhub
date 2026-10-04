@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import update from "react-addons-update";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Dropdown, Table } from "semantic-ui-react";
+import { Button, Dropdown, Table } from "semantic-ui-react";
 import { addNotification } from "../../actions/notification";
 import {
   deleteApplication,
@@ -57,7 +57,6 @@ class TrackingTable extends Component {
 
   componentDidMount = () => {
     this.props.getApplications(this.state.filterStatus);
-    this.props.scanEmails(this.handleGmailAuth);
     const params = new URLSearchParams(window.location.hash.substr(1));
     if (params.get("state") === "gmail_auth_token") {
       const token = {
@@ -68,7 +67,9 @@ class TrackingTable extends Component {
       };
       setGoogleToken(token);
     }
-    this.handleGmailAuth(50);
+    const scanMethod = sessionStorage.getItem("gmailScanMethod") || "post";
+    sessionStorage.removeItem("gmailScanMethod");
+    this.handleGmailAuth(50, scanMethod);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -178,15 +179,18 @@ class TrackingTable extends Component {
     );
   };
 
-  handleGmailAuth = async (emailsCount = 100) => {
+  handleGmailAuth = async (emailsCount = 100, method = "post") => {
     const token = getGoogleToken();
     if (token) {
-      const response = await this.props.scanGmail(token, emailsCount);
+      const response = await this.props.scanGmail(token, emailsCount, method);
       if (response.code === 401) {
+        sessionStorage.setItem("gmailScanMethod", method);
         oauth2SignIn();
-        await this.props.scanGmail(token, emailsCount);
+      } else if (!response.message) {
+        this.props.getApplications(this.state.filterStatus);
       }
     } else {
+      sessionStorage.setItem("gmailScanMethod", method);
       oauth2SignIn();
     }
   };
@@ -217,7 +221,7 @@ class TrackingTable extends Component {
             applications.map((application, i) => (
               <Table.Row key={i}>
                 <Table.Cell>{application.company}</Table.Cell>
-                <Table.Cell>{application.status.name}</Table.Cell>
+                <Table.Cell>{application.status?.text}</Table.Cell>
                 <Table.Cell>{application.role || ""}</Table.Cell>
                 <Table.Cell>
                   {this.getCurrentStage(application.stages).action +
@@ -268,6 +272,15 @@ class TrackingTable extends Component {
             </Table.Row>
           )}
         </Table.Body>
+        <Table.Footer fullWidth>
+          <Table.Row>
+            <Table.HeaderCell colSpan={columns.length - 1}>
+              <Button onClick={() => this.handleGmailAuth(50, "put")}>
+                Update from Gmail
+              </Button>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
       </Table>
     );
   }

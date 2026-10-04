@@ -208,8 +208,8 @@ export default function Tracker(app, db) {
    * @param {string} access_token: Google API access token
    * @param {boolean} allPages: optional, first page by default (gmail API)
    */
-  app.post("/api/applications/scan", async (req, res) => {
-    const { access_token, lastHistoryId, pubSubPayload } = req.body;
+  const scanApplications = async (req, res) => {
+    const { access_token, lastHistoryId, pubSubPayload } = req.body || {};
     const limit = getPositiveInteger(req.query.limit, 100, 500);
 
     try {
@@ -217,6 +217,7 @@ export default function Tracker(app, db) {
       const result = await emailParser.runPipeline({
         lastHistoryId: lastHistoryId || null,
         pubSubPayload: pubSubPayload || null,
+        updateOnly: req.method === "PUT",
       });
       return res.json(result);
     } catch (e) {
@@ -224,7 +225,9 @@ export default function Tracker(app, db) {
         .status(e.status || 500)
         .json({ status: false, message: `Error fetching emails: ${e}` });
     }
-  });
+  };
+  app.post("/api/applications/scan", scanApplications);
+  app.put("/api/applications/scan", scanApplications);
 
   app.post("/api/application", async (req, res) => {
     const r = req.body || {};

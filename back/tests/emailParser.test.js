@@ -123,3 +123,66 @@ test("maps extracted status to the tracker status object", async () => {
   assert.equal(saved.role, "Analyst");
   assert.equal(Object.hasOwn(saved, "contacts"), false);
 });
+
+test("POST scan creates a confident application when no record matches", async () => {
+  const parser = new EmailParser("test-token");
+  let created;
+  parser.ApplicationModel = {
+    create: async (payload) => {
+      created = payload;
+    },
+  };
+
+  const result = await parser.guardedUpsert({
+    extraction: { company: "Acme", job_title: "Analyst", confidence: 0.95 },
+    emailId: "job",
+    threadId: "thread-1",
+    match: { application: null, confidence: 0 },
+  });
+
+  assert.equal(result.status, "created");
+  assert.equal(created.company, "Acme");
+  assert.equal(created.role, "Analyst");
+});
+
+test("PUT scan sends unmatched applications to review without creating them", async () => {
+  const parser = new EmailParser("test-token");
+  parser.ApplicationModel = {
+    create: async () => {
+      assert.fail("PUT scan must not create an application");
+    },
+  };
+
+  const result = await parser.guardedUpsert({
+    extraction: { company: "Acme", job_title: "Analyst", confidence: 0.95 },
+    emailId: "job",
+    threadId: "thread-1",
+    match: { application: null, confidence: 0 },
+    updateOnly: true,
+  });
+
+  assert.equal(result.status, "review");
+  assert.equal(parser.reviewQueue.length, 1);
+});
+
+test("PUT scan updates a match even when the email was processed before", async () => {
+  let updates = 0;
+  const { parser } = makeParser(
+    { job: message("Interview for analyst role", "Please choose a time") },
+    async () => ({ is_job_related: true, confidence: 0.96 }),
+    async () => ({ company: "Acme", job_title: "Analyst", confidence: 0.95 }),
+  );
+  parser.matchApplication = async () => ({
+    application: { _id: "id", company: "Acme" },
+    confidence: 1,
+  });
+  parser.ApplicationModel = {
+    updateOne: async () => {
+      updates += 1;
+    },
+  };
+
+  assert.equal((await parser.parseMessage("job")).status, "updated");
+  assert.equal((await parser.parseMessage("job", { updateOnly: true })).status, "updated");
+  assert.equal(updates, 2);
+});
