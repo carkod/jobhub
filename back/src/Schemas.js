@@ -162,7 +162,9 @@ const ApplicationSchema = new Schema(
     files: { type: Array },
     stages: [StagesSchema],
     updatedAt: { type: Date, default: Date.now },
-    emailId: { type: String | undefined }, // If data comes from email
+    emailId: { type: String }, // If data comes from email
+    threadId: { type: String },
+    lastEmailAt: { type: Date },
   },
   { timestamps: true },
   { strict: false }

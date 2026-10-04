@@ -1,7 +1,7 @@
 import mongoose, { Schema, Types } from "mongoose";
 import { CVModel } from "./CVs.js";
 import CvGeminiApi from "./services/CvGeminiApi.js";
-import { cleanObjectIdString } from "./utils.js";
+import { cleanObjectIdString, cleanQueryString } from "./utils.js";
 
 const AiCvJobSchema = new Schema(
   {
@@ -15,6 +15,7 @@ const AiCvJobSchema = new Schema(
     location: String,
     contractType: { type: String, required: true },
     description: { type: String, required: true },
+    prompt: { type: String, required: true },
     baselineCvId: { type: Schema.ObjectId, required: true },
     generatedCvId: Schema.ObjectId,
     status: {
@@ -35,15 +36,29 @@ const requiredFields = [
   "workMode",
   "contractType",
   "description",
+  "prompt",
   "baselineCvId",
 ];
 // Only these fields come from the client. status, generatedCvId and error are server-owned.
-const jobFields = ["jobTitle", "business", "workMode", "location", "contractType", "description"];
+const jobFields = [
+  "jobTitle",
+  "business",
+  "workMode",
+  "location",
+  "contractType",
+  "description",
+  "prompt",
+];
 const pickJobFields = (body) =>
   Object.fromEntries(
     jobFields
       .filter((field) => body[field] !== undefined)
-      .map((field) => [field, String(body[field]).trim()]),
+      .map((field) => [
+        field,
+        field === "prompt"
+          ? cleanQueryString(body[field], 4000)
+          : String(body[field]).trim(),
+      ]),
   );
 // A job that stays in progress longer than this is treated as lost (e.g. server restart).
 const staleAfterMs = () => Number(process.env.AI_CV_STALE_AFTER_MS) || 15 * 60 * 1000;
@@ -74,10 +89,15 @@ const generateCv = async (jobRecord, baseline) => {
 
 export default function AiCV(app) {
   app.post("/api/ai-cv", async (req, res) => {
+    const body = req.body || {};
+    const fields = pickJobFields(body);
     const missing = requiredFields.filter(
-      (field) => !String(req.body[field] || "").trim(),
+      (field) =>
+        !String(
+          field === "baselineCvId" ? body.baselineCvId : fields[field] || "",
+        ).trim(),
     );
-    const baselineId = cleanObjectIdString(req.body.baselineCvId);
+    const baselineId = cleanObjectIdString(body.baselineCvId);
     if (missing.length || !baselineId) {
       return res
         .status(400)
@@ -95,7 +115,7 @@ export default function AiCV(app) {
           .json({ error: true, message: "Baseline CV not found" });
 
       const job = await AiCvJob.create({
-        ...pickJobFields(req.body),
+        ...fields,
         baselineCvId: baseline._id,
         status: "in-progress",
       });

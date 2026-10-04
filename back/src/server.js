@@ -29,7 +29,7 @@ app.disable("x-powered-by");
 
 const interationalization = new I18n({
   locales: ["es-ES"],
-  directory: path.join(__dirname, "locales"),
+  directory: path.join(import.meta.dirname, "locales"),
 });
 
 const getCorsOrigins = () =>
@@ -121,7 +121,7 @@ const appFactory = async (app) => {
     app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
     // Download static files in uploads folder
-    const uploadDir = path.join(__dirname, "../", "/uploads");
+    const uploadDir = path.join(import.meta.dirname, "../", "/uploads");
     app.use(
       express.static(uploadDir, {
         dotfiles: "deny",

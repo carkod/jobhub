@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose, { Types } from "mongoose";
+import path from "path";
 import { CVSchema, CLSchema } from "./Schemas.js";
 import { visibilityQuery } from "./auth.js";
 import { generatePDF } from "./generator.js";
@@ -42,12 +43,17 @@ function getPdfQuery(id) {
 }
 
 export default function Pdf(app) {
-  app.use("/pdf/assets", express.static(__dirname + "/pdf/assets"));
+  app.use(
+    "/pdf/assets",
+    express.static(path.join(import.meta.dirname, "pdf/assets")),
+  );
   app.use(
     "/pdf/assets/vendor",
-    express.static(__dirname + "/node_modules/semantic-ui-css"),
+    express.static(
+      path.join(import.meta.dirname, "../node_modules/semantic-ui-css"),
+    ),
   );
-  app.set("views", __dirname + "/pdf/views");
+  app.set("views", path.join(import.meta.dirname, "pdf/views"));
   app.set("view engine", "pug");
 
   app.get("/pdf/view/:type/:id/:locale?", (req, res, next) => {

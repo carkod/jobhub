@@ -176,13 +176,32 @@ export default class EmailParser {
     return { application: null, confidence: 0, strategy: "none" };
   }
 
-  async guardedUpsert({ extraction, date, emailId, threadId, match }) {
-    if (!(extraction.confidence >= 0.85 && match.confidence >= 0.9)) {
+  async guardedUpsert({
+    extraction,
+    date,
+    emailId,
+    threadId,
+    match,
+    updateOnly = false,
+  }) {
+    const existing = match.application;
+    if (
+      !(extraction.confidence >= 0.85) ||
+      (existing && !(match.confidence >= 0.9)) ||
+      (!existing && (updateOnly || !nonEmptyString(extraction.company)))
+    ) {
       this.reviewQueue.push({ emailId, extraction, match });
       return { status: "review" };
     }
 
-    const existing = match.application;
+    const parsedDate = new Date(date || Date.now());
+    const emailDate = Number.isNaN(parsedDate.getTime())
+      ? new Date()
+      : parsedDate;
+    if (existing?.lastEmailAt && new Date(existing.lastEmailAt) >= emailDate) {
+      return { status: "skipped_older_email" };
+    }
+
     const payload = {
       role:
         nonEmptyString(extraction.job_title) || existing?.role || "",
@@ -194,7 +213,7 @@ export default class EmailParser {
         nonEmptyString(extraction.application_link) ||
         existing?.applicationUrl ||
         "",
-      updatedAt: new Date(date || Date.now()),
+      lastEmailAt: emailDate,
       status: normalizeApplicationStatus(
         nonEmptyString(extraction.status) || existing?.status?.text,
       ),
@@ -221,14 +240,14 @@ export default class EmailParser {
       contacts: [],
       files: [],
       stages: [],
-      createdAt: new Date(date || Date.now()),
+      createdAt: emailDate,
     });
     return { status: "created" };
   }
 
-  async parseMessage(messageId) {
+  async parseMessage(messageId, { updateOnly = false } = {}) {
     const cached = await this.getCachedScan(messageId);
-    if (cached?.resultStatus) {
+    if (cached?.resultStatus && !updateOnly) {
       return {
         messageId,
         status: cached.resultStatus,
@@ -242,7 +261,10 @@ export default class EmailParser {
     const headers = email?.payload?.headers || [];
     const subject =
       headers.find((h) => h.name.toLowerCase() === "subject")?.value || "";
-    const date = headers.find((h) => h.name.toLowerCase() === "date")?.value;
+    const headerDate = headers.find((h) => h.name.toLowerCase() === "date")?.value;
+    const date = email.internalDate
+      ? new Date(Number(email.internalDate))
+      : headerDate;
     const threadId = email.threadId;
     const snippet = email.snippet || "";
     const text = extractMessageText(email?.payload);
@@ -296,6 +318,7 @@ export default class EmailParser {
       emailId: messageId,
       threadId,
       match,
+      updateOnly,
     });
     if (writeResult.status === "created" || writeResult.status === "updated") {
       await this.EmailScanCacheModel.updateOne(
@@ -313,7 +336,11 @@ export default class EmailParser {
     };
   }
 
-  async runPipeline({ lastHistoryId = null, pubSubPayload = null } = {}) {
+  async runPipeline({
+    lastHistoryId = null,
+    pubSubPayload = null,
+    updateOnly = false,
+  } = {}) {
     let messageIds = [];
     let nextHistoryId = lastHistoryId;
 
@@ -335,7 +362,7 @@ export default class EmailParser {
 
     const processed = [];
     for (const messageId of messageIds) {
-      processed.push(await this.parseMessage(messageId));
+      processed.push(await this.parseMessage(messageId, { updateOnly }));
     }
 
     return {

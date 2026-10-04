@@ -76,7 +76,7 @@ services:
   #   command:
   #     - bash
   #     - -c
-  #     - node /home/back/dist/server.js
+  #     - cd /home/back && npm run production
   #   healthcheck:
   #     test:
   #       [

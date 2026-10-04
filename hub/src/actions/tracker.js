@@ -271,20 +271,29 @@ export function fetchCompaniesApplied(companyName) {
   };
 }
 
-export function scanGmail(creds, limit = 100) {
+export function scanGmail(creds, limit = 100, method = "post") {
   return (dispatch) => {
     return fetch(`${buildBackUrl().apiUrl}/applications/scan?limit=${limit}`, {
-      method: "post",
+      method,
       body: JSON.stringify(creds),
       headers: headers,
     })
       .then((res) => {
-        handleResponse(res);
+        if (res.status === 401) return { code: 401 };
+        return handleResponse(res);
+      })
+      .then((data) => {
+        if (data.code === 401) return data;
         dispatch(
-          addNotification(applicationFetched(data), "Application fetched"),
+          addNotification(
+            data,
+            method === "put" ? "Application tracking updated" : "Applications scanned",
+          ),
         );
+        return data;
       })
       .catch((e) => {
+        dispatch({ ...addNotification(e, e.message), error: true });
         return e;
       });
   };

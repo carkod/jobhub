@@ -19,7 +19,7 @@ const uploadFileSizeLimit =
 
 // Compile model from schema
 let ProjectModel = mongoose.model("ProjectModel", ProjectSchema);
-const fileDir = path.join(__dirname, "../", "/uploads");
+const fileDir = path.join(import.meta.dirname, "../", "/uploads");
 
 // Create file directory if not exists
 if (!fs.existsSync(fileDir)) {
