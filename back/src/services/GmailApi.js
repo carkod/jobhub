@@ -81,6 +81,14 @@ export default class GmailApi {
     return data;
   }
 
+  async fetchProfile() {
+    const response = await fetch(
+      "https://www.googleapis.com/gmail/v1/users/me/profile",
+      { headers: this.getAuthHeaders() },
+    );
+    return handleResponse(response);
+  }
+
   async fetchListEmails(
     query = "",
     currentPageToken = null,

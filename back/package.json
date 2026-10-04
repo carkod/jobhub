@@ -9,6 +9,7 @@
     "build-js": "babel src --copy-files --extensions .js --ignore pdf/styles --out-dir dist",
     "build-sass": "sass src/pdf/styles/:dist/pdf/styles/",
     "build": "npm run build-js && npm run build-sass",
+    "test": "npm run build-js && node --test tests/*.test.cjs",
     "format": "prettier --write \"src/**/*.{js,jsx,css,scss,json,md}\" \"*.{js,json,md}\"",
     "production": "node dist/server.js",
     "clean": "rm -rf docs node_modules dist src/pdf/assets"
@@ -23,7 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^8.0.5",
-    "@google-cloud/vertexai": "^1.12.0",
+    "@google/genai": "^2.27.0",
     "axios": "^1.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.5",

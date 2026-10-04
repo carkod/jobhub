@@ -36,6 +36,13 @@ const writeLog = (level, details) => {
   }
 };
 
+export const logger = {
+  debug: (details) => writeLog("debug", details),
+  info: (details) => writeLog("info", details),
+  warn: (details) => writeLog("warn", details),
+  error: (details) => writeLog("error", details),
+};
+
 const requestLogLevel = (statusCode, aborted) => {
   if (statusCode >= 500) return "error";
   if (aborted || statusCode >= 400) return "warn";

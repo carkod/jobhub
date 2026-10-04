@@ -1,5 +1,6 @@
 import path from "path";
 import sanitize from "mongo-sanitize";
+import { logger } from "./requestLogger.js";
 
 export function handleResponse(response, res) {
   if (response.ok) {
@@ -103,7 +104,11 @@ export async function apiRequest(url, verb, data, headers) {
   };
 
   const request = new Request(url, options);
-  console.log("request ", request);
+  logger.info({
+    event: "outbound_http_request",
+    method: request.method,
+    url: request.url,
+  });
   const response = await fetch(request);
   const content = await handleResponse(response);
   return content;

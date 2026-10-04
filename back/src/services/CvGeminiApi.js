@@ -67,18 +67,14 @@ export const normalizeGeneratedCv = (generated, baseline, job) => {
 
 export default class CvGeminiApi extends GeminiApi {
   async adaptCv(baselineCv, job) {
-    const model = this.setupModel();
-    const result = await model.generateContent({
-      contents: [
-        { role: "user", parts: [{ text: buildCvPrompt(baselineCv, job) }] },
-      ],
-      generationConfig: {
+    const result = await this.generateContent(
+      [{ role: "user", parts: [{ text: buildCvPrompt(baselineCv, job) }] }],
+      {
         responseMimeType: "application/json",
         maxOutputTokens: Number(process.env.AI_CV_MAX_OUTPUT_TOKENS) || 8192,
-        temperature: 0.2,
       },
-    });
-    const text = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text;
+    );
+    const text = result?.text;
     if (!text) throw new Error("Gemini returned an empty CV");
     return normalizeGeneratedCv(extractJson(text), baselineCv, job);
   }

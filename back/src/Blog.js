@@ -1,6 +1,7 @@
 import { Types, model } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { BlogSchema } from "./Schemas.js";
+import { logger } from "./requestLogger.js";
 import {
   apiRequest,
   cleanObjectIdString,
@@ -115,7 +116,10 @@ export default function Blog(app) {
 
         res.json({ error: false, message: "Blog changes saved!" });
       } catch (err) {
-        console.log("Posting to Medium", err.message);
+        logger.error({
+          event: "medium_publish_failed",
+          message: err.message,
+        });
         res.json({
           error: true,
           message: `Blog changes failed to save ${err}`,
