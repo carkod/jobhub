@@ -278,12 +278,15 @@ export function scanGmail(creds, limit = 100, method = "post") {
       body: JSON.stringify(creds),
       headers: headers,
     })
-      .then((res) => {
-        if (res.status === 401) return { code: 401 };
+      .then(async (res) => {
+        if (res.status === 401) {
+          const data = await res.json().catch(() => ({}));
+          if (data.code === "GMAIL_UNAUTHORIZED") return data;
+        }
         return handleResponse(res);
       })
       .then((data) => {
-        if (data.code === 401) return data;
+        if (data.code === "GMAIL_UNAUTHORIZED") return data;
         dispatch(
           addNotification(
             data,

@@ -33,6 +33,7 @@ const oauth2SignIn = () => {
     scope: "https://www.googleapis.com/auth/gmail.readonly",
     response_type: "token",
     state: "gmail_auth_token",
+    prompt: "select_account consent",
   });
   const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
   window.open(oauth2Url, "_self");
@@ -58,8 +59,10 @@ class TrackingTable extends Component {
   componentDidMount = () => {
     this.props.getApplications(this.state.filterStatus);
     this.props.scanEmails(this.handleGmailAuth);
+    this.props.chooseGmailAccount(this.chooseGmailAccount);
     const params = new URLSearchParams(window.location.hash.substr(1));
-    if (params.get("state") === "gmail_auth_token") {
+    const isGmailCallback = params.get("state") === "gmail_auth_token";
+    if (isGmailCallback) {
       const token = {
         access_token: params.get("access_token"),
         token_type: params.get("token_type"),
@@ -67,10 +70,30 @@ class TrackingTable extends Component {
         scope: params.get("scope"),
       };
       setGoogleToken(token);
+      this.loadGmailEmail(token);
+    } else {
+      const token = getGoogleToken();
+      if (token) this.loadGmailEmail(token);
     }
     const scanMethod = sessionStorage.getItem("gmailScanMethod") || "post";
+    const scanLimit = Number(sessionStorage.getItem("gmailScanLimit")) || 50;
     sessionStorage.removeItem("gmailScanMethod");
-    this.handleGmailAuth(50, scanMethod);
+    sessionStorage.removeItem("gmailScanLimit");
+    if (isGmailCallback) this.handleGmailAuth(scanLimit, scanMethod);
+  };
+
+  loadGmailEmail = async (token) => {
+    try {
+      const response = await fetch(
+        "https://gmail.googleapis.com/gmail/v1/users/me/profile",
+        { headers: { Authorization: `Bearer ${token.access_token}` } },
+      );
+      if (!response.ok) return;
+      const profile = await response.json();
+      this.props.onGmailEmailChange(profile.emailAddress || null);
+    } catch (error) {
+      // The email label is optional; scanning still works with the saved token.
+    }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -184,16 +207,24 @@ class TrackingTable extends Component {
     const token = getGoogleToken();
     if (token) {
       const response = await this.props.scanGmail(token, emailsCount, method);
-      if (response.code === 401) {
+      if (response.code === "GMAIL_UNAUTHORIZED") {
         sessionStorage.setItem("gmailScanMethod", method);
+        sessionStorage.setItem("gmailScanLimit", String(emailsCount));
         oauth2SignIn();
       } else if (!response.message) {
         this.props.getApplications(this.state.filterStatus);
       }
     } else {
       sessionStorage.setItem("gmailScanMethod", method);
+      sessionStorage.setItem("gmailScanLimit", String(emailsCount));
       oauth2SignIn();
     }
+  };
+
+  chooseGmailAccount = (emailsCount = 100, method = "post") => {
+    sessionStorage.setItem("gmailScanMethod", method);
+    sessionStorage.setItem("gmailScanLimit", String(emailsCount));
+    oauth2SignIn();
   };
 
   render() {

@@ -12,6 +12,7 @@ class Tracker extends Component {
       filterStatus: "active",
       companies: [],
       companySelected: "",
+      gmailEmail: null,
     };
   }
 
@@ -25,6 +26,8 @@ class Tracker extends Component {
     }
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  setGmailEmail = (gmailEmail) => this.setState({ gmailEmail });
 
   render() {
     const addNewBtn = (
@@ -61,6 +64,27 @@ class Tracker extends Component {
             </Grid.Column>
             <Grid.Column>
               <Button onClick={() => this.scanEmails()}>Scan emails</Button>
+              <Dropdown text="Email account" pointing="top left">
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    text={
+                      this.state.gmailEmail
+                        ? `Currently using: ${this.state.gmailEmail}`
+                        : "No email connected"
+                    }
+                    disabled
+                  />
+                  <Dropdown.Divider />
+                  <Dropdown.Item
+                    text={
+                      this.state.gmailEmail
+                        ? "Choose another email"
+                        : "Choose an email"
+                    }
+                    onClick={() => this.chooseGmailAccount()}
+                  />
+                </Dropdown.Menu>
+              </Dropdown>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -69,6 +93,10 @@ class Tracker extends Component {
           filterStatus={this.state.filterStatus}
           companySelected={this.state.companySelected}
           scanEmails={(handleGmailAuth) => (this.scanEmails = handleGmailAuth)}
+          chooseGmailAccount={(chooseGmailAccount) =>
+            (this.chooseGmailAccount = chooseGmailAccount)
+          }
+          onGmailEmailChange={this.setGmailEmail}
         />
       </div>
     );

@@ -215,6 +215,13 @@ export default function Tracker(app, db) {
       });
       return res.json(result);
     } catch (e) {
+      if (e.code === "GMAIL_API_ERROR" && e.status === 401) {
+        return res.status(401).json({
+          code: "GMAIL_UNAUTHORIZED",
+          status: false,
+          message: "Gmail authorization expired or was revoked.",
+        });
+      }
       return res
         .status(e.status || 500)
         .json({ status: false, message: `Error fetching emails: ${e}` });
