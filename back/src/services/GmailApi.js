@@ -1,5 +1,5 @@
 export default class GmailApi {
-  constructor(access_token, limit = 100) {
+  constructor(access_token, limit = 50) {
     this.access_token = access_token;
     this.limit = limit;
   }
@@ -89,6 +89,15 @@ export default class GmailApi {
     return data;
   }
 
+  // Headers and snippet only. No body.
+  async fetchEmailMetadata(messageId) {
+    const response = await fetch(
+      `https://www.googleapis.com/gmail/v1/users/me/messages/${messageId}?format=metadata&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date`,
+      { headers: this.getAuthHeaders() },
+    );
+    return this.handleResponse(response);
+  }
+
   async fetchProfile() {
     const response = await fetch(
       "https://www.googleapis.com/gmail/v1/users/me/profile",
@@ -103,7 +112,7 @@ export default class GmailApi {
     totalItems = 0,
     allMessages = []
   ) {
-    let url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=${query}&maxResults=${this.limit}`;
+    let url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(query)}&maxResults=${this.limit}`;
 
     if (currentPageToken) {
       url += `&pageToken=${currentPageToken}`;

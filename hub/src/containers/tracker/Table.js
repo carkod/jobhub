@@ -14,6 +14,7 @@ import {
   getApplications,
   moveNextStage,
   scanGmail,
+  waitForScan,
 } from "../../actions/tracker";
 import {
   getGoogleToken,
@@ -203,25 +204,26 @@ class TrackingTable extends Component {
     );
   };
 
-  handleGmailAuth = async (emailsCount = 100, method = "post") => {
-    const token = getGoogleToken();
-    if (token) {
-      const response = await this.props.scanGmail(token, emailsCount, method);
-      if (response.code === "GMAIL_UNAUTHORIZED") {
-        sessionStorage.setItem("gmailScanMethod", method);
-        sessionStorage.setItem("gmailScanLimit", String(emailsCount));
-        oauth2SignIn();
-      } else if (!response.message) {
-        this.props.getApplications(this.state.filterStatus);
-      }
-    } else {
+  handleGmailAuth = async (emailsCount = 50, method = "post") => {
+    const signIn = () => {
       sessionStorage.setItem("gmailScanMethod", method);
       sessionStorage.setItem("gmailScanLimit", String(emailsCount));
       oauth2SignIn();
+    };
+    const token = getGoogleToken();
+    if (!token) return signIn();
+
+    const response = await this.props.scanGmail(token, emailsCount, method);
+    if (response.code === "GMAIL_UNAUTHORIZED") return signIn();
+    // The back-end scans in the background. Wait for it, then reload the table.
+    if (response.scanId) {
+      const scan = await this.props.waitForScan(response.scanId);
+      if (scan.code === "GMAIL_UNAUTHORIZED") return signIn();
+      if (!scan.message) this.props.getApplications(this.state.filterStatus);
     }
   };
 
-  chooseGmailAccount = (emailsCount = 100, method = "post") => {
+  chooseGmailAccount = (emailsCount = 50, method = "post") => {
     sessionStorage.setItem("gmailScanMethod", method);
     sessionStorage.setItem("gmailScanLimit", String(emailsCount));
     oauth2SignIn();
@@ -340,5 +342,6 @@ export default compose(
     editApplication,
     fetchCompaniesApplied,
     scanGmail,
+    waitForScan,
   }),
 )(TrackingTable);

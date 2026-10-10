@@ -271,7 +271,14 @@ export function fetchCompaniesApplied(companyName) {
   };
 }
 
-export function scanGmail(creds, limit = 100, method = "post") {
+const SCAN_POLL_INTERVAL_MS = 3000;
+const SCAN_POLL_TIMEOUT_MS = 30 * 60 * 1000;
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Starts the scan. The back-end answers at once with 202 and a scanId.
+// Use waitForScan to follow it until it ends.
+export function scanGmail(creds, limit = 50, method = "post") {
   return (dispatch) => {
     return fetch(`${buildBackUrl().apiUrl}/applications/scan?limit=${limit}`, {
       method,
@@ -290,7 +297,9 @@ export function scanGmail(creds, limit = 100, method = "post") {
         dispatch(
           addNotification(
             data,
-            method === "put" ? "Application tracking updated" : "Applications scanned",
+            data.alreadyRunning
+              ? "A scan is already running, this may take a while"
+              : data.message,
           ),
         );
         return data;
@@ -299,5 +308,57 @@ export function scanGmail(creds, limit = 100, method = "post") {
         dispatch({ ...addNotification(e, e.message), error: true });
         return e;
       });
+  };
+}
+
+// Polls the scan until it ends. Resolves with the final scan state, or with
+// { code: "GMAIL_UNAUTHORIZED" } when the Gmail token expired during the scan.
+export function waitForScan(scanId) {
+  return async (dispatch) => {
+    const startedAt = Date.now();
+    try {
+      while (Date.now() - startedAt < SCAN_POLL_TIMEOUT_MS) {
+        await wait(SCAN_POLL_INTERVAL_MS);
+        const scan = await fetch(
+          `${buildBackUrl().apiUrl}/applications/scan/${scanId}`,
+          { method: "get", headers: headers },
+        ).then(handleResponse);
+
+        if (scan.state === "running") continue;
+
+        if (scan.state === "failed") {
+          if (
+            scan.error?.code === "GMAIL_API_ERROR" &&
+            scan.error?.status === 401
+          ) {
+            return { code: "GMAIL_UNAUTHORIZED" };
+          }
+          const error = new Error(`Email scan failed: ${scan.error?.message}`);
+          dispatch({ ...addNotification(error, error.message), error: true });
+          return error;
+        }
+
+        const { total = 0, counts = {} } = scan.summary || {};
+        dispatch(
+          addNotification(
+            scan,
+            `Scanned ${total} emails: ${counts.created || 0} created, ${counts.updated || 0} updated, ${counts.error || 0} failed`,
+          ),
+        );
+        return scan;
+      }
+      const timeout = new Error(
+        "Email scan is taking too long. Check again later.",
+      );
+      dispatch({ ...addNotification(timeout, timeout.message), error: true });
+      return timeout;
+    } catch (e) {
+      const message =
+        e.code === 404
+          ? "The scan was lost, the server may have restarted. Scan again."
+          : e.message;
+      dispatch({ ...addNotification(e, message), error: true });
+      return e;
+    }
   };
 }
