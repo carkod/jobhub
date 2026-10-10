@@ -9,6 +9,7 @@ const makeParser = (messages, classifyEmail, extractJobData = async () => null) 
 
   parser.mailbox = "tester@example.com";
   parser.gmailApi = {
+    fetchEmailMetadata: async (messageId) => messages[messageId],
     fetchIndividualEmail: async (messageId) => {
       fetchCount += 1;
       return messages[messageId];
@@ -47,7 +48,7 @@ test("classifies unrelated mail broadly and reuses its verdict", async () => {
   let extractionCalls = 0;
   const messages = {
     beta: message("KuCard beta program", "Apply to test our new card"),
-    billing: message("Your bank statement", "Your monthly statement is ready"),
+    billing: message("Your job statement", "Your monthly statement is ready"),
   };
   const { parser, getFetchCount } = makeParser(
     messages,
@@ -213,4 +214,42 @@ test("PUT scan updates a match even when the email was processed before", async 
   assert.equal((await parser.parseMessage("job")).status, "updated");
   assert.equal((await parser.parseMessage("job", { updateOnly: true })).status, "updated");
   assert.equal(updates, 2);
+});
+
+test("skips mail with no recruitment words without a Gemini call or a full fetch", async () => {
+  let classificationCalls = 0;
+  const { parser, cache, getFetchCount } = makeParser(
+    { bank: message("Your bank statement", "Your monthly statement is ready") },
+    async () => {
+      classificationCalls += 1;
+    },
+  );
+
+  const result = await parser.parseMessage("bank");
+
+  assert.equal(result.status, "skipped_classification");
+  assert.equal(classificationCalls, 0);
+  assert.equal(getFetchCount(), 0);
+  assert.equal(cache.get("bank").resultStatus, "skipped_classification");
+});
+
+test("one failing email does not stop the scan", async () => {
+  const { parser } = makeParser(
+    {
+      bad: message("Interview invite", "Pick a time"),
+      bank: message("Your bank statement", "Ready"),
+    },
+    async () => {
+      throw new Error("Unterminated string in JSON");
+    },
+  );
+  parser.gmailApi.decodePubSubMessage = () => null;
+  parser.gmailApi.fetchListEmails = async () => [{ id: "bad" }, { id: "bank" }];
+
+  const { processed } = await parser.runPipeline();
+
+  assert.deepEqual(
+    processed.map((item) => item.status),
+    ["error", "skipped_classification"],
+  );
 });

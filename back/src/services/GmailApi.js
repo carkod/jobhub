@@ -1,7 +1,5 @@
-import { handleResponse } from "../utils.js";
-
 export default class GmailApi {
-  constructor(access_token, limit = 100) {
+  constructor(access_token, limit = 50) {
     this.access_token = access_token;
     this.limit = limit;
   }
@@ -13,6 +11,16 @@ export default class GmailApi {
     };
   }
 
+  async handleResponse(response) {
+    if (!response.ok) {
+      const error = new Error(`Gmail API response status: ${response.status}`);
+      error.status = response.status;
+      error.code = "GMAIL_API_ERROR";
+      throw error;
+    }
+    return response.json();
+  }
+
   async startWatch(topicName, labelIds = ["INBOX"]) {
     const response = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/watch", {
       method: "POST",
@@ -20,7 +28,7 @@ export default class GmailApi {
       body: JSON.stringify({ topicName, labelIds }),
     });
 
-    return handleResponse(response);
+    return this.handleResponse(response);
   }
 
   async fetchHistory(startHistoryId, pageToken = null, history = []) {
@@ -34,7 +42,7 @@ export default class GmailApi {
       headers: this.getAuthHeaders(),
     });
 
-    const data = await handleResponse(response);
+    const data = await this.handleResponse(response);
     const currentHistory = data.history || [];
     const all = history.concat(currentHistory);
 
@@ -77,8 +85,17 @@ export default class GmailApi {
       `https://www.googleapis.com/gmail/v1/users/me/messages/${messageId}`,
       { headers: this.getAuthHeaders() }
     );
-    const data = await handleResponse(response);
+    const data = await this.handleResponse(response);
     return data;
+  }
+
+  // Headers and snippet only. No body.
+  async fetchEmailMetadata(messageId) {
+    const response = await fetch(
+      `https://www.googleapis.com/gmail/v1/users/me/messages/${messageId}?format=metadata&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date`,
+      { headers: this.getAuthHeaders() },
+    );
+    return this.handleResponse(response);
   }
 
   async fetchProfile() {
@@ -86,7 +103,7 @@ export default class GmailApi {
       "https://www.googleapis.com/gmail/v1/users/me/profile",
       { headers: this.getAuthHeaders() },
     );
-    return handleResponse(response);
+    return this.handleResponse(response);
   }
 
   async fetchListEmails(
@@ -95,7 +112,7 @@ export default class GmailApi {
     totalItems = 0,
     allMessages = []
   ) {
-    let url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=${query}&maxResults=${this.limit}`;
+    let url = `https://www.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(query)}&maxResults=${this.limit}`;
 
     if (currentPageToken) {
       url += `&pageToken=${currentPageToken}`;
@@ -105,7 +122,7 @@ export default class GmailApi {
       headers: this.getAuthHeaders(),
     });
 
-    const data = await handleResponse(response);
+    const data = await this.handleResponse(response);
 
     const messages = data.messages || [];
     const resultSizeEstimate = data.resultSizeEstimate || 0;
