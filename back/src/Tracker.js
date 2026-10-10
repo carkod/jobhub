@@ -5,6 +5,7 @@ import sanitize from "mongo-sanitize";
 import path from "path";
 import { ApplicationSchema, StagesSchema } from "./Schemas.js";
 import EmailParser from "./services/emailParser.js";
+import { logger } from "./requestLogger.js";
 import {
   escapeRegex,
   safeResolveInside,
@@ -215,6 +216,14 @@ export default function Tracker(app, db) {
       });
       return res.json(result);
     } catch (e) {
+      logger.error({
+        event: "email_scan_failed",
+        requestId: res.getHeader("X-Request-Id"),
+        code: e.code,
+        status: e.status,
+        message: e.message,
+        stack: e.stack,
+      });
       if (e.code === "GMAIL_API_ERROR" && e.status === 401) {
         return res.status(401).json({
           code: "GMAIL_UNAUTHORIZED",
