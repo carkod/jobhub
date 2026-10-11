@@ -6,6 +6,12 @@ import path from "path";
 import { ApplicationSchema, StagesSchema } from "./Schemas.js";
 import EmailParser from "./services/emailParser.js";
 import {
+  getEmailScan,
+  startEmailScan,
+  toPublicJob,
+} from "./services/emailScanJobs.js";
+import { logger } from "./requestLogger.js";
+import {
   escapeRegex,
   safeResolveInside,
   typedStatus,
@@ -196,25 +202,48 @@ export default function Tracker(app, db) {
   });
 
   /**
-   * Scans and parses emails to get job applications
-   *
+   * Starts a scan of the mailbox and returns at once with 202. The scan runs in
+   * the background. Poll GET /api/applications/scan/:scanId for the result.
    *
    * @param {string} access_token: Google API access token
-   * @param {boolean} allPages: optional, first page by default (gmail API)
+   * @param {number} limit: query, number of emails to read
    */
   const scanApplications = async (req, res) => {
     const { access_token, lastHistoryId, pubSubPayload } = req.body || {};
-    const limit = getPositiveInteger(req.query.limit, 100, 500);
+    const limit = getPositiveInteger(req.query.limit, 50, 50);
 
     try {
       const emailParser = new EmailParser(access_token, limit);
-      const result = await emailParser.runPipeline({
-        lastHistoryId: lastHistoryId || null,
-        pubSubPayload: pubSubPayload || null,
-        updateOnly: req.method === "PUT",
+      // Reads the Gmail profile. This rejects an expired token before the job starts.
+      const mailbox = await emailParser.getMailbox();
+      const { job, alreadyRunning } = startEmailScan(mailbox, () =>
+        emailParser.runPipeline({
+          lastHistoryId: lastHistoryId || null,
+          pubSubPayload: pubSubPayload || null,
+          updateOnly: req.method === "PUT",
+        }),
+      );
+      return res.status(202).json({
+        ...toPublicJob(job),
+        alreadyRunning,
+        message: "Scanning emails, this may take a while",
       });
-      return res.json(result);
     } catch (e) {
+      logger.error({
+        event: "email_scan_failed",
+        requestId: res.getHeader("X-Request-Id"),
+        code: e.code,
+        status: e.status,
+        message: e.message,
+        stack: e.stack,
+      });
+      if (e.code === "GMAIL_API_ERROR" && e.status === 401) {
+        return res.status(401).json({
+          code: "GMAIL_UNAUTHORIZED",
+          status: false,
+          message: "Gmail authorization expired or was revoked.",
+        });
+      }
       return res
         .status(e.status || 500)
         .json({ status: false, message: `Error fetching emails: ${e}` });
@@ -222,6 +251,14 @@ export default function Tracker(app, db) {
   };
   app.post("/api/applications/scan", scanApplications);
   app.put("/api/applications/scan", scanApplications);
+
+  app.get("/api/applications/scan/:scanId", (req, res) => {
+    const job = getEmailScan(req.params.scanId);
+    if (!job) {
+      return res.status(404).json({ status: false, message: "Scan not found" });
+    }
+    return res.json(toPublicJob(job));
+  });
 
   app.post("/api/application", async (req, res) => {
     const r = req.body || {};
