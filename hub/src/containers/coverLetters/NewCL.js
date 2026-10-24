@@ -11,13 +11,6 @@ import {
 import { connect } from "react-redux";
 import { saveCL } from "../../actions/cl";
 
-const buttonDefaultStyles = {
-  backgroundColor: "#fff",
-  border: "none",
-  cursor: "pointer",
-  outline: "none",
-};
-
 class NewCL extends Component {
   state = {
     savedID: null,
@@ -37,9 +30,10 @@ class NewCL extends Component {
     const addNewButton = (
       <button
         onClick={() => this.setState({ modalOpen: true })}
-        style={buttonDefaultStyles}
+        className="btn__add-new"
+        aria-label="Add cover letter"
       >
-        <Icon name="plus square" color="green" />
+        <Icon name="plus" />
       </button>
     );
 

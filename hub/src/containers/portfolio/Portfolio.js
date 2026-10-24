@@ -59,7 +59,9 @@ class Portfolio extends Component {
       key: proj._id || shortid.generate(),
       title: {
         content: (
-          <span color={this.state.savedID === proj._id ? "red" : "inherit"}>
+          <span
+            className={this.state.savedID === proj._id ? "is-saved" : undefined}
+          >
             {proj.name}
           </span>
         ),

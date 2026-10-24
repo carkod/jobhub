@@ -62,8 +62,10 @@ class CoverLetters extends Component {
                 title: {
                   content: (
                     <span
-                      color={
-                        this.state.savedID === letter._id ? "red" : "inherit"
+                      className={
+                        this.state.savedID === letter._id
+                          ? "is-saved"
+                          : undefined
                       }
                     >
                       {letter.name}
