@@ -1,0 +1,69 @@
+/* Shared editing controls for CVs, cover letters, projects, and blog posts. */
+:is(#detail, #cl, #project) :is(input, textarea) {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0.5em;
+}
+
+#cl .ui.header input,
+#blog .u-display-block {
+  width: 100%;
+}
+
+#blog .u-display-block {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0;
+}
+
+#blog textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  padding: 0.5em;
+}
+
+#detail .single {
+  position: relative;
+  margin: 1.5em 0;
+  padding: 3em;
+  background: #f5f0e8;
+}
+
+#detail .single .btn-close-repeat {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0;
+}
+
+#detail .single label,
+#detail .block input {
+  margin-inline: 0.5em;
+}
+
+#detail .block input {
+  padding-inline: 0.5em;
+}
+
+.fileUpload .btn-upload {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3em;
+  border: 1px solid var(--amber);
+  border-radius: 2px;
+  background: var(--amber);
+}
+
+.fileUpload .btn-upload .icon {
+  margin-right: 0;
+  color: #fff;
+}
+
+.fileUpload #input,
+.fileUpload #fileName {
+  border: 0;
+}
+
+.fileUpload .headerRow {
+  background: #f5e8cf;
+}

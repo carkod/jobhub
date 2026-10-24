@@ -18,8 +18,13 @@ const ItSkills = ({ itSkills, addSkillItem, removeSkill, update }) => {
       <Header sub className="u-space-between u-align-baseline">
         <div>
           <span>IT skills</span>
-          <button className="btn" onClick={pushSkill}>
-            <Icon className="green" name="add square"></Icon>
+          <button
+            className="btn"
+            type="button"
+            aria-label="Add IT skill"
+            onClick={pushSkill}
+          >
+            <Icon className="green" name="plus"></Icon>
           </button>
         </div>
         <div>
@@ -27,8 +32,14 @@ const ItSkills = ({ itSkills, addSkillItem, removeSkill, update }) => {
             className="btn"
             type="button"
             onClick={() => setToggle(!toggle)}
+            aria-label={toggle ? "Collapse IT skill" : "Expand IT skill"}
+            aria-expanded={toggle}
           >
-            <Icon className="blue large" fitted name="caret square down" />
+            <Icon
+              className="blue large"
+              fitted
+              name={toggle ? "chevron up" : "chevron down"}
+            />
           </button>
         </div>
       </Header>
@@ -38,9 +49,11 @@ const ItSkills = ({ itSkills, addSkillItem, removeSkill, update }) => {
             <div className="single" key={it.id}>
               <button
                 className="btn btn-close-repeat"
+                type="button"
+                aria-label="Remove IT skill"
                 onClick={() => removeSkill("itSkills", i)}
               >
-                <Icon className="red large" name="window close"></Icon>
+                <Icon className="red large" name="times"></Icon>
               </button>
               <Grid columns={12}>
                 <Grid.Row columns={2}>

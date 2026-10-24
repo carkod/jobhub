@@ -1,83 +1,34 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
-
-.ButtonWrap__root___1EO_R {
-  z-index: 1;
-}
-
 .section {
   padding: 1.5em 0;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid var(--line);
 }
-
-.btn {
-  border: none;
-  background: none;
-  outline: none;
-  cursor: pointer;
-}
-
 .pos-bottom {
   position: absolute;
   bottom: 0;
   left: 15px;
 }
-
 .borderTopDashed {
-  border-top: 1px dashed #ccc;
+  border-top: 1px dashed var(--line);
 }
-
-.editor__minHeight {
-  min-height: 300px;
-}
-
 .fullwidth__input {
   width: 100%;
 }
-
-.menu__reset-space {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.uppercase {
-  text-transform: uppercase;
-}
-
-/* Add New button */
-
-.btn__add-new {
-  background-color: "#fff";
-  border: none;
-  cursor: pointer;
-  outline: none;
-}
-
-.default-input {
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #00bfff;
-  padding: 0.5em;
-}
-
+.default-input,
 .default-input--extended {
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #00bfff;
+  border: 0;
+  border-bottom: 1px solid var(--line);
   padding: 0.5em;
-  width: 40rem;
+}
+.default-input--extended {
+  width: min(100%, 40rem);
 }
 
-/* Draft content is not on the public site. Fade the card, but show it fully on hover or focus. */
+/* Draft content stays visibly distinct in the editor. */
 .ui.cards > .card.is-draft {
-  background: #f3f4f5;
+  background: #f0ede6;
   opacity: 0.6;
   transition: opacity 0.15s ease-in-out;
 }
-
 .ui.cards > .card.is-draft:hover,
 .ui.cards > .card.is-draft:focus-within {
   opacity: 1;

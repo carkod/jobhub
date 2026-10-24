@@ -24,8 +24,13 @@ const WorkRepeater = ({
       <Header sub className="u-space-between u-align-baseline">
         <div>
           <span>WORK EXPERIENCE</span>
-          <button className="btn" onClick={pushSkill}>
-            <Icon className="green" name="add square"></Icon>
+          <button
+            className="btn"
+            type="button"
+            aria-label="Add work experience"
+            onClick={pushSkill}
+          >
+            <Icon className="green" name="plus"></Icon>
           </button>
         </div>
         <div>
@@ -33,8 +38,16 @@ const WorkRepeater = ({
             className="btn"
             type="button"
             onClick={() => setToggle(!toggle)}
+            aria-label={
+              toggle ? "Collapse work experience" : "Expand work experience"
+            }
+            aria-expanded={toggle}
           >
-            <Icon className="blue large" fitted name="caret square down" />
+            <Icon
+              className="blue large"
+              fitted
+              name={toggle ? "chevron up" : "chevron down"}
+            />
           </button>
         </div>
       </Header>
@@ -45,9 +58,11 @@ const WorkRepeater = ({
               {i > 0 && (
                 <button
                   className="btn btn-close-repeat"
+                  type="button"
+                  aria-label="Remove work experience"
                   onClick={() => removeSkill("workExp", i)}
                 >
-                  <Icon className="red large" name="window close"></Icon>
+                  <Icon className="red large" name="times"></Icon>
                 </button>
               )}
               <Grid columns={12}>

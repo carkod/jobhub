@@ -29,6 +29,7 @@ web/.next/
 
 # HUB
 hub/build/
+hub/dist/
 
 # Logs
 logs

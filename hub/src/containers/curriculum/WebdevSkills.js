@@ -18,8 +18,13 @@ const WebdevSkills = ({ webdevSkills, addSkillItem, removeSkill, update }) => {
       <Header sub className="u-space-between u-align-baseline">
         <div>
           <span>Web Development skills</span>
-          <button className="btn" onClick={pushSkill}>
-            <Icon className="green" name="add square"></Icon>
+          <button
+            className="btn"
+            type="button"
+            aria-label="Add web development skill"
+            onClick={pushSkill}
+          >
+            <Icon className="green" name="plus"></Icon>
           </button>
         </div>
         <div>
@@ -27,8 +32,18 @@ const WebdevSkills = ({ webdevSkills, addSkillItem, removeSkill, update }) => {
             className="btn"
             type="button"
             onClick={() => setToggle(!toggle)}
+            aria-label={
+              toggle
+                ? "Collapse web development skill"
+                : "Expand web development skill"
+            }
+            aria-expanded={toggle}
           >
-            <Icon className="blue large" fitted name="caret square down" />
+            <Icon
+              className="blue large"
+              fitted
+              name={toggle ? "chevron up" : "chevron down"}
+            />
           </button>
         </div>
       </Header>
@@ -38,9 +53,11 @@ const WebdevSkills = ({ webdevSkills, addSkillItem, removeSkill, update }) => {
             <div className="single" key={webdev.id}>
               <button
                 className="btn btn-close-repeat"
+                type="button"
+                aria-label="Remove web development skill"
                 onClick={() => removeSkill("webdevSkills", i)}
               >
-                <Icon className="red large" name="window close" />
+                <Icon className="red large" name="times" />
               </button>
               <Grid columns={12}>
                 <Grid.Row columns={2}>
