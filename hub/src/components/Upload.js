@@ -1,15 +1,15 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Icon } from "semantic-ui-react";
 
 export default function Upload(props) {
-  const refFile = useRef(null);
-
   return (
     <>
       {props.active && (
         <button
+          type="button"
           className="btn btn-upload"
           name="append"
+          aria-label={props.loading ? "Uploading file" : "Upload file"}
           onClick={props.handleUpload}
         >
           {props.loading ? (

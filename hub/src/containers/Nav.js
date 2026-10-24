@@ -1,60 +1,48 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
+import { Icon } from "semantic-ui-react";
 
-class Nav extends Component {
-  render() {
-    const style = {
-      background: "#1b1c1d",
-      position: "fixed",
-      top: "0",
-      left: "0",
-      minHeight: "100%",
-      overflowY: "scroll",
-    };
+const sections = [
+  { to: "/", label: "HOME", icon: "home", end: true },
+  { to: "/cv", label: "CV", icon: "file alternate outline" },
+  { to: "/ai-cv", label: "AI CV", icon: "magic" },
+  { to: "/coverletters", label: "COVER LETTERS", icon: "envelope outline" },
+  { to: "/relationships", label: "RELATIONSHIPS", icon: "users" },
+  { to: "/portfolio", label: "PORTFOLIO", icon: "briefcase" },
+  { to: "/blog", label: "BLOG", icon: "edit outline" },
+];
 
-    return (
-      <nav className="sidenav" style={style}>
-        <div className="ui inverted vertical pointed menu">
-          <div className="item">
-            <NavLink to="/" className="u-section-title">
-              HOME
-            </NavLink>
-          </div>
-          <div className="item">
-            <NavLink to="/cv" className="u-section-title">
-              CV
-            </NavLink>
-          </div>
-          <div className="item">
-            <NavLink to="/ai-cv" className="u-section-title">
-              AI CV
-            </NavLink>
-          </div>
-          <div className="item">
-            <NavLink to="/coverletters" className="u-section-title">
-              COVER LETTERS
-            </NavLink>
-          </div>
-          <div className="item">
-            <NavLink to="/relationships" className="u-section-title">
-              RELATIONSHIPS
-            </NavLink>
-          </div>
-
-          <div className="item">
-            <NavLink to="/portfolio" className="u-section-title">
-              PORTFOLIO
-            </NavLink>
-          </div>
-          <div className="item">
-            <NavLink to="/blog" className="u-section-title">
-              BLOG
-            </NavLink>
-          </div>
-        </div>
-      </nav>
-    );
-  }
+export default function Nav({ onClose, onNavigate }) {
+  return (
+    <nav id="hub-navigation" className="hub-nav" aria-label="Hub navigation">
+      <div className="hub-nav__brand">
+        <span className="hub-nav__wordmark">Carlos Wu</span>
+        <span className="hub-nav__caption">JobHub / Editor</span>
+      </div>
+      {onClose && (
+        <button
+          type="button"
+          className="hub-nav__close"
+          onClick={onClose}
+          aria-label="Close navigation"
+        >
+          ×
+        </button>
+      )}
+      <div className="hub-nav__links">
+        {sections.map(({ to, label, icon, end }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={end}
+            className="hub-nav__link"
+            onClick={onNavigate}
+          >
+            <Icon className="hub-nav__icon" name={icon} aria-hidden="true" />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+      </div>
+    </nav>
+  );
 }
-
-export default Nav;

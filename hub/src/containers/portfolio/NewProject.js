@@ -13,13 +13,6 @@ import {
 import { connect } from "react-redux";
 import { createProject, fetchPortfolio } from "../../actions/project";
 
-const buttonDefaultStyles = {
-  backgroundColor: "#fff",
-  border: "none",
-  cursor: "pointer",
-  outline: "none",
-};
-
 class NewProject extends Component {
   state = {
     savedID: null,
@@ -41,9 +34,10 @@ class NewProject extends Component {
     const addNewButton = (
       <button
         onClick={() => this.setState({ modalOpen: true })}
-        style={buttonDefaultStyles}
+        className="btn__add-new"
+        aria-label="Add project"
       >
-        <Icon name="plus square" color="green" />
+        <Icon name="plus" />
       </button>
     );
 

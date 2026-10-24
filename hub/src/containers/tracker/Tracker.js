@@ -31,11 +31,13 @@ class Tracker extends Component {
 
   render() {
     const addNewBtn = (
-      <button className="btn__add-new">
-        <Link to={`/new-tracker`}>
-          <Icon name="plus square" color="green" />
-        </Link>
-      </button>
+      <Link
+        to="/new-tracker"
+        className="btn__add-new"
+        aria-label="Add application"
+      >
+        <Icon name="plus" />
+      </Link>
     );
     return (
       <div id="tracker">
