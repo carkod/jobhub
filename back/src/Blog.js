@@ -2,6 +2,7 @@ import { Types, model } from "mongoose";
 import sanitize from "mongo-sanitize";
 import { BlogSchema } from "./Schemas.js";
 import { logger } from "./requestLogger.js";
+import { blogVisibilityQuery, publicProjection } from "./auth.js";
 import {
   apiRequest,
   cleanObjectIdString,
@@ -11,6 +12,8 @@ import {
 
 // Compile model from schema
 const BlogModel = model("BlogModel", BlogSchema);
+const publicFields =
+  "name slug category tags content status createdAt updatedAt";
 
 export default function Blog(app) {
   app.get("/api/blogs/:page?/:pagesize?", (req, res) => {
@@ -18,8 +21,8 @@ export default function Blog(app) {
     const pagesize = getPositiveInteger(req.params.pagesize, 0, 100);
     const skip = pagesize * page - pagesize;
     BlogModel.find(
-      {},
-      null,
+      blogVisibilityQuery(req),
+      publicProjection(req, publicFields),
       { sort: { updatedAt: -1 }, new: true },
       (err, content) => {
         if (err) throw err;
@@ -132,19 +135,23 @@ export default function Blog(app) {
     const cleanId = cleanObjectIdString(req.params._id);
 
     if (cleanId) {
-      BlogModel.findOne({ _id: Types.ObjectId(cleanId) }, (err, blog) => {
-        if (!err) {
-          res.status(200).json({
-            data: blog,
-            message: "Blog successfully retrieved!",
-            error: false,
-          });
-        } else {
-          res
-            .status(200)
-            .json({ message: `Failed to retrieve blog ${err}`, error: true });
-        }
-      });
+      BlogModel.findOne(
+        { _id: Types.ObjectId(cleanId), ...blogVisibilityQuery(req) },
+        publicProjection(req, publicFields),
+        (err, blog) => {
+          if (!err) {
+            res.status(200).json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
+          } else {
+            res
+              .status(200)
+              .json({ message: `Failed to retrieve blog ${err}`, error: true });
+          }
+        },
+      );
     } else if (req.params._id === undefined) {
       const response = {
         message: "blog could not be found",
@@ -158,19 +165,23 @@ export default function Blog(app) {
           .json({ message: "Invalid blog id", error: true });
       }
 
-      BlogModel.findOne({ slug: cleanSlug }, (err, blog) => {
-        if (!err) {
-          res.status(200).json({
-            data: blog,
-            message: "Blog successfully retrieved!",
-            error: false,
-          });
-        } else {
-          res
-            .status(200)
-            .json({ message: `Failed to retrieve blog ${err}`, error: true });
-        }
-      });
+      BlogModel.findOne(
+        { slug: cleanSlug, ...blogVisibilityQuery(req) },
+        publicProjection(req, publicFields),
+        (err, blog) => {
+          if (!err) {
+            res.status(200).json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
+          } else {
+            res
+              .status(200)
+              .json({ message: `Failed to retrieve blog ${err}`, error: true });
+          }
+        },
+      );
     }
   });
 
@@ -197,19 +208,23 @@ export default function Blog(app) {
     const cleanName = cleanQueryString(req.params.name);
 
     if (cleanName) {
-      BlogModel.findOne({ name: cleanName }, (err, blog) => {
-        if (!err) {
-          res.status(200).json({
-            data: blog,
-            message: "Blog successfully retrieved!",
-            error: false,
-          });
-        } else {
-          res
-            .status(200)
-            .json({ message: `Failed to retrieve blog ${err}`, error: true });
-        }
-      });
+      BlogModel.findOne(
+        { name: cleanName, ...blogVisibilityQuery(req) },
+        publicProjection(req, publicFields),
+        (err, blog) => {
+          if (!err) {
+            res.status(200).json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
+          } else {
+            res
+              .status(200)
+              .json({ message: `Failed to retrieve blog ${err}`, error: true });
+          }
+        },
+      );
     } else {
       const response = {
         message: "blog could not be found",
@@ -224,19 +239,23 @@ export default function Blog(app) {
     const cleanCategory = cleanQueryString(req.params.category);
 
     if (cleanCategory) {
-      BlogModel.findOne({ category: cleanCategory }, (err, blog) => {
-        if (!err) {
-          res.status(200).json({
-            data: blog,
-            message: "Blog successfully retrieved!",
-            error: false,
-          });
-        } else {
-          res
-            .status(200)
-            .json({ message: `Failed to retrieve blog ${err}`, error: true });
-        }
-      });
+      BlogModel.findOne(
+        { category: cleanCategory, ...blogVisibilityQuery(req) },
+        publicProjection(req, publicFields),
+        (err, blog) => {
+          if (!err) {
+            res.status(200).json({
+              data: blog,
+              message: "Blog successfully retrieved!",
+              error: false,
+            });
+          } else {
+            res
+              .status(200)
+              .json({ message: `Failed to retrieve blog ${err}`, error: true });
+          }
+        },
+      );
     } else {
       const response = {
         message: "blog could not be found",

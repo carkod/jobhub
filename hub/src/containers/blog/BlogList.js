@@ -6,22 +6,15 @@ import { Accordion, Button, Icon, Segment } from "semantic-ui-react";
 import { deleteBlogApi, fetchBlogsApi } from "../../actions/blog";
 import { formatDate, withRouter } from "../../utils";
 
-const buttonDefaultStyles = {
-  backgroundColor: "#fff",
-  border: "none",
-  cursor: "pointer",
-  outline: "none",
-};
-
 const AddNewBlog = ({ router }) => (
   <button
     onClick={() => {
       router.navigate("/blog/new");
     }}
-    style={buttonDefaultStyles}
-    className="btn"
+    className="btn__add-new"
+    aria-label="Add blog post"
   >
-    <Icon name="plus square" color="green" />
+    <Icon name="plus" />
   </button>
 );
 
@@ -69,8 +62,10 @@ class CoverLetters extends Component {
                 title: {
                   content: (
                     <span
-                      color={
-                        this.state.savedID === letter._id ? "red" : "inherit"
+                      className={
+                        this.state.savedID === letter._id
+                          ? "is-saved"
+                          : undefined
                       }
                     >
                       {letter.name}

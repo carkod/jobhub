@@ -18,8 +18,13 @@ const LangSkills = ({ langSkills, addSkillItem, removeSkill, update }) => {
       <Header sub className="u-space-between u-align-baseline">
         <div>
           <span>Languages</span>
-          <button className="btn" onClick={pushSkill}>
-            <Icon className="green" name="add square"></Icon>
+          <button
+            className="btn"
+            type="button"
+            aria-label="Add language"
+            onClick={pushSkill}
+          >
+            <Icon className="green" name="plus"></Icon>
           </button>
         </div>
         <div>
@@ -27,8 +32,14 @@ const LangSkills = ({ langSkills, addSkillItem, removeSkill, update }) => {
             className="btn"
             type="button"
             onClick={() => setToggle(!toggle)}
+            aria-label={toggle ? "Collapse language" : "Expand language"}
+            aria-expanded={toggle}
           >
-            <Icon className="blue large" fitted name="caret square down" />
+            <Icon
+              className="blue large"
+              fitted
+              name={toggle ? "chevron up" : "chevron down"}
+            />
           </button>
         </div>
       </Header>
@@ -39,9 +50,11 @@ const LangSkills = ({ langSkills, addSkillItem, removeSkill, update }) => {
               {i > 0 ? (
                 <button
                   className="btn btn-close-repeat"
+                  type="button"
+                  aria-label="Remove language"
                   onClick={() => removeSkill("langSkills", i)}
                 >
-                  <Icon className="red large" name="window close"></Icon>
+                  <Icon className="red large" name="times"></Icon>
                 </button>
               ) : (
                 ""

@@ -1,32 +1,33 @@
 import Script from "next/script";
 import "../src/index.scss";
 import PageWrapper from "./page-wrapper";
-import Providers from "./providers";
 
 export const metadata = {
-  title: "Carlos Wu",
+  title: {
+    default: "Carlos Wu",
+    template: "%s | Carlos Wu",
+  },
+  description: "Carlos Wu — software engineer and entrepreneur in London.",
   manifest: "/manifest.json",
   icons: {
+    icon: "/favicon.svg",
     shortcut: "/favicon.ico",
   },
 };
 
 export const viewport = {
-  themeColor: "#000000",
+  themeColor: "#faf8f4",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head />
       <body suppressHydrationWarning>
         <div id="web">
-          <Providers>
-            <PageWrapper>{children}</PageWrapper>
-          </Providers>
+          <PageWrapper>{children}</PageWrapper>
         </div>
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=UA-10612008-5"
+          src="https://www.googletagmanager.com/gtag/js?id=G-WN6EYFXHFS"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -36,7 +37,7 @@ export default function RootLayout({ children }) {
               dataLayer.push(arguments);
             }
             gtag("js", new Date());
-            gtag("config", "UA-10612008-5");
+            gtag("config", "G-WN6EYFXHFS");
           `}
         </Script>
       </body>

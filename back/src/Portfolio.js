@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 import { ProjectSchema } from "./Schemas.js";
+import { publicProjection, visibilityQuery } from "./auth.js";
 import {
   cleanObjectIdString,
   safeResolveInside,
@@ -19,6 +20,8 @@ const uploadFileSizeLimit =
 
 // Compile model from schema
 let ProjectModel = mongoose.model("ProjectModel", ProjectSchema);
+const publicFields =
+  "name slug cats image desc documents links createdAt updatedAt";
 const fileDir = path.join(import.meta.dirname, "../", "/uploads");
 
 // Create file directory if not exists
@@ -43,8 +46,8 @@ const fileUpload = upload.single("fieldname");
 export default function Portfolio(app, db) {
   app.get("/api/portfolio", (req, res) => {
     ProjectModel.find(
-      {},
-      null,
+      visibilityQuery(req),
+      publicProjection(req, publicFields),
       { sort: { updatedDate: -1 }, new: true },
       function (err, content) {
         if (err) throw err;
@@ -66,7 +69,7 @@ export default function Portfolio(app, db) {
 
     ProjectModel.find(
       query,
-      null,
+      "_id slug cats",
       { sort: { updatedAt: -1 } },
       (err, content) => {
         if (err) {
@@ -214,18 +217,22 @@ export default function Portfolio(app, db) {
     const cleanId = cleanObjectIdString(req.params._id);
 
     if (cleanId) {
-      ProjectModel.findById(mongoose.Types.ObjectId(cleanId), (err, result) => {
-        if (err) {
-          res.json({ message: err, error: true });
-        } else if (result === null) {
-          res.json({ message: "Project not found!", error: true });
-        } else {
-          res.json({
-            data: result,
-            message: "Project retrieved successfully!",
-          });
-        }
-      });
+      ProjectModel.findOne(
+        { _id: mongoose.Types.ObjectId(cleanId), ...visibilityQuery(req) },
+        publicProjection(req, publicFields),
+        (err, result) => {
+          if (err) {
+            res.json({ message: err, error: true });
+          } else if (result === null) {
+            res.json({ message: "Project not found!", error: true });
+          } else {
+            res.json({
+              data: result,
+              message: "Project retrieved successfully!",
+            });
+          }
+        },
+      );
     } else {
       let response = {
         message: "Valid project id is required",

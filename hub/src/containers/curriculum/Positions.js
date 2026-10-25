@@ -55,7 +55,9 @@ class Positions extends Component {
         key: cv._id || shortid.generate(),
         title: {
           content: (
-            <span color={this.state.savedID === cv._id ? "red" : "inherit"}>
+            <span
+              className={this.state.savedID === cv._id ? "is-saved" : undefined}
+            >
               {cv.title}
             </span>
           ),

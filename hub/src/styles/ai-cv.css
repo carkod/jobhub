@@ -1,37 +1,40 @@
 #ai-cv {
   max-width: 980px;
   margin: 0 auto;
-  padding: 24px 0 60px;
+  padding-bottom: 4rem;
 }
 .ai-cv-heading {
-  padding: 28px 32px;
-  margin-bottom: 22px;
-  border-radius: 14px;
-  color: #fff;
-  background: linear-gradient(120deg, #172a3a, #086f65);
-  box-shadow: 0 12px 30px rgba(23, 42, 58, 0.18);
+  padding: 2rem 2.25rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--amber);
+  border-radius: 2px;
+  color: var(--ink);
+  background: var(--paper);
 }
 .ai-cv-heading h1 {
-  margin: 5px 0 8px;
-  font-size: 2.35rem;
+  margin: 0.3rem 0 0.7rem;
+  font: 700 clamp(2rem, 4vw, 2.6rem) var(--font-serif);
 }
 .ai-cv-heading p {
   margin: 0;
   max-width: 620px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--muted);
   font-size: 1.08rem;
+  line-height: 1.65;
 }
 .eyebrow {
-  color: #74e0c4;
+  color: var(--amber);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
-.ui.segment.ai-cv-form-card {
-  border: 0;
-  border-radius: 14px;
-  box-shadow: 0 8px 28px rgba(28, 45, 65, 0.1);
+.ui.segment.ai-cv-form-card,
+.ui.card.ai-cv-result {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  box-shadow: none;
 }
 .title-status-row {
   display: grid;
@@ -45,7 +48,7 @@
 .status-field > label {
   display: block;
   margin-bottom: 9px;
-  font-size: 0.92857143em;
+  font-size: 0.93em;
   font-weight: 700;
 }
 .status-field .ui.label {
@@ -55,23 +58,18 @@
 }
 .ui.card.ai-cv-result {
   margin-top: 24px;
-  border-radius: 14px;
-  box-shadow: 0 8px 28px rgba(28, 45, 65, 0.1);
 }
 .ai-cv-experience {
   margin-bottom: 18px;
   padding-bottom: 14px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--line);
 }
 @media (max-width: 700px) {
   .title-status-row {
     grid-template-columns: 1fr;
     gap: 0;
   }
-  .status-field {
-    padding-bottom: 1em;
-  }
   .ai-cv-heading {
-    padding: 22px;
+    padding: 1.5rem;
   }
 }

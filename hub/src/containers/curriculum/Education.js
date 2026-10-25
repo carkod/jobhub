@@ -19,8 +19,13 @@ const Education = ({ educ, addSkillItem, removeSkill, update, descChange }) => {
       <Header sub className="u-space-between u-align-baseline">
         <div>
           <span>EDUCATION</span>
-          <button className="btn" onClick={pushSkill}>
-            <Icon className="green" name="add square"></Icon>
+          <button
+            className="btn"
+            type="button"
+            aria-label="Add education"
+            onClick={pushSkill}
+          >
+            <Icon className="green" name="plus"></Icon>
           </button>
         </div>
         <div>
@@ -28,8 +33,14 @@ const Education = ({ educ, addSkillItem, removeSkill, update, descChange }) => {
             className="btn"
             type="button"
             onClick={() => setToggle(!toggle)}
+            aria-label={toggle ? "Collapse education" : "Expand education"}
+            aria-expanded={toggle}
           >
-            <Icon className="blue large" fitted name="caret square down" />
+            <Icon
+              className="blue large"
+              fitted
+              name={toggle ? "chevron up" : "chevron down"}
+            />
           </button>
         </div>
       </Header>
@@ -40,9 +51,11 @@ const Education = ({ educ, addSkillItem, removeSkill, update, descChange }) => {
               {i > 0 ? (
                 <button
                   className="btn btn-close-repeat"
+                  type="button"
+                  aria-label="Remove education"
                   onClick={() => removeSkill("educ", i)}
                 >
-                  <Icon className="red large" name="window close"></Icon>
+                  <Icon className="red large" name="times"></Icon>
                 </button>
               ) : (
                 ""

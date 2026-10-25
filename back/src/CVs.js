@@ -1,7 +1,7 @@
 import moment from "moment";
 import mongoose, { Types } from "mongoose";
 import { CVSchema } from "./Schemas.js";
-import { visibilityQuery } from "./auth.js";
+import { publicProjection, visibilityQuery } from "./auth.js";
 import { cleanObjectIdString, cleanQueryString } from "./utils.js";
 
 // Compile model from schema
@@ -14,13 +14,19 @@ const compare = (a, b) => {
   const B = moment(splitB.split("/").reverse());
   return B.diff(A);
 };
+const publicFields =
+  "name slug navName cats summary persdetails workExp educ langSkills webdevSkills itSkills";
 
 export default function CVs(app) {
   app.get("/api/cvs", async (req, res) => {
     try {
-      let cvs = await CVModel.find(visibilityQuery(req), null, {
-        sort: { updatedAt: -1 },
-      });
+      let cvs = await CVModel.find(
+        visibilityQuery(req),
+        publicProjection(req, publicFields),
+        {
+          sort: { updatedAt: -1 },
+        },
+      );
       res.status(200).json(cvs);
     } catch (err) {
       res.status(400).json(err);
@@ -148,7 +154,7 @@ export default function CVs(app) {
 
     if (cleanId) {
       const query = { _id: Types.ObjectId(cleanId), ...visibilityQuery(req) };
-      CVModel.findOne(query, (err, cv) => {
+      CVModel.findOne(query, publicProjection(req, publicFields), (err, cv) => {
         if (!err) {
           res.status(200).json({ cv });
         } else {
@@ -166,13 +172,17 @@ export default function CVs(app) {
         return res.status(400).json({ message: "Invalid CV id" });
       }
 
-      CVModel.findOne({ slug: cleanSlug, ...visibilityQuery(req) }, (err, cv) => {
-        if (!err) {
-          res.status(200).json({ cv });
-        } else {
-          res.status(200).json({ message: err });
-        }
-      });
+      CVModel.findOne(
+        { slug: cleanSlug, ...visibilityQuery(req) },
+        publicProjection(req, publicFields),
+        (err, cv) => {
+          if (!err) {
+            res.status(200).json({ cv });
+          } else {
+            res.status(200).json({ message: err });
+          }
+        },
+      );
     }
   });
 

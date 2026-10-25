@@ -137,11 +137,13 @@ class AddNewApplication extends Component {
   };
 
   backBtn = () => (
-    <button className="btn__add-new">
-      <Link to={`/tracker`}>
-        <Icon name="backward" color="green" />
-      </Link>
-    </button>
+    <Link
+      to="/tracker"
+      className="btn__add-new"
+      aria-label="Back to applications"
+    >
+      <Icon name="arrow left" />
+    </Link>
   );
 
   removeContactBtn = (i) => {

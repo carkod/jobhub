@@ -3,13 +3,14 @@
   "name": "carlos.wf",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#44b0ee",
-  "background_color": "#ffffff"
+  "theme_color": "#faf8f4",
+  "background_color": "#faf8f4"
 }

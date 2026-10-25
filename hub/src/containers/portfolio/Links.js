@@ -109,8 +109,13 @@ class Links extends Component {
       <div id="demos" className="links section">
         <Header sub>
           <span>DEMO LINKS</span>
-          <button className="btn" onClick={this.pushLink}>
-            <Icon className="green" name="add square"></Icon>
+          <button
+            className="btn"
+            type="button"
+            aria-label="Add demo link"
+            onClick={this.pushLink}
+          >
+            <Icon className="green" name="plus"></Icon>
           </button>
         </Header>
         <br />

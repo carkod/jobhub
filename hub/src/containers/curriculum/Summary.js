@@ -24,8 +24,16 @@ class Summary extends Component {
             className="btn"
             type="button"
             onClick={() => this.setState({ toggle: !this.state.toggle })}
+            aria-label={
+              this.state.toggle ? "Collapse summary" : "Expand summary"
+            }
+            aria-expanded={this.state.toggle}
           >
-            <Icon className="blue large" fitted name="caret square down" />
+            <Icon
+              className="blue large"
+              fitted
+              name={this.state.toggle ? "chevron up" : "chevron down"}
+            />
           </button>
         </div>
         {this.state.toggle && (

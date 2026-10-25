@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Metatags from "../components/Metatags";
 
 export function AboutMe() {
   return <About initialTab="me" />;
@@ -16,11 +15,6 @@ export function About({ initialTab = "me" }) {
 
   return (
     <div className="ed-faqs">
-      <Metatags
-        title="FAQs"
-        description="About Carlos Wu — developer, background, and this site."
-      />
-
       <div className="ed-faqs__tabs" role="tablist" aria-label="About sections">
         <button
           type="button"
