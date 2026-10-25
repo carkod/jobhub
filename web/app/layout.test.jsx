@@ -10,11 +10,6 @@ jest.mock("next/script", () => ({
   ),
 }));
 
-jest.mock("./providers", () => ({
-  __esModule: true,
-  default: ({ children }) => <div data-testid="providers">{children}</div>,
-}));
-
 jest.mock("./page-wrapper", () => ({
   __esModule: true,
   default: ({ children }) => <main data-testid="page-wrapper">{children}</main>,
@@ -23,13 +18,18 @@ jest.mock("./page-wrapper", () => ({
 describe("RootLayout", () => {
   it("exports app metadata and viewport settings", () => {
     expect(metadata).toEqual({
-      title: "Carlos Wu",
+      title: {
+        default: "Carlos Wu",
+        template: "%s | Carlos Wu",
+      },
+      description: "Carlos Wu — software engineer and entrepreneur in London.",
       manifest: "/manifest.json",
       icons: {
+        icon: "/favicon.svg",
         shortcut: "/favicon.ico",
       },
     });
-    expect(viewport).toEqual({ themeColor: "#000000" });
+    expect(viewport).toEqual({ themeColor: "#faf8f4" });
   });
 
   it("renders the shared app shell around route content", () => {
@@ -41,7 +41,6 @@ describe("RootLayout", () => {
 
     expect(markup).toContain('<html lang="en">');
     expect(markup).toContain('id="web"');
-    expect(markup).toContain('data-testid="providers"');
     expect(markup).toContain('data-testid="page-wrapper"');
     expect(markup).toContain("Route content");
     expect(markup).not.toContain("semantic.min.css");

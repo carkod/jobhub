@@ -47,6 +47,12 @@ export function verifyRequest(req) {
 export const visibilityQuery = (req) =>
   verifyRequest(req) ? {} : { "cats.status": "public" };
 
+export const blogVisibilityQuery = (req) =>
+  verifyRequest(req) ? {} : { status: "public" };
+
+export const publicProjection = (req, fields) =>
+  verifyRequest(req) ? null : fields;
+
 export default function requireHubLogin(req, res, next) {
   // Express matches routes case-insensitively, so the policy must too.
   const path = req.path.toLowerCase();
@@ -64,9 +70,7 @@ export default function requireHubLogin(req, res, next) {
   }
 
   if (!user) {
-    return res
-      .status(401)
-      .json({ error: true, message: "Login required." });
+    return res.status(401).json({ error: true, message: "Login required." });
   }
   req.user = user;
   return next();
